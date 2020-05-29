@@ -1,0 +1,21 @@
+Sketch of a simple inspector
+
+Object inspection service
+  Provides a terse description of a server object (class, oop if it is committed)
+  Provides an ordered list of fields, virtual or real
+  Provides attributes for each field that can be used by the presenter to indicate how to represent each field (face, color, put it in a different)
+  For each field, provides a service
+    For virtual fields, this might be just a text service
+    For fields that refer to an actual object, this is an Object description service
+  Is canonical for the object -- there can be no more than one object inspection service for the same object in a single session
+
+Object Description service
+  Provides a text description of an object
+  Is canonical for the object -- no matter how many other services want this object described, there will be no more than one description service.
+  
+Text service
+  Provides a string
+  Not canonical, pretty stupid. 
+  Polymorphic with the object description service for getting its string with getting the description
+  
+  

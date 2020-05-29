@@ -1,6 +1,6 @@
 Class {
 	#name : #SpkInspectorPresenter,
-	#superclass : #SpPresenter,
+	#superclass : #SpPresenterWithModel,
 	#instVars : [
 		'fieldList',
 		'descriptiveText'
@@ -22,7 +22,7 @@ SpkInspectorPresenter >> fieldList [
 ]
 
 { #category : #initialization }
-SpkInspectorPresenter >> initializeWidgets [
+SpkInspectorPresenter >> initializePresenters [
 	fieldList := self newList.
 	fieldList items: #('foo' '32' #what).
 	self focusOrder add: fieldList

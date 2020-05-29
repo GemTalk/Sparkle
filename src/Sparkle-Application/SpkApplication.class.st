@@ -16,7 +16,9 @@ SpkApplication class >> applicationName [
 SpkApplication class >> open [
 	"SpkApplication open"
 
-	self new start
+	^ self new
+		start;
+		yourself
 ]
 
 { #category : #running }

@@ -13,3 +13,37 @@ SpkLauncher class >> defaultSpec [
 		add: #button;
 		yourself
 ]
+
+{ #category : #accessing }
+SpkLauncher >> button [
+	^ button
+]
+
+{ #category : #initialization }
+SpkLauncher >> initializePresenters [
+	button := self newButton
+		label: 'Launch';
+		color: Color red darker darker;
+		action: [ self openTextPresenter ];
+		yourself.
+	self focusOrder add: button
+]
+
+{ #category : #initialization }
+SpkLauncher >> initializeWindow: aWindowPresenter [
+	aWindowPresenter
+		title: 'Embryonic Sparkle Launcher';
+		initialExtent: 100 @ 30;
+		aboutText: 'Central window of the Pharo IDE for GemStone'
+]
+
+{ #category : #TEMPORARY }
+SpkLauncher >> openTextPresenter [
+	"Exploratory"
+
+	(SpkTextPresenter
+		newApplication: application
+		owner: self
+		model: (SpkTextServiceClient new string: 'Hey look, text'))
+		openWithSpec
+]

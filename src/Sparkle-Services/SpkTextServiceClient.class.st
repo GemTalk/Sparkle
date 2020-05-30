@@ -27,3 +27,9 @@ SpkTextServiceClient >> initialize [
 SpkTextServiceClient >> removeSubscriber: aPresenter [
 	subscriptions remove: aPresenter
 ]
+
+{ #category : #accessing }
+SpkTextServiceClient >> string: aString [
+	super string: aString.
+	self changed
+]

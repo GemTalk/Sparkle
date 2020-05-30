@@ -2,7 +2,8 @@ Class {
 	#name : #SpkLauncher,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'button'
+		'button',
+		'service'
 	],
 	#category : #'Sparkle-Application'
 }
@@ -26,7 +27,8 @@ SpkLauncher >> initializePresenters [
 		color: Color red darker darker;
 		action: [ self openTextPresenter ];
 		yourself.
-	self focusOrder add: button
+	self focusOrder add: button.
+	service := SpkTextServiceClient new string: 'Hey look, text'
 ]
 
 { #category : #initialization }
@@ -44,6 +46,5 @@ SpkLauncher >> openTextPresenter [
 	(SpkTextPresenter
 		newApplication: application
 		owner: self
-		model: (SpkTextServiceClient new string: 'Hey look, text'))
-		openWithSpec
+		model: service) openWithSpec
 ]

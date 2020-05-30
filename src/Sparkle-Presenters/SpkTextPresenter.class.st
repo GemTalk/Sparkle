@@ -2,8 +2,8 @@ Class {
 	#name : #SpkTextPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'text',
-		'model'
+		'model',
+		'textPane'
 	],
 	#category : #'Sparkle-Presenters'
 }
@@ -11,11 +11,11 @@ Class {
 { #category : #specs }
 SpkTextPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		add: #text;
+		add: #textPane;
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'model interaction' }
 SpkTextPresenter >> hookToModel [
 	model addSubscriber: self.
 	self updateFromModel
@@ -23,10 +23,10 @@ SpkTextPresenter >> hookToModel [
 
 { #category : #initialization }
 SpkTextPresenter >> initializePresenters [
-	text := self newText
-		beNotEditable;
+	textPane := self newText
+		whenTextChangedDo: [ self textChanged ];
 		yourself.
-	self focusOrder add: text.
+	self focusOrder add: textPane.
 	self hookToModel
 ]
 
@@ -34,7 +34,8 @@ SpkTextPresenter >> initializePresenters [
 SpkTextPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Some Text';
-		aboutText: 'Text from Far Away that might change'
+		aboutText: 'Text from Far Away that might change';
+		whenWillCloseDo: [ self unhookFromModel ]
 ]
 
 { #category : #'accessing model' }
@@ -42,19 +43,31 @@ SpkTextPresenter >> setModelBeforeInitialization: aDomainObject [
 	model := aDomainObject
 ]
 
-{ #category : #accessing }
-SpkTextPresenter >> text [
-	^ text
+{ #category : #'event handling' }
+SpkTextPresenter >> textChanged [
+	"I've been edited, let the model reflect that change"
+
+	model string: textPane text
 ]
 
 { #category : #accessing }
-SpkTextPresenter >> text: anObject [
-	text := anObject
+SpkTextPresenter >> textPane [
+	^ textPane
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+SpkTextPresenter >> textPane: anObject [
+	textPane := anObject
+]
+
+{ #category : #'model interaction' }
+SpkTextPresenter >> unhookFromModel [
+	model removeSubscriber: self
+]
+
+{ #category : #'model interaction' }
 SpkTextPresenter >> updateFromModel [
-	text
+	textPane
 		text: model string;
 		update
 ]

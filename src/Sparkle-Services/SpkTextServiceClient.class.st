@@ -2,30 +2,35 @@ Class {
 	#name : #SpkTextServiceClient,
 	#superclass : #SpkTextService,
 	#instVars : [
-		'subscriptions'
+		'dependents'
 	],
 	#category : #'Sparkle-Services'
 }
 
 { #category : #adding }
-SpkTextServiceClient >> addSubscriber: aPresenter [
-	subscriptions add: aPresenter
+SpkTextServiceClient >> addDependent: aPresenter [
+	dependents add: aPresenter
 ]
 
 { #category : #updating }
 SpkTextServiceClient >> changed [
-	subscriptions do: [ :each | each updateFromModel ]
+	dependents do: [ :each | each updateFromModel ]
 ]
 
 { #category : #initialization }
 SpkTextServiceClient >> initialize [
 	super initialize.
-	subscriptions := IdentitySet new
+	dependents := IdentitySet new
+]
+
+{ #category : #dependencies }
+SpkTextServiceClient >> myDependents [
+	^ dependents
 ]
 
 { #category : #adding }
-SpkTextServiceClient >> removeSubscriber: aPresenter [
-	subscriptions remove: aPresenter
+SpkTextServiceClient >> removeDependent: aPresenter [
+	dependents remove: aPresenter
 ]
 
 { #category : #accessing }

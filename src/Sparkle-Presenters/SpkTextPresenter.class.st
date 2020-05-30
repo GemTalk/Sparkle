@@ -17,7 +17,7 @@ SpkTextPresenter class >> defaultSpec [
 
 { #category : #'model interaction' }
 SpkTextPresenter >> hookToModel [
-	model addSubscriber: self.
+	model addDependent: self.
 	self updateFromModel
 ]
 
@@ -62,7 +62,7 @@ SpkTextPresenter >> textPane: anObject [
 
 { #category : #'model interaction' }
 SpkTextPresenter >> unhookFromModel [
-	model removeSubscriber: self
+	model removeDependent: self
 ]
 
 { #category : #'model interaction' }

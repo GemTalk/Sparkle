@@ -6,6 +6,7 @@ Class {
 
 { #category : #baselines }
 BaselineOfSparkle >> baseline: spec [
+	<baseline>
 	spec
 		for: #common
 		do: [ spec

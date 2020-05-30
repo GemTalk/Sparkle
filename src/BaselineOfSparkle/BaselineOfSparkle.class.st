@@ -18,5 +18,6 @@ BaselineOfSparkle >> baseline: spec [
 					with: [ spec requires: #('Sparkle-Presenters') ] ].
 	spec
 		baseline: 'RemoteServiceReplication'
-		with: [ spec repository: 'github://GemTalk/RemoteServiceReplication' ]
+		with: [ spec
+				repository: 'ssh://git@github.com:GemTalk/RemoteServiceReplication.git' ]
 ]

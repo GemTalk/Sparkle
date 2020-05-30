@@ -10,9 +10,13 @@ BaselineOfSparkle >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec
-				package: #'Sparkle-Services';
-				package: #'Sparkle-Presenters'
-					with: [ spec requires: #(#'Sparkle-Services') ];
-				package: #'Sparkle-Application'
-					with: [ spec requires: #(#'Sparkle-Presenters') ] ]
+				package: 'Sparkle-Services'
+					with: [ spec requires: 'RemoteServiceReplication' ];
+				package: 'Sparkle-Presenters'
+					with: [ spec requires: #('Sparkle-Services') ];
+				package: 'Sparkle-Application'
+					with: [ spec requires: #('Sparkle-Presenters') ] ].
+	spec
+		baseline: 'RemoteServiceReplication'
+		with: [ spec repository: 'github://GemTalk/RemoteServiceReplication' ]
 ]

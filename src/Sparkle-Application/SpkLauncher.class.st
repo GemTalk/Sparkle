@@ -55,12 +55,14 @@ SpkLauncher >> launchClient [
 	clientConnection := RsrConnection
 		connectToHost: 'localhost'
 		port: self portNumber.
+	clientConnection logToTranscript.
 	self createClientService
 ]
 
 { #category : #actions }
 SpkLauncher >> launchServer [
-	serverConnection := RsrConnection acceptOn: self portNumber
+	serverConnection := RsrConnection acceptOn: self portNumber.
+	serverConnection logToTranscript
 ]
 
 { #category : #private }

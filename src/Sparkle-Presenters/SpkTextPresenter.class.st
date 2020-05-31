@@ -67,6 +67,6 @@ SpkTextPresenter >> unhookFromModel [
 { #category : #'model interaction' }
 SpkTextPresenter >> updateFromModel [
 	textPane
-		text: model string;
+		text: model string asText;
 		update
 ]

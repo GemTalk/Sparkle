@@ -1,11 +1,30 @@
 Class {
 	#name : #SpkTextService,
-	#superclass : #Object,
+	#superclass : #RsrService,
 	#instVars : [
 		'string'
 	],
 	#category : #'Sparkle-Services'
 }
+
+{ #category : #'as yet unclassified' }
+SpkTextService class >> serviceClassName [
+	^ #SpkTextService
+]
+
+{ #category : #initialization }
+SpkTextService >> initialize [ 
+
+	string := ''
+]
+
+{ #category : #accessing }
+SpkTextService >> newLocalString: anObject [
+	"String modified locally. Change both here and remotely"
+
+	self string: anObject.
+	remoteSelf string: anObject
+]
 
 { #category : #accessing }
 SpkTextService >> string [
@@ -14,5 +33,11 @@ SpkTextService >> string [
 
 { #category : #accessing }
 SpkTextService >> string: anObject [
-	string := anObject
+	string := anObject.
+	self changed
+]
+
+{ #category : #'as yet unclassified' }
+SpkTextService >> updateDependents [
+	self subclassResponsibility
 ]

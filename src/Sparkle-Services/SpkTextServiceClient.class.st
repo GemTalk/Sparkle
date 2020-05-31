@@ -32,9 +32,3 @@ SpkTextServiceClient >> myDependents [
 SpkTextServiceClient >> removeDependent: aPresenter [
 	dependents remove: aPresenter
 ]
-
-{ #category : #accessing }
-SpkTextServiceClient >> string: aString [
-	super string: aString.
-	self changed
-]

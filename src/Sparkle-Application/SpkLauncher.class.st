@@ -2,8 +2,11 @@ Class {
 	#name : #SpkLauncher,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'button',
-		'service'
+		'clientConnection',
+		'serverConnection',
+		'startClientButton',
+		'startServerButton',
+		'clientService'
 	],
 	#category : #'Sparkle-Application'
 }
@@ -11,40 +14,76 @@ Class {
 { #category : #specs }
 SpkLauncher class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		add: #button;
+		add: #startServerButton;
+		add: #startClientButton;
 		yourself
 ]
 
-{ #category : #accessing }
-SpkLauncher >> button [
-	^ button
+{ #category : #private }
+SpkLauncher >> createClientService [
+	clientService := SpkTextServiceClient forConnection: clientConnection.
+	self openTextPresenterOn: clientService
 ]
 
 { #category : #initialization }
 SpkLauncher >> initializePresenters [
-	button := self newButton
-		label: 'Launch';
+	startServerButton := self newButton
+		label: 'Launch Server';
 		color: Color red darker darker;
-		action: [ self openTextPresenter ];
+		action: [ self launchServer ];
 		yourself.
-	self focusOrder add: button.
-	service := SpkTextServiceClient new string: 'Hey look, text'
+	startClientButton := self newButton
+		label: 'Launch Client';
+		color: Color blue darker darker;
+		action: [ self launchClient ];
+		yourself.
+	self focusOrder
+		add: startServerButton;
+		add: startClientButton
 ]
 
 { #category : #initialization }
 SpkLauncher >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Embryonic Sparkle Launcher';
-		initialExtent: 100 @ 30;
+		initialExtent: 200 @ 30;
 		aboutText: 'Central window of the Pharo IDE for GemStone'
 ]
 
-{ #category : #TEMPORARY }
-SpkLauncher >> openTextPresenter [
+{ #category : #actions }
+SpkLauncher >> launchClient [
+	clientConnection := RsrConnection
+		connectToHost: 'localhost'
+		port: self portNumber.
+	self createClientService
+]
+
+{ #category : #actions }
+SpkLauncher >> launchServer [
+	serverConnection := RsrConnection acceptOn: self portNumber
+]
+
+{ #category : #private }
+SpkLauncher >> openTextPresenterOn: aService [
 	"Exploratory"
 
 	(SpkTextPresenter
 		newApplication: application
 		owner: self
-		model: service) openWithSpec
+		model: aService) openWithSpec
+]
+
+{ #category : #constants }
+SpkLauncher >> portNumber [
+	^ 6842
+]
+
+{ #category : #accessing }
+SpkLauncher >> startClientButton [
+	^ startClientButton
+]
+
+{ #category : #accessing }
+SpkLauncher >> startServerButton [
+	^ startServerButton
 ]

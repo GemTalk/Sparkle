@@ -17,8 +17,7 @@ SpkTextPresenter class >> defaultSpec [
 
 { #category : #'model interaction' }
 SpkTextPresenter >> hookToModel [
-	model addDependent: self.
-	self updateFromModel
+	model addDependent: self
 ]
 
 { #category : #initialization }

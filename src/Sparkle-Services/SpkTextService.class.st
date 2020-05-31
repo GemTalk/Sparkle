@@ -23,7 +23,7 @@ SpkTextService >> newLocalString: anObject [
 	"String modified locally. Change both here and remotely"
 
 	self string: anObject.
-	remoteSelf string: anObject
+	remoteSelf string: string
 ]
 
 { #category : #accessing }
@@ -33,7 +33,7 @@ SpkTextService >> string [
 
 { #category : #accessing }
 SpkTextService >> string: anObject [
-	string := anObject.
+	string := anObject asString.
 	self changed
 ]
 

@@ -6,3 +6,16 @@ Class {
 	#superclass : #SpkTextServiceClient,
 	#category : #'Sparkle-Services'
 }
+
+{ #category : #initialization }
+SpkTextServiceServer >> initialize [
+	super initialize.
+	self openTextPresenter
+]
+
+{ #category : #initialization }
+SpkTextServiceServer >> openTextPresenter [
+	| presenter |
+	presenter := SpkTextPresenter on: self.
+	presenter openWithSpec
+]

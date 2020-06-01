@@ -46,7 +46,7 @@ SpkTextPresenter >> setModelBeforeInitialization: aDomainObject [
 SpkTextPresenter >> textChanged [
 	"I've been edited, let the model reflect that change"
 
-	model newLocalString: textPane text asString
+	model string: textPane text asString
 ]
 
 { #category : #accessing }

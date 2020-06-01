@@ -22,7 +22,9 @@ SpkLauncher class >> defaultSpec [
 { #category : #private }
 SpkLauncher >> createClientService [
 	clientService := SpkTextServiceClient forConnection: clientConnection.
-	self openTextPresenterOn: clientService
+	self openTextPresenterOn: clientService.
+	"Force replication, which opens remote window"
+	clientService changed
 ]
 
 { #category : #initialization }

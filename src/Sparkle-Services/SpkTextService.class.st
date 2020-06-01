@@ -22,8 +22,9 @@ SpkTextService >> initialize [
 SpkTextService >> newLocalString: anObject [
 	"String modified locally. Change both here and remotely"
 
-	self string: anObject.
-	remoteSelf string: string
+	string = anObject
+		ifFalse: [ self string: anObject.
+			remoteSelf string: string ]
 ]
 
 { #category : #accessing }
@@ -33,8 +34,9 @@ SpkTextService >> string [
 
 { #category : #accessing }
 SpkTextService >> string: anObject [
-	string := anObject asString.
-	self changed
+	string = anObject
+		ifFalse: [ string := anObject asString.
+			self changed ]
 ]
 
 { #category : #'as yet unclassified' }

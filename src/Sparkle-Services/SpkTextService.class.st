@@ -27,5 +27,10 @@ SpkTextService >> string [
 SpkTextService >> string: anObject [
 	string = anObject
 		ifFalse: [ string := anObject.
-			remoteSelf changed ]
+			self updateRemote ]
+]
+
+{ #category : #accessing }
+SpkTextService >> updateRemote [
+	remoteSelf changed
 ]

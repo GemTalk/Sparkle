@@ -24,7 +24,7 @@ SpkLauncher >> createClientService [
 	clientService := SpkTextServiceClient forConnection: clientConnection.
 	self openTextPresenterOn: clientService.
 	"Force replication, which opens remote window"
-	clientService changed
+	clientService updateRemote
 ]
 
 { #category : #initialization }
@@ -57,14 +57,14 @@ SpkLauncher >> launchClient [
 	clientConnection := RsrConnection
 		connectToHost: 'localhost'
 		port: self portNumber.
-	clientConnection logToTranscript.
+	"clientConnection logToTranscript."
 	self createClientService
 ]
 
 { #category : #actions }
 SpkLauncher >> launchServer [
-	serverConnection := RsrConnection acceptOn: self portNumber.
-	serverConnection logToTranscript
+	serverConnection := RsrConnection acceptOn: self portNumber
+	"serverConnection logToTranscript"
 ]
 
 { #category : #private }

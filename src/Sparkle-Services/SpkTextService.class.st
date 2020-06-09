@@ -18,6 +18,19 @@ SpkTextService >> initialize [
 	string := ''
 ]
 
+{ #category : #events }
+SpkTextService >> localWindowIsClosing [
+	"Either side may close the window."
+
+	remoteSelf remoteWindowIsClosing.
+	self _connection close
+]
+
+{ #category : #events }
+SpkTextService >> remoteWindowIsClosing [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 SpkTextService >> string [
 	^ string

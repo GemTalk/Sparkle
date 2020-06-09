@@ -14,7 +14,7 @@ SpkTextServiceClient class >> forConnection: aConnection [
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : #dependencies }
 SpkTextServiceClient >> addDependent: aPresenter [
 	dependents add: aPresenter
 ]
@@ -22,6 +22,16 @@ SpkTextServiceClient >> addDependent: aPresenter [
 { #category : #updating }
 SpkTextServiceClient >> changed [
 	dependents do: [ :each | each updateFromModel ]
+]
+
+{ #category : #updating }
+SpkTextServiceClient >> close [
+	remoteSelf closeDependents
+]
+
+{ #category : #updating }
+SpkTextServiceClient >> closeDependents [
+	dependents do: [ :each | each modelClosing ]
 ]
 
 { #category : #initialization }
@@ -35,7 +45,12 @@ SpkTextServiceClient >> myDependents [
 	^ dependents
 ]
 
-{ #category : #adding }
+{ #category : #events }
+SpkTextServiceClient >> remoteWindowIsClosing [
+	dependents do: [ :each | each closeWindow ]
+]
+
+{ #category : #dependencies }
 SpkTextServiceClient >> removeDependent: aPresenter [
 	dependents remove: aPresenter
 ]

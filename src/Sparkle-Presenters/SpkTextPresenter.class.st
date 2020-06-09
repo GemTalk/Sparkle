@@ -3,7 +3,8 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'model',
-		'textPane'
+		'textPane',
+		'window'
 	],
 	#category : #'Sparkle-Presenters'
 }
@@ -13,6 +14,14 @@ SpkTextPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #textPane;
 		yourself
+]
+
+{ #category : #'model interaction' }
+SpkTextPresenter >> closeWindow [
+	"Sent by model when remote window closed."
+
+	window close.
+	self unhookFromModel
 ]
 
 { #category : #'model interaction' }
@@ -31,10 +40,12 @@ SpkTextPresenter >> initializePresenters [
 
 { #category : #initialization }
 SpkTextPresenter >> initializeWindow: aWindowPresenter [
+	window := aWindowPresenter.
 	aWindowPresenter
-		title: 'Some Text';
+		title: 'Chat';
 		aboutText: 'Text from Far Away that might change';
-		whenWillCloseDo: [ self unhookFromModel ]
+		whenWillCloseDo: [ model localWindowIsClosing.
+			self unhookFromModel ]
 ]
 
 { #category : #'accessing model' }

@@ -7,8 +7,8 @@ Class {
 	#category : #'Sparkle-Services'
 }
 
-{ #category : #'as yet unclassified' }
-SpkTextService class >> serviceClassName [
+{ #category : #accessing }
+SpkTextService class >> templateClassName [
 	^ #SpkTextService
 ]
 

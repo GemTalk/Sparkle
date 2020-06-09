@@ -7,6 +7,13 @@ Class {
 	#category : #'Sparkle-Services'
 }
 
+{ #category : #'instance creation' }
+SpkTextServiceClient class >> forConnection: aConnection [
+	^ self new
+		registerWith: aConnection;
+		yourself
+]
+
 { #category : #adding }
 SpkTextServiceClient >> addDependent: aPresenter [
 	dependents add: aPresenter

@@ -68,5 +68,7 @@ SpkTextServiceClient >> remoteWindowIsClosing [
 
 { #category : #dependencies }
 SpkTextServiceClient >> removeDependent: aPresenter [
-	dependents remove: aPresenter
+	dependents
+		remove: aPresenter
+		ifAbsent: [ "If not there, already removed" ]
 ]

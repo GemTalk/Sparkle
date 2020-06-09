@@ -2,7 +2,8 @@ Class {
 	#name : #SpkTextServiceClient,
 	#superclass : #SpkTextService,
 	#instVars : [
-		'dependents'
+		'dependents',
+		'isClosing'
 	],
 	#category : #'Sparkle-Services'
 }
@@ -37,7 +38,19 @@ SpkTextServiceClient >> closeDependents [
 { #category : #initialization }
 SpkTextServiceClient >> initialize [
 	super initialize.
-	dependents := IdentitySet new
+	dependents := IdentitySet new.
+	isClosing := false
+]
+
+{ #category : #events }
+SpkTextServiceClient >> localWindowIsClosing [
+	"Either side may close the window."
+
+	isClosing
+		ifTrue: [ ^ self ].
+	isClosing := true.
+	remoteSelf remoteWindowIsClosing.
+	self _connection close
 ]
 
 { #category : #dependencies }
@@ -47,6 +60,9 @@ SpkTextServiceClient >> myDependents [
 
 { #category : #events }
 SpkTextServiceClient >> remoteWindowIsClosing [
+	isClosing
+		ifTrue: [ ^ self ].
+	isClosing := true.
 	dependents do: [ :each | each closeWindow ]
 ]
 

@@ -32,5 +32,5 @@ SpkTextService >> string: anObject [
 
 { #category : #accessing }
 SpkTextService >> updateRemote [
-	remoteSelf changed
+	remoteSelf changed: #text
 ]

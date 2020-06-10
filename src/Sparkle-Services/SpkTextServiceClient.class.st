@@ -1,8 +1,11 @@
 Class {
 	#name : #SpkTextServiceClient,
 	#superclass : #SpkTextService,
+	#traits : 'SpkTDependents',
+	#classTraits : 'SpkTDependents classTrait',
 	#instVars : [
 		'dependents',
+		'myDependents',
 		'isClosing'
 	],
 	#category : #'Sparkle-Services'
@@ -13,16 +16,6 @@ SpkTextServiceClient class >> forConnection: aConnection [
 	^ self new
 		registerWith: aConnection;
 		yourself
-]
-
-{ #category : #dependencies }
-SpkTextServiceClient >> addDependent: aPresenter [
-	dependents add: aPresenter
-]
-
-{ #category : #updating }
-SpkTextServiceClient >> changed [
-	dependents do: [ :each | each updateFromModel ]
 ]
 
 { #category : #updating }
@@ -53,9 +46,14 @@ SpkTextServiceClient >> localWindowIsClosing [
 	self _connection close
 ]
 
-{ #category : #dependencies }
+{ #category : #accessing }
 SpkTextServiceClient >> myDependents [
-	^ dependents
+	^ myDependents
+]
+
+{ #category : #accessing }
+SpkTextServiceClient >> myDependents: anObject [
+	myDependents := anObject
 ]
 
 { #category : #events }
@@ -64,11 +62,4 @@ SpkTextServiceClient >> remoteWindowIsClosing [
 		ifTrue: [ ^ self ].
 	isClosing := true.
 	dependents do: [ :each | each closeWindow ]
-]
-
-{ #category : #dependencies }
-SpkTextServiceClient >> removeDependent: aPresenter [
-	dependents
-		remove: aPresenter
-		ifAbsent: [ "If not there, already removed" ]
 ]

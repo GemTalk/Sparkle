@@ -76,6 +76,15 @@ SpkTextPresenter >> unhookFromModel [
 ]
 
 { #category : #'model interaction' }
+SpkTextPresenter >> update: anAspect [
+	"Text is the only aspect right now"
+
+	textPane
+		text: model string asText;
+		update
+]
+
+{ #category : #'model interaction' }
 SpkTextPresenter >> updateFromModel [
 	textPane
 		text: model string asText;

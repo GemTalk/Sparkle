@@ -4,7 +4,7 @@ For this little demo of Pharo-to-Pharo, the server and client classes can have i
 Class {
 	#name : #SpkTextServiceServer,
 	#superclass : #SpkTextServiceClient,
-	#category : #'Sparkle-Services-Pharo-Sparkle-Services-Pharo'
+	#category : #'Sparkle-Services-Pharo'
 }
 
 { #category : #initialization }

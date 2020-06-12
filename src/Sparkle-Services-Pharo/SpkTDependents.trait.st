@@ -13,7 +13,7 @@ Typically, one would want to use SpkTDependents in a client or server service cl
 "
 Trait {
 	#name : #SpkTDependents,
-	#category : #'Sparkle-Services-Pharo-Sparkle-Services-Pharo'
+	#category : #'Sparkle-Services-Pharo'
 }
 
 { #category : #dependencies }

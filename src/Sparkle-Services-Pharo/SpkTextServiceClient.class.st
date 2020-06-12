@@ -8,7 +8,7 @@ Class {
 		'myDependents',
 		'isClosing'
 	],
-	#category : #'Sparkle-Services-Pharo-Sparkle-Services-Pharo'
+	#category : #'Sparkle-Services-Pharo'
 }
 
 { #category : #'instance creation' }

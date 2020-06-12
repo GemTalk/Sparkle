@@ -4,7 +4,7 @@ run
 	| rowanRoot loadSpecFile loadSpec resolvedProject |
 	Rowan projectTools trace startTracing.
 	rowanRoot := '$ROWAN_PROJECTS_HOME' asFileReference.
-	loadSpecFile := rowanRoot / 'sparkle' / 'rowan' / 'specs' / 'sparkle.ston'.
+	loadSpecFile := rowanRoot / 'Sparkle' / 'rowan' / 'specs' / 'Sparkle.ston'.
 	loadSpec := (Rowan projectTools load loadProjectSpecFromFile: loadSpecFile)
 		projectsHome: rowanRoot;
 		yourself.

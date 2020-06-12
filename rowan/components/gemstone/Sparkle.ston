@@ -1,0 +1,10 @@
+RwSimpleProjectLoadComponentV2 {
+	#name : 'gemstone/Sparkle',
+	#condition : 'gemstone',
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'Sparkle-GemStone'
+	],
+	#comment : 'gemstone packages for Sparkle'
+}

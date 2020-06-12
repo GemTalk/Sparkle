@@ -1,0 +1,14 @@
+! Topaz format...
+
+run
+	| rowanRoot loadSpecFile loadSpec resolvedProject |
+	Rowan projectTools trace startTracing.
+	rowanRoot := '$ROWAN_PROJECTS_HOME' asFileReference.
+	loadSpecFile := rowanRoot / 'sparkle' / 'rowan' / 'specs' / 'sparkle.ston'.
+	loadSpec := (Rowan projectTools load loadProjectSpecFromFile: loadSpecFile)
+		projectsHome: rowanRoot;
+		yourself.
+	resolvedProject := loadSpec resolve.
+
+	resolvedProject load.
+%

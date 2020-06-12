@@ -1,0 +1,13 @@
+RwSimpleProjectLoadComponentV2 {
+	#name : 'Sparkle',
+	#condition : 'common',
+	#projectNames : [ ],
+	#componentNames : [
+		'gemstone/Sparkle',
+		'tests/Sparkle'
+	],
+	#packageNames : [
+		'Sparkle-Services-Common'
+	],
+	#comment : 'core packages for Sparkle'
+}

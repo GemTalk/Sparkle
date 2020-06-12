@@ -1,29 +1,29 @@
 Class {
-	#name : #SpkTextService,
-	#superclass : #RsrService,
+	#name : 'SpkTextService',
+	#superclass : 'RsrService',
 	#instVars : [
 		'string'
 	],
-	#category : #'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpkTextService class >> templateClassName [
 	^ #SpkTextService
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpkTextService >> initialize [ 
 
 	string := ''
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpkTextService >> string [
 	^ string
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpkTextService >> string: anObject [
 	string = anObject
 		ifFalse: [ string := anObject.

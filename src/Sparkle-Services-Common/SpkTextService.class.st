@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'string'
 	],
-	#category : #'Sparkle-Services'
+	#category : #'Sparkle-Services-Common'
 }
 
 { #category : #accessing }
@@ -28,9 +28,4 @@ SpkTextService >> string: anObject [
 	string = anObject
 		ifFalse: [ string := anObject.
 			self updateRemote ]
-]
-
-{ #category : #accessing }
-SpkTextService >> updateRemote [
-	remoteSelf changed: #text
 ]

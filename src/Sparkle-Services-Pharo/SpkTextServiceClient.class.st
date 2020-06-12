@@ -8,7 +8,7 @@ Class {
 		'myDependents',
 		'isClosing'
 	],
-	#category : #'Sparkle-Services'
+	#category : #'Sparkle-Services-Pharo-Sparkle-Services-Pharo'
 }
 
 { #category : #'instance creation' }
@@ -62,4 +62,9 @@ SpkTextServiceClient >> remoteWindowIsClosing [
 		ifTrue: [ ^ self ].
 	isClosing := true.
 	dependents do: [ :each | each closeWindow ]
+]
+
+{ #category : #accessing }
+SpkTextServiceClient >> updateRemote [
+	remoteSelf changed: #text
 ]

@@ -10,9 +10,11 @@ BaselineOfSparkle >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec
-				package: 'Sparkle-Services';
+				package: 'Sparkle-Services-Common';
+				package: 'Sparkle-Services-Pharo'
+					with: [ spec requires: #('Sparkle-Services-Common') ];
 				package: 'Sparkle-Presenters'
-					with: [ spec requires: #('Sparkle-Services') ];
+					with: [ spec requires: #('Sparkle-Services-Pharo') ];
 				package: 'Sparkle-Application'
 					with: [ spec requires: #('Sparkle-Presenters') ] ]
 	"I think the following does not work because RSR is currently in a private repository"

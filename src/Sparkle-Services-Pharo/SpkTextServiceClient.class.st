@@ -17,21 +17,29 @@ SpkTextServiceClient class >> forConnection: aConnection [
 		yourself
 ]
 
-{ #category : 'initialization' }
-SpkTextServiceClient >> initialize [
-	super initialize.
-	isClosing := false
-]
-
 { #category : 'events' }
-SpkTextServiceClient >> localWindowIsClosing [
+SpkTextServiceClient >> closeRequestedLocally [
 	"Either side may close the window."
 
 	isClosing
 		ifTrue: [ ^ self ].
 	isClosing := true.
-	remoteSelf remoteWindowIsClosing.
+	remoteSelf closeRequestedRemotely.
 	self _connection close
+]
+
+{ #category : 'events' }
+SpkTextServiceClient >> closeRequestedRemotely [
+	isClosing
+		ifTrue: [ ^ self ].
+	isClosing := true.
+	self dependents do: [ :each | each closeWindow ]
+]
+
+{ #category : 'initialization' }
+SpkTextServiceClient >> initialize [
+	super initialize.
+	isClosing := false
 ]
 
 { #category : 'accessing' }
@@ -42,14 +50,6 @@ SpkTextServiceClient >> myDependents [
 { #category : 'accessing' }
 SpkTextServiceClient >> myDependents: anObject [
 	myDependents := anObject
-]
-
-{ #category : 'events' }
-SpkTextServiceClient >> remoteWindowIsClosing [
-	isClosing
-		ifTrue: [ ^ self ].
-	isClosing := true.
-	self dependents do: [ :each | each closeWindow ]
 ]
 
 { #category : 'accessing' }

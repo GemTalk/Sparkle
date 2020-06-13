@@ -44,7 +44,7 @@ SpkTextPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Chat';
 		aboutText: 'Text from Far Away that might change';
-		whenWillCloseDo: [ model localWindowIsClosing.
+		whenWillCloseDo: [ model closeRequestedLocally.
 			self unhookFromModel ]
 ]
 

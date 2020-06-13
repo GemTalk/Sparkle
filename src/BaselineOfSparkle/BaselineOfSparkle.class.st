@@ -19,6 +19,14 @@ BaselineOfSparkle >> baseline: spec [
 					with: [ spec requires: #('Sparkle-Presenters') ].
 			spec
 				baseline: 'RemoteServiceReplication'
-				with: [ spec
-						repository: 'filetree:///$ROWAN_PROJECTS_HOME/RemoteServiceReplication/src' ] ]
+				with: [ spec repository: self rsrUrl ] ]
+]
+
+{ #category : 'baselines' }
+BaselineOfSparkle >> rsrUrl [
+	| projectsHome |
+	projectsHome := OSEnvironment current
+		at: 'ROWAN_PROJECTS_HOME'
+		ifAbsent: [ self error: '$ROWAN_PROJECTS_HOME not defined' ].
+	^ 'filetree://' , projectsHome , '/RemoteServiceReplication/src'
 ]

@@ -29,5 +29,5 @@ BaselineOfSparkle >> rsrUrl [
 	projectsHome := OSEnvironment current
 		at: 'ROWAN_PROJECTS_HOME'
 		ifAbsent: [ self error: '$ROWAN_PROJECTS_HOME not defined' ].
-	^ 'filetree://' , projectsHome , '/RemoteServiceReplication/src'
+	^ 'gitLocal://' , projectsHome , '/RemoteServiceReplication/src'
 ]

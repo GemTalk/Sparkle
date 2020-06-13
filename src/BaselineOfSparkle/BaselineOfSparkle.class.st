@@ -8,15 +8,17 @@ Class {
 BaselineOfSparkle >> baseline: spec [
 	<baseline>
 	spec
-		for: #common
+		for: #pharo
 		do: [ spec
-				package: 'Sparkle-TonelFixes';
-				package: 'Sparkle-Services-Common'
-					with: [ spec requires: #('Sparkle-TonelFixes') ];
+				package: 'Sparkle-Services-Common';
 				package: 'Sparkle-Services-Pharo'
 					with: [ spec requires: #('Sparkle-Services-Common') ];
 				package: 'Sparkle-Presenters'
 					with: [ spec requires: #('Sparkle-Services-Pharo') ];
 				package: 'Sparkle-Application'
-					with: [ spec requires: #('Sparkle-Presenters') ] ]
+					with: [ spec requires: #('Sparkle-Presenters') ].
+			spec
+				baseline: 'RemoteServiceReplication'
+				with: [ spec
+						repository: 'filetree://$ROWAN_PROJECTS_HOME/RemoteServiceReplication/src' ] ]
 ]

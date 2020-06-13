@@ -4,7 +4,6 @@ Class {
 	#traits : 'SpkTDependents',
 	#classTraits : 'SpkTDependents classTrait',
 	#instVars : [
-		'dependents',
 		'myDependents',
 		'isClosing'
 	],
@@ -18,20 +17,9 @@ SpkTextServiceClient class >> forConnection: aConnection [
 		yourself
 ]
 
-{ #category : 'updating' }
-SpkTextServiceClient >> close [
-	remoteSelf closeDependents
-]
-
-{ #category : 'updating' }
-SpkTextServiceClient >> closeDependents [
-	dependents do: [ :each | each modelClosing ]
-]
-
 { #category : 'initialization' }
 SpkTextServiceClient >> initialize [
 	super initialize.
-	dependents := IdentitySet new.
 	isClosing := false
 ]
 
@@ -61,7 +49,7 @@ SpkTextServiceClient >> remoteWindowIsClosing [
 	isClosing
 		ifTrue: [ ^ self ].
 	isClosing := true.
-	dependents do: [ :each | each closeWindow ]
+	self dependents do: [ :each | each closeWindow ]
 ]
 
 { #category : 'accessing' }

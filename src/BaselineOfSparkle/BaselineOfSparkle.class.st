@@ -20,5 +20,5 @@ BaselineOfSparkle >> baseline: spec [
 			spec
 				baseline: 'RemoteServiceReplication'
 				with: [ spec
-						repository: 'filetree://$ROWAN_PROJECTS_HOME/RemoteServiceReplication/src' ] ]
+						repository: 'filetree:///$ROWAN_PROJECTS_HOME/RemoteServiceReplication/src' ] ]
 ]

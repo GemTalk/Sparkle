@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkTextServiceServer',
 	#superclass : 'SpkTextService',
 	#instVars : [
-		'stdout'
+		'stdout',
+		'isClosing'
 	],
 	#category : 'Sparkle-GemStone'
 }
@@ -16,8 +17,20 @@ SpkTextServiceServer >> changed: anAspect [
 		cr
 ]
 
+{ #category : 'events' }
+SpkTextServiceServer >> closeRequestedRemotely [
+	isClosing
+		ifTrue: [ ^ self ].
+	isClosing := true.
+	stdout
+		cr;
+		nextPutAll: '==========Bye!==========';
+		cr
+]
+
 { #category : 'initialization' }
 SpkTextServiceServer >> initialize [
 	super initialize.
+	isClosing := false.
 	stdout := GsFile stdoutServer
 ]

@@ -1,0 +1,43 @@
+Sparkle software layer architecture
+
+GUI layer
+  It looks like the initial development of Sparkle will use Spec2 for
+  its GUI. Later this may be re-written for GT stack (Bloc etc.), or 
+  some future GUI. This layer consists of the presenters that make up
+  the GUI.
+
+Pharo service layer
+  Objects in this layer serve as the models for the GUI. This is a fairly
+  thin layer. The services are designed to fit the needs of the GUI.
+
+______________ Pharo Layers _______________
+              GemStone Layers
+  
+GemStone service layer
+  Since we are using RSR, the structure of the GemStone services and the 
+  Pharo service layer must match closely. The services in GemStone do the
+  necessary adaptation between the Tools and the needs of the Pharo services.
+  There may be multiple services in this layer that interact with a single
+  Tool. The number of services associated with a single Tool may vary over
+  time.
+  
+Tool model layer
+  Models ways of viewing and manipulating the domain layer objects. 
+  This layer contains specific tools such as browsers, debuggers, workspaces...
+  A significant chunk of the work of Sparkle happens here. 
+  The undo/redo framework operates in this layer.
+  
+Domain layer
+  Existing underlying objects -- Mostly Rowan objects (Definitions, Repositories) 
+  for browsers and other code tools, GsProcesses and arbitrary objects for 
+  debugging tools.
+  
+---
+
+Notes:
+
+Eventually, I think it will be good to have Jadeite, Sparkle, and any other 
+supported development tools share most of the same Tool layer. It may take us 
+several releases to get to that point. The GemStone service layer may have 
+to be more customized to the needs of the platform-specific GUI, though 
+quite a bit of code sharing should be possible.

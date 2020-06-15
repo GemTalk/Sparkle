@@ -14,8 +14,10 @@ BaselineOfSparkle >> baseline: spec [
 					with: [ spec requires: 'RemoteServiceReplication' ];
 				package: 'Sparkle-Services-Pharo'
 					with: [ spec requires: #('Sparkle-Services-Common') ];
-				package: 'Sparkle-Presenters'
+				package: 'Sparkle-Tools-Common'
 					with: [ spec requires: #('Sparkle-Services-Pharo') ];
+				package: 'Sparkle-Presenters'
+					with: [ spec requires: #('Sparkle-Tools-Common') ];
 				package: 'Sparkle-Application'
 					with: [ spec requires: #('Sparkle-Presenters') ];
 				package: 'Sparkle-Test'

@@ -5,33 +5,45 @@ What are the parts of a typical Tool?
     The Tool delegates work to various internal objects and does some coordination.
   * An undo manager.
     All Tools will support undo/redo for all operations that change its state or the state of domain objects, except those that may affect objects outside the Tool's control. Operations that cannot be fully undone are things like "doit" which send arbitrary messages to arbitrary objects. Operations within the control of the Tool, such as "save a method" or "delete a class" will be undoable.
-  * A "factor" (in English a person that manages things for you).
-    The factor's responsibility is the actual doing, undoing, and re-doing of requested actions.
-    The factor may interact directly with domain layer objects, or for more complex actions may delegate to other tool layer objects.
+
+---
     
 What's a typical sequence of operations?
 
 The Tool receives a message requesting some change in state (for instance "save a method") and accompanying information (new source for method).
+
 The Tool creates an Action object encapsulating the request and more accompanying information (currently-selected behavior and selector, source of the method).
-The Tool passes the Action to its factor.
-The factor gathers information as necessary, attempts the work specified, and either signals an exception or answers an Action with enough information to undo the original Action. (The answered Action might be the same Action with added information?) In the example of accepting a method, the additional information needed for undo would likely be the MethodDefinition being replaced.
+
+The Tool asks the Action to #enact itself.
+
+The Action gathers information as necessary, attempts the work specified, and either signals an exception or answers an Action with enough information to reverse the original Action. (The answered Action might be the same Action with added information.) In the example of accepting a method, the additional information needed for undo would likely be the MethodDefinition being replaced.
+
 The Tool gives its undoManager the Action as a completed action.
+
 The Tool returns success to the service.
 
+---
+
 If a Tool receives a request for undo or redo, the sequence is:
+
 The Tool asks its UndoManager for the previous or next Action.
-The Tool passes the Action to its factor to be done or undone.
-The Factor reverses or performs the Action. This should succeed, since it is known to be a correct Action. The Action is returned to the Tool.
+
+The Tool asks the Action to either #reverse or #enact itself.
+
+The Action reverses or performs itself. This should succeed, since it is known to be a correct Action. The Action is returned to the Tool.
+
 The Tool gives the Action to its undoManager as an undone or redone Action.
 
+---
 
 Undo is linear
+
 The UndoManager keeps a stack of past Actions, and a stack of future Actions.
+
 An undo pops an Action off of the stack of past Actions, and pushes it on the stack of future Actions
+
 A redo pops an Action off the stack of future Actions, and pushes it on the stack of past Actions.
+
 A new Action, upon completion, is pushed on the stack of past Actions, and the stack of future Actions is cleared.
 
 If the depth of the past actions stack reaches some limit, the oldest Action may be discarded when a new one is pushed. The limit should not be small.
-
-
-

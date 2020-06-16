@@ -19,6 +19,18 @@ SpkLauncher class >> defaultSpec [
 		yourself
 ]
 
+{ #category : 'actions' }
+SpkLauncher >> connectionAcceptor [
+	^ RsrAcceptConnection port: self portNumber
+]
+
+{ #category : 'private' }
+SpkLauncher >> connectionInitiator [
+	^ RsrInitiateConnection
+		host: self remoteHostname
+		port: self portNumber
+]
+
 { #category : 'private' }
 SpkLauncher >> createClientService [
 	clientService := SpkTextServiceClient forConnection: clientConnection.
@@ -54,16 +66,14 @@ SpkLauncher >> initializeWindow: aWindowPresenter [
 
 { #category : 'actions' }
 SpkLauncher >> launchClient [
-	clientConnection := RsrConnection
-		connectToHost: 'localhost'
-		port: self portNumber.
+	clientConnection := self connectionInitiator connect.
 	"clientConnection log addSink: RsrTranscriptSink new."
 	self createClientService
 ]
 
 { #category : 'actions' }
 SpkLauncher >> launchServer [
-	serverConnection := RsrConnection acceptOn: self portNumber.
+	serverConnection := self connectionAcceptor connect
 	"serverConnection log addSink: RsrTranscriptSink new"
 ]
 
@@ -80,6 +90,11 @@ SpkLauncher >> openTextPresenterOn: aService [
 { #category : 'constants' }
 SpkLauncher >> portNumber [
 	^ 6842
+]
+
+{ #category : 'constants' }
+SpkLauncher >> remoteHostname [
+	^ 'localhost'
 ]
 
 { #category : 'accessing' }

@@ -41,3 +41,5 @@ supported development tools share most of the same Tool layer. It may take us
 several releases to get to that point. The GemStone service layer may have 
 to be more customized to the needs of the platform-specific GUI, though 
 quite a bit of code sharing should be possible.
+
+One benefit of keeping the GemStone service layer separate from the Tool layer is remote pair programming. The Tool layer doesn't know about the GemStone service layer. The GemStone services subscribe to changes published by the Tool layer. RSR services can only be replicated across exactly two objects spaces, but with two sets of services subscribing to the same set of tools would allow two Pharo images in different machines to connect to the same tools in the same gem at the same time, making remote pair programming much easier.

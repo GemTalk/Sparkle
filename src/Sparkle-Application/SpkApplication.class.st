@@ -1,16 +1,11 @@
 "
-Initial entry point and coordinator for Sparkle
+Abstract application for Sparkle applications
 "
 Class {
 	#name : 'SpkApplication',
 	#superclass : 'SpApplication',
 	#category : 'Sparkle-Application'
 }
-
-{ #category : 'activation' }
-SpkApplication class >> applicationName [
-	^ 'GemStone IDE for Pharo'
-]
 
 { #category : 'instance creation' }
 SpkApplication class >> open [
@@ -23,5 +18,5 @@ SpkApplication class >> open [
 
 { #category : 'running' }
 SpkApplication >> start [
-	(self new: SpkLauncher) openWithSpec
+	self subclassResponsibility
 ]

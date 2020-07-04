@@ -8,6 +8,11 @@ Class {
 	#category : 'Sparkle-Experiments'
 }
 
+{ #category : 'specs' }
+SpkMultipleSelectionListPresenter class >> adapterName [
+	^ #SpkListAdapter
+]
+
 { #category : 'initialization' }
 SpkMultipleSelectionListPresenter >> initialize [
 	super initialize.

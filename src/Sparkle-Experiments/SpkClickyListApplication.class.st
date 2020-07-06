@@ -9,11 +9,16 @@ SpkClickyListApplication class >> applicationName [
 	^ 'A list you can click'
 ]
 
+{ #category : 'examples' }
+SpkClickyListApplication class >> example [
+	<example>
+	self open
+]
+
 { #category : 'running' }
 SpkClickyListApplication >> start [
-	SpkClickyListPresenter basicNew
-		application: self;
-		setModelBeforeInitialization: SpkClickyList withTestContents;
-		initialize;
-		openWithSpec
+	| model |
+	model := SpkClickyList withTestContents.
+	2
+		timesRepeat: [ SpkClickyListPresenter openForApplication: self onModel: model ]
 ]

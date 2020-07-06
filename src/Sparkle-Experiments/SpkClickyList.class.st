@@ -1,9 +1,17 @@
+"
+A test model for a multi-select list.
+
+This simple test assumes that no two items compare equal (#'=').
+"
 Class {
 	#name : 'SpkClickyList',
-	#superclass : 'Model',
+	#superclass : 'Object',
+	#traits : 'SpkTModel',
+	#classTraits : 'SpkTModel classTrait',
 	#instVars : [
+		'announcer',
 		'items',
-		'itemsSelected'
+		'selectedItems'
 	],
 	#category : 'Sparkle-Experiments'
 }
@@ -15,15 +23,37 @@ SpkClickyList class >> withTestContents [
 		yourself
 ]
 
+{ #category : 'private' }
+SpkClickyList >> _announcer [
+	"Private"
+
+	^ announcer
+]
+
+{ #category : 'private' }
+SpkClickyList >> _announcer: anObject [
+	"Private"
+
+	^ announcer := anObject
+]
+
 { #category : 'adding' }
 SpkClickyList >> addTestContents [
 	items addAll: #('First' 'Second' 'Third' 'Fourth')
 ]
 
+{ #category : 'selection' }
+SpkClickyList >> deselectItem: anItem [
+	(selectedItems includes: anItem)
+		ifFalse: [ ^ self ].
+	selectedItems remove: anItem.
+	self announce: (SpkItemDeselected forItem: anItem)
+]
+
 { #category : 'initialization' }
 SpkClickyList >> initialize [
 	items := OrderedCollection new.
-	itemsSelected := Set new
+	selectedItems := Set new
 ]
 
 { #category : 'accessing' }
@@ -34,4 +64,17 @@ SpkClickyList >> items [
 { #category : 'accessing' }
 SpkClickyList >> items: anObject [
 	items := anObject
+]
+
+{ #category : 'selection' }
+SpkClickyList >> selectItem: anItem [
+	(selectedItems includes: anItem)
+		ifTrue: [ ^ self ].
+	selectedItems add: anItem.
+	self announce: (SpkItemSelected forItem: anItem)
+]
+
+{ #category : 'accessing' }
+SpkClickyList >> selectedItems [
+	^ selectedItems
 ]

@@ -1,10 +1,10 @@
 Class {
-	#name : 'SpkMultipleSelection',
+	#name : 'SpkFTMultipleSelection',
 	#superclass : 'FTMultipleSelection',
 	#category : 'Sparkle-Experiments'
 }
 
 { #category : 'accessing' }
-SpkMultipleSelection >> selectIndex: index event: event [
+SpkFTMultipleSelection >> selectIndex: index event: event [
 	^ self selectAppendingIndex: index
 ]

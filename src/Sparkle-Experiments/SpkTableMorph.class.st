@@ -6,7 +6,7 @@ Class {
 
 { #category : 'accessing' }
 SpkTableMorph >> beMultipleSelection [
-	selectionStrategy := SpkMultipleSelection table: self.
+	selectionStrategy := SpkFTMultipleSelection table: self.
 	self secondarySelectionColor: self selectionColor
 ]
 

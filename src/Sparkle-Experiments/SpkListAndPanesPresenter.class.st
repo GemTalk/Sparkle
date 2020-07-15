@@ -18,3 +18,15 @@ SpkListAndPanesPresenter class >> defaultSpec [
 		  add: #stackPane;
 		  yourself
 ]
+
+{ #category : 'initialization' }
+SpkListAndPanesPresenter >> initializePresenters [
+	listPane := SpkClickyListPresenter
+		            newApplication: self application
+		            owner: self
+		            model: SpkClickyList withTestContents.
+	stackPane := self newComponentList.
+	self focusOrder
+		add: listPane;
+		add: stackPane
+]

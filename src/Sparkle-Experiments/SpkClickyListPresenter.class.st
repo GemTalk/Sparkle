@@ -3,8 +3,7 @@ Class {
 	#superclass : 'SpPresenter',
 	#instVars : [
 		'model',
-		'listPane',
-		'window'
+		'listPane'
 	],
 	#category : 'Sparkle-Experiments'
 }
@@ -16,7 +15,7 @@ SpkClickyListPresenter class >> defaultSpec [
 		yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
 SpkClickyListPresenter class >> openForApplication: anApplication onModel: aModel [
 	^ self basicNew
 		application: anApplication;
@@ -45,7 +44,6 @@ SpkClickyListPresenter >> initializePresenters [
 
 { #category : 'initialization' }
 SpkClickyListPresenter >> initializeWindow: aWindowPresenter [
-	window := aWindowPresenter.
 	aWindowPresenter
 		title: 'ClickyList';
 		aboutText: 'Testing list multi-selection';

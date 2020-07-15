@@ -17,8 +17,5 @@ SpkListAndStackApplication class >> example [
 
 { #category : 'running' }
 SpkListAndStackApplication >> start [
-	| model |
-	model := SpkClickyList withTestContents.
-	2 timesRepeat: [ 
-		SpkClickyListPresenter openForApplication: self onModel: model ]
+	(SpkListAndPanesPresenter newApplication: self) openWithSpec
 ]

@@ -2,6 +2,9 @@
 Try to get this dynamic concept working better than the existing demo.
 
 Currently, the dynamic row and column layout classes are very confused -- rows are columns and columns are rows.
+
+But I hear these things are obsolete anyway...
+
 "
 Class {
 	#name : 'SpkCalendarPresenter',
@@ -47,6 +50,6 @@ SpkCalendarPresenter >> daysLabelsBuilder [
 		  presenter: SpLabelPresenter
 		  configuredAs: [ :label :str | label label: str ];
 		  layoutBuilder:
-			  (SpDynamicLeftToRightRowsLayout rows: self daysInAWeek);
+			  (SpDynamicTopToBottomRowsLayout rows: self daysInAWeek);
 		  yourself
 ]

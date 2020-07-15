@@ -1,3 +1,7 @@
+"
+A multi-select list with click-on-click-off selection behavior (not standard for Spec2) 
+and two-way event passing between presenter and model, so that more than one window can be opened on one model. 
+"
 Class {
 	#name : 'SpkClickyListApplication',
 	#superclass : 'SpkApplication',

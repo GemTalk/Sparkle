@@ -5,11 +5,8 @@ This simple test assumes that no two items compare equal (#'=').
 "
 Class {
 	#name : 'SpkClickyList',
-	#superclass : 'Object',
-	#traits : 'SpkTModel',
-	#classTraits : 'SpkTModel classTrait',
+	#superclass : 'SpkModel',
 	#instVars : [
-		'announcer',
 		'items',
 		'selectedItems'
 	],
@@ -21,20 +18,6 @@ SpkClickyList class >> withTestContents [
 	^ self new
 		addTestContents;
 		yourself
-]
-
-{ #category : 'private' }
-SpkClickyList >> _announcer [
-	"Private"
-
-	^ announcer
-]
-
-{ #category : 'private' }
-SpkClickyList >> _announcer: anObject [
-	"Private"
-
-	^ announcer := anObject
 ]
 
 { #category : 'adding' }

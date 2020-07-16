@@ -10,7 +10,7 @@ insert: aNameOrPresenter atIndex: newIndex
 Class {
 	#name : 'SpkBoxLayout',
 	#superclass : 'SpBoxLayout',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Spextensions-Spec2'
 }
 
 { #category : 'adding' }

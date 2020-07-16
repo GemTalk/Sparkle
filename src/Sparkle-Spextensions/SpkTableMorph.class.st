@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkTableMorph',
 	#superclass : 'FTTableMorph',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Spextensions-Morphic'
 }
 
 { #category : 'accessing' }

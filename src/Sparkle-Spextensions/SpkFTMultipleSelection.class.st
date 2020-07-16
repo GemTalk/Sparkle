@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkFTMultipleSelection',
 	#superclass : 'FTMultipleSelection',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Spextensions-Morphic'
 }
 
 { #category : 'accessing' }

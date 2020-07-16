@@ -5,7 +5,7 @@ A multi-select list widget with click-on-click-off behavior (as opposed to cmd-c
 Class {
 	#name : 'SpkMultipleSelectionListPresenter',
 	#superclass : 'SpListPresenter',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Spextensions-Spec2'
 }
 
 { #category : 'specs' }

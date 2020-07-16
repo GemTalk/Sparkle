@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpMorphicSpkListAdapter',
 	#superclass : 'SpMorphicListAdapter',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Spextensions-Spec2'
 }
 
 { #category : 'factory' }

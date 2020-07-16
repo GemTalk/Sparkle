@@ -13,6 +13,23 @@ Class {
 	#category : 'Sparkle-Experiments'
 }
 
+{ #category : 'adding' }
+SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
+	self
+		add: aNameOrPresenter
+		withConstraints: [ :constraints |  ]
+		beforeIndex: anInteger
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInteger [
+	| constraints |
+	constraints := self constraintsClass new.
+	aBlock value: constraints.
+	children add: aNameOrPresenter -> constraints beforeIndex: anInteger.
+	self announceChildAdded: aNameOrPresenter
+]
+
 { #category : 'initialization' }
 SpkBoxLayout >> initialize [
 	super initialize.

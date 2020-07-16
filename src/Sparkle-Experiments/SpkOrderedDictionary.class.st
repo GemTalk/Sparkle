@@ -11,7 +11,7 @@ add: anAssociation beforeIndex: anIndex ""index of 1 inserts at front, index of 
 Class {
 	#name : 'SpkOrderedDictionary',
 	#superclass : 'Collection',
-	#classVars : [
+	#instVars : [
 		'elements'
 	],
 	#category : 'Sparkle-Experiments'
@@ -42,6 +42,15 @@ SpkOrderedDictionary >> add: anAssociation beforeIndex: anIndex [
 	elements add: anAssociation beforeIndex: anIndex
 ]
 
+{ #category : 'accessing' }
+SpkOrderedDictionary >> at: aPresenter [
+	| association |
+	association := elements
+		               detect: [ :each | each key == aPresenter ]
+		               ifNone: [ ^ self error: 'Presenter not found' ].
+	^ association value
+]
+
 { #category : 'enumerating' }
 SpkOrderedDictionary >> do: aBlock [
 	"Evaluate aBlock with each of the receiver's elements as the argument."
@@ -59,6 +68,11 @@ SpkOrderedDictionary >> identityIndexOf: aKey ifAbsent: absentBlock [
 { #category : 'initialization' }
 SpkOrderedDictionary >> initializeWithCapacity: anInteger [
 	elements := OrderedCollection new: anInteger
+]
+
+{ #category : 'enumerating' }
+SpkOrderedDictionary >> keysAndValuesDo: aBlock [
+	^ elements do: [ :each | aBlock value: each key value: each value ]
 ]
 
 { #category : 'removing' }

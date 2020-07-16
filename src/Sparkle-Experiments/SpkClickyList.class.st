@@ -8,7 +8,8 @@ Class {
 	#superclass : 'SpkModel',
 	#instVars : [
 		'items',
-		'selectedItems'
+		'selectedItems',
+		'orderedSelectedItems'
 	],
 	#category : 'Sparkle-Experiments'
 }
@@ -25,18 +26,27 @@ SpkClickyList >> addTestContents [
 	items addAll: #('First' 'Second' 'Third' 'Fourth')
 ]
 
+{ #category : 'initialization' }
+SpkClickyList >> computeOrderedSelectedItems [
+	orderedSelectedItems := items select: [ :each | 
+		                        selectedItems includes: each ]
+]
+
 { #category : 'selection' }
 SpkClickyList >> deselectItem: anItem [
-	(selectedItems includes: anItem)
-		ifFalse: [ ^ self ].
+	| formerIndex |
+	(selectedItems includes: anItem) ifFalse: [ ^ self ].
+	formerIndex := self selectionIndexOf: anItem.
 	selectedItems remove: anItem.
-	self announce: (SpkItemDeselected forItem: anItem)
+	self computeOrderedSelectedItems.
+	self announce: (SpkItemDeselected forItem: anItem index: formerIndex)
 ]
 
 { #category : 'initialization' }
 SpkClickyList >> initialize [
 	items := OrderedCollection new.
-	selectedItems := Set new
+	selectedItems := Set new.
+	self computeOrderedSelectedItems
 ]
 
 { #category : 'accessing' }
@@ -51,13 +61,22 @@ SpkClickyList >> items: anObject [
 
 { #category : 'selection' }
 SpkClickyList >> selectItem: anItem [
-	(selectedItems includes: anItem)
-		ifTrue: [ ^ self ].
+	(selectedItems includes: anItem) ifTrue: [ ^ self ].
 	selectedItems add: anItem.
-	self announce: (SpkItemSelected forItem: anItem)
+	self computeOrderedSelectedItems.
+	self announce: (SpkItemSelected
+			 forItem: anItem
+			 index: (self selectionIndexOf: anItem))
 ]
 
 { #category : 'accessing' }
 SpkClickyList >> selectedItems [
 	^ selectedItems
+]
+
+{ #category : 'private' }
+SpkClickyList >> selectionIndexOf: anItem [
+	^ orderedSelectedItems
+		  indexOf: anItem
+		  ifAbsent: [ self error: 'Item is not selected' ]
 ]

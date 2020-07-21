@@ -1,3 +1,6 @@
+"
+To find users of this class, browse references to #SpkListAdapter.
+"
 Class {
 	#name : 'SpMorphicSpkListAdapter',
 	#superclass : 'SpMorphicListAdapter',

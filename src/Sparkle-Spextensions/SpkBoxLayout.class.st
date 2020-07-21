@@ -13,6 +13,12 @@ Class {
 	#category : 'Sparkle-Spextensions-Spec2'
 }
 
+{ #category : 'specs' }
+SpkBoxLayout class >> adapterName [
+
+	^ #SpkOrderedAdapter
+]
+
 { #category : 'adding' }
 SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 	self

@@ -23,10 +23,10 @@ SpkListAndPanesPresenter class >> defaultSpec [
 
 { #category : 'adding' }
 SpkListAndPanesPresenter >> addPaneFor: anItem beforeIndex: anInteger [
-	| presenter |
-	presenter := anItem asPresenter.
-	presenter owner: self.
-	stackLayout add: anItem asPresenter beforeIndex: anInteger
+	| itemPresenter |
+	itemPresenter := anItem asPresenter.
+	itemPresenter owner: self.
+	stackLayout add: itemPresenter beforeIndex: anInteger
 ]
 
 { #category : 'model interaction' }

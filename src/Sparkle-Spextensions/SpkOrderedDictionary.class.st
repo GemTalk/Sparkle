@@ -90,6 +90,11 @@ SpkOrderedDictionary >> remove: aKey ifAbsent: anExceptionBlock [
 	^ elements removeAt: index
 ]
 
+{ #category : 'removing' }
+SpkOrderedDictionary >> removeAtIndex: anInteger [
+	^ elements removeAt: anInteger
+]
+
 { #category : 'accessing' }
 SpkOrderedDictionary >> size [
 	^ elements size

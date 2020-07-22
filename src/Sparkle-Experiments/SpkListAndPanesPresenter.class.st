@@ -21,7 +21,7 @@ SpkListAndPanesPresenter class >> defaultSpec [
 	self error: '#defaultSpec sent when not expected'
 ]
 
-{ #category : 'adding' }
+{ #category : 'adding/removing panes' }
 SpkListAndPanesPresenter >> addPaneFor: anItem beforeIndex: anInteger [
 	| itemPresenter |
 	itemPresenter := anItem asPresenter.
@@ -53,6 +53,13 @@ SpkListAndPanesPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'selection' }
+SpkListAndPanesPresenter >> itemDeselected: announcement [
+	"This is sent by the model when a previously selected item becomes unselected."
+
+	self removePaneFor: announcement item atIndex: announcement index
+]
+
+{ #category : 'selection' }
 SpkListAndPanesPresenter >> itemSelected: announcement [
 	"This is sent by the model when a previously unselected item becomes selected."
 
@@ -68,6 +75,11 @@ SpkListAndPanesPresenter >> layout [
 			                  yourself ]
 ]
 
+{ #category : 'adding/removing panes' }
+SpkListAndPanesPresenter >> removePaneFor: anItem atIndex: anInteger [
+	stackLayout removePresenterAtIndex: anInteger
+]
+
 { #category : 'accessing model' }
 SpkListAndPanesPresenter >> setModelBeforeInitialization: aDomainObject [
 	model := aDomainObject
@@ -76,7 +88,7 @@ SpkListAndPanesPresenter >> setModelBeforeInitialization: aDomainObject [
 { #category : 'accessing' }
 SpkListAndPanesPresenter >> stackLayout [
 	^ stackLayout ifNil: [ 
-		  stackLayout := SpkBoxLayout newVertical
+		  stackLayout := SpkOrderedBoxLayout newVertical
 			                 borderWidth: 3;
 			                 spacing: 10;
 			                 yourself ]

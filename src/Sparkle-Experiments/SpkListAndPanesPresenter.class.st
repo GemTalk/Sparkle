@@ -88,7 +88,7 @@ SpkListAndPanesPresenter >> setModelBeforeInitialization: aDomainObject [
 { #category : 'accessing' }
 SpkListAndPanesPresenter >> stackLayout [
 	^ stackLayout ifNil: [ 
-		  stackLayout := SpkOrderedBoxLayout newVertical
+		  stackLayout := SpkAccordianLayout newVertical
 			                 borderWidth: 3;
 			                 spacing: 10;
 			                 yourself ]

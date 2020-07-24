@@ -8,18 +8,18 @@ insert: aNameOrPresenter atIndex: newIndex
 
 "
 Class {
-	#name : 'SpkOrderedBoxLayout',
+	#name : 'SpkAccordianLayout',
 	#superclass : 'SpBoxLayout',
 	#category : 'Sparkle-Spextensions-Spec2'
 }
 
 { #category : 'private' }
-SpkOrderedBoxLayout >> adapterName [
-	^ #SpkOrderedBoxAdapter
+SpkAccordianLayout >> adapterName [
+	^ #SpkAccordianAdapter
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
+SpkAccordianLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 	self
 		add: aNameOrPresenter
 		withConstraints: [ :constraints |  ]
@@ -27,7 +27,7 @@ SpkOrderedBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInteger [
+SpkAccordianLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInteger [
 	| constraints |
 	constraints := self constraintsClass new.
 	aBlock value: constraints.
@@ -36,7 +36,7 @@ SpkOrderedBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> announceChildAdded: aNameOrPresenter beforeIndex: anInteger [
+SpkAccordianLayout >> announceChildAdded: aNameOrPresenter beforeIndex: anInteger [
 	self presenter ifNotNil: [ 
 		self announcer announce: (SpkChildAdded new
 				 child: aNameOrPresenter;
@@ -45,7 +45,7 @@ SpkOrderedBoxLayout >> announceChildAdded: aNameOrPresenter beforeIndex: anInteg
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> announceChildRemoved: aNameOrPresenter atIndex: anInteger [
+SpkAccordianLayout >> announceChildRemoved: aNameOrPresenter atIndex: anInteger [
 	self presenter ifNotNil: [ 
 		self announcer announce: (SpkChildRemoved new
 				 child: aNameOrPresenter;
@@ -54,27 +54,27 @@ SpkOrderedBoxLayout >> announceChildRemoved: aNameOrPresenter atIndex: anInteger
 ]
 
 { #category : 'initialization' }
-SpkOrderedBoxLayout >> initialize [
+SpkAccordianLayout >> initialize [
 	super initialize.
 	children := SpkOrderedDictionary new
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> removePresenterAtIndex: anInteger [
+SpkAccordianLayout >> removePresenterAtIndex: anInteger [
 	| association |
 	association := children removeAtIndex: anInteger.
 	self announceChildRemoved: association key atIndex: anInteger
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> whenChildrenAddedDo: aBlock [
+SpkAccordianLayout >> whenChildrenAddedDo: aBlock [
 	"It's really *one* child that has been added, sigh."
 
 	self announcer when: SpkChildAdded do: aBlock
 ]
 
 { #category : 'adding/removing presenters' }
-SpkOrderedBoxLayout >> whenChildrenRemovedDo: aBlock [
+SpkAccordianLayout >> whenChildrenRemovedDo: aBlock [
 	"It's really *one* child that has been removed, sigh."
 
 	self announcer when: SpkChildRemoved do: aBlock

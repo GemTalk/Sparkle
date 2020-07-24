@@ -4,7 +4,7 @@ To find references to this class, browse references to #SpkOrderedBoxAdapter.
 This class is an adapter for a layout like a box layout but with the ability to insert presenters between existing presenters, and remove a presenter at any index.
 "
 Class {
-	#name : 'SpMorphicSpkOrderedBoxAdapter',
+	#name : 'SpMorphicSpkAccordianAdapter',
 	#superclass : 'SpMorphicLayoutAdapter',
 	#instVars : [
 		'layout'
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : 'factory' }
-SpMorphicSpkOrderedBoxAdapter >> add: aPresenter constraints: constraints beforeIndex: anInteger [
+SpMorphicSpkAccordianAdapter >> add: aPresenter constraints: constraints beforeIndex: anInteger [
 	self widgetDo: [ :aPanel | 
 		self
 			basicAdd: aPresenter
@@ -23,7 +23,7 @@ SpMorphicSpkOrderedBoxAdapter >> add: aPresenter constraints: constraints before
 ]
 
 { #category : 'private' }
-SpMorphicSpkOrderedBoxAdapter >> addConstraits: constraints toChild: childMorph [
+SpMorphicSpkAccordianAdapter >> addConstraits: constraints toChild: childMorph [
 	"adds constraits by child"
 
 	| theMorph |
@@ -50,13 +50,13 @@ SpMorphicSpkOrderedBoxAdapter >> addConstraits: constraints toChild: childMorph 
 ]
 
 { #category : 'private' }
-SpMorphicSpkOrderedBoxAdapter >> addPadding: aNumber toMorph: aMorph [
+SpMorphicSpkAccordianAdapter >> addPadding: aNumber toMorph: aMorph [
 	aNumber = 0 ifTrue: [ ^ aMorph ].
 	^ layout direction addPadding: aNumber toMorph: aMorph into: self
 ]
 
 { #category : 'private' }
-SpMorphicSpkOrderedBoxAdapter >> applyAlignmentTo: aWidget [
+SpMorphicSpkAccordianAdapter >> applyAlignmentTo: aWidget [
 	| alignmentWidget |
 	aWidget
 		changeTableLayout;
@@ -81,12 +81,12 @@ SpMorphicSpkOrderedBoxAdapter >> applyAlignmentTo: aWidget [
 ]
 
 { #category : 'private' }
-SpMorphicSpkOrderedBoxAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
+SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
 	self shouldNotImplement
 ]
 
 { #category : 'private' }
-SpMorphicSpkOrderedBoxAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: anInteger [
+SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: anInteger [
 	| childMorph |
 	childMorph := self buildMorph: aPresenter constraints: constraints.
 	aPanel extent: (aPanel width max: childMorph width)
@@ -96,12 +96,12 @@ SpMorphicSpkOrderedBoxAdapter >> basicAdd: aPresenter constraints: constraints t
 ]
 
 { #category : 'accessing' }
-SpMorphicSpkOrderedBoxAdapter >> children [
+SpMorphicSpkAccordianAdapter >> children [
 	^ widget submorphs
 ]
 
 { #category : 'factory' }
-SpMorphicSpkOrderedBoxAdapter >> layout: aLayout [
+SpMorphicSpkAccordianAdapter >> layout: aLayout [
 	layout := aLayout.
 	widget ifNil: [ "build of widget was differed up to here (to know what is the direction)"
 		widget := aLayout direction newWidgetOn: self.
@@ -121,13 +121,13 @@ SpMorphicSpkOrderedBoxAdapter >> layout: aLayout [
 ]
 
 { #category : 'factory' }
-SpMorphicSpkOrderedBoxAdapter >> newVertical [
+SpMorphicSpkAccordianAdapter >> newVertical [
 	^ self newPanel
 		  listDirection: #topToBottom;
 		  yourself
 ]
 
 { #category : 'removing' }
-SpMorphicSpkOrderedBoxAdapter >> removeChild: aPresenter atIndex: anInteger [
+SpMorphicSpkAccordianAdapter >> removeChild: aPresenter atIndex: anInteger [
 	widget removeMorph: (widget allMorphs at: anInteger)
 ]

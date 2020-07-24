@@ -24,7 +24,7 @@ SpkListAndPanesPresenter class >> defaultSpec [
 { #category : 'adding/removing panes' }
 SpkListAndPanesPresenter >> addPaneFor: anItem beforeIndex: anInteger [
 	| itemPresenter |
-	itemPresenter := anItem asPresenter.
+	itemPresenter := self presenterForItem: anItem.
 	itemPresenter owner: self.
 	stackLayout add: itemPresenter beforeIndex: anInteger
 ]
@@ -75,6 +75,13 @@ SpkListAndPanesPresenter >> layout [
 			                  yourself ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkListAndPanesPresenter >> presenterForItem: anItem [
+	"At this point, items are just strings."
+
+	^ self newText text: anItem
+]
+
 { #category : 'adding/removing panes' }
 SpkListAndPanesPresenter >> removePaneFor: anItem atIndex: anInteger [
 	stackLayout removePresenterAtIndex: anInteger
@@ -89,7 +96,6 @@ SpkListAndPanesPresenter >> setModelBeforeInitialization: aDomainObject [
 SpkListAndPanesPresenter >> stackLayout [
 	^ stackLayout ifNil: [ 
 		  stackLayout := SpkAccordianLayout newVertical
-			                 borderWidth: 3;
-			                 spacing: 10;
+			                 spacing: 2;
 			                 yourself ]
 ]

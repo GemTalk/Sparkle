@@ -129,5 +129,5 @@ SpMorphicSpkAccordianAdapter >> newVertical [
 
 { #category : 'removing' }
 SpMorphicSpkAccordianAdapter >> removeChild: aPresenter atIndex: anInteger [
-	widget removeMorph: (widget allMorphs at: anInteger)
+	widget removeMorph: (widget submorphs at: anInteger)
 ]

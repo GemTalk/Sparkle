@@ -9,21 +9,24 @@ BaselineOfSparkle >> baseline: spec [
 	<baseline>
 	spec for: #pharo do: [ 
 		spec
+			package: 'Sparkle-Tools-Common';
+			package: 'Sparkle-Tools-Pharo'
+			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Services-Common'
 			with: [ spec requires: 'RemoteServiceReplication' ];
-			package: 'Sparkle-Services-Pharo'
+			package: 'Sparkle-Services-PharoClient'
 			with: [ spec requires: #( 'Sparkle-Services-Common' ) ];
-			package: 'Sparkle-Tools-Common'
-			with: [ spec requires: #( 'Sparkle-Services-Pharo' ) ];
-			package: 'Sparkle-Presenters'
-			with: [ spec requires: #( 'Sparkle-Tools-Common' ) ];
-			package: 'Sparkle-Application'
-			with: [ spec requires: #( 'Sparkle-Presenters' ) ];
+			package: 'Sparkle-Services-PharoServer'
+			with: [ spec requires: #( 'Sparkle-Services-Common' ) ];
+			package: 'Sparkle-Presenters' with: [ 
+				spec requires:
+						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient' ) ];
+			package: 'Sparkle-Application';
 			package: 'Sparkle-Test'
-			with: [ spec requires: #( 'Sparkle-Application' ) ];
+			with: [ spec requires: #( 'Sparkle-Presenters' ) ];
 			package: 'Sparkle-Spextensions';
 			package: 'Sparkle-Experiments'
-			with: [ spec requires: #( 'Sparkle-Test' 'Sparkle-Spextensions' ) ].
+			with: [ spec requires: #( 'Sparkle-Spextensions' ) ].
 		spec
 			baseline: 'RemoteServiceReplication'
 			with: [ spec repository: self rsrUrl ] ]

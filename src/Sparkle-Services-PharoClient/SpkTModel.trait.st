@@ -1,6 +1,13 @@
+"
+A trait for Sparkle models that cannot inherit from Model, especially RSR services.
+Allows classes to have subscribers and send announcements to them.
+
+Requirements for use:
+Define an instance variable _announcer, and create accessors for it.
+"
 Trait {
 	#name : 'SpkTModel',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Services-PharoClient'
 }
 
 { #category : 'accessing' }

@@ -75,7 +75,7 @@ SpkListAndPanesPresenter >> layout [
 			                  yourself ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'selection' }
 SpkListAndPanesPresenter >> presenterForItem: anItem [
 	"At this point, items are just strings."
 

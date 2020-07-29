@@ -35,6 +35,11 @@ SpkAccordianLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex:
 	self announceChildAdded: aNameOrPresenter beforeIndex: anInteger
 ]
 
+{ #category : 'adding' }
+SpkAccordianLayout >> addLast: aPresenterOrName [
+	self add: aPresenterOrName beforeIndex: children size + 1
+]
+
 { #category : 'adding/removing presenters' }
 SpkAccordianLayout >> announceChildAdded: aNameOrPresenter beforeIndex: anInteger [
 	self presenter ifNotNil: [ 

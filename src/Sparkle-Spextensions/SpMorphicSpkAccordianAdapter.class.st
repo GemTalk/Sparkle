@@ -82,7 +82,14 @@ SpMorphicSpkAccordianAdapter >> applyAlignmentTo: aWidget [
 
 { #category : 'private' }
 SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
-	self shouldNotImplement
+	"Normally should use #basicAdd:constraints:to:beforeIndex:.
+	But this message is sent when first building a non-empty adapter."
+
+	self
+		basicAdd: aPresenter
+		constraints: constraints
+		to: aPanel
+		beforeIndex: widget submorphs size + 1
 ]
 
 { #category : 'private' }
@@ -118,6 +125,13 @@ SpMorphicSpkAccordianAdapter >> layout: aLayout [
 			beforeIndex: ann index ].
 	aLayout whenChildrenRemovedDo: [ :ann | self removeChild: ann child atIndex: ann index].
 	super layout: aLayout
+]
+
+{ #category : 'factory' }
+SpMorphicSpkAccordianAdapter >> newHorizontal [
+	^ self newPanel
+		  listDirection: #leftToRight;
+		  yourself
 ]
 
 { #category : 'factory' }

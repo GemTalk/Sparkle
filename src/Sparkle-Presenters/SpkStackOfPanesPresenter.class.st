@@ -16,6 +16,11 @@ SpkStackOfPanesPresenter class >> defaultSpec [
 	self error: '#defaultSpec sent when not expected'
 ]
 
+{ #category : 'adding' }
+SpkStackOfPanesPresenter >> add: aPane beforeIndex: index [
+	self layout add: aPane beforeIndex: index
+]
+
 { #category : 'accessing' }
 SpkStackOfPanesPresenter >> layout [
 	^ stackLayout ifNil: [ stackLayout := SpkAccordianLayout newVertical ]

@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkWorkspacePresenter',
 	#superclass : 'SpkColumnsPresenter',
+	#instVars : [
+		'codePresenter'
+	],
 	#category : 'Sparkle-Presenters'
 }
 
@@ -13,21 +16,18 @@ SpkWorkspacePresenter class >> defaultSpec [
 ]
 
 { #category : 'TOREMOVE' }
-SpkWorkspacePresenter >> aboutText [
-	^ 'The Sparkle object explorer is part of the Pharo IDE for GemStone, 
-a set of tools for developing GemStone code via a remote connection from Pharo.
-
-Enter code in the leftmost column. Accept to evaluate the code and inspect the result.'
-]
-
-{ #category : 'TOREMOVE' }
 SpkWorkspacePresenter >> aboutTitle [
+	"Unlike other window properties, at the time of this writing this property cannot be set in 	#initializeWindow. If that changes in the future this should be moved."
+
 	^ 'the Sparkle Object Explorer'
 ]
 
-{ #category : 'TOREMOVE' }
-SpkWorkspacePresenter >> initialExtent [
-	^ 500 @ 500
+{ #category : 'adding' }
+SpkWorkspacePresenter >> addInitialEvaluator [
+	| evaluatorPane |
+	evaluatorPane := self newCode.
+	evaluatorPane owner: self.
+	(self columnAt: 1) add: evaluatorPane beforeIndex: 1 "The column is empty at this point, so 1 is the only possible index to be before."
 ]
 
 { #category : 'initialization' }
@@ -38,7 +38,7 @@ SpkWorkspacePresenter >> initializePresenters [
 		addInitialEvaluator
 ]
 
-{ #category : 'initialization' }
-SpkWorkspacePresenter >> title [
-	^ 'Sparkle Object Explorer'
+{ #category : 'instance creation' }
+SpkWorkspacePresenter >> newCode [
+	^ self instantiate: SpkCodePane
 ]

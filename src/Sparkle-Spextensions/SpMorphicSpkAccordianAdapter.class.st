@@ -1,5 +1,5 @@
 "
-To find references to this class, browse references to #SpkOrderedBoxAdapter.
+To find references to this class, browse references to #SpkAccordianAdapter.
 
 This class is an adapter for a layout like a box layout but with the ability to insert presenters between existing presenters, and remove a presenter at any index.
 "

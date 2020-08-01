@@ -40,5 +40,5 @@ SpkWorkspacePresenter >> initializePresenters [
 
 { #category : 'instance creation' }
 SpkWorkspacePresenter >> newCode [
-	^ self instantiate: SpkCodePane
+	^ self instantiate: SpkEvaluatorPane
 ]

@@ -8,3 +8,18 @@ Class {
 	#superclass : 'SpkCodePane',
 	#category : 'Sparkle-Presenters'
 }
+
+{ #category : 'initialization' }
+SpkEvaluatorPane >> initializePresenters [
+	super initializePresenters.
+	codePresenter placeholder:
+		'Enter code here and accept to evaluate it and inspect the result.'.
+	paneLabel label: 'Evaluator'
+]
+
+{ #category : 'layout' }
+SpkEvaluatorPane >> paneLabel [
+	^ self newLabel
+		  label: 'Evaluator';
+		  yourself
+]

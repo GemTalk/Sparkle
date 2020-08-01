@@ -34,6 +34,12 @@ BaselineOfSparkle >> baseline: spec [
 			with: [ spec repository: self rsrUrl ] ]
 ]
 
+{ #category : 'actions' }
+BaselineOfSparkle >> postload: loader package: packageSpec [
+
+	self halt.
+]
+
 { #category : 'baselines' }
 BaselineOfSparkle >> rsrUrl [
 	| projectsHome |

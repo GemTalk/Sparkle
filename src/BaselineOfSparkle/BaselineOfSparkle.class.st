@@ -9,6 +9,7 @@ BaselineOfSparkle >> baseline: spec [
 	<baseline>
 	spec for: #pharo do: [ 
 		spec
+			postLoadDoIt: #postload:package:;
 			package: 'Sparkle-Tools-Common';
 			package: 'Sparkle-Tools-Pharo'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'string'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Experiments'
 }
 
 { #category : 'accessing' }

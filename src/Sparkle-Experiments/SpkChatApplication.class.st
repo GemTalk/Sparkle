@@ -4,7 +4,7 @@ Initial entry point and coordinator for Sparkle
 Class {
 	#name : 'SpkChatApplication',
 	#superclass : 'SpkApplication',
-	#category : 'Sparkle-Application'
+	#category : 'Sparkle-Experiments'
 }
 
 { #category : 'activation' }

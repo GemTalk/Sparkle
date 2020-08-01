@@ -8,7 +8,7 @@ Class {
 		'startServerButton',
 		'clientService'
 	],
-	#category : 'Sparkle-Application'
+	#category : 'Sparkle-Experiments'
 }
 
 { #category : 'specs' }

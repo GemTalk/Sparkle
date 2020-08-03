@@ -37,8 +37,14 @@ BaselineOfSparkle >> baseline: spec [
 
 { #category : 'actions' }
 BaselineOfSparkle >> postload: loader package: packageSpec [
-
-	self halt.
+	| repositoriesSpec map urlString |
+	repositoriesSpec := packageSpec repositories.
+	map := repositoriesSpec map.
+	map size = 1 ifFalse: [ 
+		self error:
+			'Expected Sparkle baseline load to come from exactly one repository' ].
+	urlString := map keys first.
+	SpkIconLibrary loadFromLocalSrcUrlString: urlString
 ]
 
 { #category : 'baselines' }

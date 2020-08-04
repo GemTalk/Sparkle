@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkColumnsPresenter',
-	#superclass : 'SpPresenter',
+	#superclass : 'SpkPresenter',
 	#instVars : [
 		'columns',
 		'columnLayout'

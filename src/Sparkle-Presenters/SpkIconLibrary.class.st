@@ -15,7 +15,12 @@ Class {
 	#category : 'Sparkle-Presenters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
+SpkIconLibrary class >> current [
+	^ Current
+]
+
+{ #category : 'initialization' }
 SpkIconLibrary class >> loadFromLocalSrcUrlString: urlString [
 	"Blow away any current library and re-load from a local filesystem path.
 	urlString is of the form 'gitlocal://<path>/src'
@@ -28,6 +33,13 @@ SpkIconLibrary class >> loadFromLocalSrcUrlString: urlString [
 	pathString := urlString copyFrom: startIndex to: endIndex.
 	Current := self new.
 	Current initializeFromDirectory: pathString
+]
+
+{ #category : 'accessing' }
+SpkIconLibrary >> iconNamed: aSymbol [
+	^ icons
+		  at: aSymbol
+		  ifAbsent: [ Smalltalk ui icons iconNamed: aSymbol ]
 ]
 
 { #category : 'initialization' }

@@ -24,10 +24,16 @@ SpkWorkspacePresenter >> aboutTitle [
 
 { #category : 'adding' }
 SpkWorkspacePresenter >> addInitialEvaluator [
-	| evaluatorPane |
+	| leftColumn evaluatorPane addEvaluatorButton |
+	leftColumn := self columnAt: 1.
 	evaluatorPane := self newCode.
 	evaluatorPane owner: self.
-	(self columnAt: 1) add: evaluatorPane beforeIndex: 1 "The column is empty at this point, so 1 is the only possible index to be before."
+	addEvaluatorButton := self newAddEvaluatorButton.
+	addEvaluatorButton owner: self.
+	"The column is empty at this point."
+	leftColumn
+		add: addEvaluatorButton beforeIndex: 1;
+		add: evaluatorPane beforeIndex: 1
 ]
 
 { #category : 'initialization' }
@@ -36,6 +42,13 @@ SpkWorkspacePresenter >> initializePresenters [
 		addColumn;
 		addColumn;
 		addInitialEvaluator
+]
+
+{ #category : 'initialization' }
+SpkWorkspacePresenter >> newAddEvaluatorButton [
+	^ self newButton
+		  icon: (self iconNamed: #addEvaluator24);
+		  yourself
 ]
 
 { #category : 'instance creation' }

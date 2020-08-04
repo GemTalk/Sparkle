@@ -9,6 +9,11 @@ Class {
 	#category : 'Sparkle-Presenters'
 }
 
+{ #category : 'accessing colors' }
+SpkEvaluatorPane >> headerColor [
+	^ Color fromHexString: '2f5531'
+]
+
 { #category : 'initialization' }
 SpkEvaluatorPane >> initializePresenters [
 	super initializePresenters.
@@ -22,4 +27,9 @@ SpkEvaluatorPane >> paneLabel [
 	^ self newLabel
 		  label: 'Evaluator';
 		  yourself
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorPane >> paneMenuTitle [
+	^ ''
 ]

@@ -16,6 +16,11 @@ SpkApplication class >> open [
 		yourself
 ]
 
+{ #category : 'initialization' }
+SpkApplication >> initialize [
+	iconManager := SpkIconLibrary current
+]
+
 { #category : 'running' }
 SpkApplication >> start [
 	self subclassResponsibility

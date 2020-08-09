@@ -29,7 +29,7 @@ SpkPane class >> headerColor [
 { #category : 'values' }
 SpkPane class >> headerHeight [
 
-	^ 50
+	^ 30
 ]
 
 { #category : 'layout' }
@@ -39,8 +39,8 @@ SpkPane class >> headerLayout [
 		  color: self headerColor;
 		  add: #paneIcon width: 24;
 		  add: (SpkBoxLayout newHorizontal
-				   vAlignCenter;
-				   hAlignEnd;
+				   hAlignCenter;
+				   vAlignEnd;
 				   add: #paneLabel withConstraints: [ :constraints | 
 					   constraints
 						   fill: false;

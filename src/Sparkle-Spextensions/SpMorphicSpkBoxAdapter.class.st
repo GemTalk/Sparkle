@@ -103,15 +103,15 @@ SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
 	layout isVertical
 		ifTrue: [ 
 			alignmentWidget listDirection: #topToBottom.
-			layout vAlign ifNotNil: [ :align | 
-				alignmentWidget wrapCentering: align asMorphicAlign ].
 			layout hAlign ifNotNil: [ :align | 
+				alignmentWidget wrapCentering: align asMorphicAlign ].
+			layout vAlign ifNotNil: [ :align | 
 				alignmentWidget listCentering: align asMorphicAlign ] ]
 		ifFalse: [ 
 			alignmentWidget listDirection: #leftToRight.
-			layout vAlign ifNotNil: [ :align | 
-				alignmentWidget listCentering: align asMorphicAlign ].
 			layout hAlign ifNotNil: [ :align | 
+				alignmentWidget listCentering: align asMorphicAlign ].
+			layout vAlign ifNotNil: [ :align | 
 				alignmentWidget wrapCentering: align asMorphicAlign ] ].
 	^ alignmentWidget
 ]

@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'accessing colors' }
-SpkEvaluatorPane >> headerColor [
+SpkEvaluatorPane class >> headerColor [
 	^ Color fromHexString: '2f5531'
 ]
 
@@ -18,7 +18,7 @@ SpkEvaluatorPane >> headerColor [
 SpkEvaluatorPane >> initializePresenters [
 	super initializePresenters.
 	codePresenter placeholder:
-		'Enter code here and accept to evaluate it and inspect the result.'.
+		'Accept to evaluate code typed here.'.
 	paneLabel label: 'Evaluator'
 ]
 

@@ -51,6 +51,20 @@ SpkOrderedDictionary >> at: aPresenter [
 	^ association value
 ]
 
+{ #category : 'accessing' }
+SpkOrderedDictionary >> at: aKey put: aValue [
+
+	"If I include aKey, replace the value keeping the key's position in my order.
+	If aKey is new, append it."
+
+	| association |
+	association := elements at: (self identityIndexOf: aKey ifAbsent: [ 
+			                elements add: aKey -> aValue.
+			                ^ aValue ]).
+	association value: aValue.
+	^ aValue
+]
+
 { #category : 'enumerating' }
 SpkOrderedDictionary >> do: aBlock [
 	"Evaluate aBlock with each of the receiver's elements as the argument."

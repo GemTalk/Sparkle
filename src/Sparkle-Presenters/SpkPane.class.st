@@ -21,37 +21,44 @@ SpkPane class >> defaultSpec [
 		  yourself
 ]
 
+{ #category : 'accessing colors' }
+SpkPane class >> headerColor [
+	self subclassResponsibility
+]
+
 { #category : 'values' }
 SpkPane class >> headerHeight [
-	^20
+
+	^ 50
 ]
 
 { #category : 'layout' }
 SpkPane class >> headerLayout [
-	^ SpBoxLayout newHorizontal
-		  add: #paneIcon width: 16;
-		  add: #paneLabel;
-		  add: #paneMenu width: 20;
-		  yourself
-]
 
-{ #category : 'accessing colors' }
-SpkPane >> headerColor [
-	self subclassResponsibility
+	^ SpkBoxLayout newHorizontal
+		  color: self headerColor;
+		  add: #paneIcon width: 24;
+		  add: (SpkBoxLayout newHorizontal
+				   vAlignCenter;
+				   hAlignEnd;
+				   add: #paneLabel withConstraints: [ :constraints | 
+					   constraints
+						   fill: false;
+						   yourself ];
+				   yourself);
+		  add: #paneMenu width: 50;
+		  yourself
 ]
 
 { #category : 'initialization' }
 SpkPane >> initializePresenters [
+
 	paneIcon := self newImage
 		            image: (self iconNamed: #glamorousGrayCircleEmpty);
-		            color: self headerColor;
 		            yourself.
-	paneLabel := self newLabel
-		             color: self headerColor;
-		             yourself.
+	paneLabel := self newLabel.
 	paneMenu := self newMenuButton
 		            icon: (self iconNamed: #hamburgerWhite16);
-		            color: self headerColor;
 		            yourself
 ]
 

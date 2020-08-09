@@ -8,3 +8,9 @@ Class {
 SpkPresenter >> iconNamed: aSymbol [
 	^ self application iconNamed: aSymbol
 ]
+
+{ #category : 'widgets' }
+SpkPresenter >> newLabel [
+
+	^ self instantiate: SpkLabelPresenter
+]

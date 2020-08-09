@@ -4,7 +4,7 @@ To find references to this class, browse references to #SpkAccordianAdapter.
 This class is an adapter for a layout like a box layout but with the ability to insert presenters between existing presenters, and remove a presenter at any index.
 "
 Class {
-	#name : 'SpMorphicSpkAccordianAdapter',
+	#name : 'SpMorphicSpkBoxAdapter',
 	#superclass : 'SpMorphicLayoutAdapter',
 	#instVars : [
 		'layout'
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : 'factory' }
-SpMorphicSpkAccordianAdapter >> add: aPresenter constraints: constraints beforeIndex: anInteger [
+SpMorphicSpkBoxAdapter >> add: aPresenter constraints: constraints beforeIndex: anInteger [
 	self widgetDo: [ :aPanel | 
 		self
 			basicAdd: aPresenter
@@ -23,40 +23,74 @@ SpMorphicSpkAccordianAdapter >> add: aPresenter constraints: constraints beforeI
 ]
 
 { #category : 'private' }
-SpMorphicSpkAccordianAdapter >> addConstraits: constraints toChild: childMorph [
-	"adds constraits by child"
+SpMorphicSpkBoxAdapter >> addConstraits: constraints toChild: childMorph [
 
-	| theMorph |
+	"adds constraints by child"
+
+	| theMorph defaultSizing |
 	theMorph := self addPadding: constraints padding toMorph: childMorph.
-	constraints isExpand
-		ifTrue: [ "if is not 'fill', in fact I need to pad it with another (since it 'expands', 
-			 but does not 'fills')"
-			constraints isFill ifFalse: [ 
-				theMorph
-					hResizing: #rigid;
-					vResizing: #rigid.
-				theMorph := self newPanel
-					            addMorphBack: theMorph;
-					            yourself ].
-			"Set to fill"
-			theMorph
-				hResizing: #spaceFill;
-				vResizing: #spaceFill ]
-		ifFalse: [ "Set morph to stay rigid"
-			layout direction setRigidityOfNonExpandedMorph: theMorph.
-			constraints width ifNotNil: [ :w | theMorph width: w ].
-			constraints height ifNotNil: [ :h | theMorph height: h ] ].
+	defaultSizing := constraints isFill
+		                 ifTrue: [ #spaceFill ]
+		                 ifFalse: [ #shrinkWrap ].
+	layout direction isHorizontal
+		ifTrue: [ 
+			theMorph vResizing: defaultSizing.
+			constraints width
+				ifNil: [ theMorph hResizing: defaultSizing ]
+				ifNotNil: [ :w | 
+					theMorph
+						hResizing: #rigid;
+						width: w ] ]
+		ifFalse: [ 
+			theMorph hResizing: defaultSizing.
+			constraints height
+				ifNil: [ theMorph vResizing: defaultSizing ]
+				ifNotNil: [ :h | 
+					theMorph
+						vResizing: #rigid;
+						height: h ] ].
+
 	^ theMorph
 ]
 
 { #category : 'private' }
-SpMorphicSpkAccordianAdapter >> addPadding: aNumber toMorph: aMorph [
+SpMorphicSpkBoxAdapter >> addDimensionConstraints: constraints toChild: childMorph [
+
+	"Deal with only height and width here (and padding?)"
+
+	| theMorph |
+	theMorph := childMorph. "self addPadding: constraints padding toMorph:"
+
+	layout direction isHorizontal
+		ifTrue: [ 
+			theMorph vResizing: #spaceFill.
+			constraints width
+				ifNil: [ theMorph hResizing: #spaceFill ]
+				ifNotNil: [ :w | 
+					theMorph
+						hResizing: #rigid;
+						width: w ] ]
+		ifFalse: [ 
+			theMorph hResizing: #spaceFill.
+			constraints height
+				ifNil: [ theMorph vResizing: #spaceFill ]
+				ifNotNil: [ :h | 
+					theMorph
+						vResizing: #rigid;
+						height: h ] ].
+
+	^ theMorph
+]
+
+{ #category : 'private' }
+SpMorphicSpkBoxAdapter >> addPadding: aNumber toMorph: aMorph [
 	aNumber = 0 ifTrue: [ ^ aMorph ].
 	^ layout direction addPadding: aNumber toMorph: aMorph into: self
 ]
 
 { #category : 'private' }
-SpMorphicSpkAccordianAdapter >> applyAlignmentTo: aWidget [
+SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
+
 	| alignmentWidget |
 	aWidget
 		changeTableLayout;
@@ -64,15 +98,17 @@ SpMorphicSpkAccordianAdapter >> applyAlignmentTo: aWidget [
 		vResizing: #shrinkWrap.
 	alignmentWidget := Morph new
 		                   changeTableLayout;
-		                   color: Color transparent;
+		                   color: layout color;
 		                   addMorphBack: widget.
 	layout isVertical
 		ifTrue: [ 
+			alignmentWidget listDirection: #topToBottom.
 			layout vAlign ifNotNil: [ :align | 
 				alignmentWidget wrapCentering: align asMorphicAlign ].
 			layout hAlign ifNotNil: [ :align | 
 				alignmentWidget listCentering: align asMorphicAlign ] ]
 		ifFalse: [ 
+			alignmentWidget listDirection: #leftToRight.
 			layout vAlign ifNotNil: [ :align | 
 				alignmentWidget listCentering: align asMorphicAlign ].
 			layout hAlign ifNotNil: [ :align | 
@@ -81,7 +117,7 @@ SpMorphicSpkAccordianAdapter >> applyAlignmentTo: aWidget [
 ]
 
 { #category : 'private' }
-SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
+SpMorphicSpkBoxAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
 	"Normally should use #basicAdd:constraints:to:beforeIndex:.
 	But this message is sent when first building a non-empty adapter."
 
@@ -93,7 +129,7 @@ SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to
 ]
 
 { #category : 'private' }
-SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: anInteger [
+SpMorphicSpkBoxAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: anInteger [
 	| childMorph |
 	childMorph := self buildMorph: aPresenter constraints: constraints.
 	aPanel extent: (aPanel width max: childMorph width)
@@ -103,12 +139,12 @@ SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to
 ]
 
 { #category : 'accessing' }
-SpMorphicSpkAccordianAdapter >> children [
+SpMorphicSpkBoxAdapter >> children [
 	^ widget submorphs
 ]
 
 { #category : 'factory' }
-SpMorphicSpkAccordianAdapter >> layout: aLayout [
+SpMorphicSpkBoxAdapter >> layout: aLayout [
 	layout := aLayout.
 	widget ifNil: [ "build of widget was differed up to here (to know what is the direction)"
 		widget := aLayout direction newWidgetOn: self.
@@ -128,20 +164,28 @@ SpMorphicSpkAccordianAdapter >> layout: aLayout [
 ]
 
 { #category : 'factory' }
-SpMorphicSpkAccordianAdapter >> newHorizontal [
+SpMorphicSpkBoxAdapter >> newHorizontal [
 	^ self newPanel
 		  listDirection: #leftToRight;
 		  yourself
 ]
 
 { #category : 'factory' }
-SpMorphicSpkAccordianAdapter >> newVertical [
+SpMorphicSpkBoxAdapter >> newPanel [
+
+	^ super newPanel
+		  color: layout color;
+		  yourself
+]
+
+{ #category : 'factory' }
+SpMorphicSpkBoxAdapter >> newVertical [
 	^ self newPanel
 		  listDirection: #topToBottom;
 		  yourself
 ]
 
 { #category : 'removing' }
-SpMorphicSpkAccordianAdapter >> removeChild: aPresenter atIndex: anInteger [
+SpMorphicSpkBoxAdapter >> removeChild: aPresenter atIndex: anInteger [
 	widget removeMorph: (widget submorphs at: anInteger)
 ]

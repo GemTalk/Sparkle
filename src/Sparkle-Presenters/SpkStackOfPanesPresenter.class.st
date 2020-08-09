@@ -21,6 +21,15 @@ SpkStackOfPanesPresenter >> add: aPane beforeIndex: index [
 	self layout add: aPane beforeIndex: index
 ]
 
+{ #category : 'adding' }
+SpkStackOfPanesPresenter >> add: aPane withConstraints: constraints beforeIndex: index [
+
+	self layout
+		add: aPane
+		withConstraints: constraints
+		beforeIndex: index
+]
+
 { #category : 'accessing' }
 SpkStackOfPanesPresenter >> layout [
 	^ stackLayout ifNil: [ stackLayout := SpkAccordianLayout newVertical ]

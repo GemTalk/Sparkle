@@ -24,6 +24,7 @@ SpkWorkspacePresenter >> aboutTitle [
 
 { #category : 'adding' }
 SpkWorkspacePresenter >> addInitialEvaluator [
+
 	| leftColumn evaluatorPane addEvaluatorButton |
 	leftColumn := self columnAt: 1.
 	evaluatorPane := self newCode.
@@ -32,7 +33,11 @@ SpkWorkspacePresenter >> addInitialEvaluator [
 	addEvaluatorButton owner: self.
 	"The column is empty at this point."
 	leftColumn
-		add: addEvaluatorButton beforeIndex: 1;
+		add: addEvaluatorButton withConstraints: [ :constraints | 
+			constraints
+				height: 40;
+				yourself ]
+		beforeIndex: 1;
 		add: evaluatorPane beforeIndex: 1
 ]
 

@@ -51,6 +51,7 @@ SpkWorkspacePresenter >> initializePresenters [
 
 { #category : 'initialization' }
 SpkWorkspacePresenter >> newAddEvaluatorButton [
+
 	^ self newButton
 		  icon: (self iconNamed: #addEvaluator24);
 		  yourself

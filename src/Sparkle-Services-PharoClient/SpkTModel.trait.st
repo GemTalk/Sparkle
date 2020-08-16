@@ -7,6 +7,9 @@ Define an instance variable _announcer, and create accessors for it.
 "
 Trait {
 	#name : 'SpkTModel',
+	#instVars : [
+		'announcer'
+	],
 	#category : 'Sparkle-Services-PharoClient'
 }
 
@@ -17,7 +20,8 @@ SpkTModel >> announce: anAnnouncement [
 
 { #category : 'accessing' }
 SpkTModel >> announcer [
-	^ self _announcer ifNil: [ self _announcer: Announcer new ]
+
+	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : 'accessing' }

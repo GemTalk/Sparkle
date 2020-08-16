@@ -1,3 +1,8 @@
+"
+Abstract superclass for Sparkle presenters.
+
+Provides various overrides of default Spec2 behavior to add or modify functionality.
+"
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',

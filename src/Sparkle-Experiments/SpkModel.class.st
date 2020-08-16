@@ -7,22 +7,5 @@ Class {
 	#superclass : 'Object',
 	#traits : 'SpkTModel',
 	#classTraits : 'SpkTModel classTrait',
-	#instVars : [
-		'announcer'
-	],
 	#category : 'Sparkle-Experiments'
 }
-
-{ #category : 'private' }
-SpkModel >> _announcer [
-	"Private"
-
-	^ announcer
-]
-
-{ #category : 'private' }
-SpkModel >> _announcer: anObject [
-	"Private"
-
-	^ announcer := anObject
-]

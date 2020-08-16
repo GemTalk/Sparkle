@@ -1,7 +1,7 @@
 "
 I am an abstract superclass for presenting panes in the Sparkle GUI.
 
-I class take most of the responsibility for formatting the pane header, which is common between different kinds of panes, which are my subclasses.
+I take most of the responsibility for formatting the pane header, which is common between different kinds of panes, which are my subclasses.
 "
 Class {
 	#name : 'SpkPane',
@@ -29,7 +29,7 @@ SpkPane class >> headerColor [
 { #category : 'values' }
 SpkPane class >> headerHeight [
 
-	^ 30
+	^ 24
 ]
 
 { #category : 'layout' }
@@ -37,7 +37,7 @@ SpkPane class >> headerLayout [
 
 	^ SpkBoxLayout newHorizontal
 		  color: self headerColor;
-		  add: #paneIcon width: 24;
+		  add: #paneIcon width: 16;
 		  add: (SpkBoxLayout newHorizontal
 				   hAlignCenter;
 				   vAlignEnd;
@@ -46,7 +46,7 @@ SpkPane class >> headerLayout [
 						   fill: false;
 						   yourself ];
 				   yourself);
-		  add: #paneMenu width: 50;
+		  add: #paneMenu width: 24;
 		  yourself
 ]
 
@@ -57,10 +57,17 @@ SpkPane >> initializePresenters [
 		            image: (self iconNamed: #glamorousGrayCircleEmpty);
 		            yourself.
 	paneLabel := self newLabel.
-	paneMenu := self newMenuButton
-		            icon: (self iconNamed: #hamburgerWhite16);
+	paneMenu := self newButton
 		            color: Color transparent;
+		            contextMenu: self newPaneMenu;
+		            icon: (self iconNamed: #hamburgerWhite16);
 		            yourself
+]
+
+{ #category : 'instance creation' }
+SpkPane >> newPaneMenu [
+
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }

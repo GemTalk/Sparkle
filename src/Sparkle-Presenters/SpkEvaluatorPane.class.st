@@ -1,7 +1,7 @@
 "
 I am a concrete class.
 
-My purpose is to display and handle a code snippet that is (hopefull) executable, but is not a method in that it doesn't have a message pattern like a full method would.
+My purpose is to display and handle a code snippet that is (hopefully) executable, but is not a method in that it doesn't have a message pattern like a full method would.
 "
 Class {
 	#name : 'SpkEvaluatorPane',
@@ -22,14 +22,29 @@ SpkEvaluatorPane >> initializePresenters [
 	paneLabel label: 'Evaluator'
 ]
 
+{ #category : 'instance creation' }
+SpkEvaluatorPane >> newPaneMenu [
+
+	^ self newMenu
+		  addGroup: [ :group | 
+			  group
+				  addItem: [ :item | 
+					  item
+						  name: 'a Thing';
+						  icon: (self iconNamed: #addEvaluator24);
+						  action: [ self inform: 'a Thing' ];
+						  yourself ];
+				  addItem: [ :item | 
+					  item
+						  name: '''nother Thing';
+						  action: [ self inform: '''nother Thing' ];
+						  yourself ] ];
+		  yourself
+]
+
 { #category : 'layout' }
 SpkEvaluatorPane >> paneLabel [
 	^ self newLabel
 		  label: 'Evaluator';
 		  yourself
-]
-
-{ #category : 'as yet unclassified' }
-SpkEvaluatorPane >> paneMenuTitle [
-	^ ''
 ]

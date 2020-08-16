@@ -54,6 +54,7 @@ SpkWorkspacePresenter >> newAddEvaluatorButton [
 
 	^ self newButton
 		  icon: (self iconNamed: #addEvaluator24);
+		  help: 'Add Evaluator';
 		  yourself
 ]
 

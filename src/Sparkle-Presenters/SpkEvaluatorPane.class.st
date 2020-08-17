@@ -15,10 +15,23 @@ SpkEvaluatorPane class >> headerColor [
 ]
 
 { #category : 'initialization' }
+SpkEvaluatorPane >> connectPresenters [
+
+	codePresenter whenTextChangedDo: [ :new :old | self halt ].
+	model
+		when: SpkContentsChangedAnnouncement
+		send: #contentsChanged:
+		to: self;
+		when: SpkUnsavedChangesAnnouncement
+		send: #hasUnsavedChanges:
+		to: self
+]
+
+{ #category : 'initialization' }
 SpkEvaluatorPane >> initializePresenters [
+
 	super initializePresenters.
-	codePresenter placeholder:
-		'Accept to evaluate code typed here.'.
+	codePresenter placeholder: 'Accept to evaluate code typed here.'.
 	paneLabel label: 'Evaluator'
 ]
 

@@ -27,10 +27,10 @@ SpkWorkspacePresenter >> addInitialEvaluator [
 
 	| leftColumn evaluatorPane addEvaluatorButton |
 	leftColumn := self columnAt: 1.
-	evaluatorPane := self newCode.
-	evaluatorPane owner: self.
+	evaluatorPane := SpkEvaluatorPane
+		                 owner: self
+		                 on: SpkWorkspaceServiceClient new.
 	addEvaluatorButton := self newAddEvaluatorButton.
-	addEvaluatorButton owner: self.
 	"The column is empty at this point."
 	leftColumn
 		add: addEvaluatorButton withConstraints: [ :constraints | 
@@ -56,9 +56,4 @@ SpkWorkspacePresenter >> newAddEvaluatorButton [
 		  icon: (self iconNamed: #addEvaluator24);
 		  help: 'Add Evaluator';
 		  yourself
-]
-
-{ #category : 'instance creation' }
-SpkWorkspacePresenter >> newCode [
-	^ self instantiate: SpkEvaluatorPane
 ]

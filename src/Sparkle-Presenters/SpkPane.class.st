@@ -7,6 +7,7 @@ Class {
 	#name : 'SpkPane',
 	#superclass : 'SpkPresenter',
 	#instVars : [
+		'model',
 		'paneIcon',
 		'paneLabel',
 		'paneMenu'
@@ -64,6 +65,11 @@ SpkPane >> initializePresenters [
 		            yourself
 ]
 
+{ #category : 'accessing' }
+SpkPane >> model [
+	^ model
+]
+
 { #category : 'instance creation' }
 SpkPane >> newPaneMenu [
 
@@ -98,4 +104,10 @@ SpkPane >> paneMenu [
 { #category : 'accessing' }
 SpkPane >> paneMenu: anObject [
 	paneMenu := anObject
+]
+
+{ #category : 'accessing' }
+SpkPane >> setModelBeforeInitialization: anObject [
+
+	model := anObject
 ]

@@ -1,5 +1,5 @@
 Class {
 	#name : 'SpkChildAdded',
 	#superclass : 'SpkChildChanged',
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Announcements'
 }

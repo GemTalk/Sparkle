@@ -5,7 +5,7 @@ Class {
 		'child',
 		'index'
 	],
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Announcements'
 }
 
 { #category : 'accessing' }

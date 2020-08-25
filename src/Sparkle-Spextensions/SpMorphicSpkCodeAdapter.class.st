@@ -5,7 +5,7 @@ to appera, I have to make autoAccept false.
 Class {
 	#name : 'SpMorphicSpkCodeAdapter',
 	#superclass : 'SpMorphicTextAdapter',
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Adapters'
 }
 
 { #category : 'factory' }

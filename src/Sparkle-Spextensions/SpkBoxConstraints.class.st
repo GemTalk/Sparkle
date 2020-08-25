@@ -9,7 +9,7 @@ Class {
 		'width',
 		'height'
 	],
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Layouts'
 }
 
 { #category : 'defaults' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'color'
 	],
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Layouts'
 }
 
 { #category : 'private' }

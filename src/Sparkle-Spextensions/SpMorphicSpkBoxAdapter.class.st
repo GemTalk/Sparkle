@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'layout'
 	],
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Adapters'
 }
 
 { #category : 'factory' }

@@ -4,7 +4,7 @@ To find users of this class, browse references to #SpkListAdapter.
 Class {
 	#name : 'SpMorphicSpkListAdapter',
 	#superclass : 'SpMorphicListAdapter',
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Adapters'
 }
 
 { #category : 'factory' }

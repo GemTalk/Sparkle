@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpMorphicSpkLabelAdapter',
 	#superclass : 'SpMorphicLabelAdapter',
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Adapters'
 }
 
 { #category : 'factory' }

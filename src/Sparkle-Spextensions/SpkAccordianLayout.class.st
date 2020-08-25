@@ -10,5 +10,5 @@ insert: aNameOrPresenter atIndex: newIndex
 Class {
 	#name : 'SpkAccordianLayout',
 	#superclass : 'SpkBoxLayout',
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Layouts'
 }

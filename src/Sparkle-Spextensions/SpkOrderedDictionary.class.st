@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'elements'
 	],
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Layouts'
 }
 
 { #category : 'instance creation' }

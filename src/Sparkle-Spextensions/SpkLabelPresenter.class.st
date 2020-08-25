@@ -4,7 +4,7 @@ A label that is always centered vertically, and may be horizontally aligned eith
 Class {
 	#name : 'SpkLabelPresenter',
 	#superclass : 'SpLabelPresenter',
-	#category : 'Sparkle-Spextensions-Spec2'
+	#category : 'Sparkle-Spextensions-Presenters'
 }
 
 { #category : 'specs' }

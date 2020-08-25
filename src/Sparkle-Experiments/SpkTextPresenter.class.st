@@ -6,7 +6,7 @@ Class {
 		'textPane',
 		'window'
 	],
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Experiments'
 }
 
 { #category : 'specs' }

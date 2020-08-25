@@ -10,5 +10,11 @@ Class {
 
 { #category : 'factory' }
 SpMorphicSpkCodeAdapter >> buildWidget [
-	^ super buildWidget autoAccept: false
+
+	| newWidget |
+	newWidget := super buildWidget.
+	"Ugly hack since it's not easily pluggable."
+	SpkScrolledTextMorph adoptInstance: newWidget.
+
+	^ newWidget
 ]

@@ -17,7 +17,8 @@ SpkEvaluatorPane class >> headerColor [
 { #category : 'initialization' }
 SpkEvaluatorPane >> connectPresenters [
 
-	codePresenter whenTextChangedDo: [ :new :old | self halt ].
+	codePresenter whenTextChangedDo: [ :newText | 
+		model unsavedSource: newText asString ].
 	model
 		when: SpkContentsChangedAnnouncement
 		send: #contentsChanged:
@@ -25,6 +26,22 @@ SpkEvaluatorPane >> connectPresenters [
 		when: SpkUnsavedChangesAnnouncement
 		send: #hasUnsavedChanges:
 		to: self
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorPane >> contentsChanged: aContentsChangedAnnouncement [
+
+	| newContents |
+	newContents := aContentsChangedAnnouncement newContents.
+	newContents = codePresenter text asString ifFalse: [ 
+		self halt: 'update text here' ]
+]
+
+{ #category : 'testing' }
+SpkEvaluatorPane >> hasUnsavedChanges: anSpkUnsavedChangesAnnouncement [
+
+	codePresenter hasUnacceptedEdits:
+		anSpkUnsavedChangesAnnouncement hasUnsavedChanges
 ]
 
 { #category : 'initialization' }

@@ -15,6 +15,7 @@ SpMorphicSpkCodeAdapter >> buildWidget [
 	newWidget := super buildWidget.
 	"Ugly hack since it's not easily pluggable."
 	SpkScrolledTextMorph adoptInstance: newWidget.
-
+	"Enable the yellow corner when unsaved changes."
+	newWidget withAdornment.
 	^ newWidget
 ]

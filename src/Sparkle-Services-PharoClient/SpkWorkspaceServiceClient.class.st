@@ -32,7 +32,9 @@ SpkWorkspaceServiceClient >> unsavedSource: aString [
 		unsavedSource := aString.
 		self
 			updateHasUnsavedChanges;
-			announce: SpkContentsChangedAnnouncement new ]
+			announce: (SpkContentsChangedAnnouncement new
+					 newContents: unsavedSource;
+					 yourself) ]
 ]
 
 { #category : 'as yet unclassified' }

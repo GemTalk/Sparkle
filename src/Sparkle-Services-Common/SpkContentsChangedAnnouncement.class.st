@@ -6,3 +6,13 @@ Class {
 	],
 	#category : 'Sparkle-Services-Common'
 }
+
+{ #category : 'accessing' }
+SpkContentsChangedAnnouncement >> newContents [
+	^ newContents
+]
+
+{ #category : 'accessing' }
+SpkContentsChangedAnnouncement >> newContents: anObject [
+	newContents := anObject
+]

@@ -4,6 +4,16 @@ Class {
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
+{ #category : 'style' }
+SpkPluggableButtonMorph >> normalBorderStyle [
+
+	"When idle and mouse is not over, make border transparent."
+
+	^ super normalBorderStyle
+		  baseColor: Color transparent;
+		  yourself
+]
+
 { #category : 'protocol' }
 SpkPluggableButtonMorph >> takeKeyboardFocus [
 

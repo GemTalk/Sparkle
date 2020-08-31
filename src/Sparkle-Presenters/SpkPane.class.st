@@ -10,7 +10,9 @@ Class {
 		'model',
 		'paneIcon',
 		'paneLabel',
-		'paneMenu'
+		'paneMenu',
+		'paneMenuButton',
+		'paneCloseButton'
 	],
 	#category : 'Sparkle-Presenters'
 }
@@ -47,8 +49,15 @@ SpkPane class >> headerLayout [
 						   fill: false;
 						   yourself ];
 				   yourself);
-		  add: #paneMenu width: 24;
+		  add: #paneMenuButton width: 24;
+		  add: #paneCloseButton width: 24;
 		  yourself
+]
+
+{ #category : 'events' }
+SpkPane >> closeRequestedLocally [
+
+	self error: 'Pane closing not yet implemented'
 ]
 
 { #category : 'initialization' }
@@ -58,11 +67,17 @@ SpkPane >> initializePresenters [
 		            image: (self iconNamed: #glamorousGrayCircleEmpty);
 		            yourself.
 	paneLabel := self newLabel.
-	paneMenu := self newMenuButton
-		            color: Color transparent;
-		            menu: self newPaneMenu;
-		            icon: (self iconNamed: #hamburgerWhite16);
-		            yourself
+	paneMenuButton := self newMenuButton
+		                  color: Color transparent;
+		                  menu: self paneMenu;
+		                  icon: (self iconNamed: #hamburgerWhite16);
+		                  yourself.
+	paneCloseButton := self newButton
+		                   color: Color transparent;
+		                   icon: (self iconNamed: #glamorousClose);
+		                   help: 'Close the pane';
+		                   action: [ self closeRequestedLocally ];
+		                   yourself
 ]
 
 { #category : 'accessing' }
@@ -74,6 +89,16 @@ SpkPane >> model [
 SpkPane >> newPaneMenu [
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkPane >> paneCloseButton [
+	^ paneCloseButton
+]
+
+{ #category : 'accessing' }
+SpkPane >> paneCloseButton: anObject [
+	paneCloseButton := anObject
 ]
 
 { #category : 'accessing' }
@@ -98,12 +123,23 @@ SpkPane >> paneLabel: anObject [
 
 { #category : 'accessing' }
 SpkPane >> paneMenu [
-	^ paneMenu
+
+	^ paneMenu ifNil: [ paneMenu := self newPaneMenu ]
 ]
 
 { #category : 'accessing' }
 SpkPane >> paneMenu: anObject [
 	paneMenu := anObject
+]
+
+{ #category : 'accessing' }
+SpkPane >> paneMenuButton [
+	^ paneMenuButton
+]
+
+{ #category : 'accessing' }
+SpkPane >> paneMenuButton: anObject [
+	paneMenuButton := anObject
 ]
 
 { #category : 'accessing' }

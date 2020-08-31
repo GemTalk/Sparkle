@@ -85,6 +85,12 @@ SpkOrderedDictionary >> initializeWithCapacity: anInteger [
 ]
 
 { #category : 'enumerating' }
+SpkOrderedDictionary >> keys [
+
+	^ elements collect: [ :each | each key ]
+]
+
+{ #category : 'enumerating' }
 SpkOrderedDictionary >> keysAndValuesDo: aBlock [
 	^ elements do: [ :each | aBlock value: each key value: each value ]
 ]

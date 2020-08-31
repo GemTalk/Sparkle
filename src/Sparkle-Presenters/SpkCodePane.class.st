@@ -34,6 +34,8 @@ SpkCodePane >> codePresenter: anObject [
 
 { #category : 'initialization' }
 SpkCodePane >> initializePresenters [
+
 	super initializePresenters.
-	codePresenter := self instantiate: SpkCodePresenter
+	codePresenter := self instantiate: SpkCodePresenter.
+	self focusOrder add: codePresenter
 ]

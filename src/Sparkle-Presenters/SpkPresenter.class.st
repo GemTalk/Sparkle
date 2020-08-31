@@ -15,7 +15,19 @@ SpkPresenter >> iconNamed: aSymbol [
 ]
 
 { #category : 'widgets' }
+SpkPresenter >> newButton [
+
+	^ self instantiate: SpkButtonPresenter
+]
+
+{ #category : 'widgets' }
 SpkPresenter >> newLabel [
 
 	^ self instantiate: SpkLabelPresenter
+]
+
+{ #category : 'widgets' }
+SpkPresenter >> newMenuButton [
+
+	^ self instantiate: SpkMenuButtonPresenter
 ]

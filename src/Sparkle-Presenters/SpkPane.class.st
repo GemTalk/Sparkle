@@ -58,9 +58,9 @@ SpkPane >> initializePresenters [
 		            image: (self iconNamed: #glamorousGrayCircleEmpty);
 		            yourself.
 	paneLabel := self newLabel.
-	paneMenu := self newButton
+	paneMenu := self newMenuButton
 		            color: Color transparent;
-		            contextMenu: self newPaneMenu;
+		            menu: self newPaneMenu;
 		            icon: (self iconNamed: #hamburgerWhite16);
 		            yourself
 ]

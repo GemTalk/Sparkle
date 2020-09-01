@@ -60,13 +60,13 @@ SpkEvaluatorPane >> newPaneMenu [
 			  group
 				  addItem: [ :item | 
 					  item
-						  name: 'a Thing';
+						  name: 'First option';
 						  icon: (self iconNamed: #addEvaluator24);
 						  action: [ self inform: 'a Thing' ];
 						  yourself ];
 				  addItem: [ :item | 
 					  item
-						  name: '''nother Thing';
+						  name: 'Last option';
 						  action: [ self inform: '''nother Thing' ];
 						  yourself ] ];
 		  yourself

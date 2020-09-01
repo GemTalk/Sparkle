@@ -36,6 +36,9 @@ SpkCodePane >> codePresenter: anObject [
 SpkCodePane >> initializePresenters [
 
 	super initializePresenters.
-	codePresenter := self instantiate: SpkCodePresenter.
+	codePresenter := (self instantiate: SpkCodePresenter)
+		                 contextMenu: self paneMenu;
+		                 overrideContextMenu: true;
+		                 yourself.
 	self focusOrder add: codePresenter
 ]

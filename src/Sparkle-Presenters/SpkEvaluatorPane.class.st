@@ -60,15 +60,79 @@ SpkEvaluatorPane >> newPaneMenu [
 			  group
 				  addItem: [ :item | 
 					  item
-						  name: 'First option';
-						  icon: (self iconNamed: #addEvaluator24);
-						  action: [ self inform: 'a Thing' ];
+						  name: 'Accept';
+						  shortcut: $s ctrl;
+						  icon: (self iconNamed: #glamorousAccept);
+						  action: [ model inform: 'Accept' ];
 						  yourself ];
 				  addItem: [ :item | 
 					  item
-						  name: 'Last option';
-						  action: [ self inform: '''nother Thing' ];
+						  name: 'Cancel';
+						  shortcut: $l ctrl;
+						  icon: (self iconNamed: #glamorousCancel);
+						  action: [ model ];
 						  yourself ] ];
+		  addGroup: [ :group | 
+			  group
+				  addItem: [ :item | 
+					  item
+						  name: 'Undo';
+						  shortcut: $z ctrl;
+						  icon: (self iconNamed: #glamorousUndo);
+						  action: [ model inform: 'Got Undid' ];
+						  yourself ];
+				  addItem: [ :item | 
+					  item
+						  name: 'Redo';
+						  shortcut: $z ctrl shift;
+						  icon: (self iconNamed: #glamorousRedo);
+						  action: [ model inform: 'Got Re-did' ];
+						  yourself ] ];
+		  addGroup: [ :group | 
+			  group
+				  addItem: [ :item | 
+					  item
+						  name: 'Cut';
+						  shortcut: $x ctrl;
+						  icon: (self iconNamed: #smallCut);
+						  action: [ model inform: 'Cut' ];
+						  yourself ];
+				  addItem: [ :item | 
+					  item
+						  name: 'Copy';
+						  shortcut: $c ctrl;
+						  icon: (self iconNamed: #smallCopy);
+						  action: [ model inform: 'Copy' ];
+						  yourself ];
+				  addItem: [ :item | 
+					  item
+						  name: 'Paste';
+						  shortcut: $v ctrl;
+						  icon: (self iconNamed: #smallPaste);
+						  action: [ model inform: 'Paste' ];
+						  yourself ] ];
+		  addGroup: [ :group | 
+			  group
+				  addItem: [ :item | 
+					  item
+						  name: 'Format';
+						  shortcut: $f ctrl shift;
+						  action: [ model inform: 'Format' ];
+						  yourself ];
+				  addItem: [ :item | 
+					  item
+						  name: 'Do it';
+						  shortcut: $d ctrl;
+						  icon: (self iconNamed: #smallDoIt);
+						  action: [ model inform: 'DoIt' ];
+						  yourself ] ];
+		  addGroup: [ :group | 
+			  group addItem: [ :item | 
+				  item
+					  name: 'Close pane';
+					  shortcut: $w ctrl;
+					  action: [ self closeRequestedLocally ];
+					  yourself ] ];
 		  yourself
 ]
 

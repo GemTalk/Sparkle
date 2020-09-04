@@ -39,6 +39,7 @@ SpkCodePane >> initializePresenters [
 	codePresenter := (self instantiate: SpkCodePresenter)
 		                 contextMenu: self paneMenu;
 		                 overrideContextMenu: true;
+		                 applyMenuModel: self paneMenu;
 		                 yourself.
 	self focusOrder add: codePresenter
 ]

@@ -23,22 +23,35 @@ SpkWorkspacePresenter >> aboutTitle [
 ]
 
 { #category : 'adding' }
-SpkWorkspacePresenter >> addInitialEvaluator [
+SpkWorkspacePresenter >> addEvaluator [
 
-	| leftColumn evaluatorPane addEvaluatorButton |
-	leftColumn := self columnAt: 1.
+	| column evaluatorPane |
+	self flag: #TODO.
+	"Evaluators don't really belong to the workspace, they belong to an individual inspector,
+	so should be sent to an inspectorPresenter (which does not currently exist)"
+	column := self columnAt: 1.
 	evaluatorPane := SpkEvaluatorPane
 		                 owner: self
 		                 on: SpkWorkspaceServiceClient new.
+	"New evaluator is always added right before the add evaluator button, which is always last."
+	column add: evaluatorPane beforeIndex: column layout children size
+]
+
+{ #category : 'adding' }
+SpkWorkspacePresenter >> addInitialEvaluator [
+
+	| column addEvaluatorButton |
+	column := self columnAt: 1.
 	addEvaluatorButton := self newAddEvaluatorButton.
 	"The column is empty at this point."
-	leftColumn
-		add: addEvaluatorButton withConstraints: [ :constraints | 
+	column
+		add: addEvaluatorButton
+		withConstraints: [ :constraints | 
 			constraints
 				height: 40;
 				yourself ]
-		beforeIndex: 1;
-		add: evaluatorPane beforeIndex: 1
+		beforeIndex: 1.
+	self addEvaluator
 ]
 
 { #category : 'initialization' }
@@ -55,5 +68,6 @@ SpkWorkspacePresenter >> newAddEvaluatorButton [
 	^ self newButton
 		  icon: (self iconNamed: #addEvaluator24);
 		  help: 'Add Evaluator';
+		  action: [ self addEvaluator ];
 		  yourself
 ]

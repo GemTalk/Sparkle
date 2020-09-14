@@ -37,9 +37,9 @@ SpkCodePane >> connectPresenters [
 
 	super connectPresenters.
 	codePresenter
-		contextMenu: self paneMenu;
 		overrideContextMenu: true;
-		applyMenuModel: self paneMenu
+		contextMenu: self paneMenu;
+		contextKeyBindings: self menuActions asKMCategory
 ]
 
 { #category : 'testing' }

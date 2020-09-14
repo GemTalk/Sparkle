@@ -54,10 +54,34 @@ SpkPane class >> headerLayout [
 		  yourself
 ]
 
+{ #category : 'commands' }
+SpkPane class >> undoRedoCommandsGroupWith: aPresenter [
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Undo/redo commands')
+		                asSpecGroup
+		                description: 'Undo or redo changes.';
+		                beDisplayedAsGroup;
+		                yourself.
+
+	commandGroup
+		register: (SpkUndoCommand forSpecContext: aPresenter);
+		register: (SpkRedoCommand forSpecContext: aPresenter).
+
+	^ commandGroup
+]
+
 { #category : 'events' }
 SpkPane >> closeRequestedLocally [
 
-	self error: 'Pane closing not yet implemented'
+	self notYetImplemented: 'Pane closing'
+]
+
+{ #category : 'initialization' }
+SpkPane >> connectPresenters [
+
+	super connectPresenters.
+	paneMenuButton menu: self paneMenu
 ]
 
 { #category : 'initialization' }
@@ -69,7 +93,6 @@ SpkPane >> initializePresenters [
 	paneLabel := self newLabel.
 	paneMenuButton := self newMenuButton
 		                  color: Color transparent;
-		                  menu: self paneMenu;
 		                  icon: (self iconNamed: #hamburgerWhite16);
 		                  yourself.
 	paneCloseButton := self newButton
@@ -81,14 +104,14 @@ SpkPane >> initializePresenters [
 ]
 
 { #category : 'accessing' }
-SpkPane >> model [
-	^ model
-]
-
-{ #category : 'instance creation' }
-SpkPane >> newPaneMenu [
+SpkPane >> menuActions [
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkPane >> model [
+	^ model
 ]
 
 { #category : 'accessing' }
@@ -124,7 +147,7 @@ SpkPane >> paneLabel: anObject [
 { #category : 'accessing' }
 SpkPane >> paneMenu [
 
-	^ paneMenu ifNil: [ paneMenu := self newPaneMenu ]
+	^ paneMenu ifNil: [ paneMenu := self menuActions asMenuPresenter ]
 ]
 
 { #category : 'accessing' }
@@ -142,8 +165,20 @@ SpkPane >> paneMenuButton: anObject [
 	paneMenuButton := anObject
 ]
 
+{ #category : 'menu messages' }
+SpkPane >> redo [
+
+	^ model redo
+]
+
 { #category : 'accessing' }
 SpkPane >> setModelBeforeInitialization: anObject [
 
 	model := anObject
+]
+
+{ #category : 'menu messages' }
+SpkPane >> undo [
+
+	^ model undo
 ]

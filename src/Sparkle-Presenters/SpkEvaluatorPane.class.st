@@ -17,6 +17,7 @@ SpkEvaluatorPane class >> headerColor [
 { #category : 'initialization' }
 SpkEvaluatorPane >> connectPresenters [
 
+	super connectPresenters.
 	codePresenter whenTextChangedDo: [ :newText | 
 		model unsavedSource: newText asString ].
 	model
@@ -48,12 +49,27 @@ SpkEvaluatorPane >> hasUnsavedChanges: anSpkUnsavedChangesAnnouncement [
 SpkEvaluatorPane >> initializePresenters [
 
 	super initializePresenters.
-	codePresenter placeholder: 'Accept to evaluate code typed here.'.
+	codePresenter
+		placeholder: 'Accept to evaluate code typed here.';
+		whenSubmitDo: [ :ignored | model accept ];
+		whenResetDo: [ model cancel ].
 	paneLabel label: 'Evaluator'
 ]
 
 { #category : 'instance creation' }
-SpkEvaluatorPane >> newPaneMenu [
+SpkEvaluatorPane >> menuActions [
+
+	^ CmCommandGroup forSpec
+		  beRoot;
+		  register: (codePresenter class codeAcceptCommandsGroupWith: self);
+		  register: (self class undoRedoCommandsGroupWith: self);
+		  register:
+			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
+		  yourself
+]
+
+{ #category : 'instance creation' }
+SpkEvaluatorPane >> oldPaneMenu [
 
 	^ self newMenu
 		  addGroup: [ :group | 

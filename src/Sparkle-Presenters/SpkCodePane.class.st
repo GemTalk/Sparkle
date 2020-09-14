@@ -33,13 +33,43 @@ SpkCodePane >> codePresenter: anObject [
 ]
 
 { #category : 'initialization' }
+SpkCodePane >> connectPresenters [
+
+	super connectPresenters.
+	codePresenter
+		contextMenu: self paneMenu;
+		overrideContextMenu: true;
+		applyMenuModel: self paneMenu
+]
+
+{ #category : 'testing' }
+SpkCodePane >> hasResetAction [
+
+	^ codePresenter hasResetAction
+]
+
+{ #category : 'testing' }
+SpkCodePane >> hasSubmitAction [
+
+	^ codePresenter hasSubmitAction
+]
+
+{ #category : 'initialization' }
 SpkCodePane >> initializePresenters [
 
 	super initializePresenters.
-	codePresenter := (self instantiate: SpkCodePresenter)
-		                 contextMenu: self paneMenu;
-		                 overrideContextMenu: true;
-		                 applyMenuModel: self paneMenu;
-		                 yourself.
+	codePresenter := self instantiate: SpkCodePresenter.
 	self focusOrder add: codePresenter
+]
+
+{ #category : 'actions' }
+SpkCodePane >> triggerResetAction [
+
+	codePresenter triggerResetAction
+]
+
+{ #category : 'actions' }
+SpkCodePane >> triggerSubmitAction [
+
+	codePresenter triggerSubmitAction
 ]

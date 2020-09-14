@@ -24,6 +24,12 @@ SpkTModel >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
+{ #category : 'work in progress' }
+SpkTModel >> notYetImplemented: aString [
+
+	SpkPresenter notYetImplemented: aString
+]
+
 { #category : 'accessing' }
 SpkTModel >> unsubscribe: anObject [
 	self announcer unsubscribe: anObject

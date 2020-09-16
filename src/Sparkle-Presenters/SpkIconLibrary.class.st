@@ -12,7 +12,7 @@ Class {
 	#classVars : [
 		'Current'
 	],
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'initialization' }

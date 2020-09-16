@@ -5,7 +5,7 @@ Class {
 		'panes',
 		'stackLayout'
 	],
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'specs' }

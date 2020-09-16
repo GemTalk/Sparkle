@@ -12,7 +12,7 @@ Class {
 	#instVars : [
 		'codePresenter'
 	],
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'specs' }

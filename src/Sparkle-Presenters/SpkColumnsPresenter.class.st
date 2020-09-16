@@ -5,7 +5,7 @@ Class {
 		'columns',
 		'columnLayout'
 	],
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'specs' }

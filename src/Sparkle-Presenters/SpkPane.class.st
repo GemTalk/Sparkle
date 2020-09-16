@@ -14,7 +14,7 @@ Class {
 		'paneMenuButton',
 		'paneCloseButton'
 	],
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'specs' }

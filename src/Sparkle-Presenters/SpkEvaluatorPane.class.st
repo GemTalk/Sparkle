@@ -6,7 +6,7 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 Class {
 	#name : 'SpkEvaluatorPane',
 	#superclass : 'SpkCodePane',
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'accessing colors' }

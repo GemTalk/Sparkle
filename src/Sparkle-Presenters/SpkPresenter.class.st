@@ -6,7 +6,7 @@ Provides various overrides of default Spec2 behavior to add or modify functional
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',
-	#category : 'Sparkle-Presenters'
+	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'work in progress' }

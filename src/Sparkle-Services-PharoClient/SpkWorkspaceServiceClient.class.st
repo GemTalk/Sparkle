@@ -13,6 +13,9 @@ Class {
 SpkWorkspaceServiceClient >> accept [
 
 	"Send my text to the server to be evaluated, inspect the returned object or error that results."
+	self flag: #TODO.
+	"Accept operates at the level of an individual evaluator, so should be part of an evaluator service,
+	not the workspace service, which can have many evaluators."
 
 	self notYetImplemented: 'Accept'
 ]
@@ -23,7 +26,37 @@ SpkWorkspaceServiceClient >> cancel [
 	"Send a cancel to the server, with the text being canceled, to be recorded so the cancel
 	can be undone."
 
+	self flag: #TODO.
+	"Cancel operates at the level of an individual evaluator, so should be part of an evaluator service,
+	not the workspace service, which can have many evaluators."
 	self notYetImplemented: 'Cancel'
+]
+
+{ #category : 'actions' }
+SpkWorkspaceServiceClient >> debugIt [
+
+	self flag: #TODO.
+	"Debug it operates at the level of an individual evaluator, so should be part of an evaluator service,
+	not the workspace service, which can have many evaluators."
+	self notYetImplemented: 'Debug it'
+]
+
+{ #category : 'actions' }
+SpkWorkspaceServiceClient >> doIt [
+
+	self flag: #TODO.
+	"Do it operates at the level of an individual evaluator, so should be part of an evaluator service,
+	not the workspace service, which can have many evaluators."
+	self notYetImplemented: 'Do it'
+]
+
+{ #category : 'actions' }
+SpkWorkspaceServiceClient >> formatCode [
+
+	self flag: #TODO.
+	"formatCode operates at the level of an individual evaluator, so should be part of an evaluator service,
+	not the workspace service, which can have many evaluators."
+	self notYetImplemented: 'Format Code'
 ]
 
 { #category : 'accessing' }
@@ -55,7 +88,9 @@ SpkWorkspaceServiceClient >> redo [
 SpkWorkspaceServiceClient >> undo [
 
 	"Need to coordinate local undo operations (simple typing and the like) with operations that require
-	the server, such as undoing an accept or cancel. It's not yet clear exactly how to hook that together."
+	the server, such as undoing an accept or cancel. It's not yet clear exactly how to hook that together.
+	It seems like undo/redo should operate on the scope of the entire workspace window, not on the level
+	of an individual pane."
 
 	self notYetImplemented: 'Undo'
 ]

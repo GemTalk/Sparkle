@@ -55,6 +55,24 @@ SpkPane class >> headerLayout [
 ]
 
 { #category : 'commands' }
+SpkPane class >> sourceCodeCommandsGroupWith: aPresenter [
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Source code commands')
+		                asSpecGroup
+		                description: 'Format or do it';
+		                beDisplayedAsGroup;
+		                yourself.
+
+	commandGroup
+		register: (SpkFormatCodeCommand forSpecContext: aPresenter);
+		register: (SpkDoItCommand forSpecContext: aPresenter);
+		register: (SpkDebugItCommand forSpecContext: aPresenter).
+
+	^ commandGroup
+]
+
+{ #category : 'commands' }
 SpkPane class >> undoRedoCommandsGroupWith: aPresenter [
 
 	| commandGroup |
@@ -74,7 +92,7 @@ SpkPane class >> undoRedoCommandsGroupWith: aPresenter [
 { #category : 'events' }
 SpkPane >> closeRequestedLocally [
 
-	self notYetImplemented: 'Pane closing'
+	model notYetImplemented: 'Pane closing'
 ]
 
 { #category : 'initialization' }

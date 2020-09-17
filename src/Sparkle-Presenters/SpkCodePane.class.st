@@ -42,6 +42,24 @@ SpkCodePane >> connectPresenters [
 		contextKeyBindings: self menuActions asKMCategory
 ]
 
+{ #category : 'actions' }
+SpkCodePane >> debugIt [
+
+	model debugIt
+]
+
+{ #category : 'actions' }
+SpkCodePane >> doIt [
+
+	model doIt
+]
+
+{ #category : 'actions' }
+SpkCodePane >> formatCode [
+
+	model formatCode
+]
+
 { #category : 'testing' }
 SpkCodePane >> hasResetAction [
 

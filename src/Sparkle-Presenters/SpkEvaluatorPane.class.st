@@ -65,6 +65,8 @@ SpkEvaluatorPane >> menuActions [
 		  register: (self class undoRedoCommandsGroupWith: self);
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
+		  register: (self class sourceCodeCommandsGroupWith: self);
+		  register: (SpkClosePaneCommand forSpecContext: self);
 		  yourself
 ]
 

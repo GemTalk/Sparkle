@@ -10,6 +10,14 @@ SpkCodePresenter class >> adapterName [
 ]
 
 { #category : 'commands' }
+SpkCodePresenter class >> buildCommandsGroupWith: presenter forRoot: aCmCommandsGroup [
+
+	"Don't want any of the standard keybindings, so do nothing here."
+
+	
+]
+
+{ #category : 'commands' }
 SpkCodePresenter class >> codeAcceptCommandsGroupWith: aPresenter [
 
 	| commandGroup |

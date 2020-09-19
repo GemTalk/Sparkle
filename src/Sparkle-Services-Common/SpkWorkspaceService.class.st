@@ -1,34 +1,31 @@
 "
-I'm an RSR service template for code evaluation.
+A service to coordinate a workspace. A workspace is displayed on the Pharo client as a window with panes in columns.
+The workspace service generally stays out of operations that only concern a single pane. 
+It is concerned with operations that affect the workspace as a whole. This includes
+* The creation and deletion of pane services (such as inspectors)
+* Undo and redo operations. Although a single undo or redo operation typically affects only a single pane, there is one sequence of user operations that can be undone or redone for the entire workspace.
 
-unsavedSource  <String> Source code being edited that will, if accepted, be evaluated.
+Internal Representation and Key Implementation Points.
 
-savedSource <String> The empty string, or the source code that was most recently attempted to be evaluated. Note that the attempt might have resulted in a syntax or runtime error, nonetheless the source becomes ""saved.""
+Instance Variables
+* layoutService:		<LayoutService> Theoretical at this point, records what columns and positions the panes are, for sharing or continuing a development session.
+* paneServices:		<Set of pane services> What panes are in the workspace at this point
 
-evaluationContext <nil or InspectorService> Specifies what object is bound to ""self"" during evaluation. Instance variables of this object will also be available by name to the source code.
+
+    Implementation Points
 "
 Class {
 	#name : 'SpkWorkspaceService',
-	#superclass : 'SpkCodeEditorService',
+	#superclass : 'RsrService',
 	#instVars : [
-		'evaluationContext'
+		'paneServices',
+		'layoutService'
 	],
 	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'accessing' }
-SpkWorkspaceService >> evaluationContext [
-	^ evaluationContext
-]
+SpkWorkspaceService class >> templateClassName [
 
-{ #category : 'accessing' }
-SpkWorkspaceService >> evaluationContext: anObject [
-	evaluationContext := anObject
-]
-
-{ #category : 'initialization' }
-SpkWorkspaceService >> initialize [
-
-	super initialize.
-	evaluationContext := nil
+	^ #SpkWorkspaceService
 ]

@@ -32,7 +32,7 @@ SpkWorkspacePresenter >> addEvaluator [
 	column := self columnAt: 1.
 	evaluatorPane := SpkEvaluatorPane
 		                 owner: self
-		                 on: SpkWorkspaceServiceClient new.
+		                 on: SpkEvaluatorServiceClient new.
 	"New evaluator is always added right before the add evaluator button, which is always last."
 	column add: evaluatorPane beforeIndex: column layout children size
 ]

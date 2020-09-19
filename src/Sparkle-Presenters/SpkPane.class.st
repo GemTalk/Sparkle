@@ -7,6 +7,7 @@ Class {
 	#name : 'SpkPane',
 	#superclass : 'SpkPresenter',
 	#instVars : [
+		'column',
 		'model',
 		'paneIcon',
 		'paneLabel',

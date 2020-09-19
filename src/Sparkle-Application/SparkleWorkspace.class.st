@@ -23,7 +23,7 @@ SparkleWorkspace >> presenter: anObject [
 
 { #category : 'running' }
 SparkleWorkspace >> start [
-	presenter := self new: SpkWorkspacePresenter.
+	presenter := self new: SpkOldWorkspacePresenter.
 	presenter openWithSpec "Sets window"
 ]
 

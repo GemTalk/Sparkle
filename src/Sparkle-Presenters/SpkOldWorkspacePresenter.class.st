@@ -1,6 +1,6 @@
 Class {
-	#name : 'SpkWorkspacePresenter',
-	#superclass : 'SpkColumnsPresenter',
+	#name : 'SpkOldWorkspacePresenter',
+	#superclass : 'SpkWindowWithColumns',
 	#instVars : [
 		'codePresenter'
 	],
@@ -8,22 +8,22 @@ Class {
 }
 
 { #category : 'specs' }
-SpkWorkspacePresenter class >> defaultSpec [
+SpkOldWorkspacePresenter class >> defaultSpec [
 	"This method only here to quiet browser linting. Should never be sent to this class.
 	See instance-side #layout."
 
 	self error: '#defaultSpec sent when not expected'
 ]
 
-{ #category : 'TOREMOVE' }
-SpkWorkspacePresenter >> aboutTitle [
+{ #category : 'constants' }
+SpkOldWorkspacePresenter >> aboutTitle [
 	"Unlike other window properties, at the time of this writing this property cannot be set in 	#initializeWindow. If that changes in the future this should be moved."
 
 	^ 'the Sparkle Object Explorer'
 ]
 
 { #category : 'adding' }
-SpkWorkspacePresenter >> addEvaluator [
+SpkOldWorkspacePresenter >> addEvaluator [
 
 	| column evaluatorPane |
 	self flag: #TODO.
@@ -38,7 +38,7 @@ SpkWorkspacePresenter >> addEvaluator [
 ]
 
 { #category : 'adding' }
-SpkWorkspacePresenter >> addInitialEvaluator [
+SpkOldWorkspacePresenter >> addInitialEvaluator [
 
 	| column addEvaluatorButton |
 	column := self columnAt: 1.
@@ -55,7 +55,7 @@ SpkWorkspacePresenter >> addInitialEvaluator [
 ]
 
 { #category : 'initialization' }
-SpkWorkspacePresenter >> initializePresenters [
+SpkOldWorkspacePresenter >> initializePresenters [
 	self
 		addColumn;
 		addColumn;
@@ -63,7 +63,7 @@ SpkWorkspacePresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkWorkspacePresenter >> newAddEvaluatorButton [
+SpkOldWorkspacePresenter >> newAddEvaluatorButton [
 
 	^ self newButton
 		  icon: (self iconNamed: #addEvaluator24);

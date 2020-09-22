@@ -7,8 +7,8 @@ This differs from a plain text editor in several ways:
 * Has the marker in the corner if the text has been edited.
 "
 Class {
-	#name : 'SpkCodePane',
-	#superclass : 'SpkPane',
+	#name : 'SpkCodeSubPane',
+	#superclass : 'SpkPresenterWithHeader',
 	#instVars : [
 		'codePresenter'
 	],
@@ -16,24 +16,24 @@ Class {
 }
 
 { #category : 'specs' }
-SpkCodePane class >> defaultSpec [
+SpkCodeSubPane class >> defaultSpec [
 	^ super defaultSpec
 		  add: #codePresenter;
 		  yourself
 ]
 
 { #category : 'accessing' }
-SpkCodePane >> codePresenter [
+SpkCodeSubPane >> codePresenter [
 	^ codePresenter
 ]
 
 { #category : 'accessing' }
-SpkCodePane >> codePresenter: anObject [
+SpkCodeSubPane >> codePresenter: anObject [
 	codePresenter := anObject
 ]
 
 { #category : 'initialization' }
-SpkCodePane >> connectPresenters [
+SpkCodeSubPane >> connectPresenters [
 
 	super connectPresenters.
 	codePresenter
@@ -43,37 +43,37 @@ SpkCodePane >> connectPresenters [
 ]
 
 { #category : 'actions' }
-SpkCodePane >> debugIt [
+SpkCodeSubPane >> debugIt [
 
 	model debugIt
 ]
 
 { #category : 'actions' }
-SpkCodePane >> doIt [
+SpkCodeSubPane >> doIt [
 
 	model doIt
 ]
 
 { #category : 'actions' }
-SpkCodePane >> formatCode [
+SpkCodeSubPane >> formatCode [
 
 	model formatCode
 ]
 
 { #category : 'testing' }
-SpkCodePane >> hasResetAction [
+SpkCodeSubPane >> hasResetAction [
 
 	^ codePresenter hasResetAction
 ]
 
 { #category : 'testing' }
-SpkCodePane >> hasSubmitAction [
+SpkCodeSubPane >> hasSubmitAction [
 
 	^ codePresenter hasSubmitAction
 ]
 
 { #category : 'initialization' }
-SpkCodePane >> initializePresenters [
+SpkCodeSubPane >> initializePresenters [
 
 	super initializePresenters.
 	codePresenter := self instantiate: SpkCodePresenter.
@@ -81,13 +81,13 @@ SpkCodePane >> initializePresenters [
 ]
 
 { #category : 'actions' }
-SpkCodePane >> triggerResetAction [
+SpkCodeSubPane >> triggerResetAction [
 
 	codePresenter triggerResetAction
 ]
 
 { #category : 'actions' }
-SpkCodePane >> triggerSubmitAction [
+SpkCodeSubPane >> triggerSubmitAction [
 
 	codePresenter triggerSubmitAction
 ]

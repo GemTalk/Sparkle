@@ -4,13 +4,13 @@ A new Workspace window is initialized with an inspector on nil with one evaluato
 This allows the user to start by evaluating or debugging an expression. They can then inspect the result, and work forward from there.
 "
 Class {
-	#name : 'SpkWorkspaceWindow',
+	#name : 'SpkExplorerWindow',
 	#superclass : 'SpkWindowWithColumns',
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'constants' }
-SpkWorkspaceWindow >> initialExtent [
+SpkExplorerWindow >> initialExtent [
 
 	^ 900 @ 800
 ]

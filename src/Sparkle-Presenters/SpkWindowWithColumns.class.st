@@ -15,6 +15,7 @@ Instance Variables
 *	columnLayout:		<SpkAccordianLayout> The layout for my columns. Lazily initialized.
 *	columns:		<OrderedCollection of SpkStackOfPanesPresenter> The columns that I present in my window.
 
+Since they represent the entire contents of a Pharo window, instances of my subclasses have nil for containingPresenter.
 "
 Class {
 	#name : 'SpkWindowWithColumns',

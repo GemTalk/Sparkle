@@ -30,7 +30,7 @@ SpkOldWorkspacePresenter >> addEvaluator [
 	"Evaluators don't really belong to the workspace, they belong to an individual inspector,
 	so should be sent to an inspectorPresenter (which does not currently exist)"
 	column := self columnAt: 1.
-	evaluatorPane := SpkEvaluatorPane
+	evaluatorPane := SpkEvaluator
 		                 owner: self
 		                 on: SpkEvaluatorServiceClient new.
 	"New evaluator is always added right before the add evaluator button, which is always last."

@@ -2,10 +2,16 @@
 Abstract superclass for Sparkle presenters.
 
 Provides various overrides of default Spec2 behavior to add or modify functionality.
+
+Instance variables 
+*	containingPresenter <SpkPresenter or nil> Except for presenters at the window level, all Sparkle presenters keep track of the presenter that contains them. For Window-level presenters, this is nil. 
 "
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',
+	#instVars : [
+		'containingPresenter'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 

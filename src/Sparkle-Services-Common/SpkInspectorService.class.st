@@ -24,3 +24,33 @@ SpkInspectorService class >> templateClassName [
 
 	^ #SpkInspectorService
 ]
+
+{ #category : 'accessing' }
+SpkInspectorService >> description [
+	^ description
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> description: anObject [
+	description := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> fields [
+	^ fields
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> fields: anObject [
+	fields := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> oop [
+	^ oop
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> oop: anObject [
+	oop := anObject
+]

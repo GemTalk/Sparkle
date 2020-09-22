@@ -20,6 +20,15 @@ SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 		beforeIndex: anInteger
 ]
 
+{ #category : 'adding' }
+SpkBoxLayout >> add: aPresenter width: widthInteger beforeIndex: indexInteger [
+
+	self
+		add: aPresenter
+		withConstraints: [ :constraints | constraints width: widthInteger ]
+		beforeIndex: indexInteger
+]
+
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInteger [
 	| constraints |

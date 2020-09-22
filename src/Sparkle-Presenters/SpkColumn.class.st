@@ -5,13 +5,13 @@ I contain a stack of panes. The number of panes is not fixed, and each pane can 
     Instance Variables
 *	panes:		<OrderedCollection of SpkPane> My panes. Pane 1 is displayed topmost.
 *	stackLayout:		<SpkAccordianLayout> The layout that manages display of the panes.
-*	window:		<SpkWindowWithColumns> The window that contains me.
+
+A column's containing presenter is a kind of SpkWindowWithColumns.
 "
 Class {
 	#name : 'SpkColumn',
 	#superclass : 'SpkPresenter',
 	#instVars : [
-		'window',
 		'panes',
 		'stackLayout'
 	],

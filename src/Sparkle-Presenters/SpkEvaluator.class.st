@@ -4,20 +4,22 @@ I am a concrete class.
 My purpose is to display and handle a code snippet that is (hopefully) executable, but is not a method in that it doesn't have a message pattern like a full method would.
 "
 Class {
-	#name : 'SpkEvaluatorPane',
-	#superclass : 'SpkCodePane',
+	#name : 'SpkEvaluator',
+	#superclass : 'SpkCodeSubPane',
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'accessing colors' }
-SpkEvaluatorPane class >> headerColor [
+SpkEvaluator class >> headerColor [
 	^ Color fromHexString: '2f5531'
 ]
 
 { #category : 'initialization' }
-SpkEvaluatorPane >> connectPresenters [
+SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
+	codePresenter text: model unsavedSource.
+	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
 		model unsavedSource: newText asString ].
 	model
@@ -30,7 +32,7 @@ SpkEvaluatorPane >> connectPresenters [
 ]
 
 { #category : 'as yet unclassified' }
-SpkEvaluatorPane >> contentsChanged: aContentsChangedAnnouncement [
+SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 
 	| newContents |
 	newContents := aContentsChangedAnnouncement newContents.
@@ -39,25 +41,24 @@ SpkEvaluatorPane >> contentsChanged: aContentsChangedAnnouncement [
 ]
 
 { #category : 'testing' }
-SpkEvaluatorPane >> hasUnsavedChanges: anSpkUnsavedChangesAnnouncement [
+SpkEvaluator >> hasUnsavedChanges: anSpkUnsavedChangesAnnouncement [
 
 	codePresenter hasUnacceptedEdits:
 		anSpkUnsavedChangesAnnouncement hasUnsavedChanges
 ]
 
 { #category : 'initialization' }
-SpkEvaluatorPane >> initializePresenters [
+SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
 	codePresenter
 		placeholder: 'Accept to evaluate code typed here.';
 		whenSubmitDo: [ :ignored | model accept ];
-		whenResetDo: [ model cancel ].
-	paneLabel label: 'Evaluator'
+		whenResetDo: [ model cancel ]
 ]
 
 { #category : 'instance creation' }
-SpkEvaluatorPane >> menuActions [
+SpkEvaluator >> menuActions [
 
 	^ CmCommandGroup forSpec
 		  beRoot;
@@ -71,7 +72,7 @@ SpkEvaluatorPane >> menuActions [
 ]
 
 { #category : 'instance creation' }
-SpkEvaluatorPane >> oldPaneMenu [
+SpkEvaluator >> oldPaneMenu [
 
 	^ self newMenu
 		  addGroup: [ :group | 
@@ -155,7 +156,7 @@ SpkEvaluatorPane >> oldPaneMenu [
 ]
 
 { #category : 'layout' }
-SpkEvaluatorPane >> paneLabel [
+SpkEvaluator >> paneLabel [
 	^ self newLabel
 		  label: 'Evaluator';
 		  yourself

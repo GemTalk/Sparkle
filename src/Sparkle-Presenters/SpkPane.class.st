@@ -5,16 +5,7 @@ I take most of the responsibility for formatting the pane header, which is commo
 "
 Class {
 	#name : 'SpkPane',
-	#superclass : 'SpkPresenter',
-	#instVars : [
-		'column',
-		'model',
-		'paneIcon',
-		'paneLabel',
-		'paneMenu',
-		'paneMenuButton',
-		'paneCloseButton'
-	],
+	#superclass : 'SpkPresenterWithHeader',
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -90,110 +81,16 @@ SpkPane class >> undoRedoCommandsGroupWith: aPresenter [
 	^ commandGroup
 ]
 
-{ #category : 'events' }
-SpkPane >> closeRequestedLocally [
-
-	model notYetImplemented: 'Pane closing'
-]
-
-{ #category : 'initialization' }
-SpkPane >> connectPresenters [
-
-	super connectPresenters.
-	paneMenuButton menu: self paneMenu
-]
-
-{ #category : 'initialization' }
-SpkPane >> initializePresenters [
-
-	paneIcon := self newImage
-		            image: (self iconNamed: #glamorousGrayCircleEmpty);
-		            yourself.
-	paneLabel := self newLabel.
-	paneMenuButton := self newMenuButton
-		                  color: Color transparent;
-		                  icon: (self iconNamed: #hamburgerWhite16);
-		                  yourself.
-	paneCloseButton := self newButton
-		                   color: Color transparent;
-		                   icon: (self iconNamed: #glamorousClose);
-		                   help: 'Close the pane';
-		                   action: [ self closeRequestedLocally ];
-		                   yourself
-]
-
 { #category : 'accessing' }
 SpkPane >> menuActions [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
-SpkPane >> model [
-	^ model
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneCloseButton [
-	^ paneCloseButton
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneCloseButton: anObject [
-	paneCloseButton := anObject
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneIcon [
-	^ paneIcon
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneIcon: anObject [
-	paneIcon := anObject
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneLabel [
-	^ paneLabel
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneLabel: anObject [
-	paneLabel := anObject
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneMenu [
-
-	^ paneMenu ifNil: [ paneMenu := self menuActions asMenuPresenter ]
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneMenu: anObject [
-	paneMenu := anObject
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneMenuButton [
-	^ paneMenuButton
-]
-
-{ #category : 'accessing' }
-SpkPane >> paneMenuButton: anObject [
-	paneMenuButton := anObject
-]
-
 { #category : 'menu messages' }
 SpkPane >> redo [
 
 	^ model redo
-]
-
-{ #category : 'accessing' }
-SpkPane >> setModelBeforeInitialization: anObject [
-
-	model := anObject
 ]
 
 { #category : 'menu messages' }

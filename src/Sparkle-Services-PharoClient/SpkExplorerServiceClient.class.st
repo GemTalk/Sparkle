@@ -1,6 +1,6 @@
 Class {
-	#name : 'SpkWorkspaceServiceClient',
-	#superclass : 'SpkWorkspaceService',
+	#name : 'SpkExplorerServiceClient',
+	#superclass : 'SpkExplorerService',
 	#traits : 'SpkTModel',
 	#classTraits : 'SpkTModel classTrait',
 	#category : 'Sparkle-Services-PharoClient'

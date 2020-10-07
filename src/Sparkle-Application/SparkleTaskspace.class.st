@@ -17,34 +17,36 @@ Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
 	#instVars : [
-		'window',
-		'presenter'
+		'connection',
+		'name',
+		'obsoletePresenter',
+		'obsoleteWindow'
 	],
 	#category : 'Sparkle-Application'
 }
 
 { #category : 'accessing' }
 SparkleTaskspace >> presenter [
-	^ presenter
+	^ obsoletePresenter
 ]
 
 { #category : 'accessing' }
 SparkleTaskspace >> presenter: anObject [
-	presenter := anObject
+	obsoletePresenter := anObject
 ]
 
 { #category : 'running' }
 SparkleTaskspace >> start [
-	presenter := self new: SpkOldWorkspacePresenter.
-	presenter openWithSpec "Sets window"
+	obsoletePresenter := self new: SpkOldWorkspacePresenter.
+	obsoletePresenter openWithSpec "Sets window"
 ]
 
 { #category : 'accessing' }
 SparkleTaskspace >> window [
-	^ window
+	^ obsoleteWindow
 ]
 
 { #category : 'accessing' }
 SparkleTaskspace >> window: anObject [
-	window := anObject
+	obsoleteWindow := anObject
 ]

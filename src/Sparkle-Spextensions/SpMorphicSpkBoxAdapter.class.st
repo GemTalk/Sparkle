@@ -6,9 +6,6 @@ This class is an adapter for a layout like a box layout but with the ability to 
 Class {
 	#name : 'SpMorphicSpkBoxAdapter',
 	#superclass : 'SpMorphicLayoutAdapter',
-	#instVars : [
-		'layout1'
-	],
 	#category : 'Sparkle-Spextensions-Adapters'
 }
 
@@ -32,7 +29,7 @@ SpMorphicSpkBoxAdapter >> addConstraits: constraints toChild: childMorph [
 	defaultSizing := constraints isFill
 		                 ifTrue: [ #spaceFill ]
 		                 ifFalse: [ #shrinkWrap ].
-	layout1 direction isHorizontal
+	layout direction isHorizontal
 		ifTrue: [ 
 			theMorph vResizing: defaultSizing.
 			constraints width
@@ -61,7 +58,7 @@ SpMorphicSpkBoxAdapter >> addDimensionConstraints: constraints toChild: childMor
 	| theMorph |
 	theMorph := childMorph. "self addPadding: constraints padding toMorph:"
 
-	layout1 direction isHorizontal
+	layout direction isHorizontal
 		ifTrue: [ 
 			theMorph vResizing: #spaceFill.
 			constraints width
@@ -85,7 +82,7 @@ SpMorphicSpkBoxAdapter >> addDimensionConstraints: constraints toChild: childMor
 { #category : 'private' }
 SpMorphicSpkBoxAdapter >> addPadding: aNumber toMorph: aMorph [
 	aNumber = 0 ifTrue: [ ^ aMorph ].
-	^ layout1 direction addPadding: aNumber toMorph: aMorph into: self
+	^ layout direction addPadding: aNumber toMorph: aMorph into: self
 ]
 
 { #category : 'private' }
@@ -98,20 +95,20 @@ SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
 		vResizing: #shrinkWrap.
 	alignmentWidget := Morph new
 		                   changeTableLayout;
-		                   color: layout1 color;
+		                   color: layout color;
 		                   addMorphBack: widget.
-	layout1 isVertical
+	layout isVertical
 		ifTrue: [ 
 			alignmentWidget listDirection: #topToBottom.
-			layout1 hAlign ifNotNil: [ :align | 
+			layout hAlign ifNotNil: [ :align | 
 				alignmentWidget wrapCentering: align asMorphicAlign ].
-			layout1 vAlign ifNotNil: [ :align | 
+			layout vAlign ifNotNil: [ :align | 
 				alignmentWidget listCentering: align asMorphicAlign ] ]
 		ifFalse: [ 
 			alignmentWidget listDirection: #leftToRight.
-			layout1 hAlign ifNotNil: [ :align | 
+			layout hAlign ifNotNil: [ :align | 
 				alignmentWidget listCentering: align asMorphicAlign ].
-			layout1 vAlign ifNotNil: [ :align | 
+			layout vAlign ifNotNil: [ :align | 
 				alignmentWidget wrapCentering: align asMorphicAlign ] ].
 	^ alignmentWidget
 ]
@@ -145,7 +142,7 @@ SpMorphicSpkBoxAdapter >> children [
 
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> layout: aLayout [
-	layout1 := aLayout.
+	layout := aLayout.
 	widget ifNil: [ "build of widget was differed up to here (to know what is the direction)"
 		widget := aLayout direction newWidgetOn: self.
 		widget borderWidth: aLayout borderWidth.
@@ -174,7 +171,7 @@ SpMorphicSpkBoxAdapter >> newHorizontal [
 SpMorphicSpkBoxAdapter >> newPanel [
 
 	^ super newPanel
-		  color: layout1 color;
+		  color: layout color;
 		  yourself
 ]
 

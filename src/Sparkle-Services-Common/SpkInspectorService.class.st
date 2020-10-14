@@ -2,9 +2,12 @@
 A service for inspecting one GemStone object.
 
 Instance Variables
-*	description:		<String> The result of a #printOn: of the object being inspected.
-*	fields:		<Dictionary of String -> String Maps field names to descriptions of the field contents
 *	oop:		<Integer> The GemStone object ID of the object being inspected (in GemStone, an oop is a unique ID, unlike an identity hash)
+*	classMambershipDescription	<String> For an instance of Date, 'a Date'. For the class Date, 'Date'. For the metaclass, 'Date class'.
+*	selfDescription		<String> How the object describes itself; the result of a #printOn: of the object being inspected.
+*	fieldNames:		<Array of String> Names of displayable fields
+*	fieldDescriptions: <Array of String> The result of a #printOn of each field
+*	fieldOops: 		<Array of Integer> The oop of each inspectable field, 0 if not inspectable
 
 
 "
@@ -13,8 +16,11 @@ Class {
 	#superclass : 'RsrService',
 	#instVars : [
 		'oop',
-		'description',
-		'fields'
+		'classMembershipDescription',
+		'selfDescription',
+		'fieldNames',
+		'fieldDescriptions',
+		'fieldOops'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -26,23 +32,43 @@ SpkInspectorService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
-SpkInspectorService >> description [
-	^ description
+SpkInspectorService >> classMembershipDescription [
+	^ classMembershipDescription
 ]
 
 { #category : 'accessing' }
-SpkInspectorService >> description: anObject [
-	description := anObject
+SpkInspectorService >> classMembershipDescription: anObject [
+	classMembershipDescription := anObject
 ]
 
 { #category : 'accessing' }
-SpkInspectorService >> fields [
-	^ fields
+SpkInspectorService >> fieldDescriptions [
+	^ fieldDescriptions
 ]
 
 { #category : 'accessing' }
-SpkInspectorService >> fields: anObject [
-	fields := anObject
+SpkInspectorService >> fieldDescriptions: anObject [
+	fieldDescriptions := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> fieldNames [
+	^ fieldNames
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> fieldNames: anObject [
+	fieldNames := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> fieldOops [
+	^ fieldOops
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> fieldOops: anObject [
+	fieldOops := anObject
 ]
 
 { #category : 'accessing' }
@@ -53,4 +79,14 @@ SpkInspectorService >> oop [
 { #category : 'accessing' }
 SpkInspectorService >> oop: anObject [
 	oop := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> selfDescription [
+	^ selfDescription
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> selfDescription: anObject [
+	selfDescription := anObject
 ]

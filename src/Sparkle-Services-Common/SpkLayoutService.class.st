@@ -38,3 +38,9 @@ Class {
 	],
 	#category : 'Sparkle-Services-Common'
 }
+
+{ #category : 'accessing' }
+SpkLayoutService class >> templateClassName [
+
+	^ #SpkLayoutService
+]

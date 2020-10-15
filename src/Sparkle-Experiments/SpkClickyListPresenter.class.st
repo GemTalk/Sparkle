@@ -51,27 +51,19 @@ SpkClickyListPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'selection' }
-SpkClickyListPresenter >> itemDeselected: announcement [
+SpkClickyListPresenter >> itemDeselected: anAnnouncement [
+
 	"This is sent by the model when a previously selected item becomes deselected."
 
-	| items index |
-	items := model items.
-	index := items indexOf: announcement item.
-	index = 0
-		ifTrue: [ ^ self error: 'Selected item not found.' ].
-	listPane unselectIndex: index
+	self defer: [ self privateItemDeselected: anAnnouncement ]
 ]
 
 { #category : 'selection' }
-SpkClickyListPresenter >> itemSelected: announcement [
+SpkClickyListPresenter >> itemSelected: anAnnouncement [
+
 	"This is sent by the model when a previously unselected item becomes selected."
 
-	| items index |
-	items := model items.
-	index := items indexOf: announcement item.
-	index = 0
-		ifTrue: [ ^ self error: 'Selected item not found.' ].
-	listPane selectIndex: index
+	self defer: [ self privateItemSelected: anAnnouncement ]
 ]
 
 { #category : 'accessing' }
@@ -104,6 +96,32 @@ SpkClickyListPresenter >> listPaneSelectedIndexes: newIndexes [
 { #category : 'widgets' }
 SpkClickyListPresenter >> newList [
 	^ self instantiate: SpkMultipleSelectionListPresenter
+]
+
+{ #category : 'private' }
+SpkClickyListPresenter >> privateItemDeselected: anAnnouncement [
+	"Must only be sent by the UI thread.
+	This is sent by the model when a previously selected item becomes deselected."
+
+	| items index |
+	items := model items.
+	index := items indexOf: anAnnouncement item.
+	index = 0
+		ifTrue: [ ^ self error: 'Selected item not found.' ].
+	listPane unselectIndex: index
+]
+
+{ #category : 'private' }
+SpkClickyListPresenter >> privateItemSelected: anAnnouncement [
+
+	"Must be sent only from the UI thread.
+	This is sent by the model when a previously unselected item becomes selected."
+
+	| items index |
+	items := model items.
+	index := items indexOf: anAnnouncement item.
+	index = 0 ifTrue: [ ^ self error: 'Selected item not found.' ].
+	listPane selectIndex: index
 ]
 
 { #category : 'accessing model' }

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'hasUnsavedChanges'
 	],
-	#category : 'Sparkle-Services-PharoClient'
+	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
 { #category : 'actions' }

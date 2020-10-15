@@ -53,17 +53,19 @@ SpkListAndPanesPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'selection' }
-SpkListAndPanesPresenter >> itemDeselected: announcement [
+SpkListAndPanesPresenter >> itemDeselected: anAnnouncement [
+
 	"This is sent by the model when a previously selected item becomes unselected."
 
-	self removePaneFor: announcement item atIndex: announcement index
+	self defer: [ self privateItemDeselected: anAnnouncement ]
 ]
 
 { #category : 'selection' }
-SpkListAndPanesPresenter >> itemSelected: announcement [
+SpkListAndPanesPresenter >> itemSelected: anAnnouncement [
+
 	"This is sent by the model when a previously unselected item becomes selected."
 
-	self addPaneFor: announcement item beforeIndex: announcement index
+	self defer: [ self privateItemSelected: anAnnouncement ]
 ]
 
 { #category : 'accessing' }
@@ -80,6 +82,24 @@ SpkListAndPanesPresenter >> presenterForItem: anItem [
 	"At this point, items are just strings."
 
 	^ self newText text: anItem
+]
+
+{ #category : 'private' }
+SpkListAndPanesPresenter >> privateItemDeselected: anAnnouncement [
+
+	"Must be sent only from the UI thread.
+	This is sent by the model when a previously selected item becomes unselected."
+
+	self removePaneFor: anAnnouncement item atIndex: anAnnouncement index
+]
+
+{ #category : 'private' }
+SpkListAndPanesPresenter >> privateItemSelected: anAnnouncement [
+
+	"Must be sent only from the UI thread.
+	This is sent by the model when a previously unselected item becomes selected."
+
+	self addPaneFor: anAnnouncement item beforeIndex: anAnnouncement index
 ]
 
 { #category : 'adding/removing panes' }

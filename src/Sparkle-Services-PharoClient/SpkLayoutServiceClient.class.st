@@ -1,6 +1,6 @@
 Class {
-	#name : 'SpkInspectorServiceClient',
-	#superclass : 'SpkInspectorService',
+	#name : 'SpkLayoutServiceClient',
+	#superclass : 'SpkLayoutService',
 	#traits : 'SpkTModel',
 	#classTraits : 'SpkTModel classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'

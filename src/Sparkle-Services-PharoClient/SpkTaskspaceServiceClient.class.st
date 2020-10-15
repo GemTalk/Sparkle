@@ -1,5 +1,7 @@
 Class {
 	#name : 'SpkTaskspaceServiceClient',
 	#superclass : 'SpkTaskspaceService',
-	#category : 'Sparkle-Services-PharoClient'
+	#traits : 'SpkTModel',
+	#classTraits : 'SpkTModel classTrait',
+	#category : 'Sparkle-Services-PharoClient-Services'
 }

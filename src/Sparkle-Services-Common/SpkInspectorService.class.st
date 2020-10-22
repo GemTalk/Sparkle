@@ -5,9 +5,9 @@ Instance Variables
 *	oop:		<Integer> The GemStone object ID of the object being inspected (in GemStone, an oop is a unique ID, unlike an identity hash)
 *	classMambershipDescription	<String> For an instance of Date, 'a Date'. For the class Date, 'Date'. For the metaclass, 'Date class'.
 *	selfDescription		<String> How the object describes itself; the result of a #printOn: of the object being inspected.
-*	fieldNames:		<Array of String> Names of displayable fields
-*	fieldDescriptions: <Array of String> The result of a #printOn of each field
-*	fieldOops: 		<Array of Integer> The oop of each inspectable field, 0 if not inspectable
+*	fieldNames:		<OrderedCollection of String> Names of displayable fields
+*	fieldDescriptions: <OrderedCollection of String> The result of a #printOn of each field
+*  evaluators: 		<OrderedCollection of SpkEvaluatorService> Any evaluators that are open for this inspector
 
 
 "
@@ -20,7 +20,7 @@ Class {
 		'selfDescription',
 		'fieldNames',
 		'fieldDescriptions',
-		'fieldOops'
+		'evaluators'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -61,14 +61,13 @@ SpkInspectorService >> fieldNames: anObject [
 	fieldNames := anObject
 ]
 
-{ #category : 'accessing' }
-SpkInspectorService >> fieldOops [
-	^ fieldOops
-]
+{ #category : 'initialization' }
+SpkInspectorService >> initialize [
 
-{ #category : 'accessing' }
-SpkInspectorService >> fieldOops: anObject [
-	fieldOops := anObject
+	super initialize.
+	fieldNames := OrderedCollection new.
+	fieldDescriptions := OrderedCollection new.
+	evaluators := OrderedCollection new
 ]
 
 { #category : 'accessing' }

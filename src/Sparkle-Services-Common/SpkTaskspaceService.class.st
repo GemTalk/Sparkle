@@ -16,7 +16,7 @@ Class {
 	#name : 'SpkTaskspaceService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'workspaces'
+		'explorers'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -25,4 +25,21 @@ Class {
 SpkTaskspaceService class >> templateClassName [
 
 	^ #SpkTaskspaceService
+]
+
+{ #category : 'accessing' }
+SpkTaskspaceService >> explorers [
+	^ explorers
+]
+
+{ #category : 'accessing' }
+SpkTaskspaceService >> explorers: anObject [
+	explorers := anObject
+]
+
+{ #category : 'initialization' }
+SpkTaskspaceService >> initialize [
+
+	super initialize.
+	explorers := Set new
 ]

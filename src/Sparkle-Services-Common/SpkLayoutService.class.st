@@ -4,20 +4,20 @@ I represent the layout of an SpkExplorer window, in a way that can be transmitte
 Internal Representation and Key Implementation Points.
 
     Instance Variables
-	columnRelativeWidths:		<Array of Number, size = M>
+	columnRelativeWidths:		<Array of Number, size = C>
 	height:		<Number>
-	paneRelativeHeights:		<Array of Number, size = N>
-	paneServices:		<Array of RsrService, size = N>
-	panesPerColumn:		<Array of Number, size = M>
+	paneRelativeHeights:		<Array of Number, size = P>
+	paneServices:		<Array of RsrService, size = P>
+	panesPerColumn:		<Array of Number, size = C>
 	width:		<Number>
 			
 Width and height are the recorded size in pixels of the window presenter at the time the layout. When restoring, this size will be used unless it is larger than the world, in which case the window will fill the world.
 
-The number of columns is the size of the panesPerColumn array.
-In the panesPerColumn array, index 1 is the leftmost, index M the rightmost.
+The number of columns, C, is the size of the panesPerColumn array.
+In the panesPerColumn array, index 1 is the leftmost, index C the rightmost.
 An empty column will have a 0 at its index in the panesPerColumn array.
 
-The number of panes, N, must be the sum of the elements of the panesPerColumn array.
+The number of panes, P, must be the sum of the elements of the panesPerColumn array.
 
 The pane arrays are ordered in column-major order -- top pane in left column, pane in left column below it (if any) ... top pane of next column ... bottom pane in rightmost column.
 
@@ -43,4 +43,77 @@ Class {
 SpkLayoutService class >> templateClassName [
 
 	^ #SpkLayoutService
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> columnRelativeWidths [
+	^ columnRelativeWidths
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> columnRelativeWidths: anObject [
+	columnRelativeWidths := anObject
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> height [
+	^ height
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> height: anObject [
+	height := anObject
+]
+
+{ #category : 'initialization' }
+SpkLayoutService >> initialize [
+
+	"Default height and width, two equal columns, no panes."
+
+	super initialize.
+	height := width := 900.
+	paneServices := Array new.
+	paneRelativeHeights := Array new.
+	columnRelativeWidths := #( 1 1 ).
+	panesPerColumn := #( 0 0 )
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> paneRelativeHeights [
+	^ paneRelativeHeights
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> paneRelativeHeights: anObject [
+	paneRelativeHeights := anObject
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> paneServices [
+	^ paneServices
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> paneServices: anObject [
+	paneServices := anObject
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> panesPerColumn [
+	^ panesPerColumn
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> panesPerColumn: anObject [
+	panesPerColumn := anObject
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> width [
+	^ width
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> width: anObject [
+	^ width := anObject
 ]

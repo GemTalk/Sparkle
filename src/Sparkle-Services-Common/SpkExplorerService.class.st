@@ -28,6 +28,22 @@ SpkExplorerService class >> templateClassName [
 	^ #SpkExplorerService
 ]
 
+{ #category : 'initialization' }
+SpkExplorerService >> defaultLayout [
+
+	"Server class on server, client on client"
+
+	self subclassResponsibility
+]
+
+{ #category : 'initialization' }
+SpkExplorerService >> initialize [
+
+	super initialize.
+	paneServices := Set new.
+	layoutService := self defaultLayout
+]
+
 { #category : 'accessing' }
 SpkExplorerService >> layoutService [
 	^ layoutService

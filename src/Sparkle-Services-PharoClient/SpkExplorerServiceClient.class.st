@@ -5,3 +5,9 @@ Class {
 	#classTraits : 'SpkTModel classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
+
+{ #category : 'initialization' }
+SpkExplorerServiceClient >> defaultLayout [
+
+	^ SpkLayoutServiceClient new
+]

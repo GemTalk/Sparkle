@@ -1,5 +1,5 @@
 Class {
 	#name : 'SpkTestLayoutServiceClient',
 	#superclass : 'SpkLayoutServiceClient',
-	#category : 'Sparkle-Test-Pharo'
+	#category : 'Sparkle-Test-Test Services'
 }

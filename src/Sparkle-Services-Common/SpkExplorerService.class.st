@@ -28,6 +28,15 @@ SpkExplorerService class >> templateClassName [
 	^ #SpkExplorerService
 ]
 
+{ #category : 'accessing' }
+SpkExplorerService >> addPane: aService [
+
+	"The given service should know how to be an explorer pane. Initially, the only 
+	pane service is the inspector service."
+
+	paneServices add: aService
+]
+
 { #category : 'initialization' }
 SpkExplorerService >> defaultLayout [
 
@@ -40,7 +49,7 @@ SpkExplorerService >> defaultLayout [
 SpkExplorerService >> initialize [
 
 	super initialize.
-	paneServices := Set new.
+	paneServices := IdentitySet new.
 	layoutService := self defaultLayout
 ]
 
@@ -60,6 +69,10 @@ SpkExplorerService >> paneServices [
 ]
 
 { #category : 'accessing' }
-SpkExplorerService >> paneServices: anObject [
-	paneServices := anObject
+SpkExplorerService >> removePane: aService [
+
+	"The given service should know how to be an explorer pane. Initially, the only 
+	pane service is the inspector service."
+
+	paneServices remove: aService
 ]

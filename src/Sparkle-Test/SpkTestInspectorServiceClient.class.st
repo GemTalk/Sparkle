@@ -12,8 +12,10 @@ SpkTestInspectorServiceClient class >> cuddles [
 		  classMembershipDescription: 'a Dragon';
 		  selfDescription: 'Cuddles the Dragon';
 		  fieldNames:
-			  #( 'name' 'wingspan' 'birthday' 'flameReserve' 'pets' );
+			  #( 'name' 'description' 'wingspan' 'birthday' 'flameReserve'
+			     'pets' );
 		  fieldDescriptions:
-			  #( 'Cuddles' '52' 'June 6, 776' '0.97' '#(''St. George'')' );
+			  #( 'Cuddles' 'Very large. Scaly. Slightly radioactive. Tends to erupt in flame unpredictably, and possibly unintentionally.'
+			     '52' 'June 6, 776' '0.97' '#(''St. George'')' );
 		  yourself
 ]

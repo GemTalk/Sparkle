@@ -27,15 +27,16 @@ SpkTaskspaceService class >> templateClassName [
 	^ #SpkTaskspaceService
 ]
 
-{ #category : 'initialization' }
+{ #category : 'acccessing' }
 SpkTaskspaceService >> addExplorer: anExplorerService [
 
 	explorers add: anExplorerService
 ]
 
-{ #category : 'accessing' }
-SpkTaskspaceService >> explorers [
-	^ explorers
+{ #category : 'enumerating' }
+SpkTaskspaceService >> explorersDo: aUnaryBlock [
+
+	explorers do: aUnaryBlock
 ]
 
 { #category : 'initialization' }
@@ -45,7 +46,7 @@ SpkTaskspaceService >> initialize [
 	explorers := IdentitySet new
 ]
 
-{ #category : 'initialization' }
+{ #category : 'acccessing' }
 SpkTaskspaceService >> removeExplorer: anExplorerService [
 
 	explorers remove: anExplorerService

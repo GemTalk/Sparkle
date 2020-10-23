@@ -17,36 +17,30 @@ Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
 	#instVars : [
-		'connection',
-		'name',
-		'obsoletePresenter',
-		'obsoleteWindow'
+		'connection'
 	],
 	#category : 'Sparkle-Application'
 }
 
-{ #category : 'accessing' }
-SparkleTaskspace >> presenter [
-	^ obsoletePresenter
+{ #category : 'instance creation' }
+SparkleTaskspace class >> openFromService: aTaskspaceService [
+
+	^ self new
+		  restoreTaskspace: aTaskspaceService;
+		  yourself
 ]
 
-{ #category : 'accessing' }
-SparkleTaskspace >> presenter: anObject [
-	obsoletePresenter := anObject
+{ #category : 'as yet unclassified' }
+SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
+
+	"Open and initialize windows from the given service"
+
+	aTaskspaceService explorersDo: [ :each | 
+		(SpkExplorerWindow newApplication: self model: each) openWithSpec ]
 ]
 
 { #category : 'running' }
 SparkleTaskspace >> start [
-	obsoletePresenter := self new: SpkOldWorkspacePresenter.
-	obsoletePresenter openWithSpec "Sets window"
-]
 
-{ #category : 'accessing' }
-SparkleTaskspace >> window [
-	^ obsoleteWindow
-]
-
-{ #category : 'accessing' }
-SparkleTaskspace >> window: anObject [
-	obsoleteWindow := anObject
+	self shouldNotImplement
 ]

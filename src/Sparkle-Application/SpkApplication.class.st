@@ -7,15 +7,6 @@ Class {
 	#category : 'Sparkle-Application'
 }
 
-{ #category : 'instance creation' }
-SpkApplication class >> open [
-	"SpkApplication open"
-
-	^ self new
-		start;
-		yourself
-]
-
 { #category : 'initialization' }
 SpkApplication >> initialize [
 	iconManager := SpkIconLibrary current

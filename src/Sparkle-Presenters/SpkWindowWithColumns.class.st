@@ -19,8 +19,9 @@ Since they represent the entire contents of a Pharo window, instances of my subc
 "
 Class {
 	#name : 'SpkWindowWithColumns',
-	#superclass : 'SpkPresenter',
+	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
+		'window',
 		'columns',
 		'columnLayout'
 	],
@@ -67,8 +68,8 @@ SpkWindowWithColumns >> initialize [
 { #category : 'initialization' }
 SpkWindowWithColumns >> initializeWindow: aWindowPresenter [
 
-	application window: aWindowPresenter.
-	aWindowPresenter
+	window := aWindowPresenter.
+	window
 		title: 'Sparkle Object Explorer';
 		aboutText:
 			'The Sparkle object explorer is part of the Pharo IDE for GemStone, 

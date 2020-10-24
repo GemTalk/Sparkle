@@ -40,6 +40,12 @@ SpkColumn >> add: aPane withConstraints: constraints beforeIndex: index [
 		beforeIndex: index
 ]
 
+{ #category : 'adding' }
+SpkColumn >> addLast: aPane [
+
+	self layout addLast: aPane
+]
+
 { #category : 'accessing' }
 SpkColumn >> layout [
 

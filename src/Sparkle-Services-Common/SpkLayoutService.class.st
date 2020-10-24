@@ -51,11 +51,6 @@ SpkLayoutService >> columnRelativeWidths [
 ]
 
 { #category : 'accessing' }
-SpkLayoutService >> columnRelativeWidths: anObject [
-	columnRelativeWidths := anObject
-]
-
-{ #category : 'accessing' }
 SpkLayoutService >> height [
 	^ height
 ]
@@ -72,10 +67,16 @@ SpkLayoutService >> initialize [
 
 	super initialize.
 	height := width := 900.
-	paneServices := Array new.
-	paneRelativeHeights := Array new.
-	columnRelativeWidths := #( 1 1 ).
-	panesPerColumn := #( 0 0 )
+	paneServices := OrderedCollection new.
+	paneRelativeHeights := OrderedCollection new.
+	columnRelativeWidths := #( 1 1 ) asOrderedCollection.
+	panesPerColumn := #( 0 0 ) asOrderedCollection
+]
+
+{ #category : 'accessing' }
+SpkLayoutService >> numberOfColumns [
+
+	^ panesPerColumn size
 ]
 
 { #category : 'accessing' }
@@ -84,28 +85,19 @@ SpkLayoutService >> paneRelativeHeights [
 ]
 
 { #category : 'accessing' }
-SpkLayoutService >> paneRelativeHeights: anObject [
-	paneRelativeHeights := anObject
-]
-
-{ #category : 'accessing' }
 SpkLayoutService >> paneServices [
 	^ paneServices
 ]
 
 { #category : 'accessing' }
-SpkLayoutService >> paneServices: anObject [
-	paneServices := anObject
+SpkLayoutService >> panesInColumn: columnIndex [
+
+	^ panesPerColumn at: columnIndex
 ]
 
 { #category : 'accessing' }
 SpkLayoutService >> panesPerColumn [
 	^ panesPerColumn
-]
-
-{ #category : 'accessing' }
-SpkLayoutService >> panesPerColumn: anObject [
-	panesPerColumn := anObject
 ]
 
 { #category : 'accessing' }

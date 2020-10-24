@@ -11,3 +11,18 @@ SpkTestExplorerServiceClient class >> testExplorer1 [
 		  addPane: SpkTestInspectorServiceClient cuddles;
 		  yourself
 ]
+
+{ #category : 'accessing' }
+SpkTestExplorerServiceClient >> addPane: aPaneService [
+
+	super addPane: aPaneService.
+	layoutService addPane: aPaneService beforePosition: 1 inColumn: 1
+]
+
+{ #category : 'initialization' }
+SpkTestExplorerServiceClient >> defaultLayout [
+
+	^ super defaultLayout
+		  height: 600;
+		  yourself
+]

@@ -11,20 +11,13 @@ A column's containing presenter is a kind of SpkWindowWithColumns.
 Class {
 	#name : 'SpkColumn',
 	#superclass : 'SpkPresenter',
+	#traits : 'SpkTVerticalAccordianLayout',
+	#classTraits : 'SpkTVerticalAccordianLayout classTrait',
 	#instVars : [
-		'panes',
-		'stackLayout'
+		'panes'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
-
-{ #category : 'specs' }
-SpkColumn class >> defaultSpec [
-	"This method only here to quiet browser linting. Should never be sent to this class.
-	See instance-side #layout."
-
-	self error: '#defaultSpec sent when not expected'
-]
 
 { #category : 'adding' }
 SpkColumn >> add: aPane beforeIndex: index [
@@ -44,12 +37,4 @@ SpkColumn >> add: aPane withConstraints: constraints beforeIndex: index [
 SpkColumn >> addLast: aPane [
 
 	self layout addLast: aPane
-]
-
-{ #category : 'accessing' }
-SpkColumn >> layout [
-
-	"Cannot use the instvar 'layout' since it is defined in a superclass as an observable slot."
-
-	^ stackLayout ifNil: [ stackLayout := SpkAccordianLayout newVertical ]
 ]

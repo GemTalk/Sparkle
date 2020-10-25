@@ -9,11 +9,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'accessing colors' }
-SpkEvaluator class >> headerColor [
-	^ Color fromHexString: '2f5531'
-]
-
 { #category : 'initialization' }
 SpkEvaluator >> connectPresenters [
 

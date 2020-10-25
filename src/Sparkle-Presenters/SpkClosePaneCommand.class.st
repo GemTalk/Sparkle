@@ -4,6 +4,11 @@ Class {
 	#category : 'Sparkle-Presenters-Commands'
 }
 
+{ #category : 'default' }
+SpkClosePaneCommand class >> defaultDescription [
+	^ 'Close this pane and remove it from the explorer window'
+]
+
 { #category : 'defaults' }
 SpkClosePaneCommand class >> defaultIconName [
 

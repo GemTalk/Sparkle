@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkHeader',
-	#superclass : 'SpkPresenter',
+	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'closeButton',
 		'label',
@@ -58,7 +58,7 @@ SpkHeader >> initializePresenters [
 
 	super initializePresenters.
 	label := self newLabel.
-	label label: containingPresenter label.
+	label label: self labelString.
 	menuButton := self newMenuButton
 		              color: Color transparent;
 		              icon: (self iconNamed: #hamburgerWhite16);
@@ -67,7 +67,7 @@ SpkHeader >> initializePresenters [
 		               color: Color transparent;
 		               icon: (self iconNamed: #glamorousClose);
 		               help: 'Close the pane';
-		               action: [ containingPresenter closeRequestedLocally ];
+		               action: [ owner closeRequestedLocally ];
 		               yourself
 ]
 
@@ -82,10 +82,15 @@ SpkHeader >> label: anObject [
 ]
 
 { #category : 'accessing' }
+SpkHeader >> labelString [
+
+	^ 'This is a label'
+]
+
+{ #category : 'accessing' }
 SpkHeader >> menu [
 
-	^ menu ifNil: [ 
-		  menu := containingPresenter menuActions asMenuPresenter ]
+	^ menu ifNil: [ menu := owner menuActions asMenuPresenter ]
 ]
 
 { #category : 'accessing' }

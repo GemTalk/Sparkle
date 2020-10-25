@@ -43,6 +43,15 @@ SpkBoxLayout >> addLast: aPresenterOrName [
 	self add: aPresenterOrName beforeIndex: children size + 1
 ]
 
+{ #category : 'adding' }
+SpkBoxLayout >> addLast: aPresenterOrName withConstraints: aBlock [
+
+	self
+		add: aPresenterOrName
+		withConstraints: aBlock
+		beforeIndex: children size + 1
+]
+
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> announceChildAdded: aNameOrPresenter beforeIndex: anInteger [
 	self presenter ifNotNil: [ 

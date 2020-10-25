@@ -16,34 +16,10 @@ SpkPane class >> defaultSpec [
 		  yourself
 ]
 
-{ #category : 'accessing colors' }
-SpkPane class >> headerColor [
-	self subclassResponsibility
-]
-
 { #category : 'values' }
 SpkPane class >> headerHeight [
 
 	^ 24
-]
-
-{ #category : 'layout' }
-SpkPane class >> headerLayout [
-
-	^ SpkBoxLayout newHorizontal
-		  color: self headerColor;
-		  add: #paneIcon width: 16;
-		  add: (SpkBoxLayout newHorizontal
-				   hAlignCenter;
-				   vAlignEnd;
-				   add: #paneLabel withConstraints: [ :constraints | 
-					   constraints
-						   fill: false;
-						   yourself ];
-				   yourself);
-		  add: #paneMenuButton width: 24;
-		  add: #paneCloseButton width: 24;
-		  yourself
 ]
 
 { #category : 'commands' }

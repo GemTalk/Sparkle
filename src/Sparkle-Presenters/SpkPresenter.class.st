@@ -9,9 +9,6 @@ Instance variables
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',
-	#instVars : [
-		'containingPresenter'
-	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 

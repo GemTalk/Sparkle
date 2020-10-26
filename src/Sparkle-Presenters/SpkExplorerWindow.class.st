@@ -53,7 +53,7 @@ SpkExplorerWindow >> connectPresenters [
 				paneIndexInColumn := 1 ].
 		column := self columnAt: columnNumber.
 		presenter.
-		column addLast: presenter.
+		column add: presenter.
 		paneIndexInColumn := paneIndexInColumn + 1 ]
 ]
 

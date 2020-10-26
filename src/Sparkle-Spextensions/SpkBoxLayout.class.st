@@ -20,15 +20,6 @@ SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 		beforeIndex: anInteger
 ]
 
-{ #category : 'adding' }
-SpkBoxLayout >> add: aPresenter width: widthInteger beforeIndex: indexInteger [
-
-	self
-		add: aPresenter
-		withConstraints: [ :constraints | constraints width: widthInteger ]
-		beforeIndex: indexInteger
-]
-
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInteger [
 	| constraints |
@@ -39,17 +30,11 @@ SpkBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInt
 ]
 
 { #category : 'adding' }
-SpkBoxLayout >> addLast: aPresenterOrName [
-	self add: aPresenterOrName beforeIndex: children size + 1
-]
-
-{ #category : 'adding' }
 SpkBoxLayout >> addLast: aPresenterOrName withConstraints: aBlock [
 
-	self
-		add: aPresenterOrName
-		withConstraints: aBlock
-		beforeIndex: children size + 1
+	"#addLast: and friends have no meaning in this layout. Use #add: variants instead."
+
+	self shouldNotImplement
 ]
 
 { #category : 'adding/removing presenters' }

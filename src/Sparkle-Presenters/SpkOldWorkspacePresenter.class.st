@@ -7,14 +7,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'specs' }
-SpkOldWorkspacePresenter class >> defaultSpec [
-	"This method only here to quiet browser linting. Should never be sent to this class.
-	See instance-side #layout."
-
-	self error: '#defaultSpec sent when not expected'
-]
-
 { #category : 'constants' }
 SpkOldWorkspacePresenter >> aboutTitle [
 	"Unlike other window properties, at the time of this writing this property cannot be set in 	#initializeWindow. If that changes in the future this should be moved."

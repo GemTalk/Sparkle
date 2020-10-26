@@ -11,13 +11,17 @@ A column's containing presenter is a kind of SpkWindowWithColumns.
 Class {
 	#name : 'SpkColumn',
 	#superclass : 'SpkPresenter',
-	#traits : 'SpkTVerticalAccordianLayout',
-	#classTraits : 'SpkTVerticalAccordianLayout classTrait',
 	#instVars : [
 		'panes'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'adding' }
+SpkColumn >> add: aPane [
+
+	self layout add: aPane
+]
 
 { #category : 'adding' }
 SpkColumn >> add: aPane beforeIndex: index [
@@ -33,8 +37,8 @@ SpkColumn >> add: aPane withConstraints: constraints beforeIndex: index [
 		beforeIndex: index
 ]
 
-{ #category : 'adding' }
-SpkColumn >> addLast: aPane [
+{ #category : 'accessing' }
+SpkColumn >> newLayout [
 
-	self layout addLast: aPane
+	^ SpkAccordianLayout newVertical
 ]

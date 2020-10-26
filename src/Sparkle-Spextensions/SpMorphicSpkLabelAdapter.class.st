@@ -1,3 +1,8 @@
+"
+I adapt an SpkLabelPresenter to Morphic. In addition to what my superclass does, I
+* Build the LabelMorph with horizontal shrinkWrap so there is more control over the placement of a label within its layout.
+* Apply any text emphasis (bold, italic...) that is specified by my presenter. 
+"
 Class {
 	#name : 'SpMorphicSpkLabelAdapter',
 	#superclass : 'SpMorphicLabelAdapter',
@@ -10,6 +15,7 @@ SpMorphicSpkLabelAdapter >> buildWidget [
 	| label |
 	label := label := LabelMorph new model: self.
 	label
+		emphasis: self presenter emphasis;
 		getEnabledSelector: #enabled;
 		getTextSelector: #getText;
 		vResizing: #shrinkWrap;

@@ -3,15 +3,23 @@ Class {
 	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'closeButton',
-		'label',
 		'menu',
-		'menuButton'
+		'menuButton',
+		'labelLayout'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'accessing colors' }
+SpkHeader class >> headerColor [
+
+	"Non-pane headers are usually transparent"
+
+	^ Color transparent
+]
+
 { #category : 'specs' }
-SpkHeader class >> defaultSpec [
+SpkHeader class >> oldDfaultSpec [
 
 	^ SpkBoxLayout newHorizontal
 		  color: self headerColor;
@@ -28,14 +36,6 @@ SpkHeader class >> defaultSpec [
 		  yourself
 ]
 
-{ #category : 'accessing colors' }
-SpkHeader class >> headerColor [
-
-	"Non-pane headers are usually transparent"
-
-	^ Color transparent
-]
-
 { #category : 'accessing' }
 SpkHeader >> closeButton [
 	^ closeButton
@@ -44,6 +44,12 @@ SpkHeader >> closeButton [
 { #category : 'accessing' }
 SpkHeader >> closeButton: anObject [
 	closeButton := anObject
+]
+
+{ #category : 'private' }
+SpkHeader >> closeButtonWidth [
+
+	^ 24
 ]
 
 { #category : 'initialization' }
@@ -57,8 +63,6 @@ SpkHeader >> connectPresenters [
 SpkHeader >> initializePresenters [
 
 	super initializePresenters.
-	label := self newLabel.
-	label label: self labelString.
 	menuButton := self newMenuButton
 		              color: Color transparent;
 		              icon: (self iconNamed: #hamburgerWhite16);
@@ -68,23 +72,17 @@ SpkHeader >> initializePresenters [
 		               icon: (self iconNamed: #glamorousClose);
 		               help: 'Close the pane';
 		               action: [ owner closeRequestedLocally ];
-		               yourself
-]
-
-{ #category : 'accessing' }
-SpkHeader >> label [
-	^ label
-]
-
-{ #category : 'accessing' }
-SpkHeader >> label: anObject [
-	label := anObject
+		               yourself.
+	labelLayout := SpkBoxLayout newHorizontal
+		                hAlignCenter;
+		                vAlignEnd;
+		                yourself
 ]
 
 { #category : 'accessing' }
 SpkHeader >> labelString [
 
-	^ 'This is a label'
+	^ 'This is a non-label'
 ]
 
 { #category : 'accessing' }
@@ -106,4 +104,16 @@ SpkHeader >> menuButton [
 { #category : 'accessing' }
 SpkHeader >> menuButton: anObject [
 	menuButton := anObject
+]
+
+{ #category : 'private' }
+SpkHeader >> menuButtonWidth [
+
+	^ 24
+]
+
+{ #category : 'accessing' }
+SpkHeader >> newLayout [
+
+	^ SpkBoxLayout newHorizontal
 ]

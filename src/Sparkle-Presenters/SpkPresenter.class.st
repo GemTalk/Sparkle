@@ -9,8 +9,21 @@ Instance variables
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',
+	#instVars : [
+		'spkLayout'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'specs' }
+SpkPresenter class >> defaultSpec [
+
+	"This method only here to quiet browser linting. Should never be sent to this class.
+	Sparkle layouts are created and managed dynamically.
+	See instance-side #layout."
+
+	self error: '#defaultSpec sent when not expected'
+]
 
 { #category : 'work in progress' }
 SpkPresenter class >> notYetImplemented: aString [
@@ -27,6 +40,14 @@ SpkPresenter >> iconNamed: aSymbol [
 	^ self application iconNamed: aSymbol
 ]
 
+{ #category : 'accessing' }
+SpkPresenter >> layout [
+
+	"Cannot use the instvar 'layout' since it is defined in a superclass as an observable slot."
+
+	^ spkLayout ifNil: [ spkLayout := self newLayout ]
+]
+
 { #category : 'widgets' }
 SpkPresenter >> newButton [
 
@@ -37,6 +58,12 @@ SpkPresenter >> newButton [
 SpkPresenter >> newLabel [
 
 	^ self instantiate: SpkLabelPresenter
+]
+
+{ #category : 'accessing' }
+SpkPresenter >> newLayout [
+
+	self subclassResponsibility
 ]
 
 { #category : 'widgets' }

@@ -1,8 +1,6 @@
 Class {
 	#name : 'SpkInspectorPane',
 	#superclass : 'SpkPane',
-	#traits : 'SpkTVerticalAccordianLayout',
-	#classTraits : 'SpkTVerticalAccordianLayout classTrait',
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -16,7 +14,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 		                      action: [ self addEvaluator ];
 		                      yourself.
 	self layout
-		addLast: addEvaluatorButton
+		add: addEvaluatorButton
 		withConstraints: [ :constraints | 
 			constraints
 				height: 40;
@@ -27,7 +25,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 SpkInspectorPane >> initializeHeader [
 
 	header := self instantiate: SpkInspectorPaneHeader on: model.
-	self layout addLast: header withConstraints: [ :constraints | 
+	self layout add: header withConstraints: [ :constraints | 
 		constraints
 			height: 24;
 			yourself ]
@@ -46,7 +44,15 @@ SpkInspectorPane >> menuActions [
 
 	^ CmCommandGroup forSpec
 		  beRoot;
-		  register: (SpkAddEvaluatorCommand forSpecContext: self);
+		  register: ((SpkAddEvaluatorCommand forSpecContext: self)
+				   iconProvider: SpkIconLibrary current;
+				   yourself);
 		  register: (SpkClosePaneCommand forSpecContext: self);
 		  yourself
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> newLayout [
+
+	^ SpkAccordianLayout newVertical
 ]

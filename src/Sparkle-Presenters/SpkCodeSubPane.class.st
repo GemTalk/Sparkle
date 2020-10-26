@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : 'specs' }
-SpkCodeSubPane class >> defaultSpec [
+SpkCodeSubPane class >> oldDefaultSpec [
 	^ super defaultSpec
 		  add: #codePresenter;
 		  yourself

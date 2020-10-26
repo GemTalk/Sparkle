@@ -9,19 +9,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'specs' }
-SpkPane class >> defaultSpec [
-	^ SpBoxLayout newVertical
-		  add: self headerLayout height: self headerHeight;
-		  yourself
-]
-
-{ #category : 'values' }
-SpkPane class >> headerHeight [
-
-	^ 24
-]
-
 { #category : 'commands' }
 SpkPane class >> sourceCodeCommandsGroupWith: aPresenter [
 

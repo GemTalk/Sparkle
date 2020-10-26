@@ -28,20 +28,13 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'specs' }
-SpkWindowWithColumns class >> defaultSpec [
-	"This method only here to quiet browser linting. Should never be sent to this class.
-	See instance-side #layout."
-
-	self error: '#defaultSpec sent when not expected'
-]
-
 { #category : 'adding' }
 SpkWindowWithColumns >> addColumn [
+
 	| newColumn |
 	newColumn := self instantiate: SpkColumn.
 	columns addLast: newColumn.
-	self layout addLast: newColumn
+	self layout add: newColumn
 ]
 
 { #category : 'accessing' }
@@ -78,7 +71,7 @@ a set of tools for developing GemStone code via a remote connection from Pharo.'
 ]
 
 { #category : 'accessing' }
-SpkWindowWithColumns >> layout [
-	^ columnLayout ifNil: [ 
-		  columnLayout := SpkAccordianLayout newHorizontal ]
+SpkWindowWithColumns >> newLayout [
+
+	^ SpkAccordianLayout newHorizontal
 ]

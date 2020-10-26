@@ -8,29 +8,12 @@ Class {
 }
 
 { #category : 'layout' }
-SpkPaneHeader class >> defaultSpec [
+SpkPaneHeader class >> oldDefaultSpec [
 
-	^ super defaultSpec	
-		  add: #dragHandle width: 16 beforeIndex: 1;
-		  yourself
-]
-
-{ #category : 'layout' }
-SpkPaneHeader class >> headerLayout [
-
-	^ SpkBoxLayout newHorizontal
-		  color: self headerColor;
-		  add: #paneIcon width: 16;
-		  add: (SpkBoxLayout newHorizontal
-				   hAlignCenter;
-				   vAlignEnd;
-				   add: #paneLabel withConstraints: [ :constraints | 
-					   constraints
-						   fill: false;
-						   yourself ];
-				   yourself);
-		  add: #paneMenuButton width: 24;
-		  add: #paneCloseButton width: 24;
+	^ super defaultSpec
+		  add: #dragHandle
+		  withConstraints: [ :constraints | constraints width: 16 ]
+		  beforeIndex: 1;
 		  yourself
 ]
 
@@ -42,6 +25,12 @@ SpkPaneHeader >> dragHandle [
 { #category : 'accessing' }
 SpkPaneHeader >> dragHandle: anObject [
 	dragHandle := anObject
+]
+
+{ #category : 'private' }
+SpkPaneHeader >> dragHandleWidth [
+
+	^ 16
 ]
 
 { #category : 'initialization' }

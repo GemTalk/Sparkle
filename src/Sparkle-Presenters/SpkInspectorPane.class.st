@@ -25,10 +25,9 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 SpkInspectorPane >> initializeHeader [
 
 	header := self instantiate: SpkInspectorPaneHeader on: model.
-	self layout add: header withConstraints: [ :constraints | 
-		constraints
-			height: 24;
-			yourself ]
+	self layout
+		add: header
+		withConstraints: [ :constraints | constraints height: 48 ]
 ]
 
 { #category : 'initialization' }

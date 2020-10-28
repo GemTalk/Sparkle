@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkBoxLayout',
 	#superclass : 'SpBoxLayout',
+	#traits : 'SpkTAlignable',
+	#classTraits : 'SpkTAlignable classTrait',
 	#instVars : [
 		'color'
 	],

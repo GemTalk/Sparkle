@@ -74,9 +74,9 @@ SpkHeader >> initializePresenters [
 		               action: [ owner closeRequestedLocally ];
 		               yourself.
 	labelLayout := SpkBoxLayout newHorizontal
-		                hAlignCenter;
-		                vAlignEnd;
-		                yourself
+		               hAlignJustified;
+		               vAlignCenter;
+		               yourself
 ]
 
 { #category : 'accessing' }

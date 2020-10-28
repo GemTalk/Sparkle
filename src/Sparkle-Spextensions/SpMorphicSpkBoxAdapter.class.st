@@ -88,29 +88,19 @@ SpMorphicSpkBoxAdapter >> addPadding: aNumber toMorph: aMorph [
 { #category : 'private' }
 SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
 
-	| alignmentWidget |
-	aWidget
-		changeTableLayout;
-		hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap.
-	alignmentWidget := Morph new
-		                   changeTableLayout;
-		                   color: layout color;
-		                   addMorphBack: widget.
+	aWidget changeTableLayout.
 	layout isVertical
 		ifTrue: [ 
-			alignmentWidget listDirection: #topToBottom.
-			layout hAlign ifNotNil: [ :align | 
-				alignmentWidget wrapCentering: align asMorphicAlign ].
-			layout vAlign ifNotNil: [ :align | 
-				alignmentWidget listCentering: align asMorphicAlign ] ]
+			layout vAlign ifNotNil: [ :valign | 
+				aWidget listCentering: valign asMorphicAlign ].
+			layout hAlign ifNotNil: [ :halign | 
+				aWidget cellPositioning: halign asMorphicAlign ] ]
 		ifFalse: [ 
-			alignmentWidget listDirection: #leftToRight.
-			layout hAlign ifNotNil: [ :align | 
-				alignmentWidget listCentering: align asMorphicAlign ].
-			layout vAlign ifNotNil: [ :align | 
-				alignmentWidget wrapCentering: align asMorphicAlign ] ].
-	^ alignmentWidget
+			layout hAlign ifNotNil: [ :halign | 
+				aWidget listCentering: halign asMorphicAlign ].
+			layout vAlign ifNotNil: [ :valign | 
+				aWidget cellPositioning: valign asMorphicAlign ] ].
+	^ aWidget
 ]
 
 { #category : 'private' }

@@ -22,16 +22,12 @@ SpkLinearLayoutPolicy >> layout: aMorph in: box [
 	"Give all the submorphs of aMorph bounds so that they fit in the given box"
 
 	| layout |
-	layout := self layoutClass new.
+	properties := aMorph assureLayoutProperties.
+	layout := properties primaryAlignmentClass new.
 	layout
 		policy: self;
+		coordinateTransform: properties coordinateTransform;
 		morph: aMorph;
 		bounds: box;
 		computeLayout
-]
-
-{ #category : 'accessing' }
-SpkLinearLayoutPolicy >> layoutClass [
-
-	^ SpkLinearLayout
 ]

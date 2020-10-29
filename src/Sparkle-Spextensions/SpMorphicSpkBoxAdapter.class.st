@@ -6,8 +6,33 @@ This class is an adapter for a layout like a box layout but with the ability to 
 Class {
 	#name : 'SpMorphicSpkBoxAdapter',
 	#superclass : 'SpMorphicLayoutAdapter',
+	#classVars : [
+		'AlignmentClasses'
+	],
 	#category : 'Sparkle-Spextensions-Adapters'
 }
+
+{ #category : 'private' }
+SpMorphicSpkBoxAdapter class >> alignmentClassFor: anAlignment [
+
+	^ AlignmentClasses
+		  at: anAlignment asMorphicAlign
+		  ifAbsent: [ self error: 'Unsupported alignment' ]
+]
+
+{ #category : 'class initialization' }
+SpMorphicSpkBoxAdapter class >> initialize [
+
+	"SpMorphicSpkBoxAdapter initialize"
+
+	AlignmentClasses := IdentityDictionary new
+		                    at: #center put: SpkLinearLayoutAlignCenter;
+		                    at: #bottomRight put: SpkLinearLayoutAlignEnd;
+		                    at: #topLeft put: SpkLinearLayoutAlignBegin;
+		                    at: #justified
+		                    put: SpkLinearLayoutAlignJustified;
+		                    yourself
+]
 
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> add: aPresenter constraints: constraints beforeIndex: anInteger [
@@ -86,20 +111,26 @@ SpMorphicSpkBoxAdapter >> addPadding: aNumber toMorph: aMorph [
 ]
 
 { #category : 'private' }
+SpMorphicSpkBoxAdapter >> alignmentClassFor: anAlignment [
+
+	^ self class alignmentClassFor: anAlignment
+]
+
+{ #category : 'private' }
 SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
 
 	aWidget changeLinearLayout.
 	layout isVertical
 		ifTrue: [ 
-			layout vAlign ifNotNil: [ :valign | 
-				aWidget listCentering: valign asMorphicAlign ].
-			layout hAlign ifNotNil: [ :halign | 
-				aWidget cellPositioning: halign asMorphicAlign ] ]
+			layout vAlign ifNotNil: [ :vAlign | 
+				aWidget primaryAlignmentClass: (self alignmentClassFor: vAlign) ].
+			layout hAlign ifNotNil: [ :hAlign | 
+				aWidget cellPositioning: hAlign asMorphicAlign ] ]
 		ifFalse: [ 
-			layout hAlign ifNotNil: [ :halign | 
-				aWidget listCentering: halign asMorphicAlign ].
-			layout vAlign ifNotNil: [ :valign | 
-				aWidget cellPositioning: valign asMorphicAlign ] ].
+			layout hAlign ifNotNil: [ :hAlign | 
+				aWidget primaryAlignmentClass: (self alignmentClassFor: hAlign) ].
+			layout vAlign ifNotNil: [ :vAlign | 
+				aWidget cellPositioning: vAlign asMorphicAlign ] ].
 	^ aWidget
 ]
 
@@ -132,28 +163,28 @@ SpMorphicSpkBoxAdapter >> children [
 
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> layout: aLayout [
+
 	layout := aLayout.
 	widget ifNil: [ "build of widget was differed up to here (to know what is the direction)"
 		widget := aLayout direction newWidgetOn: self.
 		widget borderWidth: aLayout borderWidth.
 		aLayout hasAlignment ifTrue: [ 
-			widget := self applyAlignmentTo: widget ].
-		"the spacing needs to be applied to the inner sub-panels"
-		widget cellInset: aLayout spacing
-		"widget homogeneous: aLayout isHomogeneous" ].
+			widget := self applyAlignmentTo: widget ] ].
 	aLayout whenChildrenAddedDo: [ :ann | 
 		self
 			add: ann child
 			constraints: (aLayout constraintsFor: ann child)
 			beforeIndex: ann index ].
-	aLayout whenChildrenRemovedDo: [ :ann | self removeChild: ann child atIndex: ann index].
+	aLayout whenChildrenRemovedDo: [ :ann | 
+		self removeChild: ann child atIndex: ann index ].
 	super layout: aLayout
 ]
 
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> newHorizontal [
+
 	^ self newPanel
-		  listDirection: #leftToRight;
+		  coordinateTransform: SpkHorizontalTransform uniqueInstance;
 		  yourself
 ]
 
@@ -175,8 +206,9 @@ SpMorphicSpkBoxAdapter >> newPanel [
 
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> newVertical [
+
 	^ self newPanel
-		  listDirection: #topToBottom;
+		  coordinateTransform: SpkVerticalTransform uniqueInstance;
 		  yourself
 ]
 

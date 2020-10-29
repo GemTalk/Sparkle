@@ -26,12 +26,51 @@ For SpkBoxLayouts at the Spec level. More control than LayoutProperties, but a l
 
 "
 Class {
-	#name : 'SpkLayoutProperties',
+	#name : 'SpkLinearLayoutProperties',
 	#superclass : 'LayoutProperties',
 	#instVars : [
-		'directionClass',
-		'primaryAlignment',
-		'secondaryAlignment'
+		'coordinateTransform',
+		'primaryAlignmentClass',
+		'cellPositioning'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
+
+{ #category : 'accessing' }
+SpkLinearLayoutProperties >> cellPositioning [
+
+	^ cellPositioning
+]
+
+{ #category : 'accessing' }
+SpkLinearLayoutProperties >> cellPositioning: anObject [
+	cellPositioning := anObject
+]
+
+{ #category : 'accessing' }
+SpkLinearLayoutProperties >> coordinateTransform [
+	^ coordinateTransform
+]
+
+{ #category : 'accessing' }
+SpkLinearLayoutProperties >> coordinateTransform: anObject [
+	coordinateTransform := anObject
+]
+
+{ #category : 'initialization' }
+SpkLinearLayoutProperties >> initialize [
+
+	super initialize.
+	primaryAlignmentClass := SpkLinearLayoutAlignCenter.
+	cellPositioning := #center
+]
+
+{ #category : 'accessing' }
+SpkLinearLayoutProperties >> primaryAlignmentClass [
+	^ primaryAlignmentClass
+]
+
+{ #category : 'accessing' }
+SpkLinearLayoutProperties >> primaryAlignmentClass: anObject [
+	primaryAlignmentClass := anObject
+]

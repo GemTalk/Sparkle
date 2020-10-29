@@ -4,8 +4,25 @@ Abstract. My subclasses handle transformations between a (primary, secondary) co
 Class {
 	#name : 'SpkCoordinateTransform',
 	#superclass : 'Object',
+	#classInstVars : [
+		'uniqueInstance'
+	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
+
+{ #category : 'accessing' }
+SpkCoordinateTransform class >> new [
+
+	self shouldNotImplement
+]
+
+{ #category : 'accessing' }
+SpkCoordinateTransform class >> uniqueInstance [
+
+	self = SpkCoordinateTransform ifTrue: [ 
+		self error: 'I''m abstract, use one of my children.' ].
+	^ uniqueInstance ifNil: [ uniqueInstance := self basicNew initialize ]
+]
 
 { #category : 'accessing' }
 SpkCoordinateTransform >> pEndOf: aRectangle [

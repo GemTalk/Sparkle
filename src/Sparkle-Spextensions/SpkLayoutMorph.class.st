@@ -4,7 +4,19 @@ Class {
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
-{ #category : 'layout-properties' }
+{ #category : 'layout' }
+SpkLayoutMorph >> assureLayoutProperties [
+
+	| props |
+	props := self layoutProperties.
+	props == self ifTrue: [ props := nil ].
+	props ifNil: [ 
+		props := SpkLinearLayoutProperties new initializeFrom: self.
+		self layoutProperties: props ].
+	^ props
+]
+
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> cellInset: aNumber [
 
 	"Layout specific. This property specifies an extra inset for each cell in the layout."
@@ -19,10 +31,11 @@ SpkLayoutMorph >> cellPositioning: aSymbol [
 		#topLeft, #topRight, #bottomLeft, #bottomRight, #topCenter, #leftCenter, #rightCenter, #bottomCenter, #center 
 	which align the receiver's bounds with the cell at the given point."
 
-	self shouldNotImplement
+	self assureLayoutProperties cellPositioning: aSymbol.
+	self layoutChanged
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> cellSpacing: aSymbol [
 
 	"Layout specific. This property describes how the cell size for each element in a list should be computed.
@@ -47,7 +60,13 @@ SpkLayoutMorph >> changeLinearLayout [
 	self layoutChanged
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'as yet unclassified' }
+SpkLayoutMorph >> coordinateTransform: xform [
+
+	self assureLayoutProperties coordinateTransform: xform
+]
+
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> layoutInset: aNumber [
 
 	"Return the extra inset for layouts"
@@ -55,7 +74,7 @@ SpkLayoutMorph >> layoutInset: aNumber [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> listCentering: aSymbol [
 
 	"Layout specific. This property describes how the rows/columns in a list-like layout should be centered.
@@ -68,7 +87,7 @@ SpkLayoutMorph >> listCentering: aSymbol [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> listDirection: aSymbol [
 
 	"Layout specific. This property describes the direction in which a list-like layout should be applied. Possible values are:
@@ -81,7 +100,7 @@ SpkLayoutMorph >> listDirection: aSymbol [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> listSpacing: aSymbol [
 
 	"Layout specific. This property describes how the heights for different rows in a table layout should be handled.
@@ -92,7 +111,7 @@ SpkLayoutMorph >> listSpacing: aSymbol [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> maxCellSize: aPoint [
 
 	"Layout specific. This property specifies the maximum size of a table cell."
@@ -100,7 +119,7 @@ SpkLayoutMorph >> maxCellSize: aPoint [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> minCellSize: aPoint [
 
 	"Layout specific. This property specifies the minimal size of a table cell."
@@ -109,6 +128,13 @@ SpkLayoutMorph >> minCellSize: aPoint [
 ]
 
 { #category : 'layout-properties' }
+SpkLayoutMorph >> primaryAlignmentClass: aClass [
+
+	self assureLayoutProperties primaryAlignmentClass: aClass.
+	self layoutChanged
+]
+
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> reverseTableCells: aBool [
 
 	"Layout specific. This property describes if the cells should be treated in reverse order of submorphs."
@@ -116,7 +142,7 @@ SpkLayoutMorph >> reverseTableCells: aBool [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> rubberBandCells: aBool [
 
 	"Layout specific. This property describes if a parent that is #shrinkWrapped around its children should ignore any #spaceFill children. E.g., when #rubberBandCells is true, the compound layout will always stay at the smallest available size, even though some child may be able to grow."
@@ -124,7 +150,7 @@ SpkLayoutMorph >> rubberBandCells: aBool [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> wrapCentering: aSymbol [
 
 	"Layout specific. This property describes how the rows/columns in a list-like layout should be centered.
@@ -137,7 +163,7 @@ SpkLayoutMorph >> wrapCentering: aSymbol [
 	self shouldNotImplement
 ]
 
-{ #category : 'layout-properties' }
+{ #category : 'bogus properties' }
 SpkLayoutMorph >> wrapDirection: aSymbol [
 
 	"Layout specific. This property describes the direction along which a list-like layout should be wrapped. Possible values are:

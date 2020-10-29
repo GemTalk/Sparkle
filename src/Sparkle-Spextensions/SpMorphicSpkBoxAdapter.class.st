@@ -88,7 +88,7 @@ SpMorphicSpkBoxAdapter >> addPadding: aNumber toMorph: aMorph [
 { #category : 'private' }
 SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
 
-	aWidget changeTableLayout.
+	aWidget changeLinearLayout.
 	layout isVertical
 		ifTrue: [ 
 			layout vAlign ifNotNil: [ :valign | 
@@ -160,8 +160,16 @@ SpMorphicSpkBoxAdapter >> newHorizontal [
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> newPanel [
 
-	^ super newPanel
+	^ self widgetClass new
+		  changeLinearLayout;
+		  hResizing: #spaceFill;
+		  vResizing: #spaceFill;
 		  color: layout color;
+		  borderColor: Color transparent;
+		  clipSubmorphs: true;
+		  "stop being grabbed"beSticky;
+		  borderWidth: 0;
+		  extent: 0 @ 0;
 		  yourself
 ]
 
@@ -175,4 +183,10 @@ SpMorphicSpkBoxAdapter >> newVertical [
 { #category : 'removing' }
 SpMorphicSpkBoxAdapter >> removeChild: aPresenter atIndex: anInteger [
 	widget removeMorph: (widget submorphs at: anInteger)
+]
+
+{ #category : 'private' }
+SpMorphicSpkBoxAdapter >> widgetClass [
+
+	^ SpkLayoutMorph
 ]

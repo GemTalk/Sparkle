@@ -1,3 +1,11 @@
+"
+SpkBoxLayout is somewhat similar to SpBoxLayout, but has additional capabilities. Also a limitation: it currently only works with a Morphic backend, uses some Sparkle-specific Morphic extensions, and currently mostly ignores what backend has been specified.
+
+The additional capabilities:
+- Color defaults to transparent but if set to another color rovides background color for all contained presenters (if they are transparent). Partial transparency probably works.
+- Justified alignment is available in the primary direction
+- Secondary-direction alignment actually works for presenters that do not by their nature fill the space.
+"
 Class {
 	#name : 'SpkBoxLayout',
 	#superclass : 'SpBoxLayout',
@@ -14,12 +22,34 @@ SpkBoxLayout >> adapterName [
 	^ #SpkBoxAdapter
 ]
 
+{ #category : 'adding' }
+SpkBoxLayout >> add: aName [
+
+	self add: aName withConstraints: [ :constraints |  ]
+]
+
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 	self
 		add: aNameOrPresenter
 		withConstraints: [ :constraints |  ]
 		beforeIndex: anInteger
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: aPresenter height: anInteger [
+
+	self
+		add: aPresenter
+		withConstraints: [ :constraints | constraints height: anInteger ]
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: aPresenter width: anInteger [
+
+	self
+		add: aPresenter
+		withConstraints: [ :constraints | constraints width: anInteger ]
 ]
 
 { #category : 'adding/removing presenters' }
@@ -57,6 +87,31 @@ SpkBoxLayout >> announceChildRemoved: aNameOrPresenter atIndex: anInteger [
 				 yourself) ]
 ]
 
+{ #category : 'initialization' }
+SpkBoxLayout >> beHorizontal [
+
+	direction := SpkLayoutDirectionHorizontal uniqueInstance
+]
+
+{ #category : 'initialization' }
+SpkBoxLayout >> beLeftToRight [
+
+	self beHorizontal
+	
+]
+
+{ #category : 'initialization' }
+SpkBoxLayout >> beTopToBottom [
+
+	self beVertical
+]
+
+{ #category : 'initialization' }
+SpkBoxLayout >> beVertical [
+
+	direction := SpkLayoutDirectionVertical uniqueInstance
+]
+
 { #category : 'accessing' }
 SpkBoxLayout >> color [
 
@@ -77,7 +132,9 @@ SpkBoxLayout >> constraintsClass [
 
 { #category : 'initialization' }
 SpkBoxLayout >> initialize [
+
 	super initialize.
+	color := Color transparent.
 	children := SpkOrderedDictionary new
 ]
 

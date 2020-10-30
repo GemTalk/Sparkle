@@ -1,8 +1,6 @@
 Class {
 	#name : 'SpkBoxConstraints',
 	#superclass : 'SpLayoutConstraints',
-	#traits : 'SpTAlignable',
-	#classTraits : 'SpTAlignable classTrait',
 	#instVars : [
 		'padding',
 		'fill',

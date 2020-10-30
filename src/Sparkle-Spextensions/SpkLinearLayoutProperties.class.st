@@ -61,7 +61,7 @@ SpkLinearLayoutProperties >> coordinateTransform: anObject [
 SpkLinearLayoutProperties >> initialize [
 
 	super initialize.
-	primaryAlignmentClass := SpkLinearLayoutAlignCenter.
+	primaryAlignmentClass := SpkLinearLayoutAlignStart.
 	cellPositioning := #center
 ]
 

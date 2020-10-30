@@ -124,7 +124,7 @@ SpkBoxLayout >> color: anObject [
 	color := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkBoxLayout >> constraintsClass [
 
 	^ SpkBoxConstraints

@@ -27,7 +27,7 @@ SpkInspectorPane >> initializeHeader [
 	header := self instantiate: SpkInspectorPaneHeader on: model.
 	self layout
 		add: header
-		withConstraints: [ :constraints | constraints height: 48 ]
+		withConstraints: [ :constraints | constraints height: 30 ]
 ]
 
 { #category : 'initialization' }

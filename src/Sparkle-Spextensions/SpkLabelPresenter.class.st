@@ -1,5 +1,5 @@
 "
-A label that is always centered vertically, and may be horizontally aligned either left, center, or right.
+A label that can be given emphasis (bold, italic, etc.)
 "
 Class {
 	#name : 'SpkLabelPresenter',

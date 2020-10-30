@@ -7,13 +7,13 @@ Trait {
 	#category : 'Sparkle-Spextensions-Layouts'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTAlignable >> hAlignJustified [
 
 	self hAlign: SpkLayoutWidgetAlignmentJustified uniqueInstance
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTAlignable >> vAlignJustified [
 
 	self vAlign: SpkLayoutWidgetAlignmentJustified uniqueInstance

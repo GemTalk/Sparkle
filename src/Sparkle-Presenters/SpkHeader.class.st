@@ -10,14 +10,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'accessing colors' }
-SpkHeader class >> headerColor [
-
-	"Non-pane headers are usually transparent"
-
-	^ Color transparent
-]
-
 { #category : 'specs' }
 SpkHeader class >> oldDfaultSpec [
 
@@ -59,6 +51,14 @@ SpkHeader >> connectPresenters [
 	menuButton menu: self menu
 ]
 
+{ #category : 'accessing colors' }
+SpkHeader >> headerColor [
+
+	"Non-pane headers are usually transparent"
+
+	^ Color transparent
+]
+
 { #category : 'initialization' }
 SpkHeader >> initializePresenters [
 
@@ -75,7 +75,7 @@ SpkHeader >> initializePresenters [
 		               yourself.
 	labelLayout := SpkBoxLayout newHorizontal
 		               hAlignJustified;
-		               vAlignCenter;
+		               vAlignEnd;
 		               yourself
 ]
 

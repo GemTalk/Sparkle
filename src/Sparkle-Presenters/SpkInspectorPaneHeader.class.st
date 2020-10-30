@@ -8,12 +8,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'accessing colors' }
-SpkInspectorPaneHeader class >> headerColor [
-
-	^ Color fromHexString: '2f5531'
-]
-
 { #category : 'accessing' }
 SpkInspectorPaneHeader >> classLabel [
 	^ classLabel
@@ -22,6 +16,12 @@ SpkInspectorPaneHeader >> classLabel [
 { #category : 'accessing' }
 SpkInspectorPaneHeader >> classLabel: anObject [
 	classLabel := anObject
+]
+
+{ #category : 'accessing colors' }
+SpkInspectorPaneHeader >> headerColor [
+
+	^ Color fromHexString: '2f5531'
 ]
 
 { #category : 'initialization' }
@@ -36,19 +36,11 @@ SpkInspectorPaneHeader >> initializePresenters [
 	oopLabel label: model oop hex.
 
 	labelLayout
-		add: classLabel withConstraints: [ :c | 
-			c
-				hAlignStart;
-				fill: false;
-				yourself ];
-		add: oopLabel withConstraints: [ :c | 
-		c
-			hAlignEnd;
-			fill: false;
-			yourself ].
+		add: classLabel withConstraints: [ :c | c fill: false ];
+		add: oopLabel withConstraints: [ :c | c fill: false ].
 
 	self layout
-		color: self class headerColor;
+		color: self headerColor;
 		add: dragHandle width: self dragHandleWidth;
 		add: labelLayout;
 		add: menuButton width: self menuButtonWidth;

@@ -28,7 +28,7 @@ SpMorphicSpkBoxAdapter class >> initialize [
 	AlignmentClasses := IdentityDictionary new
 		                    at: #center put: SpkLinearLayoutAlignCenter;
 		                    at: #bottomRight put: SpkLinearLayoutAlignEnd;
-		                    at: #topLeft put: SpkLinearLayoutAlignBegin;
+		                    at: #topLeft put: SpkLinearLayoutAlignStart;
 		                    at: #justified
 		                    put: SpkLinearLayoutAlignJustified;
 		                    yourself

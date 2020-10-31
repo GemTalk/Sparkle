@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkInspectorPane',
 	#superclass : 'SpkPane',
+	#instVars : [
+		'body'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -8,7 +11,7 @@ Class {
 SpkInspectorPane >> initializeAddEvaluatorButton [
 
 	| addEvaluatorButton |
-	addEvaluatorButton := self newButton
+	addEvaluatorButton := self newIconButton
 		                      icon: (self iconNamed: #addEvaluator24);
 		                      help: 'Add Evaluator';
 		                      action: [ self addEvaluator ];
@@ -19,6 +22,13 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 			constraints
 				height: 40;
 				yourself ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeBody [
+
+	body := self instantiate: SpkInspectorPaneBody on: model.
+	self layout add: body withConstraints: [ :c | c height: 50 ]
 ]
 
 { #category : 'initialization' }
@@ -35,6 +45,7 @@ SpkInspectorPane >> initializePresenters [
 
 	self
 		initializeHeader;
+		initializeBody;
 		initializeAddEvaluatorButton
 ]
 

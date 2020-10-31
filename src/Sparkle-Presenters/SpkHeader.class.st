@@ -67,7 +67,7 @@ SpkHeader >> initializePresenters [
 		              color: Color transparent;
 		              icon: (self iconNamed: #hamburgerWhite16);
 		              yourself.
-	closeButton := self newButton
+	closeButton := self newIconButton
 		               color: Color transparent;
 		               icon: (self iconNamed: #glamorousClose);
 		               help: 'Close the pane';

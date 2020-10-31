@@ -37,9 +37,11 @@ SpkIconLibrary class >> loadFromLocalSrcUrlString: urlString [
 
 { #category : 'accessing' }
 SpkIconLibrary >> iconNamed: aSymbol [
-	^ icons
-		  at: aSymbol
-		  ifAbsent: [ Smalltalk ui icons iconNamed: aSymbol ]
+
+	^ icons at: aSymbol ifAbsent: [ 
+		  Smalltalk ui icons
+			  iconNamed: aSymbol
+			  ifNone: [ UITheme current forms at: aSymbol ] ]
 ]
 
 { #category : 'initialization' }

@@ -55,6 +55,12 @@ SpkPresenter >> newButton [
 ]
 
 { #category : 'widgets' }
+SpkPresenter >> newIconButton [
+
+	^ self instantiate: SpkIconButtonPresenter
+]
+
+{ #category : 'widgets' }
 SpkPresenter >> newLabel [
 
 	^ self instantiate: SpkLabelPresenter

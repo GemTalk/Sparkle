@@ -59,8 +59,14 @@ SpMorphicSpkBoxAdapter >> addConstraits: constraints toChild: childMorph [
 	theMorph
 		hResizing: defaultSizing;
 		vResizing: defaultSizing.
-	constraints width ifNotNil: [ :w | theMorph hResizing: #rigid ].
-	constraints height ifNotNil: [ :h | theMorph vResizing: #rigid ].
+	constraints width ifNotNil: [ :w | 
+		theMorph
+			hResizing: #rigid;
+			width: w ].
+	constraints height ifNotNil: [ :h | 
+		theMorph
+			vResizing: #rigid;
+			height: h ].
 
 	^ theMorph
 ]

@@ -26,7 +26,6 @@ SpkApplication >> initializeSylesheet [
 	superclass addClass: 'paneHeader' with: [ :c | 
 		c addPropertyFontWith: [ :f | 
 			f
-				name: 'Source Sans Pro';
 				size: 12;
 				bold: true ] ].
 	self styleSheet: sheet

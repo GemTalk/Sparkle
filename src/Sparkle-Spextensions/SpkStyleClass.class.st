@@ -7,12 +7,6 @@ Class {
 	#category : 'Sparkle-Spextensions-StyleSheet'
 }
 
-{ #category : 'adding' }
-SpkStyleClass >> addPropertyFontWith: aBlock [ 
-	
-	self addProperty: SpkStyleFont with: aBlock
-]
-
 { #category : 'searching' }
 SpkStyleClass >> styleClassNamed: desiredName [
 

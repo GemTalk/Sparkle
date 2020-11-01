@@ -30,7 +30,7 @@ SparkleTaskspace class >> openFromService: aTaskspaceService [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
 
 	"Open and initialize windows from the given service"

@@ -5,7 +5,8 @@ Class {
 	#name : 'SpkLabelPresenter',
 	#superclass : 'SpLabelPresenter',
 	#instVars : [
-		'emphasis'
+		'emphasis',
+		'sizeAdjustment'
 	],
 	#category : 'Sparkle-Spextensions-Presenters'
 }
@@ -30,5 +31,16 @@ SpkLabelPresenter >> emphasis: anObject [
 SpkLabelPresenter >> initialize [
 
 	super initialize.
-	emphasis := TextEmphasis normal
+	emphasis := TextEmphasis normal.
+	sizeAdjustment := 0
+]
+
+{ #category : 'accessing' }
+SpkLabelPresenter >> sizeAdjustment [
+	^ sizeAdjustment
+]
+
+{ #category : 'accessing' }
+SpkLabelPresenter >> sizeAdjustment: anObject [
+	sizeAdjustment := anObject
 ]

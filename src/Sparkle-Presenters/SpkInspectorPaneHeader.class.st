@@ -30,7 +30,7 @@ SpkInspectorPaneHeader >> initializePresenters [
 	super initializePresenters.
 	classLabel := self newLabel.
 	classLabel
-		emphasis: TextEmphasis bold;
+		addStyle: 'paneHeader';
 		label: model classMembershipDescription.
 	oopLabel := self newLabel.
 	oopLabel label: model oop hex.

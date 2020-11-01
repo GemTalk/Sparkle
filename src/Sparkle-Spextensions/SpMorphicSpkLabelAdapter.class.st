@@ -13,9 +13,8 @@ Class {
 SpMorphicSpkLabelAdapter >> buildWidget [
 
 	| label |
-	label := label := LabelMorph new model: self.
+	label := label := SpkLabelMorph new model: self.
 	label
-		emphasis: self presenter emphasis;
 		getEnabledSelector: #enabled;
 		getTextSelector: #getText;
 		vResizing: #shrinkWrap;

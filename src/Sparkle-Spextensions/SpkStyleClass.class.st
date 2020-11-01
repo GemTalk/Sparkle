@@ -7,7 +7,13 @@ Class {
 	#category : 'Sparkle-Spextensions-StyleSheet'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'adding' }
+SpkStyleClass >> addPropertyFontWith: aBlock [ 
+	
+	self addProperty: SpkStyleFont with: aBlock
+]
+
+{ #category : 'searching' }
 SpkStyleClass >> styleClassNamed: desiredName [
 
 	"Answer a StyleClass that is my subclass with the given name. There must be exactly one."

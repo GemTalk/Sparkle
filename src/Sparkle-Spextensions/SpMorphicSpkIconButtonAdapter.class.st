@@ -27,6 +27,12 @@ SpMorphicSpkIconButtonAdapter >> buildWidget [
 	^ button
 ]
 
+{ #category : 'accessing' }
+SpMorphicSpkIconButtonAdapter >> icon: aForm [
+
+	widget ifNotNil: [ :w | w labelGraphic: aForm ]
+]
+
 { #category : 'factory' }
 SpMorphicSpkIconButtonAdapter >> newButton [
 

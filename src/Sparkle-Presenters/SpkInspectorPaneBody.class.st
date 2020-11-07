@@ -55,8 +55,8 @@ SpkInspectorPaneBody >> initializeFieldList [
 		addColumn: (SpStringTableColumn evaluated: #description);
 		addColumn: ((SpImageTableColumn evaluated: [ :field | 
 					  field isOpen
-						  ifTrue: [ self iconNamed: #hamburgerWhite16 ]
-						  ifFalse: [ self iconNamed: #glamorousSpawn ] ])
+						  ifTrue: [ self iconNamed: #hidePane16 ]
+						  ifFalse: [ self iconNamed: #showPane16 ] ])
 				 width: 25;
 				 yourself);
 		hideColumnHeaders

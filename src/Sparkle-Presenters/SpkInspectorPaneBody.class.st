@@ -18,7 +18,8 @@ Class {
 		'twizzle',
 		'description',
 		'fieldList',
-		'fieldListIsShown'
+		'fieldListIsShown',
+		'fields'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -46,10 +47,34 @@ SpkInspectorPaneBody >> initializeFieldList [
 
 	"Dynamically added to or removed from my layout upon twizzle click."
 
+	self initializeFields.
 	fieldList := self newTable.
 	fieldList
-		addColumn: (SpStringTableColumn evaluated: #boogaloo);
+		items: fields;
+		addColumn: (SpStringTableColumn evaluated: #name);
+		addColumn: (SpStringTableColumn evaluated: #description);
+		addColumn: ((SpImageTableColumn evaluated: [ :field | 
+					  field isOpen
+						  ifTrue: [ self iconNamed: #hamburgerWhite16 ]
+						  ifFalse: [ self iconNamed: #glamorousSpawn ] ])
+				 width: 25;
+				 yourself);
 		hideColumnHeaders
+]
+
+{ #category : 'initialization' }
+SpkInspectorPaneBody >> initializeFields [
+
+	fields := OrderedCollection new.
+	model fieldNames
+		with: model fieldDescriptions
+		do: [ :fname :fdesc | 
+			| field |
+			field := SpkInspectorField new
+				         name: fname;
+				         description: fdesc;
+				         yourself.
+			fields add: field ]
 ]
 
 { #category : 'initialization' }

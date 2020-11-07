@@ -28,7 +28,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 SpkInspectorPane >> initializeBody [
 
 	body := self instantiate: SpkInspectorPaneBody on: model.
-	self layout add: body withConstraints: [ :c | c height: 30 ]
+	self layout add: body
 ]
 
 { #category : 'initialization' }

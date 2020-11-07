@@ -15,8 +15,9 @@ SpkClickyListApplication class >> applicationName [
 
 { #category : 'examples' }
 SpkClickyListApplication class >> example [
+
 	<example>
-	self open
+	self new start
 ]
 
 { #category : 'running' }

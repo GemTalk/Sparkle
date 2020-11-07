@@ -138,6 +138,16 @@ SpkBoxLayout >> initialize [
 	children := SpkOrderedDictionary new
 ]
 
+{ #category : 'removing' }
+SpkBoxLayout >> remove: aPresenter [
+
+	| index |
+	index := children
+		         identityIndexOfKey: aPresenter
+		         ifAbsent: [ self error: 'Presenter not found' ].
+	self removePresenterAtIndex: index
+]
+
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> removePresenterAtIndex: anInteger [
 	| association |

@@ -12,7 +12,7 @@ SpkListAndStackApplication class >> applicationName [
 { #category : 'examples' }
 SpkListAndStackApplication class >> example [
 	<example>
-	self open
+	self new start
 ]
 
 { #category : 'running' }

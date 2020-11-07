@@ -58,7 +58,8 @@ SpkOrderedDictionary >> at: aKey put: aValue [
 	If aKey is new, append it."
 
 	| association |
-	association := elements at: (self identityIndexOf: aKey ifAbsent: [ 
+	association := elements at:
+		               (self identityIndexOfKey: aKey ifAbsent: [ 
 			                elements add: aKey -> aValue.
 			                ^ aValue ]).
 	association value: aValue.
@@ -73,10 +74,20 @@ SpkOrderedDictionary >> do: aBlock [
 ]
 
 { #category : 'accessing' }
-SpkOrderedDictionary >> identityIndexOf: aKey ifAbsent: absentBlock [
+SpkOrderedDictionary >> identityIndexOfKey: aKey ifAbsent: absentBlock [
+
 	1 to: elements size do: [ :i | 
 	(elements at: i) key == aKey ifTrue: [ ^ i ] ].
 	^ absentBlock value
+]
+
+{ #category : 'testing' }
+SpkOrderedDictionary >> includesKey: aPresenter [
+
+	elements
+		detect: [ :association | association key == aPresenter ]
+		ifNone: [ ^ false ].
+	^ true
 ]
 
 { #category : 'initialization' }
@@ -96,7 +107,21 @@ SpkOrderedDictionary >> keysAndValuesDo: aBlock [
 ]
 
 { #category : 'removing' }
-SpkOrderedDictionary >> remove: aKey ifAbsent: anExceptionBlock [
+SpkOrderedDictionary >> removeAtIndex: anInteger [
+	^ elements removeAt: anInteger
+]
+
+{ #category : 'removing' }
+SpkOrderedDictionary >> removeKey: key [
+
+	"Remove key from the receiver.
+	If key is not in the receiver, notify an error."
+
+	^ self removeKey: key ifAbsent: [ self errorKeyNotFound: key ]
+]
+
+{ #category : 'removing' }
+SpkOrderedDictionary >> removeKey: aKey ifAbsent: anExceptionBlock [
 	"Remove the association with the given key (by identity) the receiver's elements. If several of the 
 	elements are equal to oldObject, only one is removed. If no element is 
 	equal to oldObject, answer the result of evaluating anExceptionBlock. 
@@ -105,14 +130,9 @@ SpkOrderedDictionary >> remove: aKey ifAbsent: anExceptionBlock [
 
 	| index |
 	index := self
-		         identityIndexOf: aKey
+		         identityIndexOfKey: aKey
 		         ifAbsent: [ ^ anExceptionBlock value ].
 	^ elements removeAt: index
-]
-
-{ #category : 'removing' }
-SpkOrderedDictionary >> removeAtIndex: anInteger [
-	^ elements removeAt: anInteger
 ]
 
 { #category : 'accessing' }

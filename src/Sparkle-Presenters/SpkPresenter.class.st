@@ -78,6 +78,12 @@ SpkPresenter >> newMenuButton [
 	^ self instantiate: SpkMenuButtonPresenter
 ]
 
+{ #category : 'widgets' }
+SpkPresenter >> newTable [
+
+	^ self instantiate: SpkMultipleSelectionTablePresenter
+]
+
 { #category : 'work in progress' }
 SpkPresenter >> notYetImplemented: aString [
 

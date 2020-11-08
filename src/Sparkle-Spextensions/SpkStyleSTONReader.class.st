@@ -3,7 +3,7 @@ Reader that creates SpkStyleClasses instead of SpStyleClasses.
 "
 Class {
 	#name : 'SpkStyleSTONReader',
-	#superclass : 'SpStyleSTONReader',
+	#superclass : 'SpStyleVariableSTONReader',
 	#category : 'Sparkle-Spextensions-StyleSheet'
 }
 

@@ -30,7 +30,7 @@ SpkInspectorPaneHeader >> initializePresenters [
 	super initializePresenters.
 	classLabel := self newLabel.
 	classLabel
-		addStyle: 'paneHeader';
+		addStyle: 'label.paneHeader';
 		label: model classMembershipDescription.
 	oopLabel := self newLabel.
 	oopLabel label: model oop hex.

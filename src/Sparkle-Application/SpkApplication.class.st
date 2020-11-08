@@ -10,22 +10,24 @@ Class {
 { #category : 'private' }
 SpkApplication >> defaultStyleSheetData [
 
-	^'
+	^ '
 .application [
-	Font { #predefinedFont: #default },
+	Font { #name : EnvironmentFont(#default) },
 	.label [
-		Geometry { #hResizing: true, #height: 18 },
-		.headerError [ Draw { #color:  Color{ #red: 1, #green: 0, #blue: 0, #alpha: 1}}  ],
-		.headerSuccess [ Draw { #color: Color{ #red: 0, #green: 1, #blue: 0, #alpha: 1}}  ],
+		.headerError [ Draw { #color:  #red }  ],
+		.headerSuccess [ Draw { #color: #green } ],
 		.header [ Draw { #color: Color{ #rgb: 622413393 } } ],
 		.shortcut [ Draw { #color: Color{ #rgb: 622413393 } } ],
 		.fixed [ Geometry { #hResizing: false, #width: 100 } ],
-		.dim [ Draw { #color : Color{ #rgb: 708480675 } } ]
+		.dim [ Draw { #color : Color{ #rgb: 708480675 } } ],
+		.paneHeader [ Font { #size: 12, #bold: true } ]
 	],
 	.link [ Geometry { #hResizing: true } ],
 	.button [  
 		Geometry { #width: 100 },
-		.small [ Geometry { #width: 26 } ]
+		.small [ 
+			Geometry { #width: 25 },
+			Container { #borderWidth: 0 } ]
 	],
 	.checkBox [  
 		Geometry { #hResizing: true },
@@ -44,13 +46,13 @@ SpkApplication >> defaultStyleSheetData [
 		Geometry { #width: 60, #hResizing: false },
 		.showIcon [ Geometry { #width: 25 } ]
 	],
-	.toolBar [ 
+	.toolbar [ 
 		Geometry { #hResizing: true },
 		.icons [ Geometry { #height: 30 } ],
 		.iconsAndLabel [ Geometry { #height: 45 } ]
 	],
 	.text [ Geometry { #height: 0 } ],
-	.code [ Font { #predefinedFont: #code } ],
+	.code [ Font { #name: EnvironmentFont(#code) } ],
 	.codePopover [ 
 		Draw { #color : #transparent },
 		.button [ Geometry { #width : 25 } ]
@@ -60,8 +62,10 @@ SpkApplication >> defaultStyleSheetData [
 		Font { #color: #white } 
 	],
 	.scrollbarPopoverLarge [ Geometry { #height: 350 } ],
-	.popover [ 
-		.error [ Draw { #color: #C20000 } ] ] ],
+	.popover [
+		.print [ Draw { #color: EnvironmentColor(#balloonBackground) } ],
+		.error [ Draw { #color: #C20000 } ],
+		.popoverButton [ Draw { #color: EnvironmentColor(#popoverButton) } ] ],
 	.paginator [ Geometry { #height: 20 } ] ]
 '
 ]
@@ -81,14 +85,14 @@ SpkApplication >> initializeSylesheet [
 	"Start with a what is effectively a copy of the default style sheet, 
 	then add our specific classes."
 	sheet := SpkStyleSTONReader fromString: self defaultStyleSheetData.
-	superclass := sheet styleClassNamed: 'label'.
+	"superclass := sheet styleClassNamed: 'label'.
 	superclass addClass: 'paneHeader' with: [ :c | 
 		c
-			"parent: superclass;" "Can't override parent geometry properly, so don't have a parent"
 			addPropertyFontWith: [ :f | 
 				f
 					size: 12;
-					bold: true ] ].
+					bold: true ];
+			addPropertyGeometryWith: [ :g | g height: SpStyleVariableReset new ] ]."
 	self styleSheet: sheet
 ]
 

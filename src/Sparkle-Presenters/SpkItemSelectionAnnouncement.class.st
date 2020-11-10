@@ -9,7 +9,7 @@ Class {
 		'item',
 		'index'
 	],
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Presenters-Announcements'
 }
 
 { #category : 'instance creation' }

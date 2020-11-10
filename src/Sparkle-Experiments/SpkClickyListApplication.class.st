@@ -22,8 +22,9 @@ SpkClickyListApplication class >> example [
 
 { #category : 'running' }
 SpkClickyListApplication >> start [
+
 	| model |
 	model := SpkClickyList withTestContents.
-	2
-		timesRepeat: [ SpkClickyListPresenter openForApplication: self onModel: model ]
+	2 timesRepeat: [ 
+		SpkClickyListPresenter openForApplication: self onModel: model ]
 ]

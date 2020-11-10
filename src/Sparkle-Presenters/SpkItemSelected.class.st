@@ -1,5 +1,5 @@
 Class {
 	#name : 'SpkItemSelected',
 	#superclass : 'SpkItemSelectionAnnouncement',
-	#category : 'Sparkle-Experiments'
+	#category : 'Sparkle-Presenters-Announcements'
 }

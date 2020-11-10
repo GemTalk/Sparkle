@@ -25,10 +25,26 @@ SpkClickyListPresenter class >> openForApplication: anApplication onModel: aMode
 		yourself
 ]
 
+{ #category : 'selection' }
+SpkClickyListPresenter >> deferItemDeselected: anAnnouncement [
+
+	"This is sent by the model when a previously selected item becomes deselected."
+
+	self defer: [ self itemDeselected: anAnnouncement ]
+]
+
+{ #category : 'selection' }
+SpkClickyListPresenter >> deferItemSelected: anAnnouncement [
+
+	"This is sent by the model when a previously unselected item becomes selected."
+
+	self defer: [ self itemSelected: anAnnouncement ]
+]
+
 { #category : 'model interaction' }
 SpkClickyListPresenter >> hookToModel [
-	model when: SpkItemSelected send: #itemSelected: to: self.
-	model when: SpkItemDeselected send: #itemDeselected: to: self.
+	model when: SpkItemSelected send: #deferItemSelected: to: self.
+	model when: SpkItemDeselected send: #deferItemDeselected: to: self.
 	listPane items: model items
 ]
 
@@ -50,20 +66,30 @@ SpkClickyListPresenter >> initializeWindow: aWindowPresenter [
 		whenWillCloseDo: [ self unhookFromModel ]
 ]
 
-{ #category : 'selection' }
+{ #category : 'private' }
 SpkClickyListPresenter >> itemDeselected: anAnnouncement [
+	"Must only be sent by the UI thread.
+	This is sent by the model when a previously selected item becomes deselected."
 
-	"This is sent by the model when a previously selected item becomes deselected."
-
-	self defer: [ self privateItemDeselected: anAnnouncement ]
+	| items index |
+	items := model items.
+	index := items indexOf: anAnnouncement item.
+	index = 0
+		ifTrue: [ ^ self error: 'Selected item not found.' ].
+	listPane unselectIndex: index
 ]
 
-{ #category : 'selection' }
+{ #category : 'private' }
 SpkClickyListPresenter >> itemSelected: anAnnouncement [
 
-	"This is sent by the model when a previously unselected item becomes selected."
+	"Must be sent only from the UI thread.
+	This is sent by the model when a previously unselected item becomes selected."
 
-	self defer: [ self privateItemSelected: anAnnouncement ]
+	| items index |
+	items := model items.
+	index := items indexOf: anAnnouncement item.
+	index = 0 ifTrue: [ ^ self error: 'Selected item not found.' ].
+	listPane selectIndex: index
 ]
 
 { #category : 'accessing' }
@@ -96,32 +122,6 @@ SpkClickyListPresenter >> listPaneSelectedIndexes: newIndexes [
 { #category : 'widgets' }
 SpkClickyListPresenter >> newList [
 	^ self instantiate: SpkMultipleSelectionListPresenter
-]
-
-{ #category : 'private' }
-SpkClickyListPresenter >> privateItemDeselected: anAnnouncement [
-	"Must only be sent by the UI thread.
-	This is sent by the model when a previously selected item becomes deselected."
-
-	| items index |
-	items := model items.
-	index := items indexOf: anAnnouncement item.
-	index = 0
-		ifTrue: [ ^ self error: 'Selected item not found.' ].
-	listPane unselectIndex: index
-]
-
-{ #category : 'private' }
-SpkClickyListPresenter >> privateItemSelected: anAnnouncement [
-
-	"Must be sent only from the UI thread.
-	This is sent by the model when a previously unselected item becomes selected."
-
-	| items index |
-	items := model items.
-	index := items indexOf: anAnnouncement item.
-	index = 0 ifTrue: [ ^ self error: 'Selected item not found.' ].
-	listPane selectIndex: index
 ]
 
 { #category : 'accessing model' }

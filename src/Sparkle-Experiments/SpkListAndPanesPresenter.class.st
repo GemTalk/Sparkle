@@ -31,8 +31,8 @@ SpkListAndPanesPresenter >> addPaneFor: anItem beforeIndex: anInteger [
 
 { #category : 'model interaction' }
 SpkListAndPanesPresenter >> hookToModel [
-	model when: SpkItemSelected send: #itemSelected: to: self.
-	model when: SpkItemDeselected send: #itemDeselected: to: self
+	model when: SpkItemSelected send: #deferItemSelected: to: self.
+	model when: SpkItemDeselected send: #deferItemDeselected: to: self
 ]
 
 { #category : 'initialization' }

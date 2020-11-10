@@ -14,6 +14,7 @@ Class {
 	#name : 'SpkInspectorPaneBody',
 	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
+		'pane',
 		'topLayout',
 		'twizzle',
 		'description',
@@ -23,6 +24,15 @@ Class {
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'initialization' }
+SpkInspectorPaneBody >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkItemSelected send: #fieldSelected: to: pane;
+		when: SpkItemDeselected send: #fieldDeselected: to: pane
+]
 
 { #category : 'initialization' }
 SpkInspectorPaneBody >> initialize [
@@ -117,6 +127,11 @@ SpkInspectorPaneBody >> initializeTwizzle [
 SpkInspectorPaneBody >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'accessing' }
+SpkInspectorPaneBody >> pane: anObject [
+	pane := anObject
 ]
 
 { #category : 'actions' }

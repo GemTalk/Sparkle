@@ -7,6 +7,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> fieldSelected: anAnnouncement [
+
+	self halt.
+]
+
 { #category : 'adding' }
 SpkInspectorPane >> initializeAddEvaluatorButton [
 
@@ -28,6 +34,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 SpkInspectorPane >> initializeBody [
 
 	body := self instantiate: SpkInspectorPaneBody on: model.
+	body pane: self.
 	self layout add: body
 ]
 

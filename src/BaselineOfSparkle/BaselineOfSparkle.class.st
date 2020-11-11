@@ -6,6 +6,7 @@ Class {
 
 { #category : 'baselines' }
 BaselineOfSparkle >> baseline: spec [
+
 	<baseline>
 	spec for: #pharo do: [ 
 		spec
@@ -26,10 +27,10 @@ BaselineOfSparkle >> baseline: spec [
 			package: 'Sparkle-Test'
 			with: [ spec requires: #( 'Sparkle-Presenters' ) ];
 			package: 'Sparkle-Spextensions';
-			package: 'Sparkle-Experiments' with: [ 
+			package: 'Sparkle-Experiments'
+			with: [ 
 				spec requires:
-						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient'
-						   'RemoteServiceReplication' ) ].
+						#( 'Sparkle-Presenters' 'RemoteServiceReplication' ) ].
 		spec
 			baseline: 'RemoteServiceReplication'
 			with: [ spec repository: self rsrUrl ] ]

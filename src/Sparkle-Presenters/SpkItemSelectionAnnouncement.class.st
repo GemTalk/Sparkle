@@ -1,6 +1,6 @@
 "
 My subclasses announce selection or deselection of an item. 
-Note that index is the index within the selected items, not the index within all available items.
+Note that index is the index within all available items, not just the selected items.
 "
 Class {
 	#name : 'SpkItemSelectionAnnouncement',

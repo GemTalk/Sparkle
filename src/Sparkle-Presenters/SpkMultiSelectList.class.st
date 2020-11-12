@@ -10,33 +10,46 @@ Class {
 	#classTraits : 'SpkTModel classTrait',
 	#instVars : [
 		'items',
-		'selectedItems',
-		'orderedSelectedItems'
+		'selectedItems'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
 
-{ #category : 'initialization' }
-SpkMultiSelectList >> computeOrderedSelectedItems [
-	orderedSelectedItems := items select: [ :each | 
-		                        selectedItems includes: each ]
+{ #category : 'adding' }
+SpkMultiSelectList >> add: anItem [
+
+	"Add an unselected item at the end of the list."
+
+	items add: anItem
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectList >> at: anIndex [
+
+	^ items at: anIndex
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectList >> at: anIndex ifAbsent: aBlock [
+
+	^ items at: anIndex ifAbsent: aBlock
 ]
 
 { #category : 'selection' }
 SpkMultiSelectList >> deselectItem: anItem [
-	| formerIndex |
+
+	| index |
 	(selectedItems includes: anItem) ifFalse: [ ^ self ].
-	formerIndex := self selectionIndexOf: anItem.
+	index := items indexOf: anItem.
 	selectedItems remove: anItem.
-	self computeOrderedSelectedItems.
-	self announce: (SpkItemDeselected forItem: anItem index: formerIndex)
+	self announce: (SpkItemDeselected forItem: anItem index: index)
 ]
 
 { #category : 'initialization' }
 SpkMultiSelectList >> initialize [
+
 	items := OrderedCollection new.
-	selectedItems := Set new.
-	self computeOrderedSelectedItems
+	selectedItems := Set new
 ]
 
 { #category : 'accessing' }
@@ -46,12 +59,28 @@ SpkMultiSelectList >> items [
 
 { #category : 'selection' }
 SpkMultiSelectList >> selectItem: anItem [
+
 	(selectedItems includes: anItem) ifTrue: [ ^ self ].
 	selectedItems add: anItem.
-	self computeOrderedSelectedItems.
-	self announce: (SpkItemSelected
-			 forItem: anItem
-			 index: (self selectionIndexOf: anItem))
+	self announce:
+		(SpkItemSelected forItem: anItem index: (items indexOf: anItem))
+]
+
+{ #category : 'selection' }
+SpkMultiSelectList >> selectedIndexes: newIndexes [
+
+	"Something has been selected or deselected. Figure out what and announce it.
+	It falls to us to translate between selected indexes and selected objects."
+
+	| previouslySelectedItems nowSelectedItems newlySelectedItems newlyDeselectedItems |
+	previouslySelectedItems := selectedItems.
+	nowSelectedItems := newIndexes collect: [ :i | items at: i ].
+	newlySelectedItems := nowSelectedItems difference:
+		                      previouslySelectedItems.
+	newlyDeselectedItems := previouslySelectedItems difference:
+		                        nowSelectedItems.
+	newlySelectedItems do: [ :each | self selectItem: each ].
+	newlyDeselectedItems do: [ :each | self deselectItem: each ]
 ]
 
 { #category : 'accessing' }
@@ -59,9 +88,8 @@ SpkMultiSelectList >> selectedItems [
 	^ selectedItems
 ]
 
-{ #category : 'private' }
-SpkMultiSelectList >> selectionIndexOf: anItem [
-	^ orderedSelectedItems
-		  indexOf: anItem
-		  ifAbsent: [ self error: 'Item is not selected' ]
+{ #category : 'accessing' }
+SpkMultiSelectList >> size [
+
+	^ items size
 ]

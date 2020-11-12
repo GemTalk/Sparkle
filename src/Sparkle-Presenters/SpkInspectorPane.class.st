@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+SpkInspectorPane >> fieldDeselected: anAnnouncement [
+
+	self halt.
+]
+
+{ #category : 'as yet unclassified' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
 	self halt.
@@ -34,7 +40,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 SpkInspectorPane >> initializeBody [
 
 	body := self instantiate: SpkInspectorPaneBody on: model.
-	body pane: self.
+	body setPane: self.
 	self layout add: body
 ]
 

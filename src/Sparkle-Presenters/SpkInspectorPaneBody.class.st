@@ -26,15 +26,6 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkInspectorPaneBody >> connectPresenters [
-
-	super connectPresenters.
-	model
-		when: SpkItemSelected send: #fieldSelected: to: pane;
-		when: SpkItemDeselected send: #fieldDeselected: to: pane
-]
-
-{ #category : 'initialization' }
 SpkInspectorPaneBody >> initialize [
 
 	"Super initialize accesses fieldListIsShown, so initialize it first."
@@ -60,6 +51,8 @@ SpkInspectorPaneBody >> initializeFieldList [
 	self initializeFields.
 	fieldList := self newTable.
 	fieldList
+		whenSelectionChangedDo: [ :selectionMode | 
+			fields selectedIndexes: selectionMode selectedIndexes ];
 		items: fields;
 		addColumn: (SpStringTableColumn evaluated: #name);
 		addColumn: (SpStringTableColumn evaluated: #description);
@@ -75,7 +68,7 @@ SpkInspectorPaneBody >> initializeFieldList [
 { #category : 'initialization' }
 SpkInspectorPaneBody >> initializeFields [
 
-	fields := OrderedCollection new.
+	fields := SpkMultiSelectList new.
 	model fieldNames
 		with: model fieldDescriptions
 		do: [ :fname :fdesc | 
@@ -129,9 +122,13 @@ SpkInspectorPaneBody >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPaneBody >> pane: anObject [
-	pane := anObject
+{ #category : 'initialization' }
+SpkInspectorPaneBody >> setPane: aPane [
+
+	pane := aPane.
+	fields
+		when: SpkItemSelected send: #fieldSelected: to: pane;
+		when: SpkItemDeselected send: #fieldDeselected: to: pane
 ]
 
 { #category : 'actions' }

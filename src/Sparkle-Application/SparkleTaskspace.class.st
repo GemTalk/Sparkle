@@ -22,6 +22,11 @@ Class {
 	#category : 'Sparkle-Application'
 }
 
+{ #category : 'activation' }
+SparkleTaskspace class >> applicationName [ 
+	^ 'Sparkle Taskspace'
+]
+
 { #category : 'instance creation' }
 SparkleTaskspace class >> openFromService: aTaskspaceService [
 

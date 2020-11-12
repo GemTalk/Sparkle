@@ -9,3 +9,10 @@ SpkLabelPresenter class >> adapterName [
 
 	^ #SpkLabelAdapter
 ]
+
+{ #category : 'initialization' }
+SpkLabelPresenter >> initialize [
+
+	super initialize.
+	self addStyle: 'label'
+]

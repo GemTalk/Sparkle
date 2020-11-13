@@ -36,7 +36,7 @@ SpMorphicSpkIconButtonAdapter >> icon: aForm [
 { #category : 'factory' }
 SpMorphicSpkIconButtonAdapter >> newButton [
 
-	^ IconicButton new
+	^ SpkIconicButton new
 		  target: self;
 		  actionSelector: #action;
 		  yourself

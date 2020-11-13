@@ -14,7 +14,6 @@ Class {
 	#name : 'SpkInspectorPaneBody',
 	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
-		'pane',
 		'topLayout',
 		'twizzle',
 		'description',
@@ -77,7 +76,10 @@ SpkInspectorPaneBody >> initializeFields [
 				         name: fname;
 				         description: fdesc;
 				         yourself.
-			fields add: field ]
+			fields add: field ].
+	fields
+		when: SpkItemSelected send: #fieldSelected: to: owner;
+		when: SpkItemDeselected send: #fieldDeselected: to: owner
 ]
 
 { #category : 'initialization' }
@@ -120,15 +122,6 @@ SpkInspectorPaneBody >> initializeTwizzle [
 SpkInspectorPaneBody >> newLayout [
 
 	^ SpkBoxLayout newVertical
-]
-
-{ #category : 'initialization' }
-SpkInspectorPaneBody >> setPane: aPane [
-
-	pane := aPane.
-	fields
-		when: SpkItemSelected send: #fieldSelected: to: pane;
-		when: SpkItemDeselected send: #fieldDeselected: to: pane
 ]
 
 { #category : 'actions' }

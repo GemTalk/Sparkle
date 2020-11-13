@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkInspectorPane',
 	#superclass : 'SpkPane',
 	#instVars : [
-		'body'
+		'body',
+		'addEvaluatorButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -16,13 +17,16 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
+	self disableAll. "No GUI actions allowed while waiting for the server."
 	self halt.
+	self reEnableAll
 ]
 
 { #category : 'adding' }
 SpkInspectorPane >> initializeAddEvaluatorButton [
 
-	| addEvaluatorButton |
+	"addEvaluatorButton is an instvar so that enablement and disablement can find it."
+
 	addEvaluatorButton := self newIconButton
 		                      icon: (self iconNamed: #addEvaluator24);
 		                      help: 'Add Evaluator';
@@ -32,15 +36,14 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 		add: addEvaluatorButton
 		withConstraints: [ :constraints | 
 			constraints
-				height: 25;
-				width: 25 ]
+				height: 26;
+				width: 26 ]
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> initializeBody [
 
 	body := self instantiate: SpkInspectorPaneBody on: model.
-	body setPane: self.
 	self layout add: body
 ]
 

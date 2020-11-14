@@ -1,3 +1,6 @@
+"
+Probably not going to use this class. PluggableButtonMorphs use Morphic's TableLayout, and I just can _not_ get that thing to behave sanely.
+"
 Class {
 	#name : 'SpkPluggableButtonMorph',
 	#superclass : 'PluggableButtonMorph',

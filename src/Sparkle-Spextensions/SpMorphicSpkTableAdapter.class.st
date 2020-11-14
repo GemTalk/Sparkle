@@ -7,9 +7,22 @@ Class {
 { #category : 'factory' }
 SpMorphicSpkTableAdapter >> buildWidget [
 
-	super buildWidget.
-	"Ugly hack since it's not easily pluggable."
-	SpkTableMorph adoptInstance: widget.
-	widget setMultipleSelection: self model isMultipleSelection.
+	widget := SpkTableMorph new
+		          hResizing: #spaceFill;
+		          vResizing: #spaceFill;
+		          intercellSpacing: self class intercellSpacing;
+		          setMultipleSelection: self model isMultipleSelection;
+		          yourself.
+
+	self addModelTo: widget.
+
 	^ widget
+]
+
+{ #category : 'private factory' }
+SpMorphicSpkTableAdapter >> newDataSource [
+
+	^ SpkMorphicTableDataSource new
+		  model: self model;
+		  yourself
 ]

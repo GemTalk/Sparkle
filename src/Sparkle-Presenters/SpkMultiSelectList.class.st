@@ -1,7 +1,7 @@
 "
-A test model for a multi-select list.
+A model for a multi-select list.
 
-This simple test assumes that no two items compare equal (#'=').
+This simple class assumes that no two items compare equal (#'=').
 "
 Class {
 	#name : 'SpkMultiSelectList',
@@ -21,6 +21,14 @@ SpkMultiSelectList >> add: anItem [
 	"Add an unselected item at the end of the list."
 
 	items add: anItem
+]
+
+{ #category : 'adding' }
+SpkMultiSelectList >> addAll: aCollection [
+
+	"Add unselected items at the end of the list."
+
+	items addAll: aCollection
 ]
 
 { #category : 'accessing' }

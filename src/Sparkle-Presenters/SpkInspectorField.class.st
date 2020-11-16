@@ -2,21 +2,23 @@ Class {
 	#name : 'SpkInspectorField',
 	#superclass : 'Object',
 	#instVars : [
-		'name',
-		'description',
+		'model',
 		'isOpen'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
 
-{ #category : 'accessing' }
-SpkInspectorField >> description [
-	^ description
+{ #category : 'instance creation' }
+SpkInspectorField class >> for: aModel [
+
+	^ self new
+		  model: aModel;
+		  yourself
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> description: anObject [
-	description := anObject
+SpkInspectorField >> description [
+	^ model description
 ]
 
 { #category : 'initialization' }
@@ -37,11 +39,11 @@ SpkInspectorField >> isOpen: anObject [
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> name [
-	^ name
+SpkInspectorField >> model: anObject [
+	model := anObject
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> name: anObject [
-	name := anObject
+SpkInspectorField >> name [
+	^ model name
 ]

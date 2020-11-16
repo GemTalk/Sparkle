@@ -19,7 +19,7 @@ Class {
 		'description',
 		'fieldList',
 		'fieldListIsShown',
-		'fields'
+		'fieldListModel'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -47,12 +47,12 @@ SpkInspectorPaneBody >> initializeFieldList [
 
 	"Dynamically added to or removed from my layout upon twizzle click."
 
-	self initializeFields.
+	self initializeFieldListModel.
 	fieldList := self newTable.
 	fieldList
 		whenSelectionChangedDo: [ :selectionMode | 
-			fields selectedIndexes: selectionMode selectedIndexes ];
-		items: fields;
+			fieldListModel selectedIndexes: selectionMode selectedIndexes ];
+		items: fieldListModel;
 		addColumn: (SpStringTableColumn evaluated: #name);
 		addColumn: (SpStringTableColumn evaluated: #description);
 		addColumn: ((SpImageTableColumn evaluated: [ :field | 
@@ -65,19 +65,14 @@ SpkInspectorPaneBody >> initializeFieldList [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPaneBody >> initializeFields [
+SpkInspectorPaneBody >> initializeFieldListModel [
 
-	fields := SpkMultiSelectList new.
-	model fieldNames
-		with: model fieldDescriptions
-		do: [ :fname :fdesc | 
-			| field |
-			field := SpkInspectorField new
-				         name: fname;
-				         description: fdesc;
-				         yourself.
-			fields add: field ].
-	fields
+	| fields |
+	fieldListModel := SpkMultiSelectList new.
+	fields := model fields collect: [ :each | 
+		          SpkInspectorField for: each ].
+	fieldListModel
+		addAll: fields;
 		when: SpkItemSelected send: #fieldSelected: to: owner;
 		when: SpkItemDeselected send: #fieldDeselected: to: owner
 ]

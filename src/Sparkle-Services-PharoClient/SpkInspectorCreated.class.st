@@ -16,21 +16,10 @@ Class {
 	#name : 'SpkInspectorCreated',
 	#superclass : 'SpkIdentifiedAnnouncement',
 	#instVars : [
-		'service',
-		'index'
+		'service'
 	],
 	#category : 'Sparkle-Services-PharoClient-Announcements'
 }
-
-{ #category : 'accessing' }
-SpkInspectorCreated >> index [
-	^ index
-]
-
-{ #category : 'accessing' }
-SpkInspectorCreated >> index: anObject [
-	index := anObject
-]
 
 { #category : 'accessing' }
 SpkInspectorCreated >> service [

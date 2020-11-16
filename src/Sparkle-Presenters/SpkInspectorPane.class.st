@@ -17,23 +17,30 @@ SpkInspectorPane >> connectPresenters [
 	model when: SpkInspectorCreated send: #deferNewSubInspector: to: self
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'announcements' }
+SpkInspectorPane >> deferNewSubInspector: anAnnouncement [
+
+	self defer: [ self newSubInspector: anAnnouncement ]
+]
+
+{ #category : 'actions' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
 	self halt.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
-	| inspectorPane |
-	inspectorPane := linkedInspectors
-		                 at: anAnnouncement index
-		                 ifAbsent: [ nil ].
-	inspectorPane ifNil: [ 
-		self disableAll.
-		self halt.
-		model inspectFieldAt: anAnnouncement index ]
+	| inspectorPane field |
+	field := anAnnouncement item.
+	inspectorPane := linkedInspectors at: field ifAbsent: [ nil ].
+	inspectorPane ifNotNil: [ :ip | 
+		ip hide.
+		^ self ].
+	self disableAll.
+	model inspect: field
+	"The inspector will be given to us by announcement"
 ]
 
 { #category : 'initialization' }
@@ -41,7 +48,7 @@ SpkInspectorPane >> initialize [
 
 	super initialize.
 	evaluators := OrderedCollection new.
-	linkedInspectors := OrderedCollection new
+	linkedInspectors := IdentityDictionary new
 ]
 
 { #category : 'adding' }
@@ -103,4 +110,10 @@ SpkInspectorPane >> menuActions [
 SpkInspectorPane >> newLayout [
 
 	^ SpkAccordianLayout newVertical
+]
+
+{ #category : 'instance creation' }
+SpkInspectorPane >> newSubInspector: anAnnouncement [
+
+	self halt.
 ]

@@ -3,10 +3,19 @@ Class {
 	#superclass : 'SpkPane',
 	#instVars : [
 		'body',
-		'addEvaluatorButton'
+		'addEvaluatorButton',
+		'linkedInspectors',
+		'evaluators'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'initialization' }
+SpkInspectorPane >> connectPresenters [
+
+	super connectPresenters.
+	model when: SpkInspectorCreated send: #deferNewSubInspector: to: self
+]
 
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
@@ -17,9 +26,22 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
-	self disableAll. "No GUI actions allowed while waiting for the server."
-	self halt.
-	self reEnableAll
+	| inspectorPane |
+	inspectorPane := linkedInspectors
+		                 at: anAnnouncement index
+		                 ifAbsent: [ nil ].
+	inspectorPane ifNil: [ 
+		self disableAll.
+		self halt.
+		model inspectFieldAt: anAnnouncement index ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initialize [
+
+	super initialize.
+	evaluators := OrderedCollection new.
+	linkedInspectors := OrderedCollection new
 ]
 
 { #category : 'adding' }

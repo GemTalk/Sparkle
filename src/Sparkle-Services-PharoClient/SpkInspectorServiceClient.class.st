@@ -21,10 +21,10 @@ SpkInspectorServiceClient >> announceNewInspector: anInspectorService for: aFiel
 SpkInspectorServiceClient >> inspect: aFieldService [
 
 	| promise |
-	(self fields includesIdentity: aFieldService) ifFalse: [ 
+	(self fields identityIncludes: aFieldService) ifFalse: [ 
 		self error: 'I do not contain the requested field.' ].
 
-	promise := aFieldService inspect.
+	promise := aFieldService createInspectorService.
 	promise
 		when: [ :inspector | 
 			self announceNewInspector: inspector for: aFieldService ]

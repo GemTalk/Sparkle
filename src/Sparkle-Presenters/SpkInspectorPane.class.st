@@ -39,7 +39,7 @@ SpkInspectorPane >> fieldSelected: anAnnouncement [
 		ip hide.
 		^ self ].
 	self disableAll.
-	model inspect: field
+	model inspect: field model
 	"The inspector will be given to us by announcement"
 ]
 

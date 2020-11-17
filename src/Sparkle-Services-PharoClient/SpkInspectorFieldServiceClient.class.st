@@ -7,10 +7,10 @@ Class {
 }
 
 { #category : 'inspecting' }
-SpkInspectorFieldServiceClient >> inspect [
+SpkInspectorFieldServiceClient >> createInspectorService [
 
 	"Ask the server for an inspector for the object referred to by this field. 
 	Answer a promise for the result."
 
-	^ remoteSelf inspect
+	^ remoteSelf createInspectorService
 ]

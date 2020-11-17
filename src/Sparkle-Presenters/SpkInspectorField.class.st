@@ -39,6 +39,11 @@ SpkInspectorField >> isOpen: anObject [
 ]
 
 { #category : 'accessing' }
+SpkInspectorField >> model [
+	^ model
+]
+
+{ #category : 'accessing' }
 SpkInspectorField >> model: anObject [
 	model := anObject
 ]

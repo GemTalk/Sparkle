@@ -13,23 +13,36 @@ SpkTestInspectorServiceClient class >> cuddles [
 		           classMembershipDescription: 'a Dragon';
 		           selfDescription: 'Cuddles the Dragon'.
 	cuddles fields
-		add: (SpkInspectorFieldServiceClient
+		add: (SpkTestInspectorFieldServiceClient
 				 name: 'name'
 				 description: '''Cuddles''');
-		add: (SpkInspectorFieldServiceClient
+		add: (SpkTestInspectorFieldServiceClient
 				 name: 'description'
 				 description:
 					 '''Very large. Scaly. Slightly radioactive. Tends to erupt in flame unpredictably, and possibly unintentionally.''');
 		add:
-			(SpkInspectorFieldServiceClient name: 'wingspan' description: '52');
-		add: (SpkInspectorFieldServiceClient
+			(SpkTestInspectorFieldServiceClient
+				 name: 'wingspan'
+				 description: '52');
+		add: (SpkTestInspectorFieldServiceClient
 				 name: 'birthdate'
 				 description: 'June 6, 776');
-		add: (SpkInspectorFieldServiceClient
+		add: (SpkTestInspectorFieldServiceClient
 				 name: 'flameReserve'
 				 description: '0.97');
-		add: (SpkInspectorFieldServiceClient
+		add: (SpkTestInspectorFieldServiceClient
 				 name: 'pets'
 				 description: '#(''St. George'')').
 	^ cuddles
+]
+
+{ #category : 'test instances' }
+SpkTestInspectorServiceClient class >> wingspan [
+
+	| inspector |
+	inspector := self new
+		             oop: 16r1A2;
+		             classMembershipDescription: 'a SmallInteger';
+		             selfDescription: '52'.
+	^ inspector
 ]

@@ -1,9 +1,12 @@
+"
+When used by a test service, simulates a send to remoteSelf.
+"
 Trait {
 	#name : 'SpkTLocalPromise',
 	#category : 'Sparkle-Test'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'promising' }
 SpkTLocalPromise >> promiseFor: aBlock [
 
 	"Answer a promise for the result of the block. The block will be evaluated in a new thread.
@@ -12,11 +15,9 @@ SpkTLocalPromise >> promiseFor: aBlock [
 	| promise |
 	promise := RsrPromise new.
 	[ 
-	| result |
 	(Delay forMilliseconds: 50) wait.
-	[ result := aBlock value ]
+	[ promise fulfill: aBlock value ]
 		on: Error
-		do: [ :ex | promise break: ex description ].
-	promise isResolved ifFalse: [ promise fulfill: result ] ] fork.
+		do: [ :ex | promise break: ex description ] ] fork.
 	^ promise
 ]

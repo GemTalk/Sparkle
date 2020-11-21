@@ -70,3 +70,84 @@ SpkPaneCoordinateTest >> testHash2 [
 	inst2 := self newInstance , 1.5 , 2 , (4 / 10).
 	self deny: inst1 hash = inst2 hash
 ]
+
+{ #category : 'tests' }
+SpkPaneCoordinateTest >> testInequality1 [
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 1 , 2 , 3.
+	self deny: inst1 < inst2.
+	self assert: inst2 <= inst1.
+	self deny: inst1 > inst2.
+	self assert: inst2 >= inst1.
+	inst2 := inst1 , 0.
+	self deny: inst1 > inst2.
+	self deny: inst1 >= inst2.
+	self assert: inst1 < inst2
+]
+
+{ #category : 'tests' }
+SpkPaneCoordinateTest >> testInequality2 [
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 2 , 2 , 3.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+	
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 1 , 3 , 3.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 1 , 2 , 4.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 1 , 2 , 3 , 0.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 1 , 2 , 4 , 0.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 1 , 3 , 3 , 0.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3.
+	inst2 := self newInstance , 2 , 2 , 3 , 0.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+	
+	inst1 := self newInstance , 1 , 2 , 3 , 1000.
+	inst2 := self newInstance , 1 , 2 , 4.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3 , 1000.
+	inst2 := self newInstance , 1 , 3 , 3.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+	inst1 := self newInstance , 1 , 2 , 3 , 1000.
+	inst2 := self newInstance , 2 , 2 , 3.
+	self assert: inst1 < inst2.
+	self assert: inst1 <= inst2.
+	self deny: inst1 > inst2.
+
+
+]

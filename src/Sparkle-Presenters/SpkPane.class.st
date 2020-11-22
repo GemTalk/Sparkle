@@ -2,10 +2,17 @@
 I am an abstract superclass for presenting panes in the Sparkle GUI.
 
 I take most of the responsibility for formatting the pane header, which is common between different kinds of panes, which are my subclasses.
+
+
+**Instance Variables**
+* coordinate	<SpkPaneCoordinate> Determines the position of this pane in its window, relative to other panes.
 "
 Class {
 	#name : 'SpkPane',
 	#superclass : 'SpkPresenterWithHeader',
+	#instVars : [
+		'coordinate'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -44,6 +51,16 @@ SpkPane class >> undoRedoCommandsGroupWith: aPresenter [
 	^ commandGroup
 ]
 
+{ #category : 'accessing' }
+SpkPane >> coordinate [
+	^ coordinate
+]
+
+{ #category : 'accessing' }
+SpkPane >> coordinate: anObject [
+	coordinate := anObject
+]
+
 { #category : 'actions' }
 SpkPane >> disableAll [
 
@@ -51,6 +68,13 @@ SpkPane >> disableAll [
 	awaiting an answer from the server."
 
 	self enabled: false
+]
+
+{ #category : 'initialization' }
+SpkPane >> initialize [
+
+	super initialize.
+	coordinate := SpkPaneCoordinate new
 ]
 
 { #category : 'accessing' }

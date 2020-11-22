@@ -9,5 +9,5 @@ Class {
 { #category : 'initialization' }
 SpkExplorerServiceClient >> defaultLayout [
 
-	^ SpkLayoutServiceClient new
+	^ SpkExplorerLayoutService new
 ]

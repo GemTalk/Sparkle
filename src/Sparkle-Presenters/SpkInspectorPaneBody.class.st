@@ -127,6 +127,14 @@ SpkInspectorPaneBody >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPaneBody >> refreshFieldList [
+
+	"Re-draw the field list; sent when something has changed and must be re-displayed."
+
+	fieldList refresh
+]
+
 { #category : 'actions' }
 SpkInspectorPaneBody >> toggleFieldList [
 

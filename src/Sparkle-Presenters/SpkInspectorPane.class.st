@@ -131,5 +131,6 @@ SpkInspectorPane >> newLinkedInspector: anAnnouncement [
 	newPane coordinate: coordinate , field index.
 	field linkedPane: newPane.
 	nextRightColumn add: newPane.
+	body refreshFieldList. "Change linking arrow."
 	self reEnableAll
 ]

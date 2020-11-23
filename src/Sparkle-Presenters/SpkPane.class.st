@@ -10,6 +10,8 @@ I take most of the responsibility for formatting the pane header, which is commo
 Class {
 	#name : 'SpkPane',
 	#superclass : 'SpkPresenterWithHeader',
+	#traits : 'SpkTLayoutService',
+	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'coordinate'
 	],
@@ -98,6 +100,13 @@ an item really should be enabled."
 SpkPane >> redo [
 
 	^ model redo
+]
+
+{ #category : 'initialization' }
+SpkPane >> setCoordinateFromLayoutService [
+
+	coordinate := SpkPaneCoordinate forVector:
+		              self layoutService paneCoordinate
 ]
 
 { #category : 'menu messages' }

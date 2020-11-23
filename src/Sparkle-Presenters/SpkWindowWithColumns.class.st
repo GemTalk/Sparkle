@@ -20,6 +20,8 @@ Since they represent the entire contents of a Pharo window, instances of my subc
 Class {
 	#name : 'SpkWindowWithColumns',
 	#superclass : 'SpkPresenterWithModel',
+	#traits : 'SpkTLayoutService',
+	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'window',
 		'columns'
@@ -31,6 +33,7 @@ Class {
 SpkWindowWithColumns >> addColumn [
 
 	| newColumn |
+	self halt: 'obsolete'.
 	newColumn := self instantiate: SpkColumn.
 	columns addLast: newColumn.
 	self layout add: newColumn
@@ -41,6 +44,23 @@ SpkWindowWithColumns >> columnAt: anIndex [
 	"Answer the SpkAccodianLayout for the given column. anIndex must be between 1 and my current number of columns."
 
 	^ columns at: anIndex
+]
+
+{ #category : 'as yet unclassified' }
+SpkWindowWithColumns >> columnToRightOf: aColumn [
+
+	"If aColumn is the rightmost, create a new empty column for it."
+
+	| newIndex |
+	newIndex := (columns
+		             indexOf: aColumn
+		             ifAbsent: [ self error: 'Column not found' ]) + 1.
+	^ columns at: newIndex ifAbsent: [ 
+		  | newColumn |
+		  newColumn := self newColumn.
+		  columns at: newIndex put: newColumn.
+		  self layoutService addColumnLayout: newColumn layoutService.
+		  newColumn ]
 ]
 
 { #category : 'constants' }
@@ -67,6 +87,17 @@ SpkWindowWithColumns >> initializeWindow: aWindowPresenter [
 			'The Sparkle object explorer is part of the Pharo IDE for GemStone, 
 a set of tools for developing GemStone code via a remote connection from Pharo.';
 		initialExtent: self initialExtent
+]
+
+{ #category : 'instance creation' }
+SpkWindowWithColumns >> newColumn [
+
+	"Create and answer a new column."
+
+	| column |
+	column := self instantiate: SpkColumn.
+	column layoutService: SpkColumnLayoutServiceClient new.
+	^ column
 ]
 
 { #category : 'accessing' }

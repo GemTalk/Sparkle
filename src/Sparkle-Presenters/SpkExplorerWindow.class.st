@@ -6,11 +6,6 @@ This allows the user to start by evaluating or debugging an expression. They can
 Class {
 	#name : 'SpkExplorerWindow',
 	#superclass : 'SpkWindowWithColumns',
-	#traits : 'SpkTLayoutService',
-	#classTraits : 'SpkTLayoutService classTrait',
-	#instVars : [
-		'layoutService'
-	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -32,7 +27,9 @@ SpkExplorerWindow >> initializeFromLayoutService: anExplorerLayoutService [
 		                    column initializeFromLayoutService:
 			                    columnLayoutService.
 		                    column ].
-	columnPresenters do: [ :each | self layout add: each ]
+	columnPresenters do: [ :each | 
+		columns add: each.
+		self layout add: each ]
 ]
 
 { #category : 'initialization' }

@@ -26,6 +26,15 @@ Class {
 	#category : 'Sparkle-Presenters-Support'
 }
 
+{ #category : 'as yet unclassified' }
+SpkPaneCoordinate class >> forVector: aSequenceableCollection [
+
+	| newInstance |
+	newInstance := self new.
+	aSequenceableCollection do: [ :each | newInstance ,= each ].
+	^ newInstance
+]
+
 { #category : 'accumulator ops' }
 SpkPaneCoordinate >> , aNumber [
 

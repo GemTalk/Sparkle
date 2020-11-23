@@ -13,7 +13,7 @@ SpkTestExplorerServiceClient class >> testExplorer1 [
 	paneLayout
 		paneService: pane;
 		relativeHeight: 1;
-		paneCoordinate: SpkPaneCoordinate new , 0.5.
+		paneCoordinate: #( 0.5 ).
 	columnLayout := SpkColumnLayoutServiceClient new.
 	columnLayout
 		addPaneLayout: paneLayout;
@@ -21,19 +21,12 @@ SpkTestExplorerServiceClient class >> testExplorer1 [
 
 	explorerLayout := SpkExplorerLayoutServiceClient new.
 	explorerLayout
+		height: 600;
 		addColumnLayout: columnLayout;
 		addColumnLayout: SpkColumnLayoutServiceClient new.
 
 	^ self new
 		  layoutService: explorerLayout;
 		  addPane: pane;
-		  yourself
-]
-
-{ #category : 'initialization' }
-SpkTestExplorerServiceClient >> defaultLayout [
-
-	^ super defaultLayout
-		  height: 600;
 		  yourself
 ]

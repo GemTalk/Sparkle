@@ -20,7 +20,8 @@ SpkMultiSelectList >> add: anItem [
 
 	"Add an unselected item at the end of the list."
 
-	items add: anItem
+	items add: anItem.
+	anItem index: items size
 ]
 
 { #category : 'adding' }
@@ -28,7 +29,7 @@ SpkMultiSelectList >> addAll: aCollection [
 
 	"Add unselected items at the end of the list."
 
-	items addAll: aCollection
+	aCollection do: [ :each | self add: each ]
 ]
 
 { #category : 'accessing' }
@@ -58,6 +59,19 @@ SpkMultiSelectList >> initialize [
 
 	items := OrderedCollection new.
 	selectedItems := Set new
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> itemWithModel: modelObject [
+
+	"Find and answer the list item having the given model.
+	Report error if the number of such models is ~= 1."
+
+	| results |
+	results := items select: [ :item | item model == modelObject ].
+	results size = 1 ifFalse: [ 
+		self error: 'Item not found or not unique.' ].
+	^ results first
 ]
 
 { #category : 'accessing' }

@@ -1,8 +1,6 @@
 Class {
 	#name : 'SpkInspectorPane',
 	#superclass : 'SpkPane',
-	#traits : 'SpkTLayoutService',
-	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'body',
 		'addEvaluatorButton',
@@ -22,13 +20,21 @@ SpkInspectorPane >> connectPresenters [
 { #category : 'announcements' }
 SpkInspectorPane >> deferNewSubInspector: anAnnouncement [
 
-	self defer: [ self newSubInspector: anAnnouncement ]
+	self defer: [ self newLinkedInspector: anAnnouncement ]
 ]
 
 { #category : 'actions' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
 	self halt.
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> fieldForService: aService [
+
+	"Find and answer the field presenter with the given service as its model."
+
+	^ body fieldForService: aService
 ]
 
 { #category : 'actions' }
@@ -115,10 +121,15 @@ SpkInspectorPane >> newLayout [
 ]
 
 { #category : 'instance creation' }
-SpkInspectorPane >> newSubInspector: anAnnouncement [
+SpkInspectorPane >> newLinkedInspector: anAnnouncement [
 
-	| field |
+	| field newService nextRightColumn newPane |
 	field := self fieldForService: anAnnouncement requestId.
-
-	self halt.
+	newService := anAnnouncement service.
+	nextRightColumn := owner nextRightColumn.
+	newPane := nextRightColumn presenterForService: newService.
+	newPane coordinate: coordinate , field index.
+	field linkedPane: newPane.
+	nextRightColumn add: newPane.
+	self reEnableAll
 ]

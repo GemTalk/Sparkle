@@ -1,9 +1,30 @@
+"
+The presentation-layer model for one field in the field list of an inspector pane.
+
+ 
+**Internal Representation and Key Implementation Points.**
+
+**    Instance Variables**
+*	index:		<Integer> Which item in the list I am
+*	linkedPane:		<nil or SpkInspectorPane> The inspector pane for this field in the next column, if any.
+*	model:		<SpkInspectorFieldServiceClient> The service for this field.
+
+
+    Implementation Points
+
+When the field is clicked on, a linked inspector pane is opened in the next column. That pane stays linked until either
+* The linked pane is closed
+* The linked pane is unlinked by being dragged to a different position or window.
+
+Whether or not linkedPane is nil controls how the link column of the table is displayed.
+"
 Class {
 	#name : 'SpkInspectorField',
 	#superclass : 'Object',
 	#instVars : [
 		'model',
-		'isOpen'
+		'index',
+		'linkedPane'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -21,21 +42,30 @@ SpkInspectorField >> description [
 	^ model description
 ]
 
-{ #category : 'initialization' }
-SpkInspectorField >> initialize [
+{ #category : 'testing' }
+SpkInspectorField >> hasLinkedPane [
 
-	super initialize.
-	isOpen := false
+	^ linkedPane notNil
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> isOpen [
-	^ isOpen
+SpkInspectorField >> index [
+	^ index
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> isOpen: anObject [
-	isOpen := anObject
+SpkInspectorField >> index: anObject [
+	index := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorField >> linkedPane [
+	^ linkedPane
+]
+
+{ #category : 'accessing' }
+SpkInspectorField >> linkedPane: anObject [
+	linkedPane := anObject
 ]
 
 { #category : 'accessing' }

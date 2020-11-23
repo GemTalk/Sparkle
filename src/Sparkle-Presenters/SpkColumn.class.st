@@ -55,7 +55,9 @@ SpkColumn >> initializeFromLayoutService: aColumnLayoutService [
 		                  | pane |
 		                  pane := self presenterForService:
 			                          paneLayoutService paneService.
-		                  pane layoutService: paneLayoutService.
+		                  pane
+			                  layoutService: paneLayoutService;
+			                  setCoordinateFromLayoutService.
 		                  pane ].
 	panePresenters do: [ :panePresenter | self add: panePresenter ]
 ]
@@ -64,4 +66,13 @@ SpkColumn >> initializeFromLayoutService: aColumnLayoutService [
 SpkColumn >> newLayout [
 
 	^ SpkAccordianLayout newVertical
+]
+
+{ #category : 'as yet unclassified' }
+SpkColumn >> nextRightColumn [
+
+	"Answer the column to the right of me in my explorer window.
+	If I'm the rightmost column, add a column to my right."
+
+	^ owner columnToRightOf: self
 ]

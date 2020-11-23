@@ -24,6 +24,14 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPaneBody >> fieldForService: aService [
+
+	"Find and answer the field presenter with the given service as its model."
+
+	^ fieldListModel itemWithModel: aService
+]
+
 { #category : 'initialization' }
 SpkInspectorPaneBody >> initialize [
 
@@ -56,7 +64,7 @@ SpkInspectorPaneBody >> initializeFieldList [
 		addColumn: (SpStringTableColumn evaluated: #name);
 		addColumn: (SpStringTableColumn evaluated: #description);
 		addColumn: ((SpImageTableColumn evaluated: [ :field | 
-					  field isOpen
+					  field hasLinkedPane
 						  ifTrue: [ self iconNamed: #hidePane16 ]
 						  ifFalse: [ self iconNamed: #showPane16 ] ])
 				 width: 25;

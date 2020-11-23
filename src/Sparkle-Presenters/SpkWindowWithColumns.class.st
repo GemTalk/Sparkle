@@ -22,8 +22,7 @@ Class {
 	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'window',
-		'columns',
-		'columnLayout'
+		'columns'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }

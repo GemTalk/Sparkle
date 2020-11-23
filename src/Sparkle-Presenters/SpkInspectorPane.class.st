@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkInspectorPane',
 	#superclass : 'SpkPane',
+	#traits : 'SpkTLayoutService',
+	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'body',
 		'addEvaluatorButton',
@@ -114,6 +116,9 @@ SpkInspectorPane >> newLayout [
 
 { #category : 'instance creation' }
 SpkInspectorPane >> newSubInspector: anAnnouncement [
+
+	| field |
+	field := self fieldForService: anAnnouncement requestId.
 
 	self halt.
 ]

@@ -3,8 +3,8 @@ Abstract superclass for Sparkle presenters.
 
 Provides various overrides of default Spec2 behavior to add or modify functionality.
 
-Instance variables 
-*	containingPresenter <SpkPresenter or nil> Except for presenters at the window level, all Sparkle presenters keep track of the presenter that contains them. For Window-level presenters, this is nil. 
+**Instance variables** 
+*	spkLayout <SpkBoxLayout> The layout for my contents. This is the same purpose as the **layout** instvar inherited from my superclass, but that is an observable slot, which caused some problems, so this is just a normal instvar.
 "
 Class {
 	#name : 'SpkPresenter',
@@ -88,4 +88,18 @@ SpkPresenter >> newTable [
 SpkPresenter >> notYetImplemented: aString [
 
 	self class notYetImplemented: aString
+]
+
+{ #category : 'private' }
+SpkPresenter >> presenterForService: aPaneService [
+
+	"Create and answer the appropriate type of presenter for this pane service"
+
+	| matches presenterClass |
+	matches := self application presenterClassesForServiceTypes 
+		           associationsSelect: [ :a | aPaneService isKindOf: a key ].
+	matches size = 1 ifFalse: [ 
+		self error: 'Pane service is of unknown or multiple type' ].
+	presenterClass := matches values first.
+	^ presenterClass owner: self on: aPaneService
 ]

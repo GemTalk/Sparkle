@@ -17,7 +17,8 @@ Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
 	#instVars : [
-		'connection'
+		'connection',
+		'presenterClassesForServiceTypes'
 	],
 	#category : 'Sparkle-Application'
 }
@@ -33,6 +34,24 @@ SparkleTaskspace class >> openFromService: aTaskspaceService [
 	^ self new
 		  restoreTaskspace: aTaskspaceService;
 		  yourself
+]
+
+{ #category : 'initialization' }
+SparkleTaskspace >> initializePresenterClassesForServiceTypes [
+
+	"This is only for pane presenters and services."
+
+	presenterClassesForServiceTypes := IdentityDictionary new.
+	^ presenterClassesForServiceTypes
+		  at: SpkInspectorServiceClient put: SpkInspectorPane;
+		  yourself
+]
+
+{ #category : 'initialization' }
+SparkleTaskspace >> presenterClassesForServiceTypes [
+
+	^ presenterClassesForServiceTypes ifNil: [ 
+		  self initializePresenterClassesForServiceTypes ]
 ]
 
 { #category : 'running' }

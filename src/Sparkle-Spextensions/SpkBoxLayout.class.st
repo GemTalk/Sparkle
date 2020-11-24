@@ -25,7 +25,10 @@ SpkBoxLayout >> adapterName [
 { #category : 'adding' }
 SpkBoxLayout >> add: aName [
 
-	self add: aName withConstraints: [ :constraints |  ]
+	self
+		add: aName
+		withConstraints: [ :constraints |  ]
+		beforeIndex: children size + 1
 ]
 
 { #category : 'adding/removing presenters' }

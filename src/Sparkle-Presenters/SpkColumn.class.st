@@ -62,6 +62,12 @@ SpkColumn >> initializeFromLayoutService: aColumnLayoutService [
 	panePresenters do: [ :panePresenter | self add: panePresenter ]
 ]
 
+{ #category : 'adding' }
+SpkColumn >> isEmpty [
+
+	^ panes isEmpty
+]
+
 { #category : 'accessing' }
 SpkColumn >> newLayout [
 
@@ -75,4 +81,14 @@ SpkColumn >> nextRightColumn [
 	If I'm the rightmost column, add a column to my right."
 
 	^ owner columnToRightOf: self
+]
+
+{ #category : 'adding' }
+SpkColumn >> remove: aPanePresenter [
+
+	| position |
+	position := panes indexOf: aPanePresenter.
+	panes remove: aPanePresenter.
+	self layout remove: aPanePresenter.
+	self isEmpty ifTrue: [ owner removeColumn: self ]
 ]

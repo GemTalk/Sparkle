@@ -29,14 +29,15 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'adding' }
+{ #category : 'as yet unclassified' }
 SpkWindowWithColumns >> addColumn [
 
 	| newColumn |
-	self halt: 'obsolete'.
-	newColumn := self instantiate: SpkColumn.
-	columns addLast: newColumn.
-	self layout add: newColumn
+	newColumn := self newColumn.
+	columns add: newColumn.
+	self layout add: newColumn.
+	self layoutService addColumnLayout: newColumn layoutService.
+	^ newColumn
 ]
 
 { #category : 'accessing' }
@@ -55,12 +56,7 @@ SpkWindowWithColumns >> columnToRightOf: aColumn [
 	newIndex := (columns
 		             indexOf: aColumn
 		             ifAbsent: [ self error: 'Column not found' ]) + 1.
-	^ columns at: newIndex ifAbsent: [ 
-		  | newColumn |
-		  newColumn := self newColumn.
-		  columns at: newIndex put: newColumn.
-		  self layoutService addColumnLayout: newColumn layoutService.
-		  newColumn ]
+	^ columns at: newIndex ifAbsent: [ self addColumn ]
 ]
 
 { #category : 'constants' }
@@ -104,4 +100,12 @@ SpkWindowWithColumns >> newColumn [
 SpkWindowWithColumns >> newLayout [
 
 	^ SpkAccordianLayout newHorizontal
+]
+
+{ #category : 'removing' }
+SpkWindowWithColumns >> removeColumn: aColumn [
+
+	columns remove: aColumn.
+	self layout remove: aColumn.
+	self layoutService removeColumnLayout: aColumn layoutService
 ]

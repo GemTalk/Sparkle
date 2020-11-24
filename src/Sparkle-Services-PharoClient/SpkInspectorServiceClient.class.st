@@ -18,15 +18,18 @@ SpkInspectorServiceClient >> announceNewInspector: anInspectorService for: aFiel
 ]
 
 { #category : 'actions' }
-SpkInspectorServiceClient >> inspect: aFieldService [
+SpkInspectorServiceClient >> inspectField: aFieldService [
 
 	| promise |
 	(self fields identityIncludes: aFieldService) ifFalse: [ 
 		self error: 'I do not contain the requested field.' ].
 
+	aFieldService inspectorService ifNotNil: [ :service | ^ service ].
+
 	promise := aFieldService createInspectorService.
 	promise
 		when: [ :inspector | 
 			self announceNewInspector: inspector for: aFieldService ]
-		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ]
+		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ].
+	^ nil
 ]

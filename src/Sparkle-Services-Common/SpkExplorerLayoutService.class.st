@@ -59,6 +59,12 @@ SpkExplorerLayoutService >> initialize [
 	height := width := 900
 ]
 
+{ #category : 'adding' }
+SpkExplorerLayoutService >> removeColumnLayout: aColumnLayoutService [
+
+	columnLayouts remove: aColumnLayoutService
+]
+
 { #category : 'accessing' }
 SpkExplorerLayoutService >> width [
 	^ width

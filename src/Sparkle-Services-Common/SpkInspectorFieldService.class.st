@@ -3,11 +3,12 @@ Describes one field (named instvar or indexed instvar or some kind of virtual fi
 
 Collaborates with SpkInspectorService.
 
-Internal Representation and Key Implementation Points.
+**Internal Representation and Key Implementation Points.**
 
     Instance Variables
-	description:		<String>
-	name:		<String>
+*	description:		<String>
+*	name:		<String>
+*	inspectorService: <nil or SpkInspectorService>	 Inspector for the object referenced by this field, if one has been created.
 
 
     Implementation Points
@@ -19,7 +20,8 @@ Class {
 	#superclass : 'RsrService',
 	#instVars : [
 		'name',
-		'description'
+		'description',
+		'inspectorService'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -47,6 +49,16 @@ SpkInspectorFieldService >> description [
 { #category : 'accessing' }
 SpkInspectorFieldService >> description: anObject [
 	description := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldService >> inspectorService [
+	^ inspectorService
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldService >> inspectorService: anObject [
+	inspectorService := anObject
 ]
 
 { #category : 'accessing' }

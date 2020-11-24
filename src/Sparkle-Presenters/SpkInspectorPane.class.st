@@ -14,19 +14,25 @@ Class {
 SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
-	model when: SpkInspectorCreated send: #deferNewSubInspector: to: self
+	model when: SpkInspectorCreated send: #deferNewLinkedInspector: to: self
 ]
 
 { #category : 'announcements' }
-SpkInspectorPane >> deferNewSubInspector: anAnnouncement [
+SpkInspectorPane >> deferNewLinkedInspector: anAnnouncement [
 
+	anAnnouncement requestId inspectorService: anAnnouncement service.
 	self defer: [ self newLinkedInspector: anAnnouncement ]
 ]
 
 { #category : 'actions' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
-	self halt.
+	"This announcement comes from the UI, not a service"
+
+	| field |
+	field := anAnnouncement item.
+	owner nextRightColumn remove: field linkedPane.
+	field clearLinkedPane
 ]
 
 { #category : 'as yet unclassified' }
@@ -40,23 +46,23 @@ SpkInspectorPane >> fieldForService: aService [
 { #category : 'actions' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
-	| inspectorPane field |
+	"This announcement comes from the UI, not a service"
+
+	| field inspectorService |
 	field := anAnnouncement item.
-	inspectorPane := linkedInspectors at: field ifAbsent: [ nil ].
-	inspectorPane ifNotNil: [ :ip | 
-		ip hide.
-		^ self ].
-	self disableAll.
-	model inspect: field model
-	"The inspector will be given to us by announcement"
+	inspectorService := model inspectField: field model.
+	"If nil, a server round trip is required and the inspector pane 
+	will be created by announcement from the service."
+	inspectorService
+		ifNil: [ self disableAll ]
+		ifNotNil: [ self openInspector: inspectorService forField: field ]
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> initialize [
 
 	super initialize.
-	evaluators := OrderedCollection new.
-	linkedInspectors := IdentityDictionary new
+	evaluators := OrderedCollection new
 ]
 
 { #category : 'adding' }
@@ -123,14 +129,26 @@ SpkInspectorPane >> newLayout [
 { #category : 'instance creation' }
 SpkInspectorPane >> newLinkedInspector: anAnnouncement [
 
-	| field newService nextRightColumn newPane |
+	| field newService |
 	field := self fieldForService: anAnnouncement requestId.
 	newService := anAnnouncement service.
+	self openInspector: newService forField: field.
+	"This announcement came from the server, so all of my widgets are disabled."
+	self reEnableAll
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> openInspector: anInspectorService forField: field [
+
+	" Create and open an inspector pane in the next column"
+
+	| nextRightColumn newPane |
 	nextRightColumn := owner nextRightColumn.
-	newPane := nextRightColumn presenterForService: newService.
-	newPane coordinate: coordinate , field index.
+	newPane := nextRightColumn presenterForService: anInspectorService.
+	"Linked inspectors for fields get a 0 element in their coordinate. 
+	Ones for evaluators get the evaluator's index."
+	newPane coordinate: coordinate , 0 , field index.
 	field linkedPane: newPane.
 	nextRightColumn add: newPane.
-	body refreshFieldList. "Change linking arrow."
-	self reEnableAll
+	body refreshFieldList "Change linking arrow."
 ]

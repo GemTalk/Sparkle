@@ -37,6 +37,12 @@ SpkInspectorField class >> for: aModel [
 		  yourself
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorField >> clearLinkedPane [
+
+	linkedPane := nil
+]
+
 { #category : 'accessing' }
 SpkInspectorField >> description [
 	^ model description

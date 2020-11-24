@@ -22,8 +22,7 @@ SpkTestExplorerServiceClient class >> testExplorer1 [
 	explorerLayout := SpkExplorerLayoutServiceClient new.
 	explorerLayout
 		height: 600;
-		addColumnLayout: columnLayout;
-		addColumnLayout: SpkColumnLayoutServiceClient new.
+		addColumnLayout: columnLayout.
 
 	^ self new
 		  layoutService: explorerLayout;

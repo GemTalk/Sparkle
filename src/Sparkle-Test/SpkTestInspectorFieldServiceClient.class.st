@@ -12,9 +12,7 @@ SpkTestInspectorFieldServiceClient >> createInspectorService [
 	"Ask the server for an inspector for the object referred to by this field. 
 	Answer a promise for the result."
 
-	"^ remoteSelf createInspectorService"
-
-	"No, simulate it rather rigidly"
-
-	^ self promiseFor: [ SpkTestInspectorServiceClient perform: name asSymbol ]
+	^ self promiseFor: [ 
+		  inspectorService := SpkTestInspectorServiceClient perform:
+			                      name asSymbol ]
 ]

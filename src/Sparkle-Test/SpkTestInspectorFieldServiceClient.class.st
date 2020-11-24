@@ -3,7 +3,7 @@ Class {
 	#superclass : 'SpkInspectorFieldServiceClient',
 	#traits : 'SpkTLocalPromise',
 	#classTraits : 'SpkTLocalPromise classTrait',
-	#category : 'Sparkle-Test'
+	#category : 'Sparkle-Test-Test Services'
 }
 
 { #category : 'inspecting' }
@@ -14,5 +14,5 @@ SpkTestInspectorFieldServiceClient >> createInspectorService [
 
 	^ self promiseFor: [ 
 		  inspectorService := SpkTestInspectorServiceClient perform:
-			                      name asSymbol ]
+			                      ('spk' , name) asSymbol ]
 ]

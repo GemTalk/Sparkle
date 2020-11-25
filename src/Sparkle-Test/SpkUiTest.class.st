@@ -14,3 +14,14 @@ SpkUiTest >> testTaskspace1 [
 	SparkleTaskspace openFromService:
 		SpkTestTaskspaceServiceClient testTaskspace1
 ]
+
+{ #category : 'tests' }
+SpkUiTest >> testTaskspace2 [
+	"With real services in the local image"
+
+	| connection |
+	connection := RsrInMemoryConnectionSpecification new connect.
+	
+	SparkleTaskspace openFromService:
+		SpkTestTaskspaceServiceClient testTaskspace1
+]

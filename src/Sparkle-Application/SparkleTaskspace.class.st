@@ -18,6 +18,7 @@ Class {
 	#superclass : 'SpkApplication',
 	#instVars : [
 		'connection',
+		'taskspaceService',
 		'presenterClassesForServiceTypes'
 	],
 	#category : 'Sparkle-Application'
@@ -28,12 +29,42 @@ SparkleTaskspace class >> applicationName [
 	^ 'Sparkle Taskspace'
 ]
 
+{ #category : 'as yet unclassified' }
+SparkleTaskspace class >> named: aName inConnection: anRsrConnection [
+
+	^ self new
+		  connection: anRsrConnection;
+		  initializeForName: aName;
+		  yourself
+]
+
 { #category : 'instance creation' }
 SparkleTaskspace class >> openFromService: aTaskspaceService [
+
+	self flag: 'This method is probably obsolete.'.
 
 	^ self new
 		  restoreTaskspace: aTaskspaceService;
 		  yourself
+]
+
+{ #category : 'accessing' }
+SparkleTaskspace >> connection [
+	^ connection
+]
+
+{ #category : 'accessing' }
+SparkleTaskspace >> connection: anObject [
+	connection := anObject
+]
+
+{ #category : 'initialization' }
+SparkleTaskspace >> initializeForName: aName [
+
+	"Must already be connected."
+	"Request a taskspace service by name"
+	"Save it"
+	"Restore from the taskspace service."
 ]
 
 { #category : 'initialization' }

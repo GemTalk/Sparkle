@@ -8,20 +8,24 @@ Class {
 	#category : 'Sparkle-Test-UI Setup'
 }
 
-{ #category : 'tests' }
-SpkUiTest >> testTaskspace1 [
+{ #category : 'examples' }
+SpkUiTest class >> defaultLocalTaskspace [
 
-	SparkleTaskspace openFromService:
-		SpkTestTaskspaceServiceClient testTaskspace1
-]
-
-{ #category : 'tests' }
-SpkUiTest >> testTaskspace2 [
 	"With real services in the local image"
 
-	| connection |
-	connection := RsrInMemoryConnectionSpecification new connect.
-	
+	<example>
+	| connection  |
+	connection := RsrInMemoryConnectionSpecification new connect
+		              connectionA.
+	"connection inspect."
+
+	SparkleTaskspace named: 'Testing' inConnection: connection
+]
+
+{ #category : 'examples' }
+SpkUiTest class >> fakeServicesExample [
+
+	<example>
 	SparkleTaskspace openFromService:
 		SpkTestTaskspaceServiceClient testTaskspace1
 ]

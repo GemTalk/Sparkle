@@ -16,6 +16,8 @@ Responsibilities of this class
 Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
+	#traits : 'SpkTPromise',
+	#classTraits : 'SpkTPromise classTrait',
 	#instVars : [
 		'connection',
 		'taskspaceService',
@@ -62,9 +64,15 @@ SparkleTaskspace >> connection: anObject [
 SparkleTaskspace >> initializeForName: aName [
 
 	"Must already be connected."
-	"Request a taskspace service by name"
-	"Save it"
-	"Restore from the taskspace service."
+
+	| registryService promise |
+	registryService := connection serviceFor:
+		                   #SpkTaskspaceRegistryService.
+
+	promise := registryService taskspaceServiceNamed: aName.
+	promise
+		when: [ :ts | self defer: [ self restoreTaskspace: ts ] ]
+		catch: [ :reason | self signalPromiseBrokenBecause: reason ]
 ]
 
 { #category : 'initialization' }
@@ -90,6 +98,7 @@ SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
 
 	"Open and initialize windows from the given service"
 
+	taskspaceService := aTaskspaceService.
 	aTaskspaceService explorersDo: [ :each | 
 		(SpkExplorerWindow newApplication: self model: each) openWithSpec ]
 ]

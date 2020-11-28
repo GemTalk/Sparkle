@@ -1,0 +1,46 @@
+Threads in Sparkle
+
+Note: In this context, the term "thread" refers to a green thread, a Pharo Process or GemStone GsProcess, not a native OS thread.
+
+Sparkle gets its work done using multiple threads. In order for these threads to cooperate properly, and to avoid race conditions and Other Bad Things, there are patterns that must be followed.
+
+The main concern is that we must be careful with Pharo's UI thread. One thread drives Pharo's entire UI. We want Pharo's UI to remain responsive, so we don't want to block the UI thread while making round trips to the server. Although most trips to the server will complete quickly, some might not, and if something happens to the network a request a single round trip could hang for many minutes before being considered broken.
+Since the UI itself is not thread-safe, we must also make sure that all things that affect the UI are handled by the UI thread.
+
+Here are the steps in a typical round trip. RSR has some threads that is uses for its own internal purposes, but here I describe only those threads that a Sparkle developer needs to understand.
+
+In the Pharo UI thread
+  * The user's keyboard or mouse event is processed.
+  * This event is passed through Morphic and Spec until it reaches a Sparkle presenter.
+  * The presenter decides that as a result of this event it needs something from its model, which is an RSR service.
+  * The presenter sends a message to the service.
+  * The service determines that this request requires a round trip to its server-side counterpart.
+    * If the service had been able to fulfill the request locally, it would do so and everything would remain in the UI thread.
+  * The service announces that it's about to make a round trip to the server. Note that announcements are synchronous -- subsribers are notified of the announcement, one at a time, in the same thread in which the announcement was made.
+  * Anything in the presentation layer that has subscribed to that announcement (typically the pane) disables all of its widgets. This causes any events for that pane to be ignored until widgets are re-enabled below. Acting on UI events while waiting for a response from the server could cause quite a variety of problems, so we ignore any such events. In the event of a long-lasting round trip, the user would notice that this pane had become unresponsive, but the Pharo UI as a whole would continue to respond.
+  * The service sends a message to its remoteSelf, getting a promise in return.
+  * The service sends #when:catch: to the promise, specifying messages to be sent to the service when the promise is resolved.
+  * The service returns to the presenter, but the return value is of little use.
+  * The presenter returns.
+  * The UI thread goes on to process the next mouse or keyboard event in its queue.
+  
+All that was in one thread, the UI thread. When the service sent a message to its remoteSelf, RSR knows that it needs to make a round trip to the server. RSR uses its own internal threads to do this, which will not be described here.
+
+When the server has replied, RSR resolved the promise (fulfilling it or breaking it). This promise resolution is done in a brand-new thread.
+
+In the New Thread:
+  * Either the when block or the catch block given to the promise earlier is evaluated. Which block depends on whether the promise was fulfilled or broken.
+  * The block sends a message to the service that initiated the request.
+  * For a fulfilled request, the service typically makes an announcement of the result.
+  * The presenter, having previously subscribed to this event from the service that is its model, receives the announcement.
+  * Since this announcement can come in a non-UI thread, the presenter sends itself #defer: with a new block. This queues the block to be run in the UI thread.
+  * This thread then terminates.
+  
+Back in the UI thread:
+  * Soon, the queued block is the next event in the UI thread's event queue.
+  * The block is evaluated. It sends some appropriate message to the presenter, often with the announcement as an argument.
+  * The presenter updates its state and the displayed views in whatever way is appropriate for the response.
+  * The presenter then re-enables its widgets.
+  * The presenter is now ready for another user interaction.
+
+Note that it is important that the presenter itself do the deferring of the announcement. If the service deferred the announcement, that would give the service knowledge of what UI it is serving, making it more difficult for the same service to be portable between different UIs.

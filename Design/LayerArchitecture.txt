@@ -1,45 +1,91 @@
 Sparkle software layer architecture
 
-GUI layer
-  It looks like the initial development of Sparkle will use Spec2 for
-  its GUI. Later this may be re-written for GT stack (Bloc etc.), or 
-  some future GUI. This layer consists of the presenters that make up
-  the GUI.
+Sparkle is organized into distinct layers, and there are rules for how the layers may interact with each other.
 
-Pharo service layer
-  Objects in this layer serve as the models for the GUI. This is a fairly
-  thin layer. The services are designed to fit the needs of the GUI.
+Sparkle code itself is organized into three layers. From top to bottom, they are:
+* Presentation
+* Service
+* Tool
 
-______________ Pharo Layers _______________
-              GemStone Layers
+
+Overview of the layers
+----------------------
+
+Presentation layer
+  This layer exists only on the Pharo client. Its main responsibilities: 
+  * Handle the display of information obtained from the service layer 
+  * Allow the user to control and alter the displayed information through mouse and keyboard events.
+  * Make requests of the service layer. Some requests just ask for more information, others may change server state
   
-GemStone service layer
-  Since we are using RSR, the structure of the GemStone services and the 
-  Pharo service layer must match closely. The services in GemStone do the
-  necessary adaptation between the Tools and the needs of the Pharo services.
-  There may be multiple services in this layer that interact with a single
-  Tool. The number of services associated with a single Tool may vary over
-  time.
+  The presentation layer consists largely of Spec2 entities such as
+  * Presenters
+  * Announcements
+  * Commands
+  This layer also contains some classes providing support to the Spec2 entities.
   
-Tool model layer
-  Models ways of viewing and manipulating the domain layer objects. 
-  This layer contains specific tools such as browsers, debuggers, workspaces...
-  A significant chunk of the work of Sparkle happens here. 
-  The undo/redo framework operates in this layer.
+  The initial implementation of the presentation layer is specific to Pharo, Spec2, and Morphic. Making Sparkle work on another another client platform (e.g. Dolphin or Pharo with a Brick/Bloc backend) would involve replacing or significantly re-working this layer, but other layers would remain largely unaffected.
   
-Domain layer
-  Existing underlying objects -- Mostly Rowan objects (Definitions, Repositories) 
-  for browsers and other code tools, GsProcesses and arbitrary objects for 
-  debugging tools.
+  Objects in the presentation layer are not expected to be able to be successfully saved in a Pharo image and then resurrected when the image is restarted, since they depend on services which will not be functional upon restart.
   
 ---
 
+Service layer
+  This layer consists primarily of RSR services, and so exists on both the client (Pharo) and the server (GemStone).
+  Objects in the client side of this layer serve as models for objects in the presentation layer. Objects in the server side of this layer are clients to the tool layer. 
+  This is a fairly thin layer. The services adapt between the needs of the presentation layer and the services provided by the tool layer.
+  There may be multiple services in this layer that interact with a single Tool. The number of services associated with a single Tool may vary over time.
+  
+  The design of the service layer is dependent on the design of Sparkle's UI and interaction model. However, it is largely independent of both client and server platform, and so should work with little or no change across a range of platforms.
+  
+  Objects in the service layer of Pharo are not expected to be able to be saved in a Pharo image and then resurrected when the image is restarted, since they typically depend on a socket connection that will not be active upon restart.
+  Objects in the service layer of GemStone cannot be committed.
+  
+---
+  
+Tool layer
+  This layer exists only on the GemStone server. It provides ways of viewing and manipulating objects in the domain layer objects and provides ways of undoing manipulations to those objects.
+  Specific tools in this layer include browsers, debuggers, and inspectors.
+  
+  The tool layer is the only thing in Sparkle that interacts with server-side domain layer objects, and so is dependent on the server platform. If one were to make Sparkle a tool for developing, say, Pharo code instead of GemStone code, that would require a substantial rework or replacement of this layer, but little change to the other layers.
+  
+  Objects in the GemStone tool layer can, in general, be committed. This gives some ability to save and restore a working environment ("Taskspace") between sessions. Whether a persistent tool is meaningful depends on the tool. A browser or inspector tool may be fully-functional upon reactivation, but although a debugger might allow the inspection of a committed stack it is unlikely to allow any further stepping or execution in the GsProcess being debugged.
+
+---
+
+Domain layer
+  This layer is not part of Sparkle itself, but is the underlying server-side code that the tool layer must interact with. This includes Rowan objects like Definitions and Repositories for browsers and other coding tools, and GsProcesses and arbitrary objects for debuggers and inspectors.
+  
+
+===========
+
+Rules of layer interaction
+--------------------------
+
+The purpose of a layered architecture is to keep the code maintainable, flexible, and portable. In order to achieve those properties, there are rules that must be followed to keep the dependencies between the layers manageable.
+
+The general principle is that each layer can have knowledge of what is in the layer immediataly below it, but no knowledge of any layers above it, or layers below the layer below it.
+
+From this principle are derived these rules:
+* Each object belongs to exactly one layer.
+* An object may send messages to other objects in its own layer without restriction.
+* An object may send messages to objects in the layer immediately below it without restriction.
+* No layer-skipping -- no object in the Presentation layer may send any message directly to an object in the Tool layer.
+* No object may send any message directly to an object in any layer above it.
+* No method in a layer may refer to a variable defined in a layer above it.
+* An object may make announcements about changes in its state or events that it notices. The announcing object is not allowed to know or care whether there is anyone subscribed to an announcement.
+* An object may subscribe to announcements sent by objects in the layer immediately below it.
+
+Thus, an object may initiate communication with an object in the next-lower layer by using a direct message, and the lower layer will return some object as a response to that message. The only tool that an object has for initiating communication with an object in its next-higher layer is to send an announcement. It must trust that if anyone cares about that announcement, someone is listening for it.
+
+These restrictions lead to a system that is more flexible and maintainable, but at the layer boundaries can prohibit patterns that would otherwise be good object design. 
+As an example, when the presentation layer receives a service that is to be presented visually in a window, it must choose a presenter class to handle the presentation. The choice of presenter class depends directly on what class the service is.
+A natural O-O design choice would be to implement a #presenterClass method in the service classes, so we could ask the service what kind of presenter to use to display its information.
+However, since that would give objects in the service layer information about what objects exist in the presentation layer, that is forbidden. The solution in this case is to have a dictionary in the presentation layer which associates service classes with presenter classes.
+
+As this example illustrates, these rules can make for awkwardness at the boundaries. However, all Sparkle code will follow these rules. If any team member discovers a situation that cannot be handled within the rules, they should call a full-team meeting to discuss that situation.
+
+
+
 Notes:
 
-Eventually, I think it will be good to have Jadeite, Sparkle, and any other 
-supported development tools share most of the same Tool layer. It may take us 
-several releases to get to that point. The GemStone service layer may have 
-to be more customized to the needs of the platform-specific GUI, though 
-quite a bit of code sharing should be possible.
-
-One benefit of keeping the GemStone service layer separate from the Tool layer is remote pair programming. The Tool layer doesn't know about the GemStone service layer. The GemStone services subscribe to changes published by the Tool layer. RSR services can only be replicated across exactly two objects spaces, but with two sets of services subscribing to the same set of tools would allow two Pharo images in different machines to connect to the same tools in the same gem at the same time, making remote pair programming much easier.
+Eventually, it would be good to have Jadeite, Sparkle, and any other supported development tools share most of the same Tool layer. It may take us several releases to get to that point. The service layer may have to be more customized to the needs of the platform-specific GUI. The degree to which code-sharing there is possible will become evident as the products evolve.

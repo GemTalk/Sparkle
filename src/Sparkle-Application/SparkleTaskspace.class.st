@@ -20,6 +20,7 @@ Class {
 	#classTraits : 'SpkTPromise classTrait',
 	#instVars : [
 		'connection',
+		'registryService',
 		'taskspaceService',
 		'presenterClassesForServiceTypes'
 	],
@@ -29,6 +30,17 @@ Class {
 { #category : 'activation' }
 SparkleTaskspace class >> applicationName [ 
 	^ 'Sparkle Taskspace'
+]
+
+{ #category : 'as yet unclassified' }
+SparkleTaskspace class >> defaultInConnection: anRsrConnection [
+
+	"Open a new default taskspace."
+
+	^ self new
+		  connection: anRsrConnection;
+		  initializeAsDefault;
+		  yourself
 ]
 
 { #category : 'as yet unclassified' }
@@ -61,18 +73,16 @@ SparkleTaskspace >> connection: anObject [
 ]
 
 { #category : 'initialization' }
+SparkleTaskspace >> initializeAsDefault [
+
+	
+	self registryService defaultTaskspaceService
+]
+
+{ #category : 'initialization' }
 SparkleTaskspace >> initializeForName: aName [
 
-	"Must already be connected."
-
-	| registryService promise |
-	registryService := connection serviceFor:
-		                   #SpkTaskspaceRegistryService.
-
-	promise := registryService taskspaceServiceNamed: aName.
-	promise
-		when: [ :ts | self defer: [ self restoreTaskspace: ts ] ]
-		catch: [ :reason | self signalPromiseBrokenBecause: reason ]
+	self registryService taskspaceServiceNamed: aName
 ]
 
 { #category : 'initialization' }
@@ -87,10 +97,32 @@ SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 ]
 
 { #category : 'initialization' }
+SparkleTaskspace >> initializeRegistryService [
+
+	"Note that the use of SpkTaskspaceAnnouncement means that there must be exactly one
+	connectino per SparkleTaskspace."
+
+	registryService := connection serviceFor:
+		                   #SpkTaskspaceRegistryService.
+	registryService
+		when: SpkTaskspaceAnnouncement
+		send: #taskspaceArrived:
+		to: self.
+
+	^ registryService
+]
+
+{ #category : 'initialization' }
 SparkleTaskspace >> presenterClassesForServiceTypes [
 
 	^ presenterClassesForServiceTypes ifNil: [ 
 		  self initializePresenterClassesForServiceTypes ]
+]
+
+{ #category : 'accessing' }
+SparkleTaskspace >> registryService [
+
+	^ registryService ifNil: [ self initializeRegistryService ]
 ]
 
 { #category : 'running' }
@@ -107,4 +139,10 @@ SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
 SparkleTaskspace >> start [
 
 	self shouldNotImplement
+]
+
+{ #category : 'initialization' }
+SparkleTaskspace >> taskspaceArrived: anAnnouncement [
+
+	self defer: [ self restoreTaskspace: anAnnouncement taskspaceService ]
 ]

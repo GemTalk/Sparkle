@@ -14,10 +14,8 @@ SpkUiTest class >> defaultLocalTaskspace [
 	"With real services in the local image"
 
 	<example>
-	| connection  |
-	connection := RsrInMemoryConnectionSpecification new connect
-		              connectionA.
-	self flag: 'connectionA should not be needed here. Remove once RSR is changed.'.
+	| connection |
+	connection := RsrInMemoryConnectionSpecification new connect.
 
 	SparkleTaskspace defaultInConnection: connection
 ]

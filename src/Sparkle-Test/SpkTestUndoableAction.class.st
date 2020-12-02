@@ -24,12 +24,13 @@ SpkTestUndoableAction >> isDone [
 	^ isDone
 ]
 
-{ #category : 'TOREMOVE' }
+{ #category : 'public' }
 SpkTestUndoableAction >> performAction [
 
 	isDone
 		ifTrue: [ self error: 'Attempt to perform action already done' ]
-		ifFalse: [ isDone := true ]
+		ifFalse: [ isDone := true ].
+	^ 42
 ]
 
 { #category : 'TOREMOVE' }

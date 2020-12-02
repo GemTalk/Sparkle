@@ -34,6 +34,12 @@ SpkSmallStack class >> new [
 ]
 
 { #category : 'accessing' }
+SpkSmallStack >> clear [
+
+	elements removeAll
+]
+
+{ #category : 'accessing' }
 SpkSmallStack >> collect: aBlock [
 	^ elements reverse collect: aBlock
 ]

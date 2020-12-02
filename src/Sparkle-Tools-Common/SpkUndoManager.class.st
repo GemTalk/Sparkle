@@ -70,17 +70,21 @@ SpkUndoManager >> limit: anInteger [
 { #category : 'accessing' }
 SpkUndoManager >> performAction: anAction [
 
-	anAction performAction.
-	undo push: anAction
+	| result |
+	result := anAction performAction.
+	redo clear.
+	undo push: anAction.
+	^ result
 ]
 
 { #category : 'accessing' }
 SpkUndoManager >> redo [
 
-	| action |
+	| action result |
 	action := redo pop.
-	action performAction.
-	undo push: action
+	result := action performAction.
+	undo push: action.
+	^ result
 ]
 
 { #category : 'accessing' }
@@ -89,5 +93,6 @@ SpkUndoManager >> undo [
 	| action |
 	action := undo pop.
 	action undoAction.
-	redo push: action
+	redo push: action.
+	^ nil "Nil to cause an error if someone mistakenly tries to use the result."
 ]

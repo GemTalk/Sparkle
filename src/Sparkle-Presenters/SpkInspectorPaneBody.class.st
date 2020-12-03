@@ -24,7 +24,7 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPaneBody >> fieldForService: aService [
 
 	"Find and answer the field presenter with the given service as its model."
@@ -127,7 +127,7 @@ SpkInspectorPaneBody >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkInspectorPaneBody >> refreshFieldList [
 
 	"Re-draw the field list; sent when something has changed and must be re-displayed."

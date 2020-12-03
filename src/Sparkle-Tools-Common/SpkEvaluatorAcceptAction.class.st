@@ -1,3 +1,8 @@
+"
+An action for evaluating my newSourceCode, at which point my oldSourceCode becomes equal to the newSourceCode.
+
+To undo, we can't actually undo the evaluation, but we can (and do) restore the oldSourceCode.
+"
 Class {
 	#name : 'SpkEvaluatorAcceptAction',
 	#superclass : 'SpkEvaluatorAction',
@@ -9,14 +14,14 @@ SpkEvaluatorAcceptAction >> performAction [
 
 	"Accepting makes the tool's oldSourceCode and newSourceCode the same."
 
-	tool oldSourceCode: newSourceCode.
-	^ tool evaluateCode
+	target oldSourceCode: newSourceCode.
+	^ target evaluateCode
 ]
 
 { #category : 'public' }
 SpkEvaluatorAcceptAction >> undoAction [
 	"Cannot undo the actual execution, but can restore the code"
 
-	tool oldSourceCode: oldSourceCode.
+	target oldSourceCode: oldSourceCode.
 	^ nil
 ]

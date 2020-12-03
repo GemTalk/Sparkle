@@ -9,26 +9,26 @@ Public API and Key Messages
 Internal Representation and Key Implementation Points.
 
     Instance Variables
--	tool:		<SpkToolWithUndoManager> The tool that created me, and upon which I act.
+-	target:		<Object> The object upon which I act.
  
 
     Implementation Points
-An Action is created by a Tool, and acts upon that Tool. Actions are expected to be coordinated by an UndoManager, which ensures that the performing and undoing of Actions happens in some sensible order.
+An Action is created by a Tool, and acts upon a target object designated by that Tool. Actions are expected to be coordinated by an UndoManager, which ensures that the performing and undoing of Actions happens in some sensible order.
 "
 Class {
 	#name : 'SpkAction',
 	#superclass : 'Object',
 	#instVars : [
-		'tool'
+		'target'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
 
 { #category : 'instance creation' }
-SpkAction class >> forTool: aTool [
+SpkAction class >> forTarget: targetObject [
 
 	^ self new
-		  tool: aTool;
+		  target: targetObject;
 		  yourself
 ]
 
@@ -39,9 +39,9 @@ SpkAction >> performAction [
 ]
 
 { #category : 'accessing' }
-SpkAction >> tool: anObject [
+SpkAction >> target: anObject [
 
-	tool := anObject
+	target := anObject
 ]
 
 { #category : 'public' }

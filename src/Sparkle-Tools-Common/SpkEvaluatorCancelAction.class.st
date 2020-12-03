@@ -1,3 +1,8 @@
+"
+An action to discard the newSourceCode being edited and make it equal to the oldSourceCode.
+
+Undo restores the newSourceCode that was discarded.
+"
 Class {
 	#name : 'SpkEvaluatorCancelAction',
 	#superclass : 'SpkEvaluatorAction',
@@ -9,7 +14,7 @@ SpkEvaluatorCancelAction >> performAction [
 
 	"Canceling throws away the tool's newSourceCode, making it equal to the oldSourceCode."
 
-	tool newSourceCode: oldSourceCode.
+	target newSourceCode: oldSourceCode.
 	^ nil
 ]
 
@@ -18,6 +23,6 @@ SpkEvaluatorCancelAction >> undoAction [
 
 	"Undoing a canceling restores the newSourceCode"
 
-	tool newSourceCode: newSourceCode.
+	target newSourceCode: newSourceCode.
 	^ nil
 ]

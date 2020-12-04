@@ -14,15 +14,21 @@ SpkInspectorToolTest >> testClassMembershipDescription [
 	self
 		assert: tool classMembershipDescription
 		equals: 'an UndefinedObject'.
+
 	tool := SpkInspectorTool on: nil class.
 	self
 		assert: tool classMembershipDescription
 		equals: 'UndefinedObject'.
+
 	tool := SpkInspectorTool on: 42.
 	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
 
+	tool := SpkInspectorTool on: 'Hi!'.
+	self assert: tool classMembershipDescription equals: 'a ByteString'.
+
 	tool := SpkInspectorTool on: Object new.
 	self assert: tool classMembershipDescription equals: 'an Object'.
+
 	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
 	self
 		assert: tool classMembershipDescription
@@ -30,8 +36,39 @@ SpkInspectorToolTest >> testClassMembershipDescription [
 ]
 
 { #category : 'tests' }
-SpkInspectorToolTest >> testInstVarsDo [
-	self deny: true "Needs to be written"
+SpkInspectorToolTest >> testFieldToolsSize [
+
+	"Here, just testing that we get the right number of FieldTools back."
+
+	tool := SpkInspectorTool on: nil.
+	self assert: tool fieldTools size equals: 0.
+
+	tool := SpkInspectorTool on: nil class.
+	self assert: tool fieldTools size equals: 11.
+
+	tool := SpkInspectorTool on: 42.
+	self assert: tool fieldTools size equals: 0.
+
+	tool := SpkInspectorTool on: 'Hi!'.
+	self assert: tool fieldTools size equals: 3.
+
+	tool := SpkInspectorTool on: Object new.
+	self assert: tool fieldTools size equals: 0.
+
+	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
+	self assert: tool fieldTools size equals: 2.
+
+	tool := SpkInspectorTool on: SpkTestClassWithInfinitePrintOn new.
+	self assert: tool fieldTools size equals: 0.
+
+	"ZeroDivide has both inherited and declared named instvars"
+	tool := SpkInspectorTool on: ZeroDivide new.
+	self assert: tool fieldTools size equals: 7.
+
+	"Class with both named and indexed instvars."
+	tool := SpkInspectorTool on:
+		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
+	self assert: tool fieldTools size equals: 8
 ]
 
 { #category : 'tests' }
@@ -61,6 +98,9 @@ SpkInspectorToolTest >> testSelfDescription [
 
 	tool := SpkInspectorTool on: 42.
 	self assert: tool selfDescription equals: '42'.
+
+	tool := SpkInspectorTool on: 'Hi!'.
+	self assert: tool selfDescription equals: '''Hi!'''.
 
 	tool := SpkInspectorTool on: Object new.
 	self assert: tool selfDescription equals: 'an Object'.

@@ -16,8 +16,6 @@ Responsibilities of this class
 Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
-	#traits : 'SpkTPromise',
-	#classTraits : 'SpkTPromise classTrait',
 	#instVars : [
 		'connection',
 		'registryService',
@@ -30,26 +28,6 @@ Class {
 { #category : 'activation' }
 SparkleTaskspace class >> applicationName [ 
 	^ 'Sparkle Taskspace'
-]
-
-{ #category : 'as yet unclassified' }
-SparkleTaskspace class >> defaultInConnection: anRsrConnection [
-
-	"Open a new default taskspace."
-
-	^ self new
-		  connection: anRsrConnection;
-		  initializeAsDefault;
-		  yourself
-]
-
-{ #category : 'as yet unclassified' }
-SparkleTaskspace class >> named: aName inConnection: anRsrConnection [
-
-	^ self new
-		  connection: anRsrConnection;
-		  initializeForName: aName;
-		  yourself
 ]
 
 { #category : 'instance creation' }
@@ -73,14 +51,22 @@ SparkleTaskspace >> connection: anObject [
 ]
 
 { #category : 'initialization' }
+SparkleTaskspace >> fetchDefaultService [
+
+	self registryService defaultTaskspaceService
+]
+
+{ #category : 'initialization' }
 SparkleTaskspace >> initializeAsDefault [
 
-	
+	self flag: 'Obsolete method'.
 	self registryService defaultTaskspaceService
 ]
 
 { #category : 'initialization' }
 SparkleTaskspace >> initializeForName: aName [
+
+	self flag: 'incomplete'.
 
 	self registryService taskspaceServiceNamed: aName
 ]
@@ -112,6 +98,15 @@ SparkleTaskspace >> initializeRegistryService [
 	^ registryService
 ]
 
+{ #category : 'running' }
+SparkleTaskspace >> openAllWindows [
+
+	"Open and initialize windows from my service"
+
+	taskspaceService explorersDo: [ :each | 
+		(SpkExplorerWindow newApplication: self model: each) openWithSpec ]
+]
+
 { #category : 'initialization' }
 SparkleTaskspace >> presenterClassesForServiceTypes [
 
@@ -131,8 +126,7 @@ SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
 	"Open and initialize windows from the given service"
 
 	taskspaceService := aTaskspaceService.
-	aTaskspaceService explorersDo: [ :each | 
-		(SpkExplorerWindow newApplication: self model: each) openWithSpec ]
+	self openAllWindows
 ]
 
 { #category : 'running' }

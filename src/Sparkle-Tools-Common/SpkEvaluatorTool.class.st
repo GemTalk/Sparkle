@@ -1,0 +1,47 @@
+Class {
+	#name : 'SpkEvaluatorTool',
+	#superclass : 'SpkTool',
+	#instVars : [
+		'explorerTool',
+		'inspectorTool'
+	],
+	#category : 'Sparkle-Tools-Common'
+}
+
+{ #category : 'evaluating' }
+SpkEvaluatorTool >> evaluateString: codeString [
+
+	"Evaluate the given code string and answer whatever answer comes back."
+
+	| context class compiler method |
+	self flag:
+		'Does not yet handle error cases, and it must. Both syntax and runtime errors.'.
+	self flag: 'This needs to be done through accept and cancel actions.'.
+	context := inspectorTool inspectedObject.
+	class := self classOf: context.
+	compiler := class compiler.
+
+	compiler source: codeString.
+	method := compiler compileDoit.
+
+	^ self
+		  carefullySend: #withArgs:executeMethod:
+		  withArguments: { 
+				  #(  ).
+				  method }
+		  to: context
+		  ifNotUnderstood: [ 
+		  'Evaluation message not understood by this object' ]
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> explorerTool: anObject [
+
+	explorerTool := anObject
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> inspectorTool: anObject [
+
+	inspectorTool := anObject
+]

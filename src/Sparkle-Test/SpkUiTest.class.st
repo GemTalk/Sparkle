@@ -14,10 +14,13 @@ SpkUiTest class >> defaultLocalTaskspace [
 	"With real services in the local image"
 
 	<example>
-	| connection |
+	| connection taskspace |
 	connection := RsrInMemoryConnectionSpecification new connect.
 
-	SparkleTaskspace defaultInConnection: connection
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: connection;
+		fetchDefaultService
 ]
 
 { #category : 'examples' }

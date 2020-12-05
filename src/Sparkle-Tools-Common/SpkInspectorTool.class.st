@@ -15,11 +15,12 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkInspectorTool',
-	#superclass : 'Object',
+	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
 		'inspectedObject',
-		'fieldTools'
+		'fieldTools',
+		'evaluatorTools'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -30,6 +31,15 @@ SpkInspectorTool class >> on: anObject [
 	^ self new
 		  inspectedObject: anObject;
 		  yourself
+]
+
+{ #category : 'initialization' }
+SpkInspectorTool >> addEvaluator [
+
+	evaluatorTools add: (SpkEvaluatorTool new
+			 inspectorTool: self;
+			 explorerTool: explorerTool;
+			 yourself)
 ]
 
 { #category : 'private' }
@@ -49,21 +59,6 @@ SpkInspectorTool >> carefullySend: aSelector withArguments: argArray ifNotUnders
 		  withArguments: argArray
 		  to: inspectedObject
 		  ifNotUnderstood: aBlock
-]
-
-{ #category : 'private' }
-SpkInspectorTool >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: aBlock [
-
-	| class |
-	class := self classOf: anObject.
-	^ (class canUnderstand: aSelector)
-		  ifTrue: [ 
-			  thisContext
-				  object: anObject
-				  perform: aSelector
-				  withArguments: argArray
-				  inClass: class ]
-		  ifFalse: aBlock
 ]
 
 { #category : 'accessing' }
@@ -86,14 +81,6 @@ SpkInspectorTool >> classMembershipDescription [
 ]
 
 { #category : 'private' }
-SpkInspectorTool >> classOf: anObject [
-
-	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
-
-	^ thisContext objectClass: anObject
-]
-
-{ #category : 'private' }
 SpkInspectorTool >> classOfInspectedObject [
 
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
@@ -102,9 +89,22 @@ SpkInspectorTool >> classOfInspectedObject [
 ]
 
 { #category : 'accessing' }
+SpkInspectorTool >> explorerTool: anObject [
+
+	explorerTool := anObject
+]
+
+{ #category : 'accessing' }
 SpkInspectorTool >> fieldTools [
 
 	^ fieldTools ifNil: [ self initializeFieldTools ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorTool >> initialize [
+
+	super initialize.
+	evaluatorTools := OrderedCollection new
 ]
 
 { #category : 'private' }
@@ -117,6 +117,13 @@ SpkInspectorTool >> initializeFieldTools [
 		initializeNamedInstvars;
 		initializeIndexedInstvars.
 	^ fieldTools
+]
+
+{ #category : 'initialization' }
+SpkInspectorTool >> initializeForDefault [
+
+	inspectedObject := nil.
+	self addEvaluator
 ]
 
 { #category : 'private' }
@@ -166,6 +173,14 @@ SpkInspectorTool >> inspectedObject [
 SpkInspectorTool >> inspectedObject: anObject [
 
 	inspectedObject := anObject
+]
+
+{ #category : 'instance creation' }
+SpkInspectorTool >> newEvaluator [
+
+	^ SpkEvaluatorTool new
+		  inspectorTool: self;
+		  yourself
 ]
 
 { #category : 'accessing' }

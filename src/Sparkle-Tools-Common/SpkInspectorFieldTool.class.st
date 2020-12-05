@@ -17,7 +17,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkInspectorFieldTool',
-	#superclass : 'Object',
+	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
 		'inspectorTool',

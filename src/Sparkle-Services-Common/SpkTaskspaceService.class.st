@@ -43,7 +43,7 @@ SpkTaskspaceService >> explorersDo: aUnaryBlock [
 SpkTaskspaceService >> initialize [
 
 	super initialize.
-	explorers := IdentitySet new
+	explorers := Set new
 ]
 
 { #category : 'acccessing' }

@@ -49,7 +49,7 @@ SpkExplorerService >> defaultLayout [
 SpkExplorerService >> initialize [
 
 	super initialize.
-	paneServices := IdentitySet new.
+	paneServices := Set new.
 	layoutService := self defaultLayout
 ]
 

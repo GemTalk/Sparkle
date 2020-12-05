@@ -25,3 +25,51 @@ Class {
 	],
 	#category : 'Sparkle-Tools-Common'
 }
+
+{ #category : 'instance creation' }
+SpkTaskspaceTool class >> newDefault [
+
+	^ self new
+		  initializeForDefault;
+		  yourself
+]
+
+{ #category : 'adding' }
+SpkTaskspaceTool >> addExplorer: anExplorerTool [
+
+	explorerTools add: anExplorerTool.
+	self announceNewExplorer: anExplorerTool
+]
+
+{ #category : 'announcing' }
+SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
+
+	| announcement |
+	announcement := SpkNewExplorerToolAnnouncement new.
+	announcement tool: anExplorerTool.
+	self announce: announcement
+]
+
+{ #category : 'accessing' }
+SpkTaskspaceTool >> explorerTools [
+
+	^ explorerTools
+]
+
+{ #category : 'initialization' }
+SpkTaskspaceTool >> initialize [
+
+	super initialize.
+	explorerTools := IdentitySet new.
+	name := ''
+]
+
+{ #category : 'initialization' }
+SpkTaskspaceTool >> initializeForDefault [
+
+	"The default initial taskspace has one default explorer."
+
+	| explorer |
+	explorer := SpkExplorerTool newDefault.
+	self addExplorer: explorer
+]

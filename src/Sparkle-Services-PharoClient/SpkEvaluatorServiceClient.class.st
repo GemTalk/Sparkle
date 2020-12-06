@@ -98,12 +98,12 @@ SpkEvaluatorServiceClient >> undo [
 { #category : 'accessing' }
 SpkEvaluatorServiceClient >> unsavedSource: aString [
 
-	unsavedSource ~= aString ifTrue: [ 
-		unsavedSource := aString.
+	newSourceCode ~= aString ifTrue: [ 
+		newSourceCode := aString.
 		self
 			updateHasUnsavedChanges;
 			announce: (SpkContentsChangedAnnouncement new
-					 newContents: unsavedSource;
+					 newContents: newSourceCode;
 					 yourself) ]
 ]
 
@@ -111,7 +111,7 @@ SpkEvaluatorServiceClient >> unsavedSource: aString [
 SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 
 	| nowHaveUnsavedChanges |
-	nowHaveUnsavedChanges := savedSource ~= unsavedSource.
+	nowHaveUnsavedChanges := oldSourceCode ~= newSourceCode.
 	nowHaveUnsavedChanges ~= hasUnsavedChanges ifTrue: [ 
 		hasUnsavedChanges := nowHaveUnsavedChanges.
 		self announce:

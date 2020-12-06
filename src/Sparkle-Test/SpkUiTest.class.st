@@ -16,11 +16,10 @@ SpkUiTest class >> defaultLocalTaskspace [
 	<example>
 	| connection taskspace |
 	connection := RsrInMemoryConnectionSpecification new connect.
-
 	taskspace := SparkleTaskspace new.
 	taskspace
 		connection: connection;
-		fetchDefaultService
+		openNewDefaultTaskspace
 ]
 
 { #category : 'examples' }

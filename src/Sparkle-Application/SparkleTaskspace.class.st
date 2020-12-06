@@ -19,6 +19,7 @@ Class {
 	#instVars : [
 		'connection',
 		'registryService',
+		'layoutService',
 		'taskspaceService',
 		'presenterClassesForServiceTypes'
 	],
@@ -48,12 +49,6 @@ SparkleTaskspace >> connection [
 { #category : 'accessing' }
 SparkleTaskspace >> connection: anObject [
 	connection := anObject
-]
-
-{ #category : 'initialization' }
-SparkleTaskspace >> fetchDefaultService [
-
-	self registryService defaultTaskspaceService
 ]
 
 { #category : 'initialization' }
@@ -91,8 +86,8 @@ SparkleTaskspace >> initializeRegistryService [
 	registryService := connection serviceFor:
 		                   #SpkTaskspaceRegistryService.
 	registryService
-		when: SpkTaskspaceAnnouncement
-		send: #taskspaceArrived:
+		when: SpkTaskspaceLayoutAnnouncement
+		send: #receiveTaskspaceLayoutAnnouncement:
 		to: self.
 
 	^ registryService
@@ -108,10 +103,25 @@ SparkleTaskspace >> openAllWindows [
 ]
 
 { #category : 'initialization' }
+SparkleTaskspace >> openNewDefaultTaskspace [
+
+	self registryService newDefaultTaskspaceLayout
+	"Reply via TaskspaceLayoutAnnouncment"
+]
+
+{ #category : 'initialization' }
 SparkleTaskspace >> presenterClassesForServiceTypes [
 
 	^ presenterClassesForServiceTypes ifNil: [ 
 		  self initializePresenterClassesForServiceTypes ]
+]
+
+{ #category : 'initialization' }
+SparkleTaskspace >> receiveTaskspaceLayoutAnnouncement: anAnnouncement [
+
+	self defer: [ 
+		self restoreFromTaskspaceLayoutService:
+			anAnnouncement taskspaceLayoutService ]
 ]
 
 { #category : 'accessing' }
@@ -121,10 +131,21 @@ SparkleTaskspace >> registryService [
 ]
 
 { #category : 'running' }
+SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
+
+	"Open and initialize windows from the given service"
+
+	layoutService := aLayoutService.
+	taskspaceService := layoutService taskspaceService.
+	self openAllWindows
+]
+
+{ #category : 'running' }
 SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
 
 	"Open and initialize windows from the given service"
 
+	self flag: 'This method is obsolete'.
 	taskspaceService := aTaskspaceService.
 	self openAllWindows
 ]
@@ -138,5 +159,6 @@ SparkleTaskspace >> start [
 { #category : 'initialization' }
 SparkleTaskspace >> taskspaceArrived: anAnnouncement [
 
+	self flag: 'Obsolete method'.
 	self defer: [ self restoreTaskspace: anAnnouncement taskspaceService ]
 ]

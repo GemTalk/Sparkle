@@ -26,6 +26,6 @@ SpkTestExplorerServiceClient class >> testExplorer1 [
 
 	^ self new
 		  layoutService: explorerLayout;
-		  addPane: pane;
+		  addPaneService: pane;
 		  yourself
 ]

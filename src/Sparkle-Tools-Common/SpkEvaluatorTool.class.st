@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
-		'inspectorTool'
+		'inspectorTool',
+		'oldSourceCode',
+		'newSourceCode'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -44,4 +46,28 @@ SpkEvaluatorTool >> explorerTool: anObject [
 SpkEvaluatorTool >> inspectorTool: anObject [
 
 	inspectorTool := anObject
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> newSourceCode [
+
+	^ newSourceCode
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> newSourceCode: anObject [
+
+	newSourceCode := anObject
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> oldSourceCode [
+
+	^ oldSourceCode
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> oldSourceCode: anObject [
+
+	oldSourceCode := anObject
 ]

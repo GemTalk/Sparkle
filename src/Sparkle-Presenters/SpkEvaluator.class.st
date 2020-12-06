@@ -13,10 +13,10 @@ Class {
 SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
-	codePresenter text: model unsavedSource.
+	codePresenter text: model newSourceCode.
 	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
-		model unsavedSource: newText asString ].
+		model newSourceCode: newText asString ].
 	model
 		when: SpkContentsChangedAnnouncement
 		send: #contentsChanged:

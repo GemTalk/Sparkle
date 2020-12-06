@@ -17,8 +17,8 @@ Class {
 	#name : 'SpkCodeEditorService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'savedSource',
-		'unsavedSource'
+		'oldSourceCode',
+		'newSourceCode'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -27,25 +27,17 @@ Class {
 SpkCodeEditorService >> initialize [
 
 	super initialize.
-	savedSource := unsavedSource := ''
+	oldSourceCode := newSourceCode := ''
 ]
 
 { #category : 'accessing' }
-SpkCodeEditorService >> savedSource [
-	^ savedSource
+SpkCodeEditorService >> newSourceCode [
+
+	^ newSourceCode
 ]
 
 { #category : 'accessing' }
-SpkCodeEditorService >> savedSource: anObject [
-	savedSource := anObject
-]
+SpkCodeEditorService >> newSourceCode: anObject [
 
-{ #category : 'accessing' }
-SpkCodeEditorService >> unsavedSource [
-	^ unsavedSource
-]
-
-{ #category : 'accessing' }
-SpkCodeEditorService >> unsavedSource: anObject [
-	unsavedSource := anObject
+	newSourceCode := anObject
 ]

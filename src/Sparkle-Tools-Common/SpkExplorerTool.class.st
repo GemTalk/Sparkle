@@ -15,8 +15,7 @@ Class {
 	#name : 'SpkExplorerTool',
 	#superclass : 'SpkToolWithUndoManager',
 	#instVars : [
-		'panes',
-		'layout'
+		'panes'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -39,7 +38,6 @@ SpkExplorerTool >> addPane: aPaneTool [
 SpkExplorerTool >> initialize [
 
 	super initialize.
-	layout := SpkLayoutTool new.
 	panes := Set new
 ]
 
@@ -54,4 +52,10 @@ SpkExplorerTool >> initializeForDefault [
 		             initializeForDefault;
 		             yourself.
 	self addPane: inspector
+]
+
+{ #category : 'accessing' }
+SpkExplorerTool >> panes [
+
+	^ panes
 ]

@@ -9,7 +9,7 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'private' }
+{ #category : 'reflection' }
 SpkTool >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: aBlock [
 
 	| class |
@@ -24,7 +24,7 @@ SpkTool >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUn
 		  ifFalse: aBlock
 ]
 
-{ #category : 'private' }
+{ #category : 'reflection' }
 SpkTool >> classOf: anObject [
 
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"

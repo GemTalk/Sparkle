@@ -17,6 +17,7 @@ Class {
 	#name : 'SpkExplorerLayoutService',
 	#superclass : 'RsrService',
 	#instVars : [
+		'explorerService',
 		'width',
 		'height',
 		'columnLayouts'

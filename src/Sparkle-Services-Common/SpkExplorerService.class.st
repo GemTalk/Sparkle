@@ -29,7 +29,7 @@ SpkExplorerService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
-SpkExplorerService >> addPane: aService [
+SpkExplorerService >> addPaneService: aService [
 
 	"The given service should know how to be an explorer pane. Initially, the only 
 	pane service is the inspector service."

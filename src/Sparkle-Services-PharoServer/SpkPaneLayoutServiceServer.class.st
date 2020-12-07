@@ -30,12 +30,6 @@ SpkPaneLayoutServiceServer >> columnLayoutService: anObject [
 	columnLayoutService := anObject
 ]
 
-{ #category : 'accessing' }
-SpkPaneLayoutServiceServer >> explorerLayoutService [
-
-	^ columnLayoutService explorerLayoutService
-]
-
 { #category : 'initialization' }
 SpkPaneLayoutServiceServer >> initializeFromTool: paneLayoutTool [
 

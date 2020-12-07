@@ -20,3 +20,9 @@ SpkTaskspaceLayoutService >> initialize [
 	super initialize.
 	explorerLayoutServices := Set new
 ]
+
+{ #category : 'accessing' }
+SpkTaskspaceLayoutService >> taskspaceService [
+
+	^ taskspaceService
+]

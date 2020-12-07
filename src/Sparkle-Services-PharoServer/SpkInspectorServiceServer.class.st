@@ -9,6 +9,14 @@ Class {
 	#category : 'Sparkle-Services-PharoServer'
 }
 
+{ #category : 'instance creation' }
+SpkInspectorServiceServer class >> forTool: aTool [
+
+	^ self new
+		  initializeFromTool: aTool;
+		  yourself
+]
+
 { #category : 'initialization' }
 SpkInspectorServiceServer >> initializeEvaluatorsFromTool [
 

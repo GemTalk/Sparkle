@@ -4,7 +4,8 @@ Class {
 	#traits : 'SpkTDebugLocalServer',
 	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
-		'tool'
+		'tool',
+		'explorerLayoutService'
 	],
 	#category : 'Sparkle-Services-PharoServer'
 }
@@ -17,19 +18,35 @@ SpkColumnLayoutServiceServer class >> forTool: aColumnLayoutTool [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+SpkColumnLayoutServiceServer >> explorerLayoutService [
+
+	^ explorerLayoutService
+]
+
+{ #category : 'accessing' }
+SpkColumnLayoutServiceServer >> explorerLayoutService: anObject [
+
+	explorerLayoutService := anObject
+]
+
 { #category : 'initialization' }
 SpkColumnLayoutServiceServer >> initializeFromTool: aColumnLayoutTool [
 
 	tool := aColumnLayoutTool.
-	self refreshFromTool
+	relativeWidth := tool relativeWidth
 ]
 
 { #category : 'initialization' }
-SpkColumnLayoutServiceServer >> refreshFromTool [
+SpkColumnLayoutServiceServer >> initializePanesForExplorer: xServ [
 
-	relativeWidth := tool relativeWidth.
-	paneLayouts := tool paneLayouts collect: [ :each | 
-		               SpkPaneLayoutServiceServer new
-			               initializeFromTool: each;
-			               yourself ]
+	paneLayouts := OrderedCollection new.
+	tool paneLayouts do: [ :plTool | 
+		| plServ pServ |
+		plServ := SpkPaneLayoutServiceServer forTool: plTool.
+		pServ := xServ paneServiceForTool: plTool paneTool.
+		plServ paneService: pServ.
+
+		paneLayouts add: plServ.
+		xServ addPaneService: pServ ]
 ]

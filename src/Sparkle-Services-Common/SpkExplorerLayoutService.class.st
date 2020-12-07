@@ -43,6 +43,18 @@ SpkExplorerLayoutService >> columnLayouts [
 ]
 
 { #category : 'accessing' }
+SpkExplorerLayoutService >> explorerService [
+
+	^ explorerService
+]
+
+{ #category : 'accessing' }
+SpkExplorerLayoutService >> explorerService: anObject [
+
+	explorerService := anObject
+]
+
+{ #category : 'accessing' }
 SpkExplorerLayoutService >> height [
 	^ height
 ]

@@ -13,16 +13,12 @@ Class {
 SpkTaskspaceServiceServer class >> forTool: aTaskspaceTool [
 
 	^ self new
-		  initializeFromTool: aTaskspaceTool;
+		  tool: aTaskspaceTool;
 		  yourself
 ]
 
 { #category : 'initialization' }
-SpkTaskspaceServiceServer >> initializeFromTool: aTaskspaceTool [
+SpkTaskspaceServiceServer >> tool: aTaskspaceTool [
 
-	self flag: 'needs layout integration'.
-
-	tool := aTaskspaceTool.
-	tool explorerTools do: [ :exTool | 
-		self addExplorer: (SpkExplorerServiceServer forTool: exTool) ]
+	tool := aTaskspaceTool
 ]

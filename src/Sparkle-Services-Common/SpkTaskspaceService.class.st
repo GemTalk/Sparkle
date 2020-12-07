@@ -33,6 +33,12 @@ SpkTaskspaceService >> addExplorer: anExplorerService [
 	explorers add: anExplorerService
 ]
 
+{ #category : 'accessing' }
+SpkTaskspaceService >> explorers [
+
+	^ explorers
+]
+
 { #category : 'enumerating' }
 SpkTaskspaceService >> explorersDo: aUnaryBlock [
 

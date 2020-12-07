@@ -16,7 +16,7 @@ Class {
 SpkExplorerServiceServer class >> forTool: anExplorerTool [
 
 	^ self new
-		  initializeFromTool: anExplorerTool;
+		  tool: anExplorerTool;
 		  yourself
 ]
 
@@ -50,27 +50,22 @@ SpkExplorerServiceServer >> defaultLayout [
 	^ SpkExplorerLayoutServiceServer new
 ]
 
-{ #category : 'initialization' }
-SpkExplorerServiceServer >> initializeFromTool: anExplorerTool [
-
-	self flag: 'needs layout integration'.
-	tool := anExplorerTool.
-	self refreshFromTool
-]
-
 { #category : 'as yet unclassified' }
 SpkExplorerServiceServer >> paneServiceForTool: aPaneTool [
 
 	| serviceClass |
 	serviceClass := self class serviceClassForToolClass: aPaneTool class.
-	^ serviceClass new
-		  initializeFromTool: aPaneTool;
-		  yourself
+	^ serviceClass forTool: aPaneTool
 ]
 
-{ #category : 'initialization' }
-SpkExplorerServiceServer >> refreshFromTool [
+{ #category : 'accessing' }
+SpkExplorerServiceServer >> tool [
 
-	tool panes do: [ :paneTool | 
-		self addPaneService: (self paneServiceForTool: paneTool) ]
+	^ tool
+]
+
+{ #category : 'accessing' }
+SpkExplorerServiceServer >> tool: anObject [
+
+	tool := anObject
 ]

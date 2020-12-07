@@ -29,6 +29,12 @@ SpkExplorerLayoutTool >> columnLayouts: anObject [
 ]
 
 { #category : 'accessing' }
+SpkExplorerLayoutTool >> explorerTool [
+
+	^ explorerTool
+]
+
+{ #category : 'accessing' }
 SpkExplorerLayoutTool >> height [
 
 	^ height

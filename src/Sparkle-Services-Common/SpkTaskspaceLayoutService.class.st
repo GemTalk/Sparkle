@@ -14,6 +14,12 @@ SpkTaskspaceLayoutService class >> templateClassName [
 	^ #SpkTaskspaceLayoutService
 ]
 
+{ #category : 'accessing' }
+SpkTaskspaceLayoutService >> explorerLayoutServices [
+
+	^ explorerLayoutServices
+]
+
 { #category : 'initialization' }
 SpkTaskspaceLayoutService >> initialize [
 

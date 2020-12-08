@@ -98,8 +98,14 @@ SparkleTaskspace >> openAllWindows [
 
 	"Open and initialize windows from my service"
 
-	taskspaceService explorersDo: [ :each | 
-		(SpkExplorerWindow newApplication: self model: each) openWithSpec ]
+	layoutService explorerLayoutServices do: [ :xlServ | 
+		| explorer |
+		explorer := SpkExplorerWindow
+			            newApplication: self
+			            model: xlServ explorerService.
+		explorer
+			openWithSpec;
+			initializeFromLayoutService: xlServ ]
 ]
 
 { #category : 'initialization' }

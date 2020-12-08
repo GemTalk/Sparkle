@@ -4,8 +4,7 @@ Class {
 	#traits : 'SpkTDebugLocalServer',
 	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
-		'tool',
-		'columnLayoutService'
+		'tool'
 	],
 	#category : 'Sparkle-Services-PharoServer'
 }
@@ -16,18 +15,6 @@ SpkPaneLayoutServiceServer class >> forTool: aPaneLayoutTool [
 	^ self new
 		  initializeFromTool: aPaneLayoutTool;
 		  yourself
-]
-
-{ #category : 'accessing' }
-SpkPaneLayoutServiceServer >> columnLayoutService [
-
-	^ columnLayoutService
-]
-
-{ #category : 'accessing' }
-SpkPaneLayoutServiceServer >> columnLayoutService: anObject [
-
-	columnLayoutService := anObject
 ]
 
 { #category : 'initialization' }

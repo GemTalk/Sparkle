@@ -4,10 +4,23 @@ General services needed by tool objects.
 Class {
 	#name : 'SpkTool',
 	#superclass : 'Object',
-	#traits : 'SpkTModel',
-	#classTraits : 'SpkTModel classTrait',
+	#instVars : [
+		'announcer'
+	],
 	#category : 'Sparkle-Tools-Common'
 }
+
+{ #category : 'accessing' }
+SpkTool >> announce: anAnnouncement [
+
+	self announcer announce: anAnnouncement
+]
+
+{ #category : 'accessing' }
+SpkTool >> announcer [
+
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
 
 { #category : 'reflection' }
 SpkTool >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: aBlock [
@@ -30,4 +43,16 @@ SpkTool >> classOf: anObject [
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
 
 	^ thisContext objectClass: anObject
+]
+
+{ #category : 'accessing' }
+SpkTool >> unsubscribe: anObject [
+
+	self announcer unsubscribe: anObject
+]
+
+{ #category : 'accessing' }
+SpkTool >> when: anAnnouncementClass send: aSelector to: anObject [
+
+	self announcer when: anAnnouncementClass send: aSelector to: anObject
 ]

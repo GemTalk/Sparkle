@@ -32,10 +32,12 @@ SpkTModel >> notYetImplemented: aString [
 
 { #category : 'accessing' }
 SpkTModel >> unsubscribe: anObject [
+
 	self announcer unsubscribe: anObject
 ]
 
 { #category : 'accessing' }
 SpkTModel >> when: anAnnouncementClass send: aSelector to: anObject [
+
 	self announcer when: anAnnouncementClass send: aSelector to: anObject
 ]

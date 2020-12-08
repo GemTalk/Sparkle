@@ -24,6 +24,12 @@ SpkInspectorPane >> deferNewLinkedInspector: anAnnouncement [
 	self defer: [ self newLinkedInspector: anAnnouncement ]
 ]
 
+{ #category : 'initialization' }
+SpkInspectorPane >> evaluators [
+
+	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
+]
+
 { #category : 'actions' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
@@ -58,13 +64,6 @@ SpkInspectorPane >> fieldSelected: anAnnouncement [
 		ifNotNil: [ self openInspector: inspectorService forField: field ]
 ]
 
-{ #category : 'initialization' }
-SpkInspectorPane >> initialize [
-
-	super initialize.
-	evaluators := OrderedCollection new
-]
-
 { #category : 'adding' }
 SpkInspectorPane >> initializeAddEvaluatorButton [
 
@@ -90,6 +89,20 @@ SpkInspectorPane >> initializeBody [
 	self layout add: body
 ]
 
+{ #category : 'adding' }
+SpkInspectorPane >> initializeEvaluators [
+
+	| evaluatorIndex |
+	evaluatorIndex := 1.
+	model evaluators do: [ :evaluatorModel | 
+		| evaluator |
+		evaluator := self instantiate: SpkEvaluator on: evaluatorModel.
+		evaluator index: evaluatorIndex.
+		evaluatorIndex := evaluatorIndex + 1.
+		self evaluators add: evaluator.
+		self layout add: evaluator ]
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> initializeHeader [
 
@@ -105,6 +118,7 @@ SpkInspectorPane >> initializePresenters [
 	self
 		initializeHeader;
 		initializeBody;
+		initializeEvaluators;
 		initializeAddEvaluatorButton
 ]
 

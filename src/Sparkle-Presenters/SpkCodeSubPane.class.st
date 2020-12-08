@@ -17,9 +17,46 @@ Class {
 
 { #category : 'specs' }
 SpkCodeSubPane class >> oldDefaultSpec [
+
+	self flag: 'Obsolete method?'.
 	^ super defaultSpec
 		  add: #codePresenter;
 		  yourself
+]
+
+{ #category : 'commands' }
+SpkCodeSubPane class >> sourceCodeCommandsGroupWith: aPresenter [
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Source code commands')
+		                asSpecGroup
+		                description: 'Format or do it';
+		                beDisplayedAsGroup;
+		                yourself.
+
+	commandGroup
+		register: (SpkFormatCodeCommand forSpecContext: aPresenter);
+		register: (SpkDoItCommand forSpecContext: aPresenter);
+		register: (SpkDebugItCommand forSpecContext: aPresenter).
+
+	^ commandGroup
+]
+
+{ #category : 'commands' }
+SpkCodeSubPane class >> undoRedoCommandsGroupWith: aPresenter [
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Undo/redo commands')
+		                asSpecGroup
+		                description: 'Undo or redo changes.';
+		                beDisplayedAsGroup;
+		                yourself.
+
+	commandGroup
+		register: (SpkUndoCommand forSpecContext: aPresenter);
+		register: (SpkRedoCommand forSpecContext: aPresenter).
+
+	^ commandGroup
 ]
 
 { #category : 'accessing' }
@@ -36,10 +73,7 @@ SpkCodeSubPane >> codePresenter: anObject [
 SpkCodeSubPane >> connectPresenters [
 
 	super connectPresenters.
-	codePresenter
-		overrideContextMenu: true;
-		contextMenu: self paneMenu;
-		contextKeyBindings: self menuActions asKMCategory
+	codePresenter overrideContextMenu: true
 ]
 
 { #category : 'actions' }
@@ -76,8 +110,7 @@ SpkCodeSubPane >> hasSubmitAction [
 SpkCodeSubPane >> initializePresenters [
 
 	super initializePresenters.
-	codePresenter := self instantiate: SpkCodePresenter.
-	self focusOrder add: codePresenter
+	codePresenter := self instantiate: SpkCodePresenter
 ]
 
 { #category : 'actions' }

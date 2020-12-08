@@ -42,6 +42,13 @@ SpkEvaluatorTool >> explorerTool: anObject [
 	explorerTool := anObject
 ]
 
+{ #category : 'initialization' }
+SpkEvaluatorTool >> initialize [
+
+	super initialize.
+	oldSourceCode := newSourceCode := ''
+]
+
 { #category : 'accessing' }
 SpkEvaluatorTool >> inspectorTool: anObject [
 

@@ -18,41 +18,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'commands' }
-SpkPane class >> sourceCodeCommandsGroupWith: aPresenter [
-
-	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Source code commands')
-		                asSpecGroup
-		                description: 'Format or do it';
-		                beDisplayedAsGroup;
-		                yourself.
-
-	commandGroup
-		register: (SpkFormatCodeCommand forSpecContext: aPresenter);
-		register: (SpkDoItCommand forSpecContext: aPresenter);
-		register: (SpkDebugItCommand forSpecContext: aPresenter).
-
-	^ commandGroup
-]
-
-{ #category : 'commands' }
-SpkPane class >> undoRedoCommandsGroupWith: aPresenter [
-
-	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Undo/redo commands')
-		                asSpecGroup
-		                description: 'Undo or redo changes.';
-		                beDisplayedAsGroup;
-		                yourself.
-
-	commandGroup
-		register: (SpkUndoCommand forSpecContext: aPresenter);
-		register: (SpkRedoCommand forSpecContext: aPresenter).
-
-	^ commandGroup
-]
-
 { #category : 'accessing' }
 SpkPane >> coordinate [
 	^ coordinate

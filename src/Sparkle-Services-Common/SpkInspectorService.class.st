@@ -40,6 +40,12 @@ SpkInspectorService >> classMembershipDescription: anObject [
 ]
 
 { #category : 'accessing' }
+SpkInspectorService >> evaluators [
+
+	^ evaluators
+]
+
+{ #category : 'accessing' }
 SpkInspectorService >> fields [
 	^ fields
 ]

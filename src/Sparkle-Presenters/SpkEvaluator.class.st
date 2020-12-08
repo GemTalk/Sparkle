@@ -6,6 +6,9 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
+	#instVars : [
+		'index'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -22,7 +25,7 @@ SpkEvaluator >> connectPresenters [
 		send: #contentsChanged:
 		to: self;
 		when: SpkUnsavedChangesAnnouncement
-		send: #hasUnsavedChanges:
+		send: #receiveUnsavedChangesAnnouncement:
 		to: self
 ]
 
@@ -36,16 +39,28 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 ]
 
 { #category : 'testing' }
-SpkEvaluator >> hasUnsavedChanges: anSpkUnsavedChangesAnnouncement [
+SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
-	codePresenter hasUnacceptedEdits:
-		anSpkUnsavedChangesAnnouncement hasUnsavedChanges
+	codePresenter hasUnacceptedEdits: aBoolean
+]
+
+{ #category : 'accessing' }
+SpkEvaluator >> index [
+
+	^ index
+]
+
+{ #category : 'accessing' }
+SpkEvaluator >> index: anObject [
+
+	index := anObject
 ]
 
 { #category : 'initialization' }
 SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
+	self layout add: codePresenter.
 	codePresenter
 		placeholder: 'Accept to evaluate code typed here.';
 		whenSubmitDo: [ :ignored | model accept ];
@@ -66,9 +81,16 @@ SpkEvaluator >> menuActions [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+SpkEvaluator >> newLayout [
+
+	^ SpkBoxLayout newVertical
+]
+
 { #category : 'instance creation' }
 SpkEvaluator >> oldPaneMenu [
 
+	self flag: 'ObsoleteMethod?'.
 	^ self newMenu
 		  addGroup: [ :group | 
 			  group
@@ -155,4 +177,12 @@ SpkEvaluator >> paneLabel [
 	^ self newLabel
 		  label: 'Evaluator';
 		  yourself
+]
+
+{ #category : 'testing' }
+SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnouncement [
+
+	self defer: [ 
+		self hasUnsavedChanges:
+			anSpkUnsavedChangesAnnouncement hasUnsavedChanges ]
 ]

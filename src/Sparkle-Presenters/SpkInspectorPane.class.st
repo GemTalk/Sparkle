@@ -14,14 +14,7 @@ Class {
 SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
-	model when: SpkInspectorCreated send: #deferNewLinkedInspector: to: self
-]
-
-{ #category : 'announcements' }
-SpkInspectorPane >> deferNewLinkedInspector: anAnnouncement [
-
-	anAnnouncement requestId inspectorService: anAnnouncement service.
-	self defer: [ self newLinkedInspector: anAnnouncement ]
+	model when: SpkInspectorCreated send: #receiveLinkedInspectorAnnouncement: to: self
 ]
 
 { #category : 'initialization' }
@@ -41,7 +34,7 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 	field clearLinkedPane
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPane >> fieldForService: aService [
 
 	"Find and answer the field presenter with the given service as its model."
@@ -151,7 +144,17 @@ SpkInspectorPane >> newLinkedInspector: anAnnouncement [
 	self reEnableAll
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
+SpkInspectorPane >> newPaneForService: newService linkedTo: fieldService [
+
+	| field |
+	field := self fieldForService: fieldService.
+	self openInspector: newService forField: field.
+	"This announcement came from the server, so all of my widgets are disabled."
+	self reEnableAll
+]
+
+{ #category : 'actions' }
 SpkInspectorPane >> openInspector: anInspectorService forField: field [
 
 	" Create and open an inspector pane in the next column"
@@ -165,4 +168,11 @@ SpkInspectorPane >> openInspector: anInspectorService forField: field [
 	field linkedPane: newPane.
 	nextRightColumn add: newPane.
 	body refreshFieldList "Change linking arrow."
+]
+
+{ #category : 'announcements' }
+SpkInspectorPane >> receiveLinkedInspectorAnnouncement: anAnnouncement [
+
+	anAnnouncement requestId inspectorService: anAnnouncement service.
+	self defer: [ self newLinkedInspector: anAnnouncement ]
 ]

@@ -134,17 +134,6 @@ SpkInspectorPane >> newLayout [
 ]
 
 { #category : 'instance creation' }
-SpkInspectorPane >> newLinkedInspector: anAnnouncement [
-
-	| field newService |
-	field := self fieldForService: anAnnouncement requestId.
-	newService := anAnnouncement service.
-	self openInspector: newService forField: field.
-	"This announcement came from the server, so all of my widgets are disabled."
-	self reEnableAll
-]
-
-{ #category : 'instance creation' }
 SpkInspectorPane >> newPaneForService: newService linkedTo: fieldService [
 
 	| field |
@@ -174,5 +163,8 @@ SpkInspectorPane >> openInspector: anInspectorService forField: field [
 SpkInspectorPane >> receiveLinkedInspectorAnnouncement: anAnnouncement [
 
 	anAnnouncement requestId inspectorService: anAnnouncement service.
-	self defer: [ self newLinkedInspector: anAnnouncement ]
+	self defer: [ 
+		self
+			newPaneForService: anAnnouncement service
+			linkedTo: anAnnouncement requestId ]
 ]

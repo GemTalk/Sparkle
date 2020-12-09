@@ -64,15 +64,17 @@ SpkEvaluatorServiceClient >> hasUnsavedChanges [
 	^ hasUnsavedChanges
 ]
 
-{ #category : 'accessing' }
-SpkEvaluatorServiceClient >> hasUnsavedChanges: anObject [
-	hasUnsavedChanges := anObject
-]
-
 { #category : 'initialization' }
 SpkEvaluatorServiceClient >> initialize [
 	super initialize.
 	hasUnsavedChanges := false
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorServiceClient >> newSourceCode: aString [
+
+	super newSourceCode: aString.
+	self updateHasUnsavedChanges
 ]
 
 { #category : 'actions' }
@@ -95,19 +97,7 @@ SpkEvaluatorServiceClient >> undo [
 	self notYetImplemented: 'Undo'
 ]
 
-{ #category : 'accessing' }
-SpkEvaluatorServiceClient >> unsavedSource: aString [
-
-	newSourceCode ~= aString ifTrue: [ 
-		newSourceCode := aString.
-		self
-			updateHasUnsavedChanges;
-			announce: (SpkContentsChangedAnnouncement new
-					 newContents: newSourceCode;
-					 yourself) ]
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 
 	| nowHaveUnsavedChanges |

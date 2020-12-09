@@ -37,7 +37,7 @@ SpkCodeEditorService >> newSourceCode [
 ]
 
 { #category : 'accessing' }
-SpkCodeEditorService >> newSourceCode: anObject [
+SpkCodeEditorService >> newSourceCode: aString [
 
-	newSourceCode := anObject
+	newSourceCode := aString
 ]

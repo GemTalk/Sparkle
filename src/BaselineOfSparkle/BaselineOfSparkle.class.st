@@ -51,6 +51,12 @@ BaselineOfSparkle >> postload: loader package: packageSpec [
 	SpkIconLibrary loadFromLocalSrcUrlString: urlString
 ]
 
+{ #category : 'accessing' }
+BaselineOfSparkle >> projectClass [
+	Smalltalk at: #'MetacelloCypressBaselineProject' ifPresent: [ :cl | ^ cl ].
+	^ super projectClass
+]
+
 { #category : 'baselines' }
 BaselineOfSparkle >> rsrUrl [
 	| projectsHome |

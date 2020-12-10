@@ -1,0 +1,10 @@
+RwSimpleProjectLoadComponentV2 {
+	#name : 'tests/pharo/Sparkle',
+	#condition : 'pharo',
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'Sparkle-Test'
+	],
+	#comment : 'pharo test packages for Sparkle'
+}

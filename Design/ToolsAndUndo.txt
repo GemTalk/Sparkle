@@ -14,7 +14,7 @@ The Tool receives a message requesting some change in state (for instance "save 
 
 The Tool creates an Action object encapsulating the request and more accompanying information (currently-selected behavior and selector, source of the method).
 
-The Tool asks the Action to #enact itself.
+The Tool asks the Action to #performAction itself.
 
 The Action gathers information as necessary, attempts the work specified, and either signals an exception or answers an Action with enough information to reverse the original Action. (The answered Action might be the same Action with added information.) In the example of accepting a method, the additional information needed for undo would likely be the MethodDefinition being replaced.
 
@@ -28,9 +28,9 @@ If a Tool receives a request for undo or redo, the sequence is:
 
 The Tool asks its UndoManager for the previous or next Action.
 
-The Tool asks the Action to either #reverse or #enact itself.
+The Tool asks the Action to either #undoAction or #performAction itself.
 
-The Action reverses or performs itself. This should succeed, since it is known to be a correct Action. The Action is returned to the Tool.
+The Action undoes or performs itself. This should succeed, since it is known to be a correct Action. The Action is returned to the Tool.
 
 The Tool gives the Action to its undoManager as an undone or redone Action.
 

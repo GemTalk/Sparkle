@@ -5,10 +5,24 @@ Class {
 		'body',
 		'addEvaluatorButton',
 		'linkedInspectors',
-		'evaluators'
+		'evaluators',
+		'nextEvaluatorIndex'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'adding' }
+SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
+
+	| evaluator |
+	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
+	evaluator
+		pane: self;
+		index: self nextEvaluatorIndex.
+	nextEvaluatorIndex := self nextEvaluatorIndex + 1.
+	self evaluators add: evaluator.
+	self layout add: evaluator
+]
 
 { #category : 'initialization' }
 SpkInspectorPane >> connectPresenters [
@@ -85,15 +99,8 @@ SpkInspectorPane >> initializeBody [
 { #category : 'adding' }
 SpkInspectorPane >> initializeEvaluators [
 
-	| evaluatorIndex |
-	evaluatorIndex := 1.
 	model evaluators do: [ :evaluatorModel | 
-		| evaluator |
-		evaluator := self instantiate: SpkEvaluator on: evaluatorModel.
-		evaluator index: evaluatorIndex.
-		evaluatorIndex := evaluatorIndex + 1.
-		self evaluators add: evaluator.
-		self layout add: evaluator ]
+		self addEvaluatorWithModel: evaluatorModel ]
 ]
 
 { #category : 'initialization' }
@@ -141,6 +148,12 @@ SpkInspectorPane >> newPaneForService: newService linkedTo: fieldService [
 	self openInspector: newService forField: field.
 	"This announcement came from the server, so all of my widgets are disabled."
 	self reEnableAll
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> nextEvaluatorIndex [
+
+	^ nextEvaluatorIndex ifNil: [ nextEvaluatorIndex := 1 ]
 ]
 
 { #category : 'actions' }

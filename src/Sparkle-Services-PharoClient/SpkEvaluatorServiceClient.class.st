@@ -61,13 +61,8 @@ SpkEvaluatorServiceClient >> formatCode [
 
 { #category : 'accessing' }
 SpkEvaluatorServiceClient >> hasUnsavedChanges [
-	^ hasUnsavedChanges
-]
 
-{ #category : 'initialization' }
-SpkEvaluatorServiceClient >> initialize [
-	super initialize.
-	hasUnsavedChanges := false
+	^ hasUnsavedChanges ifNil: [ self updateHasUnsavedChanges ]
 ]
 
 { #category : 'accessing' }

@@ -2,15 +2,42 @@
 I am a concrete class.
 
 My purpose is to display and handle a code snippet that is (hopefully) executable, but is not a method in that it doesn't have a message pattern like a full method would.
+
+* pane 	<SpkInspectorPane> The inspector pane that I'm part of.
+* index 	<Integer>		My index as an inspector. First evaluator for a pane is index 1. The index of a closed evaluator is not reused.
 "
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
 	#instVars : [
+		'pane',
 		'index'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'visiting' }
+SpkEvaluator >> accept [
+
+	"Ignore ctrl-s if no unsaved changes"
+
+	self flag:
+		'The command itself and menu item should be disabled instead of this test.'.
+	model hasUnsavedChanges ifFalse: [ ^ self ].
+
+	pane disableAll.
+	model accept
+]
+
+{ #category : 'visiting' }
+SpkEvaluator >> cancel [
+
+	"Ignore ctrl-l if no unsaved changes"
+
+	self flag:
+		'The command itself and menu item should be disabled instead of this test.'.
+	model hasUnsavedChanges ifTrue: [ model cancel ]
+]
 
 { #category : 'initialization' }
 SpkEvaluator >> connectPresenters [
@@ -29,7 +56,7 @@ SpkEvaluator >> connectPresenters [
 		to: self
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'events' }
 SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 
 	| newContents |
@@ -63,8 +90,8 @@ SpkEvaluator >> initializePresenters [
 	self layout add: codePresenter.
 	codePresenter
 		placeholder: 'Accept to evaluate code typed here.';
-		whenSubmitDo: [ :ignored | model accept ];
-		whenResetDo: [ model cancel ]
+		whenSubmitDo: [ :ignored | self accept ];
+		whenResetDo: [ self cancel ]
 ]
 
 { #category : 'instance creation' }
@@ -172,6 +199,12 @@ SpkEvaluator >> oldPaneMenu [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+SpkEvaluator >> pane: anObject [
+
+	pane := anObject
+]
+
 { #category : 'layout' }
 SpkEvaluator >> paneLabel [
 	^ self newLabel
@@ -179,7 +212,7 @@ SpkEvaluator >> paneLabel [
 		  yourself
 ]
 
-{ #category : 'testing' }
+{ #category : 'events' }
 SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnouncement [
 
 	self defer: [ 

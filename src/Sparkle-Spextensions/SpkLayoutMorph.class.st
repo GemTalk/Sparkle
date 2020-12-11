@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkLayoutMorph',
 	#superclass : 'Morph',
+	#traits : 'SpkTMorphEnablement',
+	#classTraits : 'SpkTMorphEnablement classTrait',
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 

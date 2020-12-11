@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'stack'
 	],
-	#category : 'Sparkle-Test'
+	#category : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'running' }

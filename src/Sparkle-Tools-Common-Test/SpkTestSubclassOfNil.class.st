@@ -5,5 +5,5 @@ Class {
 		'first',
 		'second'
 	],
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#category : 'Sparkle-Tools-Common-Test'
 }

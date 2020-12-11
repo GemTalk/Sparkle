@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'manager'
 	],
-	#category : 'Sparkle-Test'
+	#category : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'support' }

@@ -5,6 +5,6 @@ RwSimpleProjectLoadComponentV2 {
 	#componentNames : [ ],
 	#packageNames : [
 		'Sparkle-Tools-Common-Test'
-	 ],
+	],
 	#comment : 'test packages for Sparkle'
 }

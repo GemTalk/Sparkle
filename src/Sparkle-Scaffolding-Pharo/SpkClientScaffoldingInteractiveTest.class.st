@@ -36,5 +36,5 @@ SpkClientScaffoldingInteractiveTest >> testGsDoit [
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
 	bring up a Pharo inspector on the client"
 
-	(service doit: '3+4') inspect
+	{service doit: '3+4'} inspect
 ]

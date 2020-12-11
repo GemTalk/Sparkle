@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#category : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'tests' }

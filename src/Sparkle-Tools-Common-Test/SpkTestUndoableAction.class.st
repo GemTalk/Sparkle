@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'isDone'
 	],
-	#category : 'Sparkle-Test'
+	#category : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'initialization' }

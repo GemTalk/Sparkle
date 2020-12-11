@@ -18,6 +18,8 @@ BaselineOfSparkle >> baseline: spec [
 				includes: 'Sparkle-Scaffolding-Pharo' ];
 			package: 'Sparkle-Scaffolding-Pharo'
 			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
+			package: 'Sparkle-Tools-Common-Test'
+			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Tools-Pharo'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Services-Common'
@@ -34,11 +36,10 @@ BaselineOfSparkle >> baseline: spec [
 			package: 'Sparkle-Presenters' with: [ 
 				spec requires:
 						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient' ) ];
+			package: 'Sparkle-Presenters-Test'
+			with: [ spec requires: 'Sparkle-Presenters' ];
 			package: 'Sparkle-Application'
 			with: [ spec requires: 'Sparkle-Presenters' ];
-			package: 'Sparkle-Test' with: [ 
-				spec requires:
-						#( 'Sparkle-Application' 'Sparkle-Services-PharoServer' ) ];
 			package: 'Sparkle-Spextensions';
 			package: 'Sparkle-Experiments' with: [ 
 				spec requires:

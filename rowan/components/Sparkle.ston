@@ -8,7 +8,7 @@ RwSimpleProjectLoadComponentV2 {
 	],
 	#packageNames : [
 		'Sparkle-Scaffolding-Common',
-    'Sparkle-Tools-Common',
+		'Sparkle-Tools-Common',
 		'Sparkle-Services-Common'
 	],
 	#comment : 'core packages for Sparkle'

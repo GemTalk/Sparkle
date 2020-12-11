@@ -1,3 +1,27 @@
-input $ROWAN_PROJECTS_HOME/Sparkle/src-gs/loadSparkle.topaz
+	iferr 1 stk
+	iferr 2 stack
+#	iferr 3 exit 1
 
-commit
+	set user SystemUser p swordfish
+  login
+
+	run
+	[
+		(Rowan
+			projectFromUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication/rowan/specs/RemoteServiceReplication.ston'
+			gitUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication') load ] 
+		on: Warning do: [:ex | ex resume]
+%
+	commit
+
+	run
+	[
+		false ifTrue: [ ^ self ].
+		(Rowan
+			projectFromUrl: 'file:$ROWAN_PROJECTS_HOME/Sparkle/rowan/specs/Sparkle.ston'
+			gitUrl: 'file:$ROWAN_PROJECTS_HOME/Sparkle') load ] 
+		on: Warning do: [:ex | ex resume]
+%
+	commit
+
+	errorCount

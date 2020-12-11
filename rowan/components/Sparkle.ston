@@ -7,6 +7,7 @@ RwSimpleProjectLoadComponentV2 {
 		'tests/Sparkle'
 	],
 	#packageNames : [
+		'Sparkle-Scaffolding-Common',
     'Sparkle-Tools-Common',
 		'Sparkle-Services-Common'
 	],

@@ -20,13 +20,13 @@ SpkEvaluatorTool >> evaluateString: codeString [
 		'Does not yet handle error cases, and it must. Both syntax and runtime errors.'.
 	self flag: 'This needs to be done through accept and cancel actions.'.
 	context := inspectorTool inspectedObject.
-	class := self classOf: context.
+	class := SpkReflection classOf: context.
 	compiler := class compiler.
 
 	compiler source: codeString.
 	method := compiler compileDoit.
 
-	^ self
+	^ SpkReflection
 		  carefullySend: #withArgs:executeMethod:
 		  withArguments: { 
 				  #(  ).

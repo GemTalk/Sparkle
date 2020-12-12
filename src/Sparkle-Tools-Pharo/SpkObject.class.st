@@ -6,5 +6,5 @@ The GemStone version of this class automatically sends #initialize during #new, 
 Class {
 	#name : 'SpkObject',
 	#superclass : 'Object',
-	#category : 'Sparkle-Tools-Pharo'
+	#category : 'Sparkle-Tools-Pharo-Support'
 }

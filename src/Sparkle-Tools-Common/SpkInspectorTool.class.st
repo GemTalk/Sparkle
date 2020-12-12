@@ -42,23 +42,23 @@ SpkInspectorTool >> addEvaluator [
 			 yourself)
 ]
 
-{ #category : 'private' }
-SpkInspectorTool >> carefullySend: aNilarySelector ifNotUnderstood: aBlock [
+{ #category : 'acccessing' }
+SpkInspectorTool >> classMembershipDescription [
 
-	^ self
-		  carefullySend: aNilarySelector
-		  withArguments: #(  )
-		  ifNotUnderstood: aBlock
-]
+	"Answer a string description of the object as an instance of its class"
 
-{ #category : 'private' }
-SpkInspectorTool >> carefullySend: aSelector withArguments: argArray ifNotUnderstood: aBlock [
+	| class |
+	class := self classOfInspectedObject.
+	^ (class isKindOf: SpkReflection platformMetaclass)
+		  ifTrue: [ "inspectedObject is a class, and therefore should understand #name" 
+			  inspectedObject name ]
+		  ifFalse: [ 
+			  | title |
+			  title := class name.
 
-	^ self
-		  carefullySend: aSelector
-		  withArguments: argArray
-		  to: inspectedObject
-		  ifNotUnderstood: aBlock
+			  (title first isVowel
+				   ifTrue: [ 'an ' ]
+				   ifFalse: [ 'a ' ]) , title ]
 ]
 
 { #category : 'private' }
@@ -66,7 +66,7 @@ SpkInspectorTool >> classOfInspectedObject [
 
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
 
-	^ self classOf: inspectedObject
+	^ SpkReflection classOf: inspectedObject
 ]
 
 { #category : 'accessing' }
@@ -113,6 +113,48 @@ SpkInspectorTool >> initializeForDefault [
 	self addEvaluator
 ]
 
+{ #category : '*sparkle-tools-pharo' }
+SpkInspectorTool >> initializeIndexedInstvars [
+
+	| size |
+	size := thisContext objectSize: inspectedObject.
+	1 to: size do: [ :index | 
+		| value fieldTool |
+		value := SpkReflection
+			         fetchIndexedInstvarAt: index
+			         from: inspectedObject.
+		thisContext object: inspectedObject basicAt: index.
+		fieldTool := SpkInspectorIndexedInstvarTool new.
+		fieldTool
+			explorerTool: explorerTool;
+			inspectorTool: self;
+			index: index;
+			name: index printString;
+			selfDescription: (self selfDescriptionOf: value).
+		fieldTools add: fieldTool ]
+]
+
+{ #category : '*sparkle-tools-pharo' }
+SpkInspectorTool >> initializeNamedInstvars [
+
+	| class names |
+	class := self classOfInspectedObject.
+	names := class allInstVarNames.
+	1 to: names size do: [ :index | 
+		| value fieldTool |
+		value := SpkReflection
+			         fetchNamedInstvarAt: index
+			         from: inspectedObject.
+		fieldTool := SpkInspectorNamedInstvarTool new.
+		fieldTool
+			explorerTool: explorerTool;
+			inspectorTool: self;
+			index: index;
+			name: (names at: index);
+			selfDescription: (self selfDescriptionOf: value).
+		fieldTools add: fieldTool ]
+]
+
 { #category : 'accessing' }
 SpkInspectorTool >> inspectedObject [
 
@@ -136,13 +178,9 @@ SpkInspectorTool >> newEvaluator [
 { #category : 'accessing' }
 SpkInspectorTool >> oop [
 
-	"For Pharo, we substitute identityHash. 
-	Pharo doesn't have a mirror for retrieving the identity hash, so we have to do it the careful way."
+	"In Pharo, this is the identity hash, or 0 if #identityHash is not understood."
 
-	^ self
-		  carefullySend: #identityHash
-		  ifNotUnderstood: [ "No actual object has an identityHash of zero" 
-		  0 ]
+	^ SpkReflection identifierOf: inspectedObject
 ]
 
 { #category : 'accessing' }

@@ -41,26 +41,3 @@ SpkInspectorTool >> initializeNamedInstvars [
 			selfDescription: (self selfDescriptionOf: value).
 		fieldTools add: fieldTool ]
 ]
-
-{ #category : '*sparkle-tools-pharo' }
-SpkInspectorTool >> selfDescriptionOf: anObject [
-
-	"Answer a string showing how the object describes itself using printOn:.
-	Objects that do not understand #printOn: will answer the empty string.
-	Limit output size in case of very long or infinitely recursive implementation of #printOn:,
-	but set a high limit."
-
-	| stream |
-	self flag:
-		'Need to port LimitedWriteStream to GemStone and move this method to common.'.
-	stream := LimitedWriteStream on: String new.
-	stream
-		limit: 250000;
-		limitBlock: [ ^ stream contents ].
-	SpkReflection
-		carefullySend: #printOn:
-		withArguments: { stream }
-		to: anObject
-		ifNotUnderstood: [  ].
-	^ stream contents
-]

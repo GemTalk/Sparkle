@@ -44,21 +44,19 @@ SpkInspectorTool >> addEvaluator [
 
 { #category : 'acccessing' }
 SpkInspectorTool >> classMembershipDescription [
-
 	"Answer a string description of the object as an instance of its class"
 
-	| class |
-	class := self classOfInspectedObject.
-	^ (class isKindOf: SpkReflection platformMetaclass)
-		  ifTrue: [ "inspectedObject is a class, and therefore should understand #name" 
-			  inspectedObject name ]
-		  ifFalse: [ 
-			  | title |
-			  title := class name.
-
-			  (title first isVowel
-				   ifTrue: [ 'an ' ]
-				   ifFalse: [ 'a ' ]) , title ]
+	^ (SpkReflection isNonMetaclass: inspectedObject)
+		ifTrue: [ 
+			"inspectedObject is a class, and therefore should understand #name"
+			inspectedObject name asString ]
+		ifFalse: [ 
+			| class title |
+			class := self classOfInspectedObject.
+			title := class name asString.
+			(title first isVowel
+				ifTrue: [ 'an ' ]
+				ifFalse: [ 'a ' ]) , title ]
 ]
 
 { #category : 'private' }

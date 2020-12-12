@@ -24,7 +24,7 @@ SpkInspectorToolTest >> testClassMembershipDescription [
 	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
 
 	tool := SpkInspectorTool on: 'Hi!'.
-	self assert: tool classMembershipDescription equals: 'a ByteString'.
+	self assert: tool classMembershipDescription equals: 'a ' , '' class name asString.
 
 	tool := SpkInspectorTool on: Object new.
 	self assert: tool classMembershipDescription equals: 'an Object'.

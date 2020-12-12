@@ -46,6 +46,15 @@ SpkReflection class >> indexedSizeOf: anObject [
 ]
 
 { #category : 'querying' }
+SpkReflection class >> isNonMetaclass: anObject [
+	"An object is a non-meta iff its class is a metaclass."
+
+	| class |
+	class := self classOf: anObject.
+	^ class isMeta
+]
+
+{ #category : 'querying' }
 SpkReflection class >> namedSizeOf: anObject [
 	^ Reflection namedSizeOf: anObject
 ]

@@ -35,8 +35,9 @@ SpkSmallStack class >> new [
 
 { #category : 'accessing' }
 SpkSmallStack >> clear [
+	"GemStone does not implement #removeAll"
 
-	elements removeAll
+	elements removeAllSuchThat: [ :element | true ]
 ]
 
 { #category : 'accessing' }

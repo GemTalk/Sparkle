@@ -1,6 +1,10 @@
 "
 Object reflection services for debugging tools,
 with a common interface across GemStone and Pharo.
+
+Debugging tools must not send any message to an object whose behavior is not well-known.
+This class provides ways to determine the class of an object, and read and write its state,
+without sending it any messages.
 "
 Class {
 	#name : 'SpkReflection',
@@ -66,15 +70,19 @@ SpkReflection class >> indexedSizeOf: anObject [
 ]
 
 { #category : 'querying' }
+SpkReflection class >> isNonMetaclass: anObject [
+
+	"An object is a non-meta iff its class is a metaclass."
+
+	| class |
+	class := self classOf: anObject.
+	^ class isMeta
+]
+
+{ #category : 'querying' }
 SpkReflection class >> namedSizeOf: anObject [
 
 	| class |
 	class := self classOf: anObject.
 	^ class allInstVarNames size
-]
-
-{ #category : 'system info' }
-SpkReflection class >> platformMetaclass [
-
-	^ Metaclass
 ]

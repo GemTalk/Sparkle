@@ -21,7 +21,7 @@ SpkLimitedWriteStreamTest >> streamClass [
 
 { #category : 'accessing' }
 SpkLimitedWriteStreamTest >> string [
-	^ 'testing'
+	^ 'testing' shallowCopy
 ]
 
 { #category : 'accessing' }
@@ -122,8 +122,15 @@ SpkLimitedWriteStreamTest >> testNextPutAll [
 
 { #category : 'tests' }
 SpkLimitedWriteStreamTest >> testOn [
-	| stream |
-	super testOn.
+	| collection stream |
+	collection := String new.
+	stream := self streamClass on: collection.
+	self
+		assert: stream originalContents identicalTo: collection;
+		assert: stream position equals: 0;
+		assert: stream contents isEmpty;
+		assert: stream size equals: 0.
+
 	stream := self newStream.
 	self
 		assert: stream limit equals: self streamClass defaultLimit;
@@ -133,7 +140,13 @@ SpkLimitedWriteStreamTest >> testOn [
 { #category : 'tests' }
 SpkLimitedWriteStreamTest >> testOnFromTo [
 	| stream |
-	super testOnFromTo.
+	stream := self streamClass on: self string , self string from: self stringSize + 1 to: self stringSize * 2.
+	self
+		assert: stream originalContents equals: self string , self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: stream size equals: self stringSize * 2.
+
 	stream := self streamClass on: self string , self string from: self stringSize + 1 to: self stringSize * 2.
 	self
 		assert: stream limit equals: self streamClass defaultLimit;
@@ -149,7 +162,7 @@ SpkLimitedWriteStreamTest >> testOnLimitLimitBlock [
 	stream := self streamClass on: collection limit: self stringSize limitBlock: limitBlock.
 	self
 		assert: stream originalContents identicalTo: collection;
-		assert: stream position isZero;
+		assert: stream position equals: 0;
 		assert: stream limit equals: self stringSize;
 		assert: stream limitBlock equals: limitBlock;
 		deny: overLimit
@@ -181,7 +194,13 @@ SpkLimitedWriteStreamTest >> testWith [
 	is the collection"
 
 	| stream overLimit |
-	super testWith.
+	
+	stream := self streamClass with: self string.
+	self
+		assert: stream originalContents equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: stream size equals: self stringSize.
 
 	stream := self streamClass with: self string.
 	overLimit := false.
@@ -193,7 +212,7 @@ SpkLimitedWriteStreamTest >> testWith [
 			self
 				assert: (stream nextPut: each) equals: each;
 				assert: stream position equals: self stringSize + i;
-				assert: stream contents equals: self string , (self string first: i);
+				assert: stream contents equals: self string , (self string copyFrom: 1 to: i);
 				deny: overLimit ].
 	self string
 		do: [ :each | 
@@ -211,7 +230,13 @@ SpkLimitedWriteStreamTest >> testWithFromTo [
 	from:/to: indexes"
 
 	| stream overLimit |
-	super testWithFromTo.
+	
+	stream := self streamClass with: self string , self string from: 1 to: self stringSize.
+	self
+		assert: stream originalContents equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: stream size equals: self stringSize.
 
 	stream := self streamClass with: self string , self string from: 1 to: self stringSize.
 	overLimit := false.
@@ -223,7 +248,7 @@ SpkLimitedWriteStreamTest >> testWithFromTo [
 			self
 				assert: (stream nextPut: each) equals: each;
 				assert: stream position equals: self stringSize + i;
-				assert: stream contents equals: self string , (self string first: i);
+				assert: stream contents equals: self string , (self string copyFrom: 1 to: i);
 				deny: overLimit ].
 	self string
 		do: [ :each | 

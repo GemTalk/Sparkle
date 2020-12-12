@@ -21,10 +21,24 @@ SpkLimitedWriteStream class >> on: aCollection [
 ]
 
 { #category : 'instance creation' }
+SpkLimitedWriteStream class >> on: aCollection from: firstIndex to: lastIndex [
+	^ (self basicNew on: aCollection from: firstIndex to: lastIndex)
+		setLimit: self defaultLimit
+		limitBlock: nil
+]
+
+{ #category : 'instance creation' }
 SpkLimitedWriteStream class >> on: aCollection limit: anInteger limitBlock: aLimitBlock [
 	^ (self basicNew on: aCollection)
 		setLimit: anInteger
 		limitBlock: aLimitBlock
+]
+
+{ #category : 'instance creation' }
+SpkLimitedWriteStream class >> with: aCollection [
+	^ (self basicNew with: aCollection)
+		setLimit: self defaultLimit
+		limitBlock: nil
 ]
 
 { #category : 'accessing' }
@@ -96,6 +110,13 @@ SpkLimitedWriteStream >> nextPutAllUntilLimit: aCollection [
 			self nextPut: each.
 			isLastOne
 				ifTrue: [ ^ aCollection ] ]
+]
+
+{ #category : 'accessing' }
+SpkLimitedWriteStream >> originalContents [
+	"Answer the receiver's actual contents collection, NOT a copy."
+
+	^ collection
 ]
 
 { #category : 'initialization' }

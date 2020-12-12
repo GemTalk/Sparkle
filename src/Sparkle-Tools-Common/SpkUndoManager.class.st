@@ -24,7 +24,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkUndoManager',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#instVars : [
 		'undo',
 		'redo'

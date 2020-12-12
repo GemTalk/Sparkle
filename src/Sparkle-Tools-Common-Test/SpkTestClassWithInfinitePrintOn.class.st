@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkTestClassWithInfinitePrintOn',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#category : 'Sparkle-Tools-Common-Test'
 }
 

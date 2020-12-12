@@ -4,7 +4,7 @@ Used by the UndoManagerTest.
 "
 Class {
 	#name : 'SpkTestUndoableAction',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#instVars : [
 		'isDone'
 	],

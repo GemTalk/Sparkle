@@ -117,13 +117,12 @@ SpkInspectorTool >> initializeForDefault [
 SpkInspectorTool >> initializeIndexedInstvars [
 
 	| size |
-	size := thisContext objectSize: inspectedObject.
+	size := SpkReflection indexedSizeOf: inspectedObject.
 	1 to: size do: [ :index | 
 		| value fieldTool |
 		value := SpkReflection
 			         fetchIndexedInstvarAt: index
 			         from: inspectedObject.
-		thisContext object: inspectedObject basicAt: index.
 		fieldTool := SpkInspectorIndexedInstvarTool new.
 		fieldTool
 			explorerTool: explorerTool;

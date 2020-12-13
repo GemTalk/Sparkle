@@ -30,7 +30,17 @@ SpkClientScaffoldingInteractiveTest >> tearDown [
 
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - debugger' }
+SpkClientScaffoldingInteractiveTest >> testGsDebugger_01 [
+
+	"simulate a doit initiated in Pharo and executed in GemStone that results in a MNU
+		let's explore a bit
+	"
+
+	service doit_01: '7 foo' 
+]
+
+{ #category : 'tests - doits' }
 SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
@@ -41,7 +51,7 @@ SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
 	service doit_01: '3+4' "promise broken with value `7` ... not supposed to return objects"
 ]
 
-{ #category : 'tests' }
+{ #category : 'tests - doits' }
 SpkClientScaffoldingInteractiveTest >> testGsDoit_02 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 

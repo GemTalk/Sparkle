@@ -5,7 +5,19 @@ Class {
 }
 
 { #category : 'acccessing' }
-SpkScaffoldingServiceClient >> doit: aString [
+SpkScaffoldingServiceClient >> doitResult [
 
-	^(remoteSelf doit: aString) wait
+	^ remoteSelf doitResult wait
+]
+
+{ #category : 'acccessing' }
+SpkScaffoldingServiceClient >> doit_01: aString [
+
+	^ (remoteSelf doit_01: aString) wait
+]
+
+{ #category : 'acccessing' }
+SpkScaffoldingServiceClient >> doit_02: aString [
+
+	^ (remoteSelf doit_02: aString) wait
 ]

@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkScaffoldingService',
 	#superclass : 'RsrService',
+	#instVars : [
+		'doitResult'
+	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
 
@@ -42,7 +45,13 @@ SpkScaffoldingService class >> templateClassName [
 ]
 
 { #category : 'acccessing' }
-SpkScaffoldingService >> doit: aString [
+SpkScaffoldingService >> doit_01: aString [
+
+	self subclassResponsibility
+]
+
+{ #category : 'acccessing' }
+SpkScaffoldingService >> doit_02: aString [
 
 	self subclassResponsibility
 ]

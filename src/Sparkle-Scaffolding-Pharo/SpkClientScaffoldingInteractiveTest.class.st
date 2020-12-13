@@ -31,10 +31,25 @@ SpkClientScaffoldingInteractiveTest >> tearDown [
 ]
 
 { #category : 'tests' }
-SpkClientScaffoldingInteractiveTest >> testGsDoit [
+SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
+
+	"simulate a doit initiated in Pharo and executed in GemStone ... 
+	bring up a Pharo inspector on the client"
+	
+	"https://github.com/GemTalk/RemoteServiceReplication/issues/66"
+
+	service doit_01: '3+4' "promise broken with value `7` ... not supposed to return objects"
+]
+
+{ #category : 'tests' }
+SpkClientScaffoldingInteractiveTest >> testGsDoit_02 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
 	bring up a Pharo inspector on the client"
 
-	{service doit: '3+4'} inspect
+"https://github.com/GemTalk/RemoteServiceReplication/issues/66"
+	| x |
+	x := (service doit_02: '3+4') doitResult.
+	self halt.
+	x inspect
 ]

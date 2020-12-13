@@ -25,7 +25,7 @@ SpkReflection class >> classOf: anObject [
 
 { #category : 'reading' }
 SpkReflection class >> fetchIndexedInstvarAt: index from: anObject [
-	^ Reflection fetchFrom: anObject at: index - (self namedSizeOf: anObject)
+	^ Reflection fetchFrom: anObject at: index + (self namedSizeOf: anObject)
 ]
 
 { #category : 'reading' }
@@ -42,7 +42,7 @@ SpkReflection class >> identifierOf: anObject [
 
 { #category : 'querying' }
 SpkReflection class >> indexedSizeOf: anObject [
-	^ (Reflection sizeOf: anObject) - self namedSizeOf: anObject
+	^ (Reflection sizeOf: anObject) - (self namedSizeOf: anObject)
 ]
 
 { #category : 'querying' }

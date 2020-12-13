@@ -42,7 +42,7 @@ SpkInspectorTool >> addEvaluator [
 			 yourself)
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 SpkInspectorTool >> classMembershipDescription [
 	"Answer a string description of the object as an instance of its class"
 
@@ -195,9 +195,7 @@ SpkInspectorTool >> selfDescriptionOf: anObject [
         but set a high limit."
 
         | stream |
-        self flag:
-                'Need to port LimitedWriteStream to GemStone and move this method to common.'.
-        stream := WriteStream on: String new.
+        stream := SpkLimitedWriteStream on: String new.
         stream
                 limit: 250000;
                 limitBlock: [ ^ stream contents ].

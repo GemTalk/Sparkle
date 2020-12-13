@@ -16,6 +16,8 @@ BaselineOfSparkle >> baseline: spec [
 			with: [ spec requires: 'Sparkle-Tools-Pharo' ];
 			package: 'Sparkle-Tools-Common-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
+			package: 'Sparkle-Tools-Pharo-Test'
+			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Services-Common'
 			with: [ spec requires: 'RemoteServiceReplication' ];
 			package: 'Sparkle-Services-PharoClient'

@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkTestInspectorServiceClient',
 	#superclass : 'SpkInspectorServiceClient',
-	#category : 'Sparkle-Presenters-Test'
+	#category : 'Sparkle-Presenters-Test-Support'
 }
 
 { #category : 'test instances' }

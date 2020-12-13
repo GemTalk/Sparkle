@@ -3,7 +3,8 @@ Class {
 	#superclass : 'RsrService',
 	#instVars : [
 		'doitResult',
-		'debugService'
+		'debugService',
+		'doitStack'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -61,4 +62,20 @@ SpkScaffoldingService >> doit_02: aString [
 SpkScaffoldingService >> doit_03: aString [
 
 	self subclassResponsibility
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingService >> doit_04: aString [
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> doitStack [
+	^doitStack
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> doitStack: object [
+	doitStack := object
 ]

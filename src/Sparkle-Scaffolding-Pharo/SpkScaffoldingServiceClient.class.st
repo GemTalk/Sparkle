@@ -15,7 +15,12 @@ SpkScaffoldingServiceClient >> debugService [
 { #category : 'acccessing' }
 SpkScaffoldingServiceClient >> doitResult [
 
-	^ remoteSelf doitResult wait
+	^ doitResult 
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> doitStack [
+	^ remoteSelf doitStack wait
 ]
 
 { #category : 'acccessing' }
@@ -38,7 +43,21 @@ SpkScaffoldingServiceClient >> doit_03: aString [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceClient >> doit_04: aString [
+
+
+	self debugService. "prime the pump"
+	^ (remoteSelf doit_04: aString) wait
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> openDebuggerOnClient [
+
+	self doitStack inspect
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> openInspectorOnClient [
 
 	'success' inspect
 ]

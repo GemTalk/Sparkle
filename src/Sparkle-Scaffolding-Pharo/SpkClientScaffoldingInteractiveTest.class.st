@@ -43,6 +43,20 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_01 [
 	service doit_03: '7 foo'
 ]
 
+{ #category : 'tests - debugger' }
+SpkClientScaffoldingInteractiveTest >> testGsDebugger_02 [
+
+	"
+	Simulate a doit initiated in Pharo and executed in GemStone that results in a MNU
+		for doit_04:.
+	When an error is encountered on the server, an inspector is opened on the 
+		printString of the stack.
+	Another prelude to bringing up a debugger tool on the cient.
+	"
+
+	service doit_04: '7 foo'
+]
+
 { #category : 'tests - doits' }
 SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
 

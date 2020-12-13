@@ -33,11 +33,14 @@ SpkClientScaffoldingInteractiveTest >> tearDown [
 { #category : 'tests - debugger' }
 SpkClientScaffoldingInteractiveTest >> testGsDebugger_01 [
 
-	"simulate a doit initiated in Pharo and executed in GemStone that results in a MNU
-		let's explore a bit
+	"
+	Simulate a doit initiated in Pharo and executed in GemStone that results in a MNU
+		for doit_03:, when an error is encountered on the server, a message is sent to the
+		client from the server to bring up inspector on 7.
+	This is a prelude to bringing up a debugger tool on the cient.
 	"
 
-	service doit_01: '7 foo' 
+	service doit_03: '7 foo'
 ]
 
 { #category : 'tests - doits' }

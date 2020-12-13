@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkScaffoldingService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'doitResult'
+		'doitResult',
+		'debugService'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -44,14 +45,20 @@ SpkScaffoldingService class >> templateClassName [
 	^ #SpkScaffoldingService
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'doits' }
 SpkScaffoldingService >> doit_01: aString [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'doits' }
 SpkScaffoldingService >> doit_02: aString [
+
+	self subclassResponsibility
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingService >> doit_03: aString [
 
 	self subclassResponsibility
 ]

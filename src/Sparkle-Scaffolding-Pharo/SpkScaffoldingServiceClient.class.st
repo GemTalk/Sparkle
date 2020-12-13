@@ -4,6 +4,14 @@ Class {
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> debugService [
+
+	^ debugService ifNil: [ 
+		  debugService := _connection serviceFor: #SpkScaffoldingService.
+		  self _synchronize ]
+]
+
 { #category : 'acccessing' }
 SpkScaffoldingServiceClient >> doitResult [
 
@@ -20,4 +28,17 @@ SpkScaffoldingServiceClient >> doit_01: aString [
 SpkScaffoldingServiceClient >> doit_02: aString [
 
 	^ (remoteSelf doit_02: aString) wait
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> doit_03: aString [
+
+	self debugService."prime the pump"
+	^ (remoteSelf doit_03: aString) wait
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> openDebuggerOnClient [
+
+	'success' inspect
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkInspectorToolTestTemp',
+	#name : 'SpkInspectorToolTest',
 	#superclass : 'TestCase',
 	#instVars : [
 		'tool'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : 'tests' }
-SpkInspectorToolTestTemp >> testClassMembershipDescription [
+SpkInspectorToolTest >> testClassMembershipDescription [
 
 	tool := SpkInspectorTool on: nil.
 	self
@@ -36,7 +36,7 @@ SpkInspectorToolTestTemp >> testClassMembershipDescription [
 ]
 
 { #category : 'tests' }
-SpkInspectorToolTestTemp >> testFieldToolsSize [
+SpkInspectorToolTest >> testFieldToolsSize [
 
 	"Here, just testing that we get the right number of FieldTools back."
 
@@ -72,7 +72,7 @@ SpkInspectorToolTestTemp >> testFieldToolsSize [
 ]
 
 { #category : 'tests' }
-SpkInspectorToolTestTemp >> testOop [
+SpkInspectorToolTest >> testOop [
 	| object |
 	tool := SpkInspectorTool on: nil.
 	self assert: tool oop equals: 16r14.
@@ -87,7 +87,7 @@ SpkInspectorToolTestTemp >> testOop [
 ]
 
 { #category : 'tests' }
-SpkInspectorToolTestTemp >> testSelfDescription [
+SpkInspectorToolTest >> testSelfDescription [
 
 	| description |
 	tool := SpkInspectorTool on: nil.

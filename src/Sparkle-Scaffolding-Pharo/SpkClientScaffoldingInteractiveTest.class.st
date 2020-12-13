@@ -47,9 +47,9 @@ SpkClientScaffoldingInteractiveTest >> testGsDoit_02 [
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
 	bring up a Pharo inspector on the client"
 
-"https://github.com/GemTalk/RemoteServiceReplication/issues/66"
+	"https://github.com/GemTalk/RemoteServiceReplication/issues/66"
+
 	| x |
 	x := (service doit_02: '3+4') doitResult.
-	self halt.
 	x inspect
 ]

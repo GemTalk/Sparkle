@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkTestClassWithNamedAndIndexedInstvars',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#type : 'variable',
 	#instVars : [
 		'first',

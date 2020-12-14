@@ -3,7 +3,7 @@ General services needed by tool objects.
 "
 Class {
 	#name : 'SpkTool',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#instVars : [
 		'announcer'
 	],

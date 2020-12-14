@@ -11,16 +11,18 @@ BaselineOfSparkle >> baseline: spec [
 	spec for: #pharo do: [ 
 		spec
 			postLoadDoIt: #postload:package:;
-			package: 'Sparkle-Tools-Common';
 			package: 'Sparkle-Scaffolding-Common'
 			with: [ spec 
 				requires: 'Sparkle-Services-Common';
 				includes: 'Sparkle-Scaffolding-Pharo' ];
 			package: 'Sparkle-Scaffolding-Pharo'
 			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
+			package: 'Sparkle-Tools-Pharo';
+			package: 'Sparkle-Tools-Common'
+			with: [ spec requires: 'Sparkle-Tools-Pharo' ];
 			package: 'Sparkle-Tools-Common-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
-			package: 'Sparkle-Tools-Pharo'
+			package: 'Sparkle-Tools-Pharo-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Services-Common'
 			with: [ spec 

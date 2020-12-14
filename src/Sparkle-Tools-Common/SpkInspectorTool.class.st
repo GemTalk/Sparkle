@@ -42,23 +42,21 @@ SpkInspectorTool >> addEvaluator [
 			 yourself)
 ]
 
-{ #category : 'private' }
-SpkInspectorTool >> carefullySend: aNilarySelector ifNotUnderstood: aBlock [
+{ #category : 'accessing' }
+SpkInspectorTool >> classMembershipDescription [
+	"Answer a string description of the object as an instance of its class"
 
-	^ self
-		  carefullySend: aNilarySelector
-		  withArguments: #(  )
-		  ifNotUnderstood: aBlock
-]
-
-{ #category : 'private' }
-SpkInspectorTool >> carefullySend: aSelector withArguments: argArray ifNotUnderstood: aBlock [
-
-	^ self
-		  carefullySend: aSelector
-		  withArguments: argArray
-		  to: inspectedObject
-		  ifNotUnderstood: aBlock
+	^ (SpkReflection isNonMetaclass: inspectedObject)
+		ifTrue: [ 
+			"inspectedObject is a class, and therefore should understand #name"
+			inspectedObject name asString ]
+		ifFalse: [ 
+			| class title |
+			class := self classOfInspectedObject.
+			title := class name asString.
+			(title first isVowel
+				ifTrue: [ 'an ' ]
+				ifFalse: [ 'a ' ]) , title ]
 ]
 
 { #category : 'private' }
@@ -66,7 +64,7 @@ SpkInspectorTool >> classOfInspectedObject [
 
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
 
-	^ self classOf: inspectedObject
+	^ SpkReflection classOf: inspectedObject
 ]
 
 { #category : 'accessing' }
@@ -113,6 +111,47 @@ SpkInspectorTool >> initializeForDefault [
 	self addEvaluator
 ]
 
+{ #category : 'private' }
+SpkInspectorTool >> initializeIndexedInstvars [
+
+	| size |
+	size := SpkReflection indexedSizeOf: inspectedObject.
+	1 to: size do: [ :index | 
+		| value fieldTool |
+		value := SpkReflection
+			         fetchIndexedInstvarAt: index
+			         from: inspectedObject.
+		fieldTool := SpkInspectorIndexedInstvarTool new.
+		fieldTool
+			explorerTool: explorerTool;
+			inspectorTool: self;
+			index: index;
+			name: index printString;
+			selfDescription: (self selfDescriptionOf: value).
+		fieldTools add: fieldTool ]
+]
+
+{ #category : 'private' }
+SpkInspectorTool >> initializeNamedInstvars [
+
+	| class names |
+	class := self classOfInspectedObject.
+	names := class allInstVarNames.
+	1 to: names size do: [ :index | 
+		| value fieldTool |
+		value := SpkReflection
+			         fetchNamedInstvarAt: index
+			         from: inspectedObject.
+		fieldTool := SpkInspectorNamedInstvarTool new.
+		fieldTool
+			explorerTool: explorerTool;
+			inspectorTool: self;
+			index: index;
+			name: (names at: index);
+			selfDescription: (self selfDescriptionOf: value).
+		fieldTools add: fieldTool ]
+]
+
 { #category : 'accessing' }
 SpkInspectorTool >> inspectedObject [
 
@@ -136,17 +175,34 @@ SpkInspectorTool >> newEvaluator [
 { #category : 'accessing' }
 SpkInspectorTool >> oop [
 
-	"For Pharo, we substitute identityHash. 
-	Pharo doesn't have a mirror for retrieving the identity hash, so we have to do it the careful way."
+	"In Pharo, this is the identity hash, or 0 if #identityHash is not understood."
 
-	^ self
-		  carefullySend: #identityHash
-		  ifNotUnderstood: [ "No actual object has an identityHash of zero" 
-		  0 ]
+	^ SpkReflection identifierOf: inspectedObject
 ]
 
 { #category : 'accessing' }
 SpkInspectorTool >> selfDescription [
 
 	^ self selfDescriptionOf: inspectedObject
+]
+
+{ #category : 'private' }
+SpkInspectorTool >> selfDescriptionOf: anObject [
+
+        "Answer a string showing how the object describes itself using printOn:.
+        Objects that do not understand #printOn: will answer the empty string.
+        Limit output size in case of very long or infinitely recursive implementation of #printOn:,
+        but set a high limit."
+
+        | stream |
+        stream := SpkLimitedWriteStream on: String new.
+        stream
+                limit: 250000;
+                limitBlock: [ ^ stream contents ].
+        SpkReflection
+                carefullySend: #printOn:
+                withArguments: { stream }
+                to: anObject
+                ifNotUnderstood: [  ].
+        ^ stream contents
 ]

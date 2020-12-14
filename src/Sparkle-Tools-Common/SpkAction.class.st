@@ -17,7 +17,7 @@ An Action is created by a Tool, and acts upon a target object designated by that
 "
 Class {
 	#name : 'SpkAction',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#instVars : [
 		'target'
 	],

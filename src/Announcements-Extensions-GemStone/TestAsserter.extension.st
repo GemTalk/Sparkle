@@ -1,6 +1,6 @@
 Extension { #name : 'TestAsserter' }
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 TestAsserter >> should: aBlock notTakeMoreThan: aDuration [
 	"Throw an exception if aBlock should take longer than aDuration to run.
 	 This is a toy implementation. It is should stop after the time limit.

@@ -1,6 +1,6 @@
 Extension { #name : 'ExecBlock' }
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 ExecBlock >> hasReceiver [
 	"Not all blocks record the receiver, so we need to know whether a block has done so."
 
@@ -8,7 +8,7 @@ ExecBlock >> hasReceiver [
 		or: [self _selfOffsetInSelf > 0]
 ]
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 ExecBlock >> receiver [
 
 	^self selfValue

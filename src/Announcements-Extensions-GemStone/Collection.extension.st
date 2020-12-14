@@ -1,6 +1,6 @@
 Extension { #name : 'Collection' }
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 Collection >> removeAllSuchThat: aBlock [
 	"Remove all elements of the receiver for which aBlock returns true.
 	 Answer the removed elements.

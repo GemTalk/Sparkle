@@ -1,11 +1,11 @@
 Extension { #name : 'Symbol' }
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 Symbol >> asAnnouncement [
 	^ self
 ]
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 Symbol >> handlesAnnouncement: anAnnouncement [
 	"Anything else than the announcement identifier (in the case of symbol i.e. #foo for ... on: #foo send: #bar to: nil) will not 
 	be handled."
@@ -17,7 +17,7 @@ Symbol >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement == self
 ]
 
-{ #category : 'Announcements-Extensions-GemStone' }
+{ #category : '*Announcements-Extensions-GemStone' }
 Symbol >> prepareForDelivery [
 	"somehow symbol can be announcemnt"
 ]

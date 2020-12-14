@@ -19,7 +19,10 @@ SpkUiTest class >> defaultLocalTaskspace [
 	taskspace := SparkleTaskspace new.
 	taskspace
 		connection: connection;
-		openNewDefaultTaskspace
+		openNewDefaultTaskspace.
+	connection log addSink: RsrTranscriptSink new.
+	connection specification connectionB log addSink:
+		RsrTranscriptSink new
 ]
 
 { #category : 'examples' }

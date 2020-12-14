@@ -107,7 +107,7 @@ SpkInspectorTool >> initializeFieldTools [
 { #category : 'initialization' }
 SpkInspectorTool >> initializeForDefault [
 
-	inspectedObject := nil.
+	inspectedObject := Object.
 	self addEvaluator
 ]
 
@@ -123,6 +123,7 @@ SpkInspectorTool >> initializeIndexedInstvars [
 			         from: inspectedObject.
 		fieldTool := SpkInspectorIndexedInstvarTool new.
 		fieldTool
+			value: value;
 			explorerTool: explorerTool;
 			inspectorTool: self;
 			index: index;
@@ -144,6 +145,7 @@ SpkInspectorTool >> initializeNamedInstvars [
 			         from: inspectedObject.
 		fieldTool := SpkInspectorNamedInstvarTool new.
 		fieldTool
+			value: value;
 			explorerTool: explorerTool;
 			inspectorTool: self;
 			index: index;

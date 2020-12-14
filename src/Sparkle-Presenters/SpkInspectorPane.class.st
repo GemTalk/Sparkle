@@ -144,6 +144,9 @@ SpkInspectorPane >> newLayout [
 SpkInspectorPane >> newPaneForService: newService linkedTo: fieldService [
 
 	| field |
+	self flag: 'transcript'.
+	Transcript crShow:
+		'newPaneForService: ' , newService classMembershipDescription.
 	field := self fieldForService: fieldService.
 	self openInspector: newService forField: field.
 	"This announcement came from the server, so all of my widgets are disabled."

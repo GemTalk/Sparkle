@@ -14,6 +14,8 @@ SpkInspectorFieldServiceServer >> createInspectorService [
 
 	| objectToInspect newTool |
 	objectToInspect := tool value.
+	Transcript crShow:
+		'createInspectorService ' , objectToInspect printString.
 	newTool := SpkInspectorTool on: objectToInspect.
 	^ SpkInspectorServiceServer forTool: newTool
 ]

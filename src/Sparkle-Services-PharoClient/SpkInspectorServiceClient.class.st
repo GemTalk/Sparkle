@@ -6,13 +6,13 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'as yet unclassified' }
-SpkInspectorServiceClient >> announceNewInspector: anInspectorService for: aFieldService [
+{ #category : 'announcing' }
+SpkInspectorServiceClient >> announceNewService: newService forRequest: requestId [
 
 	| announcement |
-	announcement := SpkInspectorCreated new
-		                service: anInspectorService;
-		                requestId: aFieldService;
+	announcement := SpkNewPaneService new
+		                service: newService;
+		                requestId: requestId;
 		                yourself.
 	self announce: announcement
 ]
@@ -29,7 +29,7 @@ SpkInspectorServiceClient >> inspectField: aFieldService [
 	promise := aFieldService createInspectorService.
 	promise
 		when: [ :inspector | 
-			self announceNewInspector: inspector for: aFieldService ]
+			self announceNewService: inspector forRequest: aFieldService ]
 		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ].
 	^ nil
 ]

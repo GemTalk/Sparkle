@@ -26,7 +26,7 @@ SpkEvaluator >> accept [
 	model hasUnsavedChanges ifFalse: [ ^ self ].
 
 	pane disableAll.
-	model accept
+	model acceptFor: self
 ]
 
 { #category : 'visiting' }

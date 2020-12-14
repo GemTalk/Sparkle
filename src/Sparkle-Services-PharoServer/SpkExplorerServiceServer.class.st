@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'serviceClassesForToolTypes'
 	],
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
 { #category : 'instance creation' }

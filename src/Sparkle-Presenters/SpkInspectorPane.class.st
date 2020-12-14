@@ -28,7 +28,7 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
-	model when: SpkInspectorCreated send: #receiveLinkedInspectorAnnouncement: to: self
+	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
 ]
 
 { #category : 'initialization' }
@@ -59,7 +59,7 @@ SpkInspectorPane >> fieldForService: aService [
 { #category : 'actions' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
-	"This announcement comes from the UI, not a service"
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
 
 	| field inspectorService |
 	field := anAnnouncement item.
@@ -173,7 +173,7 @@ SpkInspectorPane >> openInspector: anInspectorService forField: field [
 ]
 
 { #category : 'announcements' }
-SpkInspectorPane >> receiveLinkedInspectorAnnouncement: anAnnouncement [
+SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 
 	anAnnouncement requestId inspectorService: anAnnouncement service.
 	self defer: [ 

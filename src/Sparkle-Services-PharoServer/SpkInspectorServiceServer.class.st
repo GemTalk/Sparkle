@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
 { #category : 'instance creation' }
@@ -32,7 +32,6 @@ SpkInspectorServiceServer >> initializeFieldsFromTool [
 	fields := OrderedCollection new.
 	tool fieldTools do: [ :fieldTool | 
 		fields add: (SpkInspectorFieldServiceServer new
-				 evaluationContext: self;
 				 initializeFromTool: fieldTool;
 				 yourself) ]
 ]

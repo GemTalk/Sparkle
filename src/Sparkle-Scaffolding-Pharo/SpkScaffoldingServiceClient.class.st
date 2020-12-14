@@ -61,3 +61,9 @@ SpkScaffoldingServiceClient >> openInspectorOnClient [
 
 	'success' inspect
 ]
+
+{ #category : 'acccessing' }
+SpkScaffoldingServiceClient >> processList [ 
+
+	^ processList ifNil: [ processList := remoteSelf processList wait ]
+]

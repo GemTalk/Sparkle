@@ -80,3 +80,13 @@ SpkClientScaffoldingInteractiveTest >> testGsDoit_02 [
 	x := (service doit_02: '3+4') doitResult.
 	x inspect
 ]
+
+{ #category : 'tests - process list' }
+SpkClientScaffoldingInteractiveTest >> testProcessList_01 [
+
+	"return dictionary of process stackes keyed by process oop for all scheduled processes in server"
+
+	"https://github.com/GemTalk/RemoteServiceReplication/issues/66"
+
+	service processList inspect
+]

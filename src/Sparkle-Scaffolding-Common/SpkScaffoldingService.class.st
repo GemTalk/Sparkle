@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'doitResult',
 		'debugService',
-		'doitStack'
+		'doitStack',
+		'processList'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -33,11 +34,11 @@ SpkScaffoldingService class >> scaffoldingConnectionServiceLoop: listenForDebugC
 	[ 
 	GsFile gciLogServer: 'waiting for connection'.
 	connection := acceptor waitForConnection.
+	System abort.	"update view"
 	true ]
 		whileTrue: [ 
 			GsFile gciLogServer: 'got a connection'.
-			connection waitUntilClose.
-			System commit ]
+			connection waitUntilClose ]
 ]
 
 { #category : 'accessing' }
@@ -78,4 +79,16 @@ SpkScaffoldingService >> doitStack [
 { #category : 'accessing' }
 SpkScaffoldingService >> doitStack: object [
 	doitStack := object
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> processList [
+	^ processList ifNil: [ processList := Dictionary new ]
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> processList: aDictionary [
+	"keys are process oop and value is the process stack ... yes I'm using a sledgehammer"
+
+	processList := aDictionary
 ]

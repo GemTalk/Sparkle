@@ -83,3 +83,15 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 	doitException := ex.
 	^ self debugService openInspectorOnClient wait
 ]
+
+{ #category : 'other' }
+SpkScaffoldingServiceServer >> processList [
+	^ processList
+		ifNil: [ 
+			processList := Dictionary new.
+			Processor allProcesses
+				do: [ :gsProcess | 
+					processList
+						at: gsProcess asOop
+						put: (gsProcess _gsiStackReportFromLevel: 1 toLevel: 1000) ] ]
+]

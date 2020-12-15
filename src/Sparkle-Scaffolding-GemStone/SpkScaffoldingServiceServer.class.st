@@ -88,10 +88,10 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 SpkScaffoldingServiceServer >> processList [
 	^ processList
 		ifNil: [ 
+			| allP rpt |
 			processList := Dictionary new.
-			Processor allProcesses
-				do: [ :gsProcess | 
-					processList
-						at: gsProcess asOop
-						put: (gsProcess _gsiStackReportFromLevel: 1 toLevel: 1000) ] ]
+			rpt := String new.
+			allP := Processor allProcesses.
+			allP do: [ :aProc | processList at: aProc asOop put: aProc _reportString ].
+			processList ]
 ]

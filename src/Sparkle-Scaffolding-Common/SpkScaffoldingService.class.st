@@ -71,6 +71,12 @@ SpkScaffoldingService >> doit_04: aString [
 	self subclassResponsibility
 ]
 
+{ #category : 'debugger' }
+SpkScaffoldingService >> doit_05: aString [
+
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 SpkScaffoldingService >> doitStack [
 	^doitStack

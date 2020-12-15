@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkScaffoldingServiceServer',
 	#superclass : 'SpkScaffoldingService',
 	#instVars : [
-		'doitException'
+		'doitException',
+		'debugProcess'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
@@ -34,6 +35,24 @@ SpkScaffoldingServiceServer >> doit_04: aString [
 	doitResult := [ aString evaluate ]
 		on: Error
 		do: [ :ex | self openDebuggerOnClient: ex ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> doit_05: aString [
+	"
+		if I fork the monitor process how does that impact RSR?
+			1. RSR blocks ... which is fine
+			2. the mon process was blocked (or the pharo side was blocked), until the debugProcess connectioin was timed out
+	"
+
+	doitResult := [ aString evaluate ]
+		on: Halt , Error
+		do: [ :ex | 
+			| mon |
+			debugProcess := GsProcess _current.
+			mon := [ self openDebuggerOnClient: ex ]
+				forkAt: Processor userInterruptPriority.
+			debugProcess suspend ]
 ]
 
 { #category : 'accessing' }
@@ -84,7 +103,7 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 	^ self debugService openInspectorOnClient wait
 ]
 
-{ #category : 'other' }
+{ #category : 'process list' }
 SpkScaffoldingServiceServer >> processList [
 	^ processList
 		ifNil: [ 

@@ -57,6 +57,13 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_02 [
 	service doit_04: '7 foo'
 ]
 
+{ #category : 'tests - debugger' }
+SpkClientScaffoldingInteractiveTest >> testGsDebugger_03 [
+
+
+	service doit_05: '7 foo'
+]
+
 { #category : 'tests - doits' }
 SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
 

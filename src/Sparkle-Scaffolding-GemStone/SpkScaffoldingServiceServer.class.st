@@ -10,7 +10,11 @@ Class {
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> debugService [
-	^ remoteSelf debugService wait
+	^ debugService
+		ifNil: [ 
+			debugService := SpkScaffoldingService serverClass new
+				registerWith: self _connection;
+				yourself ]
 ]
 
 { #category : 'doits' }
@@ -65,6 +69,12 @@ SpkScaffoldingServiceServer >> doitException: object [
 	doitException := object
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingServiceServer >> doitExceptionDescription [
+
+	^ self doitException description
+]
+
 { #category : 'doits' }
 SpkScaffoldingServiceServer >> doitResult [
 	^ doitResult
@@ -99,8 +109,11 @@ SpkScaffoldingServiceServer >> openInspectorOnClient [
 SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution"
 
-	doitException := ex.
-	^ self debugService openInspectorOnClient wait
+	| svce |
+	svce := self debugService
+		doitException: ex;
+		yourself.
+	^ svce openInspectorOnClient wait
 ]
 
 { #category : 'process list' }

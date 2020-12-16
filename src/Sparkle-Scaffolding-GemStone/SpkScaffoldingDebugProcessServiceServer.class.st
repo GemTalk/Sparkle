@@ -2,8 +2,7 @@ Class {
 	#name : 'SpkScaffoldingDebugProcessServiceServer',
 	#superclass : 'SpkScaffoldingDebugProcessService',
 	#instVars : [
-		'suspendedProcess',
-		'rowanProcessService'
+		'suspendedProcess'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
@@ -22,7 +21,10 @@ SpkScaffoldingDebugProcessServiceServer >> initializeOnSuspendedProcess: aSuspen
 	self suspendedProcess: aSuspendedGsProcess.
 	self
 		rowanProcessService:
-			(RowanProcessService onSuspendedProcess: aSuspendedGsProcess)
+			(RowanProcessService onSuspendedProcess: aSuspendedGsProcess).
+	self
+		suspendedProcessOop;
+		rowanFrameServices	"prime the pump"
 ]
 
 { #category : 'accessing' }
@@ -31,21 +33,6 @@ SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices [
 		ifNil: [ 
 			rowanFrameServices := self rowanProcessService _frames
 				collect: [ :frameService | SpkScaffoldingDebugFrameServiceServer new rowanFrameService: frameService ] ]
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices: object [
-	rowanFrameServices := object
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingDebugProcessServiceServer >> rowanProcessService [
-	^rowanProcessService
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
-	rowanProcessService := object
 ]
 
 { #category : 'accessing' }

@@ -11,6 +11,13 @@ SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 ]
 
 { #category : 'suspended process' }
+SpkScaffoldingDebugProcessServiceClient >> rowanProcessService [
+
+	^ rowanProcessService ifNil: [ 
+		  rowanProcessService := remoteSelf rowanProcessService wait ]
+]
+
+{ #category : 'suspended process' }
 SpkScaffoldingDebugProcessServiceClient >> suspendedProcessOop [ 
 
 ^ suspendedProcessOop ifNil: [ suspendedProcessOop := remoteSelf suspendedProcessOop wait ]

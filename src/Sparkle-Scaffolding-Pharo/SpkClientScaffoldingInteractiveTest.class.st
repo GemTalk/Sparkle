@@ -60,8 +60,18 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_02 [
 { #category : 'tests - debugger' }
 SpkClientScaffoldingInteractiveTest >> testGsDebugger_03 [
 
+	"same as testGsDebugger_04, but with annoying TestTookTooMuchTime exception ... use testGsDebugger_04"
 
 	service doit_05: '7 foo'
+]
+
+{ #category : 'tests - debugger' }
+SpkClientScaffoldingInteractiveTest >> testGsDebugger_04 [
+"the delay has to be long enough to let the server do it's thing and open an inspector on the stack"
+	[ 
+	service doit_05: '7 foo' ] forkNamed:
+		'Sparkle Scaffolding - keep connection alive until timeout'.
+	(Delay forMilliseconds: 500) wait
 ]
 
 { #category : 'tests - doits' }

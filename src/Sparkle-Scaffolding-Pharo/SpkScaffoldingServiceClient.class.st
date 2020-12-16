@@ -4,18 +4,10 @@ Class {
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> debugService [
-
-	^ debugService ifNil: [ 
-		  debugService := _connection serviceFor: #SpkScaffoldingService.
-		  self _synchronize ]
-]
-
 { #category : 'acccessing' }
 SpkScaffoldingServiceClient >> doitExceptionDescription [
 
-	^ remoteSelf doitExceptionDescription
+	^ remoteSelf doitExceptionDescription wait
 ]
 
 { #category : 'acccessing' }
@@ -50,15 +42,12 @@ SpkScaffoldingServiceClient >> doit_03: aString [
 { #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit_04: aString [
 
-
-	self debugService. "prime the pump"
 	^ (remoteSelf doit_04: aString) wait
 ]
 
 { #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit_05: aString [
 
-	self debugService. "prime the pump"
 	^ (remoteSelf doit_05: aString) wait
 ]
 

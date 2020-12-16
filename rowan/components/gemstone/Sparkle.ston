@@ -5,8 +5,20 @@ RwSimpleProjectLoadComponentV2 {
 	#componentNames : [ ],
 	#packageNames : [
 		'Sparkle-Scaffolding-GemStone',
+		'Sparkle-Scaffolding-Rowan-GemStone',
 		'Sparkle-GemStone',
 		'Sparkle-Tools-GemStone'
 	],
+	#conditionalPackageMapSpecs : {
+		'gemstone' : {
+			'allusers' : {
+				#packageNameToPlatformPropertiesMap : {
+					'Sparkle-Scaffolding-Rowan-GemStone' : {
+						'symbolDictName' : 'RowanKernel'
+					}
+				}
+			}
+		}
+	},
 	#comment : 'gemstone packages for Sparkle'
 }

@@ -74,6 +74,20 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_04 [
 	(Delay forMilliseconds: 500) wait
 ]
 
+{ #category : 'tests - debugger' }
+SpkClientScaffoldingInteractiveTest >> testGsDebugger_05 [
+
+	"open inspector on the SpkScaffoldingService that will have a 
+		SpkScaffoldingProcessService instance with the debugProcess 
+		and stack frames (wrapping rownan process service and frame 
+		services)"
+| x |
+	[ x := service doit_06: '7 foo' ] forkNamed:
+		'Sparkle Scaffolding - keep connection alive until timeout'.
+	(Delay forMilliseconds: 500) wait.
+	self halt
+]
+
 { #category : 'tests - doits' }
 SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
 

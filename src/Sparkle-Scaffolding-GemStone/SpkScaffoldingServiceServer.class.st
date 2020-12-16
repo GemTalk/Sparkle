@@ -59,6 +59,22 @@ SpkScaffoldingServiceServer >> doit_05: aString [
 			debugProcess suspend ]
 ]
 
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> doit_06: aString [
+	"
+		Populate the doitStack iv with a process service and frame services representing the debugger meta data
+	"
+
+	doitResult := [ aString evaluate ]
+		on: Halt , Error
+		do: [ :ex | 
+			| mon |
+			debugProcess := GsProcess _current.
+			mon := [ self openDebuggerOnClientWithProcessService: ex ]
+				forkAt: Processor userInterruptPriority.
+			debugProcess suspend ]
+]
+
 { #category : 'accessing' }
 SpkScaffoldingServiceServer >> doitException [
 	^doitException
@@ -101,6 +117,16 @@ SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> openDebuggerOnClientWithProcessService: ex [
+	"at this point, just send a message to the client in the event of an error during doit execution, populate the doitStack with a process service for the suspended debugProcess"
+
+	self debugService
+		doitException: ex;
+		doitStack: (self processServiceFor: debugProcess).
+	^ self debugService openDebuggerOnClient wait
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> openInspectorOnClient [
 	^ remoteSelf openInspectorOnClient
 ]
@@ -126,4 +152,12 @@ SpkScaffoldingServiceServer >> processList [
 			allP := Processor allProcesses.
 			allP do: [ :aProc | processList at: aProc asOop put: aProc _reportString ].
 			processList ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> processServiceFor: aSuspendedGsProcess [
+	"return a process service with embedded frame services (wrapped Rowan services) for the given process"
+
+	^ SpkScaffoldingDebugProcessServiceServer
+		onSuspendedProcess: aSuspendedGsProcess
 ]

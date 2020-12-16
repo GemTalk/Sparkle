@@ -47,6 +47,16 @@ SpkScaffoldingService class >> templateClassName [
 	^ #SpkScaffoldingService
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingService >> doitStack [
+	^doitStack
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> doitStack: object [
+	doitStack := object
+]
+
 { #category : 'doits' }
 SpkScaffoldingService >> doit_01: aString [
 
@@ -75,16 +85,6 @@ SpkScaffoldingService >> doit_04: aString [
 SpkScaffoldingService >> doit_05: aString [
 
 	self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingService >> doitStack [
-	^doitStack
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingService >> doitStack: object [
-	doitStack := object
 ]
 
 { #category : 'accessing' }

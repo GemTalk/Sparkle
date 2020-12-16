@@ -52,6 +52,12 @@ SpkScaffoldingServiceClient >> doit_05: aString [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceClient >> doit_06: aString [
+
+	^ (remoteSelf doit_06: aString) wait
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> openDebuggerOnClient [
 
 	self doitStack inspect

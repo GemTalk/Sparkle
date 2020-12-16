@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkScaffoldingDebugProcessServiceServer',
 	#superclass : 'SpkScaffoldingDebugProcessService',
 	#instVars : [
-		'suspendedProcess'
+		'suspendedProcess',
+	'rowanProcessService'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
@@ -36,6 +37,16 @@ SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> rowanProcessService [
+	^ rowanProcessService
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
+	rowanProcessService := object
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> suspendedProcess [
 	^suspendedProcess
 ]
@@ -48,5 +59,5 @@ SpkScaffoldingDebugProcessServiceServer >> suspendedProcess: object [
 { #category : 'suspended process' }
 SpkScaffoldingDebugProcessServiceServer >> suspendedProcessOop [
 	^ suspendedProcessOop
-		ifNil: [ suspendedProcessOop := self suspendedProcess oop ]
+		ifNil: [ suspendedProcessOop := self rowanProcessService oop ]
 ]

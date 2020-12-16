@@ -3,8 +3,7 @@ Class {
 	#superclass : 'RsrService',
 	#instVars : [
 		'suspendedProcessOop',
-		'rowanFrameServices',
-		'rowanProcessService'
+		'rowanFrameServices'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -17,12 +16,6 @@ SpkScaffoldingDebugProcessService class >> templateClassName [
 
 { #category : 'suspended process' }
 SpkScaffoldingDebugProcessService >> rowanFrameServices [
-
-	self subclassResponsibility
-]
-
-{ #category : 'suspended process' }
-SpkScaffoldingDebugProcessService >> rowanProcessService [
 
 	self subclassResponsibility
 ]

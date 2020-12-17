@@ -150,7 +150,13 @@ SpkScaffoldingServiceServer >> processList [
 			processList := Dictionary new.
 			rpt := String new.
 			allP := Processor allProcesses.
-			allP do: [ :aProc | processList at: aProc asOop put: aProc _reportString ].
+			allP
+				do: [ :aProc | 
+					| procName |
+					procName := aProc name.
+					procName isEmpty
+						ifTrue: [ procName := aProc asOop asString ].
+					processList at: procName put: aProc _reportString ].
 			processList ]
 ]
 

@@ -31,6 +31,7 @@ SpkScaffoldingService class >> scaffoldingConnectionServiceLoop: listenForDebugC
 	host := '127.0.0.1'.
 	port := 47652.
 	acceptor := RsrAcceptConnection host: host port: port.
+	GsProcess _current name: 'Scaffolding service loop'.
 	[ 
 	GsFile gciLogServer: 'waiting for connection'.
 	connection := acceptor waitForConnection.
@@ -45,16 +46,6 @@ SpkScaffoldingService class >> scaffoldingConnectionServiceLoop: listenForDebugC
 SpkScaffoldingService class >> templateClassName [
 
 	^ #SpkScaffoldingService
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingService >> doitStack [
-	^doitStack
-]
-
-{ #category : 'accessing' }
-SpkScaffoldingService >> doitStack: object [
-	doitStack := object
 ]
 
 { #category : 'doits' }
@@ -85,6 +76,16 @@ SpkScaffoldingService >> doit_04: aString [
 SpkScaffoldingService >> doit_05: aString [
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> doitStack [
+	^doitStack
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingService >> doitStack: object [
+	doitStack := object
 ]
 
 { #category : 'accessing' }

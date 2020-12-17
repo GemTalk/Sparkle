@@ -11,38 +11,6 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkScaffoldingService class >> scaffoldingConnectionServiceLoop: listenForDebugConnection [
-	"start listening on the scaffolding host/port and wait for a connection, 
-		when connection is made wait for connection to close and start 
-		another waiting for a new connection.
-
-	if <listenForDebugConnection> is true, start listening service, to allow 
-		remote debugging.
-	"
-
-	"currently expected to be run in a topaz session, when using 
-		<listenForDebugConnection> use
-			IFERR 2 TOPAZWAITFORDEBUG
-	"
-
-	| host port acceptor connection |
-	listenForDebugConnection
-		ifTrue: [ System listenForDebugConnection ].
-	host := '127.0.0.1'.
-	port := 47652.
-	acceptor := RsrAcceptConnection host: host port: port.
-	GsProcess _current name: 'Scaffolding service loop'.
-	[ 
-	GsFile gciLogServer: 'waiting for connection'.
-	connection := acceptor waitForConnection.
-	System abort.	"update view"
-	true ]
-		whileTrue: [ 
-			GsFile gciLogServer: 'got a connection'.
-			connection waitUntilClose ]
-]
-
-{ #category : 'accessing' }
 SpkScaffoldingService class >> templateClassName [
 
 	^ #SpkScaffoldingService

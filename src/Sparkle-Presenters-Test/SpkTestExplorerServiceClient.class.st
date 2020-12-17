@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkTestExplorerServiceClient',
 	#superclass : 'SpkExplorerServiceClient',
-	#category : 'Sparkle-Test-Test Services'
+	#category : 'Sparkle-Presenters-Test-Support'
 }
 
 { #category : 'tests' }

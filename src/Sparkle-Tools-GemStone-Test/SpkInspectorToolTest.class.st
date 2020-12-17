@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
 { #category : 'tests' }
@@ -24,7 +24,7 @@ SpkInspectorToolTest >> testClassMembershipDescription [
 	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
 
 	tool := SpkInspectorTool on: 'Hi!'.
-	self assert: tool classMembershipDescription equals: 'a ByteString'.
+	self assert: tool classMembershipDescription equals: 'a ' , '' class name asString.
 
 	tool := SpkInspectorTool on: Object new.
 	self assert: tool classMembershipDescription equals: 'an Object'.
@@ -44,7 +44,7 @@ SpkInspectorToolTest >> testFieldToolsSize [
 	self assert: tool fieldTools size equals: 0.
 
 	tool := SpkInspectorTool on: nil class.
-	self assert: tool fieldTools size equals: 11.
+	self assert: tool fieldTools size equals: 19.
 
 	tool := SpkInspectorTool on: 42.
 	self assert: tool fieldTools size equals: 0.
@@ -63,7 +63,7 @@ SpkInspectorToolTest >> testFieldToolsSize [
 
 	"ZeroDivide has both inherited and declared named instvars"
 	tool := SpkInspectorTool on: ZeroDivide new.
-	self assert: tool fieldTools size equals: 7.
+	self assert: tool fieldTools size equals: 11.
 
 	"Class with both named and indexed instvars."
 	tool := SpkInspectorTool on:
@@ -73,17 +73,17 @@ SpkInspectorToolTest >> testFieldToolsSize [
 
 { #category : 'tests' }
 SpkInspectorToolTest >> testOop [
-
 	| object |
 	tool := SpkInspectorTool on: nil.
-	self assert: tool oop equals: nil identityHash.
+	self assert: tool oop equals: 16r14.
 	tool := SpkInspectorTool on: 42.
-	self assert: tool oop equals: 42 identityHash.
+	self assert: tool oop equals: 42 * 8 + 2.
 	object := Object new.
 	tool := SpkInspectorTool on: object.
-	self assert: tool oop equals: object identityHash.
-	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
-	self assert: tool oop equals: 0
+	self assert: tool oop equals: object asOop.
+	object := SpkTestSubclassOfNil basicNew.
+	tool := SpkInspectorTool on: object.
+	self assert: tool oop equals: (Reflection oopOf: object)
 ]
 
 { #category : 'tests' }
@@ -103,7 +103,7 @@ SpkInspectorToolTest >> testSelfDescription [
 	self assert: tool selfDescription equals: '''Hi!'''.
 
 	tool := SpkInspectorTool on: Object new.
-	self assert: tool selfDescription equals: 'an Object'.
+	self assert: tool selfDescription equals: 'anObject'.
 
 	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
 	self assert: tool selfDescription equals: ''.

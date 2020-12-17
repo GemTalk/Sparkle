@@ -5,7 +5,7 @@ Class {
 		'inst1',
 		'inst2'
 	],
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#category : 'Sparkle-Presenters-Test-Tests'
 }
 
 { #category : 'support' }

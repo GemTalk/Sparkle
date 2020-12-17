@@ -3,7 +3,7 @@ Class {
 	#superclass : 'SpkInspectorFieldServiceClient',
 	#traits : 'SpkTLocalPromise',
 	#classTraits : 'SpkTLocalPromise classTrait',
-	#category : 'Sparkle-Test-Test Services'
+	#category : 'Sparkle-Presenters-Test-Support'
 }
 
 { #category : 'inspecting' }

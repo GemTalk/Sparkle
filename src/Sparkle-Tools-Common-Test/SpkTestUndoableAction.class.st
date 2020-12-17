@@ -4,11 +4,11 @@ Used by the UndoManagerTest.
 "
 Class {
 	#name : 'SpkTestUndoableAction',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#instVars : [
 		'isDone'
 	],
-	#category : 'Sparkle-Test'
+	#category : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'initialization' }

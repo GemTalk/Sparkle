@@ -5,7 +5,7 @@ Not fully automated tests, no assertions.
 Class {
 	#name : 'SpkUiTest',
 	#superclass : 'TestCase',
-	#category : 'Sparkle-Test-UI Setup'
+	#category : 'Sparkle-Presenters-Test-Tests'
 }
 
 { #category : 'examples' }

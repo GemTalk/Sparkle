@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkTestTaskspaceServiceClient',
 	#superclass : 'SpkTaskspaceServiceClient',
-	#category : 'Sparkle-Test-Test Services'
+	#category : 'Sparkle-Presenters-Test-Support'
 }
 
 { #category : 'tests' }

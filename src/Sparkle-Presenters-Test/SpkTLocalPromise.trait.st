@@ -3,7 +3,7 @@ When used by a test service, simulates a send to remoteSelf.
 "
 Trait {
 	#name : 'SpkTLocalPromise',
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#category : 'Sparkle-Presenters-Test-Support'
 }
 
 { #category : 'promising' }

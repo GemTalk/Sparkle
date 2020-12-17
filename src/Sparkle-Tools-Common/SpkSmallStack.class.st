@@ -13,7 +13,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkSmallStack',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#instVars : [
 		'elements',
 		'limit'
@@ -35,8 +35,9 @@ SpkSmallStack class >> new [
 
 { #category : 'accessing' }
 SpkSmallStack >> clear [
+	"GemStone does not implement #removeAll"
 
-	elements removeAll
+	elements removeAllSuchThat: [ :element | true ]
 ]
 
 { #category : 'accessing' }

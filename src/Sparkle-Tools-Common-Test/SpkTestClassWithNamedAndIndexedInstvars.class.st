@@ -1,11 +1,11 @@
 Class {
 	#name : 'SpkTestClassWithNamedAndIndexedInstvars',
-	#superclass : 'Object',
+	#superclass : 'SpkObject',
 	#type : 'variable',
 	#instVars : [
 		'first',
 		'second',
 		'third'
 	],
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#category : 'Sparkle-Tools-Common-Test'
 }

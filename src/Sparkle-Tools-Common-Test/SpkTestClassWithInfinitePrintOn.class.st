@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkTestClassWithInfinitePrintOn',
-	#superclass : 'Object',
-	#category : 'Sparkle-Test-Pharo Unit Tests'
+	#superclass : 'SpkObject',
+	#category : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'printing' }

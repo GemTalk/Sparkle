@@ -10,12 +10,23 @@ Trait {
 	#instVars : [
 		'announcer'
 	],
-	#category : 'Sparkle-Services-PharoClient'
+	#category : 'Sparkle-Services-PharoClient-Support'
 }
 
-{ #category : 'accessing' }
+{ #category : 'announcing' }
 SpkTModel >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
+]
+
+{ #category : 'announcing' }
+SpkTModel >> announceNewService: newService forRequest: requestId [
+
+	| announcement |
+	announcement := SpkNewPaneService new
+		                service: newService;
+		                requestId: requestId;
+		                yourself.
+	self announce: announcement
 ]
 
 { #category : 'accessing' }
@@ -36,7 +47,7 @@ SpkTModel >> unsubscribe: anObject [
 	self announcer unsubscribe: anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'announcing' }
 SpkTModel >> when: anAnnouncementClass send: aSelector to: anObject [
 
 	self announcer when: anAnnouncementClass send: aSelector to: anObject

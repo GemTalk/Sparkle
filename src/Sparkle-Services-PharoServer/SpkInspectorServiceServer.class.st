@@ -48,7 +48,9 @@ SpkInspectorServiceServer >> refreshFromTool [
 
 	oop := tool oop.
 	classMembershipDescription := tool classMembershipDescription.
-	Transcript crShow: 'refreshFromTool: ' , classMembershipDescription printString.
+	self flag: 'Debugging output'.
+	Transcript crShow:
+		'refreshFromTool: ' , classMembershipDescription printString.
 	selfDescription := tool selfDescription.
 	self initializeFieldsFromTool.
 	self initializeEvaluatorsFromTool

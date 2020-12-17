@@ -6,21 +6,11 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'announcing' }
-SpkInspectorServiceClient >> announceNewService: newService forRequest: requestId [
-
-	| announcement |
-	announcement := SpkNewPaneService new
-		                service: newService;
-		                requestId: requestId;
-		                yourself.
-	self announce: announcement
-]
-
 { #category : 'actions' }
 SpkInspectorServiceClient >> inspectField: aFieldService [
 
 	| promise |
+	self flag: 'Obsolete method?'.
 	(self fields identityIncludes: aFieldService) ifFalse: [ 
 		self error: 'I do not contain the requested field.' ].
 

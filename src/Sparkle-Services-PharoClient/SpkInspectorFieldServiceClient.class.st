@@ -15,7 +15,7 @@ SpkInspectorFieldServiceClient >> createInspectorService [
 	^ remoteSelf createInspectorService
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'inspecting' }
 SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 
 	| promise |

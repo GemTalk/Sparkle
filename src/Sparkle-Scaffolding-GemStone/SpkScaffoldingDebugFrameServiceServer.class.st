@@ -9,7 +9,7 @@ Class {
 
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> label [
-	label ifNil: [ label := self rowanFrameService label ]
+	^ label ifNil: [ label := self rowanFrameService _label ]
 ]
 
 { #category : 'accessing' }

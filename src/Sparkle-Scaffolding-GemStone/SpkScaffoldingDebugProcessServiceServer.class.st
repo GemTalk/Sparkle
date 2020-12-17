@@ -3,7 +3,7 @@ Class {
 	#superclass : 'SpkScaffoldingDebugProcessService',
 	#instVars : [
 		'suspendedProcess',
-	'rowanProcessService'
+		'rowanProcessService'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
@@ -54,6 +54,12 @@ SpkScaffoldingDebugProcessServiceServer >> suspendedProcess [
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> suspendedProcess: object [
 	suspendedProcess := object
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> suspendedProcessName [
+	^ self suspendedProcess name isEmpty
+		ifTrue: [ 'GsProcess [' , self suspendedProcessOop asString , ']' ]
 ]
 
 { #category : 'suspended process' }

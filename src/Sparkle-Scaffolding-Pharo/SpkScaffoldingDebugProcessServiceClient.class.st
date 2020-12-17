@@ -4,17 +4,22 @@ Class {
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
+{ #category : 'printing' }
+SpkScaffoldingDebugProcessServiceClient >> printOn: aStream [
+
+	aStream nextPutAll: self suspendedProcessName
+]
+
 { #category : 'suspended process' }
 SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 
 	^ rowanFrameServices ifNil: [ rowanFrameServices := remoteSelf rowanFrameServices wait ]
 ]
 
-{ #category : 'suspended process' }
-SpkScaffoldingDebugProcessServiceClient >> rowanProcessService [
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceClient >> suspendedProcessName [
 
-	^ rowanProcessService ifNil: [ 
-		  rowanProcessService := remoteSelf rowanProcessService wait ]
+	^ remoteSelf suspendedProcessName wait
 ]
 
 { #category : 'suspended process' }

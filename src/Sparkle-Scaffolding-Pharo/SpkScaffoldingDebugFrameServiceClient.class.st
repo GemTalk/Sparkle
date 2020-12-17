@@ -9,3 +9,10 @@ SpkScaffoldingDebugFrameServiceClient >> label [
 
 	^label ifNil: [ label := remoteSelf label wait ]
 ]
+
+{ #category : 'printing' }
+SpkScaffoldingDebugFrameServiceClient >> printOn: aStream [
+
+	aStream
+		nextPutAll: self label
+]

@@ -40,7 +40,7 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_01 [
 	This is a prelude to bringing up a debugger tool on the cient.
 	"
 
-	service doit_03: '7 foo'
+	service gsDebugger_01: '7 foo'
 ]
 
 { #category : 'tests - debugger' }
@@ -54,7 +54,7 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_02 [
 	Another prelude to bringing up a debugger tool on the cient.
 	"
 
-	service doit_04: '7 foo'
+	service gsDebugger_02: '7 foo'
 ]
 
 { #category : 'tests - debugger' }
@@ -62,14 +62,15 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_03 [
 
 	"same as testGsDebugger_04, but with annoying TestTookTooMuchTime exception ... use testGsDebugger_04"
 
-	service doit_05: '7 foo'
+	service gsDebugger_03: '7 foo'
 ]
 
 { #category : 'tests - debugger' }
 SpkClientScaffoldingInteractiveTest >> testGsDebugger_04 [
-"the delay has to be long enough to let the server do it's thing and open an inspector on the stack"
-	[ 
-	service doit_05: '7 foo' ] forkNamed:
+
+	"the delay has to be long enough to let the server do it's thing and open an inspector on the stack"
+
+	[ service gsDebugger_03: '7 foo' ] forkNamed:
 		'Sparkle Scaffolding - keep connection alive until timeout'.
 	(Delay forMilliseconds: 500) wait
 ]
@@ -83,7 +84,7 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_05 [
 		services)"
 
 	| x |
-	[ x := service doit_06: '7 foo' ] forkNamed:
+	[ x := service gsDebugger_04: '7 foo' ] forkNamed:
 		'Sparkle Scaffolding - keep connection alive until timeout'.
 	(Delay forMilliseconds: 500) wait.
 	self halt: 'closing debugger will close connection'
@@ -94,10 +95,10 @@ SpkClientScaffoldingInteractiveTest >> testGsDoit_01 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
 	bring up a Pharo inspector on the client"
-	
+
 	"https://github.com/GemTalk/RemoteServiceReplication/issues/66"
 
-	service doit_01: '3+4' "promise broken with value `7` ... not supposed to return objects"
+	(service doit_01: '3+4') inspect
 ]
 
 { #category : 'tests - doits' }

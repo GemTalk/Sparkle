@@ -21,40 +21,40 @@ SpkScaffoldingServiceClient >> doitStack [
 	^ remoteSelf doitStack wait
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit_01: aString [
 
 	^ (remoteSelf doit_01: aString) wait
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit_02: aString [
 
 	^ (remoteSelf doit_02: aString) wait
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> doit_03: aString [
+SpkScaffoldingServiceClient >> gsDebugger_01: aString [
 
-	^ (remoteSelf doit_03: aString) wait
+	^ (remoteSelf gsDebugger_01: aString) wait
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> doit_04: aString [
+SpkScaffoldingServiceClient >> gsDebugger_02: aString [
 
-	^ (remoteSelf doit_04: aString) wait
+	^ (remoteSelf gsDebugger_02: aString) wait
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> doit_05: aString [
+SpkScaffoldingServiceClient >> gsDebugger_03: aString [
 
-	^ (remoteSelf doit_05: aString) wait
+	^ (remoteSelf gsDebugger_03: aString) wait
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> doit_06: aString [
+SpkScaffoldingServiceClient >> gsDebugger_04: aString [
 
-	^ (remoteSelf doit_06: aString) wait
+	^ (remoteSelf gsDebugger_04: aString) wait
 ]
 
 { #category : 'debugger' }

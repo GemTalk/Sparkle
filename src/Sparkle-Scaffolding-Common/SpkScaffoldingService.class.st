@@ -48,36 +48,6 @@ SpkScaffoldingService class >> templateClassName [
 	^ #SpkScaffoldingService
 ]
 
-{ #category : 'doits' }
-SpkScaffoldingService >> doit_01: aString [
-
-	self subclassResponsibility
-]
-
-{ #category : 'doits' }
-SpkScaffoldingService >> doit_02: aString [
-
-	self subclassResponsibility
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingService >> doit_03: aString [
-
-	self subclassResponsibility
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingService >> doit_04: aString [
-
-	self subclassResponsibility
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingService >> doit_05: aString [
-
-	self subclassResponsibility
-]
-
 { #category : 'accessing' }
 SpkScaffoldingService >> doitStack [
 	^doitStack

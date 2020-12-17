@@ -27,54 +27,6 @@ SpkScaffoldingServiceServer >> doit_02: aString [
 	doitResult := aString evaluate
 ]
 
-{ #category : 'debugger' }
-SpkScaffoldingServiceServer >> doit_03: aString [
-	doitResult := [ aString evaluate ]
-		on: Error
-		do: [ :ex | self openInspectorOnClient: ex ]
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceServer >> doit_04: aString [
-	doitResult := [ aString evaluate ]
-		on: Error
-		do: [ :ex | self openDebuggerOnClient: ex ]
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceServer >> doit_05: aString [
-	"
-		if I fork the monitor process how does that impact RSR?
-			1. RSR blocks ... which is fine
-			2. the mon process was blocked (or the pharo side was blocked), until the debugProcess connectioin was timed out
-	"
-
-	doitResult := [ aString evaluate ]
-		on: Halt , Error
-		do: [ :ex | 
-			| mon |
-			debugProcess := GsProcess _current.
-			mon := [ self openDebuggerOnClient: ex ]
-				forkAt: Processor userInterruptPriority.
-			debugProcess suspend ]
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceServer >> doit_06: aString [
-	"
-		Populate the doitStack iv with a process service and frame services representing the debugger meta data
-	"
-
-	doitResult := [ aString evaluate ]
-		on: Halt , Error
-		do: [ :ex | 
-			| mon |
-			debugProcess := GsProcess _current.
-			mon := [ self openDebuggerOnClientWithProcessService: ex ]
-				forkAt: Processor userInterruptPriority.
-			debugProcess suspend ]
-]
-
 { #category : 'accessing' }
 SpkScaffoldingServiceServer >> doitException [
 	^doitException
@@ -99,6 +51,54 @@ SpkScaffoldingServiceServer >> doitResult [
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> doitStack [
 	^ doitStack ifNil: [ 'no stack available' ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_01: aString [
+	doitResult := [ aString evaluate ]
+		on: Error
+		do: [ :ex | self openInspectorOnClient: ex ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_02: aString [
+	doitResult := [ aString evaluate ]
+		on: Error
+		do: [ :ex | self openDebuggerOnClient: ex ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_03: aString [
+	"
+		if I fork the monitor process how does that impact RSR?
+			1. RSR blocks ... which is fine
+			2. the mon process was blocked (or the pharo side was blocked), until the debugProcess connectioin was timed out
+	"
+
+	doitResult := [ aString evaluate ]
+		on: Halt , Error
+		do: [ :ex | 
+			| mon |
+			debugProcess := GsProcess _current.
+			mon := [ self openDebuggerOnClient: ex ]
+				forkAt: Processor userInterruptPriority.
+			debugProcess suspend ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_04: aString [
+	"
+		Populate the doitStack iv with a process service and frame services representing the debugger meta data
+	"
+
+	doitResult := [ aString evaluate ]
+		on: Halt , Error
+		do: [ :ex | 
+			| mon |
+			debugProcess := GsProcess _current.
+			mon := [ self openDebuggerOnClientWithProcessService: ex ]
+				forkAt: Processor userInterruptPriority.
+			debugProcess suspend ]
 ]
 
 { #category : 'debugger' }

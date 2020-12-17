@@ -63,7 +63,7 @@ SpkInspectorPane >> fieldSelected: anAnnouncement [
 
 	| field inspectorService |
 	field := anAnnouncement item.
-	inspectorService := model inspectField: field model.
+	inspectorService := field model inspectFieldFor: field.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
 	inspectorService

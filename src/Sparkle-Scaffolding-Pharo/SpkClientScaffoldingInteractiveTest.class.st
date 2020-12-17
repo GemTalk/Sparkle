@@ -11,22 +11,35 @@ Class {
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
+{ #category : 'private' }
+SpkClientScaffoldingInteractiveTest >> _usePrivateConnection [
+^true 
+]
+
 { #category : 'running' }
 SpkClientScaffoldingInteractiveTest >> setUp [
 
-	| host port initiator |
 	super setUp.
-	host := '127.0.0.1'.
-	port := 47652.
-	initiator := RsrInitiateConnection host: host port: port.
-	connection := initiator connect.
+	self _usePrivateConnection
+		ifTrue: [ 
+			| host port initiator |
+			super setUp.
+			host := '127.0.0.1'.
+			port := 47652.
+			initiator := RsrInitiateConnection host: host port: port.
+			connection := initiator connect ]
+		ifFalse: [ connection := SpkScaffoldingServiceClient connection ].
 	service := connection serviceFor: #SpkScaffoldingService
 ]
 
 { #category : 'running' }
-SpkClientScaffoldingInteractiveTest >> tearDown [ 
-	connection ifNotNil: [ connection close] .
-			super tearDown.
+SpkClientScaffoldingInteractiveTest >> tearDown [
+
+	super tearDown.
+	self _usePrivateConnection
+		ifTrue: [ 
+			
+			connection close ]
 
 ]
 
@@ -86,8 +99,9 @@ SpkClientScaffoldingInteractiveTest >> testGsDebugger_05 [
 	| x |
 	[ x := service gsDebugger_04: '7 foo' ] forkNamed:
 		'Sparkle Scaffolding - keep connection alive until timeout'.
+	self _usePrivateConnection ifFalse: [ ^ self ].
 	(Delay forMilliseconds: 500) wait.
-	self halt: 'closing debugger will close connection'
+	self halt: 'closing debugger will close connection ... wait for inspector to pop up'
 ]
 
 { #category : 'tests - doits' }

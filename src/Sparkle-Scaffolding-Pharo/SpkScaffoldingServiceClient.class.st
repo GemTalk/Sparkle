@@ -1,8 +1,35 @@
 Class {
 	#name : 'SpkScaffoldingServiceClient',
 	#superclass : 'SpkScaffoldingService',
+	#classVars : [
+		'Connection'
+	],
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
+
+{ #category : 'connections' }
+SpkScaffoldingServiceClient class >> closeConnection [
+
+	(Connection notNil and: [ Connection isOpen]) ifTrue: [ 
+		Connection close ].
+]
+
+{ #category : 'connections' }
+SpkScaffoldingServiceClient class >> connection [
+
+	(Connection isNil or: [Connection isOpen not ]) ifTrue: [ self initiateConnection ].
+	^Connection
+]
+
+{ #category : 'connections' }
+SpkScaffoldingServiceClient class >> initiateConnection [
+
+	| host port initiator |
+	host := '127.0.0.1'.
+	port := 47652.
+	initiator := RsrInitiateConnection host: host port: port.
+	^Connection := initiator connect
+]
 
 { #category : 'acccessing' }
 SpkScaffoldingServiceClient >> doitExceptionDescription [

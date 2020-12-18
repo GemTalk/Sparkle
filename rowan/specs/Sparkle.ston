@@ -1,8 +1,8 @@
 RwLoadSpecificationV2 {
 	#specName : 'Sparkle',
 	#projectName : 'Sparkle',
-	#gitUrl : 'git@git.gemtalksystems.com:sparkle',
-	#revision : 'master',
+	#gitUrl : 'git@github.com:GemTalk/Sparkle.git',
+	#revision : 'development',
 	#projectSpecFile : 'rowan/project.ston',
 	#componentNames : [
 		'Sparkle'

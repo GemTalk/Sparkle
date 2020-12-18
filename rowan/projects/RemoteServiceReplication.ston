@@ -1,0 +1,14 @@
+RwLoadSpecificationV2 {
+	#specName : 'RemoteServiceReplication',
+	#projectName : 'RemoteServiceReplication',
+	#gitUrl : 'git@github.com:GemTalk/RemoteServiceReplication.git',
+	#revision : 'development',
+	#projectSpecFile : 'rowan/project.ston',
+	#componentNames : [
+		'RemoteServiceReplication'
+	],
+	#customConditionalAttributes : [
+		'tests'
+	],
+	#comment : 'RemoteServiceReplication development load spec'
+}

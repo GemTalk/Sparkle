@@ -66,18 +66,6 @@ SpkScaffoldingServiceClient class >> debugger_02 [
 ]
 
 { #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_03 [
-
-	"same as debugger_04: ... but blocks forever ... ALT-. will cause the inspector to appear
-		along with debugger"
-
-	<example>
-	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
-	service gsDebugger_03: '7 foo'
-]
-
-{ #category : 'examples' }
 SpkScaffoldingServiceClient class >> debugger_04 [
 
 	"the delay has to be long enough to let the server do it's thing and open an inspector on the stack"

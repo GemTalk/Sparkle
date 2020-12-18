@@ -28,6 +28,11 @@ SpkScaffoldingDebugProcessServiceServer >> initializeOnSuspendedProcess: aSuspen
 		rowanFrameServices	"prime the pump"
 ]
 
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> resume [
+	self suspendedProcess resume
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices [
 	^ rowanFrameServices

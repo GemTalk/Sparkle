@@ -91,15 +91,17 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 	<example>
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
-	(service gsDebugger_04: '7 foo')
+	(service gsDebugger_04: '7 halt')
 		when: [ :result | 
-			WorldState defer: [{
-				'when'.
-				result } inspect] ]
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result } inspect ] ]
 		catch: [ :reason | 
-			WorldState defer: [{ 
-				'reason'.
-				reason } inspect ]]
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
 ]
 
 { #category : 'examples' }

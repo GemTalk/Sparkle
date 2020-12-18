@@ -11,6 +11,12 @@ SpkScaffoldingDebugProcessServiceClient >> printOn: aStream [
 ]
 
 { #category : 'suspended process' }
+SpkScaffoldingDebugProcessServiceClient >> resume [
+
+	^ remoteSelf resume
+]
+
+{ #category : 'suspended process' }
 SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 
 	^ rowanFrameServices ifNil: [ rowanFrameServices := remoteSelf rowanFrameServices wait ]

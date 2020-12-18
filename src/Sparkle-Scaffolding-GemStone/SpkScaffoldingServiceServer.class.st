@@ -130,7 +130,9 @@ SpkScaffoldingServiceServer >> gsDebugger_04: aString [
 			debugProcess := GsProcess _current.
 			mon := [ self openDebuggerOnClientWithProcessService: ex ]
 				forkAt: Processor userInterruptPriority.
-			debugProcess suspend ]
+			debugProcess suspend.
+			"open question: once I suspend the process, how do I arrange for the doitResult to get set the final result of the process?"
+			nil ]
 ]
 
 { #category : 'debugger' }

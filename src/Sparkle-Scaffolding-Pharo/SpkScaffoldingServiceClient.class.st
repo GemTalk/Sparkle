@@ -70,13 +70,11 @@ SpkScaffoldingServiceClient class >> debugger_04 [
 
 	"the delay has to be long enough to let the server do it's thing and open an inspector on the stack"
 
-
 	<example>
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
 	[ service gsDebugger_03: '7 foo' ] forkNamed:
 		'Sparkle Scaffolding - keep connection alive until timeout'.
-	(Delay forMilliseconds: 500) wait
 
 ]
 

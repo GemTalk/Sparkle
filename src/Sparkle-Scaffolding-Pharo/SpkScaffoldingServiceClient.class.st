@@ -89,35 +89,17 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 		services)"
 
 	<example>
-	| service x |
+	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
-	[ x := service gsDebugger_04: '7 foo' ] forkNamed:
-		'Sparkle Scaffolding - keep connection alive until timeout'.
-	(Delay forMilliseconds: 500) wait.
-
-]
-
-{ #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_06 [
-
-	"the UI process must be free to open the debugger ... not hung on sema wait"
-
-	"now that this is not a test and the connection is left open this is probably not nearly as complicated as the current code"
-
-	<example>
-	| service connection sema x |
-	[ 
-	sema := Semaphore new.
-	self closeConnection.
-	[ 
-	connection := self connection.
-	service := connection serviceFor: #SpkScaffoldingService.
-	x := service gsDebugger_04: '7 foo'.
-	sema signal ] forkNamed:
-		'Sparkle Scaffolding - keep connection alive until timeout'.
-	x inspect.
-	sema wait.
-	self halt ] ensure: [ connection close ]
+	(service gsDebugger_04: '7 foo')
+		when: [ :result | 
+			WorldState defer: [{
+				'when'.
+				result } inspect] ]
+		catch: [ :reason | 
+			WorldState defer: [{ 
+				'reason'.
+				reason } inspect ]]
 ]
 
 { #category : 'examples' }
@@ -232,7 +214,7 @@ SpkScaffoldingServiceClient >> gsDebugger_03: aString [
 { #category : 'debugger' }
 SpkScaffoldingServiceClient >> gsDebugger_04: aString [
 
-	^ (remoteSelf gsDebugger_04: aString) wait
+	^ remoteSelf gsDebugger_04: aString
 ]
 
 { #category : 'debugger' }

@@ -10,20 +10,52 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'evaluating' }
-SpkEvaluatorTool >> evaluateString: codeString [
+{ #category : 'public' }
+SpkEvaluatorTool >> accept [
 
-	"Evaluate the given code string and answer whatever answer comes back."
+	"Evaluate newSourceCode through an undoable action. Answer a new Tool for the result."
+
+	| action resultTool |
+	action := SpkEvaluatorAcceptAction new
+		          target: self;
+		          oldSourceCode: oldSourceCode;
+		          newSourceCode: newSourceCode;
+		          yourself.
+	resultTool := explorerTool performAction: action.
+	^ resultTool
+]
+
+{ #category : 'evaluating' }
+SpkEvaluatorTool >> evaluateCode [
+
+	"Evaluate the newSource and answer an appropriate tool for 
+	whatever happens. This can be a syntax error, a runtime error, or an object.
+	For an object, answer an InspectorTool on the object."
+
+	| normalResult resultTool |
+	[ normalResult := self evaluateNewSourceCode ]
+		on: Error
+		do: [ :ex | "Making an error tool goes here"
+			self flag:
+				'not the right thing to do, but for now we let things break'.
+			ex pass ].
+	resultTool := SpkInspectorTool on: normalResult.
+	^ resultTool
+]
+
+{ #category : 'evaluating' }
+SpkEvaluatorTool >> evaluateNewSourceCode [
+
+	"Evaluate the newSource and, if successful, answer the result object."
 
 	| context class compiler method |
-	self flag:
-		'Does not yet handle error cases, and it must. Both syntax and runtime errors.'.
-	self flag: 'This needs to be done through accept and cancel actions.'.
 	context := inspectorTool inspectedObject.
 	class := SpkReflection classOf: context.
 	compiler := class compiler.
 
-	compiler source: codeString.
+	compiler
+		source: newSourceCode;
+		noPattern: true.
 	method := compiler compileDoit.
 
 	^ SpkReflection

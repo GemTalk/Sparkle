@@ -19,7 +19,7 @@ SpkEvaluatorServiceClient >> acceptFor: requestId [
 	promise := remoteSelf accept.
 	promise
 		when: [ :inspector | 
-			inspectorService announceNewService: inspector forRequest: requestId ]
+			parentService announceNewService: inspector forRequest: requestId ]
 		catch: self defaultCatchBlock
 ]
 

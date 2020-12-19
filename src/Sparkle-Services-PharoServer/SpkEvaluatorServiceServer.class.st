@@ -9,6 +9,18 @@ Class {
 	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
+{ #category : 'visiting' }
+SpkEvaluatorServiceServer >> accept [
+
+	"Evaluate my newSourceCode, answer a new service for the result."
+
+	| resultTool |
+	tool newSourceCode: newSourceCode.
+
+	resultTool := tool accept.
+	self halt
+]
+
 { #category : 'initialization' }
 SpkEvaluatorServiceServer >> initializeFromTool: evaluatorTool [
 

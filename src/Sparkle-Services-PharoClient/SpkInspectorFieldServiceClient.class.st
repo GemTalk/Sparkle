@@ -25,6 +25,7 @@ SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 	promise := self createInspectorService.
 	promise
 		when: [ :inspector | 
+			linkedService := inspector.
 			parentService announceNewService: inspector forRequest: aRequestId ]
 		catch: [ :reason | self signalPromiseBrokenBecause: reason ].
 	^ nil

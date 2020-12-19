@@ -4,6 +4,7 @@ RwSimpleProjectLoadComponentV2 {
 	#projectNames : [ ],
 	#componentNames : [ ],
 	#packageNames : [
+		'Sparkle-Scaffolding-Topaz-GemStone',
 		'Sparkle-Scaffolding-GemStone',
 		'Sparkle-Scaffolding-Rowan-GemStone',
 		'Sparkle-GemStone',

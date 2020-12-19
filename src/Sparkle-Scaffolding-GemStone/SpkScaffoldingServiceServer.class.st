@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : 'service loop' }
+SpkScaffoldingServiceServer class >> port [
+	^ 7652
+]
+
+{ #category : 'service loop' }
 SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenForDebugConnection [
 	"start listening on the scaffolding host/port and wait for a connection, 
 		when connection is made wait for connection to close and start 
@@ -27,7 +32,7 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 	listenForDebugConnection
 		ifTrue: [ System listenForDebugConnection ].
 	host := '127.0.0.1'.
-	port := 47652.
+	port := self port.
 	acceptor := RsrAcceptConnection host: host port: port.
 	GsProcess _current name: 'Scaffolding service loop'.
 	[ 

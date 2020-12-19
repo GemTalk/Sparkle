@@ -22,8 +22,10 @@ SpkInspectorServiceServer >> initializeEvaluatorsFromTool [
 
 	evaluators := OrderedCollection new.
 	tool evaluatorTools do: [ :evaluatorTool | 
-		evaluators add:
-			(SpkEvaluatorServiceServer new initializeFromTool: evaluatorTool) ]
+		evaluators add: (SpkEvaluatorServiceServer new
+				 parentService: self;
+				 initializeFromTool: evaluatorTool;
+				 yourself) ]
 ]
 
 { #category : 'initialization' }
@@ -32,6 +34,7 @@ SpkInspectorServiceServer >> initializeFieldsFromTool [
 	fields := OrderedCollection new.
 	tool fieldTools do: [ :fieldTool | 
 		fields add: (SpkInspectorFieldServiceServer new
+				 parentService: self;
 				 initializeFromTool: fieldTool;
 				 yourself) ]
 ]

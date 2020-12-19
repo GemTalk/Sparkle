@@ -8,7 +8,8 @@ Collaborates with SpkInspectorService.
     Instance Variables
 *	description:		<String>
 *	name:		<String>
-*	inspectorService: <nil or SpkInspectorService>	 Inspector for the object referenced by this field, if one has been created.
+* 	parentService:	<SpkInspectorService>	The inspector service for which I am a field.
+*	linkedInspectorService: <nil or SpkInspectorService>	 Inspector for the object referenced by this field, if one has been created.
 
 
     Implementation Points
@@ -17,11 +18,10 @@ Even when inspecting indexed instvars, name is always a string. Strings like '1'
 "
 Class {
 	#name : 'SpkInspectorFieldService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkLinkableSubService',
 	#instVars : [
 		'name',
-		'description',
-		'inspectorService'
+		'description'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -49,16 +49,6 @@ SpkInspectorFieldService >> description [
 { #category : 'accessing' }
 SpkInspectorFieldService >> description: anObject [
 	description := anObject
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldService >> inspectorService [
-	^ inspectorService
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldService >> inspectorService: anObject [
-	inspectorService := anObject
 ]
 
 { #category : 'accessing' }

@@ -48,14 +48,6 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 	field clearLinkedPane
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPane >> fieldForService: aService [
-
-	"Find and answer the field presenter with the given service as its model."
-
-	^ body fieldForService: aService
-]
-
 { #category : 'actions' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
@@ -141,13 +133,8 @@ SpkInspectorPane >> newLayout [
 ]
 
 { #category : 'instance creation' }
-SpkInspectorPane >> newPaneForService: newService linkedTo: fieldService [
+SpkInspectorPane >> newPaneForService: newService linkedTo: field [
 
-	| field |
-	self flag: 'transcript'.
-	Transcript crShow:
-		'newPaneForService: ' , newService classMembershipDescription.
-	field := self fieldForService: fieldService.
 	self openInspector: newService forField: field.
 	"This announcement came from the server, so all of my widgets are disabled."
 	self reEnableAll
@@ -178,7 +165,6 @@ SpkInspectorPane >> openInspector: anInspectorService forField: field [
 { #category : 'announcements' }
 SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 
-	anAnnouncement requestId inspectorService: anAnnouncement service.
 	self defer: [ 
 		self
 			newPaneForService: anAnnouncement service

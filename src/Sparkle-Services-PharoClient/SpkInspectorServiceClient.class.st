@@ -14,7 +14,7 @@ SpkInspectorServiceClient >> inspectField: aFieldService [
 	(self fields identityIncludes: aFieldService) ifFalse: [ 
 		self error: 'I do not contain the requested field.' ].
 
-	aFieldService inspectorService ifNotNil: [ :service | ^ service ].
+	aFieldService linkedService ifNotNil: [ :service | ^ service ].
 
 	promise := aFieldService createInspectorService.
 	promise

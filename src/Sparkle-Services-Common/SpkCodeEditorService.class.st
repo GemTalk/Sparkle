@@ -15,7 +15,7 @@ Abstract. A service for editing code. Notable concrete subclasses edit workspace
 "
 Class {
 	#name : 'SpkCodeEditorService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkLinkableSubService',
 	#instVars : [
 		'oldSourceCode',
 		'newSourceCode'

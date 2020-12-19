@@ -13,6 +13,6 @@ SpkTestInspectorFieldServiceClient >> createInspectorService [
 	Answer a promise for the result."
 
 	^ self promiseFor: [ 
-		  inspectorService := SpkTestInspectorServiceClient perform:
+		  linkedInspectorService := SpkTestInspectorServiceClient perform:
 			                      ('spk' , name) asSymbol ]
 ]

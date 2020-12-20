@@ -5,13 +5,15 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 
 * pane 	<SpkInspectorPane> The inspector pane that I'm part of.
 * index 	<Integer>		My index as an inspector. First evaluator for a pane is index 1. The index of a closed evaluator is not reused.
+* linkedPane		<SpkPane or nil>		A pane in the next column showing the result of my evaluation.
 "
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
 	#instVars : [
 		'pane',
-		'index'
+		'index',
+		'linkedPane'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -65,6 +67,15 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 		self halt: 'update text here' ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
+
+	"Linked inspectors for fields get a 0 element in their coordinate. 
+	Ones for evaluators get the evaluator's index. This sorts all fields before any evaluators."
+
+	^ parentCoordinate , index
+]
+
 { #category : 'testing' }
 SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
@@ -92,6 +103,18 @@ SpkEvaluator >> initializePresenters [
 		placeholder: 'Accept to evaluate code typed here.';
 		whenSubmitDo: [ :ignored | self accept ];
 		whenResetDo: [ self cancel ]
+]
+
+{ #category : 'accessing' }
+SpkEvaluator >> linkedPane [
+
+	^ linkedPane
+]
+
+{ #category : 'accessing' }
+SpkEvaluator >> linkedPane: anObject [
+
+	linkedPane := anObject
 ]
 
 { #category : 'instance creation' }

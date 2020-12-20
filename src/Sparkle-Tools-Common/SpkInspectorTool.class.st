@@ -107,7 +107,7 @@ SpkInspectorTool >> initializeFieldTools [
 { #category : 'initialization' }
 SpkInspectorTool >> initializeForDefault [
 
-	inspectedObject := Object.
+	inspectedObject := nil.
 	self addEvaluator
 ]
 

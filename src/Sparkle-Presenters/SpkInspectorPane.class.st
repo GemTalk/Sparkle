@@ -60,7 +60,7 @@ SpkInspectorPane >> fieldSelected: anAnnouncement [
 	will be created by announcement from the service."
 	inspectorService
 		ifNil: [ self disableAll ]
-		ifNotNil: [ self openInspector: inspectorService forField: field ]
+		ifNotNil: [ self openInspector: inspectorService forItem: field ]
 ]
 
 { #category : 'adding' }
@@ -133,9 +133,10 @@ SpkInspectorPane >> newLayout [
 ]
 
 { #category : 'instance creation' }
-SpkInspectorPane >> newPaneForService: newService linkedTo: field [
+SpkInspectorPane >> newPaneForService: newService linkedTo: item [
+	"Item is an InspectorField or an evaluator"
 
-	self openInspector: newService forField: field.
+	self openInspector: newService forItem: item.
 	"This announcement came from the server, so all of my widgets are disabled."
 	self reEnableAll
 ]
@@ -147,18 +148,21 @@ SpkInspectorPane >> nextEvaluatorIndex [
 ]
 
 { #category : 'actions' }
-SpkInspectorPane >> openInspector: anInspectorService forField: field [
+SpkInspectorPane >> openInspector: anInspectorService forItem: item [
 
-	" Create and open an inspector pane in the next column"
+	" Create and open an inspector pane in the next column.
+	item is an InspectorField or an evaluator."
 
 	| nextRightColumn newPane |
 	nextRightColumn := owner nextRightColumn.
 	newPane := nextRightColumn presenterForService: anInspectorService.
 	"Linked inspectors for fields get a 0 element in their coordinate. 
 	Ones for evaluators get the evaluator's index."
-	newPane coordinate: coordinate , 0 , field index.
-	field linkedPane: newPane.
+	newPane coordinate: (item coordinateRelativeTo: coordinate).
+	item linkedPane: newPane.
 	nextRightColumn add: newPane.
+	self flag:
+		'Probably need a different kind of refresh for an evaluator'.
 	body refreshFieldList "Change linking arrow."
 ]
 

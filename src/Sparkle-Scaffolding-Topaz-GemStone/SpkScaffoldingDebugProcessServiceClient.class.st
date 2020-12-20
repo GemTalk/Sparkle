@@ -4,6 +4,13 @@ Class {
 	#category : 'Sparkle-Scaffolding-Topaz-GemStone'
 }
 
+{ #category : 'suspended process' }
+SpkScaffoldingDebugProcessServiceClient >> continue [
+	"wnat this to do what GCI continue does ... arrange to resume an exception and return the result of the process coninuing"
+
+	^ self resume
+]
+
 { #category : 'printing' }
 SpkScaffoldingDebugProcessServiceClient >> printOn: aStream [
 

@@ -1,20 +1,20 @@
 Class {
-	#name : 'SpkScaffoldingServiceServer',
-	#superclass : 'SpkScaffoldingService',
+	#name : 'SpkScaffoldingTopazServiceServer',
+	#superclass : 'SpkScaffoldingTopazService',
 	#instVars : [
 		'doitException',
 		'debugProcess'
 	],
-	#category : 'Sparkle-Scaffolding-GemStone'
+	#category : 'Sparkle-Scaffolding-Topaz-GemStone'
 }
 
 { #category : 'service loop' }
-SpkScaffoldingServiceServer class >> port [
-	^ 7652
+SpkScaffoldingTopazServiceServer class >> port [
+	^ 7653
 ]
 
 { #category : 'service loop' }
-SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenForDebugConnection [
+SpkScaffoldingTopazServiceServer class >> scaffoldingConnectionServiceLoop: listenForDebugConnection [
 	"start listening on the scaffolding host/port and wait for a connection, 
 		when connection is made wait for connection to close and start 
 		another waiting for a new connection.
@@ -46,7 +46,7 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> debugService [
+SpkScaffoldingTopazServiceServer >> debugService [
 	^ debugService
 		ifNil: [ 
 			debugService := self class new
@@ -55,57 +55,57 @@ SpkScaffoldingServiceServer >> debugService [
 ]
 
 { #category : 'doits' }
-SpkScaffoldingServiceServer >> doit_01: aString [
+SpkScaffoldingTopazServiceServer >> doit_01: aString [
 	^ aString evaluate
 ]
 
 { #category : 'doits' }
-SpkScaffoldingServiceServer >> doit_02: aString [
+SpkScaffoldingTopazServiceServer >> doit_02: aString [
 	doitResult := aString evaluate
 ]
 
 { #category : 'accessing' }
-SpkScaffoldingServiceServer >> doitException [
+SpkScaffoldingTopazServiceServer >> doitException [
 	^doitException
 ]
 
 { #category : 'accessing' }
-SpkScaffoldingServiceServer >> doitException: object [
+SpkScaffoldingTopazServiceServer >> doitException: object [
 	doitException := object
 ]
 
 { #category : 'accessing' }
-SpkScaffoldingServiceServer >> doitExceptionDescription [
+SpkScaffoldingTopazServiceServer >> doitExceptionDescription [
 
 	^ self doitException description
 ]
 
 { #category : 'doits' }
-SpkScaffoldingServiceServer >> doitResult [
+SpkScaffoldingTopazServiceServer >> doitResult [
 	^ doitResult
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> doitStack [
+SpkScaffoldingTopazServiceServer >> doitStack [
 	^ doitStack ifNil: [ 'no stack available' ]
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> gsDebugger_01: aString [
+SpkScaffoldingTopazServiceServer >> gsDebugger_01: aString [
 	doitResult := [ aString evaluate ]
 		on: Error
 		do: [ :ex | self openInspectorOnClient: ex ]
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> gsDebugger_02: aString [
+SpkScaffoldingTopazServiceServer >> gsDebugger_02: aString [
 	doitResult := [ aString evaluate ]
 		on: Error
 		do: [ :ex | self openDebuggerOnClient: ex ]
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> gsDebugger_03: aString [
+SpkScaffoldingTopazServiceServer >> gsDebugger_03: aString [
 	"
 		if I fork the monitor process how does that impact RSR?
 			1. RSR blocks ... which is fine
@@ -123,7 +123,7 @@ SpkScaffoldingServiceServer >> gsDebugger_03: aString [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> gsDebugger_04: aString [
+SpkScaffoldingTopazServiceServer >> gsDebugger_04: aString [
 	"
 		Populate the doitStack iv with a process service and frame services representing the debugger meta data
 	"
@@ -141,12 +141,12 @@ SpkScaffoldingServiceServer >> gsDebugger_04: aString [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> openDebuggerOnClient [
+SpkScaffoldingTopazServiceServer >> openDebuggerOnClient [
 	^ remoteSelf openDebuggerOnClient
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
+SpkScaffoldingTopazServiceServer >> openDebuggerOnClient: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution"
 
 	self debugService
@@ -156,7 +156,7 @@ SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> openDebuggerOnClientWithProcessService: ex [
+SpkScaffoldingTopazServiceServer >> openDebuggerOnClientWithProcessService: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution, populate the doitStack with a process service for the suspended debugProcess"
 
 	self debugService
@@ -166,12 +166,12 @@ SpkScaffoldingServiceServer >> openDebuggerOnClientWithProcessService: ex [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> openInspectorOnClient [
+SpkScaffoldingTopazServiceServer >> openInspectorOnClient [
 	^ remoteSelf openInspectorOnClient
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
+SpkScaffoldingTopazServiceServer >> openInspectorOnClient: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution"
 
 	| svce |
@@ -182,7 +182,7 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 ]
 
 { #category : 'process list' }
-SpkScaffoldingServiceServer >> processList [
+SpkScaffoldingTopazServiceServer >> processList [
 	^ processList
 		ifNil: [ 
 			| allP rpt |
@@ -200,7 +200,7 @@ SpkScaffoldingServiceServer >> processList [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceServer >> processServiceFor: aSuspendedGsProcess [
+SpkScaffoldingTopazServiceServer >> processServiceFor: aSuspendedGsProcess [
 	"return a process service with embedded frame services (wrapped Rowan services) for the given process"
 
 	^ SpkScaffoldingDebugProcessServiceServer

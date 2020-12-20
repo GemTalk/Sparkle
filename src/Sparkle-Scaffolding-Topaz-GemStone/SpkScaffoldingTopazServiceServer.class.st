@@ -38,7 +38,10 @@ SpkScaffoldingTopazServiceServer class >> scaffoldingConnectionServiceLoop: list
 	[ 
 	GsFile gciLogServer: 'waiting for connection'.
 	connection := acceptor waitForConnection.
-	System abort.	"update view"
+	GsSession isSolo
+		ifFalse: [ 
+			"update view if doing active development in a separate session"
+			System abort ].
 	true ]
 		whileTrue: [ 
 			GsFile gciLogServer: 'got a connection'.

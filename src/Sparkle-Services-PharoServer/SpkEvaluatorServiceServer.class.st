@@ -16,8 +16,9 @@ SpkEvaluatorServiceServer >> accept [
 
 	| resultTool resultService |
 	tool newSourceCode: newSourceCode.
-
 	resultTool := tool accept.
+
+	self refreshFromTool.
 	resultService := self serviceForTool: resultTool.
 	^ resultService
 ]

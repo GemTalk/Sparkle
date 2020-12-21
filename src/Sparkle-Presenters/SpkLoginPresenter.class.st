@@ -54,11 +54,20 @@ SpkLoginPresenter >> initializePresenters [
 	hostLabel label: 'Host:'.
 	portLabel := self newLabel.
 	portLabel label: 'Port:'.
-	connectButton := self newButton label: 'Connect'.
+	connectButton := self newButton
+		                 label: 'Connect';
+		                 action: [ self halt: 'to do' ].
 	self layout add: connectButton withConstraints: [ :constraints | 
 		constraints
 			width: self class buttonWidth;
 			height: self class buttonHeight ]
+]
+
+{ #category : 'initialization' }
+SpkLoginPresenter >> initializeWindow: aWindowPresenter [
+	aWindowPresenter
+		title: 'Sparkle Connect';
+		initialExtent: 300 @ 150
 ]
 
 { #category : 'accessing' }

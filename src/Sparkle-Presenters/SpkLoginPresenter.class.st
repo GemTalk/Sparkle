@@ -17,8 +17,23 @@ Class {
 		'portLabel',
 		'connectButton'
 	],
+	#classVars : [
+		'Connection'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'connecting' }
+SpkLoginPresenter >> connect [
+
+	| initiator |
+	initiator := RsrInitiateConnection
+		             host: hostText text
+		             port: portText text.
+	Connection := initiator connect.
+	self inform: 'connected!' "remove to test that we got a connection temporarily" 
+	
+]
 
 { #category : 'accessing' }
 SpkLoginPresenter >> connectButton [
@@ -49,14 +64,17 @@ SpkLoginPresenter >> initializePresenters [
 
 	super initializePresenters.
 	hostText := self newTextInput.
+	hostText text: 'uffda'.
 	portText := self newTextInput.
+	portText text: '29299'.
 	hostLabel := self newLabel.
 	hostLabel label: 'Host:'.
 	portLabel := self newLabel.
 	portLabel label: 'Port:'.
 	connectButton := self newButton
 		                 label: 'Connect';
-		                 action: [ self halt: 'to do' ].
+		                 action: [ self connect ].
+
 	self layout add: connectButton withConstraints: [ :constraints | 
 		constraints
 			width: self class buttonWidth;

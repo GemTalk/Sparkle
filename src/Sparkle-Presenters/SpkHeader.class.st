@@ -38,17 +38,16 @@ SpkHeader >> closeButton: anObject [
 	closeButton := anObject
 ]
 
+{ #category : 'as yet unclassified' }
+SpkHeader >> closeButtonHelp [
+
+	self subclassResponsibility
+]
+
 { #category : 'private' }
 SpkHeader >> closeButtonWidth [
 
 	^ 24
-]
-
-{ #category : 'initialization' }
-SpkHeader >> connectPresenters [
-
-	super connectPresenters.
-	menuButton menu: self menu
 ]
 
 { #category : 'accessing colors' }
@@ -70,7 +69,7 @@ SpkHeader >> initializePresenters [
 	closeButton := self newIconButton
 		               color: Color transparent;
 		               icon: (self iconNamed: #glamorousClose);
-		               help: 'Close the pane';
+		               help: self closeButtonHelp;
 		               action: [ owner closeRequestedLocally ];
 		               yourself.
 	labelLayout := SpkBoxLayout newHorizontal
@@ -88,12 +87,14 @@ SpkHeader >> labelString [
 { #category : 'accessing' }
 SpkHeader >> menu [
 
-	^ menu ifNil: [ menu := owner menuActions asMenuPresenter ]
+	^ menu
 ]
 
 { #category : 'accessing' }
 SpkHeader >> menu: anObject [
-	menu := anObject
+
+	menu := anObject.
+	menuButton menu: menu
 ]
 
 { #category : 'accessing' }

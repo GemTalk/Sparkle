@@ -45,6 +45,7 @@ SpkEvaluator >> cancel [
 SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
+	header menu: self menuActions asMenuPresenter.
 	codePresenter text: model newSourceCode.
 	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
@@ -95,6 +96,13 @@ SpkEvaluator >> index: anObject [
 ]
 
 { #category : 'initialization' }
+SpkEvaluator >> initializeHeader [
+
+	header := self instantiate: SpkEvaluatorHeader on: model.
+	self layout add: header withConstraints: [ :c | c height: 30 ]
+]
+
+{ #category : 'initialization' }
 SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
@@ -123,11 +131,10 @@ SpkEvaluator >> menuActions [
 	^ CmCommandGroup forSpec
 		  beRoot;
 		  register: (codePresenter class codeAcceptCommandsGroupWith: self);
-		  register: (self class undoRedoCommandsGroupWith: self);
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
 		  register: (self class sourceCodeCommandsGroupWith: self);
-		  register: (SpkClosePaneCommand forSpecContext: self);
+		  register: (SpkCloseEvaluatorCommand forSpecContext: self);
 		  yourself
 ]
 

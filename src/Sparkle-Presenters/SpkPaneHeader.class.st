@@ -17,6 +17,12 @@ SpkPaneHeader class >> oldDefaultSpec [
 		  yourself
 ]
 
+{ #category : 'as yet unclassified' }
+SpkPaneHeader >> closeButtonHelp [
+
+	^ 'Close the pane'
+]
+
 { #category : 'accessing' }
 SpkPaneHeader >> dragHandle [
 	^ dragHandle

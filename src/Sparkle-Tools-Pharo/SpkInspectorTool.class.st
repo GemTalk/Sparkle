@@ -22,7 +22,7 @@ Class {
 		'fieldTools',
 		'evaluatorTools'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Pharo'
 }
 
 { #category : 'instance creation' }
@@ -36,10 +36,10 @@ SpkInspectorTool class >> on: anObject [
 { #category : 'initialization' }
 SpkInspectorTool >> addEvaluator [
 
-	evaluatorTools add: (SpkEvaluatorTool new
-			 inspectorTool: self;
-			 explorerTool: explorerTool;
-			 yourself)
+	^ evaluatorTools add: (SpkEvaluatorTool new
+			   inspectorTool: self;
+			   explorerTool: explorerTool;
+			   yourself)
 ]
 
 { #category : 'accessing' }

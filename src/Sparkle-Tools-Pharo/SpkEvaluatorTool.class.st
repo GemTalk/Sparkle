@@ -7,7 +7,7 @@ Class {
 		'oldSourceCode',
 		'newSourceCode'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Pharo'
 }
 
 { #category : 'public' }
@@ -27,6 +27,21 @@ SpkEvaluatorTool >> accept [
 	^ resultTool
 ]
 
+{ #category : 'compiling' }
+SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
+
+	"Answer a method compiled from my new source code in the context of the given object"
+
+	| compiler class |
+	class := SpkReflection classOf: anObject.
+	compiler := class compiler.
+
+	compiler
+		source: newSourceCode;
+		noPattern: true.
+	^ compiler compileDoit
+]
+
 { #category : 'evaluating' }
 SpkEvaluatorTool >> evaluateCode [
 
@@ -34,31 +49,22 @@ SpkEvaluatorTool >> evaluateCode [
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
-	| normalResult resultTool |
-	[ normalResult := self evaluateNewSourceCode ]
+	| context method resultObject |
+	context := inspectorTool inspectedObject.
+
+	[ method := self compileNewSourceCodeInContext: context ]
+		on: SyntaxErrorNotification
+		do: [ :ex | ^ self toolForCompilationError: ex ].
+
+
+	[ resultObject := self evaluateMethod: method inContext: context ]
 		on: Error
-		do: [ :ex | "Making an error tool goes here"
-			self flag:
-				'not the right thing to do, but for now we let things break'.
-			ex pass ].
-	resultTool := SpkInspectorTool on: normalResult.
-	^ resultTool
+		do: [ :ex | ^ self toolForRuntimeErorr: ex ].
+	^ SpkInspectorTool on: resultObject
 ]
 
 { #category : 'evaluating' }
-SpkEvaluatorTool >> evaluateNewSourceCode [
-
-	"Evaluate the newSource and, if successful, answer the result object."
-
-	| context class compiler method |
-	context := inspectorTool inspectedObject.
-	class := SpkReflection classOf: context.
-	compiler := class compiler.
-
-	compiler
-		source: newSourceCode;
-		noPattern: true.
-	method := compiler compileDoit.
+SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 
 	^ SpkReflection
 		  carefullySend: #withArgs:executeMethod:

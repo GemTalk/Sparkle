@@ -12,10 +12,25 @@ Class {
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'hostText',
-		'portText'
+		'portText',
+		'hostLabel',
+		'portLabel',
+		'connectButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'accessing' }
+SpkLoginPresenter >> connectButton [
+
+	^ connectButton
+]
+
+{ #category : 'accessing' }
+SpkLoginPresenter >> connectButton: anObject [
+
+	connectButton := anObject
+]
 
 { #category : 'accessing' }
 SpkLoginPresenter >> hostText [
@@ -31,15 +46,37 @@ SpkLoginPresenter >> hostText: anObject [
 
 { #category : 'initialization' }
 SpkLoginPresenter >> initializePresenters [
+
 	super initializePresenters.
 	hostText := self newTextInput.
-	portText := self newTextInput
+	portText := self newTextInput.
+	hostLabel := self newLabel.
+	hostLabel label: 'Host:'.
+	portLabel := self newLabel.
+	portLabel label: 'Port:'.
+	connectButton := self newButton label: 'Connect'.
+	self layout add: connectButton withConstraints: [ :constraints | 
+		constraints
+			width: self class buttonWidth;
+			height: self class buttonHeight ]
 ]
 
 { #category : 'accessing' }
 SpkLoginPresenter >> newLayout [
 
-	^SpkBoxLayout newVertical
+	| gridLayout |
+	gridLayout := SpGridLayout new
+		              beColumnNotHomogeneous;
+		              beRowNotHomogeneous.
+
+	gridLayout
+		add: hostLabel at: 1 @ 1;
+		add: hostText at: 2 @ 1;
+		add: portLabel at: 1 @ 2;
+		add: portText at: 2 @ 2.
+	^ SpkBoxLayout newVertical
+		  add: gridLayout;
+		  yourself
 ]
 
 { #category : 'accessing' }

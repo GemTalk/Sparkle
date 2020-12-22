@@ -31,7 +31,7 @@ SpkLoginPresenter >> connect [
 		             host: hostText text
 		             port: portText text asInteger.
 	Connection := initiator connect.
-	self inform: 'connected!' "remove to test that we got a connection temporarily" 
+	self inform: 'connected!' "remove - to test that we got a connection temporarily" 
 	
 ]
 

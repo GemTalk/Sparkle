@@ -266,35 +266,6 @@ AnnouncerTest >> testSubscribeSubclass [
 ]
 
 { #category : 'tests' }
-AnnouncerTest >> testSymbolIdentifier [
-	| misunderstoodSelector |
-	misunderstoodSelector := nil.
-
-	announcer
-		when: #'FOO' send: #'bar' to: nil;
-		during: [ announcer announce: #'FOO' ]
-			handleDeliveryErrorsUsing: [ :ex | misunderstoodSelector := ex message selector ].
-
-	self assert: misunderstoodSelector equals: #'bar'
-]
-
-{ #category : 'tests' }
-AnnouncerTest >> testSymbolIdentifierIgnoredError [
-	"Note: cannot test the default error handler, as it returns to the GCI
-	 and (currently) opens a debugger."
-
-	| misunderstoodSelector |
-	misunderstoodSelector := nil.
-	
-	announcer 
-		when: #FOO send: #bar to: nil;
-		ignoreDeliveryErrors;
-		announce: #FOO.
-		
-	self assert: misunderstoodSelector equals: nil.
-]
-
-{ #category : 'tests' }
 AnnouncerTest >> testTwoArgBlock [
 	"we are supposed to accept two-argument blocks as actions "
 

@@ -28,7 +28,7 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
-	model when: SpkInspectorCreated send: #receiveLinkedInspectorAnnouncement: to: self
+	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
 ]
 
 { #category : 'initialization' }
@@ -48,27 +48,19 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 	field clearLinkedPane
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPane >> fieldForService: aService [
-
-	"Find and answer the field presenter with the given service as its model."
-
-	^ body fieldForService: aService
-]
-
 { #category : 'actions' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
-	"This announcement comes from the UI, not a service"
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
 
 	| field inspectorService |
 	field := anAnnouncement item.
-	inspectorService := model inspectField: field model.
+	inspectorService := field model inspectFieldForRequest: field.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
 	inspectorService
 		ifNil: [ self disableAll ]
-		ifNotNil: [ self openInspector: inspectorService forField: field ]
+		ifNotNil: [ self openInspector: inspectorService forItem: field ]
 ]
 
 { #category : 'adding' }
@@ -107,16 +99,14 @@ SpkInspectorPane >> initializeEvaluators [
 SpkInspectorPane >> initializeHeader [
 
 	header := self instantiate: SpkInspectorPaneHeader on: model.
-	self layout
-		add: header
-		withConstraints: [ :constraints | constraints height: 30 ]
+	self layout add: header withConstraints: [ :c | c height: 30 ]
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> initializePresenters [
 
+	super initializePresenters.
 	self
-		initializeHeader;
 		initializeBody;
 		initializeEvaluators;
 		initializeAddEvaluatorButton
@@ -141,11 +131,10 @@ SpkInspectorPane >> newLayout [
 ]
 
 { #category : 'instance creation' }
-SpkInspectorPane >> newPaneForService: newService linkedTo: fieldService [
+SpkInspectorPane >> newPaneForService: newService linkedTo: item [
+	"Item is an InspectorField or an evaluator"
 
-	| field |
-	field := self fieldForService: fieldService.
-	self openInspector: newService forField: field.
+	self openInspector: newService forItem: item.
 	"This announcement came from the server, so all of my widgets are disabled."
 	self reEnableAll
 ]
@@ -157,25 +146,27 @@ SpkInspectorPane >> nextEvaluatorIndex [
 ]
 
 { #category : 'actions' }
-SpkInspectorPane >> openInspector: anInspectorService forField: field [
+SpkInspectorPane >> openInspector: anInspectorService forItem: item [
 
-	" Create and open an inspector pane in the next column"
+	" Create and open an inspector pane in the next column.
+	item is an InspectorField or an evaluator."
 
 	| nextRightColumn newPane |
 	nextRightColumn := owner nextRightColumn.
 	newPane := nextRightColumn presenterForService: anInspectorService.
 	"Linked inspectors for fields get a 0 element in their coordinate. 
 	Ones for evaluators get the evaluator's index."
-	newPane coordinate: coordinate , 0 , field index.
-	field linkedPane: newPane.
+	newPane coordinate: (item coordinateRelativeTo: coordinate).
+	item linkedPane: newPane.
 	nextRightColumn add: newPane.
+	self flag:
+		'Probably need a different kind of refresh for an evaluator'.
 	body refreshFieldList "Change linking arrow."
 ]
 
 { #category : 'announcements' }
-SpkInspectorPane >> receiveLinkedInspectorAnnouncement: anAnnouncement [
+SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 
-	anAnnouncement requestId inspectorService: anAnnouncement service.
 	self defer: [ 
 		self
 			newPaneForService: anAnnouncement service

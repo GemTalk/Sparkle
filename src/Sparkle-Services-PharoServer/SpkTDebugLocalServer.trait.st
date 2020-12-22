@@ -1,6 +1,6 @@
 Trait {
 	#name : 'SpkTDebugLocalServer',
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Support'
 }
 
 { #category : 'public-debugging' }

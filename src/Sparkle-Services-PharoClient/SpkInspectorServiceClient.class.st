@@ -6,30 +6,20 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'as yet unclassified' }
-SpkInspectorServiceClient >> announceNewInspector: anInspectorService for: aFieldService [
-
-	| announcement |
-	announcement := SpkInspectorCreated new
-		                service: anInspectorService;
-		                requestId: aFieldService;
-		                yourself.
-	self announce: announcement
-]
-
 { #category : 'actions' }
 SpkInspectorServiceClient >> inspectField: aFieldService [
 
 	| promise |
+	self flag: 'Obsolete method?'.
 	(self fields identityIncludes: aFieldService) ifFalse: [ 
 		self error: 'I do not contain the requested field.' ].
 
-	aFieldService inspectorService ifNotNil: [ :service | ^ service ].
+	aFieldService linkedService ifNotNil: [ :service | ^ service ].
 
 	promise := aFieldService createInspectorService.
 	promise
 		when: [ :inspector | 
-			self announceNewInspector: inspector for: aFieldService ]
+			self announceNewService: inspector forRequest: aFieldService ]
 		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ].
 	^ nil
 ]

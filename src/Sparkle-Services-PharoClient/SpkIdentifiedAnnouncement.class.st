@@ -11,7 +11,7 @@ Internal Representation and Key Implementation Points.
 
     Implementation Points
 
-The request ID can be _any_ kind of object. The service layer is prohibited from sending _any_ messages to this object. The object is just put in the announcement that represents the outcome of the request.
+Though the request ID is often just the object making the request, it can be _any_ kind of object. The service layer is prohibited from sending _any_ messages to this object. The object is just put in the announcement that represents the outcome of the request.
 
 "
 Class {

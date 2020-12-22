@@ -43,6 +43,15 @@ SpkInspectorField >> clearLinkedPane [
 	linkedPane := nil
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorField >> coordinateRelativeTo: parentCoordinate [
+
+	"Linked inspectors for fields get a 0 element in their coordinate. 
+	Ones for evaluators get the evaluator's index."
+
+	^ parentCoordinate , 0 , index
+]
+
 { #category : 'accessing' }
 SpkInspectorField >> description [
 	^ model description

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkClosePaneCommand',
-	#superclass : 'SpToolCommand',
+	#superclass : 'SpkCloseCommand',
 	#category : 'Sparkle-Presenters-Commands'
 }
 
@@ -10,27 +10,7 @@ SpkClosePaneCommand class >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-SpkClosePaneCommand class >> defaultIconName [
-
-	^ #glamorousClose
-]
-
-{ #category : 'defaults' }
 SpkClosePaneCommand class >> defaultName [
 
 	^ 'Close pane'
-]
-
-{ #category : 'defaults' }
-SpkClosePaneCommand class >> defaultShortcutKey [
-
-	^ $w command mac 
-		| $w control win 
-		| $w control unix
-]
-
-{ #category : 'executing' }
-SpkClosePaneCommand >> execute [
-
-	self context closeRequestedLocally
 ]

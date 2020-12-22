@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'serviceClassesForToolTypes'
 	],
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
 { #category : 'instance creation' }
@@ -25,6 +25,8 @@ SpkExplorerServiceServer class >> initializeServiceClassesForToolTypes [
 
 	serviceClassesForToolTypes := IdentityDictionary new.
 	^ serviceClassesForToolTypes
+		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
+		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
 		  at: SpkInspectorTool put: SpkInspectorServiceServer;
 		  yourself
 ]

@@ -1,23 +1,27 @@
 Class {
 	#name : 'SpkEvaluatorServiceClient',
 	#superclass : 'SpkEvaluatorService',
-	#traits : 'SpkTModel',
-	#classTraits : 'SpkTModel classTrait',
+	#traits : 'SpkTModel + SpkTPromise',
+	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait',
 	#instVars : [
-		'hasUnsavedChanges'
+		'hasUnsavedChanges',
+		'inspectorService'
 	],
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
 { #category : 'actions' }
-SpkEvaluatorServiceClient >> accept [
+SpkEvaluatorServiceClient >> acceptFor: requestId [
 
-	"Send my text to the server to be evaluated, inspect the returned object or error that results."
-	self flag: #TODO.
-	"Accept operates at the level of an individual evaluator, so should be part of an evaluator service,
-	not the workspace service, which can have many evaluators."
+	"Send my text to the server to be evaluated, announce the returned object or error that results."
 
-	self notYetImplemented: 'Accept'
+	| promise |
+	promise := remoteSelf accept.
+	promise
+		when: [ :inspector | 
+			self updateHasUnsavedChanges.
+			parentService announceNewService: inspector forRequest: requestId ]
+		catch: self defaultCatchBlock
 ]
 
 { #category : 'actions' }

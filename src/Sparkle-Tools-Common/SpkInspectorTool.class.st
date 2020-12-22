@@ -36,10 +36,10 @@ SpkInspectorTool class >> on: anObject [
 { #category : 'initialization' }
 SpkInspectorTool >> addEvaluator [
 
-	evaluatorTools add: (SpkEvaluatorTool new
-			 inspectorTool: self;
-			 explorerTool: explorerTool;
-			 yourself)
+	^ evaluatorTools add: (SpkEvaluatorTool new
+			   inspectorTool: self;
+			   explorerTool: explorerTool;
+			   yourself)
 ]
 
 { #category : 'accessing' }
@@ -123,6 +123,7 @@ SpkInspectorTool >> initializeIndexedInstvars [
 			         from: inspectedObject.
 		fieldTool := SpkInspectorIndexedInstvarTool new.
 		fieldTool
+			value: value;
 			explorerTool: explorerTool;
 			inspectorTool: self;
 			index: index;
@@ -144,6 +145,7 @@ SpkInspectorTool >> initializeNamedInstvars [
 			         from: inspectedObject.
 		fieldTool := SpkInspectorNamedInstvarTool new.
 		fieldTool
+			value: value;
 			explorerTool: explorerTool;
 			inspectorTool: self;
 			index: index;

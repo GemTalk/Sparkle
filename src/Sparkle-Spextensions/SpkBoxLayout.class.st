@@ -133,6 +133,12 @@ SpkBoxLayout >> constraintsClass [
 	^ SpkBoxConstraints
 ]
 
+{ #category : 'accessing' }
+SpkBoxLayout >> enabled: aBoolean [
+
+	self withAdapterDo: [ :dapt | dapt enabled: aBoolean ]
+]
+
 { #category : 'initialization' }
 SpkBoxLayout >> initialize [
 

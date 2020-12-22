@@ -19,7 +19,10 @@ SpkUiTest class >> defaultLocalTaskspace [
 	taskspace := SparkleTaskspace new.
 	taskspace
 		connection: connection;
-		openNewDefaultTaskspace
+		openNewDefaultTaskspace.
+	"connection log addSink: RsrTranscriptSink new.
+	connection specification connectionB log addSink:
+		RsrTranscriptSink new"
 ]
 
 { #category : 'examples' }
@@ -42,4 +45,21 @@ SpkUiTest class >> namedLocalTaskspace [
 	self flag: 'connectionA should not be needed here. Remove once RSR is changed.'.
 
 	SparkleTaskspace named: 'Testing' inConnection: connection
+]
+
+{ #category : 'examples' }
+SpkUiTest >> defaultLocalTaskspace [
+
+	"With real services in the local image"
+
+	<example>
+	| connection taskspace |
+	connection := RsrInMemoryConnectionSpecification new connect.
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: connection;
+		openNewDefaultTaskspace.
+	connection log addSink: RsrTranscriptSink new.
+	connection specification connectionB log addSink:
+		RsrTranscriptSink new
 ]

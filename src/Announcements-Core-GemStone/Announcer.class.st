@@ -108,35 +108,6 @@ Announcer >> numberOfSubscriptions [
 
 ]
 
-{ #category : 'deprecated' }
-Announcer >> on: anAnnouncementClass do: aValuable [
-
-	self
-		deprecated: 'Please use #when:do: instead'
-		transformWith: '`@receiver on: `@statements1 do: `@statements2' 
-						-> '`@receiver when: `@statements1 do: `@statements2'.
-	^ self when: anAnnouncementClass do: aValuable
-]
-
-{ #category : 'deprecated' }
-Announcer >> on: anAnnouncementClass do: aValuable for: anObject [
-	
-	self
-		deprecated: 'Please use #when:do:for: instead'
-		transformWith: '`@receiver on: `@statements1 do: `@statements2 for: `@anObject' 
-						-> '`@receiver when: `@statements1 do: `@statements2 for: `@anObject'.
-	^ self when: anAnnouncementClass do: aValuable for: anObject
-]
-
-{ #category : 'deprecated' }
-Announcer >> on: anAnnouncementClass send: aSelector to: anObject [
-	self
-		deprecated: 'Please use #when:send:to: instead'
-		transformWith: '`@receiver on: `@statements1 send: `@statements2 to: `@anObject' 
-						-> '`@receiver when: `@statements1 send: `@statements2 to: `@anObject'.
-	^ self when: anAnnouncementClass send: aSelector to: anObject
-]
-
 { #category : 'subscription' }
 Announcer >> removeSubscription: subscription [
 	"Remove the given subscription from the receiver"
@@ -154,38 +125,6 @@ Announcer >> replace: subscription with: newOne [
 { #category : 'exception handling' }
 Announcer >> reportToGciOnDeliveryErrors [
 	self deliveryErrorHandler: [ :ex | ex _signalGciError ]
-]
-
-{ #category : 'deprecated' }
-Announcer >> subscribe: anAnnouncementClass do: aValuable [ 
-	"Declare that when anAnnouncementClass is raised, aValuable is executed."
-	
-	self
-		deprecated: 'Please use #when:do: instead'
-		transformWith: '`@receiver subscribe: `@statements1 do: `@statements2' 
-						-> '`@receiver when: `@statements1 do: `@statements2'.
-	^ self when: anAnnouncementClass do: aValuable
-]
-
-{ #category : 'deprecated' }
-Announcer >> subscribe: anAnnouncementClass do: aValuable for: anObject [ 
-	"Declare that when anAnnouncementClass is raised, aValuable is executed."
-	
-	self
-		deprecated: 'Please use #when:do:for: instead'
-		transformWith: '`@receiver subscribe: `@statements1 do: `@statements2 for: `@anObject' 
-						-> '`@receiver when: `@statements1 do: `@statements2 for: `@anObject'.
-	^ self when: anAnnouncementClass do: aValuable for: anObject
-]
-
-{ #category : 'deprecated' }
-Announcer >> subscribe: anAnnouncementClass send: aSelector to: anObject [
-	"Declare that when anAnnouncementClass is raised, anObject should receive the message aSelector."
-	self
-		deprecated: 'Please use #when:send:to: instead'
-		transformWith: '`@receiver subscribe: `@statements1 send: `@statements2 to: `@anObject' 
-						-> '`@receiver when: `@statements1 send: `@statements2 to: `@anObject'.
-	^ self when: anAnnouncementClass send: aSelector to: anObject
 ]
 
 { #category : 'accessing' }

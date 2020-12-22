@@ -117,22 +117,21 @@ AnnouncerTest >> testIssue253 [
 	| block |
 	block := [ :ann | announcer unsubscribe: block ].
 	announcer
-		subscribe: AnnouncementMockA
+		when: AnnouncementMockA
 			send: #value:
 			to: block;
-		subscribe: AnnouncementMockB
+		when: AnnouncementMockB
 			send: #value:
 			to: block;
-		subscribe: AnnouncementMockC
+		when: AnnouncementMockC
 			send: #value:
 			to: block;
-		subscribe: AnnouncementMockD
+		when: AnnouncementMockD
 			send: #value:
 			to: block;
 		yourself.
 		
 	announcer announce: AnnouncementMockA.
-
 ]
 
 { #category : 'tests' }

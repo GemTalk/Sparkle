@@ -41,7 +41,7 @@ SpkOLDEvaluatorTool >> evaluateCode [
 			self flag:
 				'not the right thing to do, but for now we let things break'.
 			ex pass ].
-	resultTool := SpkInspectorTool on: normalResult.
+	resultTool := 'SpkInspectorTool' on: normalResult.
 	^ resultTool
 ]
 

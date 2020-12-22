@@ -27,47 +27,19 @@ SpkEvaluatorTool >> accept [
 	^ resultTool
 ]
 
-{ #category : 'evaluating' }
-SpkEvaluatorTool >> evaluateCode [
+{ #category : 'compiling' }
+SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 
-	"Evaluate the newSource and answer an appropriate tool for 
-	whatever happens. This can be a syntax error, a runtime error, or an object.
-	For an object, answer an InspectorTool on the object."
+	"Answer a method compiled from my new source code in the context of the given object"
 
-	| normalResult resultTool |
-	[ normalResult := self evaluateNewSourceCode ]
-		on: Error
-		do: [ :ex | "Making an error tool goes here"
-			self flag:
-				'not the right thing to do, but for now we let things break'.
-			ex pass ].
-	resultTool := SpkInspectorTool on: normalResult.
-	^ resultTool
-]
-
-{ #category : 'evaluating' }
-SpkEvaluatorTool >> evaluateNewSourceCode [
-
-	"Evaluate the newSource and, if successful, answer the result object."
-
-	| context class compiler method |
-	context := inspectorTool inspectedObject.
-	class := SpkReflection classOf: context.
+	| compiler class |
+	class := SpkReflection classOf: anObject.
 	compiler := class compiler.
 
 	compiler
 		source: newSourceCode;
 		noPattern: true.
-	method := compiler compileDoit.
-
-	^ SpkReflection
-		  carefullySend: #withArgs:executeMethod:
-		  withArguments: { 
-				  #(  ).
-				  method }
-		  to: context
-		  ifNotUnderstood: [ 
-		  'Evaluation message not understood by this object' ]
+	^ compiler compileDoit
 ]
 
 { #category : 'accessing' }
@@ -111,4 +83,16 @@ SpkEvaluatorTool >> oldSourceCode [
 SpkEvaluatorTool >> oldSourceCode: anObject [
 
 	oldSourceCode := anObject
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorTool >> toolForCompilationError: aSyntaxErrorNotification [
+
+	^ SpkCompilationErrorTool forException: aSyntaxErrorNotification
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorTool >> toolForRuntimeError: anError [
+
+	^ SpkRuntimeErrorTool forException: anError
 ]

@@ -7,7 +7,7 @@ Class {
 		'oldSourceCode',
 		'newSourceCode'
 	],
-	#category : 'Sparkle-Tools-Pharo'
+	#category : 'Sparkle-Tools-Pharo-Tools'
 }
 
 { #category : 'public' }
@@ -59,7 +59,7 @@ SpkEvaluatorTool >> evaluateCode [
 
 	[ resultObject := self evaluateMethod: method inContext: context ]
 		on: Error
-		do: [ :ex | ^ self toolForRuntimeErorr: ex ].
+		do: [ :ex | ^ self toolForRuntimeError: ex ].
 	^ SpkInspectorTool on: resultObject
 ]
 
@@ -117,4 +117,16 @@ SpkEvaluatorTool >> oldSourceCode [
 SpkEvaluatorTool >> oldSourceCode: anObject [
 
 	oldSourceCode := anObject
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorTool >> toolForCompilationError: aSyntaxErrorNotification [
+
+	^ SpkCompilationErrorTool forException: aSyntaxErrorNotification
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorTool >> toolForRuntimeError: anError [
+
+	^ SpkRuntimeErrorTool forException: anError
 ]

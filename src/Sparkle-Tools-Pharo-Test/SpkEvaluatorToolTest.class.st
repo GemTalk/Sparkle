@@ -77,3 +77,12 @@ SpkEvaluatorToolTest >> testProxyContext [
 		assert: resultTool inspectedObject
 		equals: 'Evaluation message not understood by this object'
 ]
+
+{ #category : 'tests' }
+SpkEvaluatorToolTest >> testRuntimeError [
+
+	inspectorTool inspectedObject: 3.
+	evaluatorTool newSourceCode: 'self zork'.
+	resultTool := evaluatorTool accept.
+	self assert: resultTool class equals: SpkRuntimeErrorTool
+]

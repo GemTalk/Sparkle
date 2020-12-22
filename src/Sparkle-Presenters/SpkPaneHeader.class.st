@@ -17,7 +17,7 @@ SpkPaneHeader class >> oldDefaultSpec [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkPaneHeader >> closeButtonHelp [
 
 	^ 'Close the pane'

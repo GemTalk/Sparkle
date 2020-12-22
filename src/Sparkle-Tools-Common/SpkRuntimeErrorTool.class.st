@@ -5,10 +5,10 @@ Class {
 		'stack',
 		'title'
 	],
-	#category : 'Sparkle-Tools-Pharo-Tools'
+	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
 SpkRuntimeErrorTool class >> forException: anError [
 
 	^ self new

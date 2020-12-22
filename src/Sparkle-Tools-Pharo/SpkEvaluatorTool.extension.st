@@ -1,14 +1,4 @@
-Class {
-	#name : 'SpkEvaluatorTool',
-	#superclass : 'SpkTool',
-	#instVars : [
-		'explorerTool',
-		'inspectorTool',
-		'oldSourceCode',
-		'newSourceCode'
-	],
-	#category : 'Sparkle-Tools-Pharo-Tools'
-}
+Extension { #name : 'SpkEvaluatorTool' }
 
 { #category : '*Sparkle-Tools-Pharo' }
 SpkEvaluatorTool >> evaluateCode [

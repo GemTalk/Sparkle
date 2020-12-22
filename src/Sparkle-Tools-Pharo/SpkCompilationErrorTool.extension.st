@@ -1,13 +1,4 @@
-Class {
-	#name : 'SpkCompilationErrorTool',
-	#superclass : 'SpkTool',
-	#instVars : [
-		'sourceCode',
-		'errorMessage',
-		'errorLocation'
-	],
-	#category : 'Sparkle-Tools-Pharo-Tools'
-}
+Extension { #name : 'SpkCompilationErrorTool' }
 
 { #category : '*Sparkle-Tools-Pharo' }
 SpkCompilationErrorTool >> initializeFrom: aSyntaxErrorNotification [

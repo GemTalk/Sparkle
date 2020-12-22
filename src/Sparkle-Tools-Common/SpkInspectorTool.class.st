@@ -22,7 +22,7 @@ Class {
 		'fieldTools',
 		'evaluatorTools'
 	],
-	#category : 'Sparkle-Tools-Pharo-Tools'
+	#category : 'Sparkle-Tools-Common'
 }
 
 { #category : 'instance creation' }

@@ -18,6 +18,12 @@ SpkPaneHeader class >> oldDefaultSpec [
 ]
 
 { #category : 'accessing' }
+SpkPaneHeader >> closeButtonHelp [
+
+	^ 'Close the pane'
+]
+
+{ #category : 'accessing' }
 SpkPaneHeader >> dragHandle [
 	^ dragHandle
 ]

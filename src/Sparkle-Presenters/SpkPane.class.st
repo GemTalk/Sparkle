@@ -34,7 +34,8 @@ SpkPane >> disableAll [
 	"Disable all widgets in this pane so that we cannot get any GUI events while
 	awaiting an answer from the server."
 
-	self enabled: false
+	self enabled: false.
+	self layout enabled: false
 ]
 
 { #category : 'initialization' }
@@ -58,7 +59,8 @@ At the moment, this does enable all widgets in the pane.
 At some point, we will need to do something more sophisticated to determine whether
 an item really should be enabled."
 
-	self enabled: true
+	self enabled: true.
+	self layout enabled: true
 ]
 
 { #category : 'menu messages' }

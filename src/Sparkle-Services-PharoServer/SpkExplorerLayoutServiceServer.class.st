@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
 { #category : 'instance creation' }

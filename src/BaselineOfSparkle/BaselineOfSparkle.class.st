@@ -17,9 +17,9 @@ BaselineOfSparkle >> baseline: spec [
 				includes: 'Sparkle-Scaffolding-Pharo' ];
 			package: 'Sparkle-Scaffolding-Pharo'
 			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
-			package: 'Sparkle-Tools-Pharo';
-			package: 'Sparkle-Tools-Common'
-			with: [ spec requires: 'Sparkle-Tools-Pharo' ];
+			package: 'Sparkle-Tools-Common';
+			package: 'Sparkle-Tools-Pharo'
+			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Tools-Common-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Tools-Pharo-Test'

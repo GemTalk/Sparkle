@@ -10,30 +10,36 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'evaluating' }
-SpkEvaluatorTool >> evaluateString: codeString [
+{ #category : 'public' }
+SpkEvaluatorTool >> accept [
 
-	"Evaluate the given code string and answer whatever answer comes back."
+	"Evaluate newSourceCode through an undoable action. Answer a new Tool for the result."
 
-	| context class compiler method |
+	| action resultTool |
+	action := SpkEvaluatorAcceptAction new
+		          target: self;
+		          oldSourceCode: oldSourceCode;
+		          newSourceCode: newSourceCode;
+		          yourself.
+	resultTool := explorerTool performAction: action.
 	self flag:
-		'Does not yet handle error cases, and it must. Both syntax and runtime errors.'.
-	self flag: 'This needs to be done through accept and cancel actions.'.
-	context := inspectorTool inspectedObject.
-	class := SpkReflection classOf: context.
+		'Need to make announcement here. All existing inspectors need to check whether their object changed state.'.
+	^ resultTool
+]
+
+{ #category : 'compiling' }
+SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
+
+	"Answer a method compiled from my new source code in the context of the given object"
+
+	| compiler class |
+	class := SpkReflection classOf: anObject.
 	compiler := class compiler.
 
-	compiler source: codeString.
-	method := compiler compileDoit.
-
-	^ SpkReflection
-		  carefullySend: #withArgs:executeMethod:
-		  withArguments: { 
-				  #(  ).
-				  method }
-		  to: context
-		  ifNotUnderstood: [ 
-		  'Evaluation message not understood by this object' ]
+	compiler
+		source: newSourceCode;
+		noPattern: true.
+	^ compiler compileDoit
 ]
 
 { #category : 'accessing' }
@@ -77,4 +83,16 @@ SpkEvaluatorTool >> oldSourceCode [
 SpkEvaluatorTool >> oldSourceCode: anObject [
 
 	oldSourceCode := anObject
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorTool >> toolForCompilationError: aSyntaxErrorNotification [
+
+	^ SpkCompilationErrorTool forException: aSyntaxErrorNotification
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorTool >> toolForRuntimeError: anError [
+
+	^ SpkRuntimeErrorTool forException: anError
 ]

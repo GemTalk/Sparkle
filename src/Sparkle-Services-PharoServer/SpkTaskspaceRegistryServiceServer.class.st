@@ -3,7 +3,7 @@ Class {
 	#superclass : 'SpkTaskspaceRegistryService',
 	#traits : 'SpkTDebugLocalServer',
 	#classTraits : 'SpkTDebugLocalServer classTrait',
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
 { #category : 'as yet unclassified' }

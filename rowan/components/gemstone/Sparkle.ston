@@ -8,7 +8,9 @@ RwSimpleProjectLoadComponentV2 {
 		'Sparkle-Scaffolding-GemStone',
 		'Sparkle-Scaffolding-Rowan-GemStone',
 		'Sparkle-GemStone',
-		'Sparkle-Tools-GemStone'
+		'Sparkle-Tools-GemStone',
+		'Announcements-Core-GemStone',
+		'Announcements-Extensions-GemStone'
 	],
 	#conditionalPackageMapSpecs : {
 		'gemstone' : {
@@ -16,6 +18,9 @@ RwSimpleProjectLoadComponentV2 {
 				#packageNameToPlatformPropertiesMap : {
 					'Sparkle-Scaffolding-Rowan-GemStone' : {
 						'symbolDictName' : 'RowanKernel'
+					},
+					'Announcements-Extensions-GemStone' : {
+						'symbolDictName' : 'Globals'
 					}
 				}
 			}

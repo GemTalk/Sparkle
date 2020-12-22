@@ -1,5 +1,0 @@
-
-# inform linguist that files with these extensions are indeed smalltalk files
-*.st linguist-language=Smalltalk
-*.gs linguist-language=Smalltalk
-*.pac linguist-language=Smalltalk

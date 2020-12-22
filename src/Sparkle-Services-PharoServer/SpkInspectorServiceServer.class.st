@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer'
+	#category : 'Sparkle-Services-PharoServer-Services'
 }
 
 { #category : 'instance creation' }
@@ -22,8 +22,10 @@ SpkInspectorServiceServer >> initializeEvaluatorsFromTool [
 
 	evaluators := OrderedCollection new.
 	tool evaluatorTools do: [ :evaluatorTool | 
-		evaluators add:
-			(SpkEvaluatorServiceServer new initializeFromTool: evaluatorTool) ]
+		evaluators add: (SpkEvaluatorServiceServer new
+				 parentService: self;
+				 initializeFromTool: evaluatorTool;
+				 yourself) ]
 ]
 
 { #category : 'initialization' }
@@ -32,7 +34,7 @@ SpkInspectorServiceServer >> initializeFieldsFromTool [
 	fields := OrderedCollection new.
 	tool fieldTools do: [ :fieldTool | 
 		fields add: (SpkInspectorFieldServiceServer new
-				 evaluationContext: self;
+				 parentService: self;
 				 initializeFromTool: fieldTool;
 				 yourself) ]
 ]
@@ -49,6 +51,9 @@ SpkInspectorServiceServer >> refreshFromTool [
 
 	oop := tool oop.
 	classMembershipDescription := tool classMembershipDescription.
+	self flag: 'Debugging output'.
+	Transcript crShow:
+		'refreshFromTool: ' , classMembershipDescription printString.
 	selfDescription := tool selfDescription.
 	self initializeFieldsFromTool.
 	self initializeEvaluatorsFromTool

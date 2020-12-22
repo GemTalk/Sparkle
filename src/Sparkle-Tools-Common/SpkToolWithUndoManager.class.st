@@ -13,3 +13,9 @@ SpkToolWithUndoManager >> initialize [
 	super initialize.
 	undoManager := SpkUndoManager new
 ]
+
+{ #category : 'accessing' }
+SpkToolWithUndoManager >> performAction: anAction [
+
+	^ undoManager performAction: anAction
+]

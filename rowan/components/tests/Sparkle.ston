@@ -5,7 +5,8 @@ RwSimpleProjectLoadComponentV2 {
 	#componentNames : [ ],
 	#packageNames : [
 		'Sparkle-Tools-Common-Test',
-		'Sparkle-Tools-GemStone-Test'
+		'Sparkle-Tools-GemStone-Test',
+		'Announcements-Core-GemStone-Test'
 	],
 	#comment : 'test packages for Sparkle'
 }

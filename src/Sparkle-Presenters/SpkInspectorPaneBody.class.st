@@ -24,14 +24,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'accessing' }
-SpkInspectorPaneBody >> fieldForService: aService [
-
-	"Find and answer the field presenter with the given service as its model."
-
-	^ fieldListModel itemWithModel: aService
-]
-
 { #category : 'initialization' }
 SpkInspectorPaneBody >> initialize [
 

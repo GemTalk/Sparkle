@@ -5,13 +5,15 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 
 * pane 	<SpkInspectorPane> The inspector pane that I'm part of.
 * index 	<Integer>		My index as an inspector. First evaluator for a pane is index 1. The index of a closed evaluator is not reused.
+* linkedPane		<SpkPane or nil>		A pane in the next column showing the result of my evaluation.
 "
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
 	#instVars : [
 		'pane',
-		'index'
+		'index',
+		'linkedPane'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -26,7 +28,7 @@ SpkEvaluator >> accept [
 	model hasUnsavedChanges ifFalse: [ ^ self ].
 
 	pane disableAll.
-	model accept
+	model acceptFor: self
 ]
 
 { #category : 'visiting' }
@@ -43,6 +45,7 @@ SpkEvaluator >> cancel [
 SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
+	header menu: self menuActions asMenuPresenter.
 	codePresenter text: model newSourceCode.
 	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
@@ -65,6 +68,15 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 		self halt: 'update text here' ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
+
+	"Linked inspectors for fields get a 0 element in their coordinate. 
+	Ones for evaluators get the evaluator's index. This sorts all fields before any evaluators."
+
+	^ parentCoordinate , index
+]
+
 { #category : 'testing' }
 SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
@@ -84,6 +96,13 @@ SpkEvaluator >> index: anObject [
 ]
 
 { #category : 'initialization' }
+SpkEvaluator >> initializeHeader [
+
+	header := self instantiate: SpkEvaluatorHeader on: model.
+	self layout add: header withConstraints: [ :c | c height: 30 ]
+]
+
+{ #category : 'initialization' }
 SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
@@ -94,17 +113,28 @@ SpkEvaluator >> initializePresenters [
 		whenResetDo: [ self cancel ]
 ]
 
+{ #category : 'accessing' }
+SpkEvaluator >> linkedPane [
+
+	^ linkedPane
+]
+
+{ #category : 'accessing' }
+SpkEvaluator >> linkedPane: anObject [
+
+	linkedPane := anObject
+]
+
 { #category : 'instance creation' }
 SpkEvaluator >> menuActions [
 
 	^ CmCommandGroup forSpec
 		  beRoot;
 		  register: (codePresenter class codeAcceptCommandsGroupWith: self);
-		  register: (self class undoRedoCommandsGroupWith: self);
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
 		  register: (self class sourceCodeCommandsGroupWith: self);
-		  register: (SpkClosePaneCommand forSpecContext: self);
+		  register: (SpkCloseEvaluatorCommand forSpecContext: self);
 		  yourself
 ]
 

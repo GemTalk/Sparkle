@@ -26,6 +26,24 @@ SpkUiTest class >> defaultLocalTaskspace [
 ]
 
 { #category : 'examples' }
+SpkUiTest class >> defaultRemoteTaskspace [
+
+	"With real services in a separate process."
+
+	<example>
+	| spec connection taskspace |
+	spec := RsrInitiateConnection host: '127.0.0.1' port: 29299.
+	connection := spec connect.
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: connection;
+		openNewDefaultTaskspace
+	"connection log addSink: RsrTranscriptSink new.
+	connection specification connectionB log addSink:
+		RsrTranscriptSink new"
+]
+
+{ #category : 'examples' }
 SpkUiTest class >> fakeServicesExample [
 
 	<example>

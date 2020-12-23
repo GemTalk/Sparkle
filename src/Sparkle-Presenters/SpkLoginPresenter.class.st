@@ -15,7 +15,8 @@ Class {
 		'portText',
 		'hostLabel',
 		'portLabel',
-		'connectButton'
+		'connectButton',
+		'disconnectButton'
 	],
 	#classVars : [
 		'Connection'
@@ -23,10 +24,17 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'accessing' }
+SpkLoginPresenter class >> connection [
+
+	^Connection
+]
+
 { #category : 'connecting' }
 SpkLoginPresenter >> connect [
 
 	| initiator |
+	self disconnect. 
 	initiator := RsrInitiateConnection
 		             host: hostText text
 		             port: portText text asInteger.
@@ -47,10 +55,45 @@ SpkLoginPresenter >> connectButton: anObject [
 	connectButton := anObject
 ]
 
+{ #category : 'initialization' }
+SpkLoginPresenter >> connectPresenters [
+
+	super connectPresenters.
+	connectButton whenActivatedDo: [self enableButtons]. 
+	disconnectButton whenActivatedDo: [self enableButtons]. 
+]
+
+{ #category : 'constants' }
+SpkLoginPresenter >> defaultPort [
+
+	^ '29299'
+]
+
 { #category : 'connecting' }
 SpkLoginPresenter >> disconnect [
 
-	Connection ifNotNil: [ :conn | conn close ]
+	Connection ifNotNil: [ :conn | 
+		conn close.
+		Connection := nil ]
+]
+
+{ #category : 'accessing' }
+SpkLoginPresenter >> disconnectButton [
+
+	^ disconnectButton
+]
+
+{ #category : 'accessing' }
+SpkLoginPresenter >> disconnectButton: anObject [
+
+	disconnectButton := anObject
+]
+
+{ #category : 'initialization' }
+SpkLoginPresenter >> enableButtons [
+	
+	connectButton enabled: Connection isNil. 
+	disconnectButton enabled: Connection isNil not. 
 ]
 
 { #category : 'accessing' }
@@ -66,32 +109,56 @@ SpkLoginPresenter >> hostText: anObject [
 ]
 
 { #category : 'initialization' }
+SpkLoginPresenter >> initializeButtons [
+
+	| gridLayout |
+	gridLayout := SpGridLayout new.
+	self initializeConnectButton.
+	gridLayout add: connectButton at: 1@1.
+	self initializeDisconnectButton.
+	gridLayout add: disconnectButton at: 2@1.
+	self layout add: gridLayout.
+	self enableButtons. 
+]
+
+{ #category : 'initialization' }
+SpkLoginPresenter >> initializeConnectButton [
+
+	connectButton := self newButton
+		                 label: 'Connect';
+		                 action: [ self connect ].
+	^ connectButton
+]
+
+{ #category : 'initialization' }
+SpkLoginPresenter >> initializeDisconnectButton [
+
+	disconnectButton := self newButton
+		                    label: 'Disconnect';
+		                    action: [ self disconnect ].
+]
+
+{ #category : 'initialization' }
 SpkLoginPresenter >> initializePresenters [
 
 	super initializePresenters.
 	hostText := self newTextInput.
 	hostText text: 'uffda'.
 	portText := self newTextInput.
-	portText text: '29299'.
+	portText text: self defaultPort.
 	hostLabel := self newLabel.
 	hostLabel label: 'Host:'.
 	portLabel := self newLabel.
 	portLabel label: 'Port:'.
-	connectButton := self newButton
-		                 label: 'Connect';
-		                 action: [ self connect ].
-
-	self layout add: connectButton withConstraints: [ :constraints | 
-		constraints
-			width: self class buttonWidth;
-			height: self class buttonHeight ]
+	self initializeButtons
 ]
 
 { #category : 'initialization' }
 SpkLoginPresenter >> initializeWindow: aWindowPresenter [
+
 	aWindowPresenter
 		title: 'Sparkle Connect';
-		initialExtent: 300 @ 150
+		initialExtent: 300 @ 175
 ]
 
 { #category : 'accessing' }

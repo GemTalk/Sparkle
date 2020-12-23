@@ -16,11 +16,11 @@ RwSimpleProjectLoadComponentV2 {
 		'gemstone' : {
 			'allusers' : {
 				#packageNameToPlatformPropertiesMap : {
-					'Sparkle-Scaffolding-Rowan-GemStone' : {
-						'symbolDictName' : 'RowanKernel'
-					},
 					'Announcements-Extensions-GemStone' : {
 						'symbolDictName' : 'Globals'
+					},
+					'Sparkle-Scaffolding-Rowan-GemStone' : {
+						'symbolDictName' : 'RowanKernel'
 					}
 				}
 			}

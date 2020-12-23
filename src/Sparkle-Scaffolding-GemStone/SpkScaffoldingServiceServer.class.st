@@ -31,7 +31,7 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 	| host port acceptor connection |
 	listenForDebugConnection
 		ifTrue: [ System listenForDebugConnection ].
-	host := '127.0.0.1'.
+	host := '0.0.0.0'.
 	port := self port.
 	acceptor := RsrAcceptConnection host: host port: port.
 	GsProcess _current name: 'Scaffolding service loop'.

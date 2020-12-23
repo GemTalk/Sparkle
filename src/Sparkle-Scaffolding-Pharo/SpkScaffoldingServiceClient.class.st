@@ -136,10 +136,10 @@ SpkScaffoldingServiceClient class >> doit_02 [
 SpkScaffoldingServiceClient class >> initiateConnection [
 
 	| host port initiator |
-	host := '127.0.0.1'.
-	port := 47652.
+	host := '0.0.0.0'.
+	port := 7652.
 	initiator := RsrInitiateConnection host: host port: port.
-	^Connection := initiator connect
+	^ Connection := initiator connect
 ]
 
 { #category : 'examples' }

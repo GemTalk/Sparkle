@@ -1,0 +1,35 @@
+login
+
+run
+	| topazFileHeader gsSrcRoot repositoryRoot specUrl loadSpec resolvedProject topazFileNameMap 
+		projectSetDefinition projectSetModification visitor |
+		topazFileHeader := '! Copyright (C) GemTalk Systems 1986-2020.  All Rights Reserved.
+'.
+	repositoryRoot := '$ROWAN_PROJECTS_HOME/Sparkle' asFileReference.
+  gsSrcRoot := repositoryRoot / 'src-gs'.
+	specUrl := repositoryRoot / 'rowan' / 'specs' / 'Sparkle.ston'.
+	(loadSpec := RwSpecification fromUrl: 'file:' , specUrl pathString)
+		projectsHome: repositoryRoot;
+		diskUrl: 'file:' , repositoryRoot pathString;
+		yourself.
+
+	resolvedProject := loadSpec resolve.
+
+	projectSetDefinition := RwProjectSetDefinition new
+		addDefinition: resolvedProject;
+		yourself.
+	projectSetModification := projectSetDefinition
+		compareAgainstBase: RwProjectSetDefinition new.
+
+	topazFileNameMap := Dictionary new
+		at: 'bootstrapSparkle' put: resolvedProject packageNames;
+		yourself.
+
+	visitor := RwGsModificationTopazWriterVisitorV2 new
+		repositoryRootPath: gsSrcRoot;
+		topazFilenamePackageNamesMap: topazFileNameMap;
+		topazFileHeader: topazFileHeader;
+		yourself.
+	visitor visit: projectSetModification.
+
+%

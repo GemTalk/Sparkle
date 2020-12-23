@@ -83,10 +83,10 @@ SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 SparkleTaskspace >> initializeRegistryService [
 
 	"Note that the use of SpkTaskspaceAnnouncement means that there must be exactly one
-	connectino per SparkleTaskspace."
+	connection per SparkleTaskspace."
 
-	registryService := connection serviceFor:
-		                   #SpkTaskspaceRegistryService.
+	registryService := SpkTaskspaceRegistryServiceClient new 
+		                   registerWith: connection.
 	registryService
 		when: SpkTaskspaceLayoutAnnouncement
 		send: #receiveTaskspaceLayoutAnnouncement:

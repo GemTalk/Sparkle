@@ -94,7 +94,8 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 			WorldState defer: [ 
 				{ 
 					'when'.
-					result } inspect ] ]
+					result .
+					result doitResult } inspect ] ]
 		catch: [ :reason | 
 			WorldState defer: [ 
 				{ 

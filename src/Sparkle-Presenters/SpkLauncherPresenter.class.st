@@ -39,10 +39,11 @@ SpkLauncherPresenter >> connect [
 		             host: hostText text
 		             port: portText text asInteger.
 	Connection := initiator connect.
-	taskspace := SparkleTaskspace new.
+	"taskspace := SparkleTaskspace new.
 	taskspace
 		connection: Connection;
-		openNewDefaultTaskspace
+		openNewDefaultTaskspace"
+	self inform: 'Open Sparkle Taskspace when it''s ready'
 ]
 
 { #category : 'accessing' }

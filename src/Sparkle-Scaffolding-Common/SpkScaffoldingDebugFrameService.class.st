@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingDebugFrameService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkScaffoldingAbstractService',
 	#instVars : [
 		'label'
 	],

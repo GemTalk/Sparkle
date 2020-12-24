@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkScaffoldingAbstractService',
 	#instVars : [
 		'doitResult',
 		'debugService',

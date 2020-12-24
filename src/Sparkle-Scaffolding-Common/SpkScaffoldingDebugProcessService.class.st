@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingDebugProcessService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkScaffoldingAbstractService',
 	#instVars : [
 		'suspendedProcessOop',
 		'rowanFrameServices'

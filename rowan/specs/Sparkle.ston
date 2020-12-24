@@ -10,5 +10,12 @@ RwLoadSpecificationV2 {
 	#customConditionalAttributes : [
 		'tests'
 	],
+	#platformProperties : {
+		'gemstone' : {
+			'allusers' : {
+				#defaultSymbolDictName : 'Globals'
+			}
+		}
+	},
 	#comment : 'Sparkle development load spec'
 }

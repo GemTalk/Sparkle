@@ -1,22 +1,22 @@
 Class {
-	#name : 'SparkleLogin',
+	#name : 'SparkleLauncher',
 	#superclass : 'SpkApplication',
 	#category : 'Sparkle-Application'
 }
 
 { #category : 'activation' }
-SparkleLogin class >> applicationName [ 
+SparkleLauncher class >> applicationName [ 
 	^ 'Sparkle Connect'
 ]
 
 { #category : 'examples' }
-SparkleLogin class >> example [ 
+SparkleLauncher class >> example [ 
 	<example>
 	self new start
 ]
 
 { #category : 'world menu' }
-SparkleLogin class >> menuCommandOn: aBuilder [ 
+SparkleLauncher class >> menuCommandOn: aBuilder [ 
 	"Add a custom menu item to the world menu"	
 	<worldMenu> 
 	
@@ -30,6 +30,6 @@ SparkleLogin class >> menuCommandOn: aBuilder [
 ]
 
 { #category : 'running' }
-SparkleLogin >> start [
-	(self new: SpkLoginPresenter) openWithSpec
+SparkleLauncher >> start [
+	(self new: SpkLauncherPresenter) openWithSpec
 ]

@@ -8,7 +8,7 @@ SparkleLogin - The application window that holds me.
 SparkleLogin class>>example
 "
 Class {
-	#name : 'SpkLoginPresenter',
+	#name : 'SpkLauncherPresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'hostText',
@@ -25,38 +25,40 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkLoginPresenter class >> connection [
+SpkLauncherPresenter class >> connection [
 
 	^Connection
 ]
 
 { #category : 'connecting' }
-SpkLoginPresenter >> connect [
+SpkLauncherPresenter >> connect [
 
-	| initiator |
-	self disconnect. 
+	| initiator taskspace |
+	self disconnect.
 	initiator := RsrInitiateConnection
 		             host: hostText text
 		             port: portText text asInteger.
 	Connection := initiator connect.
-	self inform: 'connected!' "remove - to test that we got a connection temporarily" 
-	
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: Connection;
+		openNewDefaultTaskspace
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> connectButton [
+SpkLauncherPresenter >> connectButton [
 
 	^ connectButton
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> connectButton: anObject [
+SpkLauncherPresenter >> connectButton: anObject [
 
 	connectButton := anObject
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> connectPresenters [
+SpkLauncherPresenter >> connectPresenters [
 
 	super connectPresenters.
 	connectButton whenActivatedDo: [self enableButtons]. 
@@ -64,13 +66,13 @@ SpkLoginPresenter >> connectPresenters [
 ]
 
 { #category : 'constants' }
-SpkLoginPresenter >> defaultPort [
+SpkLauncherPresenter >> defaultPort [
 
 	^ '29299'
 ]
 
 { #category : 'connecting' }
-SpkLoginPresenter >> disconnect [
+SpkLauncherPresenter >> disconnect [
 
 	Connection ifNotNil: [ :conn | 
 		conn close.
@@ -78,38 +80,38 @@ SpkLoginPresenter >> disconnect [
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> disconnectButton [
+SpkLauncherPresenter >> disconnectButton [
 
 	^ disconnectButton
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> disconnectButton: anObject [
+SpkLauncherPresenter >> disconnectButton: anObject [
 
 	disconnectButton := anObject
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> enableButtons [
+SpkLauncherPresenter >> enableButtons [
 	
 	connectButton enabled: Connection isNil. 
 	disconnectButton enabled: Connection isNil not. 
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> hostText [
+SpkLauncherPresenter >> hostText [
 
 	^ hostText
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> hostText: anObject [
+SpkLauncherPresenter >> hostText: anObject [
 
 	hostText := anObject
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> initializeButtons [
+SpkLauncherPresenter >> initializeButtons [
 
 	| gridLayout |
 	gridLayout := SpGridLayout new.
@@ -122,7 +124,7 @@ SpkLoginPresenter >> initializeButtons [
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> initializeConnectButton [
+SpkLauncherPresenter >> initializeConnectButton [
 
 	connectButton := self newButton
 		                 label: 'Connect';
@@ -131,7 +133,7 @@ SpkLoginPresenter >> initializeConnectButton [
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> initializeDisconnectButton [
+SpkLauncherPresenter >> initializeDisconnectButton [
 
 	disconnectButton := self newButton
 		                    label: 'Disconnect';
@@ -139,7 +141,7 @@ SpkLoginPresenter >> initializeDisconnectButton [
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> initializePresenters [
+SpkLauncherPresenter >> initializePresenters [
 
 	super initializePresenters.
 	hostText := self newTextInput.
@@ -154,7 +156,7 @@ SpkLoginPresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkLoginPresenter >> initializeWindow: aWindowPresenter [
+SpkLauncherPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Connect';
@@ -162,7 +164,7 @@ SpkLoginPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> newLayout [
+SpkLauncherPresenter >> newLayout [
 
 	| gridLayout |
 	gridLayout := SpGridLayout new
@@ -180,13 +182,13 @@ SpkLoginPresenter >> newLayout [
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> portText [
+SpkLauncherPresenter >> portText [
 
 	^ portText
 ]
 
 { #category : 'accessing' }
-SpkLoginPresenter >> portText: anObject [
+SpkLauncherPresenter >> portText: anObject [
 
 	portText := anObject
 ]

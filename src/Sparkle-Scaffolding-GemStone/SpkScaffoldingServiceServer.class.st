@@ -140,6 +140,14 @@ SpkScaffoldingServiceServer >> gsDebugger_04: aString [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_05: aString [
+	"
+		no exception handlers ... probe the RSR debugActionBlock behavior
+	"
+	doitResult := aString evaluate
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> openDebuggerOnClient [
 	^ remoteSelf openDebuggerOnClient
 ]

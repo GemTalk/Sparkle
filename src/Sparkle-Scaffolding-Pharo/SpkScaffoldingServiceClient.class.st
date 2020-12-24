@@ -66,7 +66,7 @@ SpkScaffoldingServiceClient class >> debugger_02 [
 ]
 
 { #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_04 [
+SpkScaffoldingServiceClient class >> debugger_03 [
 
 	"the delay has to be long enough to let the server do it's thing and open an inspector on the stack"
 
@@ -74,12 +74,11 @@ SpkScaffoldingServiceClient class >> debugger_04 [
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
 	[ service gsDebugger_03: '7 foo' ] forkNamed:
-		'Sparkle Scaffolding - keep connection alive until timeout'.
-
+		'Sparkle Scaffolding - keep connection alive until timeout'
 ]
 
 { #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_05 [
+SpkScaffoldingServiceClient class >> debugger_04 [
 
 	"open inspector on the SpkScaffoldingService that will have a 
 		SpkScaffoldingProcessService instance with the debugProcess 
@@ -94,7 +93,29 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 			WorldState defer: [ 
 				{ 
 					'when'.
-					result .
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_05 [
+
+	"trigger exception during doit and rely on debugActionBlock to handle the exception"
+
+	<example>
+	| service |
+	service := self connection serviceFor: #SpkScaffoldingService.
+	(service gsDebugger_05: '7 halt')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
 					result doitResult } inspect ] ]
 		catch: [ :reason | 
 			WorldState defer: [ 
@@ -216,6 +237,12 @@ SpkScaffoldingServiceClient >> gsDebugger_03: aString [
 SpkScaffoldingServiceClient >> gsDebugger_04: aString [
 
 	^ remoteSelf gsDebugger_04: aString
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_05: aString [
+
+	^ remoteSelf gsDebugger_05: aString
 ]
 
 { #category : 'debugger' }

@@ -1,5 +1,3 @@
-login
-
 run
 	| topazFileHeader gsSrcRoot repositoryRoot specUrl loadSpec resolvedProject topazFileNameMap 
 		projectSetDefinition projectSetModification visitor |

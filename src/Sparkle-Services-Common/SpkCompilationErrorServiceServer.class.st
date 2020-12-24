@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkCompilationErrorServiceServer',
 	#superclass : 'SpkCompilationErrorService',
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }

@@ -1,12 +1,10 @@
 Class {
 	#name : 'SpkColumnLayoutServiceServer',
 	#superclass : 'SpkColumnLayoutService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }

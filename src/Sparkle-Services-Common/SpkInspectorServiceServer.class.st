@@ -1,12 +1,10 @@
 Class {
 	#name : 'SpkInspectorServiceServer',
 	#superclass : 'SpkInspectorService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }

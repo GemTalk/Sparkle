@@ -9,7 +9,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -27,7 +27,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -46,7 +46,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -65,7 +65,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -84,7 +84,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -103,7 +103,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -121,7 +121,7 @@ doit
 	classVars: #( RegisteredSessions Registry )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -139,7 +139,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -157,7 +157,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -175,7 +175,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -193,7 +193,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -215,7 +215,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -241,7 +241,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -260,7 +260,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -279,7 +279,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -297,7 +297,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-GemStone';
@@ -318,7 +318,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-GemStone';
@@ -336,7 +336,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -357,7 +357,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -390,7 +390,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -417,7 +417,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -438,7 +438,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -459,7 +459,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone';
@@ -479,7 +479,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -508,7 +508,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -526,7 +526,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -544,7 +544,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -564,7 +564,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -583,7 +583,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -601,7 +601,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -619,7 +619,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -637,7 +637,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -655,7 +655,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -688,7 +688,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -707,7 +707,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -726,7 +726,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -757,7 +757,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -775,7 +775,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -793,7 +793,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -811,7 +811,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -829,7 +829,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -858,7 +858,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -892,7 +892,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -932,7 +932,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -955,7 +955,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -987,7 +987,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1005,7 +1005,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1036,7 +1036,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1066,7 +1066,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1094,7 +1094,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1122,7 +1122,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1153,7 +1153,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1178,7 +1178,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1212,7 +1212,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1245,7 +1245,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1263,7 +1263,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1281,7 +1281,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1299,7 +1299,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1329,7 +1329,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone-Test';
@@ -1347,7 +1347,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -1372,7 +1372,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -1391,7 +1391,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -1417,7 +1417,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone-Test';
@@ -1435,7 +1435,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -1453,7 +1453,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -1471,7 +1471,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone';

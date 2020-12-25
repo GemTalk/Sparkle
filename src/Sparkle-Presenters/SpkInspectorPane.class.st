@@ -34,6 +34,7 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
+	header menu: self menuActions asMenuPresenter.
 	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
 ]
 
@@ -123,10 +124,9 @@ SpkInspectorPane >> menuActions [
 
 	^ CmCommandGroup forSpec
 		  beRoot;
-		  register: ((SpkAddEvaluatorCommand forSpecContext: self)
+		  register: ((SpkViewRawCommand forSpecContext: self)
 				   iconProvider: SpkIconLibrary current;
 				   yourself);
-		  register: (SpkClosePaneCommand forSpecContext: self);
 		  yourself
 ]
 

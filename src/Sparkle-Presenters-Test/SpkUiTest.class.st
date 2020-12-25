@@ -47,6 +47,7 @@ SpkUiTest class >> defaultRemoteTaskspace [
 SpkUiTest class >> fakeServicesExample [
 
 	<example>
+	self flag: 'No longer operational, real services now work'.
 	SparkleTaskspace openFromService:
 		SpkTestTaskspaceServiceClient testTaskspace1
 ]
@@ -57,10 +58,10 @@ SpkUiTest class >> namedLocalTaskspace [
 	"With real services in the local image"
 
 	<example>
-	| connection  |
-	connection := RsrInMemoryConnectionSpecification new connect
-		              connectionA.
-	self flag: 'connectionA should not be needed here. Remove once RSR is changed.'.
+	| connection |
+	self flag: 'Named taskspaces not yet implemented'.
+	connection := RsrInMemoryConnectionSpecification new connect.
+
 
 	SparkleTaskspace named: 'Testing' inConnection: connection
 ]

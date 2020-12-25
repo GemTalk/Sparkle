@@ -45,7 +45,9 @@ SpkEvaluatorTool >> evaluateCode [
 	[ resultObject := self evaluateMethod: method inContext: context ]
 		on: Error
 		do: [ :ex | ^ self toolForRuntimeError: ex ].
-	^ SpkInspectorTool on: resultObject
+	^ (SpkInspectorTool on: resultObject)
+		  explorerTool: explorerTool;
+		  yourself
 ]
 
 { #category : 'accessing' }

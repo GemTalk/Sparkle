@@ -53,3 +53,9 @@ SpkInspectorServiceServer >> refreshFromTool [
 	self initializeFieldsFromTool.
 	self initializeEvaluatorsFromTool
 ]
+
+{ #category : 'accessing' }
+SpkInspectorServiceServer >> tool [
+
+	^ tool
+]

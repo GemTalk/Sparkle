@@ -6,6 +6,20 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
+{ #category : 'adding' }
+SpkInspectorServiceClient >> addEvaluator [
+
+	| newEvaluator |
+	newEvaluator := SpkEvaluatorServiceClient new
+		                registerWith: self connection;
+		                parentService: self;
+		                evaluationContext: self;
+		                yourself.
+
+	evaluators add: newEvaluator.
+	^ newEvaluator
+]
+
 { #category : 'actions' }
 SpkInspectorServiceClient >> inspectField: aFieldService [
 

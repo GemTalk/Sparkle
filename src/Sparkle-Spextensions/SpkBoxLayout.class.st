@@ -23,12 +23,22 @@ SpkBoxLayout >> adapterName [
 ]
 
 { #category : 'adding' }
-SpkBoxLayout >> add: aName [
+SpkBoxLayout >> add: aPresenter [
 
 	self
-		add: aName
+		add: aPresenter
 		withConstraints: [ :constraints |  ]
 		beforeIndex: children size + 1
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: newPresenter before: anExistingPresenter [
+
+	| index |
+	index := children
+		         identityIndexOfKey: anExistingPresenter
+		         ifAbsent: [ self error: 'Presenter not found' ].
+	self add: newPresenter beforeIndex: index
 ]
 
 { #category : 'adding/removing presenters' }

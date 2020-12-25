@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : 'adding' }
+SpkInspectorPane >> addEvaluator [
+
+	self addEvaluatorWithModel: model addEvaluator
+]
+
+{ #category : 'adding' }
 SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 
 	| evaluator |
@@ -21,7 +27,7 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 		index: self nextEvaluatorIndex.
 	nextEvaluatorIndex := self nextEvaluatorIndex + 1.
 	self evaluators add: evaluator.
-	self layout add: evaluator
+	self layout add: evaluator before: addEvaluatorButton
 ]
 
 { #category : 'initialization' }
@@ -108,8 +114,8 @@ SpkInspectorPane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeBody;
-		initializeEvaluators;
-		initializeAddEvaluatorButton
+		initializeAddEvaluatorButton;
+		initializeEvaluators
 ]
 
 { #category : 'accessing' }

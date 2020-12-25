@@ -25,15 +25,6 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkInspectorPaneBody >> initialize [
-
-	"Super initialize accesses fieldListIsShown, so initialize it first."
-
-	fieldListIsShown := false.
-	super initialize
-]
-
-{ #category : 'initialization' }
 SpkInspectorPaneBody >> initializeDescription [
 
 	description := self newLabel
@@ -80,12 +71,12 @@ SpkInspectorPaneBody >> initializeFieldListModel [
 { #category : 'initialization' }
 SpkInspectorPaneBody >> initializePresenters [
 
-	"Start with the field list closed, so no list yet"
-
 	super initializePresenters.
+	fieldListIsShown := true.
 	self
 		initializeTop;
-		initializeFieldList
+		initializeFieldList;
+		updateFieldListVisibility
 ]
 
 { #category : 'initialization' }

@@ -42,6 +42,14 @@ SpkEvaluator >> cancel [
 	model hasUnsavedChanges ifTrue: [ model cancel ]
 ]
 
+{ #category : 'events' }
+SpkEvaluator >> closeRequestedLocally [
+
+	linkedPane ifNotNil: [ :p | p close ].
+	"My owner is an InspectorPane"
+	owner removeEvaluator: self
+]
+
 { #category : 'as yet unclassified' }
 SpkEvaluator >> closingLinkedPane: aPane [
 

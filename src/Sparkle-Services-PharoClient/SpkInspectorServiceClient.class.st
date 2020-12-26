@@ -37,3 +37,9 @@ SpkInspectorServiceClient >> inspectField: aFieldService [
 		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ].
 	^ nil
 ]
+
+{ #category : 'removing' }
+SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
+
+	evaluators remove: anEvaluator
+]

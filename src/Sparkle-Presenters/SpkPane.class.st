@@ -25,7 +25,7 @@ SpkPane >> close [
 
 	self linkedPanes do: [ :each | each close ].
 	"A pane's owner is the column it's in."
-	self owner remove: self.
+	owner remove: self.
 	linkedFrom ifNotNil: [ linkedFrom closingLinkedPane: self ]
 ]
 
@@ -74,7 +74,7 @@ SpkPane >> linkedFrom: anObject [
 	linkedFrom := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkPane >> linkedPanes [
 
 	^ #(  )
@@ -86,7 +86,7 @@ SpkPane >> menuActions [
 	self subclassResponsibility
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkPane >> nonChildSlotNames [
 
 	^ super nonChildSlotNames , #( #linkedFrom )

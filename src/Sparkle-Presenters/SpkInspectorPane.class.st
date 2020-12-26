@@ -119,7 +119,7 @@ SpkInspectorPane >> initializePresenters [
 		initializeEvaluators
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
 	^ body linkedPanes , self panesLinkedToEvaluators
@@ -177,7 +177,7 @@ SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
 	body refreshFieldList "Change linking arrow."
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPane >> panesLinkedToEvaluators [
 
 	^ self evaluators
@@ -192,4 +192,12 @@ SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 		self
 			newPaneForService: anAnnouncement service
 			linkedTo: anAnnouncement requestId ]
+]
+
+{ #category : 'removing' }
+SpkInspectorPane >> removeEvaluator: anEvaluator [
+
+	model removeEvaluator: anEvaluator model.
+	layout remove: anEvaluator.
+	evaluators remove: anEvaluator
 ]

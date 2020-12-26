@@ -170,8 +170,11 @@ SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
 	"Linked panes for fields get a 0 element in their coordinate. 
 	Ones for evaluators get the evaluator's index."
 	newPane coordinate: (item coordinateRelativeTo: coordinate).
-	item linkedPane: newPane.
+	"Add before close so that the column doesn't become empty and remove itself"
 	nextRightColumn add: newPane.
+	item
+		closeLinkedPane;
+		linkedPane: newPane.
 	self flag:
 		'Probably need a different kind of refresh for an evaluator'.
 	body refreshFieldList "Change linking arrow."

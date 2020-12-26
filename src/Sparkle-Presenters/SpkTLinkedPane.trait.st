@@ -27,6 +27,15 @@ SpkTLinkedPane >> clearLinkedPane [
 		linkedPane := nil ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkTLinkedPane >> closeLinkedPane [
+
+	linkedPane ifNotNil: [ :p | 
+		p close.
+		linkedPane ifNotNil: [ 
+			self error: 'Closing my linked pane should have unlinked it' ] ]
+]
+
 { #category : 'testing' }
 SpkTLinkedPane >> hasLinkedPane [
 

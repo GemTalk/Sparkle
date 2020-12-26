@@ -5,8 +5,8 @@ The presentation-layer model for one field in the field list of an inspector pan
 **Internal Representation and Key Implementation Points.**
 
 **    Instance Variables**
+*	list: 		<SpkMultiSelectList> 	The list I'm an element in
 *	index:		<Integer> Which item in the list I am
-*	linkedPane:		<nil or SpkInspectorPane> The inspector pane for this field in the next column, if any.
 *	model:		<SpkInspectorFieldServiceClient> The service for this field.
 
 
@@ -21,10 +21,12 @@ Whether or not linkedPane is nil controls how the link column of the table is di
 Class {
 	#name : 'SpkInspectorField',
 	#superclass : 'Object',
+	#traits : 'SpkTLinkedPane',
+	#classTraits : 'SpkTLinkedPane classTrait',
 	#instVars : [
 		'model',
-		'index',
-		'linkedPane'
+		'list',
+		'index'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -38,9 +40,12 @@ SpkInspectorField class >> for: aModel [
 ]
 
 { #category : 'as yet unclassified' }
-SpkInspectorField >> clearLinkedPane [
+SpkInspectorField >> closingLinkedPane: aPane [
 
-	linkedPane := nil
+	self linkedPane == aPane ifFalse: [ 
+		self error: 'Only my linked pane should notify me when closing.' ].
+	self clearLinkedPane.
+	list deselectItem: self
 ]
 
 { #category : 'as yet unclassified' }
@@ -57,12 +62,6 @@ SpkInspectorField >> description [
 	^ model description
 ]
 
-{ #category : 'testing' }
-SpkInspectorField >> hasLinkedPane [
-
-	^ linkedPane notNil
-]
-
 { #category : 'accessing' }
 SpkInspectorField >> index [
 	^ index
@@ -74,13 +73,9 @@ SpkInspectorField >> index: anObject [
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> linkedPane [
-	^ linkedPane
-]
+SpkInspectorField >> list: anObject [
 
-{ #category : 'accessing' }
-SpkInspectorField >> linkedPane: anObject [
-	linkedPane := anObject
+	list := anObject
 ]
 
 { #category : 'accessing' }

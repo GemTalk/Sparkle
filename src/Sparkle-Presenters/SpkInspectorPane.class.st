@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'body',
 		'addEvaluatorButton',
-		'linkedInspectors',
 		'evaluators',
 		'nextEvaluatorIndex'
 	],
@@ -51,8 +50,9 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
 	| field |
 	field := anAnnouncement item.
-	owner nextRightColumn remove: field linkedPane.
-	field clearLinkedPane
+	"If the close was initiated by the linked pane, 
+	it will already be closed and removed from the field."
+	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ]
 ]
 
 { #category : 'actions' }
@@ -119,6 +119,12 @@ SpkInspectorPane >> initializePresenters [
 		initializeEvaluators
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> linkedPanes [
+
+	^ body linkedPanes , self panesLinkedToEvaluators
+]
+
 { #category : 'accessing' }
 SpkInspectorPane >> menuActions [
 
@@ -169,6 +175,14 @@ SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
 	self flag:
 		'Probably need a different kind of refresh for an evaluator'.
 	body refreshFieldList "Change linking arrow."
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> panesLinkedToEvaluators [
+
+	^ self evaluators
+		  collect: [ :each | each linkedPane ]
+		  thenSelect: [ :each | each notNil ]
 ]
 
 { #category : 'announcements' }

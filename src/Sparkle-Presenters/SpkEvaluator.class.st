@@ -10,10 +10,11 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
+	#traits : 'SpkTLinkedPane',
+	#classTraits : 'SpkTLinkedPane classTrait',
 	#instVars : [
 		'pane',
-		'index',
-		'linkedPane'
+		'index'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -39,6 +40,14 @@ SpkEvaluator >> cancel [
 	self flag:
 		'The command itself and menu item should be disabled instead of this test.'.
 	model hasUnsavedChanges ifTrue: [ model cancel ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluator >> closingLinkedPane: aPane [
+
+	self linkedPane == aPane ifFalse: [ 
+		self error: 'Only my linked pane should notify me when closing.' ].
+	self clearLinkedPane
 ]
 
 { #category : 'initialization' }
@@ -113,18 +122,6 @@ SpkEvaluator >> initializePresenters [
 		whenResetDo: [ self cancel ]
 ]
 
-{ #category : 'accessing' }
-SpkEvaluator >> linkedPane [
-
-	^ linkedPane
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> linkedPane: anObject [
-
-	linkedPane := anObject
-]
-
 { #category : 'instance creation' }
 SpkEvaluator >> menuActions [
 
@@ -142,6 +139,14 @@ SpkEvaluator >> menuActions [
 SpkEvaluator >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluator >> nonChildSlotNames [
+
+	"This slot is defined in the SpkLinkedPane trait"
+
+	^ super nonChildSlotNames , #( #linkedPane )
 ]
 
 { #category : 'instance creation' }

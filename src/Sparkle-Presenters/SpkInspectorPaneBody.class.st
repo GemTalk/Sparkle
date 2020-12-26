@@ -61,7 +61,9 @@ SpkInspectorPaneBody >> initializeFieldListModel [
 	| fields |
 	fieldListModel := SpkMultiSelectList new.
 	fields := model fields collect: [ :each | 
-		          SpkInspectorField for: each ].
+		          (SpkInspectorField for: each)
+			          list: fieldListModel;
+			          yourself ].
 	fieldListModel
 		addAll: fields;
 		when: SpkItemSelected send: #fieldSelected: to: owner;
@@ -102,6 +104,14 @@ SpkInspectorPaneBody >> initializeTwizzle [
 			fill: false;
 			width: 20;
 			height: 20 ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPaneBody >> linkedPanes [
+
+	^ fieldListModel items
+		  collect: [ :field | field linkedPane ]
+		  thenSelect: [ :pane | pane notNil ]
 ]
 
 { #category : 'accessing' }

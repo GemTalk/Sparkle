@@ -47,7 +47,7 @@ SpkInspectorPaneHeader >> initializePresenters [
 		add: closeButton width: self closeButtonWidth
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPaneHeader >> menuHelp [
 
 	^ 'select view'

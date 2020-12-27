@@ -6,7 +6,7 @@ Class {
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTableContainerMorph >> rowClass [
 
 	^ SpkTableRowMorph

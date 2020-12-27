@@ -6,21 +6,7 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'as yet unclassified' }
-SpkTaskspaceRegistryServiceClient >> defaultTaskspaceService [
-
-	| promise |
-	self flag: 'This method is obsolete'.
-	promise := remoteSelf defaultTaskspaceService.
-	promise
-		when: [ :ts | 
-			self announce: (SpkTaskspaceAnnouncement new
-					 taskspaceService: ts;
-					 yourself) ]
-		catch: self defaultCatchBlock
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'remote actions' }
 SpkTaskspaceRegistryServiceClient >> newDefaultTaskspaceLayout [
 
 	"Create a default taskspace and layout. 
@@ -36,7 +22,7 @@ SpkTaskspaceRegistryServiceClient >> newDefaultTaskspaceLayout [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'remote actions' }
 SpkTaskspaceRegistryServiceClient >> taskspaceServiceNamed: aString [
 
 	^ remoteSelf taskspaceServiceNamed: aString

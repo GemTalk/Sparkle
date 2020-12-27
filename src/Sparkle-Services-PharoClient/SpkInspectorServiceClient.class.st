@@ -20,24 +20,6 @@ SpkInspectorServiceClient >> addEvaluator [
 	^ newEvaluator
 ]
 
-{ #category : 'actions' }
-SpkInspectorServiceClient >> inspectField: aFieldService [
-
-	| promise |
-	self flag: 'Obsolete method?'.
-	(self fields identityIncludes: aFieldService) ifFalse: [ 
-		self error: 'I do not contain the requested field.' ].
-
-	aFieldService linkedService ifNotNil: [ :service | ^ service ].
-
-	promise := aFieldService createInspectorService.
-	promise
-		when: [ :inspector | 
-			self announceNewService: inspector forRequest: aFieldService ]
-		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ].
-	^ nil
-]
-
 { #category : 'removing' }
 SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
 

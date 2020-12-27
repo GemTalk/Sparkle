@@ -61,7 +61,7 @@ SpkMultiSelectList >> initialize [
 	selectedItems := Set new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkMultiSelectList >> itemWithModel: modelObject [
 
 	"Find and answer the list item having the given model.

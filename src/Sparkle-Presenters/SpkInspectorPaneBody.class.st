@@ -106,7 +106,7 @@ SpkInspectorPaneBody >> initializeTwizzle [
 			height: 20 ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPaneBody >> linkedPanes [
 
 	^ fieldListModel items

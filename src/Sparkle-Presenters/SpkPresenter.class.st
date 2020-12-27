@@ -84,7 +84,7 @@ SpkPresenter >> newTable [
 	^ self instantiate: SpkMultipleSelectionTablePresenter
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkPresenter >> nonChildSlotNames [
 
 	"Answer a collection of the names of slots that, though they might refer to presenters, those presenters

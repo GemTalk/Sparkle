@@ -74,7 +74,7 @@ SpkColumn >> newLayout [
 	^ SpkAccordianLayout newVertical
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkColumn >> nextRightColumn [
 
 	"Answer the column to the right of me in my explorer window.

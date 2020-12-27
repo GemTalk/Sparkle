@@ -42,20 +42,3 @@ SpkUiTest class >> defaultRemoteTaskspace [
 	connection specification connectionB log addSink:
 		RsrTranscriptSink new"
 ]
-
-{ #category : 'examples' }
-SpkUiTest >> defaultLocalTaskspace [
-
-	"With real services in the local image"
-
-	<example>
-	| connection taskspace |
-	connection := RsrInMemoryConnectionSpecification new connect.
-	taskspace := SparkleTaskspace new.
-	taskspace
-		connection: connection;
-		openNewDefaultTaskspace.
-	connection log addSink: RsrTranscriptSink new.
-	connection specification connectionB log addSink:
-		RsrTranscriptSink new
-]

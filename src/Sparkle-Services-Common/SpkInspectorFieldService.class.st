@@ -26,7 +26,7 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
 SpkInspectorFieldService class >> name: nameString description: descriptionString [
 
 	^ self new

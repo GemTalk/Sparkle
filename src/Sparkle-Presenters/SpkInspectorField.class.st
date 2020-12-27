@@ -39,7 +39,7 @@ SpkInspectorField class >> for: aModel [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'events' }
 SpkInspectorField >> closingLinkedPane: aPane [
 
 	self linkedPane == aPane ifFalse: [ 
@@ -48,7 +48,7 @@ SpkInspectorField >> closingLinkedPane: aPane [
 	list deselectItem: self
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorField >> coordinateRelativeTo: parentCoordinate [
 
 	"Linked inspectors for fields get a 0 element in their coordinate. 

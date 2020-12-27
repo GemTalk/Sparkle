@@ -7,7 +7,7 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
 SpkTaskspaceServiceServer class >> forTool: aTaskspaceTool [
 
 	^ self new

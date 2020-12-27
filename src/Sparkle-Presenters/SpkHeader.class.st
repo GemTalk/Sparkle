@@ -38,7 +38,7 @@ SpkHeader >> closeButton: anObject [
 	closeButton := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkHeader >> closeButtonHelp [
 
 	self subclassResponsibility
@@ -114,7 +114,7 @@ SpkHeader >> menuButtonWidth [
 	^ 24
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkHeader >> menuHelp [
 
 	"Override to answer a string"

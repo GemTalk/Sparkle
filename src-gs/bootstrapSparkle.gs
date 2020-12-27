@@ -2904,7 +2904,7 @@ performAction
 	^ 42
 %
 
-category: 'TOREMOVE'
+category: 'accessing'
 method: SpkTestUndoableAction
 undoAction
 
@@ -3091,7 +3091,9 @@ evaluateCode
 	[ resultObject := self evaluateMethod: method inContext: context ]
 		on: Error
 		do: [ :ex | ^ self toolForRuntimeError: ex ].
-	^ SpkInspectorTool on: resultObject
+	^ (SpkInspectorTool on: resultObject)
+		  explorerTool: explorerTool;
+		  yourself
 %
 
 category: 'accessing'
@@ -3390,6 +3392,13 @@ method: SpkInspectorTool
 evaluatorTools
 
 	^ evaluatorTools
+%
+
+category: 'accessing'
+method: SpkInspectorTool
+explorerTool
+
+	^ explorerTool
 %
 
 category: 'accessing'
@@ -3826,7 +3835,7 @@ initializeForDefault
 
 !		Class methods for 'SpkUndoManager'
 
-category: 'as yet unclassified'
+category: 'instance creation'
 classmethod: SpkUndoManager
 withLimit: anInteger
 
@@ -4433,7 +4442,7 @@ serviceClassesForToolTypes
 		  self initializeServiceClassesForToolTypes ]
 %
 
-category: 'as yet unclassified'
+category: 'accessing'
 classmethod: SpkExplorerServiceServer
 serviceClassForToolClass: aToolClass
 
@@ -4609,6 +4618,13 @@ refreshFromTool
 	self initializeEvaluatorsFromTool
 %
 
+category: 'accessing'
+method: SpkInspectorServiceServer
+tool
+
+	^ tool
+%
+
 ! Class implementation for 'SpkLinkableSubService'
 
 !		Instance methods for 'SpkLinkableSubService'
@@ -4711,8 +4727,8 @@ accept
 	"Evaluate my newSourceCode, answer a new service for the result."
 
 	| resultTool resultService |
-	tool newSourceCode: newSourceCode.
-	resultTool := tool accept.
+	self tool newSourceCode: newSourceCode.
+	resultTool := self tool accept.
 
 	self refreshFromTool.
 	resultService := self serviceForTool: resultTool.
@@ -4723,8 +4739,29 @@ category: 'initialization'
 method: SpkEvaluatorServiceServer
 initializeFromTool: evaluatorTool
 
+	"If we're restoring a taskspace I get initialized from my tool.
+	If I'm being created from the client, I have to create a tool for myself to use."
+
 	tool := evaluatorTool.
 	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkEvaluatorServiceServer
+initializeTool
+
+	"If we're restoring a taskspace I get initialized from my tool.
+	If I'm being created from the client, I have to create a tool for myself to use."
+
+	| inspectorTool |
+	inspectorTool := parentService tool.
+	tool := SpkEvaluatorTool new.
+	^ tool
+		oldSourceCode: oldSourceCode;
+		newSourceCode: newSourceCode;
+		inspectorTool: inspectorTool;
+		explorerTool: inspectorTool explorerTool;
+		yourself
 %
 
 category: 'initialization'
@@ -4745,11 +4782,20 @@ serviceForTool: aTool
 	^ serviceClass forTool: aTool
 %
 
+category: 'initialization'
+method: SpkEvaluatorServiceServer
+tool
+	"If we're restoring a taskspace I get initialized from my tool.
+	If I'm being created from the client, I have to create a tool for myself to use."
+
+	^ tool ifNil: [ self initializeTool ]
+%
+
 ! Class implementation for 'SpkInspectorFieldService'
 
 !		Class methods for 'SpkInspectorFieldService'
 
-category: 'as yet unclassified'
+category: 'instance creation'
 classmethod: SpkInspectorFieldService
 name: nameString description: descriptionString
 
@@ -5053,18 +5099,6 @@ templateClassName
 
 category: 'defaults'
 method: SpkTaskspaceRegistryServiceServer
-defaultTaskspaceService
-
-	"Create a new default taskspace tool, and answer a service for it."
-
-	| tool |
-	self flag: 'Obsolete method'.
-	tool := SpkTaskspaceTool newDefault.
-	^ SpkTaskspaceServiceServer forTool: tool
-%
-
-category: 'defaults'
-method: SpkTaskspaceRegistryServiceServer
 newDefaultTaskspaceLayout
 
 	"Create a new default taskspace layout tool, and answer a service for it."
@@ -5127,7 +5161,7 @@ removeExplorer: anExplorerService
 
 !		Class methods for 'SpkTaskspaceServiceServer'
 
-category: 'as yet unclassified'
+category: 'instance creation'
 classmethod: SpkTaskspaceServiceServer
 forTool: aTaskspaceTool
 

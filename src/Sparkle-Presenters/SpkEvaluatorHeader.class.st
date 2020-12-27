@@ -7,7 +7,7 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkEvaluatorHeader >> closeButtonHelp [
 
 	^ 'Close the evaluator'

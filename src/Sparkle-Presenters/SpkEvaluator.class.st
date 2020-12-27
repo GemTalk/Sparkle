@@ -139,7 +139,6 @@ SpkEvaluator >> menuActions [
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
 		  register: (self class sourceCodeCommandsGroupWith: self);
-		  register: (SpkCloseEvaluatorCommand forSpecContext: self);
 		  yourself
 ]
 

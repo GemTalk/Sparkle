@@ -104,5 +104,6 @@ SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 	nowHaveUnsavedChanges ~= hasUnsavedChanges ifTrue: [ 
 		hasUnsavedChanges := nowHaveUnsavedChanges.
 		self announce:
-			(SpkUnsavedChangesAnnouncement hasUnsavedChanges: hasUnsavedChanges) ]
+			(SpkUnsavedChangesAnnouncement hasUnsavedChanges: hasUnsavedChanges) ].
+	^ hasUnsavedChanges
 ]

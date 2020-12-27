@@ -19,7 +19,7 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'visiting' }
+{ #category : 'actions' }
 SpkEvaluator >> accept [
 
 	"Ignore ctrl-s if no unsaved changes"
@@ -32,7 +32,7 @@ SpkEvaluator >> accept [
 	model acceptFor: self
 ]
 
-{ #category : 'visiting' }
+{ #category : 'actions' }
 SpkEvaluator >> cancel [
 
 	"Ignore ctrl-l if no unsaved changes"
@@ -50,7 +50,7 @@ SpkEvaluator >> closeRequestedLocally [
 	owner removeEvaluator: self
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'events' }
 SpkEvaluator >> closingLinkedPane: aPane [
 
 	self linkedPane == aPane ifFalse: [ 
@@ -85,7 +85,7 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 		self halt: 'update text here' ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
 
 	"Linked inspectors for fields get a 0 element in their coordinate. 
@@ -94,7 +94,7 @@ SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
 	^ parentCoordinate , index
 ]
 
-{ #category : 'testing' }
+{ #category : 'updates' }
 SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
 	codePresenter hasUnacceptedEdits: aBoolean
@@ -149,7 +149,7 @@ SpkEvaluator >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkEvaluator >> nonChildSlotNames [
 
 	"This slot is defined in the SpkLinkedPane trait"

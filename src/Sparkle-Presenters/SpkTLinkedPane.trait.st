@@ -19,7 +19,7 @@ Trait {
 	#category : 'Sparkle-Presenters-Support'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkTLinkedPane >> clearLinkedPane [
 
 	linkedPane ifNotNil: [ 
@@ -27,7 +27,7 @@ SpkTLinkedPane >> clearLinkedPane [
 		linkedPane := nil ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkTLinkedPane >> closeLinkedPane [
 
 	linkedPane ifNotNil: [ :p | 

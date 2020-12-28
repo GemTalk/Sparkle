@@ -144,6 +144,21 @@ SpkScaffoldingServiceServer >> gsDebugger_05: aString [
 	"
 		no exception handlers ... deliver a remote error
 	"
+	UserGlobals
+		at: #'ScaffoldingServiceServerDebugHandlerType'
+		put: #'remoteClientError'.
+	doitResult := aString evaluate
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_06: aString [
+	"
+		no exception handlers ... deliver a remote error
+	"
+
+	UserGlobals
+		at: #'ScaffoldingServiceServerDebugHandlerType'
+		put: #'remoteDebugger'.
 	doitResult := aString evaluate
 ]
 

@@ -105,12 +105,37 @@ SpkScaffoldingServiceClient class >> debugger_04 [
 { #category : 'examples' }
 SpkScaffoldingServiceClient class >> debugger_05 [
 
-	"trigger exception during doit and rely on debugActionBlock to handle the exception"
+	"trigger exception during doit and rely on debugActionBlock to handle the exception. The
+		catch block is expected to be triggered and the <reason> will have a stack dump with the
+		Halt. "
 
 	<example>
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
 	(service gsDebugger_05: '7 halt')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_06 [
+
+	"trigger exception during doit and expect to trigger a remote debugger (inspector with option to
+		resume (ala debugger_04) "
+
+	<example>
+	| service |
+	service := self connection serviceFor: #SpkScaffoldingService.
+	(service gsDebugger_06: '7 halt')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 
@@ -243,6 +268,12 @@ SpkScaffoldingServiceClient >> gsDebugger_04: aString [
 SpkScaffoldingServiceClient >> gsDebugger_05: aString [
 
 	^ remoteSelf gsDebugger_05: aString
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_06: aString [
+
+	^ remoteSelf gsDebugger_06: aString
 ]
 
 { #category : 'debugger' }

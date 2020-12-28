@@ -14,11 +14,13 @@ SpkChatServer class >> run [
 
 { #category : 'actions' }
 SpkChatServer >> launchServer [
-	connection := RsrConnection acceptOn: self portNumber.
-	connection waitUntilClose
+	[ 
+	connection := RsrAcceptConnection host: '0.0.0.0' port: self portNumber.
+	connection waitForConnection.
+	true ] whileTrue: [ connection waitForConnection ]
 ]
 
 { #category : 'constants' }
 SpkChatServer >> portNumber [
-	^ 6842
+	^ 29299
 ]

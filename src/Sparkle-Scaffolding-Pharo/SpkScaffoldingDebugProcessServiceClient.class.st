@@ -4,6 +4,15 @@ Class {
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
+{ #category : 'testing' }
+SpkScaffoldingDebugProcessServiceClient >> foo [
+
+	
+	"MNU created on server ... odd result if the process is continued on server by topaz"
+
+	^ remoteSelf foo
+]
+
 { #category : 'printing' }
 SpkScaffoldingDebugProcessServiceClient >> printOn: aStream [
 

@@ -152,7 +152,7 @@ SpkScaffoldingServiceClient class >> debugger_06a [
 SpkScaffoldingServiceClient class >> debugger_06b [
 
 	"trigger exception during doit and expect to trigger a remote debugger (inspector with option to
-		resume (ala debugger_04) "
+		resume (ala debugger_04))"
 
 	<example>
 	| service |

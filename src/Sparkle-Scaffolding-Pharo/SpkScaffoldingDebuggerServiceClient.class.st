@@ -9,9 +9,3 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 
 	self processService inspect
 ]
-
-{ #category : 'debugger' }
-SpkScaffoldingDebuggerServiceClient >> resume [
-
-	^ remoteSelf resume
-]

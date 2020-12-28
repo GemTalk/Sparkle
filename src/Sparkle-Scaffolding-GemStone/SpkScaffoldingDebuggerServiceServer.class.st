@@ -31,3 +31,10 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 		yourself.
 	^ self openDebuggerOnClient wait
 ]
+
+{ #category : 'debugger' }
+SpkScaffoldingDebuggerServiceServer >> resumptionValue [
+	"for now"
+
+	^ nil
+]

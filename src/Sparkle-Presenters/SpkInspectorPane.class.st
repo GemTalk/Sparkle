@@ -188,6 +188,24 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 		  thenSelect: [ :each | each notNil ]
 ]
 
+{ #category : 'printing' }
+SpkInspectorPane >> printOn: aStream [
+
+	super printOn: aStream.
+	model ifNotNil: [ 
+		[ 
+		| classMembership oop |
+		classMembership := model classMembershipDescription.
+		oop := model oop.
+		aStream
+			<< ' for ';
+			<< classMembership;
+			space.
+		oop printOn: aStream base: 16 ]
+			on: Error
+			do: [ :ex | ex return ] ]
+]
+
 { #category : 'announcements' }
 SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 

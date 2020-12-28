@@ -19,3 +19,12 @@ RsrProtoObject >> asString [
 RsrProtoObject >> printString [
 	^ self asString
 ]
+
+{ #category : '*sparkle-scaffolding-gemstone' }
+RsrProtoObject >> _topazAsString [
+  ^ [ self asString
+    ] onSynchronous: AbstractException do:[:ex |
+        '<error during asString>'
+    ]
+]
+

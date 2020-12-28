@@ -16,7 +16,8 @@ SpkScaffoldingDebugProcessServiceClient >> foo [
 { #category : 'printing' }
 SpkScaffoldingDebugProcessServiceClient >> printOn: aStream [
 
-	aStream nextPutAll: self suspendedProcessName
+	aStream nextPutAll: self suspendedProcessName,
+	' (' , self messageText , ')'
 ]
 
 { #category : 'suspended process' }

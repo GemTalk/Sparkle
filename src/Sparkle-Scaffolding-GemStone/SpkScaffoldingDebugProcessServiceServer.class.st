@@ -3,7 +3,8 @@ Class {
 	#superclass : 'SpkScaffoldingDebugProcessService',
 	#instVars : [
 		'suspendedProcess',
-		'rowanProcessService'
+		'rowanProcessService',
+		'doitException'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
@@ -13,6 +14,17 @@ SpkScaffoldingDebugProcessServiceServer class >> onSuspendedProcess: aSuspendedG
 	^ super new
 		initializeOnSuspendedProcess: aSuspendedGsProcess;
 		yourself
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> doitException [
+	^doitException
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> doitException: anException [
+	self messageText: anException messageText asString.
+	doitException := anException
 ]
 
 { #category : 'initialization' }

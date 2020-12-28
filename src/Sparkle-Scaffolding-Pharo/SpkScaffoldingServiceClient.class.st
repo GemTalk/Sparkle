@@ -127,7 +127,29 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 ]
 
 { #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_06 [
+SpkScaffoldingServiceClient class >> debugger_06a [
+
+	"return doitResult after error-free execution"
+
+	<example>
+	| service |
+	service := self connection serviceFor: #SpkScaffoldingService.
+	(service gsDebugger_06: '3+4')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_06b [
 
 	"trigger exception during doit and expect to trigger a remote debugger (inspector with option to
 		resume (ala debugger_04) "

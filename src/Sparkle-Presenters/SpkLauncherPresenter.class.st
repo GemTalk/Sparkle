@@ -33,17 +33,18 @@ SpkLauncherPresenter class >> connection [
 { #category : 'connecting' }
 SpkLauncherPresenter >> connect [
 
-	| initiator taskspace |
-	self disconnect.
-	initiator := RsrInitiateConnection
-		             host: hostText text
-		             port: portText text asInteger.
-	Connection := initiator connect.
-	"taskspace := SparkleTaskspace new.
-	taskspace
-		connection: Connection;
-		openNewDefaultTaskspace"
-	self inform: 'Open Sparkle Taskspace when it''s ready'
+        | initiator taskspace |
+        self disconnect.
+        initiator := RsrInitiateConnection
+                             host: hostText text
+                             port: portText text asInteger.
+        Connection := initiator connect.
+        taskspace := SparkleTaskspace new.
+        taskspace
+                connection: Connection;
+                openNewDefaultTaskspace
+        "self inform: 'Open Sparkle Taskspace when it''s ready'"
+
 ]
 
 { #category : 'accessing' }

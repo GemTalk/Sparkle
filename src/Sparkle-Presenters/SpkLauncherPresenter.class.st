@@ -93,7 +93,7 @@ SpkLauncherPresenter >> disconnectButton: anObject [
 	disconnectButton := anObject
 ]
 
-{ #category : 'initialization' }
+{ #category : 'actions' }
 SpkLauncherPresenter >> enableButtons [
 
 	connectButton enabled: Connection isNil.
@@ -172,10 +172,10 @@ SpkLauncherPresenter >> initializeInMemoryConnectionCheckbox [
 
 	inMemoryCheckbox := self newCheckBox
 		                    label: 'In Memory';
+		                    whenChangedDo: [ :value | self setHostPortVisibility ];
 		                    yourself.
 	inMemoryCheckbox help:
-		'Make a client-only connection. Ignores host/port'.
-	self layout add: inMemoryCheckbox
+		'Make a client-only connection. Ignores host/port'
 ]
 
 { #category : 'initialization' }
@@ -184,7 +184,8 @@ SpkLauncherPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeHostPortWidgets.
 	self initializeInMemoryConnectionCheckbox.
-	self initializeButtons
+	self initializeButtons.
+	self layout add: inMemoryCheckbox height: 20.
 ]
 
 { #category : 'initialization' }
@@ -192,7 +193,7 @@ SpkLauncherPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: self launcherTitle;
-		initialExtent: 350 @ 250
+		initialExtent: 350 @ 200
 ]
 
 { #category : 'constants' }
@@ -214,7 +215,7 @@ SpkLauncherPresenter >> newLayout [
 		add: hostText at: 2 @ 1;
 		add: portLabel at: 1 @ 2;
 		add: portText at: 2 @ 2.
-	^ SpkBoxLayout newVertical
+	^ SpkBoxLayout newVertical 
 		  add: gridLayout;
 		  yourself
 ]
@@ -239,4 +240,14 @@ SpkLauncherPresenter >> portText [
 SpkLauncherPresenter >> portText: anObject [
 
 	portText := anObject
+]
+
+{ #category : 'actions' }
+SpkLauncherPresenter >> setHostPortVisibility [
+
+	"would rather have just disabled, but disablement of text
+	icons does not give visual indication of enablement state."
+
+	hostText visibleIf: [ inMemoryCheckbox state not ].
+	portText visibleIf: [ inMemoryCheckbox state not ]
 ]

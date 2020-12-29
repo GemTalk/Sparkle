@@ -16,7 +16,8 @@ Class {
 		'hostLabel',
 		'portLabel',
 		'connectButton',
-		'disconnectButton'
+		'disconnectButton',
+		'explorerButton'
 	],
 	#classVars : [
 		'Connection'
@@ -30,21 +31,16 @@ SpkLauncherPresenter class >> connection [
 	^Connection
 ]
 
-{ #category : 'connecting' }
+{ #category : 'actions' }
 SpkLauncherPresenter >> connect [
 
-        | initiator taskspace |
-        self disconnect.
-        initiator := RsrInitiateConnection
-                             host: hostText text
-                             port: portText text asInteger.
-        Connection := initiator connect.
-        taskspace := SparkleTaskspace new.
-        taskspace
-                connection: Connection;
-                openNewDefaultTaskspace
-        "self inform: 'Open Sparkle Taskspace when it''s ready'"
-
+	| initiator |
+	self disconnect.
+	initiator := RsrInitiateConnection
+		             host: hostText text
+		             port: portText text asInteger.
+	Connection := initiator connect.
+	self openExplorer
 ]
 
 { #category : 'accessing' }
@@ -73,7 +69,7 @@ SpkLauncherPresenter >> defaultPort [
 	^ '29299'
 ]
 
-{ #category : 'connecting' }
+{ #category : 'actions' }
 SpkLauncherPresenter >> disconnect [
 
 	Connection ifNotNil: [ :conn | 
@@ -95,9 +91,10 @@ SpkLauncherPresenter >> disconnectButton: anObject [
 
 { #category : 'initialization' }
 SpkLauncherPresenter >> enableButtons [
-	
-	connectButton enabled: Connection isNil. 
-	disconnectButton enabled: Connection isNil not. 
+
+	connectButton enabled: Connection isNil.
+	disconnectButton enabled: Connection isNil not.
+	explorerButton enabled: Connection isNil not
 ]
 
 { #category : 'accessing' }
@@ -118,11 +115,13 @@ SpkLauncherPresenter >> initializeButtons [
 	| gridLayout |
 	gridLayout := SpGridLayout new.
 	self initializeConnectButton.
-	gridLayout add: connectButton at: 1@1.
+	gridLayout add: connectButton at: 1 @ 1.
 	self initializeDisconnectButton.
-	gridLayout add: disconnectButton at: 2@1.
+	gridLayout add: disconnectButton at: 2 @ 1.
+	self initializeExplorerButton.
+	gridLayout add: explorerButton at: 3 @ 1.
 	self layout add: gridLayout.
-	self enableButtons. 
+	self enableButtons
 ]
 
 { #category : 'initialization' }
@@ -140,6 +139,15 @@ SpkLauncherPresenter >> initializeDisconnectButton [
 	disconnectButton := self newButton
 		                    label: 'Disconnect';
 		                    action: [ self disconnect ].
+]
+
+{ #category : 'initialization' }
+SpkLauncherPresenter >> initializeExplorerButton [
+
+	explorerButton := self newButton
+		                  label: 'Open Explorer';
+		                  action: [ self openExplorer ].
+	^ explorerButton
 ]
 
 { #category : 'initialization' }
@@ -161,8 +169,14 @@ SpkLauncherPresenter >> initializePresenters [
 SpkLauncherPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparkle Connect';
-		initialExtent: 300 @ 175
+		title: self launcherTitle;
+		initialExtent: 350 @ 175
+]
+
+{ #category : 'constants' }
+SpkLauncherPresenter >> launcherTitle [
+
+	^ 'Sparkle Connect'
 ]
 
 { #category : 'accessing' }
@@ -181,6 +195,16 @@ SpkLauncherPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 		  add: gridLayout;
 		  yourself
+]
+
+{ #category : 'actions' }
+SpkLauncherPresenter >> openExplorer [
+
+	| taskspace |
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: Connection;
+		openNewDefaultTaskspace
 ]
 
 { #category : 'accessing' }

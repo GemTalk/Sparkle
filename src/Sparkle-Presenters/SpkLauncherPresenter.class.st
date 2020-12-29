@@ -21,7 +21,9 @@ Class {
 		'inMemoryCheckbox'
 	],
 	#classVars : [
-		'Connection'
+		'Connection',
+		'HostName',
+		'Port'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -65,6 +67,12 @@ SpkLauncherPresenter >> connectPresenters [
 	super connectPresenters.
 	connectButton whenActivatedDo: [self enableButtons]. 
 	disconnectButton whenActivatedDo: [self enableButtons]. 
+]
+
+{ #category : 'constants' }
+SpkLauncherPresenter >> defaultHostName [
+
+	^ 'uffda'
 ]
 
 { #category : 'constants' }
@@ -113,6 +121,18 @@ SpkLauncherPresenter >> hostText: anObject [
 	hostText := anObject
 ]
 
+{ #category : 'accessing' }
+SpkLauncherPresenter >> initialHostName [
+
+	^ HostName ifNil: [ ^ self defaultHostName ]
+]
+
+{ #category : 'accessing' }
+SpkLauncherPresenter >> initialPort [
+
+	^ Port ifNil: [ self defaultPort ]
+]
+
 { #category : 'initialization' }
 SpkLauncherPresenter >> initializeButtons [
 
@@ -157,10 +177,12 @@ SpkLauncherPresenter >> initializeExplorerButton [
 { #category : 'initialization' }
 SpkLauncherPresenter >> initializeHostPortWidgets [
 
-	hostText := self newTextInput.
-	hostText text: 'uffda'.
-	portText := self newTextInput.
-	portText text: self defaultPort.
+	hostText := self newTextInput whenTextChangedDo: [ :text | 
+		            HostName := text ].
+	hostText text: self initialHostName.
+	portText := self newTextInput whenTextChangedDo: [ :text | 
+		            Port := text ].
+	portText text: self initialPort.
 	hostLabel := self newLabel.
 	hostLabel label: 'Host:'.
 	portLabel := self newLabel.
@@ -206,16 +228,14 @@ SpkLauncherPresenter >> launcherTitle [
 SpkLauncherPresenter >> newLayout [
 
 	| gridLayout |
-	gridLayout := SpGridLayout new
-		              beColumnNotHomogeneous;
-		              beRowNotHomogeneous.
+	gridLayout := SpGridLayout new beRowNotHomogeneous.
 
 	gridLayout
 		add: hostLabel at: 1 @ 1;
 		add: hostText at: 2 @ 1;
 		add: portLabel at: 1 @ 2;
 		add: portText at: 2 @ 2.
-	^ SpkBoxLayout newVertical 
+	^ SpkBoxLayout newVertical
 		  add: gridLayout;
 		  yourself
 ]

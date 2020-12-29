@@ -1,5 +1,7 @@
 Class {
 	#name : 'SpkRuntimeErrorServiceClient',
 	#superclass : 'SpkRuntimeErrorService',
-	#category : 'Sparkle-Services-PharoClient'
+	#traits : 'SpkTModel',
+	#classTraits : 'SpkTModel classTrait',
+	#category : 'Sparkle-Services-PharoClient-Services'
 }

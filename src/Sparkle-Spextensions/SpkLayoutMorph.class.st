@@ -62,7 +62,7 @@ SpkLayoutMorph >> changeLinearLayout [
 	self layoutChanged
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkLayoutMorph >> coordinateTransform: xform [
 
 	self assureLayoutProperties coordinateTransform: xform

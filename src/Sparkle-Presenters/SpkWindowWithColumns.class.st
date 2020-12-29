@@ -29,7 +29,7 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkWindowWithColumns >> addColumn [
 
 	| newColumn |
@@ -47,7 +47,7 @@ SpkWindowWithColumns >> columnAt: anIndex [
 	^ columns at: anIndex
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkWindowWithColumns >> columnToRightOf: aColumn [
 
 	"If aColumn is the rightmost, create a new empty column for it."

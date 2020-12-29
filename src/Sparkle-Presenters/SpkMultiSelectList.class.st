@@ -61,7 +61,7 @@ SpkMultiSelectList >> initialize [
 	selectedItems := Set new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkMultiSelectList >> itemWithModel: modelObject [
 
 	"Find and answer the list item having the given model.
@@ -86,6 +86,18 @@ SpkMultiSelectList >> selectItem: anItem [
 	selectedItems add: anItem.
 	self announce:
 		(SpkItemSelected forItem: anItem index: (items indexOf: anItem))
+]
+
+{ #category : 'api-selection' }
+SpkMultiSelectList >> selectedIndexes [
+
+	"Answer collection of all selected items"
+
+	| indexes |
+	indexes := OrderedCollection new.
+	items withIndexDo: [ :each :index | 
+		(selectedItems includes: each) ifTrue: [ indexes add: index ] ].
+	^ indexes
 ]
 
 { #category : 'selection' }

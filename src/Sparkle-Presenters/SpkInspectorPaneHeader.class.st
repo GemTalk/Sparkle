@@ -48,6 +48,12 @@ SpkInspectorPaneHeader >> initializePresenters [
 ]
 
 { #category : 'accessing' }
+SpkInspectorPaneHeader >> menuHelp [
+
+	^ 'select view'
+]
+
+{ #category : 'accessing' }
 SpkInspectorPaneHeader >> oopLabel [
 	^ oopLabel
 ]

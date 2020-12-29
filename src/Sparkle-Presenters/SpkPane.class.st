@@ -6,6 +6,7 @@ I take most of the responsibility for formatting the pane header, which is commo
 
 **Instance Variables**
 * coordinate	<SpkPaneCoordinate> Determines the position of this pane in its window, relative to other panes.
+* linkedFrom		<nil or some presentation layer object> If I am linked to a parent, the object that has me as its linkedPane. Examples of objects with linked panes: InspectorField, Evaluator.
 "
 Class {
 	#name : 'SpkPane',
@@ -13,10 +14,27 @@ Class {
 	#traits : 'SpkTLayoutService',
 	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
-		'coordinate'
+		'coordinate',
+		'linkedFrom'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'initialize-release' }
+SpkPane >> close [
+
+	self linkedPanes do: [ :each | each close ].
+	model unsubscribe: self.
+	"A pane's owner is the column it's in."
+	owner remove: self.
+	linkedFrom ifNotNil: [ linkedFrom closingLinkedPane: self ]
+]
+
+{ #category : 'events' }
+SpkPane >> closeRequestedLocally [
+
+	self close
+]
 
 { #category : 'accessing' }
 SpkPane >> coordinate [
@@ -46,9 +64,33 @@ SpkPane >> initialize [
 ]
 
 { #category : 'accessing' }
+SpkPane >> linkedFrom [
+
+	^ linkedFrom
+]
+
+{ #category : 'accessing' }
+SpkPane >> linkedFrom: anObject [
+
+	linkedFrom := anObject
+]
+
+{ #category : 'accessing' }
+SpkPane >> linkedPanes [
+
+	^ #(  )
+]
+
+{ #category : 'accessing' }
 SpkPane >> menuActions [
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkPane >> nonChildSlotNames [
+
+	^ super nonChildSlotNames , #( #linkedFrom )
 ]
 
 { #category : 'actions' }

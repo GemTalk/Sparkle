@@ -5,17 +5,6 @@ Class {
 }
 
 { #category : 'defaults' }
-SpkTaskspaceRegistryServiceServer >> defaultTaskspaceService [
-
-	"Create a new default taskspace tool, and answer a service for it."
-
-	| tool |
-	self flag: 'Obsolete method'.
-	tool := SpkTaskspaceTool newDefault.
-	^ SpkTaskspaceServiceServer forTool: tool
-]
-
-{ #category : 'defaults' }
 SpkTaskspaceRegistryServiceServer >> newDefaultTaskspaceLayout [
 
 	"Create a new default taskspace layout tool, and answer a service for it."

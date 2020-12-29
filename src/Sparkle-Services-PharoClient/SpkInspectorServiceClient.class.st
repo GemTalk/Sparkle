@@ -6,20 +6,22 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'actions' }
-SpkInspectorServiceClient >> inspectField: aFieldService [
+{ #category : 'adding' }
+SpkInspectorServiceClient >> addEvaluator [
 
-	| promise |
-	self flag: 'Obsolete method?'.
-	(self fields identityIncludes: aFieldService) ifFalse: [ 
-		self error: 'I do not contain the requested field.' ].
+	| newEvaluator |
+	newEvaluator := SpkEvaluatorServiceClient new
+		                registerWith: self connection;
+		                parentService: self;
+		                evaluationContext: self;
+		                yourself.
 
-	aFieldService linkedService ifNotNil: [ :service | ^ service ].
+	evaluators add: newEvaluator.
+	^ newEvaluator
+]
 
-	promise := aFieldService createInspectorService.
-	promise
-		when: [ :inspector | 
-			self announceNewService: inspector forRequest: aFieldService ]
-		catch: [ :reason | aFieldService signalPromiseBrokenBecause: reason ].
-	^ nil
+{ #category : 'removing' }
+SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
+
+	evaluators remove: anEvaluator
 ]

@@ -15,15 +15,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'specs' }
-SpkCodeSubPane class >> oldDefaultSpec [
-
-	self flag: 'Obsolete method?'.
-	^ super defaultSpec
-		  add: #codePresenter;
-		  yourself
-]
-
 { #category : 'commands' }
 SpkCodeSubPane class >> sourceCodeCommandsGroupWith: aPresenter [
 

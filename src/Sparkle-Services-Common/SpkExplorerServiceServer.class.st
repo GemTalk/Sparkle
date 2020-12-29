@@ -29,7 +29,7 @@ SpkExplorerServiceServer class >> initializeServiceClassesForToolTypes [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkExplorerServiceServer class >> serviceClassForToolClass: aToolClass [
 
 	^ self serviceClassesForToolTypes

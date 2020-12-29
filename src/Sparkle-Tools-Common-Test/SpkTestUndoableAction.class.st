@@ -33,7 +33,7 @@ SpkTestUndoableAction >> performAction [
 	^ 42
 ]
 
-{ #category : 'TOREMOVE' }
+{ #category : 'accessing' }
 SpkTestUndoableAction >> undoAction [
 
 	isDone

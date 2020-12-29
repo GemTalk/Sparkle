@@ -24,6 +24,7 @@ Class {
 SpkPane >> close [
 
 	self linkedPanes do: [ :each | each close ].
+	model unsubscribe: self.
 	"A pane's owner is the column it's in."
 	owner remove: self.
 	linkedFrom ifNotNil: [ linkedFrom closingLinkedPane: self ]

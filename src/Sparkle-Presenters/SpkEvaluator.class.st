@@ -46,6 +46,7 @@ SpkEvaluator >> cancel [
 SpkEvaluator >> closeRequestedLocally [
 
 	linkedPane ifNotNil: [ :p | p close ].
+	model unsubscribe: self.
 	"My owner is an InspectorPane"
 	owner removeEvaluator: self
 ]

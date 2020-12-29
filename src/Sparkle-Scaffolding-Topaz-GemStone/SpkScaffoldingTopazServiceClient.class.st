@@ -120,5 +120,5 @@ SpkScaffoldingTopazServiceClient >> openDebuggerOnClient [
 		frame := stack at: index.
 		GsFile gciLogServer: '  ' , index printString , '. ' , frame label ].
 	GsFile gciLogServer: '---simulate continue'.
-	processService continue	"want to tell the process to continue with the same semantics as GCI continue"
+	processService resume	"want to tell the process to resume with the same semantics as GCI continue"
 ]

@@ -88,7 +88,7 @@ SpkScaffoldingServiceClient class >> debugger_04 [
 	<example>
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
-	(service gsDebugger_04: '7 halt')
+	(service gsDebugger_04: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 
@@ -112,7 +112,7 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 	<example>
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
-	(service gsDebugger_05: '7 halt')
+	(service gsDebugger_05: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 
@@ -134,7 +134,7 @@ SpkScaffoldingServiceClient class >> debugger_06a [
 	<example>
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
-	(service gsDebugger_06: '3+4')
+	(service gsDebugger_06: '{3+4} at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 
@@ -151,8 +151,12 @@ SpkScaffoldingServiceClient class >> debugger_06a [
 { #category : 'examples' }
 SpkScaffoldingServiceClient class >> debugger_06b [
 
-	"trigger exception during doit and expect to trigger a remote debugger (inspector with option to
-		resume (ala debugger_04))"
+	"
+		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
+		resume (ala debugger_04)).
+		
+		Note that you can send resume to the debugger service in the inspector
+	"
 
 	<example>
 	| service |
@@ -202,6 +206,33 @@ SpkScaffoldingServiceClient class >> debugger_06d [
 	| service |
 	service := self connection serviceFor: #SpkScaffoldingService.
 	(service gsDebugger_06: '7 error: ''oops''')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_06e [
+
+	"
+		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
+		resume (ala debugger_04)).
+		
+		 send resumeWith: 8 ... see whats happening (note using pause in the expression to debug it
+	"
+
+	<example>
+	| service |
+	service := self connection serviceFor: #SpkScaffoldingService.
+	(service gsDebugger_06: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 

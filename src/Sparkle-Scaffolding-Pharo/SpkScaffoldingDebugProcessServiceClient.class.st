@@ -27,6 +27,12 @@ SpkScaffoldingDebugProcessServiceClient >> resume [
 ]
 
 { #category : 'suspended process' }
+SpkScaffoldingDebugProcessServiceClient >> resumeWith: anObject [
+
+	^ remoteSelf resumeWith: anObject
+]
+
+{ #category : 'suspended process' }
 SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 
 	^ rowanFrameServices ifNil: [ rowanFrameServices := remoteSelf rowanFrameServices wait ]

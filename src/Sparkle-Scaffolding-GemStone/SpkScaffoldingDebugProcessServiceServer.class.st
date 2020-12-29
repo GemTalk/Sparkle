@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'suspendedProcess',
 		'rowanProcessService',
-		'doitException'
+		'doitException',
+		'debuggerService'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
@@ -14,6 +15,16 @@ SpkScaffoldingDebugProcessServiceServer class >> onSuspendedProcess: aSuspendedG
 	^ super new
 		initializeOnSuspendedProcess: aSuspendedGsProcess;
 		yourself
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> debuggerService [
+	^debuggerService
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> debuggerService: object [
+	debuggerService := object
 ]
 
 { #category : 'accessing' }
@@ -42,6 +53,12 @@ SpkScaffoldingDebugProcessServiceServer >> initializeOnSuspendedProcess: aSuspen
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> resume [
+	self suspendedProcess resume
+]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> resumeWith: anObject [
+	self debuggerService resumptionValue: anObject.
 	self suspendedProcess resume
 ]
 

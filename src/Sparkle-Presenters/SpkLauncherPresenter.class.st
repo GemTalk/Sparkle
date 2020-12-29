@@ -17,7 +17,8 @@ Class {
 		'portLabel',
 		'connectButton',
 		'disconnectButton',
-		'explorerButton'
+		'explorerButton',
+		'inMemoryCheckbox'
 	],
 	#classVars : [
 		'Connection'
@@ -34,12 +35,15 @@ SpkLauncherPresenter class >> connection [
 { #category : 'actions' }
 SpkLauncherPresenter >> connect [
 
-	| initiator |
+	| connectionThing |
 	self disconnect.
-	initiator := RsrInitiateConnection
-		             host: hostText text
-		             port: portText text asInteger.
-	Connection := initiator connect.
+	connectionThing := inMemoryCheckbox state
+		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
+		                   ifFalse: [ 
+			                   RsrInitiateConnection
+				                   host: hostText text
+				                   port: portText text asInteger ].
+	Connection := connectionThing connect.
 	self openExplorer
 ]
 
@@ -151,9 +155,8 @@ SpkLauncherPresenter >> initializeExplorerButton [
 ]
 
 { #category : 'initialization' }
-SpkLauncherPresenter >> initializePresenters [
+SpkLauncherPresenter >> initializeHostPortWidgets [
 
-	super initializePresenters.
 	hostText := self newTextInput.
 	hostText text: 'uffda'.
 	portText := self newTextInput.
@@ -161,7 +164,26 @@ SpkLauncherPresenter >> initializePresenters [
 	hostLabel := self newLabel.
 	hostLabel label: 'Host:'.
 	portLabel := self newLabel.
-	portLabel label: 'Port:'.
+	portLabel label: 'Port:'
+]
+
+{ #category : 'initialization' }
+SpkLauncherPresenter >> initializeInMemoryConnectionCheckbox [
+
+	inMemoryCheckbox := self newCheckBox
+		                    label: 'In Memory';
+		                    yourself.
+	inMemoryCheckbox help:
+		'Make a client-only connection. Ignores host/port'.
+	self layout add: inMemoryCheckbox
+]
+
+{ #category : 'initialization' }
+SpkLauncherPresenter >> initializePresenters [
+
+	super initializePresenters.
+	self initializeHostPortWidgets.
+	self initializeInMemoryConnectionCheckbox.
 	self initializeButtons
 ]
 
@@ -170,7 +192,7 @@ SpkLauncherPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: self launcherTitle;
-		initialExtent: 350 @ 175
+		initialExtent: 350 @ 250
 ]
 
 { #category : 'constants' }

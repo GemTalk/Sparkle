@@ -1,15 +1,13 @@
 Class {
 	#name : 'SpkEvaluatorServiceServer',
 	#superclass : 'SpkEvaluatorService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'visiting' }
+{ #category : 'actions' }
 SpkEvaluatorServiceServer >> accept [
 
 	"Evaluate my newSourceCode, answer a new service for the result."
@@ -37,7 +35,7 @@ SpkEvaluatorServiceServer >> refreshFromTool [
 	newSourceCode := tool newSourceCode
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkEvaluatorServiceServer >> serviceForTool: aTool [
 
 	| serviceClass |

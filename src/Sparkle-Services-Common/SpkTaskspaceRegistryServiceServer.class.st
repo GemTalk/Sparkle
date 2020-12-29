@@ -1,12 +1,10 @@
 Class {
 	#name : 'SpkTaskspaceRegistryServiceServer',
 	#superclass : 'SpkTaskspaceRegistryService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'defaults' }
 SpkTaskspaceRegistryServiceServer >> defaultTaskspaceService [
 
 	"Create a new default taskspace tool, and answer a service for it."
@@ -17,7 +15,7 @@ SpkTaskspaceRegistryServiceServer >> defaultTaskspaceService [
 	^ SpkTaskspaceServiceServer forTool: tool
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'defaults' }
 SpkTaskspaceRegistryServiceServer >> newDefaultTaskspaceLayout [
 
 	"Create a new default taskspace layout tool, and answer a service for it."

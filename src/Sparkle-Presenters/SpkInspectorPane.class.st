@@ -46,13 +46,15 @@ SpkInspectorPane >> evaluators [
 { #category : 'actions' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
-	"This announcement comes from the UI, not a service"
+	"This announcement comes from the UI, not a service,
+	so does not need to be deferred."
 
 	| field |
 	field := anAnnouncement item.
 	"If the close was initiated by the linked pane, 
 	it will already be closed and removed from the field."
-	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ]
+	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
+	body updateSelection
 ]
 
 { #category : 'actions' }

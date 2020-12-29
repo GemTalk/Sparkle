@@ -88,6 +88,18 @@ SpkMultiSelectList >> selectItem: anItem [
 		(SpkItemSelected forItem: anItem index: (items indexOf: anItem))
 ]
 
+{ #category : 'api-selection' }
+SpkMultiSelectList >> selectedIndexes [
+
+	"Answer collection of all selected items"
+
+	| indexes |
+	indexes := OrderedCollection new.
+	items withIndexDo: [ :each :index | 
+		(selectedItems includes: each) ifTrue: [ indexes add: index ] ].
+	^ indexes
+]
+
 { #category : 'selection' }
 SpkMultiSelectList >> selectedIndexes: newIndexes [
 

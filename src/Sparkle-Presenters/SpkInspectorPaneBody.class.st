@@ -153,6 +153,15 @@ SpkInspectorPaneBody >> updateFieldListVisibility [
 		ifFalse: [ self layout remove: fieldList ]
 ]
 
+{ #category : 'updating' }
+SpkInspectorPaneBody >> updateSelection [
+
+	"If the selected items are changed by means other than a mouse click,
+	we must let the list know to display the correct selection."
+
+	fieldList selectIndexes: fieldListModel selectedIndexes
+]
+
 { #category : 'actions' }
 SpkInspectorPaneBody >> updateTwizzleIcon [
 

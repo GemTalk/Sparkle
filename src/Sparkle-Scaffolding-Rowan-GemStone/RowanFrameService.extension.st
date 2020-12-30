@@ -4,3 +4,8 @@ Extension { #name : 'RowanFrameService' }
 RowanProcessService >> _label [
 	^ label
 ]
+
+{ #category : '*sparkle-scaffolding-rowan-gemstone' }
+RowanProcessService >> _method [
+	^ method
+]

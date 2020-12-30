@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkScaffoldingDebugFrameService',
 	#superclass : 'SpkScaffoldingAbstractService',
 	#instVars : [
-		'label'
+		'label',
+		'methodService'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -15,6 +16,12 @@ SpkScaffoldingDebugFrameService class >> templateClassName [
 
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameService >> label [
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> methodService [
 
 	self subclassResponsibility
 ]

@@ -6,7 +6,5 @@ can load packages shared between GemStone and Pharo
 Class {
 	#name : 'PackageManifest',
 	#superclass : 'Object',
-	#instVars : [ ],
 	#category : 'Sparkle-GemStone'
 }
-

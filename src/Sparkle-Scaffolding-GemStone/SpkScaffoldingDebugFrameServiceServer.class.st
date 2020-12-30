@@ -13,11 +13,21 @@ SpkScaffoldingDebugFrameServiceServer >> label [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> methodService [
+	methodService
+		ifNil: [ 
+			methodService := SpkScaffoldingDebugMethodServiceServer new
+				rowanMethodService: rowanFrameService _method;
+				yourself ]
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> rowanFrameService [
 	^rowanFrameService
 ]
 
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> rowanFrameService: object [
-	rowanFrameService := object
+	rowanFrameService := object.
+	self methodService	"prime the pump"
 ]

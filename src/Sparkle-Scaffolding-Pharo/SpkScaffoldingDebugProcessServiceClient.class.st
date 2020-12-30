@@ -16,17 +16,18 @@ SpkScaffoldingDebugProcessServiceClient >> foo [
 { #category : 'printing' }
 SpkScaffoldingDebugProcessServiceClient >> printOn: aStream [
 
-	aStream nextPutAll: self suspendedProcessName.
-	self messageText ifNotNil: [ :txt | aStream nextPutAll:' (' , txt , ')' ]
+	aStream nextPutAll: self suspendedProcessReportString.
+	self messageText ifNotNil: [ :txt | 
+		aStream nextPutAll: ' (' , txt , ')' ]
 ]
 
-{ #category : 'suspended process' }
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebugProcessServiceClient >> resume [
 
 	^ remoteSelf resume
 ]
 
-{ #category : 'suspended process' }
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebugProcessServiceClient >> resumeWith: anObject [
 
 	^ remoteSelf resumeWith: anObject
@@ -36,6 +37,12 @@ SpkScaffoldingDebugProcessServiceClient >> resumeWith: anObject [
 SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 
 	^ rowanFrameServices ifNil: [ rowanFrameServices := remoteSelf rowanFrameServices wait ]
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebugProcessServiceClient >> stepOverFromLevel: aLevel [
+
+	^ (remoteSelf stepOverFromLevel: aLevel)" wait"
 ]
 
 { #category : 'accessing' }
@@ -48,4 +55,10 @@ SpkScaffoldingDebugProcessServiceClient >> suspendedProcessName [
 SpkScaffoldingDebugProcessServiceClient >> suspendedProcessOop [ 
 
 ^ suspendedProcessOop ifNil: [ suspendedProcessOop := remoteSelf suspendedProcessOop wait ]
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceClient >> suspendedProcessReportString [
+
+	^ remoteSelf suspendedProcessReportString wait
 ]

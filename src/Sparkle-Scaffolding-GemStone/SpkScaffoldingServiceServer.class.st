@@ -214,11 +214,29 @@ SpkScaffoldingServiceServer >> processList [
 			allP
 				do: [ :aProc | 
 					| procName |
-					procName := aProc name.
-					procName isEmpty
-						ifTrue: [ procName := aProc asOop asString ].
+					procName := self processReportString: aProc.
 					processList at: procName put: aProc _reportString ].
 			processList ]
+]
+
+{ #category : 'process list' }
+SpkScaffoldingServiceServer >> processReportString: aGsProcess [
+	| s |
+	s := String new.
+	s add: 'GsProcess ('.
+	aGsProcess name isEmpty not
+		ifTrue: [ s add: 'name=' , aGsProcess name , ', ' ].
+	s add: 'oop=' , aGsProcess asOop asString , ', '.
+	s
+		add: 'status=';
+		add: aGsProcess _statusString;
+		add: ', '.
+	s
+		add: 'priority=';
+		add: aGsProcess priority printString;
+		add: ')'.
+	s lf.
+	^ s
 ]
 
 { #category : 'debugger' }

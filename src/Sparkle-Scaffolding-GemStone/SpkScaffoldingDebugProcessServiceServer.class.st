@@ -80,6 +80,20 @@ SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
 	rowanProcessService := object
 ]
 
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
+	self suspendedProcess convertToPortableStack: -1.
+	self suspendedProcess stepOverFromLevel: aLevel.
+	self suspendedProcess _activate.
+	self suspendedProcess _continue.
+	Processor yield.
+	self
+		rowanProcessService:
+			(RowanProcessService onSuspendedProcess: self suspendedProcess).
+	rowanFrameServices := nil.	"force refresh frames"
+	self rowanFrameServices	"refresh frames"
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> suspendedProcess [
 	^suspendedProcess
@@ -100,4 +114,21 @@ SpkScaffoldingDebugProcessServiceServer >> suspendedProcessName [
 SpkScaffoldingDebugProcessServiceServer >> suspendedProcessOop [
 	^ suspendedProcessOop
 		ifNil: [ suspendedProcessOop := self rowanProcessService oop ]
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> suspendedProcessReportString [
+	| s |
+	s := String new.
+	s add: 'GsProcess (oop=' , self suspendedProcess asOop asString , ', '.
+	s
+		add: 'status=';
+		add: self suspendedProcess _statusString;
+		add: ', '.
+	s
+		add: 'priority=';
+		add: self suspendedProcess priority printString;
+		add: ')'.
+	s lf.
+	^ s
 ]

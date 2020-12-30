@@ -85,6 +85,7 @@ SpkLauncherPresenter >> defaultPort [
 SpkLauncherPresenter >> disconnect [
 
 	Connection ifNotNil: [ :conn | 
+		SparkleTaskspace allInstances do: [ :taskspace | taskspace close ].
 		conn close.
 		Connection := nil ]
 ]
@@ -215,7 +216,8 @@ SpkLauncherPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: self launcherTitle;
-		initialExtent: 350 @ 200
+		initialExtent: 350 @ 200;
+		whenClosedDo: [ self disconnect ]
 ]
 
 { #category : 'constants' }
@@ -260,6 +262,14 @@ SpkLauncherPresenter >> portText [
 SpkLauncherPresenter >> portText: anObject [
 
 	portText := anObject
+]
+
+{ #category : 'api-window' }
+SpkLauncherPresenter >> requestWindowClose [
+
+	^ Connection ifNil: [ true ] ifNotNil: [ 
+		  self confirm:
+			  'Closing Sparkle Launcher will close explorers and connection. Continue?' ]
 ]
 
 { #category : 'actions' }

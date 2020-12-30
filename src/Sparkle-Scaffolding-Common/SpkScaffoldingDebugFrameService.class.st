@@ -3,6 +3,7 @@ Class {
 	#superclass : 'SpkScaffoldingAbstractService',
 	#instVars : [
 		'label',
+		'variableMap',
 		'methodService'
 	],
 	#category : 'Sparkle-Scaffolding-Common'

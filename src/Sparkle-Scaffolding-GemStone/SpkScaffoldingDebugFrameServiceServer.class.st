@@ -29,5 +29,13 @@ SpkScaffoldingDebugFrameServiceServer >> rowanFrameService [
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> rowanFrameService: object [
 	rowanFrameService := object.
-	self methodService	"prime the pump"
+	self methodService.	"prime the pump"
+	variableMap := Dictionary new.
+	rowanFrameService _vars
+		do: [ :rowanVariableService | variableMap at: rowanVariableService _key put: rowanVariableService _value ]
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> variableMap [
+	^ variableMap
 ]

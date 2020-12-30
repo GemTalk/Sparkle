@@ -292,45 +292,6 @@ removeallclassmethods MessageSend
 
 doit
 (Object
-	subclass: 'PackageManifest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-GemStone';
-		comment: 'Pharo adds Manifest* classes (subclass of PackageManifest), so for now 
-we have to have this class present in the GemStone package, so that we
-can load packages shared between GemStone and Pharo';
-		immediateInvariant.
-true.
-%
-
-removeallmethods PackageManifest
-removeallclassmethods PackageManifest
-
-doit
-(Object
-	subclass: 'SpkChatServer'
-	instVarNames: #( connection )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-GemStone';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkChatServer
-removeallclassmethods SpkChatServer
-
-doit
-(Object
 	subclass: 'SpkObject'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -2594,31 +2555,6 @@ valueWithEnoughArguments: anArray
 				with: anArray
 				startingAt: 1 ].
 	^ receiver perform: selector withArguments: args
-%
-
-! Class implementation for 'SpkChatServer'
-
-!		Class methods for 'SpkChatServer'
-
-category: 'instance creation'
-classmethod: SpkChatServer
-run
-	self new launchServer
-%
-
-!		Instance methods for 'SpkChatServer'
-
-category: 'actions'
-method: SpkChatServer
-launchServer
-	connection := RsrConnection acceptOn: self portNumber.
-	connection waitUntilClose
-%
-
-category: 'constants'
-method: SpkChatServer
-portNumber
-	^ 6842
 %
 
 ! Class implementation for 'SpkAction'
@@ -5055,7 +4991,7 @@ category: 'initialization'
 method: SpkTaskspaceLayoutServiceServer
 initializeExplorerServices
 
-	"Create the ExplorereLayoutServices and ExplorerServices."
+	"Create the ExplorerLayoutServices and ExplorerServices."
 
 	explorerLayoutServices := Set new.
 	tool explorerLayouts do: [ :xlTool | 

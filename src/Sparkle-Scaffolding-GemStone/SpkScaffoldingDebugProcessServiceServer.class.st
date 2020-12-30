@@ -82,10 +82,30 @@ SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
-	self suspendedProcess convertToPortableStack: -1.
+	| status |
+	self suspendedProcess _nativeStack
+		ifFalse: [ 
+			"expect to be using native code"
+			self pause ].
+	self suspendedProcess convertToPortableStack.
+	self suspendedProcess _nativeStack
+		ifTrue: [ 
+			"expect to be using portable stack"
+			self pause ].
 	self suspendedProcess stepOverFromLevel: aLevel.
+	self suspendedProcess convertToPortableStack.
 	self suspendedProcess _activate.
-	self suspendedProcess _continue.
+	self suspendedProcess _nativeStack
+		ifTrue: [ 
+			"expect to be using portable stack"
+			self pause ].
+	status := self suspendedProcess _statusString.
+	[ self suspendedProcess _continue ]
+		on: ImproperOperation
+		do: [ :ex | 
+			| native |
+			native := self suspendedProcess _nativeStack.
+			self pause ].
 	Processor yield.
 	self
 		rowanProcessService:

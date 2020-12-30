@@ -4,7 +4,6 @@ RwSimpleProjectLoadComponentV2 {
 	#projectNames : [ ],
 	#componentNames : [ ],
 	#packageNames : [
-		'Sparkle-GemStone',
 		'Sparkle-Tools-GemStone',
 		'Announcements-Core-GemStone',
 		'Announcements-Extensions-GemStone'

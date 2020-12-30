@@ -42,7 +42,7 @@ SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 { #category : 'debbuger process control' }
 SpkScaffoldingDebugProcessServiceClient >> stepOverFromLevel: aLevel [
 
-	^ (remoteSelf stepOverFromLevel: aLevel)" wait"
+	^ (remoteSelf stepOverFromLevel: aLevel ) wait
 ]
 
 { #category : 'accessing' }

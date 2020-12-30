@@ -270,7 +270,7 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 			WorldState defer: [ 
 				{ 
 					'catch'.
-					reason } inspect ] ]
+					reason } halt ] ]
 ]
 
 { #category : 'examples' }

@@ -18,7 +18,7 @@ SpkTaskspaceLayoutServiceServer class >> forTool: aTaskspaceLayoutTool [
 { #category : 'initialization' }
 SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
 
-	"Create the ExplorereLayoutServices and ExplorerServices."
+	"Create the ExplorerLayoutServices and ExplorerServices."
 
 	explorerLayoutServices := Set new.
 	tool explorerLayouts do: [ :xlTool | 

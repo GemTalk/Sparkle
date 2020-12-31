@@ -44,7 +44,8 @@ SpkScaffoldingServiceClient class >> debugger_01 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	service gsDebugger_01: '7 foo'
 ]
 
@@ -61,7 +62,8 @@ SpkScaffoldingServiceClient class >> debugger_02 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	service gsDebugger_02: '7 foo'
 ]
 
@@ -72,7 +74,8 @@ SpkScaffoldingServiceClient class >> debugger_03 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	[ service gsDebugger_03: '7 foo' ] forkNamed:
 		'Sparkle Scaffolding - keep connection alive until timeout'
 ]
@@ -87,7 +90,8 @@ SpkScaffoldingServiceClient class >> debugger_04 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_04: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -111,7 +115,8 @@ SpkScaffoldingServiceClient class >> debugger_05 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_05: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -133,7 +138,8 @@ SpkScaffoldingServiceClient class >> debugger_06a [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_06: '{3+4} at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -160,7 +166,8 @@ SpkScaffoldingServiceClient class >> debugger_06b [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_06: '7 halt')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -182,7 +189,8 @@ SpkScaffoldingServiceClient class >> debugger_06c [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_06: '7 foo')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -204,7 +212,8 @@ SpkScaffoldingServiceClient class >> debugger_06d [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_06: '7 error: ''oops''')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -231,7 +240,8 @@ SpkScaffoldingServiceClient class >> debugger_06e [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_06: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -261,7 +271,8 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	(service gsDebugger_06: 'SpkScaffoldingMockObject example2')
 		when: [ :result | 
 			WorldState defer: [ 
@@ -278,6 +289,7 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 
 { #category : 'examples' }
 SpkScaffoldingServiceClient class >> doit_01 [
+
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
 	bring up a Pharo inspector on the client"
 
@@ -285,9 +297,9 @@ SpkScaffoldingServiceClient class >> doit_01 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith: 
+		           self connection.
 	(service doit_01: '3+4') inspect
-
 ]
 
 { #category : 'examples' }
@@ -300,10 +312,10 @@ SpkScaffoldingServiceClient class >> doit_02 [
 
 	<example>
 	| service x |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	x := (service doit_02: '3+4') doitResult.
 	x inspect
-
 ]
 
 { #category : 'connections' }
@@ -325,17 +337,9 @@ SpkScaffoldingServiceClient class >> processList_01 [
 
 	<example>
 	| service |
-	service := self connection serviceFor: #SpkScaffoldingService.
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
 	service processList inspect
-
-]
-
-{ #category : 'services' }
-SpkScaffoldingServiceClient class >> serviceFor: aServiceName [
-
-
-	^self connection serviceFor: aServiceName
-	
 ]
 
 { #category : 'acccessing' }

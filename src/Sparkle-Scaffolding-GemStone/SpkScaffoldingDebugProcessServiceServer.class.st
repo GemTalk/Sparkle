@@ -95,8 +95,8 @@ SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel_original: aLevel [
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
-	self suspendedProcess stepOverFromLevel: aLevel.
 	self suspendedProcess _activate.
+	self suspendedProcess gciStepOverFromLevel: aLevel.
 	[ :aProc | 
 	| result status sched wasInCrit |
 	"Continue execution. Return the result of execution if the receiver

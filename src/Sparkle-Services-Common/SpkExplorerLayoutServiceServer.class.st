@@ -1,12 +1,10 @@
 Class {
 	#name : 'SpkExplorerLayoutServiceServer',
 	#superclass : 'SpkExplorerLayoutService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }
@@ -30,7 +28,7 @@ SpkExplorerLayoutServiceServer >> initializeColumns [
 		clServ initializePanesForExplorer: explorerService ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 SpkExplorerLayoutServiceServer >> initializeFromTool: explorerLayoutTool [
 
 	tool := explorerLayoutTool.

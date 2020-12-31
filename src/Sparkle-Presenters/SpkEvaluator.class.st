@@ -10,15 +10,16 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
+	#traits : 'SpkTLinkedPane',
+	#classTraits : 'SpkTLinkedPane classTrait',
 	#instVars : [
 		'pane',
-		'index',
-		'linkedPane'
+		'index'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'visiting' }
+{ #category : 'actions' }
 SpkEvaluator >> accept [
 
 	"Ignore ctrl-s if no unsaved changes"
@@ -31,7 +32,7 @@ SpkEvaluator >> accept [
 	model acceptFor: self
 ]
 
-{ #category : 'visiting' }
+{ #category : 'actions' }
 SpkEvaluator >> cancel [
 
 	"Ignore ctrl-l if no unsaved changes"
@@ -39,6 +40,23 @@ SpkEvaluator >> cancel [
 	self flag:
 		'The command itself and menu item should be disabled instead of this test.'.
 	model hasUnsavedChanges ifTrue: [ model cancel ]
+]
+
+{ #category : 'events' }
+SpkEvaluator >> closeRequestedLocally [
+
+	linkedPane ifNotNil: [ :p | p close ].
+	model unsubscribe: self.
+	"My owner is an InspectorPane"
+	owner removeEvaluator: self
+]
+
+{ #category : 'events' }
+SpkEvaluator >> closingLinkedPane: aPane [
+
+	self linkedPane == aPane ifFalse: [ 
+		self error: 'Only my linked pane should notify me when closing.' ].
+	self clearLinkedPane
 ]
 
 { #category : 'initialization' }
@@ -68,7 +86,7 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 		self halt: 'update text here' ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
 
 	"Linked inspectors for fields get a 0 element in their coordinate. 
@@ -77,7 +95,7 @@ SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
 	^ parentCoordinate , index
 ]
 
-{ #category : 'testing' }
+{ #category : 'updates' }
 SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
 	codePresenter hasUnacceptedEdits: aBoolean
@@ -113,18 +131,6 @@ SpkEvaluator >> initializePresenters [
 		whenResetDo: [ self cancel ]
 ]
 
-{ #category : 'accessing' }
-SpkEvaluator >> linkedPane [
-
-	^ linkedPane
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> linkedPane: anObject [
-
-	linkedPane := anObject
-]
-
 { #category : 'instance creation' }
 SpkEvaluator >> menuActions [
 
@@ -134,7 +140,6 @@ SpkEvaluator >> menuActions [
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
 		  register: (self class sourceCodeCommandsGroupWith: self);
-		  register: (SpkCloseEvaluatorCommand forSpecContext: self);
 		  yourself
 ]
 
@@ -144,89 +149,12 @@ SpkEvaluator >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'instance creation' }
-SpkEvaluator >> oldPaneMenu [
+{ #category : 'accessing' }
+SpkEvaluator >> nonChildSlotNames [
 
-	self flag: 'ObsoleteMethod?'.
-	^ self newMenu
-		  addGroup: [ :group | 
-			  group
-				  addItem: [ :item | 
-					  item
-						  name: 'Accept';
-						  shortcut: $s ctrl;
-						  icon: (self iconNamed: #glamorousAccept);
-						  action: [ model inform: 'Accept' ];
-						  yourself ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Cancel';
-						  shortcut: $l ctrl;
-						  icon: (self iconNamed: #glamorousCancel);
-						  action: [ model ];
-						  yourself ] ];
-		  addGroup: [ :group | 
-			  group
-				  addItem: [ :item | 
-					  item
-						  name: 'Undo';
-						  shortcut: $z ctrl;
-						  icon: (self iconNamed: #glamorousUndo);
-						  action: [ model inform: 'Got Undid' ];
-						  yourself ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Redo';
-						  shortcut: $z ctrl shift;
-						  icon: (self iconNamed: #glamorousRedo);
-						  action: [ model inform: 'Got Re-did' ];
-						  yourself ] ];
-		  addGroup: [ :group | 
-			  group
-				  addItem: [ :item | 
-					  item
-						  name: 'Cut';
-						  shortcut: $x ctrl;
-						  icon: (self iconNamed: #smallCut);
-						  action: [ model inform: 'Cut' ];
-						  yourself ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Copy';
-						  shortcut: $c ctrl;
-						  icon: (self iconNamed: #smallCopy);
-						  action: [ model inform: 'Copy' ];
-						  yourself ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Paste';
-						  shortcut: $v ctrl;
-						  icon: (self iconNamed: #smallPaste);
-						  action: [ model inform: 'Paste' ];
-						  yourself ] ];
-		  addGroup: [ :group | 
-			  group
-				  addItem: [ :item | 
-					  item
-						  name: 'Format';
-						  shortcut: $f ctrl shift;
-						  action: [ model inform: 'Format' ];
-						  yourself ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Do it';
-						  shortcut: $d ctrl;
-						  icon: (self iconNamed: #smallDoIt);
-						  action: [ model inform: 'DoIt' ];
-						  yourself ] ];
-		  addGroup: [ :group | 
-			  group addItem: [ :item | 
-				  item
-					  name: 'Close pane';
-					  shortcut: $w ctrl;
-					  action: [ self closeRequestedLocally ];
-					  yourself ] ];
-		  yourself
+	"This slot is defined in the SpkLinkedPane trait"
+
+	^ super nonChildSlotNames , #( #linkedPane )
 ]
 
 { #category : 'accessing' }

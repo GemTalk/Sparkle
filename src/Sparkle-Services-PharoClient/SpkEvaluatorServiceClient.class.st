@@ -18,9 +18,9 @@ SpkEvaluatorServiceClient >> acceptFor: requestId [
 	| promise |
 	promise := remoteSelf accept.
 	promise
-		when: [ :inspector | 
+		when: [ :newService | 
 			self updateHasUnsavedChanges.
-			parentService announceNewService: inspector forRequest: requestId ]
+			parentService announceNewService: newService forRequest: requestId ]
 		catch: self defaultCatchBlock
 ]
 
@@ -104,5 +104,6 @@ SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 	nowHaveUnsavedChanges ~= hasUnsavedChanges ifTrue: [ 
 		hasUnsavedChanges := nowHaveUnsavedChanges.
 		self announce:
-			(SpkUnsavedChangesAnnouncement hasUnsavedChanges: hasUnsavedChanges) ]
+			(SpkUnsavedChangesAnnouncement hasUnsavedChanges: hasUnsavedChanges) ].
+	^ hasUnsavedChanges
 ]

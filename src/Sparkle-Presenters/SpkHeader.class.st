@@ -38,7 +38,7 @@ SpkHeader >> closeButton: anObject [
 	closeButton := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkHeader >> closeButtonHelp [
 
 	self subclassResponsibility
@@ -65,6 +65,7 @@ SpkHeader >> initializePresenters [
 	menuButton := self newMenuButton
 		              color: Color transparent;
 		              icon: (self iconNamed: #hamburgerWhite16);
+		              help: self menuHelp;
 		              yourself.
 	closeButton := self newIconButton
 		               color: Color transparent;
@@ -111,6 +112,14 @@ SpkHeader >> menuButton: anObject [
 SpkHeader >> menuButtonWidth [
 
 	^ 24
+]
+
+{ #category : 'accessing' }
+SpkHeader >> menuHelp [
+
+	"Override to answer a string"
+
+	^ nil
 ]
 
 { #category : 'accessing' }

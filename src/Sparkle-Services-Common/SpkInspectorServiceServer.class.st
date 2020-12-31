@@ -1,12 +1,10 @@
 Class {
 	#name : 'SpkInspectorServiceServer',
 	#superclass : 'SpkInspectorService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }
@@ -51,10 +49,13 @@ SpkInspectorServiceServer >> refreshFromTool [
 
 	oop := tool oop.
 	classMembershipDescription := tool classMembershipDescription.
-	self flag: 'Debugging output'.
-	Transcript crShow:
-		'refreshFromTool: ' , classMembershipDescription printString.
 	selfDescription := tool selfDescription.
 	self initializeFieldsFromTool.
 	self initializeEvaluatorsFromTool
+]
+
+{ #category : 'accessing' }
+SpkInspectorServiceServer >> tool [
+
+	^ tool
 ]

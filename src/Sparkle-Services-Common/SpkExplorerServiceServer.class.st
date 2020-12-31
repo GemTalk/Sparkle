@@ -1,15 +1,13 @@
 Class {
 	#name : 'SpkExplorerServiceServer',
 	#superclass : 'SpkExplorerService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
 	#classInstVars : [
 		'serviceClassesForToolTypes'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }
@@ -31,7 +29,7 @@ SpkExplorerServiceServer class >> initializeServiceClassesForToolTypes [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkExplorerServiceServer class >> serviceClassForToolClass: aToolClass [
 
 	^ self serviceClassesForToolTypes
@@ -52,7 +50,7 @@ SpkExplorerServiceServer >> defaultLayout [
 	^ SpkExplorerLayoutServiceServer new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkExplorerServiceServer >> paneServiceForTool: aPaneTool [
 
 	| serviceClass |

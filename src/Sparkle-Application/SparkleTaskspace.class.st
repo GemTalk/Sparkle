@@ -31,16 +31,6 @@ SparkleTaskspace class >> applicationName [
 	^ 'Sparkle Taskspace'
 ]
 
-{ #category : 'instance creation' }
-SparkleTaskspace class >> openFromService: aTaskspaceService [
-
-	self flag: 'This method is probably obsolete.'.
-
-	^ self new
-		  restoreTaskspace: aTaskspaceService;
-		  yourself
-]
-
 { #category : 'accessing' }
 SparkleTaskspace >> connection [
 	^ connection
@@ -49,21 +39,6 @@ SparkleTaskspace >> connection [
 { #category : 'accessing' }
 SparkleTaskspace >> connection: anObject [
 	connection := anObject
-]
-
-{ #category : 'initialization' }
-SparkleTaskspace >> initializeAsDefault [
-
-	self flag: 'Obsolete method'.
-	self registryService defaultTaskspaceService
-]
-
-{ #category : 'initialization' }
-SparkleTaskspace >> initializeForName: aName [
-
-	self flag: 'incomplete'.
-
-	self registryService taskspaceServiceNamed: aName
 ]
 
 { #category : 'initialization' }
@@ -83,10 +58,10 @@ SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 SparkleTaskspace >> initializeRegistryService [
 
 	"Note that the use of SpkTaskspaceAnnouncement means that there must be exactly one
-	connectino per SparkleTaskspace."
+	connection per SparkleTaskspace."
 
-	registryService := connection serviceFor:
-		                   #SpkTaskspaceRegistryService.
+	registryService := SpkTaskspaceRegistryServiceClient new 
+		                   registerWith: connection.
 	registryService
 		when: SpkTaskspaceLayoutAnnouncement
 		send: #receiveTaskspaceLayoutAnnouncement:
@@ -149,24 +124,7 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 ]
 
 { #category : 'running' }
-SparkleTaskspace >> restoreTaskspace: aTaskspaceService [
-
-	"Open and initialize windows from the given service"
-
-	self flag: 'This method is obsolete'.
-	taskspaceService := aTaskspaceService.
-	self openAllWindows
-]
-
-{ #category : 'running' }
 SparkleTaskspace >> start [
 
 	self shouldNotImplement
-]
-
-{ #category : 'initialization' }
-SparkleTaskspace >> taskspaceArrived: anAnnouncement [
-
-	self flag: 'Obsolete method'.
-	self defer: [ self restoreTaskspace: anAnnouncement taskspaceService ]
 ]

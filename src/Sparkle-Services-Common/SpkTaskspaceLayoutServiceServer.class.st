@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }
@@ -18,7 +18,7 @@ SpkTaskspaceLayoutServiceServer class >> forTool: aTaskspaceLayoutTool [
 { #category : 'initialization' }
 SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
 
-	"Create the ExplorereLayoutServices and ExplorerServices."
+	"Create the ExplorerLayoutServices and ExplorerServices."
 
 	explorerLayoutServices := Set new.
 	tool explorerLayouts do: [ :xlTool | 

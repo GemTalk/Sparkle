@@ -26,7 +26,7 @@ Class {
 	#category : 'Sparkle-Presenters-Support'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
 SpkPaneCoordinate class >> forVector: aSequenceableCollection [
 
 	| newInstance |

@@ -1,4 +1,8 @@
+# Run the Sparkle test suite. Sparkle must already be loaded into a Rowan-enable stone.
 
-input $ROWAN_PROJECTS_HOME/RemoteServiceReplication/src-gs/loadRSR.topaz
-
-input $ROWAN_PROJECTS_HOME/RemoteServiceReplication/src-gs/executeReportTests.topaz
+run
+    | suite result |
+    suite := Rowan projectTools test testSuiteForProjectsNamed: { 'Sparkle' }.
+    result := suite run.
+    result printString.
+%

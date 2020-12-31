@@ -84,6 +84,15 @@ SpkPresenter >> newTable [
 	^ self instantiate: SpkMultipleSelectionTablePresenter
 ]
 
+{ #category : 'accessing' }
+SpkPresenter >> nonChildSlotNames [
+
+	"Answer a collection of the names of slots that, though they might refer to presenters, those presenters
+	are not my children."
+
+	^ #( #owner )
+]
+
 { #category : 'work in progress' }
 SpkPresenter >> notYetImplemented: aString [
 
@@ -102,4 +111,15 @@ SpkPresenter >> presenterForService: aPaneService [
 		self error: 'Pane service is of unknown or multiple type' ].
 	presenterClass := matches values first.
 	^ presenterClass owner: self on: aPaneService
+]
+
+{ #category : 'private-traversing' }
+SpkPresenter >> presentersDo: aBlock [
+
+	self class allSlots
+		reject: [ :each | self nonChildSlotNames includes: each name ]
+		thenDo: [ :each | 
+			| var |
+			var := self readSlot: each.
+			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ]
 ]

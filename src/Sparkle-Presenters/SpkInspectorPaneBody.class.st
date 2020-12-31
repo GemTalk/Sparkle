@@ -25,15 +25,6 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkInspectorPaneBody >> initialize [
-
-	"Super initialize accesses fieldListIsShown, so initialize it first."
-
-	fieldListIsShown := false.
-	super initialize
-]
-
-{ #category : 'initialization' }
 SpkInspectorPaneBody >> initializeDescription [
 
 	description := self newLabel
@@ -70,7 +61,9 @@ SpkInspectorPaneBody >> initializeFieldListModel [
 	| fields |
 	fieldListModel := SpkMultiSelectList new.
 	fields := model fields collect: [ :each | 
-		          SpkInspectorField for: each ].
+		          (SpkInspectorField for: each)
+			          list: fieldListModel;
+			          yourself ].
 	fieldListModel
 		addAll: fields;
 		when: SpkItemSelected send: #fieldSelected: to: owner;
@@ -80,12 +73,12 @@ SpkInspectorPaneBody >> initializeFieldListModel [
 { #category : 'initialization' }
 SpkInspectorPaneBody >> initializePresenters [
 
-	"Start with the field list closed, so no list yet"
-
 	super initializePresenters.
+	fieldListIsShown := true.
 	self
 		initializeTop;
-		initializeFieldList
+		initializeFieldList;
+		updateFieldListVisibility
 ]
 
 { #category : 'initialization' }
@@ -111,6 +104,14 @@ SpkInspectorPaneBody >> initializeTwizzle [
 			fill: false;
 			width: 20;
 			height: 20 ]
+]
+
+{ #category : 'accessing' }
+SpkInspectorPaneBody >> linkedPanes [
+
+	^ fieldListModel items
+		  collect: [ :field | field linkedPane ]
+		  thenSelect: [ :pane | pane notNil ]
 ]
 
 { #category : 'accessing' }
@@ -150,6 +151,15 @@ SpkInspectorPaneBody >> updateFieldListVisibility [
 	fieldListIsShown
 		ifTrue: [ self layout add: fieldList beforeIndex: 2 ]
 		ifFalse: [ self layout remove: fieldList ]
+]
+
+{ #category : 'updating' }
+SpkInspectorPaneBody >> updateSelection [
+
+	"If the selected items are changed by means other than a mouse click,
+	we must let the list know to display the correct selection."
+
+	fieldList selectIndexes: fieldListModel selectedIndexes
 ]
 
 { #category : 'actions' }

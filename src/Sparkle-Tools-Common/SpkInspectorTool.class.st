@@ -74,6 +74,12 @@ SpkInspectorTool >> evaluatorTools [
 ]
 
 { #category : 'accessing' }
+SpkInspectorTool >> explorerTool [
+
+	^ explorerTool
+]
+
+{ #category : 'accessing' }
 SpkInspectorTool >> explorerTool: anObject [
 
 	explorerTool := anObject

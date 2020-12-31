@@ -27,19 +27,27 @@ SpkEvaluatorTool >> accept [
 	^ resultTool
 ]
 
-{ #category : 'compiling' }
-SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
+{ #category : 'accessing' }
+SpkEvaluatorTool >> evaluateCode [
 
-	"Answer a method compiled from my new source code in the context of the given object"
+	"Evaluate the newSource and answer an appropriate tool for 
+	whatever happens. This can be a syntax error, a runtime error, or an object.
+	For an object, answer an InspectorTool on the object."
 
-	| compiler class |
-	class := SpkReflection classOf: anObject.
-	compiler := class compiler.
+	| context method resultObject |
+	context := inspectorTool inspectedObject.
 
-	compiler
-		source: newSourceCode;
-		noPattern: true.
-	^ compiler compileDoit
+	[ method := self compileNewSourceCodeInContext: context ]
+		on: self compilationExceptionClass
+		do: [ :ex | ^ self toolForCompilationError: ex ].
+
+
+	[ resultObject := self evaluateMethod: method inContext: context ]
+		on: Error
+		do: [ :ex | ^ self toolForRuntimeError: ex ].
+	^ (SpkInspectorTool on: resultObject)
+		  explorerTool: explorerTool;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -85,13 +93,13 @@ SpkEvaluatorTool >> oldSourceCode: anObject [
 	oldSourceCode := anObject
 ]
 
-{ #category : 'as yet unclassified' }
-SpkEvaluatorTool >> toolForCompilationError: aSyntaxErrorNotification [
+{ #category : 'tool creation' }
+SpkEvaluatorTool >> toolForCompilationError: aCompilationException [
 
-	^ SpkCompilationErrorTool forException: aSyntaxErrorNotification
+	^ SpkCompilationErrorTool forException: aCompilationException
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'tool creation' }
 SpkEvaluatorTool >> toolForRuntimeError: anError [
 
 	^ SpkRuntimeErrorTool forException: anError

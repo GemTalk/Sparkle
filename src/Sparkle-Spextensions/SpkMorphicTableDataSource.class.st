@@ -4,7 +4,7 @@ Class {
 	#category : 'Sparkle-Spextensions-Adapters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkMorphicTableDataSource >> cellClass [
 
 	^ SpkCellMorph

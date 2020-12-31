@@ -4,12 +4,17 @@ Class {
 	#instVars : [
 		'body',
 		'addEvaluatorButton',
-		'linkedInspectors',
 		'evaluators',
 		'nextEvaluatorIndex'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'adding' }
+SpkInspectorPane >> addEvaluator [
+
+	self addEvaluatorWithModel: model addEvaluator
+]
 
 { #category : 'adding' }
 SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
@@ -21,13 +26,14 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 		index: self nextEvaluatorIndex.
 	nextEvaluatorIndex := self nextEvaluatorIndex + 1.
 	self evaluators add: evaluator.
-	self layout add: evaluator
+	self layout add: evaluator before: addEvaluatorButton
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
+	header menu: self menuActions asMenuPresenter.
 	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
 ]
 
@@ -40,12 +46,15 @@ SpkInspectorPane >> evaluators [
 { #category : 'actions' }
 SpkInspectorPane >> fieldDeselected: anAnnouncement [
 
-	"This announcement comes from the UI, not a service"
+	"This announcement comes from the UI, not a service,
+	so does not need to be deferred."
 
 	| field |
 	field := anAnnouncement item.
-	owner nextRightColumn remove: field linkedPane.
-	field clearLinkedPane
+	"If the close was initiated by the linked pane, 
+	it will already be closed and removed from the field."
+	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
+	body updateSelection
 ]
 
 { #category : 'actions' }
@@ -60,7 +69,7 @@ SpkInspectorPane >> fieldSelected: anAnnouncement [
 	will be created by announcement from the service."
 	inspectorService
 		ifNil: [ self disableAll ]
-		ifNotNil: [ self openInspector: inspectorService forItem: field ]
+		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
 ]
 
 { #category : 'adding' }
@@ -108,8 +117,14 @@ SpkInspectorPane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeBody;
-		initializeEvaluators;
-		initializeAddEvaluatorButton
+		initializeAddEvaluatorButton;
+		initializeEvaluators
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> linkedPanes [
+
+	^ body linkedPanes , self panesLinkedToEvaluators
 ]
 
 { #category : 'accessing' }
@@ -117,10 +132,9 @@ SpkInspectorPane >> menuActions [
 
 	^ CmCommandGroup forSpec
 		  beRoot;
-		  register: ((SpkAddEvaluatorCommand forSpecContext: self)
+		  register: ((SpkViewRawCommand forSpecContext: self)
 				   iconProvider: SpkIconLibrary current;
 				   yourself);
-		  register: (SpkClosePaneCommand forSpecContext: self);
 		  yourself
 ]
 
@@ -134,7 +148,7 @@ SpkInspectorPane >> newLayout [
 SpkInspectorPane >> newPaneForService: newService linkedTo: item [
 	"Item is an InspectorField or an evaluator"
 
-	self openInspector: newService forItem: item.
+	self openLinkedPane: newService forItem: item.
 	"This announcement came from the server, so all of my widgets are disabled."
 	self reEnableAll
 ]
@@ -146,22 +160,52 @@ SpkInspectorPane >> nextEvaluatorIndex [
 ]
 
 { #category : 'actions' }
-SpkInspectorPane >> openInspector: anInspectorService forItem: item [
+SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
 
 	" Create and open an inspector pane in the next column.
 	item is an InspectorField or an evaluator."
 
 	| nextRightColumn newPane |
 	nextRightColumn := owner nextRightColumn.
-	newPane := nextRightColumn presenterForService: anInspectorService.
-	"Linked inspectors for fields get a 0 element in their coordinate. 
+	"Ask the column, since it must own the new pane."
+	newPane := nextRightColumn presenterForService: aPaneService.
+	"Linked panes for fields get a 0 element in their coordinate. 
 	Ones for evaluators get the evaluator's index."
 	newPane coordinate: (item coordinateRelativeTo: coordinate).
-	item linkedPane: newPane.
+	"Add before close so that the column doesn't become empty and remove itself"
 	nextRightColumn add: newPane.
+	item
+		closeLinkedPane;
+		linkedPane: newPane.
 	self flag:
 		'Probably need a different kind of refresh for an evaluator'.
 	body refreshFieldList "Change linking arrow."
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> panesLinkedToEvaluators [
+
+	^ self evaluators
+		  collect: [ :each | each linkedPane ]
+		  thenSelect: [ :each | each notNil ]
+]
+
+{ #category : 'printing' }
+SpkInspectorPane >> printOn: aStream [
+
+	super printOn: aStream.
+	model ifNotNil: [ 
+		[ 
+		| classMembership oop |
+		classMembership := model classMembershipDescription.
+		oop := model oop.
+		aStream
+			<< ' for ';
+			<< classMembership;
+			space.
+		oop printOn: aStream base: 16 ]
+			on: Error
+			do: [ :ex | ex return ] ]
 ]
 
 { #category : 'announcements' }
@@ -171,4 +215,12 @@ SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 		self
 			newPaneForService: anAnnouncement service
 			linkedTo: anAnnouncement requestId ]
+]
+
+{ #category : 'removing' }
+SpkInspectorPane >> removeEvaluator: anEvaluator [
+
+	model removeEvaluator: anEvaluator model.
+	layout remove: anEvaluator.
+	evaluators remove: anEvaluator
 ]

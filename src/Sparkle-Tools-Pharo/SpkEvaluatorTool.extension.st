@@ -1,24 +1,24 @@
 Extension { #name : 'SpkEvaluatorTool' }
 
 { #category : '*Sparkle-Tools-Pharo' }
-SpkEvaluatorTool >> evaluateCode [
+SpkEvaluatorTool >> compilationExceptionClass [
 
-	"Evaluate the newSource and answer an appropriate tool for 
-	whatever happens. This can be a syntax error, a runtime error, or an object.
-	For an object, answer an InspectorTool on the object."
+	^ SyntaxErrorNotification
+]
 
-	| context method resultObject |
-	context := inspectorTool inspectedObject.
+{ #category : '*Sparkle-Tools-Pharo' }
+SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 
-	[ method := self compileNewSourceCodeInContext: context ]
-		on: SyntaxErrorNotification
-		do: [ :ex | ^ self toolForCompilationError: ex ].
+	"Answer a method compiled from my new source code in the context of the given object"
 
+	| compiler class |
+	class := SpkReflection classOf: anObject.
+	compiler := class compiler.
 
-	[ resultObject := self evaluateMethod: method inContext: context ]
-		on: Error
-		do: [ :ex | ^ self toolForRuntimeError: ex ].
-	^ SpkInspectorTool on: resultObject
+	compiler
+		source: newSourceCode;
+		noPattern: true.
+	^ compiler compileDoit
 ]
 
 { #category : '*Sparkle-Tools-Pharo' }

@@ -32,7 +32,7 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'instance creation' }
 SpkUndoManager class >> withLimit: anInteger [
 
 	^ self new

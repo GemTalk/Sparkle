@@ -9,7 +9,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -27,7 +27,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -46,7 +46,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -65,7 +65,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -84,7 +84,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -103,7 +103,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -121,7 +121,7 @@ doit
 	classVars: #( RegisteredSessions Registry )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -139,7 +139,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -157,7 +157,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -175,7 +175,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -193,7 +193,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -215,7 +215,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -241,7 +241,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -260,7 +260,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -279,7 +279,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -292,51 +292,12 @@ removeallclassmethods MessageSend
 
 doit
 (Object
-	subclass: 'PackageManifest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: UserGlobals
-	options: #()
-)
-		category: 'Sparkle-GemStone';
-		comment: 'Pharo adds Manifest* classes (subclass of PackageManifest), so for now 
-we have to have this class present in the GemStone package, so that we
-can load packages shared between GemStone and Pharo';
-		immediateInvariant.
-true.
-%
-
-removeallmethods PackageManifest
-removeallclassmethods PackageManifest
-
-doit
-(Object
-	subclass: 'SpkChatServer'
-	instVarNames: #( connection )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: UserGlobals
-	options: #()
-)
-		category: 'Sparkle-GemStone';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkChatServer
-removeallclassmethods SpkChatServer
-
-doit
-(Object
 	subclass: 'SpkObject'
 	instVarNames: #(  )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -357,7 +318,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -390,7 +351,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -417,7 +378,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -438,7 +399,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -459,7 +420,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone';
@@ -479,7 +440,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -508,7 +469,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -526,7 +487,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -544,7 +505,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -564,7 +525,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -583,7 +544,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -601,7 +562,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -619,7 +580,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -637,7 +598,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -655,7 +616,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -688,7 +649,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -707,7 +668,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -726,7 +687,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -757,7 +718,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -775,7 +736,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -793,7 +754,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -811,7 +772,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -829,7 +790,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -858,7 +819,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -892,7 +853,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
@@ -932,7 +893,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -955,7 +916,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -981,13 +942,31 @@ removeallmethods SpkColumnLayoutService
 removeallclassmethods SpkColumnLayoutService
 
 doit
+(SpkColumnLayoutService
+	subclass: 'SpkColumnLayoutServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkColumnLayoutServiceServer
+removeallclassmethods SpkColumnLayoutServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkCompilationErrorService'
 	instVarNames: #( sourceCode errorMessage errorLocation )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -999,13 +978,31 @@ removeallmethods SpkCompilationErrorService
 removeallclassmethods SpkCompilationErrorService
 
 doit
+(SpkCompilationErrorService
+	subclass: 'SpkCompilationErrorServiceServer'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkCompilationErrorServiceServer
+removeallclassmethods SpkCompilationErrorServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkExplorerLayoutService'
 	instVarNames: #( explorerService width height columnLayouts )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1030,13 +1027,31 @@ removeallmethods SpkExplorerLayoutService
 removeallclassmethods SpkExplorerLayoutService
 
 doit
+(SpkExplorerLayoutService
+	subclass: 'SpkExplorerLayoutServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkExplorerLayoutServiceServer
+removeallclassmethods SpkExplorerLayoutServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkExplorerService'
 	instVarNames: #( paneServices layoutService )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1060,13 +1075,31 @@ removeallmethods SpkExplorerService
 removeallclassmethods SpkExplorerService
 
 doit
+(SpkExplorerService
+	subclass: 'SpkExplorerServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #( serviceClassesForToolTypes )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkExplorerServiceServer
+removeallclassmethods SpkExplorerServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkInspectorService'
 	instVarNames: #( oop classMembershipDescription selfDescription fields evaluators )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1088,13 +1121,31 @@ removeallmethods SpkInspectorService
 removeallclassmethods SpkInspectorService
 
 doit
+(SpkInspectorService
+	subclass: 'SpkInspectorServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorServiceServer
+removeallclassmethods SpkInspectorServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkLinkableSubService'
 	instVarNames: #( parentService linkedService )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1122,7 +1173,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1153,7 +1204,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1172,13 +1223,31 @@ removeallmethods SpkEvaluatorService
 removeallclassmethods SpkEvaluatorService
 
 doit
+(SpkEvaluatorService
+	subclass: 'SpkEvaluatorServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkEvaluatorServiceServer
+removeallclassmethods SpkEvaluatorServiceServer
+
+doit
 (SpkLinkableSubService
 	subclass: 'SpkInspectorFieldService'
 	instVarNames: #( name description )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1206,13 +1275,31 @@ removeallmethods SpkInspectorFieldService
 removeallclassmethods SpkInspectorFieldService
 
 doit
+(SpkInspectorFieldService
+	subclass: 'SpkInspectorFieldServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorFieldServiceServer
+removeallclassmethods SpkInspectorFieldServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkPaneLayoutService'
 	instVarNames: #( relativeHeight paneCoordinate paneService )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1239,13 +1326,31 @@ removeallmethods SpkPaneLayoutService
 removeallclassmethods SpkPaneLayoutService
 
 doit
+(SpkPaneLayoutService
+	subclass: 'SpkPaneLayoutServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkPaneLayoutServiceServer
+removeallclassmethods SpkPaneLayoutServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkRuntimeErrorService'
 	instVarNames: #( stack title )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1257,13 +1362,31 @@ removeallmethods SpkRuntimeErrorService
 removeallclassmethods SpkRuntimeErrorService
 
 doit
+(SpkRuntimeErrorService
+	subclass: 'SpkRuntimeErrorServiceServer'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkRuntimeErrorServiceServer
+removeallclassmethods SpkRuntimeErrorServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkTaskspaceLayoutService'
 	instVarNames: #( taskspaceService explorerLayoutServices )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1275,13 +1398,31 @@ removeallmethods SpkTaskspaceLayoutService
 removeallclassmethods SpkTaskspaceLayoutService
 
 doit
+(SpkTaskspaceLayoutService
+	subclass: 'SpkTaskspaceLayoutServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkTaskspaceLayoutServiceServer
+removeallclassmethods SpkTaskspaceLayoutServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkTaskspaceRegistryService'
 	instVarNames: #(  )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1293,13 +1434,31 @@ removeallmethods SpkTaskspaceRegistryService
 removeallclassmethods SpkTaskspaceRegistryService
 
 doit
+(SpkTaskspaceRegistryService
+	subclass: 'SpkTaskspaceRegistryServiceServer'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkTaskspaceRegistryServiceServer
+removeallclassmethods SpkTaskspaceRegistryServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkTaskspaceService'
 	instVarNames: #( explorers )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Services-Common';
@@ -1323,13 +1482,31 @@ removeallmethods SpkTaskspaceService
 removeallclassmethods SpkTaskspaceService
 
 doit
+(SpkTaskspaceService
+	subclass: 'SpkTaskspaceServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkTaskspaceServiceServer
+removeallclassmethods SpkTaskspaceServiceServer
+
+doit
 (RsrTestCase
 	subclass: 'SpkLimitedWriteStreamTest'
 	instVarNames: #(  )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone-Test';
@@ -1347,7 +1524,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone';
@@ -1372,7 +1549,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -1391,7 +1568,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Announcements-Core-GemStone-Test';
@@ -1417,7 +1594,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone-Test';
@@ -1435,7 +1612,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -1453,7 +1630,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-Common-Test';
@@ -1471,7 +1648,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: Globals
 	options: #()
 )
 		category: 'Sparkle-Tools-GemStone';
@@ -2380,31 +2557,6 @@ valueWithEnoughArguments: anArray
 	^ receiver perform: selector withArguments: args
 %
 
-! Class implementation for 'SpkChatServer'
-
-!		Class methods for 'SpkChatServer'
-
-category: 'instance creation'
-classmethod: SpkChatServer
-run
-	self new launchServer
-%
-
-!		Instance methods for 'SpkChatServer'
-
-category: 'actions'
-method: SpkChatServer
-launchServer
-	connection := RsrConnection acceptOn: self portNumber.
-	connection waitUntilClose
-%
-
-category: 'constants'
-method: SpkChatServer
-portNumber
-	^ 6842
-%
-
 ! Class implementation for 'SpkAction'
 
 !		Class methods for 'SpkAction'
@@ -2688,7 +2840,7 @@ performAction
 	^ 42
 %
 
-category: 'TOREMOVE'
+category: 'accessing'
 method: SpkTestUndoableAction
 undoAction
 
@@ -2856,20 +3008,28 @@ accept
 	^ resultTool
 %
 
-category: 'compiling'
+category: 'accessing'
 method: SpkEvaluatorTool
-compileNewSourceCodeInContext: anObject
+evaluateCode
 
-	"Answer a method compiled from my new source code in the context of the given object"
+	"Evaluate the newSource and answer an appropriate tool for 
+	whatever happens. This can be a syntax error, a runtime error, or an object.
+	For an object, answer an InspectorTool on the object."
 
-	| compiler class |
-	class := SpkReflection classOf: anObject.
-	compiler := class compiler.
+	| context method resultObject |
+	context := inspectorTool inspectedObject.
 
-	compiler
-		source: newSourceCode;
-		noPattern: true.
-	^ compiler compileDoit
+	[ method := self compileNewSourceCodeInContext: context ]
+		on: self compilationExceptionClass
+		do: [ :ex | ^ self toolForCompilationError: ex ].
+
+
+	[ resultObject := self evaluateMethod: method inContext: context ]
+		on: Error
+		do: [ :ex | ^ self toolForRuntimeError: ex ].
+	^ (SpkInspectorTool on: resultObject)
+		  explorerTool: explorerTool;
+		  yourself
 %
 
 category: 'accessing'
@@ -2922,14 +3082,14 @@ oldSourceCode: anObject
 	oldSourceCode := anObject
 %
 
-category: 'as yet unclassified'
+category: 'tool creation'
 method: SpkEvaluatorTool
-toolForCompilationError: aSyntaxErrorNotification
+toolForCompilationError: aCompilationException
 
-	^ SpkCompilationErrorTool forException: aSyntaxErrorNotification
+	^ SpkCompilationErrorTool forException: aCompilationException
 %
 
-category: 'as yet unclassified'
+category: 'tool creation'
 method: SpkEvaluatorTool
 toolForRuntimeError: anError
 
@@ -3168,6 +3328,13 @@ method: SpkInspectorTool
 evaluatorTools
 
 	^ evaluatorTools
+%
+
+category: 'accessing'
+method: SpkInspectorTool
+explorerTool
+
+	^ explorerTool
 %
 
 category: 'accessing'
@@ -3604,7 +3771,7 @@ initializeForDefault
 
 !		Class methods for 'SpkUndoManager'
 
-category: 'as yet unclassified'
+category: 'instance creation'
 classmethod: SpkUndoManager
 withLimit: anInteger
 
@@ -3888,6 +4055,44 @@ relativeWidth: anObject
 	relativeWidth := anObject
 %
 
+! Class implementation for 'SpkColumnLayoutServiceServer'
+
+!		Class methods for 'SpkColumnLayoutServiceServer'
+
+category: 'instance creation'
+classmethod: SpkColumnLayoutServiceServer
+forTool: aColumnLayoutTool
+
+	^ self new
+		  initializeFromTool: aColumnLayoutTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkColumnLayoutServiceServer'
+
+category: 'initialization'
+method: SpkColumnLayoutServiceServer
+initializeFromTool: aColumnLayoutTool
+
+	tool := aColumnLayoutTool.
+	relativeWidth := tool relativeWidth
+%
+
+category: 'initialization'
+method: SpkColumnLayoutServiceServer
+initializePanesForExplorer: xServ
+
+	paneLayouts := OrderedCollection new.
+	tool paneLayouts do: [ :plTool | 
+		| plServ pServ |
+		plServ := SpkPaneLayoutServiceServer forTool: plTool.
+		pServ := xServ paneServiceForTool: plTool paneTool.
+		plServ paneService: pServ.
+
+		paneLayouts add: plServ.
+		xServ addPaneService: pServ ]
+%
+
 ! Class implementation for 'SpkCompilationErrorService'
 
 !		Class methods for 'SpkCompilationErrorService'
@@ -3920,6 +4125,30 @@ method: SpkCompilationErrorService
 sourceCode
 
 	^ sourceCode
+%
+
+! Class implementation for 'SpkCompilationErrorServiceServer'
+
+!		Class methods for 'SpkCompilationErrorServiceServer'
+
+category: 'instance creation'
+classmethod: SpkCompilationErrorServiceServer
+forTool: aColumnLayoutTool
+
+	^ self new
+		  initializeFromTool: aColumnLayoutTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkCompilationErrorServiceServer'
+
+category: 'initialization'
+method: SpkCompilationErrorServiceServer
+initializeFromTool: aTool
+
+	errorLocation := aTool errorLocation.
+	errorMessage := aTool errorMessage.
+	sourceCode := aTool sourceCode
 %
 
 ! Class implementation for 'SpkExplorerLayoutService'
@@ -4002,6 +4231,51 @@ width: anObject
 	width := anObject
 %
 
+! Class implementation for 'SpkExplorerLayoutServiceServer'
+
+!		Class methods for 'SpkExplorerLayoutServiceServer'
+
+category: 'instance creation'
+classmethod: SpkExplorerLayoutServiceServer
+forTool: anExplorerLayoutTool
+
+	^ self new
+		  initializeFromTool: anExplorerLayoutTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkExplorerLayoutServiceServer'
+
+category: 'initialization'
+method: SpkExplorerLayoutServiceServer
+initializeColumns
+
+	"Create column and pane services and their layout services, based on my layout tool."
+
+	columnLayouts := OrderedCollection new.
+	tool columnLayouts do: [ :clTool | 
+		| clServ |
+		clServ := SpkColumnLayoutServiceServer forTool: clTool.
+		columnLayouts add: clServ.
+		clServ initializePanesForExplorer: explorerService ]
+%
+
+category: 'initialization'
+method: SpkExplorerLayoutServiceServer
+initializeFromTool: explorerLayoutTool
+
+	tool := explorerLayoutTool.
+	height := tool height.
+	width := tool width
+%
+
+category: 'accessing'
+method: SpkExplorerLayoutServiceServer
+tool
+
+	^ tool
+%
+
 ! Class implementation for 'SpkExplorerService'
 
 !		Class methods for 'SpkExplorerService'
@@ -4069,6 +4343,80 @@ removePane: aService
 	pane service is the inspector service."
 
 	paneServices remove: aService
+%
+
+! Class implementation for 'SpkExplorerServiceServer'
+
+!		Class methods for 'SpkExplorerServiceServer'
+
+category: 'instance creation'
+classmethod: SpkExplorerServiceServer
+forTool: anExplorerTool
+
+	^ self new
+		  tool: anExplorerTool;
+		  yourself
+%
+
+category: 'initialization'
+classmethod: SpkExplorerServiceServer
+initializeServiceClassesForToolTypes
+
+	serviceClassesForToolTypes := IdentityDictionary new.
+	^ serviceClassesForToolTypes
+		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
+		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
+		  at: SpkInspectorTool put: SpkInspectorServiceServer;
+		  yourself
+%
+
+category: 'accessing'
+classmethod: SpkExplorerServiceServer
+serviceClassesForToolTypes
+
+	^ serviceClassesForToolTypes ifNil: [ 
+		  self initializeServiceClassesForToolTypes ]
+%
+
+category: 'accessing'
+classmethod: SpkExplorerServiceServer
+serviceClassForToolClass: aToolClass
+
+	^ self serviceClassesForToolTypes
+		  at: aToolClass
+		  ifAbsent: [ self error: 'Unrecognized tool class' ]
+%
+
+!		Instance methods for 'SpkExplorerServiceServer'
+
+category: 'initialization'
+method: SpkExplorerServiceServer
+defaultLayout
+
+	^ SpkExplorerLayoutServiceServer new
+%
+
+category: 'accessing'
+method: SpkExplorerServiceServer
+paneServiceForTool: aPaneTool
+
+	| serviceClass |
+	serviceClass := self class serviceClassForToolClass: aPaneTool class.
+	^ serviceClass forTool: aPaneTool
+%
+
+category: 'accessing'
+method: SpkExplorerServiceServer
+tool
+
+	^ tool
+%
+
+category: 'accessing'
+method: SpkExplorerServiceServer
+tool: anObject
+
+	tool := anObject
 %
 
 ! Class implementation for 'SpkInspectorService'
@@ -4146,6 +4494,71 @@ category: 'accessing'
 method: SpkInspectorService
 selfDescription: anObject
 	selfDescription := anObject
+%
+
+! Class implementation for 'SpkInspectorServiceServer'
+
+!		Class methods for 'SpkInspectorServiceServer'
+
+category: 'instance creation'
+classmethod: SpkInspectorServiceServer
+forTool: aTool
+
+	^ self new
+		  initializeFromTool: aTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkInspectorServiceServer'
+
+category: 'initialization'
+method: SpkInspectorServiceServer
+initializeEvaluatorsFromTool
+
+	evaluators := OrderedCollection new.
+	tool evaluatorTools do: [ :evaluatorTool | 
+		evaluators add: (SpkEvaluatorServiceServer new
+				 parentService: self;
+				 initializeFromTool: evaluatorTool;
+				 yourself) ]
+%
+
+category: 'initialization'
+method: SpkInspectorServiceServer
+initializeFieldsFromTool
+
+	fields := OrderedCollection new.
+	tool fieldTools do: [ :fieldTool | 
+		fields add: (SpkInspectorFieldServiceServer new
+				 parentService: self;
+				 initializeFromTool: fieldTool;
+				 yourself) ]
+%
+
+category: 'initialization'
+method: SpkInspectorServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkInspectorServiceServer
+refreshFromTool
+
+	oop := tool oop.
+	classMembershipDescription := tool classMembershipDescription.
+	selfDescription := tool selfDescription.
+	self initializeFieldsFromTool.
+	self initializeEvaluatorsFromTool
+%
+
+category: 'accessing'
+method: SpkInspectorServiceServer
+tool
+
+	^ tool
 %
 
 ! Class implementation for 'SpkLinkableSubService'
@@ -4239,11 +4652,86 @@ initialize
 	evaluationContext := nil
 %
 
+! Class implementation for 'SpkEvaluatorServiceServer'
+
+!		Instance methods for 'SpkEvaluatorServiceServer'
+
+category: 'actions'
+method: SpkEvaluatorServiceServer
+accept
+
+	"Evaluate my newSourceCode, answer a new service for the result."
+
+	| resultTool resultService |
+	self tool newSourceCode: newSourceCode.
+	resultTool := self tool accept.
+
+	self refreshFromTool.
+	resultService := self serviceForTool: resultTool.
+	^ resultService
+%
+
+category: 'initialization'
+method: SpkEvaluatorServiceServer
+initializeFromTool: evaluatorTool
+
+	"If we're restoring a taskspace I get initialized from my tool.
+	If I'm being created from the client, I have to create a tool for myself to use."
+
+	tool := evaluatorTool.
+	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkEvaluatorServiceServer
+initializeTool
+
+	"If we're restoring a taskspace I get initialized from my tool.
+	If I'm being created from the client, I have to create a tool for myself to use."
+
+	| inspectorTool |
+	inspectorTool := parentService tool.
+	tool := SpkEvaluatorTool new.
+	^ tool
+		oldSourceCode: oldSourceCode;
+		newSourceCode: newSourceCode;
+		inspectorTool: inspectorTool;
+		explorerTool: inspectorTool explorerTool;
+		yourself
+%
+
+category: 'initialization'
+method: SpkEvaluatorServiceServer
+refreshFromTool
+
+	oldSourceCode := tool oldSourceCode.
+	newSourceCode := tool newSourceCode
+%
+
+category: 'accessing'
+method: SpkEvaluatorServiceServer
+serviceForTool: aTool
+
+	| serviceClass |
+	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
+		                aTool class.
+	^ serviceClass forTool: aTool
+%
+
+category: 'initialization'
+method: SpkEvaluatorServiceServer
+tool
+	"If we're restoring a taskspace I get initialized from my tool.
+	If I'm being created from the client, I have to create a tool for myself to use."
+
+	^ tool ifNil: [ self initializeTool ]
+%
+
 ! Class implementation for 'SpkInspectorFieldService'
 
 !		Class methods for 'SpkInspectorFieldService'
 
-category: 'as yet unclassified'
+category: 'instance creation'
 classmethod: SpkInspectorFieldService
 name: nameString description: descriptionString
 
@@ -4284,6 +4772,36 @@ category: 'accessing'
 method: SpkInspectorFieldService
 name: anObject
 	name := anObject
+%
+
+! Class implementation for 'SpkInspectorFieldServiceServer'
+
+!		Instance methods for 'SpkInspectorFieldServiceServer'
+
+category: 'inspecting'
+method: SpkInspectorFieldServiceServer
+createInspectorService
+
+	| objectToInspect newTool |
+	objectToInspect := tool value.
+	newTool := SpkInspectorTool on: objectToInspect.
+	^ SpkInspectorServiceServer forTool: newTool
+%
+
+category: 'initialization'
+method: SpkInspectorFieldServiceServer
+initializeFromTool: aFieldTool
+
+	tool := aFieldTool.
+	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkInspectorFieldServiceServer
+refreshFromTool
+
+	name := tool name.
+	description := tool selfDescription
 %
 
 ! Class implementation for 'SpkPaneLayoutService'
@@ -4335,6 +4853,40 @@ relativeHeight: anObject
 	relativeHeight := anObject
 %
 
+! Class implementation for 'SpkPaneLayoutServiceServer'
+
+!		Class methods for 'SpkPaneLayoutServiceServer'
+
+category: 'instance creation'
+classmethod: SpkPaneLayoutServiceServer
+forTool: aPaneLayoutTool
+
+	^ self new
+		  initializeFromTool: aPaneLayoutTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkPaneLayoutServiceServer'
+
+category: 'initialization'
+method: SpkPaneLayoutServiceServer
+initializeFromTool: paneLayoutTool
+
+	tool := paneLayoutTool.
+	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkPaneLayoutServiceServer
+refreshFromTool
+
+	"PaneCoordinate is an Array except in the presentation layer. 
+	Copy so transactions and persistence will not affect the coordinate in the service layer."
+
+	paneCoordinate := tool paneCoordinate copy.
+	relativeHeight := tool relativeHeight
+%
+
 ! Class implementation for 'SpkRuntimeErrorService'
 
 !		Class methods for 'SpkRuntimeErrorService'
@@ -4360,6 +4912,29 @@ method: SpkRuntimeErrorService
 title
 
 	^ title
+%
+
+! Class implementation for 'SpkRuntimeErrorServiceServer'
+
+!		Class methods for 'SpkRuntimeErrorServiceServer'
+
+category: 'instance creation'
+classmethod: SpkRuntimeErrorServiceServer
+forTool: aColumnLayoutTool
+
+	^ self new
+		  initializeFromTool: aColumnLayoutTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkRuntimeErrorServiceServer'
+
+category: 'initialization'
+method: SpkRuntimeErrorServiceServer
+initializeFromTool: aTool
+
+	title := aTool title.
+	stack := aTool stack
 %
 
 ! Class implementation for 'SpkTaskspaceLayoutService'
@@ -4397,6 +4972,52 @@ taskspaceService
 	^ taskspaceService
 %
 
+! Class implementation for 'SpkTaskspaceLayoutServiceServer'
+
+!		Class methods for 'SpkTaskspaceLayoutServiceServer'
+
+category: 'instance creation'
+classmethod: SpkTaskspaceLayoutServiceServer
+forTool: aTaskspaceLayoutTool
+
+	^ self new
+		  initializeFromTool: aTaskspaceLayoutTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkTaskspaceLayoutServiceServer'
+
+category: 'initialization'
+method: SpkTaskspaceLayoutServiceServer
+initializeExplorerServices
+
+	"Create the ExplorerLayoutServices and ExplorerServices."
+
+	explorerLayoutServices := Set new.
+	tool explorerLayouts do: [ :xlTool | 
+		| xlServ xServ |
+		xlServ := SpkExplorerLayoutServiceServer forTool: xlTool.
+		xServ := SpkExplorerServiceServer forTool: xlTool explorerTool.
+		xlServ explorerService: xServ.
+
+		explorerLayoutServices add: xlServ.
+		taskspaceService addExplorer: xServ.
+
+		xlServ initializeColumns ]
+%
+
+category: 'initialization'
+method: SpkTaskspaceLayoutServiceServer
+initializeFromTool: aTaskspaceLayoutTool
+
+	"We're creating new server services (by definition transient) for tools (which might be persistent)."
+
+	tool := aTaskspaceLayoutTool.
+	taskspaceService := SpkTaskspaceServiceServer forTool:
+		                    tool taskspaceTool.
+	self initializeExplorerServices
+%
+
 ! Class implementation for 'SpkTaskspaceRegistryService'
 
 !		Class methods for 'SpkTaskspaceRegistryService'
@@ -4406,6 +5027,21 @@ classmethod: SpkTaskspaceRegistryService
 templateClassName
 
 	^ #SpkTaskspaceRegistryService
+%
+
+! Class implementation for 'SpkTaskspaceRegistryServiceServer'
+
+!		Instance methods for 'SpkTaskspaceRegistryServiceServer'
+
+category: 'defaults'
+method: SpkTaskspaceRegistryServiceServer
+newDefaultTaskspaceLayout
+
+	"Create a new default taskspace layout tool, and answer a service for it."
+
+	| tool |
+	tool := SpkTaskspaceLayoutTool newDefault.
+	^ SpkTaskspaceLayoutServiceServer forTool: tool
 %
 
 ! Class implementation for 'SpkTaskspaceService'
@@ -4455,6 +5091,28 @@ method: SpkTaskspaceService
 removeExplorer: anExplorerService
 
 	explorers remove: anExplorerService
+%
+
+! Class implementation for 'SpkTaskspaceServiceServer'
+
+!		Class methods for 'SpkTaskspaceServiceServer'
+
+category: 'instance creation'
+classmethod: SpkTaskspaceServiceServer
+forTool: aTaskspaceTool
+
+	^ self new
+		  tool: aTaskspaceTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkTaskspaceServiceServer'
+
+category: 'initialization'
+method: SpkTaskspaceServiceServer
+tool: aTaskspaceTool
+
+	tool := aTaskspaceTool
 %
 
 ! Class implementation for 'SpkLimitedWriteStreamTest'
@@ -5669,6 +6327,47 @@ initialize
 	"Placeholder so that subclasses can always safely use 'super initialize'."
 %
 
+! Class extensions for 'SpkCompilationErrorTool'
+
+!		Instance methods for 'SpkCompilationErrorTool'
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkCompilationErrorTool
+initializeFrom: aCompileError
+	"Only report the first error detected."
+
+	| errorDetails firstError |
+	errorDetails := aCompileError errorDetails: nil.
+	firstError := errorDetails at: 1.
+	sourceCode := aCompileError sourceString.
+	errorMessage := firstError at: 3.
+	errorLocation := firstError at: 2
+%
+
+! Class extensions for 'SpkEvaluatorTool'
+
+!		Instance methods for 'SpkEvaluatorTool'
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkEvaluatorTool
+compilationExceptionClass
+        ^ CompileError
+%
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkEvaluatorTool
+compileNewSourceCodeInContext: anObject
+	^ newSourceCode
+		_compileInContext: anObject
+		symbolList: GsCurrentSession currentSession symbolList
+%
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkEvaluatorTool
+evaluateMethod: method inContext: context
+	^ method _executeInContext: context
+%
+
 ! Class extensions for 'SpkObject'
 
 !		Class methods for 'SpkObject'
@@ -5680,6 +6379,12 @@ new
 %
 
 !		Instance methods for 'SpkObject'
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkObject
+flag: anObject
+	"Look at senders of #flag: to find code that needs further attention"
+%
 
 category: '*Sparkle-Tools-GemStone'
 method: SpkObject

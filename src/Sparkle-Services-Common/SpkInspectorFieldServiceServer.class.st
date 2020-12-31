@@ -1,12 +1,10 @@
 Class {
 	#name : 'SpkInspectorFieldServiceServer',
 	#superclass : 'SpkInspectorFieldService',
-	#traits : 'SpkTDebugLocalServer',
-	#classTraits : 'SpkTDebugLocalServer classTrait',
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'inspecting' }
@@ -14,8 +12,6 @@ SpkInspectorFieldServiceServer >> createInspectorService [
 
 	| objectToInspect newTool |
 	objectToInspect := tool value.
-	Transcript crShow:
-		'createInspectorService ' , objectToInspect printString.
 	newTool := SpkInspectorTool on: objectToInspect.
 	^ SpkInspectorServiceServer forTool: newTool
 ]

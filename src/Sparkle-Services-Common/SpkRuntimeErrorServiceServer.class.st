@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkRuntimeErrorServiceServer',
 	#superclass : 'SpkRuntimeErrorService',
-	#category : 'Sparkle-Services-PharoServer-Services'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }

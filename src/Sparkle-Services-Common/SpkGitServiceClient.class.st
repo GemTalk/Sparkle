@@ -5,13 +5,8 @@ Class {
 }
 
 { #category : 'initialize' }
-SpkGitServiceClient >> initializeGit [ 
-	remoteSelf initializeGit
-]
-
-{ #category : 'initialize' }
 SpkGitServiceClient >> initializeGitOn: repositoryName [
 
 	name := repositoryName.
-	remoteSelf initializeGit
+	remoteSelf initializeGit wait.
 ]

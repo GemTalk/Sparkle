@@ -12,7 +12,7 @@ Class {
 { #category : 'accessing' }
 SpkGitService class >> templateClassName [
 
-	^ 'SpkGitService'
+	^ #SpkGitService
 ]
 
 { #category : 'accessing' }

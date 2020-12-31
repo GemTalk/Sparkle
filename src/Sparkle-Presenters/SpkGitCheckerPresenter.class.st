@@ -15,23 +15,32 @@ SpkGitCheckerPresenter >> checkerTitle [
 ]
 
 { #category : 'initialization' }
+SpkGitCheckerPresenter >> gitRepositoryNames [
+
+	"limited to repositories necessary on the client & server for now"
+
+	^ #( 'RemoteServiceReplication' 'Sparkle' )
+]
+
+{ #category : 'initialization' }
 SpkGitCheckerPresenter >> initializeClientRepositoryPresenters [
 
 	self layout add: (self newLabel label: 'Client:') height: 20.
 	IceRepository registry do: [ :repository | 
 		| label stream |
-		label := self newLabel.
-		stream := WriteStream on: String new.
-		stream
-			nextPutAll: repository name;
-			space;
-			nextPut: $-;
-			space;
-			nextPutAll: repository branchName;
-			space;
-			nextPutAll: repository workingCopy referenceCommit shortId.
-		label label: stream contents.
-		self layout add: label height: 20 ]
+		(self gitRepositoryNames includes: repository name) ifTrue: [ 
+			label := self newLabel.
+			stream := WriteStream on: String new.
+			stream
+				nextPutAll: repository name;
+				space;
+				nextPut: $-;
+				space;
+				nextPutAll: repository branchName;
+				space;
+				nextPutAll: repository workingCopy referenceCommit shortId.
+			label label: stream contents.
+			self layout add: label height: 20 ] ]
 ]
 
 { #category : 'initialization' }
@@ -61,10 +70,9 @@ SpkGitCheckerPresenter >> initializeServerRepositoryPresenters [
 		^ self initializeNoConnectionLabel ].
 	service := SpkGitServiceClient new registerWith:
 		           SpkLauncherPresenter connection.
-
-	#( 'Sparkle' 'RemoteServiceReplication' ) do: [ :repositoryName | 
-		| label stream gitService |
-		gitService := service initializeGitOn: repositoryName.
+	self gitRepositoryNames do: [ :repositoryName | 
+		| label stream |
+		service initializeGitOn: repositoryName.
 		label := self newLabel.
 		stream := WriteStream on: String new.
 		stream
@@ -72,9 +80,9 @@ SpkGitCheckerPresenter >> initializeServerRepositoryPresenters [
 			space;
 			nextPut: $-;
 			space;
-			nextPutAll: gitService branchName;
+			nextPutAll: service branchName;
 			space;
-			nextPutAll: gitService sha.
+			nextPutAll: service sha.
 		label label: stream contents.
 		self layout add: label height: 20 ]
 ]

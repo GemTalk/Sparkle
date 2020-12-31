@@ -9,12 +9,6 @@ SparkleLauncher class >> applicationName [
 	^ 'Sparkle Connect'
 ]
 
-{ #category : 'examples' }
-SparkleLauncher class >> example [ 
-	<example>
-	self new start
-]
-
 { #category : 'world menu' }
 SparkleLauncher class >> menuCommandOn: aBuilder [ 
 	"Add a custom menu item to the world menu"	

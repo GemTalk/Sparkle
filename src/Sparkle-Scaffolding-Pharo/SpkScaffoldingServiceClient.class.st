@@ -253,7 +253,10 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 		trigger a halt in a mock class designed to exercise the various step options ... result should be
 			an array of strings. the following debugger commands can be executed in the inspector/debugger
 			1. self resume
-			2. self stepOverFromLevel: <selected-frame-index>
+			2. 
+				self stepOverFromLevel: 19
+				self stepOverFromLevel: 20
+				self stepIntoFromLevel: 20 -- not working yet
 	"
 
 	<example>

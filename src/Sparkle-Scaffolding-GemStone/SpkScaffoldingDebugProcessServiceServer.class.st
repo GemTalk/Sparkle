@@ -81,6 +81,19 @@ SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
 ]
 
 { #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> stepIntoFromLevel: aLevel [
+	self suspendedProcess _activate.
+	self suspendedProcess gciStepIntoFromLevel: aLevel.
+	self suspendedProcess _continue.
+	Processor yield.
+	self
+		rowanProcessService:
+			(RowanProcessService onSuspendedProcess: self suspendedProcess).
+	rowanFrameServices := nil.	"force refresh frames"
+	self rowanFrameServices	"refresh frames"
+]
+
+{ #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel_original: aLevel [
 	"breakpoints are not encountered using stepOverFromLevel:, while  triggers breakpoins"
 

@@ -40,6 +40,12 @@ SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebugProcessServiceClient >> stepIntoFromLevel: aLevel [
+
+	^ remoteSelf stepIntoFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebugProcessServiceClient >> stepOverFromLevel: aLevel [
 
 	^ (remoteSelf stepOverFromLevel: aLevel) 

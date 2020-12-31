@@ -5,6 +5,10 @@ Sparkle & RemoteServiceReplication
 Class {
 	#name : 'SpkGitCheckerPresenter',
 	#superclass : 'SpkPresenter',
+	#instVars : [
+		'clientValues',
+		'serverValues'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -25,22 +29,44 @@ SpkGitCheckerPresenter >> gitRepositoryNames [
 { #category : 'initialization' }
 SpkGitCheckerPresenter >> initializeClientRepositoryPresenters [
 
+	clientValues := OrderedCollection new.
 	self layout add: (self newLabel label: 'Client:') height: 20.
 	IceRepository registry do: [ :repository | 
 		| label stream |
 		(self gitRepositoryNames includes: repository name) ifTrue: [ 
+			clientValues add: (Array
+					 with: repository name
+					 with: repository branchName
+					 with: repository workingCopy referenceCommit shortId).
 			label := self newLabel.
 			stream := WriteStream on: String new.
 			stream
-				nextPutAll: repository name;
+				nextPutAll: clientValues last first;
 				space;
 				nextPut: $-;
 				space;
-				nextPutAll: repository branchName;
+				nextPutAll: clientValues last second;
 				space;
-				nextPutAll: repository workingCopy referenceCommit shortId.
+				nextPutAll: clientValues last third.
 			label label: stream contents.
 			self layout add: label height: 20 ] ]
+]
+
+{ #category : 'initialization' }
+SpkGitCheckerPresenter >> initializeGitCheckerButton [
+
+	| checkerButton |
+	checkerButton := self newButton action: [ self window close ].
+	clientValues = serverValues
+		ifTrue: [ 
+			checkerButton
+				label: 'Woo Hoo!';
+				color: Color green ]
+		ifFalse: [ 
+			checkerButton
+				label: 'Shucks.';
+				color: Color red ].
+	self layout add: checkerButton
 ]
 
 { #category : 'initialization' }
@@ -58,13 +84,15 @@ SpkGitCheckerPresenter >> initializePresenters [
 
 	super initializePresenters.
 	self initializeClientRepositoryPresenters.
-	self initializeServerRepositoryPresenters
+	self initializeServerRepositoryPresenters.
+	self initializeGitCheckerButton.
 ]
 
 { #category : 'initialization' }
 SpkGitCheckerPresenter >> initializeServerRepositoryPresenters [
 
 	| service |
+	serverValues := OrderedCollection new.
 	self layout add: (self newLabel label: 'Server:') height: 20.
 	SpkLauncherPresenter connection ifNil: [ 
 		^ self initializeNoConnectionLabel ].
@@ -73,16 +101,21 @@ SpkGitCheckerPresenter >> initializeServerRepositoryPresenters [
 	self gitRepositoryNames do: [ :repositoryName | 
 		| label stream |
 		service initializeGitOn: repositoryName.
+		serverValues add:
+			(Array
+				 with: repositoryName
+				 with: service branchName
+				 with: service sha).
 		label := self newLabel.
 		stream := WriteStream on: String new.
 		stream
-			nextPutAll: repositoryName;
+			nextPutAll: serverValues last first;
 			space;
 			nextPut: $-;
 			space;
-			nextPutAll: service branchName;
+			nextPutAll: serverValues last second;
 			space;
-			nextPutAll: service sha.
+			nextPutAll: serverValues last third.
 		label label: stream contents.
 		self layout add: label height: 20 ]
 ]

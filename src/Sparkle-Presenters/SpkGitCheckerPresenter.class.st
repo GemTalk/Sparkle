@@ -57,7 +57,7 @@ SpkGitCheckerPresenter >> initializeGitCheckerButton [
 
 	| checkerButton |
 	checkerButton := self newButton action: [ self window close ].
-	clientValues = serverValues
+	(self isInMemoryConnection or: [ clientValues = serverValues ])
 		ifTrue: [ 
 			checkerButton
 				label: 'Woo Hoo!';
@@ -67,6 +67,16 @@ SpkGitCheckerPresenter >> initializeGitCheckerButton [
 				label: 'Shucks.';
 				color: Color red ].
 	self layout add: checkerButton
+]
+
+{ #category : 'initialization' }
+SpkGitCheckerPresenter >> initializeInMemoryConnectionLabel [
+
+	self layout
+		add: (self newLabel
+				 label: 'In Memory Connection';
+				 yourself)
+		height: 20
 ]
 
 { #category : 'initialization' }
@@ -96,6 +106,8 @@ SpkGitCheckerPresenter >> initializeServerRepositoryPresenters [
 	self layout add: (self newLabel label: 'Server:') height: 20.
 	SpkLauncherPresenter connection ifNil: [ 
 		^ self initializeNoConnectionLabel ].
+	self isInMemoryConnection ifTrue: [ 
+		^ self initializeInMemoryConnectionLabel ].
 	service := SpkGitServiceClient new registerWith:
 		           SpkLauncherPresenter connection.
 	self gitRepositoryNames do: [ :repositoryName | 
@@ -127,6 +139,14 @@ SpkGitCheckerPresenter >> initializeWindow: aWindowPresenter [
 		title: self checkerTitle;
 		initialExtent: 350 @ 200
 	
+]
+
+{ #category : 'private - testing' }
+SpkGitCheckerPresenter >> isInMemoryConnection [ 
+
+	"Probably should have a method on connection to test this"
+
+^SpkLauncherPresenter connection specification class = RsrInMemoryConnectionSpecification
 ]
 
 { #category : 'accessing' }

@@ -145,7 +145,7 @@ SpkGitCheckerPresenter >> initializeWindow: aWindowPresenter [
 SpkGitCheckerPresenter >> isInMemoryConnection [ 
 
 	"Probably should have a method on connection to test this"
-
+SpkLauncherPresenter connection ifNil:[^false]. 
 ^SpkLauncherPresenter connection specification class = RsrInMemoryConnectionSpecification
 ]
 

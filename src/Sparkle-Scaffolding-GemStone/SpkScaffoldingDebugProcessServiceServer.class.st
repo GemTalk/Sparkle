@@ -81,10 +81,50 @@ SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
 ]
 
 { #category : 'debugging' }
-SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
+SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel_original: aLevel [
 	self suspendedProcess stepOverFromLevel: aLevel.
 	self suspendedProcess _activate.
 	self suspendedProcess _continue.
+	Processor yield.
+	self
+		rowanProcessService:
+			(RowanProcessService onSuspendedProcess: self suspendedProcess).
+	rowanFrameServices := nil.	"force refresh frames"
+	self rowanFrameServices	"refresh frames"
+]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
+	self suspendedProcess stepOverFromLevel: aLevel.
+	self suspendedProcess _activate.
+	[ :aProc | 
+	| result status sched wasInCrit |
+	"Continue execution. Return the result of execution if the receiver
+     completes. Otherwise if a breakpoint is hit returns the receiver."
+	aProc _checkIfDebuggable.
+	sched := aProc _scheduler.
+	wasInCrit := sched _enterCritical.
+	status := aProc _statusString.
+	status = 'ready'
+		ifTrue: [ aProc _unscheduleProcess ].
+	aProc _storeBit: 1 value: true.	"debuggingInProgress:=1"
+	wasInCrit == 0
+		ifTrue: [ sched _exitCritical ].
+
+	result := aProc _primContinue: nil.
+
+	wasInCrit := sched _enterCritical.
+	status = 'ready'
+		ifTrue: [ 
+			result == aProc
+				ifTrue: [ 
+					aProc _isTerminated
+						ifFalse: [ sched _scheduleProcess: aProc ] ] ].
+	aProc _storeBit: 1 value: false.	"debuggingInProgress:=0"
+	wasInCrit == 0
+		ifTrue: [ sched _exitCritical ].
+	result ] value: self suspendedProcess.	"in-line GsProcess >> _continue"
+
 	Processor yield.
 	self
 		rowanProcessService:

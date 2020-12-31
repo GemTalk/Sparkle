@@ -1,4 +1,9 @@
-How to load and run Sparkle as of 2020-12-28
+Version history:
+
+2020-12-29 -- Replace playground instructions with Sparkle Launcher instructions
+2020-12-28 -- initial version
+
+How to load and run Sparkle
 
 The parts of Sparkle that are working as of this moment (primarily the inspector) are able to run in GemStone 3.6.0. Once the debugger starts becoming functional, GemStone 3.6.1 will be required. These instructions assume a GemStone 3.6.0 server on Linux, and a Pharo 9 client on Windows.
 
@@ -43,24 +48,9 @@ Prerequisites:
   You should see a "Starting to listen" message.
   
 5) Connect from Pharo
-  The Sparkle GUI launcher is under development, so for now you can launch from a Playground script. The following Playground script has three independent parts. Part 1 initiates a connection and stores the connection object in a playground variable. Part 2 opens a Sparkle explorer window on the connection, and can be used repeatedly on the same connection. Part 3 closes the connection, or any open connections.
-  You must edit part 1 to use the correct hostname or IP address for the gem. Once the connection is established by part 1, the gem will no longer be listening, so no further connections on port 29299 can be made until you run the server.sh script on the gem's machine again. When you have evaluated one of the expressions in part 3, you should see a "Connection closed" message in your Linux shell.
+  * Open the Sparkle Launcher from the Tools menu.
+  * Enter the name or IP address of the Linux gem in the "Host" field.
+  * Click the "Connect" button. 
+  An explorer window will open.
   
-  "1"
-    | spec |
-    spec := RsrInitiateConnection host: 'GemHostName' port: 29299.
-    connection := spec connect. "Connection is left undeclared so it will become a workspace variable."
-
-  "2"
-    | taskspace |
-    taskspace := SparkleTaskspace new.
-    taskspace
-        connection: connection;
-        openNewDefaultTaskspace.
-        
-  "3"
-    connection close.
-    "Or to be sure all connections are closed:"
-    RsrConnection allInstancesDo: [ :each | each close ].
-    
----
+6) When done, click Disconnect in the launcher window. This will close any open explorer windows.

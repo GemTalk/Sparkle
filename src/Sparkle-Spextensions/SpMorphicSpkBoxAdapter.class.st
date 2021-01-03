@@ -45,11 +45,41 @@ SpMorphicSpkBoxAdapter >> add: aPresenter constraints: constraints beforeIndex: 
 ]
 
 { #category : 'private' }
+SpMorphicSpkBoxAdapter >> addConstraints: constraints toChild: childMorph [
+
+	"adds constraints by child"
+
+	| theMorph defaultSizing |
+	theMorph := self addPadding: constraints padding toMorph: childMorph.
+
+
+	defaultSizing := constraints isFill
+		                 ifTrue: [ #spaceFill ]
+		                 ifFalse: [ #shrinkWrap ].
+	theMorph
+		hResizing: defaultSizing;
+		vResizing: defaultSizing.
+	constraints width ifNotNil: [ :w | 
+		theMorph
+			hResizing: #rigid;
+			width: w ].
+	constraints height ifNotNil: [ :h | 
+		theMorph
+			vResizing: #rigid;
+			height: h ].
+
+	^ theMorph
+]
+
+{ #category : 'private' }
 SpMorphicSpkBoxAdapter >> addConstraits: constraints toChild: childMorph [
 
 	"adds constraints by child"
 
 	| theMorph defaultSizing |
+	self flag:
+		'Misspelled selector sent by Spec2 prior to commit 2de7475 of 2020-12-14. 
+	Remove this method once that is merged with Pharo 9.'.
 	theMorph := self addPadding: constraints padding toMorph: childMorph.
 
 

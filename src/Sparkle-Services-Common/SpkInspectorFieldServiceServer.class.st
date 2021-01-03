@@ -12,7 +12,9 @@ SpkInspectorFieldServiceServer >> createInspectorService [
 
 	| objectToInspect newTool |
 	objectToInspect := tool value.
-	newTool := SpkInspectorTool on: objectToInspect.
+	newTool := (SpkInspectorTool on: objectToInspect)
+		           explorerTool: tool explorerTool;
+		           yourself.
 	^ SpkInspectorServiceServer forTool: newTool
 ]
 

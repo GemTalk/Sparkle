@@ -82,8 +82,9 @@ SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepIntoFromLevel: aLevel [
+	self suspendedProcess processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	self suspendedProcess _activate.
-	self suspendedProcess gciStepIntoFromLevel: aLevel.
+	self suspendedProcess stepIntoFromLevel: aLevel.
 	self suspendedProcess _continue.
 	Processor yield.
 	self
@@ -123,8 +124,9 @@ SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel_success: aLevel [
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
+	self suspendedProcess processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	self suspendedProcess _activate.
-	self suspendedProcess gciStepOverFromLevel: aLevel.
+	self suspendedProcess stepOverFromLevel: aLevel.
 	self suspendedProcess _continue.
 	Processor yield.
 	self

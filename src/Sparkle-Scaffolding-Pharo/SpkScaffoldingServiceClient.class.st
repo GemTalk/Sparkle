@@ -264,9 +264,9 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 			an array of strings. the following debugger commands can be executed in the inspector/debugger
 			1. self resume
 			2. 
-				self stepOverFromLevel: 19
-				self stepOverFromLevel: 20
-				self stepIntoFromLevel: 20 -- not working yet
+				self stepOverFromLevel: 20. ""SpkScaffoldingMockObject class >> example2 @2 line 4""
+				self stepOverFromLevel: 21. ""SpkScaffoldingMockObject class >> example2 @3 line 5""
+				self stepIntoFromLevel: 21. ""SpkScaffoldingMockObject class >> example2 @4 line 5"" -- not working yet
 	"
 
 	<example>

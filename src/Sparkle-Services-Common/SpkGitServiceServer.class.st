@@ -5,7 +5,10 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkGitServiceServer >> initializeGit [ 
-	branchName := (RwProject newNamed: name) currentBranchName.
-	sha := (RwProject newNamed: name) loadedCommitId.
+SpkGitServiceServer >> initializeGit [
+	| rwProject |
+	(rwProject := GsSession currentSession resolveSymbol: #'RwProject')
+		ifNotNil: [ 
+			branchName := (rwProject value newNamed: name) currentBranchName.
+			sha := (rwProject value newNamed: name) loadedCommitId ]
 ]

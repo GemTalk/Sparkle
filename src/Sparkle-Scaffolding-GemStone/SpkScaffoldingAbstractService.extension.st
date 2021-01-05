@@ -15,6 +15,7 @@ SpkScaffoldingAbstractService >> debug: anException raisedDuring: aMessageSend a
 			"suspend and open client debugger window"
 			debugProcess := GsProcess _current.
 			mon := [ 
+			debugProcess processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 			GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
 			debuggerService := SpkScaffoldingDebuggerServiceServer new
 				registerWith: self connection;

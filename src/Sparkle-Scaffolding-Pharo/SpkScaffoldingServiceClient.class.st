@@ -267,6 +267,7 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 				self stepOverFromLevel: 20. ""SpkScaffoldingMockObject class >> example2 @2 line 4""
 				self stepOverFromLevel: 21. ""SpkScaffoldingMockObject class >> example2 @3 line 5""
 				self stepIntoFromLevel: 21. ""SpkScaffoldingMockObject class >> example2 @4 line 5"" -- not working yet
+			3. self terminate
 	"
 
 	<example>
@@ -329,6 +330,18 @@ SpkScaffoldingServiceClient class >> initiateConnection [
 ]
 
 { #category : 'examples' }
+SpkScaffoldingServiceClient class >> processGC_01 [
+
+	"get rid of suspended processes that are running the examples "
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	service gcSuspendedProcesses inspect
+]
+
+{ #category : 'examples' }
 SpkScaffoldingServiceClient class >> processList_01 [
 
 	"return dictionary of process stackes keyed by process oop for all scheduled processes in server"
@@ -340,6 +353,17 @@ SpkScaffoldingServiceClient class >> processList_01 [
 	service := SpkScaffoldingServiceClient new registerWith:
 		           self connection.
 	service processList inspect
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> resetConnection_01 [
+
+	"
+	summarily drop the connection
+	"
+
+	<example>
+	Connection := nil.
 ]
 
 { #category : 'acccessing' }
@@ -369,6 +393,12 @@ SpkScaffoldingServiceClient >> doit_01: aString [
 SpkScaffoldingServiceClient >> doit_02: aString [
 
 	^ (remoteSelf doit_02: aString) wait
+]
+
+{ #category : 'acccessing' }
+SpkScaffoldingServiceClient >> gcSuspendedProcesses [
+
+	^ remoteSelf gcSuspendedProcesses wait
 ]
 
 { #category : 'debugger' }

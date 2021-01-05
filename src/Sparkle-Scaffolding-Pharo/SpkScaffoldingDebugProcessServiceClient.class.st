@@ -68,3 +68,9 @@ SpkScaffoldingDebugProcessServiceClient >> suspendedProcessReportString [
 
 	^ remoteSelf suspendedProcessReportString wait
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebugProcessServiceClient >> terminate [
+
+	^ remoteSelf terminate wait
+]

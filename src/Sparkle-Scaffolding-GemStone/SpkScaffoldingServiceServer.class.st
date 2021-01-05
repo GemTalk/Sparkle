@@ -90,6 +90,18 @@ SpkScaffoldingServiceServer >> doitStack [
 	^ doitStack ifNil: [ 'no stack available' ]
 ]
 
+{ #category : 'process list' }
+SpkScaffoldingServiceServer >> gcSuspendedProcesses [
+	| scheduler |
+	scheduler := ProcessorScheduler scheduler.
+	^ (scheduler suspendedProcesses
+		collect: [ :proc | 
+			| ps |
+			ps := self processReportString: proc.
+			proc terminate.
+			ps ]) asArray
+]
+
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_01: aString [
 	doitResult := [ aString evaluate ]
@@ -156,6 +168,7 @@ SpkScaffoldingServiceServer >> gsDebugger_06: aString [
 		no exception handlers ... deliver a remote error
 	"
 
+	GsProcess _current priority: Processor userSchedulingPriority.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	UserGlobals
 		at: #'ScaffoldingServiceServerDebugHandlerType'
 		put: #'remoteDebugger'.
@@ -205,18 +218,16 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 
 { #category : 'process list' }
 SpkScaffoldingServiceServer >> processList [
+	| allP rpt |
+	processList := Dictionary new.
+	rpt := String new.
+	allP := Processor allProcesses.
+	allP
+		do: [ :aProc | 
+			| procName |
+			procName := self processReportString: aProc.
+			processList at: procName put: aProc _reportString ].
 	^ processList
-		ifNil: [ 
-			| allP rpt |
-			processList := Dictionary new.
-			rpt := String new.
-			allP := Processor allProcesses.
-			allP
-				do: [ :aProc | 
-					| procName |
-					procName := self processReportString: aProc.
-					processList at: procName put: aProc _reportString ].
-			processList ]
 ]
 
 { #category : 'process list' }
@@ -234,6 +245,10 @@ SpkScaffoldingServiceServer >> processReportString: aGsProcess [
 	s
 		add: 'priority=';
 		add: aGsProcess priority printString;
+		add: ', '.
+	s
+		add: 'type=';
+		add: aGsProcess processType printString;
 		add: ')'.
 	s lf.
 	^ s

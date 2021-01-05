@@ -86,25 +86,32 @@ SpkScaffoldingDebugProcessServiceServer >> stepIntoFromLevel: aLevel [
 	self suspendedProcess stepIntoFromLevel: aLevel.
 	self suspendedProcess _continue.
 	Processor yield.
-	self
-		rowanProcessService:
-			(RowanProcessService onSuspendedProcess: self suspendedProcess).
-	rowanFrameServices := nil.	"force refresh frames"
-	self rowanFrameServices	"refresh frames"
+	false
+		ifTrue: [ 
+			"should do this somewhere else"
+			self
+				rowanProcessService:
+					(RowanProcessService onSuspendedProcess: self suspendedProcess).
+			rowanFrameServices := nil.	"force refresh frames"
+			self rowanFrameServices	"refresh frames" ]
 ]
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
-GsFile gciLogServer: 'stepOverFromLevel: ', self suspendedProcess _statusString.
+	GsFile
+		gciLogServer: 'stepOverFromLevel: ' , self suspendedProcess _statusString.
 	self suspendedProcess _activate.
 	self suspendedProcess stepOverFromLevel: aLevel.
 	self suspendedProcess _continue.
 	Processor yield.
-	self
-		rowanProcessService:
-			(RowanProcessService onSuspendedProcess: self suspendedProcess).
-	rowanFrameServices := nil.	"force refresh frames"
-	self rowanFrameServices	"refresh frames"
+	false
+		ifTrue: [ 
+			"should do this somewhere else"
+			self
+				rowanProcessService:
+					(RowanProcessService onSuspendedProcess: self suspendedProcess).
+			rowanFrameServices := nil.	"force refresh frames"
+			self rowanFrameServices	"refresh frames" ]
 ]
 
 { #category : 'accessing' }

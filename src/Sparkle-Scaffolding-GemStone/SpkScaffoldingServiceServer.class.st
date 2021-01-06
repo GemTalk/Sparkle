@@ -178,6 +178,25 @@ SpkScaffoldingServiceServer >> gsDebugger_06: aString [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_07: aString [
+	"
+		no exception handlers ... deliver a remote error
+	"
+
+	| cur debugActionBlock |
+	cur := GsProcess _current.
+	debugActionBlock := cur debugActionBlock.
+	cur
+		debugActionBlock: [ :ex | #SpkScaffoldingUnhandledException debugActionBlock: debugActionBlock signal: ex ];
+		priority: Processor userSchedulingPriority;
+		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+	UserGlobals
+		at: #'ScaffoldingServiceServerDebugHandlerType'
+		put: #'remoteDebugger'.
+	[doitResult := aString evaluate] on: #SpkScaffoldingUnhandledException do: [:ex | ].
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> openDebuggerOnClient [
 	^ remoteSelf openDebuggerOnClient
 ]

@@ -331,7 +331,7 @@ SpkScaffoldingServiceClient class >> debugger_06g [
 ]
 
 { #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_06h [
+SpkScaffoldingServiceClient class >> debugger_07 [
 
 	"
 		similar to debugger_06f
@@ -346,7 +346,7 @@ SpkScaffoldingServiceClient class >> debugger_06h [
 	| service |
 	service := SpkScaffoldingServiceClient new registerWith:
 		           self connection.
-	(service gsDebugger_06: 'SpkScaffoldingMockObject example3')
+	(service gsDebugger_07: 'SpkScaffoldingMockObject example3')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 
@@ -507,6 +507,12 @@ SpkScaffoldingServiceClient >> gsDebugger_05: aString [
 SpkScaffoldingServiceClient >> gsDebugger_06: aString [
 
 	^ remoteSelf gsDebugger_06: aString
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_07: aString [
+
+	^ remoteSelf gsDebugger_07: aString
 ]
 
 { #category : 'debugger' }

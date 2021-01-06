@@ -40,6 +40,14 @@ SpkScaffoldingDebugProcessServiceClient >> rowanFrameServices [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebugProcessServiceClient >> setBreakAtStepPoint: aStepPoint [
+
+
+	^ (remoteSelf setBreakAtStepPoint: aStepPoint
+) wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebugProcessServiceClient >> stepIntoFromLevel: aLevel [
 
 	^ remoteSelf stepIntoFromLevel: aLevel

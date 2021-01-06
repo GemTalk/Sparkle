@@ -6,15 +6,9 @@ Class {
 
 { #category : 'examples' }
 SpkScaffoldingMockObject class >> example1 [
-	"This method sets breakpoints and at the moment, I am waiting until I can have a trappable breakpoint for Sparkle and a untrappable breakpoing set by topaz"
+	"This method is expected to be used when breakpoints have been set in the receivers methods"
 
-	| method ans allBreakPoints |
-	[ 
-	method := SpkScaffoldingMockObject compiledMethodAt: #'method1'.
-	ans := method setBreakAtStepPoint: 2.
-	allBreakPoints := method _allBreakpoints.
-	^ SpkScaffoldingMockObject new method1 ]
-		ensure: [ method clearBreakAtStepPoint: 2 ]
+	^ SpkScaffoldingMockObject new method1
 ]
 
 { #category : 'examples' }

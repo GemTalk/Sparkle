@@ -168,7 +168,9 @@ SpkScaffoldingServiceServer >> gsDebugger_06: aString [
 		no exception handlers ... deliver a remote error
 	"
 
-	GsProcess _current priority: Processor userSchedulingPriority.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+	GsProcess _current
+		priority: Processor userSchedulingPriority;
+		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	UserGlobals
 		at: #'ScaffoldingServiceServerDebugHandlerType'
 		put: #'remoteDebugger'.
@@ -260,4 +262,25 @@ SpkScaffoldingServiceServer >> processServiceFor: aSuspendedGsProcess [
 
 	^ SpkScaffoldingDebugProcessServiceServer
 		onSuspendedProcess: aSuspendedGsProcess
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> setBreakpointForClass: className meta: isMeta selector: selector atStepPoint: stepPoint [
+	"Set a breakpoint that will be signalled to the GCI.
+		Returns true to indicate success.  Otherwise returns a string describing the error."
+
+	| beh res |
+	beh := Rowan globalNamed: className.
+	isMeta
+		ifTrue: [ beh := beh class ].
+	GsFile
+		gciLogServer:
+			'set breakpoint ' , beh printString , '>>' , selector printString , ' @'
+				, stepPoint printString.
+	res := beh
+		_setMethodBreak: selector
+		stepPoint: stepPoint
+		env: 0
+		pType: 1.
+	^ res
 ]

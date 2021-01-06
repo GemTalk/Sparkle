@@ -289,6 +289,41 @@ SpkScaffoldingServiceClient class >> debugger_06f [
 ]
 
 { #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_06g [
+
+	"
+		Set a breakpoint in a method in a mock class designed to exercise the various step options. 
+		Upon resume, the result should be an array of strings. The following debugger commands can
+		be executed in the inspector/debugger
+			1. self resume
+			2. self stepThruFromLevel: 20. ""SpkScaffoldingMockObject >> method1: @3 line 7""
+			3. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	service
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+		meta: false
+		selector: #method1:
+		atStepPoint: 3.
+	(service gsDebugger_06: 'SpkScaffoldingMockObject example1')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'examples' }
 SpkScaffoldingServiceClient class >> doit_01 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 
@@ -453,4 +488,31 @@ SpkScaffoldingServiceClient >> openInspectorOnClient [
 SpkScaffoldingServiceClient >> processList [ 
 
 	^ processList ifNil: [ processList := remoteSelf processList wait ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> setBreakpointForClass: className meta: isMeta selector: selector atStepPoint: stepPoint [
+
+	"Set a breakpoint that will be signalled to the GCI.
+		Returns true to indicate success.  Otherwise returns a string describing the error."
+
+	| res |
+	(res := (remoteSelf
+		         setBreakpointForClass: className
+		meta: isMeta 
+		         selector: selector
+		         atStepPoint: stepPoint) wait) == true ifFalse: [ 
+		self error: res ]
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> setBreakpointForClass: className selector: selector atStepPoint: stepPoint [
+	"Set a breakpoint that will be signalled to the GCI.
+		Returns true to indicate success.  Otherwise returns a string describing the error."
+
+| res |
+	(res :=(remoteSelf
+		   setBreakpointForClass: className
+		   selector: selector
+		   atStepPoint: stepPoint) wait) == true ifFalse: [self error: res]
 ]

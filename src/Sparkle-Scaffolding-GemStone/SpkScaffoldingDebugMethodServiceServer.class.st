@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkScaffoldingDebugMethodServiceServer >> method [
+	^ self rowanMethodService method
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugMethodServiceServer >> rowanMethodService [
 	^rowanMethodService
 ]
@@ -17,4 +22,10 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 	rowanMethodService := object.
 	selector := rowanMethodService selector.
 	source := rowanMethodService source
+]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugMethodServiceServer >> setBreakAtStepPoint: aStepPoint [
+	(self method setBreakAtStepPoint: aStepPoint pType: 1)
+		ifNil: [ self error: 'error setting breakpoint' ]
 ]

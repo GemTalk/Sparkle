@@ -185,15 +185,17 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 
 	| cur debugActionBlock |
 	cur := GsProcess _current.
-	debugActionBlock := cur debugActionBlock.
+	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
-		debugActionBlock: [ :ex | #SpkScaffoldingUnhandledException debugActionBlock: debugActionBlock signal: ex ];
+		debugActionBlock: [ :ex | SpkScaffoldingUnhandledException signal: ex ];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	UserGlobals
 		at: #'ScaffoldingServiceServerDebugHandlerType'
 		put: #'remoteDebugger'.
-	[doitResult := aString evaluate] on: #SpkScaffoldingUnhandledException do: [:ex | ].
+	[ doitResult := aString evaluate ]
+		on: SpkScaffoldingUnhandledException
+		do: [ :ex |  doitResult := self debug: ex.]
 ]
 
 { #category : 'debugger' }

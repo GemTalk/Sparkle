@@ -331,7 +331,37 @@ SpkScaffoldingServiceClient class >> debugger_06g [
 ]
 
 { #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_07 [
+SpkScaffoldingServiceClient class >> debugger_07a [
+
+	"
+		similar to debugger_06b
+		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
+		resume (ala debugger_04)).
+		The following debugger commands can be executed in the inspector/debugger:
+			1. self resume
+			2. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: '7 halt')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_07b [
 
 	"
 		similar to debugger_06f
@@ -347,6 +377,35 @@ SpkScaffoldingServiceClient class >> debugger_07 [
 	service := SpkScaffoldingServiceClient new registerWith:
 		           self connection.
 	(service gsDebugger_07: 'SpkScaffoldingMockObject example3')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_07c [
+
+	"
+		two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, 
+			then halt in original process and return answer from example2 as result.
+			The following debugger commands can be executed in the inspector/debugger:
+			1. self resume
+			2. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: 'SpkScaffoldingMockObject example4')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 

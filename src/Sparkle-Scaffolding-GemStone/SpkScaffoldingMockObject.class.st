@@ -28,6 +28,21 @@ SpkScaffoldingMockObject class >> example3 [
 	^ 'forked'
 ]
 
+{ #category : 'examples' }
+SpkScaffoldingMockObject class >> example4 [
+	"should get a debugger in a forked process and then halt in current process when semaphore signalled"
+
+	| sem ans |
+	sem := Semaphore new.
+	[ 
+	ans := self example2.
+	sem signal ] fork.
+	Processor yield.
+	sem wait.
+	self halt.
+	^ ans
+]
+
 { #category : 'accessing' }
 SpkScaffoldingMockObject >> method1 [
 	"entrypoint for debugger breakpoint/stepping exercises"

@@ -59,6 +59,12 @@ SpkScaffoldingDebugProcessServiceClient >> stepOverFromLevel: aLevel [
 	^ (remoteSelf stepOverFromLevel: aLevel) 
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebugProcessServiceClient >> stepThroughFromLevel: aLevel [
+
+	^ remoteSelf stepThroughFromLevel: aLevel
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceClient >> suspendedProcessName [
 

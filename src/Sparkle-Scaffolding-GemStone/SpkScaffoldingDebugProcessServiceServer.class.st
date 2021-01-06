@@ -94,6 +94,13 @@ SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
 	Processor yield
 ]
 
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> stepThroughFromLevel: aLevel [
+	self suspendedProcess _activate.
+	self suspendedProcess stepThroughFromLevel: aLevel.
+	Processor yield
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> suspendedProcess [
 	^suspendedProcess

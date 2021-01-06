@@ -296,7 +296,14 @@ SpkScaffoldingServiceClient class >> debugger_06g [
 		Upon resume, the result should be an array of strings. The following debugger commands can
 		be executed in the inspector/debugger
 			1. self resume
-			2. self stepThruFromLevel: 20. ""SpkScaffoldingMockObject >> method1: @3 line 7""
+			2. 
+				self stepThroughFromLevel: 21. ""SpkScaffoldingMockObject >> method1: @3 line 7""
+				self stepOverFromLevel: 21. ""[] in SpkScaffoldingMockObject >> method1: @7 line 10""
+				self stepOverFromLevel: 21. ""[] in SpkScaffoldingMockObject >> method1: @8 line 10""
+				self stepOverFromLevel: 21. ""[] in SpkScaffoldingMockObject >> method1: @9 line 11""
+				self stepOverFromLevel: 21. ""[] in SpkScaffoldingMockObject >> method1: @10 line 11""
+				self stepOverFromLevel: 22. ""SpkScaffoldingMockObject >> method1: @3 line 7""
+				self stepOverFromLevel: 21. ""SpkScaffoldingMockObject >> method1: @4 line 12""
 			3. self terminate
 	"
 

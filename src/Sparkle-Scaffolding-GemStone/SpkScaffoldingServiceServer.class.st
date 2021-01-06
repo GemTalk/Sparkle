@@ -34,7 +34,7 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 	host := '0.0.0.0'.
 	port := self port.
 	acceptor := RsrAcceptConnection host: host port: port.
-	GsProcess _current name: 'Scaffolding service loop'.
+	GsProcess _current name: 'SpkScaffolding service loop'.
 	[ 
 	GsFile gciLogServer: 'waiting for connection'.
 	connection := acceptor waitForConnection.
@@ -195,7 +195,9 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 		put: #'remoteDebugger'.
 	[ doitResult := aString evaluate ]
 		on: SpkScaffoldingUnhandledException
-		do: [ :ex |  doitResult := self debug: ex.]
+		do: [ :ex | 
+			"If I don't signal and handle SpkScaffoldingUnhandledException. I get a 'cannot find handler frame for exception' ImproperOperation?"
+			doitResult := self debug: ex ]
 ]
 
 { #category : 'debugger' }

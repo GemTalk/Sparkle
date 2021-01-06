@@ -331,6 +331,36 @@ SpkScaffoldingServiceClient class >> debugger_06g [
 ]
 
 { #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_06h [
+
+	"
+		similar to debugger_06f
+		trigger a halt in a forked process in a mock class designed to exercise the various step options
+			... result should be an array of strings. 
+			The following debugger commands can be executed in the inspector/debugger:
+			1. self resume
+			2. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_06: 'SpkScaffoldingMockObject example3')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'examples' }
 SpkScaffoldingServiceClient class >> doit_01 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 

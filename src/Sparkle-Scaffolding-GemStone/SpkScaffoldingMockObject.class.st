@@ -19,6 +19,15 @@ SpkScaffoldingMockObject class >> example2 [
 	^ SpkScaffoldingMockObject new method1
 ]
 
+{ #category : 'examples' }
+SpkScaffoldingMockObject class >> example3 [
+	"should get a debugger in a forked process"
+
+	[ self example2 ] fork.
+	Processor yield.
+	^ 'forked'
+]
+
 { #category : 'accessing' }
 SpkScaffoldingMockObject >> method1 [
 	"entrypoint for debugger breakpoint/stepping exercises"

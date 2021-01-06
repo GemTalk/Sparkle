@@ -273,10 +273,6 @@ SpkScaffoldingServiceServer >> setBreakpointForClass: className meta: isMeta sel
 	beh := Rowan globalNamed: className.
 	isMeta
 		ifTrue: [ beh := beh class ].
-	GsFile
-		gciLogServer:
-			'set breakpoint ' , beh printString , '>>' , selector printString , ' @'
-				, stepPoint printString.
 	res := beh
 		_setMethodBreak: selector
 		stepPoint: stepPoint

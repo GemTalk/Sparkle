@@ -14,7 +14,7 @@ SpkScaffoldingServiceClient class >> closeConnection [
 		Connection close ].
 ]
 
-{ #category : 'examples' }
+{ #category : 'active examples' }
 SpkScaffoldingServiceClient class >> closeConnection_01 [
 
 	"
@@ -330,13 +330,35 @@ SpkScaffoldingServiceClient class >> debugger_06g [
 					reason } halt ] ]
 ]
 
-{ #category : 'examples' }
+{ #category : 'active examples' }
 SpkScaffoldingServiceClient class >> debugger_07a [
 
+	"return doitResult after error-free execution"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: '{3+4} at: 1')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07b [
+
 	"
-		similar to debugger_06b
 		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
-		resume (ala debugger_04)).
+		resume).
 		The following debugger commands can be executed in the inspector/debugger:
 			1. self resume
 			2. self terminate
@@ -360,11 +382,158 @@ SpkScaffoldingServiceClient class >> debugger_07a [
 					reason } halt ] ]
 ]
 
-{ #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_07b [
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07c [
+
+	"trigger an MNU"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: '7 foo')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07d [
+
+	"trigger an error"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: '7 error: ''oops''')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } inspect ] ]
+]
+
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07e [
 
 	"
-		similar to debugger_06f
+		trigger exception during doit and expect to trigger a remote debugger.
+		The following debugger commands can be executed in the inspector/debugger:
+			1. self resumeWith: 8
+			2. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: '#() at: 1')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07f [
+
+	"
+		trigger a halt in a mock class designed to exercise the various step options ... result should be
+			an array of strings. the following debugger commands can be executed in the inspector/debugger
+			1. self resume
+			2. 
+				self stepOverFromLevel: 7. ""SpkScaffoldingMockObject class >> example2 @2 line 4""
+				self stepOverFromLevel: 18. ""SpkScaffoldingMockObject class >> example2 @3 line 5""
+				self stepIntoFromLevel: 13. ""SpkScaffoldingMockObject class >> example2 @4 line 5"" -- not working yet
+			3. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: 'SpkScaffoldingMockObject example2')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07g [
+
+	"
+		Set 2 breakpoints in mock class designed to exercise the various step options. 
+		Upon second resume, the result should be an array of strings. The following debugger commands can
+		be executed in the inspector/debugger
+			1. self resume
+			2. 
+				self stepThroughFromLevel: 13. ""SpkScaffoldingMockObject >> method1: @3 line 7""
+				self resume	""continue to next breakpoint""
+				self stepOverFromLevel: 13. ""SpkScaffoldingMockObject >> method2: @3 line 4""
+			3. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	service
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+		meta: false
+		selector: #method1:
+		atStepPoint: 3;
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+		meta: false
+		selector: #method2:
+		atStepPoint: 3.
+	(service gsDebugger_07: 'SpkScaffoldingMockObject example1')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07h [
+
+	"
 		trigger a halt in a forked process in a mock class designed to exercise the various step options
 			... result should be an array of strings. 
 			The following debugger commands can be executed in the inspector/debugger:
@@ -390,8 +559,8 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 					reason } halt ] ]
 ]
 
-{ #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_07c [
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> debugger_07i [
 
 	"
 		two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, 
@@ -406,36 +575,6 @@ SpkScaffoldingServiceClient class >> debugger_07c [
 	service := SpkScaffoldingServiceClient new registerWith:
 		           self connection.
 	(service gsDebugger_07: 'SpkScaffoldingMockObject example4')
-		when: [ :result | 
-			WorldState defer: [ 
-				{ 
-					'when'.
-					result.
-					result doitResult } inspect ] ]
-		catch: [ :reason | 
-			WorldState defer: [ 
-				{ 
-					'catch'.
-					reason } halt ] ]
-]
-
-{ #category : 'examples' }
-SpkScaffoldingServiceClient class >> debugger_07d [
-
-	"
-		similar to debugger_06e
-		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
-		resume (ala debugger_04)).
-		The following debugger commands can be executed in the inspector/debugger:
-			1. self resumeWith: 8
-			2. self terminate
-	"
-
-	<example>
-	| service |
-	service := SpkScaffoldingServiceClient new registerWith:
-		           self connection.
-	(service gsDebugger_07: '#() at: 1')
 		when: [ :result | 
 			WorldState defer: [ 
 				{ 
@@ -490,7 +629,7 @@ SpkScaffoldingServiceClient class >> initiateConnection [
 	^ Connection := initiator connect
 ]
 
-{ #category : 'examples' }
+{ #category : 'active examples' }
 SpkScaffoldingServiceClient class >> processGC_01 [
 
 	"get rid of suspended processes that are running the examples "
@@ -502,7 +641,7 @@ SpkScaffoldingServiceClient class >> processGC_01 [
 	service gcSuspendedProcesses inspect
 ]
 
-{ #category : 'examples' }
+{ #category : 'active examples' }
 SpkScaffoldingServiceClient class >> processList_01 [
 
 	"return dictionary of process stackes keyed by process oop for all scheduled processes in server"
@@ -516,7 +655,7 @@ SpkScaffoldingServiceClient class >> processList_01 [
 	service processList inspect
 ]
 
-{ #category : 'examples' }
+{ #category : 'active examples' }
 SpkScaffoldingServiceClient class >> resetConnection_01 [
 
 	"

@@ -2,9 +2,11 @@ RwSimpleProjectLoadComponentV2 {
 	#name : 'gemstone/Sparkle',
 	#condition : 'gemstone',
 	#projectNames : [ ],
-	#componentNames : [ ],
+	#componentNames : [ 
+		'gemstone/deprecated/Sparkle',
+		'gemstone/tests/Sparkle'
+	],
 	#packageNames : [
-		'Sparkle-Scaffolding-Topaz-GemStone',
 		'Sparkle-Scaffolding-GemStone',
 		'Sparkle-Scaffolding-Rowan-GemStone',
 		'Sparkle-Tools-GemStone',

@@ -5,7 +5,6 @@ RwSimpleProjectLoadComponentV2 {
 		'RemoteServiceReplication'
 	],
 	#componentNames : [
-		'deprecated/Sparkle',
 		'gemstone/Sparkle',
 		'tests/Sparkle'
 	],

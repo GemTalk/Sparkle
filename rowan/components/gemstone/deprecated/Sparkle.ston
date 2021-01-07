@@ -1,9 +1,10 @@
 RwSimpleProjectLoadComponentV2 {
-	#name : 'deprecated/Sparkle',
+	#name : 'gemstone/deprecated/Sparkle',
 	#condition : 'deprecated',
 	#projectNames : [ ],
 	#componentNames : [ ],
 	#packageNames : [
+		'Sparkle-Scaffolding-Topaz-GemStone',
 		'Sparkle-Scaffolding-GemStone-Deprecated'
 	],
 	#comment : 'deprecated packages for Sparkle'

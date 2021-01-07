@@ -7,6 +7,18 @@ Class {
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
+{ #category : 'active examples' }
+SpkScaffoldingServiceClient class >> clearAllBreaks_01 [
+
+	"
+	clear all breakpoints
+	"
+
+	<example>
+	(SpkScaffoldingServiceClient new registerWith:
+		           self connection) clearAllBreaks
+]
+
 { #category : 'connections' }
 SpkScaffoldingServiceClient class >> closeConnection [
 
@@ -664,6 +676,13 @@ SpkScaffoldingServiceClient class >> resetConnection_01 [
 
 	<example>
 	Connection := nil.
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> clearAllBreaks [
+	"clear all breakpoints"
+
+	^ remoteSelf clearAllBreaks wait
 ]
 
 { #category : 'acccessing' }

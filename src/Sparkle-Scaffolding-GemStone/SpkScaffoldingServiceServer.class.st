@@ -46,6 +46,13 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> clearAllBreaks [
+	"clear all breakpoints set in image"
+
+	GsNMethod clearAllBreaks
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> debugService [
 	^ debugService
 		ifNil: [ 

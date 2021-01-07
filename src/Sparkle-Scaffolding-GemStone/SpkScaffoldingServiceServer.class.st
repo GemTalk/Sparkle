@@ -188,7 +188,17 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 	cur := GsProcess _current.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
-		debugActionBlock: [ :ex | SpkScaffoldingUnhandledException fromService: self signal: ex ];
+		debugActionBlock: [ :ex | 
+					| mon theDebugProcess debuggerService |
+					theDebugProcess := GsProcess _current.
+					mon := [ 
+					GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
+					debuggerService := SpkScaffoldingDebuggerServiceServer new
+						registerWith: self connection;
+						openDebuggerOnClientForProcess: theDebugProcess exception: ex;
+						yourself ] forkAt: Processor userInterruptPriority.	"methinks this process should have a nil debugActionBlock"
+					theDebugProcess suspend.
+					debuggerService resumptionValue	"likely that noone is waiting on this result" ];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	doitResult := aString evaluate

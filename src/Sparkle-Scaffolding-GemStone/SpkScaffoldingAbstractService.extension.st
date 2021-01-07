@@ -12,10 +12,10 @@ SpkScaffoldingAbstractService >> debug: anException [
 		openDebuggerOnClientForProcess: debugProcess exception: anException;
 		yourself ] forkAt: Processor userInterruptPriority.	"methinks this process should have a nil debugActionBlock"
 	debugProcess suspend.
-	anException _resume: debuggerService resumptionValue.	"should not return"
-	Halt new
-		details: 'unexpected return from _resume:';
-		signalNotTrappable	"in case _resume: returns"
+
+	debuggerService resumptionValue
+		ifNil: [ ^ anException resume ]
+		ifNotNil: [ :resumptionValue | ^ resumptionValue ]
 ]
 
 { #category : '*sparkle-scaffolding-gemstone' }

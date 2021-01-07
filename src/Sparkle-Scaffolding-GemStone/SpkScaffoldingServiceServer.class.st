@@ -191,11 +191,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 		debugActionBlock: [ :ex | SpkScaffoldingUnhandledException fromService: self signal: ex ];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
-	[ doitResult := aString evaluate ]
-		on: SpkScaffoldingUnhandledException
-		do: [ :ex | 
-			"If I don't signal and handle SpkScaffoldingUnhandledException. I get a 'cannot find handler frame for exception' ImproperOperation?"
-			doitResult := self debug: ex ]
+	doitResult := aString evaluate
 ]
 
 { #category : 'debugger' }

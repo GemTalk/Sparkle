@@ -1,9 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingServiceClient',
-	#superclass : 'SpkScaffoldingService',
-	#classVars : [
-		'Connection'
-	],
+	#superclass : 'SpkScaffoldingAbstractServiceClient',
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
@@ -19,13 +16,6 @@ SpkScaffoldingServiceClient class >> clearAllBreaks_01 [
 		           self connection) clearAllBreaks
 ]
 
-{ #category : 'connections' }
-SpkScaffoldingServiceClient class >> closeConnection [
-
-	(Connection notNil and: [ Connection isOpen]) ifTrue: [ 
-		Connection close ].
-]
-
 { #category : 'active examples' }
 SpkScaffoldingServiceClient class >> closeConnection_01 [
 
@@ -35,13 +25,6 @@ SpkScaffoldingServiceClient class >> closeConnection_01 [
 
 	<example>
 	 self closeConnection 
-]
-
-{ #category : 'connections' }
-SpkScaffoldingServiceClient class >> connection [
-
-	(Connection isNil or: [Connection isOpen not ]) ifTrue: [ self initiateConnection ].
-	^Connection
 ]
 
 { #category : 'examples' }
@@ -631,16 +614,6 @@ SpkScaffoldingServiceClient class >> doit_02 [
 	x inspect
 ]
 
-{ #category : 'connections' }
-SpkScaffoldingServiceClient class >> initiateConnection [
-
-	| host port initiator |
-	host := '0.0.0.0'.
-	port := 7652.
-	initiator := RsrInitiateConnection host: host port: port.
-	^ Connection := initiator connect
-]
-
 { #category : 'active examples' }
 SpkScaffoldingServiceClient class >> processGC_01 [
 
@@ -679,27 +652,15 @@ SpkScaffoldingServiceClient class >> resetConnection_01 [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> clearAllBreaks [
-	"clear all breakpoints"
+SpkScaffoldingServiceClient >> openDebuggerOnClient [
 
-	^ remoteSelf clearAllBreaks wait
-]
-
-{ #category : 'acccessing' }
-SpkScaffoldingServiceClient >> doitExceptionDescription [
-
-	^ remoteSelf doitExceptionDescription wait
-]
-
-{ #category : 'acccessing' }
-SpkScaffoldingServiceClient >> doitResult [
-
-	^ doitResult 
+	self doitStack inspect
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> doitStack [
-	^ remoteSelf doitStack wait
+SpkScaffoldingServiceClient >> openInspectorOnClient [
+
+	self doitExceptionDescription inspect
 ]
 
 { #category : 'debugger' }
@@ -712,12 +673,6 @@ SpkScaffoldingServiceClient >> doit_01: aString [
 SpkScaffoldingServiceClient >> doit_02: aString [
 
 	^ (remoteSelf doit_02: aString) wait
-]
-
-{ #category : 'acccessing' }
-SpkScaffoldingServiceClient >> gcSuspendedProcesses [
-
-	^ remoteSelf gcSuspendedProcesses wait
 ]
 
 { #category : 'debugger' }
@@ -754,55 +709,4 @@ SpkScaffoldingServiceClient >> gsDebugger_05: aString [
 SpkScaffoldingServiceClient >> gsDebugger_06: aString [
 
 	^ remoteSelf gsDebugger_06: aString
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> gsDebugger_07: aString [
-
-	^ remoteSelf gsDebugger_07: aString
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> openDebuggerOnClient [
-
-	self doitStack inspect
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> openInspectorOnClient [
-
-	self doitExceptionDescription inspect
-]
-
-{ #category : 'acccessing' }
-SpkScaffoldingServiceClient >> processList [ 
-
-	^ processList ifNil: [ processList := remoteSelf processList wait ]
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> setBreakpointForClass: className meta: isMeta selector: selector atStepPoint: stepPoint [
-
-	"Set a breakpoint that will be signalled to the GCI.
-		Returns true to indicate success.  Otherwise returns a string describing the error."
-
-	| res |
-	(res := (remoteSelf
-		         setBreakpointForClass: className
-		meta: isMeta 
-		         selector: selector
-		         atStepPoint: stepPoint) wait) == true ifFalse: [ 
-		self error: res ]
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> setBreakpointForClass: className selector: selector atStepPoint: stepPoint [
-	"Set a breakpoint that will be signalled to the GCI.
-		Returns true to indicate success.  Otherwise returns a string describing the error."
-
-| res |
-	(res :=(remoteSelf
-		   setBreakpointForClass: className
-		   selector: selector
-		   atStepPoint: stepPoint) wait) == true ifFalse: [self error: res]
 ]

@@ -420,6 +420,36 @@ SpkScaffoldingServiceClient class >> debugger_07c [
 ]
 
 { #category : 'examples' }
+SpkScaffoldingServiceClient class >> debugger_07d [
+
+	"
+		similar to debugger_06e
+		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
+		resume (ala debugger_04)).
+		The following debugger commands can be executed in the inspector/debugger:
+			1. self resumeWith: 8
+			2. self terminate
+	"
+
+	<example>
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
+		           self connection.
+	(service gsDebugger_07: '#() at: 1')
+		when: [ :result | 
+			WorldState defer: [ 
+				{ 
+					'when'.
+					result.
+					result doitResult } inspect ] ]
+		catch: [ :reason | 
+			WorldState defer: [ 
+				{ 
+					'catch'.
+					reason } halt ] ]
+]
+
+{ #category : 'examples' }
 SpkScaffoldingServiceClient class >> doit_01 [
 
 	"simulate a doit initiated in Pharo and executed in GemStone ... 

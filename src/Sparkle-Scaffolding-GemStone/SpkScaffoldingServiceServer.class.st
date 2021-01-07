@@ -191,9 +191,6 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 		debugActionBlock: [ :ex | SpkScaffoldingUnhandledException fromService: self signal: ex ];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
-	UserGlobals
-		at: #'ScaffoldingServiceServerDebugHandlerType'
-		put: #'remoteDebugger'.
 	[ doitResult := aString evaluate ]
 		on: SpkScaffoldingUnhandledException
 		do: [ :ex | 

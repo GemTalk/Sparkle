@@ -14,7 +14,9 @@ BaselineOfSparkle >> baseline: spec [
 			package: 'Sparkle-Scaffolding-Common'
 			with: [ spec 
 				requires: 'Sparkle-Services-Common';
-				includes: 'Sparkle-Scaffolding-Pharo' ];
+				includes: #('Sparkle-Scaffolding-Pharo' 'Sparkle-Scaffolding-Pharo-Deprecated') ];
+			package: 'Sparkle-Scaffolding-Pharo-Deprecated'
+			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
 			package: 'Sparkle-Scaffolding-Pharo'
 			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
 			package: 'Sparkle-Tools-Common';

@@ -1,6 +1,6 @@
 Extension { #name : 'SpkScaffoldingAbstractService' }
 
-{ #category : '*sparkle-scaffolding-gemstone' }
+{ #category : '*sparkle-scaffolding-gemstone-deprecated' }
 SpkScaffoldingAbstractService >> debug: anException raisedDuring: aMessageSend answerUsing: aResolver [
 	| type |
 	type := UserGlobals

@@ -1,0 +1,10 @@
+RwSimpleProjectLoadComponentV2 {
+	#name : 'deprecated/Sparkle',
+	#condition : 'deprecated',
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'Sparkle-Scaffolding-GemStone-Deprecated'
+	],
+	#comment : 'deprecated packages for Sparkle'
+}

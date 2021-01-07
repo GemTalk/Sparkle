@@ -180,14 +180,15 @@ SpkScaffoldingServiceServer >> gsDebugger_06: aString [
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 	"
-		no exception handlers ... deliver a remote error
+		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
+			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
 	"
 
 	| cur debugActionBlock |
 	cur := GsProcess _current.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
-		debugActionBlock: [ :ex | SpkScaffoldingUnhandledException signal: ex ];
+		debugActionBlock: [ :ex | SpkScaffoldingUnhandledException fromService: self signal: ex ];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	UserGlobals

@@ -23,8 +23,12 @@ SpkScaffoldingMockObject class >> example2 [
 SpkScaffoldingMockObject class >> example3 [
 	"should get a debugger in a forked process"
 
-	[ self example2 ] fork.
+	[ 
+	GsProcess _current name: 'example3'.
+	GsFile gciLogServer: 'thread example3'.
+	GsFile gciLogServer: 'RESULT: ' , self example2 printString ] fork.
 	Processor yield.
+	GsFile gciLogServer: 'forked'.
 	^ 'forked'
 ]
 
@@ -35,11 +39,17 @@ SpkScaffoldingMockObject class >> example4 [
 	| sem ans |
 	sem := Semaphore new.
 	[ 
+	GsProcess _current name: 'example4'.
+	GsFile gciLogServer: 'thread example4'.
 	ans := self example2.
+	GsFile gciLogServer: 'signal semaphore'.
 	sem signal ] fork.
 	Processor yield.
+	GsFile gciLogServer: 'wait'.
 	sem wait.
+	GsFile gciLogServer: 'halt'.
 	self halt.
+	GsFile gciLogServer: 'resume'.
 	^ ans
 ]
 

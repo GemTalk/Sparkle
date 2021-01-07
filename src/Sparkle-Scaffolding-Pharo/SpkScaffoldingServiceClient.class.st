@@ -395,7 +395,7 @@ SpkScaffoldingServiceClient class >> debugger_07c [
 
 	"
 		two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, 
-			then halt in original process and return answer from example2 as result.
+			then halt in original process and return answer from example2 as result (#('symbol' '1' '2.0')).
 			The following debugger commands can be executed in the inspector/debugger:
 			1. self resume
 			2. self terminate

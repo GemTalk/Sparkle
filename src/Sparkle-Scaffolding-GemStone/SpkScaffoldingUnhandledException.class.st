@@ -9,7 +9,7 @@ Class {
 
 { #category : 'instance creation' }
 SpkScaffoldingUnhandledException class >> fromService: service signal: ex [
-	self new
+	^ self new
 		service: service;
 		signal: ex
 ]

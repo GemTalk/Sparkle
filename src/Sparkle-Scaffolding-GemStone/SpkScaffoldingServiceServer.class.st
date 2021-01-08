@@ -203,7 +203,8 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					debuggerService
 						openDebuggerOnClientForProcess: theDebugProcess
 						exception: ex ] forkAt: Processor userInterruptPriority.
-					theDebugProcess suspend];
+					theDebugProcess suspend.
+					debuggerService resumptionValue "necessary"];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	doitResult := aString evaluate

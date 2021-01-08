@@ -5,7 +5,8 @@ Class {
 		'doitResult',
 		'debugService',
 		'doitStack',
-		'processList'
+		'processList',
+		'debuggerService'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }

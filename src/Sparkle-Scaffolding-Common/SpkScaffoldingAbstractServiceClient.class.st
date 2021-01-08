@@ -38,6 +38,11 @@ SpkScaffoldingAbstractServiceClient >> clearAllBreaks [
 	^ remoteSelf clearAllBreaks wait
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingAbstractServiceClient >> debuggerService [
+	^ debuggerService ifNil: [ debuggerService := remoteSelf debuggerService wait ]
+]
+
 { #category : 'acccessing' }
 SpkScaffoldingAbstractServiceClient >> doitExceptionDescription [
 

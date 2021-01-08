@@ -4,6 +4,13 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
 
+{ #category : 'simulation' }
+SpkScaffoldingDebuggerServiceClient class >> debuggerSemaphore [
+	^ SessionTemps current
+		at: #'SpkScaffoldingSempahore'
+		ifAbsentPut: [ Semaphore new ]
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	| stack |
@@ -19,5 +26,5 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	GsFile
 		gciLogServer:
 			'process service oop (receiver of resume, terminate, etc.) '
-				, processService asOop printString
+				, processService asOop printString.
 ]

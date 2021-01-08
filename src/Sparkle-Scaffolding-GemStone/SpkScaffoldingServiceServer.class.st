@@ -52,6 +52,11 @@ SpkScaffoldingServiceServer >> clearAllBreaks [
 	GsNMethod clearAllBreaks
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingServiceServer >> debuggerService [
+	^ debuggerService
+]
+
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> debugService [
 	^ debugService
@@ -196,14 +201,16 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
 		debugActionBlock: [ :ex | 
-					| mon theDebugProcess debuggerService |
+					| mon theDebugProcess |
 					theDebugProcess := GsProcess _current.
 					mon := [ 
 					GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
 					debuggerService := SpkScaffoldingDebuggerServiceServer new
 						registerWith: self connection;
 						openDebuggerOnClientForProcess: theDebugProcess exception: ex;
-						yourself ] forkAt: Processor userInterruptPriority.	"methinks this process should have a nil debugActionBlock"
+						yourself.
+					SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal ]
+						forkAt: Processor userInterruptPriority.
 					theDebugProcess suspend.
 					debuggerService resumptionValue	"likely that noone is waiting on this result" ];
 		priority: Processor userSchedulingPriority;

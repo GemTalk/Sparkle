@@ -36,6 +36,26 @@ SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> resume [
+	^ self processService resume
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> resumeWith: anObject [
+	^ self processService resumeWith: anObject
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> rowanFrameServices [
+	^ self processService rowanFrameServices
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
+	^ self processService stepOverFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
 	^ self processService terminate
 ]

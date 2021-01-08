@@ -209,7 +209,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 						registerWith: self connection;
 						openDebuggerOnClientForProcess: theDebugProcess exception: ex;
 						yourself.
-					SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal ]
+					]
 						forkAt: Processor userInterruptPriority.
 					theDebugProcess suspend.
 					debuggerService resumptionValue	"likely that noone is waiting on this result" ];

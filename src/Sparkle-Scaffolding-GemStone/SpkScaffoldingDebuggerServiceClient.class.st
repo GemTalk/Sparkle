@@ -27,4 +27,5 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 		gciLogServer:
 			'process service oop (receiver of resume, terminate, etc.) '
 				, processService asOop printString.
+SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal
 ]

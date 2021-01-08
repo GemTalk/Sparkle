@@ -19,7 +19,7 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 			((SpkScaffoldingDebugProcessServiceServer
 				onSuspendedProcess: aSuspendedGsProcess)
 				doitException: ex;
-				debuggerService: self
+				debuggerService: self;
 				yourself).
 	^ self openDebuggerOnClient wait
 ]

@@ -69,6 +69,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 	self assert: result equals: 7.
 	sem signal ] forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
 	debuggerClient processService resume.
 	sem wait	"assertion passed"
 ]
@@ -89,9 +90,15 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client gsDebugger_07: '7 foo' usingDebugger: debuggerClient.
-	self expectCatch: promise ] forkAt: Processor userSchedulingPriority.
-
+	self expectCatch: promise.
+	sem signal ] forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
-	doitProcess terminate.
-	sem wait	"assertion passed"
+
+	self
+		assert: debuggerClient messageText
+		equals:
+			'a MessageNotUnderstood occurred (error 2010), a SmallInteger does not understand  #''foo'''.	"nothing left to do, but turn out the lights"
+
+	debuggerClient terminate.
+	sem wait	"expected catch and got it"
 ]

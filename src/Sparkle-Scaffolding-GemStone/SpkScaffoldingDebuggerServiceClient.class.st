@@ -11,6 +11,11 @@ SpkScaffoldingDebuggerServiceClient class >> debuggerSemaphore [
 		ifAbsentPut: [ Semaphore new ]
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> messageText [
+	^ self processService messageText
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	| stack |
@@ -28,4 +33,9 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 			'process service oop (receiver of resume, terminate, etc.) '
 				, processService asOop printString.
 SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> terminate [
+	^ self processService terminate
 ]

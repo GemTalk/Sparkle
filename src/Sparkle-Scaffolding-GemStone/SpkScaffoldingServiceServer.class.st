@@ -185,6 +185,33 @@ SpkScaffoldingServiceServer >> gsDebugger_06: aString [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_07: aString [
+	"
+		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
+			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
+	"
+
+	| cur debugActionBlock |
+	cur := GsProcess _current.
+	debugActionBlock := cur debugActionBlock.	"in case it's needed"
+	cur
+		debugActionBlock: [ :ex | 
+					| mon theDebugProcess debuggerService |
+					theDebugProcess := GsProcess _current.
+					mon := [ 
+					GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
+					debuggerService := SpkScaffoldingDebuggerServiceServer new
+						registerWith: self connection;
+						openDebuggerOnClientForProcess: theDebugProcess exception: ex;
+						yourself ] forkAt: Processor userInterruptPriority.
+					theDebugProcess suspend.
+					debuggerService resumptionValue	"necessary" ];
+		priority: Processor userSchedulingPriority;
+		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+	doitResult := aString evaluate
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService [
 	"
 		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 

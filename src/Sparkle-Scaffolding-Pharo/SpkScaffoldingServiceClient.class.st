@@ -700,6 +700,13 @@ SpkScaffoldingServiceClient >> gsDebugger_06: aString [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_07: aString [
+
+	^ remoteSelf
+		  gsDebugger_07: aString
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> openDebuggerOnClient [
 
 	self doitStack inspect

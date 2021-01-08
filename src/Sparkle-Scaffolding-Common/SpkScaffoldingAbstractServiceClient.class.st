@@ -61,13 +61,6 @@ SpkScaffoldingAbstractServiceClient >> gcSuspendedProcesses [
 	^ remoteSelf gcSuspendedProcesses wait
 ]
 
-{ #category : 'debugger' }
-SpkScaffoldingAbstractServiceClient >> gsDebugger_07: aString [
-	^ remoteSelf
-		gsDebugger_07: aString
-		usingDebugger: SpkScaffoldingDebuggerServiceClient new
-]
-
 { #category : 'acccessing' }
 SpkScaffoldingAbstractServiceClient >> processList [ 
 

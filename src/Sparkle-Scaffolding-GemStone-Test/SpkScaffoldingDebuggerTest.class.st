@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkScaffoldingDebuggerTest',
 	#superclass : 'RsrSystemTestCase',
+	#instVars : [
+		'doitProcess'
+	],
 	#category : 'Sparkle-Scaffolding-GemStone-Test'
 }
 
@@ -11,8 +14,17 @@ SpkScaffoldingDebuggerTest >> setUp [
 	self initializeSocketConnections
 ]
 
+{ #category : 'running' }
+SpkScaffoldingDebuggerTest >> tearDown [
+
+	doitProcess ifNotNil: [ doitProcess terminate].
+	super tearDown
+]
+
 { #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDoit [
+SpkScaffoldingDebuggerTest >> testDebugger_06a [
+	"return doitResult after error-free execution"
+
 	| client promise result |
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -23,7 +35,11 @@ SpkScaffoldingDebuggerTest >> testDoit [
 ]
 
 { #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testHalt [
+SpkScaffoldingDebuggerTest >> testDebugger_06b [
+	"
+		trigger exception during doit and expect to trigger a remote debugger; resume execution
+	"
+
 	| client server sem debuggerClient |
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -31,16 +47,37 @@ SpkScaffoldingDebuggerTest >> testHalt [
 	server := connectionB serviceAt: client _id.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
 	sem := Semaphore new.
-	RsrProcessModel
-		fork: [ 
-			| promise result |
-			promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
-			result := (self expectWhen: promise) doitResult.
-			self assert: result equals: 7.
-			sem signal ]
-		at: Processor userSchedulingPriority
-		named: self class name , 'testHalt doit proc'.
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals: 7.
+	sem signal ] forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 	debuggerClient processService resume.
+	sem wait	"assertion passed"
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_06c [
+	"trigger an MNU"
+
+	| client server sem debuggerClient |
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client gsDebugger_07: '7 foo' usingDebugger: debuggerClient.
+	self expectCatch: promise ] forkAt: Processor userSchedulingPriority.
+
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+	doitProcess terminate.
 	sem wait	"assertion passed"
 ]

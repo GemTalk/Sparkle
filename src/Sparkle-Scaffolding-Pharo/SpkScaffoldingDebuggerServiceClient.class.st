@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingDebuggerServiceClient',
-	#superclass : 'SpkScaffoldingDebuggerService',
+	#superclass : 'SpkScaffoldingAbstractDebuggerServiceClient',
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 

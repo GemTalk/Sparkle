@@ -652,18 +652,6 @@ SpkScaffoldingServiceClient class >> resetConnection_01 [
 ]
 
 { #category : 'debugger' }
-SpkScaffoldingServiceClient >> openDebuggerOnClient [
-
-	self doitStack inspect
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> openInspectorOnClient [
-
-	self doitExceptionDescription inspect
-]
-
-{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit_01: aString [
 
 	^ (remoteSelf doit_01: aString) wait
@@ -709,4 +697,16 @@ SpkScaffoldingServiceClient >> gsDebugger_05: aString [
 SpkScaffoldingServiceClient >> gsDebugger_06: aString [
 
 	^ remoteSelf gsDebugger_06: aString
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> openDebuggerOnClient [
+
+	self doitStack inspect
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> openInspectorOnClient [
+
+	self doitExceptionDescription inspect
 ]

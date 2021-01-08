@@ -1,5 +1,5 @@
 Class {
 	#name : 'SpkScaffoldingDebugFrameServiceClient',
 	#superclass : 'SpkScaffoldingAbstractDebugFrameServiceClient',
-	#category : 'Sparkle-Scaffolding-Pharo'
+	#category : 'Sparkle-Scaffolding-GemStone'
 }

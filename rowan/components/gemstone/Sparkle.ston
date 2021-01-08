@@ -2,7 +2,7 @@ RwSimpleProjectLoadComponentV2 {
 	#name : 'gemstone/Sparkle',
 	#condition : 'gemstone',
 	#projectNames : [ ],
-	#componentNames : [ 
+	#componentNames : [
 		'gemstone/deprecated/Sparkle',
 		'gemstone/tests/Sparkle'
 	],

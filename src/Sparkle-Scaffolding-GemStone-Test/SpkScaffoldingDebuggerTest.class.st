@@ -22,7 +22,7 @@ SpkScaffoldingDebuggerTest >> tearDown [
 ]
 
 { #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_06a [
+SpkScaffoldingDebuggerTest >> testDebugger_07a [
 	"return doitResult after error-free execution"
 
 	| client promise result |
@@ -35,7 +35,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_06a [
 ]
 
 { #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_06b [
+SpkScaffoldingDebuggerTest >> testDebugger_07b [
 	"
 		trigger exception during doit and expect to trigger a remote debugger; resume execution
 	"
@@ -60,7 +60,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_06b [
 ]
 
 { #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_06c [
+SpkScaffoldingDebuggerTest >> testDebugger_07c [
 	"trigger an MNU"
 
 	| client server sem debuggerClient |

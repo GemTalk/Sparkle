@@ -8,6 +8,20 @@ Class {
 }
 
 { #category : 'running' }
+SpkScaffoldingDebuggerTest >> runCase [
+	| tornDown |
+	self resources do: [:each | each availableFor: self].
+	[ self setUp.
+	  self performTest
+        ] ensure: [
+	  tornDown ifNil:[
+		tornDown := true .
+		self tearDown
+	  ]
+        ]
+]
+
+{ #category : 'running' }
 SpkScaffoldingDebuggerTest >> setUp [
 
 	super setUp.

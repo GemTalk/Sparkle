@@ -4,12 +4,8 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
 
-{ #category : 'accessing' }
-SpkScaffoldingServiceClient >> debuggerService [
-	super debuggerService.
-	GsFile
-		gciLogServer:
-			'client accessor ' , debuggerService printString , ' (' , self asOop printString
-				, ')'.
-	^ debuggerService
+{ #category : 'debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_07: aString usingDebugger: debuggerService [
+
+	^ remoteSelf gsDebugger_07: aString usingDebugger: debuggerService
 ]

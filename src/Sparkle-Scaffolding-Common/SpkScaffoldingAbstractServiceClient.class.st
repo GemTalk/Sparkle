@@ -38,11 +38,6 @@ SpkScaffoldingAbstractServiceClient >> clearAllBreaks [
 	^ remoteSelf clearAllBreaks wait
 ]
 
-{ #category : 'accessing' }
-SpkScaffoldingAbstractServiceClient >> debuggerService [
-	^ debuggerService ifNil: [ debuggerService := remoteSelf debuggerService wait ]
-]
-
 { #category : 'acccessing' }
 SpkScaffoldingAbstractServiceClient >> doitExceptionDescription [
 
@@ -68,8 +63,9 @@ SpkScaffoldingAbstractServiceClient >> gcSuspendedProcesses [
 
 { #category : 'debugger' }
 SpkScaffoldingAbstractServiceClient >> gsDebugger_07: aString [
-
-	^ remoteSelf gsDebugger_07: aString
+	^ remoteSelf
+		gsDebugger_07: aString
+		usingDebugger: SpkScaffoldingDebuggerServiceClient new
 ]
 
 { #category : 'acccessing' }

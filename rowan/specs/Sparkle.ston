@@ -8,6 +8,7 @@ RwLoadSpecificationV2 {
 		'Sparkle'
 	],
 	#customConditionalAttributes : [
+		'deprecated',
 		'tests'
 	],
 	#platformProperties : {

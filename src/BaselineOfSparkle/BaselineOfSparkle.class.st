@@ -11,6 +11,14 @@ BaselineOfSparkle >> baseline: spec [
 	spec for: #pharo do: [ 
 		spec
 			postLoadDoIt: #postload:package:;
+			package: 'Sparkle-Scaffolding-Common'
+			with: [ spec 
+				requires: 'Sparkle-Services-Common';
+				includes: #('Sparkle-Scaffolding-Pharo' 'Sparkle-Scaffolding-Pharo-Deprecated') ];
+			package: 'Sparkle-Scaffolding-Pharo-Deprecated'
+			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
+			package: 'Sparkle-Scaffolding-Pharo'
+			with: [ spec requires: 'Sparkle-Scaffolding-Common' ];
 			package: 'Sparkle-Tools-Common';
 			package: 'Sparkle-Tools-Pharo'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
@@ -19,12 +27,15 @@ BaselineOfSparkle >> baseline: spec [
 			package: 'Sparkle-Tools-Pharo-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Services-Common'
-			with: [ spec requires: 'RemoteServiceReplication' ];
+			with: [ spec 
+				requires: 'RemoteServiceReplication';
+				includes: 'Sparkle-Scaffolding-Common' ];
 			package: 'Sparkle-Services-PharoClient'
 			with: [ spec requires: 'Sparkle-Services-Common' ];
 			package: 'Sparkle-Services-PharoServer'
 			with: [ 
-				spec requires:
+				spec 
+					requires:
 						#( 'Sparkle-Services-Common' 'Sparkle-Tools-Pharo' ) ];
 			package: 'Sparkle-Presenters' with: [ 
 				spec requires:
@@ -49,6 +60,12 @@ BaselineOfSparkle >> postload: loader package: packageSpec [
 			'Expected Sparkle baseline load to come from exactly one repository' ].
 	urlString := map keys first.
 	SpkIconLibrary loadFromLocalSrcUrlString: urlString
+]
+
+{ #category : 'accessing' }
+BaselineOfSparkle >> projectClass [
+	Smalltalk at: #'MetacelloCypressBaselineProject' ifPresent: [ :cl | ^ cl ].
+	^ super projectClass
 ]
 
 { #category : 'baselines' }

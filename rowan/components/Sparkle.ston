@@ -1,12 +1,15 @@
 RwSimpleProjectLoadComponentV2 {
 	#name : 'Sparkle',
 	#condition : 'common',
-	#projectNames : [ ],
+	#projectNames : [
+		'RemoteServiceReplication'
+	],
 	#componentNames : [
 		'gemstone/Sparkle',
 		'tests/Sparkle'
 	],
 	#packageNames : [
+		'Sparkle-Scaffolding-Common',
 		'Sparkle-Tools-Common',
 		'Sparkle-Services-Common'
 	],

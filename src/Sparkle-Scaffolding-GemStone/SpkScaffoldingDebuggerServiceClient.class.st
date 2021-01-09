@@ -12,6 +12,13 @@ SpkScaffoldingDebuggerServiceClient class >> debuggerSemaphore [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> clearAllBreaks [
+	"clear all breakpoints"
+
+	^ remoteSelf clearAllBreaks wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> messageText [
 	^ self processService messageText
 ]
@@ -48,6 +55,20 @@ SpkScaffoldingDebuggerServiceClient >> resumeWith: anObject [
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> rowanFrameServices [
 	^ self processService rowanFrameServices
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> setBreakpointForClass: className meta: isMeta selector: selector atStepPoint: stepPoint [
+	"Set a breakpoint that will be signalled to the GCI.
+		Returns true to indicate success.  Otherwise returns a string describing the error."
+
+	| res |
+	(res := (remoteSelf
+		setBreakpointForClass: className
+		meta: isMeta
+		selector: selector
+		atStepPoint: stepPoint) wait) == true
+		ifFalse: [ self error: res ]
 ]
 
 { #category : 'debbuger process control' }

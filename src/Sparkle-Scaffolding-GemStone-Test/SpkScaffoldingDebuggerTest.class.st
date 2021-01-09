@@ -189,7 +189,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 		gsDebugger_07: 'SpkScaffoldingMockObject example2'
 		usingDebugger: debuggerClient.
 	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: {}.
+	self
+		assert: result
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
 	sem signal ] forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
@@ -198,15 +203,93 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 		assert: (debuggerClient rowanFrameServices at: 12) label
 		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
 
-GsFile gciLogServer: 'STEP OVER'.
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'STEP OVER'.
+	GsFile gciLogServer: '========='.
 	debuggerClient stepOverFromLevel: 12.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
 	self
 		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'SpkScaffoldingMockObject class >> example2 @3 line 5'.
 
-GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
 	debuggerClient resume.
+
+	sem wait	"assertion passed"
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07g [
+	"
+		Set 2 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test stepThroughFromLevel:; resume to hit second
+			breakpoint, then done
+	"
+
+	| client server sem debuggerClient |
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	sem := Semaphore new.
+
+	debuggerClient
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+			meta: false
+			selector: #'method1:'
+			atStepPoint: 3;
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+			meta: false
+			selector: #'method2:'
+			atStepPoint: 3.
+
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example1'
+		usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self
+		assert: result
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
+	sem signal ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals: 'a Breakpoint occurred (error 6005), Method breakpoint encountered.'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'SpkScaffoldingMockObject >> method1: @3 line 7'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals: 'a Breakpoint occurred (error 6005), Method breakpoint encountered.'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'SpkScaffoldingMockObject >> method2: @3 line 4'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient
+		clearAllBreaks;
+		resume.
 
 	sem wait	"assertion passed"
 ]

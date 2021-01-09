@@ -41,10 +41,7 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> rowanFrameServices [
 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> setBreakAtStepPoint: aStepPoint [
-
-
-	^ (remoteSelf setBreakAtStepPoint: aStepPoint
-) wait
+	^ (remoteSelf setBreakAtStepPoint: aStepPoint) wait
 ]
 
 { #category : 'debbuger process control' }

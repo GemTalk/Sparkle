@@ -23,15 +23,15 @@ SpkScaffoldingDebuggerTest >> runCase [
 
 { #category : 'running' }
 SpkScaffoldingDebuggerTest >> setUp [
-
 	super setUp.
-	self initializeSocketConnections
+	self initializeSocketConnections.
+	SpkScaffoldingDebuggerServiceClient resetDebuggerSemaphore
 ]
 
 { #category : 'running' }
 SpkScaffoldingDebuggerTest >> tearDown [
-
-	doitProcess ifNotNil: [ doitProcess terminate].
+	doitProcess ifNotNil: [ doitProcess terminate ].
+	SpkScaffoldingDebuggerServiceClient resetDebuggerSemaphore.
 	super tearDown
 ]
 
@@ -40,13 +40,21 @@ SpkScaffoldingDebuggerTest >> testDebugger_07a [
 	"return doitResult after error-free execution"
 
 	| client promise result |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07a'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
 	promise := client gsDebugger_07: '{3+4} at: 1'.
 	result := (self expectWhen: promise) doitResult.
 
-	self assert: result equals: 7
+	self assert: result equals: 7.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -56,6 +64,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 	"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07b'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -73,7 +85,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 
 	debuggerClient processService resume.
 
-	sem wait	"assertion passed"
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -81,6 +97,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 	"trigger an MNU"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07c'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -103,7 +123,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 
 	debuggerClient terminate.
 
-	sem wait	"expected catch and got it"
+	sem wait.	"expected catch and got it"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -111,6 +135,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07d [
 	"trigger an error"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07d'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -132,7 +160,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07d [
 
 	debuggerClient terminate.
 
-	sem wait	"expected catch and got it"
+	sem wait.	"expected catch and got it"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -143,6 +175,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07e [
 	"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07e'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -163,7 +199,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07e [
 
 	debuggerClient resumeWith: 8.
 
-	sem wait	"assertion passed"
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -175,6 +215,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07f'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -218,7 +262,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	GsFile gciLogServer: '========='.
 	debuggerClient resume.
 
-	sem wait	"assertion passed"
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -229,6 +277,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 	"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07g'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -291,7 +343,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 		clearAllBreaks;
 		resume.
 
-	sem wait	"assertion passed"
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]
 
 { #category : 'tests' }
@@ -301,6 +357,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07h [
 	"
 
 	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07h'.
+	GsFile gciLogServer: '========='.
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -337,5 +397,70 @@ SpkScaffoldingDebuggerTest >> testDebugger_07h [
 		equals:
 			{'symbol'.
 			'1'.
-			'2.0'}
+			'2.0'}.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07i [
+
+	"
+		two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, 
+			then halt in original process and return answer from example2 as result (#('symbol' '1' '2.0')).
+	"
+
+	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07i'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example4'
+		usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals:{'symbol'.
+			'1'.
+			'2.0'}.
+	sem signal ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 12) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 12) label
+		equals: 'SpkScaffoldingMockObject class >> example4 @9 line 16'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+
+	sem wait.	"doitProcess forked"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
 ]

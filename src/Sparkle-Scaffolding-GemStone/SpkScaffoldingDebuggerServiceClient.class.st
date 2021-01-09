@@ -11,6 +11,11 @@ SpkScaffoldingDebuggerServiceClient class >> debuggerSemaphore [
 		ifAbsentPut: [ Semaphore new ]
 ]
 
+{ #category : 'simulation' }
+SpkScaffoldingDebuggerServiceClient class >> resetDebuggerSemaphore [
+	SessionTemps current removeKey: #'SpkScaffoldingSempahore' ifAbsent: [  ]
+]
+
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> clearAllBreaks [
 	"clear all breakpoints"

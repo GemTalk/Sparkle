@@ -293,3 +293,49 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 
 	sem wait	"assertion passed"
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07h [
+	"
+		trigger a halt in a forked process on SpkScaffoldingMockObject and resume ... result of execution dumped to log
+	"
+
+	| client server sem debuggerClient |
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example3'
+		usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals: 'forked'.
+	sem signal ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	sem wait.	"doitProcess forked"
+	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 12) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
+	self assert: SpkScaffoldingMockObject forkedProcessResult isNil.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.	"semaphore signaled in SpkScaffoldingMockObject example3 after forkedt process is resumed"
+
+	self
+		assert: SpkScaffoldingMockObject forkedProcessResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}
+]

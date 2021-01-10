@@ -1,21 +1,8 @@
 Class {
 	#name : 'SpkEvaluatorToolTest',
-	#superclass : 'TestCase',
-	#instVars : [
-		'inspectorTool',
-		'evaluatorTool'
-	],
+	#superclass : 'SpkEvaluationTest',
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
-
-{ #category : 'other' }
-SpkEvaluatorToolTest >> setUp [
-	super setUp.
-	inspectorTool := SpkInspectorTool on: nil.
-	evaluatorTool := SpkEvaluatorTool new
-		inspectorTool: inspectorTool;
-		yourself
-]
 
 { #category : 'other' }
 SpkEvaluatorToolTest >> testEvaluationReferencingInstvar [

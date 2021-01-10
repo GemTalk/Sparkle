@@ -29,12 +29,11 @@ SpkEvaluatorTool >> accept [
 
 { #category : 'accessing' }
 SpkEvaluatorTool >> evaluateCode [
-
 	"Evaluate the newSource and answer an appropriate tool for 
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
-	| context method resultObject |
+	| context method |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
@@ -42,12 +41,7 @@ SpkEvaluatorTool >> evaluateCode [
 		do: [ :ex | ^ self toolForCompilationError: ex ].
 
 
-	[ resultObject := self evaluateMethod: method inContext: context ]
-		on: Error
-		do: [ :ex | ^ self toolForRuntimeError: ex ].
-	^ (SpkInspectorTool on: resultObject)
-		  explorerTool: explorerTool;
-		  yourself
+	^ self evaluateMethod: method inContext: context
 ]
 
 { #category : 'accessing' }

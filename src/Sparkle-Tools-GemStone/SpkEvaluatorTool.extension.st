@@ -35,12 +35,13 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 					threadToDebug := Processor activeProcess.
 					debuggerThread := [ 
 					| debuggerTool |
-					debuggerTool := SpkRuntimeErrorTool forException: ex. "SpkDebuggerTool forException: ex inThread: threadToDebug."
+					debuggerTool := SpkDebuggerTool forException: ex inProcess: threadToDebug.
 					threadToDebug == evaluationThread
 						ifTrue: [ 
 							resultTool := debuggerTool.
 							completion signal ]
-						ifFalse: [ self error: 'Not yet implemented'	"This error should be handled by RSR's debugAction block." ] ]
+						ifFalse: [ self error: 'Not yet implemented'	"This error should be handled by RSR's debugAction block."
+									"debuggerTool announceInTaskspace: NeedToGetATaskspaceInScope"] ]
 						newProcess.
 					debuggerThread
 						priority: self debuggingPriority;

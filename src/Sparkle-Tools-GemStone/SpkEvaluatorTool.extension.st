@@ -19,34 +19,39 @@ SpkEvaluatorTool >> debuggingPriority [
 
 { #category : '*Sparkle-Tools-GemStone' }
 SpkEvaluatorTool >> evaluateMethod: method inContext: context [
-	| evaluationThread resultTool completion |
+	| completion evaluatorDebugAction evaluationThread resultTool debugAction |
 	completion := Semaphore new.
-	evaluationThread := [ 
-	| resultObject |
-	resultObject := method _executeInContext: context.
-	resultTool := (SpkInspectorTool on: resultObject)
-		explorerTool: explorerTool;
-		yourself.
-	completion signal ] newProcess.
+	"Bugs in the debugger handled by evaluatorDebugAction."
+	evaluatorDebugAction := Processor activeProcess debugActionBlock.
+	debugAction := 
+		[ :ex | | debuggerThread processToDebug |
+		processToDebug := Processor activeProcess.
+		debuggerThread := 
+			[ | debuggerTool |
+			debuggerTool := SpkDebuggerTool new 
+				process: processToDebug;
+				exception: ex;
+				debugActionForContinue: debugAction.
+			processToDebug == evaluationThread
+				ifTrue: [ resultTool := debuggerTool.
+							completion signal ]
+				ifFalse: [ self error: 'Not yet implemented'	"This error should be handled by RSR's debugAction block."	
+							"debuggerTool announceInTaskspace: NeedToGetATaskspaceInScope" ] ] newProcess.
+		debuggerThread
+			priority: self debuggingPriority;
+			debugActionBlock: evaluatorDebugAction;
+			resume.
+		processToDebug suspend ].
+	evaluationThread := 
+		[ | resultObject |
+		resultObject := method _executeInContext: context.
+		resultTool := (SpkInspectorTool on: resultObject)
+			explorerTool: explorerTool;
+			yourself.
+		completion signal ] newProcess.
 	evaluationThread
 		priority: self evaluationPriority;
-		debugActionBlock: [ :ex | 
-					| debuggerThread threadToDebug |
-					threadToDebug := Processor activeProcess.
-					debuggerThread := [ 
-					| debuggerTool |
-					debuggerTool := SpkDebuggerTool forException: ex inProcess: threadToDebug.
-					threadToDebug == evaluationThread
-						ifTrue: [ 
-							resultTool := debuggerTool.
-							completion signal ]
-						ifFalse: [ self error: 'Not yet implemented'	"This error should be handled by RSR's debugAction block."
-									"debuggerTool announceInTaskspace: NeedToGetATaskspaceInScope"] ]
-						newProcess.
-					debuggerThread
-						priority: self debuggingPriority;
-						resume.
-					threadToDebug suspend ];
+		debugActionBlock: debugAction;
 		processType: 1;
 		resume.
 	completion wait.

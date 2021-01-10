@@ -92,9 +92,3 @@ SpkEvaluatorTool >> toolForCompilationError: aCompilationException [
 
 	^ SpkCompilationErrorTool forException: aCompilationException
 ]
-
-{ #category : 'tool creation' }
-SpkEvaluatorTool >> toolForRuntimeError: anError [
-
-	^ SpkRuntimeErrorTool forException: anError
-]

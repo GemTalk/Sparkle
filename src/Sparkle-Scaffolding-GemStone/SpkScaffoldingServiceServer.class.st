@@ -231,7 +231,11 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 						openDebuggerOnClientForProcess: theDebugProcess
 						exception: ex ] forkAt: Processor userInterruptPriority.
 					theDebugProcess suspend.
-					debuggerService resumptionValue "necessary"];
+					ex isResumable
+						ifFalse: [ 
+							"cannot resume from a not-resumable Exception."
+							^ RsrNonresumableError signal: 'cannot resume from a not-resumable Exception' ].
+					debuggerService resumptionValue	"necessary" ];
 		priority: Processor userSchedulingPriority;
 		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	doitResult := aString evaluate

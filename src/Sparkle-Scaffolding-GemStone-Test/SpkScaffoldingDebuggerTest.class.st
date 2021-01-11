@@ -497,6 +497,68 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 ]
 
 { #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07j [
+	"
+		trigger nonresumable exception during doit ; attempt to resume execution
+	"
+
+	| client server sem debuggerClient count |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07j'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+	doitProcess := [ 
+	GsProcess _current name: self printString , ' doit proc'.
+	(client
+		gsDebugger_07: 'RsrNonresumableError signal: ''oh oh'''
+		usingDebugger: debuggerClient) wait.
+	self assert: false description: 'should not get here' ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: 'oh oh'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 7) label
+		equals:
+			'RsrNonresumableError (AbstractException) >> _signalToDebugger @7 line 4'.
+
+	count := 1.
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME ' , count printString.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	3
+		timesRepeat: [ 
+			"infinite loop"
+			self
+				assert: debuggerClient messageText
+				equals: 'cannot resume from a not-resumable Exception'.
+			self
+				assert: (debuggerClient rowanFrameServices at: 7) label
+				equals:
+					'RsrNonresumableError (AbstractException) >> _signalToDebugger @7 line 4'.
+
+			count := count + 1.
+			GsFile gciLogServer: '========='.
+			GsFile gciLogServer: 'RESUME ' , count printString.
+			GsFile gciLogServer: '========='.
+			debuggerClient resume.
+			SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait ].
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]
+
+{ #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_08a [
 	"return doitResult after error-free execution"
 

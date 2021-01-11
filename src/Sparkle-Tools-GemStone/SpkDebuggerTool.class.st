@@ -26,13 +26,26 @@ SpkDebuggerTool >> exception: anException [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> frameAt: anInteger [
+	^ self frames at: anInteger
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> frames [
-	^ frames ifNil: [ frames := self initializeFramesFromProcess ]
+	^ frames ifNil: [ self initializeFramesFromProcess ]
 ]
 
 { #category : 'initialization' }
 SpkDebuggerTool >> initializeFramesFromProcess [
 	frames := Array new: process stackDepth.
+	1 to: frames size do: [ :level | 
+		| frame |
+		frame := SpkDebuggerFrameTool new.
+		frame
+			process: process;
+			level: level.
+		frames at: level put: frame ].
+	^ frames
 ]
 
 { #category : 'accessing' }

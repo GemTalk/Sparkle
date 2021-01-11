@@ -82,6 +82,11 @@ SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> stepThroughFromLevel: aLevel [
+	^ self processService stepThroughFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
 	^ self processService terminate
 ]

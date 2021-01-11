@@ -592,6 +592,13 @@ SpkScaffoldingDebuggerTest >> testDebugger_08e [
 	debuggerClient resumeWith: 8.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
+	self
+		assert: debuggerClient messageText
+		equals: 'cannot find handler frame for exception'.
+	self
+		deny: (debuggerClient rowanFrameServices at: 5) label
+		equals: '[] in SpkScaffoldingServiceServer >> gsDebugger_08:usingDebugger: @20 line 19'.
+
 	sem wait.	"assertion passed"
 
 	GsFile gciLogServer: '========='.

@@ -25,6 +25,28 @@ SpkDebuggerTool >> exception: anException [
 	exception := anException
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> exceptionDescription [
+	| string |
+	string := String new.
+	string
+		add: exception class name;
+		add: self exceptionSpecificMessage.
+	^ string
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> exceptionSpecificMessage [
+	| fullMessage commaIndex latterPart |
+	fullMessage := exception buildMessageText.
+	fullMessage ifNil: [ ^ '' ].
+	commaIndex := fullMessage indexOf: $,.
+	latterPart := commaIndex = 0
+		ifTrue: [ fullMessage ]
+		ifFalse: [ fullMessage copyFrom: commaIndex + 1 to: fullMessage size ].
+	^ ' - ' , latterPart
+]
+
 { #category : 'accessing' }
 SpkDebuggerTool >> frameAt: anInteger [
 	^ self frames at: anInteger

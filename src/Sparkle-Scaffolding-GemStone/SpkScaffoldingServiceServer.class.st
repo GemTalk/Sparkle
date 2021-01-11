@@ -238,6 +238,39 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_08: aString [
+	^ self
+		gsDebugger_08: aString
+		usingDebugger: SpkScaffoldingDebuggerServiceServer new
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_08: aString usingDebugger: debuggerService [
+	"
+		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
+			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
+	"
+
+	| cur debugActionBlock |
+	cur := GsProcess _current.
+	debugActionBlock := cur debugActionBlock.	"in case it's needed"
+	cur
+		debugActionBlock: [ :ex | 
+					| mon theDebugProcess |
+					theDebugProcess := GsProcess _current.
+					mon := [ 
+					GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
+					debuggerService
+						openDebuggerOnClientForProcess: theDebugProcess
+						exception: ex ] forkAt: Processor userInterruptPriority.
+					theDebugProcess suspend.
+					ex _resume: debuggerService resumptionValue.];
+		priority: Processor userSchedulingPriority;
+		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+	doitResult := aString evaluate
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> openDebuggerOnClient [
 	^ remoteSelf openDebuggerOnClient
 ]

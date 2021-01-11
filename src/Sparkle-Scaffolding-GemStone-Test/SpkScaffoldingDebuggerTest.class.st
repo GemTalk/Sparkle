@@ -495,3 +495,106 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='.
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_08a [
+	"return doitResult after error-free execution"
+
+	| client promise result |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_08a'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	promise := client gsDebugger_08: '{3+4} at: 1'.
+	result := (self expectWhen: promise) doitResult.
+
+	self assert: result equals: 7.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_08b [
+	"
+		trigger exception during doit and expect to trigger a remote debugger; resume execution
+	"
+
+	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_08b'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals: 7.
+	sem signal ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	debuggerClient processService resume.
+
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_08e [
+	"
+		trigger OffsetError during doit and expect to trigger a remote debugger.
+		Use `self resumeWith: 8`.
+
+		gsDebugger_08:usingDebugger: is a test case that sends resumeWith: to exception
+	"
+
+	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_08e'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client gsDebugger_08: '#() at: 1' usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals: 8.
+	sem signal ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: 'a OffsetError occurred (error 2003), reason:objErrBadOffsetIncomplete, max:0 actual:1'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME WITH'.
+	GsFile gciLogServer: '========='.
+
+	debuggerClient resumeWith: 8.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='.
+]

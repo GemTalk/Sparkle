@@ -16,6 +16,8 @@ Responsibilities of this class
 Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
+	#traits : 'SpkTModel',
+	#classTraits : 'SpkTModel classTrait',
 	#instVars : [
 		'connection',
 		'registryService',
@@ -82,7 +84,9 @@ SparkleTaskspace >> openAllWindows [
 			            model: xlServ explorerService.
 		explorer
 			openWithSpec;
-			initializeFromLayoutService: xlServ ]
+			initializeFromLayoutService: xlServ.
+		self announce:
+			(SpkExplorerOpenedAnnouncement new explorer: explorer) ]
 ]
 
 { #category : 'initialization' }

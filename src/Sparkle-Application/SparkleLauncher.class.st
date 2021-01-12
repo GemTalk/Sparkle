@@ -21,7 +21,7 @@ SparkleLauncher class >> menuCommandOn: aBuilder [
 	<worldMenu> 
 	
 	(aBuilder item: #'Sparkle Launcher')
-		order: 0.8; 
+		order: 0.7; 
 		icon: nil;  
 		parent: #'Tools';
 		keyText: 's, p'; "hot key doesn't work yet" 

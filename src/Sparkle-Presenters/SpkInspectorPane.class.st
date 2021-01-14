@@ -2,7 +2,12 @@ Class {
 	#name : 'SpkInspectorPane',
 	#superclass : 'SpkPane',
 	#instVars : [
-		'body',
+		'topLayout',
+		'twizzle',
+		'description',
+		'fieldList',
+		'fieldListIsShown',
+		'fieldListModel',
 		'addEvaluatorButton',
 		'evaluators',
 		'nextEvaluatorIndex'
@@ -54,7 +59,7 @@ SpkInspectorPane >> fieldDeselected: anAnnouncement [
 	"If the close was initiated by the linked pane, 
 	it will already be closed and removed from the field."
 	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
-	body updateSelection
+	self updateSelection
 ]
 
 { #category : 'actions' }
@@ -93,8 +98,20 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 { #category : 'initialization' }
 SpkInspectorPane >> initializeBody [
 
-	body := self instantiate: SpkInspectorPaneBody on: model.
-	self layout add: body
+	fieldListIsShown := true.
+	self
+		initializeTop;
+		initializeFieldList;
+		updateFieldListVisibility
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeDescription [
+
+	description := self newLabel
+		               label: model selfDescription;
+		               yourself.
+	topLayout add: description withConstraints: [ :c | c fill: false ]
 ]
 
 { #category : 'adding' }
@@ -102,6 +119,43 @@ SpkInspectorPane >> initializeEvaluators [
 
 	model evaluators do: [ :evaluatorModel | 
 		self addEvaluatorWithModel: evaluatorModel ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeFieldList [
+
+	"Dynamically added to or removed from my layout upon twizzle click."
+
+	self initializeFieldListModel.
+	fieldList := self newTable.
+	fieldList
+		whenSelectionChangedDo: [ :selectionMode | 
+			fieldListModel selectedIndexes: selectionMode selectedIndexes ];
+		items: fieldListModel;
+		addColumn: (SpStringTableColumn evaluated: #name);
+		addColumn: (SpStringTableColumn evaluated: #description);
+		addColumn: ((SpImageTableColumn evaluated: [ :field | 
+					  field hasLinkedPane
+						  ifTrue: [ self iconNamed: #hidePane16 ]
+						  ifFalse: [ self iconNamed: #showPane16 ] ])
+				 width: 25;
+				 yourself);
+		hideColumnHeaders
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeFieldListModel [
+
+	| fields |
+	fieldListModel := SpkMultiSelectList new.
+	fields := model fields collect: [ :each | 
+		          (SpkInspectorField for: each)
+			          list: fieldListModel;
+			          yourself ].
+	fieldListModel
+		addAll: fields;
+		when: SpkItemSelected send: #fieldSelected: to: self;
+		when: SpkItemDeselected send: #fieldDeselected: to: self
 ]
 
 { #category : 'initialization' }
@@ -121,10 +175,35 @@ SpkInspectorPane >> initializePresenters [
 		initializeEvaluators
 ]
 
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeTop [
+
+	topLayout := SpkBoxLayout newHorizontal.
+	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
+	self
+		initializeTwizzle;
+		initializeDescription
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeTwizzle [
+
+	twizzle := self newIconButton
+		           icon: self twizzleIcon;
+		           help: 'Show or hide the field list';
+		           action: [ self toggleFieldList ];
+		           yourself.
+	topLayout add: twizzle withConstraints: [ :c | 
+		c
+			fill: false;
+			width: 20;
+			height: 20 ]
+]
+
 { #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
-	^ body linkedPanes , self panesLinkedToEvaluators
+	^ self panesLinkedToFields , self panesLinkedToEvaluators
 ]
 
 { #category : 'accessing' }
@@ -179,7 +258,7 @@ SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
 		linkedPane: newPane.
 	self flag:
 		'Probably need a different kind of refresh for an evaluator'.
-	body refreshFieldList "Change linking arrow."
+	self refreshFieldList "Change linking arrow."
 ]
 
 { #category : 'accessing' }
@@ -188,6 +267,14 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 	^ self evaluators
 		  collect: [ :each | each linkedPane ]
 		  thenSelect: [ :each | each notNil ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> panesLinkedToFields [
+
+	^ fieldListModel items
+		  collect: [ :field | field linkedPane ]
+		  thenSelect: [ :pane | pane notNil ]
 ]
 
 { #category : 'printing' }
@@ -217,10 +304,58 @@ SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 			linkedTo: anAnnouncement requestId ]
 ]
 
+{ #category : 'actions' }
+SpkInspectorPane >> refreshFieldList [
+
+	"Re-draw the field list; sent when something has changed and must be re-displayed."
+
+	fieldList refresh
+]
+
 { #category : 'removing' }
 SpkInspectorPane >> removeEvaluator: anEvaluator [
 
 	model removeEvaluator: anEvaluator model.
 	layout remove: anEvaluator.
 	evaluators remove: anEvaluator
+]
+
+{ #category : 'actions' }
+SpkInspectorPane >> toggleFieldList [
+
+	fieldListIsShown := fieldListIsShown not.
+	self
+		updateTwizzleIcon;
+		updateFieldListVisibility
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> twizzleIcon [
+
+	^ fieldListIsShown
+		  ifTrue: [ self iconNamed: #treeExpanded ]
+		  ifFalse: [ self iconNamed: #treeUnexpanded ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> updateFieldListVisibility [
+
+	fieldListIsShown
+		ifTrue: [ self layout add: fieldList after: topLayout ]
+		ifFalse: [ self layout remove: fieldList ]
+]
+
+{ #category : 'updating' }
+SpkInspectorPane >> updateSelection [
+
+	"If the selected items are changed by means other than a mouse click,
+	we must let the list know to display the correct selection."
+
+	fieldList selectIndexes: fieldListModel selectedIndexes
+]
+
+{ #category : 'actions' }
+SpkInspectorPane >> updateTwizzleIcon [
+
+	twizzle icon: self twizzleIcon
 ]

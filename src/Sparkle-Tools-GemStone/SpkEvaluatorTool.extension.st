@@ -52,7 +52,7 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 	evaluationThread
 		priority: self evaluationPriority;
 		debugActionBlock: debugAction;
-		processType: 1;
+		breakpointLevel: 1;
 		resume.
 	completion wait.
 	^ resultTool

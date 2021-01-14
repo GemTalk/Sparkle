@@ -56,6 +56,6 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		_setMethodBreak: selector
 		stepPoint: stepPoint
 		env: 0
-		pType: 1.
+		breakpointLevel: 1.
 	^ res
 ]

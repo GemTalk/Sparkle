@@ -244,7 +244,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 
 	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 12) label
+		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
 
 	GsFile gciLogServer: '========='.
@@ -253,9 +253,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	debuggerClient stepOverFromLevel: 12.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
+	self assert: debuggerClient messageText equals: 'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 13) label
-		equals: 'SpkScaffoldingMockObject class >> example2 @3 line 5'.
+		assert: (debuggerClient rowanFrameServices at: 15) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'RESUME'.
@@ -323,22 +324,22 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 
 	self
 		assert: debuggerClient messageText
-		equals: 'a Breakpoint occurred (error 6005), Method breakpoint encountered.'.
+		equals: 'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 13) label
+		assert: (debuggerClient rowanFrameServices at: 14) label
 		equals: 'SpkScaffoldingMockObject >> method1: @3 line 7'.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'STEP THROUGH'.
 	GsFile gciLogServer: '========='.
-	debuggerClient stepThroughFromLevel: 13.
+	debuggerClient stepThroughFromLevel: 14.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
 	self
 		assert: debuggerClient messageText
-		equals: 'a Breakpoint occurred (error 6002), Single-step breakpoint encountered.'.
+		equals: 'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 13) label
+		assert: (debuggerClient rowanFrameServices at: 14) label
 		equals: '[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
 
 	GsFile gciLogServer: '========='.
@@ -349,22 +350,22 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 
 	self
 		assert: debuggerClient messageText
-		equals: 'a Breakpoint occurred (error 6005), Method breakpoint encountered.'.
+		equals: 'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 13) label
+		assert: (debuggerClient rowanFrameServices at: 14) label
 		equals: 'SpkScaffoldingMockObject >> method2: @3 line 4'.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'STEP OVER'.
 	GsFile gciLogServer: '========='.
-	debuggerClient stepOverFromLevel: 13.
+	debuggerClient stepOverFromLevel: 14.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
 	self
 		assert: debuggerClient messageText
-		equals: 'a Breakpoint occurred (error 6002), Single-step breakpoint encountered.'.
+		equals: 'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 13) label
+		assert: (debuggerClient rowanFrameServices at: 14) label
 		equals: '[] in SpkScaffoldingMockObject >> method1: @8 line 10'.
 
 	GsFile gciLogServer: '========='.
@@ -556,114 +557,4 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
-]
-
-{ #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_08a [
-	"return doitResult after error-free execution"
-
-	| client promise result |
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_08a'.
-	GsFile gciLogServer: '========='.
-
-	client := SpkScaffoldingServiceClient new
-		registerWith: connectionA;
-		synchronize.
-	promise := client gsDebugger_08: '{3+4} at: 1'.
-	result := (self expectWhen: promise) doitResult.
-
-	self assert: result equals: 7.
-
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'SUCCESS'.
-	GsFile gciLogServer: '========='.
-]
-
-{ #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_08b [
-	"
-		trigger exception during doit and expect to trigger a remote debugger; resume execution
-	"
-
-	| client server sem debuggerClient |
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_08b'.
-	GsFile gciLogServer: '========='.
-
-	client := SpkScaffoldingServiceClient new
-		registerWith: connectionA;
-		synchronize.
-	server := connectionB serviceAt: client _id.
-	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
-	sem := Semaphore new.
-	doitProcess := [ 
-	| promise result |
-	GsProcess _current name: self printString , ' doit proc'.
-	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: 7.
-	sem signal ] forkAt: Processor userSchedulingPriority.
-	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
-
-	debuggerClient processService resume.
-
-	sem wait.	"assertion passed"
-
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'SUCCESS'.
-	GsFile gciLogServer: '========='.
-]
-
-{ #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_08e [
-	"
-		trigger OffsetError during doit and expect to trigger a remote debugger.
-		Use `self resumeWith: 8`.
-
-		gsDebugger_08:usingDebugger: is a test case that sends resumeWith: to exception
-	"
-
-	| client server sem debuggerClient |
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_08e'.
-	GsFile gciLogServer: '========='.
-
-	client := SpkScaffoldingServiceClient new
-		registerWith: connectionA;
-		synchronize.
-	server := connectionB serviceAt: client _id.
-	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
-	sem := Semaphore new.
-
-	doitProcess := [ 
-	| promise result |
-	GsProcess _current name: self printString , ' doit proc'.
-	promise := client gsDebugger_08: '#() at: 1' usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: 8.
-	sem signal ] forkAt: Processor userSchedulingPriority.
-	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
-
-	self assert: debuggerClient messageText equals: 'a OffsetError occurred (error 2003), reason:objErrBadOffsetIncomplete, max:0 actual:1'.
-
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'RESUME WITH'.
-	GsFile gciLogServer: '========='.
-
-	debuggerClient resumeWith: 8.
-	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
-
-	self
-		assert: debuggerClient messageText
-		equals: 'cannot find handler frame for exception'.
-	self
-		deny: (debuggerClient rowanFrameServices at: 5) label
-		equals: '[] in SpkScaffoldingServiceServer >> gsDebugger_08:usingDebugger: @20 line 19'.
-
-	sem wait.	"assertion passed"
-
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'SUCCESS'.
-	GsFile gciLogServer: '========='.
 ]

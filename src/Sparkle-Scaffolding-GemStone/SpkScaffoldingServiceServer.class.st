@@ -177,7 +177,7 @@ SpkScaffoldingServiceServer >> gsDebugger_06: aString [
 
 	GsProcess _current
 		priority: Processor userSchedulingPriority;
-		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+		breakpointLevel: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	UserGlobals
 		at: #'ScaffoldingServiceServerDebugHandlerType'
 		put: #'remoteDebugger'.
@@ -207,7 +207,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 					theDebugProcess suspend.
 					debuggerService resumptionValue	"necessary" ];
 		priority: Processor userSchedulingPriority;
-		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+		breakpointLevel: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
 	doitResult := aString evaluate
 ]
 
@@ -222,11 +222,15 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 	cur := GsProcess _current.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
+		priority: Processor userSchedulingPriority;
+		breakpointLevel: 1;
 		debugActionBlock: [ :ex | 
 					| mon theDebugProcess |
 					theDebugProcess := GsProcess _current.
 					mon := [ 
-					GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
+					GsProcess _current
+						breakpointLevel: 0;
+						debugActionBlock: nil.	"any errors at this point should go straight to GCI"
 					debuggerService
 						openDebuggerOnClientForProcess: theDebugProcess
 						exception: ex ] forkAt: Processor userInterruptPriority.
@@ -234,43 +238,9 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					ex isResumable
 						ifFalse: [ 
 							"cannot resume from a not-resumable Exception."
-							^ RsrNonresumableError signal: 'cannot resume from a not-resumable Exception' ].
-					debuggerService resumptionValue	"necessary" ];
-		priority: Processor userSchedulingPriority;
-		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
-	doitResult := aString evaluate
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceServer >> gsDebugger_08: aString [
-	^ self
-		gsDebugger_08: aString
-		usingDebugger: SpkScaffoldingDebuggerServiceServer new
-]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceServer >> gsDebugger_08: aString usingDebugger: debuggerService [
-	"
-		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
-			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
-	"
-
-	| cur debugActionBlock |
-	cur := GsProcess _current.
-	debugActionBlock := cur debugActionBlock.	"in case it's needed"
-	cur
-		debugActionBlock: [ :ex | 
-					| mon theDebugProcess |
-					theDebugProcess := GsProcess _current.
-					mon := [ 
-					GsProcess _current debugActionBlock: nil.	"any errors at this point should go straight to GCI"
-					debuggerService
-						openDebuggerOnClientForProcess: theDebugProcess
-						exception: ex ] forkAt: Processor userInterruptPriority.
-					theDebugProcess suspend.
-					ex _resume: debuggerService resumptionValue.];
-		priority: Processor userSchedulingPriority;
-		processType: 1.	"this belongs in RSR,but until the RsrProcessModel is updated we'll set it here"
+							^ RsrNonresumableError
+								signal: 'cannot resume from a not-resumable Exception' ].
+					debuggerService resumptionValue	"necessary" ].
 	doitResult := aString evaluate
 ]
 
@@ -374,6 +344,6 @@ SpkScaffoldingServiceServer >> setBreakpointForClass: className meta: isMeta sel
 		_setMethodBreak: selector
 		stepPoint: stepPoint
 		env: 0
-		pType: 1.
+		breakpointLevel: 1.
 	^ res
 ]

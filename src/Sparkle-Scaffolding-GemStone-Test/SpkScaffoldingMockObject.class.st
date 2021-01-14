@@ -4,7 +4,7 @@ Class {
 	#classVars : [
 		'ForkedProcessResult'
 	],
-	#category : 'Sparkle-Scaffolding-GemStone'
+	#category : 'Sparkle-Scaffolding-GemStone-Test'
 }
 
 { #category : 'examples' }
@@ -64,6 +64,13 @@ SpkScaffoldingMockObject class >> example4 [
 { #category : 'accessing' }
 SpkScaffoldingMockObject class >> forkedProcessResult [
 	^ ForkedProcessResult
+]
+
+{ #category : 'examples' }
+SpkScaffoldingMockObject >> example1 [
+	"This method is expected to be used when breakpoints have been set in the receivers methods"
+
+	^ SpkScaffoldingMockObject new method1
 ]
 
 { #category : 'accessing' }

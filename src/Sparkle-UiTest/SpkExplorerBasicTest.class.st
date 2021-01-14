@@ -16,6 +16,11 @@ SpkExplorerBasicTest class >> isAbstract [
 	^ self == SpkExplorerBasicTest
 ]
 
+{ #category : 'as yet unclassified' }
+SpkExplorerBasicTest >> closeExplorer [ 
+	"For now, just don't error"
+]
+
 { #category : 'running' }
 SpkExplorerBasicTest >> openExplorer [
 

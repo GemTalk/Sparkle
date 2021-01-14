@@ -414,7 +414,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07h [
 	sem wait.	"doitProcess forked"
 	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 12) label
+		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
 	self assert: SpkScaffoldingMockObject forkedProcessResult isNil.
 
@@ -471,7 +471,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 
 	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 12) label
+		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
 
 	GsFile gciLogServer: '========='.
@@ -482,7 +482,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 
 	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 12) label
+		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'SpkScaffoldingMockObject class >> example4 @9 line 16'.
 
 	GsFile gciLogServer: '========='.

@@ -51,6 +51,7 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 		completion signal ] newProcess.
 	evaluationThread
 		priority: self evaluationPriority;
+		name: 'Evaluation';
 		debugActionBlock: debugAction;
 		breakpointLevel: 1;
 		resume.

@@ -32,5 +32,8 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 SpkDebuggerServiceServer >> refreshFromTool [
 
 	exceptionDescription := tool exceptionDescription.
+	processName := tool processName.
+	processIdentifier := tool processIdentifier.
+	processPriority := tool processPriority.
 	self initializeFramesFromTool
 ]

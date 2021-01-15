@@ -25,7 +25,7 @@ SpkDebuggerTool >> exception: anException [
 	exception := anException
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerTool >> exceptionDescription [
 	| string |
 	string := String new.
@@ -35,7 +35,7 @@ SpkDebuggerTool >> exceptionDescription [
 	^ string
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> exceptionSpecificMessage [
 	| fullMessage commaIndex latterPart |
 	fullMessage := exception buildMessageText.
@@ -75,4 +75,19 @@ SpkDebuggerTool >> process: aProcess [
 	"The GsProcess that I am to debug."
 
 	process := aProcess
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> processIdentifier [
+	^ SpkReflection identifierOf: process
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> processName [
+	^ process name
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> processPriority [
+	^ process priority
 ]

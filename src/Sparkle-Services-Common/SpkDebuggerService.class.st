@@ -2,6 +2,9 @@ Class {
 	#name : 'SpkDebuggerService',
 	#superclass : 'RsrService',
 	#instVars : [
+		'processName',
+		'processIdentifier',
+		'processPriority',
 		'exceptionDescription',
 		'frames'
 	],
@@ -14,8 +17,29 @@ SpkDebuggerService class >> templateClassName [
 	^ #SpkDebuggerService
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerService >> exceptionDescription [
 
 	^ exceptionDescription
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> frames [
+
+	^ frames
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> processIdentifier [
+	^ processIdentifier
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> processName [
+	^ processName
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> processPriority [
+	^ processPriority
 ]

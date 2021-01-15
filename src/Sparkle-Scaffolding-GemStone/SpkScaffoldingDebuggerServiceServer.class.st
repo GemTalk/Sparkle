@@ -59,3 +59,13 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		breakpointLevel: 1.
 	^ res
 ]
+
+{ #category : 'debugger' }
+SpkScaffoldingDebuggerServiceServer >> softBreak [
+	| allP |
+	allP := ((Processor allProcesses
+		select: [ :aProc | aProc breakpointLevel >= 1 ])
+		collect: [ :each | each name -> each ]) asArray.
+	(allP at: 1) value signalException: Break new.
+	^ self
+]

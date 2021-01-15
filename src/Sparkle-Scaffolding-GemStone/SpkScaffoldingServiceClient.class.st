@@ -14,8 +14,3 @@ SpkScaffoldingServiceClient >> gsDebugger_07: aString usingDebugger: debuggerSer
 
 	^ remoteSelf gsDebugger_07: aString usingDebugger: debuggerService
 ]
-
-{ #category : 'debugger' }
-SpkScaffoldingServiceClient >> gsDebugger_08: aString [
-	^ remoteSelf gsDebugger_08: aString
-]

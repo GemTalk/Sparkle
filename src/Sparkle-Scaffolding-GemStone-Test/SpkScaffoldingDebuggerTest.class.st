@@ -558,3 +558,43 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07k [
+	"
+		launch a hot running doit ... interrupt ala soft break
+	"
+
+	| client server debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07k'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	GsProcess _current priority: Processor userInterruptPriority.
+	doitProcess := [ 
+	| promise result |
+	GsProcess _current name: self printString , ' hot proc'.
+	promise := client
+		gsDebugger_07:
+			'SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal. [true] whileTrue: []'
+		usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals: 7 ] forkAt: Processor userSchedulingPriority.
+GsFile gciLogServer: '[1] before wait'.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+GsFile gciLogServer: '[2] before softBreak'.
+	debuggerClient softBreak.
+Processor yield.
+GsFile gciLogServer: '[3] after softBreak'.
+	self halt.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]

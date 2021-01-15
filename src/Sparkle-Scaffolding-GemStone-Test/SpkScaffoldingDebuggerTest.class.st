@@ -595,7 +595,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 		launch a hot running doit ... interrupt ala soft break
 	"
 
-	| client server debuggerClient |
+	| client server debuggerClient sem |
+	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07k'.
 	GsFile gciLogServer: '========='.
@@ -626,9 +627,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 		registerWith: connectionA;
 		synchronize;
 		softBreak.
-	Processor yield.
 	GsFile gciLogServer: '[3] after softBreak'.
-	self halt.
+	Processor yield.	"control does not return to this point, but no other processes are finishing their work either"
+	GsFile gciLogServer: '[4] after yield'.
+
+	GsFile gciLogServer: '[5] wait forever'.
+	sem wait.	"forever"
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

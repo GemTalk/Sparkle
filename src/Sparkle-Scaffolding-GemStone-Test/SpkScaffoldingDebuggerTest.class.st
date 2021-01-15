@@ -638,3 +638,57 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07l [
+	"
+		Almost out of memory
+	"
+
+	self assert: false
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07m [
+	"
+		Stack overflow
+	"
+
+	self assert: false
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07n [
+	"
+		trim stack
+	"
+
+	self assert: false
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07o [
+	"
+		save method (home context) and save method (embedded block)
+	"
+
+	self assert: false
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07p [
+	"
+		Static handler interaction
+	"
+
+	self assert: false
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07q [
+	"
+		continuations
+	"
+
+	self assert: false
+]

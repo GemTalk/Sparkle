@@ -11,6 +11,12 @@ SpkTestRunner class >> open [
 	super open
 ]
 
+{ #category : 'actions' }
+SpkTestRunner >> debugSuite: aTestSuite [
+
+	[ super debugSuite: aTestSuite ] fork
+]
+
 { #category : 'processing' }
 SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 
@@ -22,16 +28,13 @@ SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 		WorldState defer: [ self updateStatus: false ] ].
 
 	[ aBlock cull: aTestSuite cull: result ] ensure: [ 
-		aTestSuite unsubscribe: TestAnnouncement.
-		result inspect ]
+		aTestSuite unsubscribe: TestAnnouncement ]
 ]
 
 { #category : 'actions' }
 SpkTestRunner >> runTestSuites: testSuites [
 
 	[ 
-	CurrentExecutionEnvironment runTestsBy: [ 
-		testSuites
-			do: [ :testSuite | self runSuite: testSuite ]
-			displayingProgress: 'Running Tests' ] ] fork
+	super runTestSuites: testSuites.
+	RsrConnection allInstancesDo: [ :each | each close ] ] fork
 ]

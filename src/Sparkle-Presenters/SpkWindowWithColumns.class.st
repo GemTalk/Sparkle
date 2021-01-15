@@ -23,7 +23,6 @@ Class {
 	#traits : 'SpkTLayoutService',
 	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
-		'window',
 		'columns'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
@@ -76,8 +75,7 @@ SpkWindowWithColumns >> initialize [
 { #category : 'initialization' }
 SpkWindowWithColumns >> initializeWindow: aWindowPresenter [
 
-	window := aWindowPresenter.
-	window
+	aWindowPresenter
 		title: 'Sparkle Object Explorer';
 		aboutText:
 			'The Sparkle object explorer is part of the Pharo IDE for GemStone, 

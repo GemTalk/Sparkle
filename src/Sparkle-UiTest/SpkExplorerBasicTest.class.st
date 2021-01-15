@@ -16,9 +16,22 @@ SpkExplorerBasicTest class >> isAbstract [
 	^ self == SpkExplorerBasicTest
 ]
 
-{ #category : 'as yet unclassified' }
-SpkExplorerBasicTest >> closeExplorer [ 
-	"For now, just don't error"
+{ #category : 'support' }
+SpkExplorerBasicTest >> closeExplorer [
+
+	explorerPresenter close
+]
+
+{ #category : 'support' }
+SpkExplorerBasicTest >> firstColumn [
+
+	^ explorerPresenter columns first
+]
+
+{ #category : 'support' }
+SpkExplorerBasicTest >> firstPaneOf: aColumn [
+
+	^ aColumn panes first
 ]
 
 { #category : 'running' }
@@ -46,7 +59,7 @@ SpkExplorerBasicTest >> tearDown [
 	super tearDown
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'support' }
 SpkExplorerBasicTest >> windowOpened: announcement [
 	explorerPresenter := announcement explorer.
 	uiWaitingSemaphore signal

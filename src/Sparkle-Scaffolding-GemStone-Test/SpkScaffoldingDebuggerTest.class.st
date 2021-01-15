@@ -585,13 +585,16 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 		usingDebugger: debuggerClient.
 	result := (self expectWhen: promise) doitResult.
 	self assert: result equals: 7 ] forkAt: Processor userSchedulingPriority.
-GsFile gciLogServer: '[1] before wait'.
+	GsFile gciLogServer: '[1] before wait'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
-GsFile gciLogServer: '[2] before softBreak'.
-	debuggerClient softBreak.
-Processor yield.
-GsFile gciLogServer: '[3] after softBreak'.
+	GsFile gciLogServer: '[2] before softBreak'.
+	SpkScaffoldingSoftBreakServiceClient new
+		registerWith: connectionA;
+		synchronize;
+		softBreak.
+	Processor yield.
+	GsFile gciLogServer: '[3] after softBreak'.
 	self halt.
 
 	GsFile gciLogServer: '========='.

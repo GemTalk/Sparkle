@@ -76,11 +76,6 @@ SpkScaffoldingDebuggerServiceClient >> setBreakpointForClass: className meta: is
 		ifFalse: [ self error: res ]
 ]
 
-{ #category : 'debugger' }
-SpkScaffoldingDebuggerServiceClient >> softBreak [
-	^ remoteSelf softBreak wait
-]
-
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
 	^ self processService stepOverFromLevel: aLevel

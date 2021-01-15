@@ -1642,7 +1642,7 @@ removeallmethods SpkUndoManagerTest
 removeallclassmethods SpkUndoManagerTest
 
 doit
-(WriteStream
+(WriteStreamPortable
 	subclass: 'SpkLimitedWriteStream'
 	instVarNames: #( limit limitBlock )
 	classVars: #(  )

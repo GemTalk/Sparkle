@@ -18,10 +18,20 @@ SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 
 	aTestSuite
 		when: TestAnnouncement
-		do: [ :announcement | WorldState defer: [ self updateStatus: false ] ].
-	[ 
+		do: [ :announcement | 
+		WorldState defer: [ self updateStatus: false ] ].
+
 	[ aBlock cull: aTestSuite cull: result ] ensure: [ 
-		100 milliSeconds wait.
 		aTestSuite unsubscribe: TestAnnouncement.
-		result inspect ] ] forkAt: Processor activeProcess priority - 1
+		result inspect ]
+]
+
+{ #category : 'actions' }
+SpkTestRunner >> runTestSuites: testSuites [
+
+	[ 
+	CurrentExecutionEnvironment runTestsBy: [ 
+		testSuites
+			do: [ :testSuite | self runSuite: testSuite ]
+			displayingProgress: 'Running Tests' ] ] fork
 ]

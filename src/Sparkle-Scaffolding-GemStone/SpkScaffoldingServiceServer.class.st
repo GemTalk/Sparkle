@@ -213,6 +213,14 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService [
+	^ self
+		gsDebugger_07: aString
+		usingDebugger: debuggerService
+		procName: 'SpkScaffoldingServiceServer>>gsDebugger_07:usingDebugger:'
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService procName: procName [
 	"
 		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
 			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
@@ -220,6 +228,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 
 	| cur debugActionBlock |
 	cur := GsProcess _current.
+	cur name: procName.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
 		priority: Processor userSchedulingPriority;

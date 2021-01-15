@@ -595,7 +595,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 		launch a hot running doit ... interrupt ala soft break
 	"
 
-	| client server debuggerClient sem |
+	| client server debuggerClient sem softBreakClient |
 	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07k'.
@@ -604,35 +604,35 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
+	softBreakClient := SpkScaffoldingSoftBreakServiceClient new
+		registerWith: connectionA;
+		synchronize.
+
 	server := connectionB serviceAt: client _id.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
 	GsProcess _current priority: Processor userInterruptPriority.
 	doitProcess := [ 
 	[ 
 	| promise result |
-	GsProcess _current name: self printString , ' hot proc'.
+	GsProcess _current name: self printString , ' doit process'.
 	promise := client
 		gsDebugger_07:
 			'SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal. [true] whileTrue: []'
-		usingDebugger: debuggerClient.
+		usingDebugger: debuggerClient
+		procName: 'HOT proc'.
 	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: 7 ]
+	self assert: false description: 'should never reach here' ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
-	GsFile gciLogServer: '[1] before wait'.
-	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait."wait for hot loop to start"
 
-	GsFile gciLogServer: '[2] before softBreak'.
-	SpkScaffoldingSoftBreakServiceClient new
-		registerWith: connectionA;
-		synchronize;
-		softBreak.
-	GsFile gciLogServer: '[3] after softBreak'.
-	Processor yield.	"control does not return to this point, but no other processes are finishing their work either"
-	GsFile gciLogServer: '[4] after yield'.
+	softBreakClient softBreak.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait. "wait for debugger to open"
 
-	GsFile gciLogServer: '[5] wait forever'.
-	sem wait.	"forever"
+	self assert: debuggerClient messageText equals: 'a Break occurred (error 2706)'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'Break (AbstractException) >> _signalAsync @6 line 21'.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

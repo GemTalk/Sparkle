@@ -46,14 +46,6 @@ SpkExplorerBasicTest >> tearDown [
 	super tearDown
 ]
 
-{ #category : 'running' }
-SpkExplorerBasicTest >> testOpenExplorer [
-
-	"No error? No problem."
-
-	self assert: explorerPresenter class equals: SpkExplorerWindow
-]
-
 { #category : 'as yet unclassified' }
 SpkExplorerBasicTest >> windowOpened: announcement [
 	explorerPresenter := announcement explorer.

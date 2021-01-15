@@ -10,3 +10,11 @@ SpkExplorerBasicInMemoryTest >> initializeConnection [
 	connection := RsrInMemoryConnectionSpecification new connect.
 	^ connection
 ]
+
+{ #category : 'running' }
+SpkExplorerBasicInMemoryTest >> testOpenExplorer [
+
+	"No error? No problem."
+
+	self assert: explorerPresenter class equals: SpkExplorerWindow
+]

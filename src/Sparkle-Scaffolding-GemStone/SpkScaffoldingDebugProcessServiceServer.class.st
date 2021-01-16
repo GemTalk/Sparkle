@@ -144,3 +144,8 @@ SpkScaffoldingDebugProcessServiceServer >> suspendedProcessReportString [
 SpkScaffoldingDebugProcessServiceServer >> terminate [
 	self suspendedProcess terminate
 ]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> terminate9 [
+	self suspendedProcess terminate9
+]

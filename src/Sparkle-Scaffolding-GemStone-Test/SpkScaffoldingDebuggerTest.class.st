@@ -654,7 +654,48 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 		Stack overflow
 	"
 
-	self assert: false
+	| client server debuggerClient sem softBreakClient |
+	sem := Semaphore new.	"pause the test to allow for process debugging"
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07m - stack overflow'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	softBreakClient := SpkScaffoldingSoftBreakServiceClient new
+		registerWith: connectionA;
+		synchronize.
+
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	GsProcess _current priority: Processor userInterruptPriority.
+	doitProcess := [ 
+	[ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit process'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject stackOverflow'
+		usingDebugger: debuggerClient
+		procName: 'doit process'.
+	result := (self expectWhen: promise) doitResult.
+	self assert: false description: 'should never reach here' ]
+		ensure: [ 
+			"a process with a stack overflow cannot be sent #terminate"
+			debuggerClient terminate9 ] ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.	"wait for debugger to open"
+
+	self
+		assert: debuggerClient messageText
+		equals:
+			'a AlmostOutOfStack occurred (notification 2059), Smalltalk execution stack error, ''overflow during execution'''.
+	self
+		assert: (debuggerClient rowanFrameServices at: 9) label
+		equals: 'SpkScaffoldingMockObject class >> stackOverflow @1 line 1'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
 ]
 
 { #category : 'tests' }

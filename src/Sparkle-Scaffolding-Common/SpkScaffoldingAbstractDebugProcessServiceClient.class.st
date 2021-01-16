@@ -85,3 +85,9 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> terminate [
 
 	^ remoteSelf terminate wait
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebugProcessServiceClient >> terminate9 [
+
+	^ remoteSelf terminate9 wait
+]

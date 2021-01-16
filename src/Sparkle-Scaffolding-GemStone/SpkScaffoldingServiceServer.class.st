@@ -240,10 +240,10 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					GsProcess _current
 						breakpointLevel: 0;
 						debugActionBlock: nil.	"any errors at this point should go straight to GCI"
+					theDebugProcess suspend.
 					debuggerService
 						openDebuggerOnClientForProcess: theDebugProcess
 						exception: ex ] forkAt: Processor userInterruptPriority.
-					theDebugProcess suspend.
 					ex isResumable
 						ifFalse: [ 
 							"cannot resume from a not-resumable Exception."

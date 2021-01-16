@@ -66,6 +66,13 @@ SpkScaffoldingMockObject class >> forkedProcessResult [
 	^ ForkedProcessResult
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingMockObject class >> stackOverflow [
+	"careful now"
+
+	^ self stackOverflow
+]
+
 { #category : 'examples' }
 SpkScaffoldingMockObject >> example1 [
 	"This method is expected to be used when breakpoints have been set in the receivers methods"

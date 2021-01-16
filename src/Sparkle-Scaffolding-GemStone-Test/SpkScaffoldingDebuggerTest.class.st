@@ -742,14 +742,85 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07n [
 	"
-		trim stack
+		set breakpoint, trim stack
 	"
 
+	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07n - trim stack'.
 	GsFile gciLogServer: '========='.
 
-	self assert: false
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	sem := Semaphore new.
+
+	debuggerClient
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+		meta: false
+		selector: #'method2:'
+		atStepPoint: 3.
+
+	doitProcess := [ 
+	[ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example1'
+		usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self
+		assert: result
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals: 'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 14) label
+		equals: 'SpkScaffoldingMockObject >> method2: @3 line 4'.
+
+	self
+		assert: (debuggerClient rowanFrameServices at: 18) label
+		equals: 'SpkScaffoldingMockObject >> method1 @3 line 8'.
+
+	self
+		assert: debuggerClient rowanFrameServices size
+		equals:39.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'TRIM STACK'.
+	GsFile gciLogServer: '========='.
+	debuggerClient trimStackToLevel: 18.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient rowanFrameServices size
+		equals:22.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient
+		clearAllBreaks;
+		resume.
+
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
 ]
 
 { #category : 'tests' }

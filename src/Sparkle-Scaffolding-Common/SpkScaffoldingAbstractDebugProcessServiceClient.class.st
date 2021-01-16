@@ -91,3 +91,11 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> terminate9 [
 
 	^ remoteSelf terminate9 wait
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebugProcessServiceClient >> trimStackToLevel: aLevel [
+	| res |
+	rowanFrameServices := nil.
+	res := (remoteSelf trimStackToLevel: aLevel) wait.
+	^ res
+]

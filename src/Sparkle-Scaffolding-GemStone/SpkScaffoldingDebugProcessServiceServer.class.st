@@ -73,6 +73,11 @@ SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices [
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> rowanProcessService [
 	^ rowanProcessService
+		ifNil: [ 
+			suspendedProcess
+				ifNotNil: [ :aSuspendedGsProcess | 
+					rowanProcessService := RowanProcessService
+						onSuspendedProcess: aSuspendedGsProcess ] ]
 ]
 
 { #category : 'accessing' }
@@ -148,4 +153,10 @@ SpkScaffoldingDebugProcessServiceServer >> terminate [
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> terminate9 [
 	self suspendedProcess terminate9
+]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> trimStackToLevel: aLevel [
+	rowanProcessService := rowanFrameServices := nil.	"clear these to force recalculation after stack has been trimmed"
+	self suspendedProcess _trimStackToLevel: aLevel
 ]

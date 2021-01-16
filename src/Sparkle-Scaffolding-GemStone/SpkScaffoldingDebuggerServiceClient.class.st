@@ -101,3 +101,9 @@ SpkScaffoldingDebuggerServiceClient >> terminate [
 SpkScaffoldingDebuggerServiceClient >> terminate9 [
 	^ self processService terminate9
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> trimStackToLevel: aLevel [
+	self processService trimStackToLevel: aLevel.
+	self openDebuggerOnClient
+]

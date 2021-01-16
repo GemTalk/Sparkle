@@ -4358,6 +4358,12 @@ forTool: anExplorerTool
 		  yourself
 %
 
+category: 'class initialization'
+classmethod: SpkExplorerServiceServer
+initialize
+	self initializeServiceClassesForToolTypes
+%
+
 category: 'initialization'
 classmethod: SpkExplorerServiceServer
 initializeServiceClassesForToolTypes
@@ -4374,8 +4380,7 @@ category: 'accessing'
 classmethod: SpkExplorerServiceServer
 serviceClassesForToolTypes
 
-	^ serviceClassesForToolTypes ifNil: [ 
-		  self initializeServiceClassesForToolTypes ]
+	^ serviceClassesForToolTypes
 %
 
 category: 'accessing'
@@ -6417,5 +6422,6 @@ should: aBlock notTakeMoreThan: aDuration
 
 run
 GemToGemAnnouncement initialize.
+SpkExplorerServiceServer initialize.
 true
 %

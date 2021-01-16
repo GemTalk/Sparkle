@@ -1,5 +1,6 @@
-Version history:
+Version history of this document:
 
+2021-01-15 -- Can now run as an unprivileged user, update Pharo build number
 2020-12-29 -- Replace playground instructions with Sparkle Launcher instructions
 2020-12-28 -- initial version
 
@@ -11,7 +12,7 @@ The parts of Sparkle that are working as of this moment (primarily the inspector
 
 Prerequisites: 
  * A running GemStone 3.6.0 stone that you can experiment on
- * A recent Windows VM and image for 64-bit Pharo 9. These instructions were written using image build 999 and a 90-x64 VM (not a 90-x64-headless VM) that appears to have been built on 2020-10-13.
+ * A recent Windows VM and image for 64-bit Pharo 9. These instructions were written using image build 1029 and a 90-x64 VM (not a 90-x64-headless VM) that appears to have been built on 2020-10-13.
  
 1) Get the software from GitHub
   On *both* the Windows machine and the Linux machine:
@@ -43,7 +44,10 @@ Prerequisites:
   The result of the "errorcount" at the end of the output should be 0.
   
 4) Launch a gem that will listen for a connection from Pharo
-  **Warning** This step will launch a gem that will listen for a connection on port 29299. At present, there is *no* security on that port, and the gem must log in as SystemUser (this restriction should not be there, and is being worked on).
+  **Warning** This step will launch a gem that will listen for a connection on port 29299. At present, there is *no* security on that port.
+  * Edit login.topaz to have the correct stone name, user name, and password.
+    You can use an unprivileged user for this, SystemUser is only required for
+    installation.
   * ./server.sh
   You should see a "Starting to listen" message.
   

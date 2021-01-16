@@ -7,6 +7,22 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone-Test'
 }
 
+{ #category : 'test support' }
+SpkScaffoldingMockObject class >> almostOutOfMemory: threshold [
+	"careful now"
+
+	| array |
+	array := Array new.
+
+	AlmostOutOfMemoryError enableAtThreshold: threshold.
+
+	[ true ]
+		whileTrue: [ 
+			array add: (String new: 2000).
+			array size \\ 100 == 0
+				ifTrue: [ System _generationScavenge_vmMarkSweep ] ]
+]
+
 { #category : 'examples' }
 SpkScaffoldingMockObject class >> example1 [
 	"This method is expected to be used when breakpoints have been set in the receivers methods"
@@ -66,7 +82,7 @@ SpkScaffoldingMockObject class >> forkedProcessResult [
 	^ ForkedProcessResult
 ]
 
-{ #category : 'accessing' }
+{ #category : 'test support' }
 SpkScaffoldingMockObject class >> stackOverflow [
 	"careful now"
 

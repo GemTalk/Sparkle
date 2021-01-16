@@ -645,11 +645,48 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 		Almost out of memory
 	"
 
+	| client server debuggerClient sem softBreakClient |
+	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
 	GsFile gciLogServer: '========='.
 
-	self assert: false
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	softBreakClient := SpkScaffoldingSoftBreakServiceClient new
+		registerWith: connectionA;
+		synchronize.
+
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	GsProcess _current priority: Processor userInterruptPriority.
+	doitProcess := [ 
+	[ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit process'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject almostOutOfMemory: 50'
+		usingDebugger: debuggerClient
+		procName: 'doit process'.
+	result := (self expectWhen: promise) doitResult.
+	self assert: false description: 'should never reach here' ]
+		ensure: [ 
+			"a process with a stack overflow cannot be sent #terminate"
+			debuggerClient terminate ] ] forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.	"wait for debugger to open"
+
+	self
+		assert: debuggerClient messageText
+		equals:
+			'a AlmostOutOfMemoryError occurred (error 6022), Unknown error number'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'AlmostOutOfMemoryError (AbstractException) >> _signalAsync @6 line 21'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
 ]
 
 { #category : 'tests' }

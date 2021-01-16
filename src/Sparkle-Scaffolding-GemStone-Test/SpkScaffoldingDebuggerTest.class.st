@@ -645,6 +645,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 		Almost out of memory
 	"
 
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
+	GsFile gciLogServer: '========='.
+
 	self assert: false
 ]
 
@@ -704,6 +708,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 		trim stack
 	"
 
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07n - trim stack'.
+	GsFile gciLogServer: '========='.
+
 	self assert: false
 ]
 
@@ -712,6 +720,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 	"
 		save method (home context) and save method (embedded block)
 	"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07o - save method (home context) and save method (embedded block)'.
+	GsFile gciLogServer: '========='.
 
 	self assert: false
 ]
@@ -722,6 +734,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07p [
 		Static handler interaction
 	"
 
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07p - Static handler interaction'.
+	GsFile gciLogServer: '========='.
+
 	self assert: false
 ]
 
@@ -730,6 +746,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07q [
 	"
 		continuations
 	"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07p - continuations'.
+	GsFile gciLogServer: '========='.
 
 	self assert: false
 ]

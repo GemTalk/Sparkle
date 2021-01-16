@@ -18,7 +18,7 @@ SpkExplorerServiceServer class >> forTool: anExplorerTool [
 		  yourself
 ]
 
-{ #category : 'other' }
+{ #category : 'class initialization' }
 SpkExplorerServiceServer class >> initialize [
 	self initializeServiceClassesForToolTypes
 ]

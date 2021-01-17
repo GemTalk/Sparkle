@@ -43,6 +43,12 @@ SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 		aTestSuite unsubscribe: TestAnnouncement ]
 ]
 
+{ #category : 'api' }
+SpkTestRunner >> initialExtent [
+
+	^ 900 @ 500
+]
+
 { #category : 'accessing-ui' }
 SpkTestRunner >> label [
 	^ 'Sparkle Test Runner' 

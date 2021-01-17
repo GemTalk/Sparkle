@@ -1,10 +1,10 @@
 Class {
-	#name : 'BaselineOfSparkle',
-	#superclass : 'BaselineOf',
-	#category : 'BaselineOfSparkle'
+	#name : #BaselineOfSparkle,
+	#superclass : #BaselineOf,
+	#category : #BaselineOfSparkle
 }
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfSparkle >> baseline: spec [
 
 	<baseline>
@@ -31,6 +31,8 @@ BaselineOfSparkle >> baseline: spec [
 						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient' ) ];
 			package: 'Sparkle-Presenters-Test'
 			with: [ spec requires: 'Sparkle-Presenters' ];
+			package: 'Sparkle-UiTest'
+			with: [ spec requires: 'Sparkle-Presenters' ];
 			package: 'Sparkle-Application'
 			with: [ spec requires: 'Sparkle-Presenters' ];
 			package: 'Sparkle-Spextensions'.
@@ -39,7 +41,7 @@ BaselineOfSparkle >> baseline: spec [
 			with: [ spec repository: self rsrUrl ] ]
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BaselineOfSparkle >> postload: loader package: packageSpec [
 	| repositoriesSpec map urlString |
 	repositoriesSpec := packageSpec repositories.
@@ -51,7 +53,7 @@ BaselineOfSparkle >> postload: loader package: packageSpec [
 	SpkIconLibrary loadFromLocalSrcUrlString: urlString
 ]
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfSparkle >> rsrUrl [
 	| projectsHome |
 	projectsHome := OSEnvironment current

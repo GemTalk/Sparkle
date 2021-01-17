@@ -46,11 +46,13 @@ SparkleTaskspace >> connection: anObject [
 { #category : 'initialization' }
 SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 
-	"This is only for pane presenters and services."
+	"This is only for pane presenters and services.
+	Elements smaller than panes are handled by the panes themselves."
 
 	presenterClassesForServiceTypes := IdentityDictionary new.
 	^ presenterClassesForServiceTypes
 		  at: SpkCompilationErrorServiceClient put: SpkCompilationErrorPane;
+		  at: SpkDebuggerServiceClient put: SpkDebuggerPane;
 		  at: SpkInspectorServiceClient put: SpkInspectorPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;
 		  yourself

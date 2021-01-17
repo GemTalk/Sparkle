@@ -4,6 +4,18 @@ Class {
 	#category : 'Sparkle-UiTest'
 }
 
+{ #category : 'tools registry' }
+SpkTestRunner class >> beDefaultTestRunner [
+
+	self registerToolsOn: Smalltalk tools
+]
+
+{ #category : 'tools registry' }
+SpkTestRunner class >> initialize [
+
+	self beDefaultTestRunner
+]
+
 { #category : 'instance creation' }
 SpkTestRunner class >> open [
 
@@ -29,6 +41,11 @@ SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 
 	[ aBlock cull: aTestSuite cull: result ] ensure: [ 
 		aTestSuite unsubscribe: TestAnnouncement ]
+]
+
+{ #category : 'accessing-ui' }
+SpkTestRunner >> label [
+	^ 'Sparkle Test Runner' 
 ]
 
 { #category : 'actions' }

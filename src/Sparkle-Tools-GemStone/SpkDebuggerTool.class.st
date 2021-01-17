@@ -59,14 +59,18 @@ SpkDebuggerTool >> frames [
 
 { #category : 'initialization' }
 SpkDebuggerTool >> initializeFramesFromProcess [
+	| stackDepth |
+	stackDepth := process stackDepth.
 	frames := Array new: process stackDepth.
-	1 to: frames size do: [ :level | 
-		| frame |
+	1 to: stackDepth do: [ :level | 
+		| frame index |
+		index := stackDepth - level + 1.
 		frame := SpkDebuggerFrameTool new.
 		frame
 			process: process;
-			level: level.
-		frames at: level put: frame ].
+			level: level;
+			index: index.
+		frames at: index put: frame ].
 	^ frames
 ]
 

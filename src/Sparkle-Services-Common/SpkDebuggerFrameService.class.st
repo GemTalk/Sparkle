@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkDebuggerFrameService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'description'
+		'description',
+		'index'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -11,4 +12,14 @@ Class {
 SpkDebuggerFrameService class >> templateClassName [
 
 	^ #SpkDebuggerFrameService
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> index [
+	^index
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> index: object [
+	index := object
 ]

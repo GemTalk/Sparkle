@@ -16,6 +16,14 @@ SpkDebuggerServiceTest >> testExceptionDescription [
 ]
 
 { #category : 'tests' }
+SpkDebuggerServiceTest >> testProcessFrameNumbering [
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self assert: frames first index equals: 1
+]
+
+{ #category : 'tests' }
 SpkDebuggerServiceTest >> testProcessFrameQuantity [
 	| frames |
 	self zork3.

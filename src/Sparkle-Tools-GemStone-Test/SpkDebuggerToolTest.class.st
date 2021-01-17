@@ -17,7 +17,23 @@ SpkDebuggerToolTest >> testFrameDescription [
 		select: [ :frame | 
 			self assert: frame class equals: SpkDebuggerFrameTool.
 			frame description = 'Executed Code ' ].
-	self assert: doitFrames size equals: 1
+	self
+		assert: doitFrames size equals: 1;
+		assert: doitFrames first index equals: 6
+]
+
+{ #category : 'other' }
+SpkDebuggerToolTest >> testFrameIndex [
+	"Are frames indexed from the bottom of the stack?"
+
+	| debugger frameTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	self
+		assert: frameTool class equals: SpkDebuggerFrameTool;
+		assert: frameTool index equals: 1;
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
 ]
 
 { #category : 'other' }

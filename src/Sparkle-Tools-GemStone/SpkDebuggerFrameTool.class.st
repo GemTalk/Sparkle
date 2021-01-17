@@ -1,3 +1,9 @@
+"
+I represent and manipulate a single stack frame within a GsProcess (#process)
+#level is my position in the stack using the GsProcess numbering system, where level 1 is the top frame of the stack.
+#index is my position in the Sparkle numbering system, where index 1 is the *bottom* frame of the stack.
+The Sparkle numbering system allows my index to stay the same during stepping, when the number of frames above me may change, changing my #level.
+"
 Class {
 	#name : 'SpkDebuggerFrameTool',
 	#superclass : 'SpkTool',
@@ -5,7 +11,8 @@ Class {
 		'process',
 		'level',
 		'frameContents',
-		'description'
+		'description',
+		'index'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -18,6 +25,16 @@ SpkDebuggerFrameTool >> description [
 { #category : 'private' }
 SpkDebuggerFrameTool >> frameContents [
 	^ frameContents ifNil: [ frameContents := process _frameContentsAt: level ]
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> index [
+	^index
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> index: object [
+	index := object
 ]
 
 { #category : 'private' }

@@ -902,25 +902,53 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07p [
 	"
-		Static handler interaction
+		Trigger an exceiption in a static handler and open debugger
 	"
 
+	| client server sem debuggerClient staticHandler message |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07p - Static handler interaction'.
-	GsFile gciLogServer: '========='.
-
-	self assert: false
-]
-
-{ #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_07q [
-	"
-		continuations
-	"
-
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07p - continuations'.
+	GsFile
+		gciLogServer:
+			'testDebugger_07p -Trigger an exceiption in a static handler and open debugger'.
 	GsFile gciLogServer: '========='.
 
-	self assert: false
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	message := 'Caught the SpkScaffoldingError error with static handler'.
+	staticHandler := SpkScaffoldingError
+		addDefaultHandler: [ :ex | Error signal: message ].
+
+	doitProcess := [ 
+	[ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingError signal'
+		usingDebugger: debuggerClient.
+	result := self expectWhen: promise.
+	self assert: false equals: 'should never get here' ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: message.
+	self
+		assert: (debuggerClient rowanFrameServices at: 16) label
+		equals:
+			'SpkScaffoldingError class (AbstractException class) >> signal @3 line 5'.
+
+	self
+		assert: (debuggerClient rowanFrameServices at: 12) label
+		equals: 'Error class (AbstractException class) >> signal: @3 line 4'.
+
+	Processor yield.	"just in case we promise was fulfilled"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
 ]

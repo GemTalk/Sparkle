@@ -24,6 +24,12 @@ SpkScaffoldingDebuggerServiceClient >> clearAllBreaks [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> compileMethodSource: sourceString at: aLevel [
+	self processService compileMethodSource: sourceString at: aLevel.
+	self openDebuggerOnClient
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> messageText [
 	^ self processService messageText
 ]

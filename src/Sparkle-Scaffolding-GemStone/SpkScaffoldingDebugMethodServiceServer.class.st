@@ -9,7 +9,7 @@ Class {
 
 { #category : 'accessing' }
 SpkScaffoldingDebugMethodServiceServer >> method [
-	^ self rowanMethodService method
+	^ self rowanMethodService _method
 ]
 
 { #category : 'accessing' }

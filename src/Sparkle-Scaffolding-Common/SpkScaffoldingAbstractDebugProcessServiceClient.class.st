@@ -4,6 +4,14 @@ Class {
 	#category : 'Sparkle-Scaffolding-Common'
 }
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebugProcessServiceClient >> compileMethodSource: sourceString at: aLevel [
+	| res |
+	rowanFrameServices := nil.
+	res := (remoteSelf compileMethodSource: sourceString at: aLevel) wait.
+	^ res
+]
+
 { #category : 'testing' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> foo [
 

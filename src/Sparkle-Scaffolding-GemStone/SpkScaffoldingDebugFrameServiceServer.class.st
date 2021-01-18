@@ -2,10 +2,26 @@ Class {
 	#name : 'SpkScaffoldingDebugFrameServiceServer',
 	#superclass : 'SpkScaffoldingDebugFrameService',
 	#instVars : [
+		'frameIndex',
 		'rowanFrameService'
 	],
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> frameIndex [
+	^frameIndex
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> frameIndex: object [
+	frameIndex := object
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> homeMethod [
+	^ self method _homeMethod
+]
 
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> label [
@@ -13,8 +29,13 @@ SpkScaffoldingDebugFrameServiceServer >> label [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> method [
+	^ self rowanFrameService _method
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> methodService [
-	methodService
+	^ methodService
 		ifNil: [ 
 			methodService := SpkScaffoldingDebugMethodServiceServer new
 				rowanMethodService: rowanFrameService _method;

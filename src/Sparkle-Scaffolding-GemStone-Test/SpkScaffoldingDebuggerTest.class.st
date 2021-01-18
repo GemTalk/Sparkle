@@ -793,7 +793,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 
 	self
 		assert: (debuggerClient rowanFrameServices at: 18) label
-		equals: 'SpkScaffoldingMockObject >> method1 @3 line 8'.
+		equals: 'SpkScaffoldingMockObject >> method1 @3 line 4'.
 
 	self
 		assert: debuggerClient rowanFrameServices size
@@ -829,11 +829,74 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 		save method (home context) and save method (embedded block)
 	"
 
+	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07o - save method (home context) and save method (embedded block)'.
+	GsFile
+		gciLogServer:
+			'testDebugger_07o - save method (home context) and save method (embedded block)'.
 	GsFile gciLogServer: '========='.
 
-	self assert: false
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	sem := Semaphore new.
+
+	debuggerClient
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+		meta: false
+		selector: #'method3'
+		atStepPoint: 6.	"inside block"
+
+	doitProcess := [ 
+	[ 
+	| promise result |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example5'
+		usingDebugger: debuggerClient.
+	result := (self expectWhen: promise) doitResult.
+	self assert: result equals: SpkScaffoldingMockObject _optionArray printString.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals: 'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 14) label
+		equals: '[] in SpkScaffoldingMockObject >> method3 @6 line 4'.
+
+	self assert: debuggerClient rowanFrameServices size equals: 37.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'compile method at frame 14'.
+	GsFile gciLogServer: '========='.
+	debuggerClient
+		compileMethodSource:
+			(SpkScaffoldingMockObject compiledMethodAt: #'method3') sourceString
+		at: 14.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient rowanFrameServices size equals: 22.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient
+		clearAllBreaks;
+		resume.
+
+	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
 ]
 
 { #category : 'tests' }

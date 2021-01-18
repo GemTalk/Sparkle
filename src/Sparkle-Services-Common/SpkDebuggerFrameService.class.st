@@ -15,6 +15,18 @@ SpkDebuggerFrameService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerFrameService >> description [
+
+	^ description
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> description: anObject [
+
+	description := anObject
+]
+
+{ #category : 'accessing' }
 SpkDebuggerFrameService >> index [
 	^index
 ]

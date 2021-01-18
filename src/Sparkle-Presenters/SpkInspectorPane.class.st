@@ -77,6 +77,12 @@ SpkInspectorPane >> fieldSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
 ]
 
+{ #category : 'initialization' }
+SpkInspectorPane >> headerClass [
+
+	^ SpkInspectorPaneHeader
+]
+
 { #category : 'adding' }
 SpkInspectorPane >> initializeAddEvaluatorButton [
 
@@ -159,13 +165,6 @@ SpkInspectorPane >> initializeFieldListModel [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> initializeHeader [
-
-	header := self instantiate: SpkInspectorPaneHeader on: model.
-	self layout add: header withConstraints: [ :c | c height: 30 ]
-]
-
-{ #category : 'initialization' }
 SpkInspectorPane >> initializePresenters [
 
 	super initializePresenters.
@@ -217,12 +216,6 @@ SpkInspectorPane >> menuActions [
 		  yourself
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPane >> newLayout [
-
-	^ SpkAccordianLayout newVertical
-]
-
 { #category : 'instance creation' }
 SpkInspectorPane >> newPaneForService: newService linkedTo: item [
 	"Item is an InspectorField or an evaluator"
@@ -269,7 +262,7 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 		  thenSelect: [ :each | each notNil ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkInspectorPane >> panesLinkedToFields [
 
 	^ fieldListModel items

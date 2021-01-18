@@ -21,9 +21,9 @@ SpkDebuggerPaneHeader >> initializePresenters [
 	processNameLabel := self newLabel.
 	processNameLabel
 		addStyle: 'label.paneHeader';
-		label: model processDescription.
+		label: self processDescription.
 	oopLabel := self newLabel.
-	oopLabel label: model processOop hex.
+	oopLabel label: model processIdentifier hex.
 
 	labelLayout
 		add: processNameLabel withConstraints: [ :c | c fill: false ];
@@ -38,6 +38,12 @@ SpkDebuggerPaneHeader >> initializePresenters [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerPaneHeader >> menuHelp [
+
+	^ 'nothing here yet'
+]
+
+{ #category : 'accessing' }
 SpkDebuggerPaneHeader >> oopLabel [
 
 	^ oopLabel
@@ -47,6 +53,13 @@ SpkDebuggerPaneHeader >> oopLabel [
 SpkDebuggerPaneHeader >> oopLabel: anObject [
 
 	oopLabel := anObject
+]
+
+{ #category : 'private' }
+SpkDebuggerPaneHeader >> processDescription [
+
+	^ 'GsProcess ' , model processName , ' @ '
+	  , model processPriority printString
 ]
 
 { #category : 'accessing' }

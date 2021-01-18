@@ -56,11 +56,26 @@ SpkPane >> disableAll [
 	self layout enabled: false
 ]
 
+{ #category : 'tests - header' }
+SpkPane >> headerClass [
+
+	self subclassResponsibility
+]
+
 { #category : 'initialization' }
 SpkPane >> initialize [
 
 	super initialize.
 	coordinate := SpkPaneCoordinate new
+]
+
+{ #category : 'initialization' }
+SpkPane >> initializeHeader [
+
+	header := self instantiate: self headerClass on: model.
+	self layout
+		add: header
+		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
 { #category : 'accessing' }
@@ -85,6 +100,12 @@ SpkPane >> linkedPanes [
 SpkPane >> menuActions [
 
 	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkPane >> newLayout [
+
+	^ SpkAccordianLayout newVertical
 ]
 
 { #category : 'accessing' }

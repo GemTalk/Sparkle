@@ -41,7 +41,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07a [
 
 	| client promise result |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07a'.
+	GsFile gciLogServer: 'testDebugger_07a - return doitResult after error-free execution'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -65,7 +65,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07b'.
+	GsFile gciLogServer: 'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -101,7 +101,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07c'.
+	GsFile gciLogServer: 'testDebugger_07c - trigger an MNU'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -142,7 +142,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07d [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07d'.
+	GsFile gciLogServer: 'testDebugger_07d - trigger an error'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -185,7 +185,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07e [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07e'.
+	GsFile gciLogServer: 'testDebugger_07e - trigger OffsetError during doit and expect to trigger a remote debugger. Use `self resumeWith: 8`'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -231,7 +231,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07f'.
+	GsFile gciLogServer: 'testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -301,7 +301,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07g'.
+	GsFile gciLogServer: 'testDebugger_07g - Set 2 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test; stepThroughFromLevel:; resume to hit second breakpoint; stepOverFromLevel: to confirm we''ve returned to calling method ... and then done'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -416,7 +416,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07h [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07h'.
+	GsFile gciLogServer: 'testDebugger_07h - trigger a halt in a forked process on SpkScaffoldingMockObject and resume ... result of execution dumped to log'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -471,7 +471,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07i'.
+	GsFile gciLogServer: 'testDebugger_07i - two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, then halt in original process and return answer from example2 as result (#(''symbol'' ''1'' ''2.0''))'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -528,12 +528,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	"
-		trigger nonresumable exception during doit ; attempt to resume execution
+		trigger nonresumable exception during doit ; attempt to resume execution several times
 	"
 
 	| client server sem debuggerClient count |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07j'.
+	GsFile gciLogServer: 'testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -598,7 +598,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	| client server debuggerClient sem softBreakClient |
 	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07k'.
+	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new

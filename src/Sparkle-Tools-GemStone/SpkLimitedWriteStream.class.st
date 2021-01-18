@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkLimitedWriteStream',
-	#superclass : 'WriteStream',
+	#superclass : 'WriteStreamPortable',
 	#instVars : [
 		'limit',
 		'limitBlock'

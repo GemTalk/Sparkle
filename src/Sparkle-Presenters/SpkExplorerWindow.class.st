@@ -9,6 +9,18 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'initialize-release' }
+SpkExplorerWindow >> close [
+
+	self window ifNotNil: [ self window close ]
+]
+
+{ #category : 'accessing' }
+SpkExplorerWindow >> columns [
+
+	^ columns
+]
+
 { #category : 'constants' }
 SpkExplorerWindow >> initialExtent [
 

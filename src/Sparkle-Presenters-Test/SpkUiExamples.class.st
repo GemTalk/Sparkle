@@ -3,13 +3,13 @@ Tests that open a UI to be manually played with.
 Not fully automated tests, no assertions.
 "
 Class {
-	#name : 'SpkUiTest',
+	#name : 'SpkUiExamples',
 	#superclass : 'TestCase',
 	#category : 'Sparkle-Presenters-Test-Tests'
 }
 
 { #category : 'examples' }
-SpkUiTest class >> defaultLocalTaskspace [
+SpkUiExamples class >> defaultLocalTaskspace [
 
 	"With real services in the local image"
 
@@ -26,7 +26,7 @@ SpkUiTest class >> defaultLocalTaskspace [
 ]
 
 { #category : 'examples' }
-SpkUiTest class >> defaultRemoteTaskspace [
+SpkUiExamples class >> defaultRemoteTaskspace [
 
 	"With real services in a separate process."
 

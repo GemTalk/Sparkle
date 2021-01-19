@@ -13,6 +13,12 @@ SpkPresenterWithHeader >> closeRequestedLocally [
 	model notYetImplemented: 'Pane closing'
 ]
 
+{ #category : 'accessing' }
+SpkPresenterWithHeader >> header [
+
+	^ header
+]
+
 { #category : 'initialization' }
 SpkPresenterWithHeader >> initializeHeader [
 

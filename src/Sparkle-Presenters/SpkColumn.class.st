@@ -83,6 +83,12 @@ SpkColumn >> nextRightColumn [
 	^ owner columnToRightOf: self
 ]
 
+{ #category : 'accessing' }
+SpkColumn >> panes [
+
+	^ panes
+]
+
 { #category : 'adding' }
 SpkColumn >> remove: aPanePresenter [
 

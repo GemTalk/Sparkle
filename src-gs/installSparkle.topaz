@@ -1,23 +1,47 @@
 	iferr 1 stk
 	iferr 2 stack
-#	iferr 3 exit 1
+	iferr 3 exit
 
+	expectvalue true
 	run
+	| warnings |
+	warnings := String new.
+
 	[
 		(Rowan
 			projectFromUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication/rowan/specs/RemoteServiceReplication.ston'
 			gitUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication') load ] 
-		on: Warning do: [:ex | ex resume]
+		on: CompileWarning do: [:ex |
+			(ex description includesString: 'not optimized')
+				ifFalse: [ warnings 
+                            addAll: ex asString;
+                            lf ].
+			ex resume ].
+	warnings isEmpty
+		ifTrue: [ true ]
+		ifFalse: [ warnings ]
 %
 	commit
 
+	expectvalue true
 	run
+	| warnings |
+	warnings := String new.
 	[
 		false ifTrue: [ ^ self ].
 		(Rowan
 			projectFromUrl: 'file:$ROWAN_PROJECTS_HOME/Sparkle/rowan/specs/Sparkle.ston'
 			gitUrl: 'file:$ROWAN_PROJECTS_HOME/Sparkle') load ] 
-		on: Warning do: [:ex | ex resume]
+
+	on: CompileWarning do: [:ex |
+		(ex description includesString: 'not optimized')
+				ifFalse: [ warnings 
+                            addAll: ex asString;
+                            lf ].
+		ex resume ].
+	warnings isEmpty
+		ifTrue: [ true ]
+		ifFalse: [ warnings ]
 %
 	commit
 

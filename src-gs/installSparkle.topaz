@@ -1,12 +1,11 @@
 	iferr 1 stk
 	iferr 2 stack
 #	iferr 3 exit 1
-	display resultcheck
 
 	expectvalue true
 	run
 	| warnings |
-	warnings := {}.
+	warnings := String new.
 
 	[
 		(Rowan
@@ -14,19 +13,20 @@
 			gitUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication') load ] 
 		on: CompileWarning do: [:ex |
 			(ex description includesString: 'not optimized')
-				ifFalse: [ warnings add: ex asString printString ].
+				ifFalse: [ warnings 
+                            addAll: ex asString;
+                            lf ].
 			ex resume ].
 	warnings isEmpty
 		ifTrue: [ true ]
-		ifFalse: [ 
-			warnings do:[:warning |  GsFile gciLogServer: warning ] ].
+		ifFalse: [ warnings ]
 %
 	commit
 
 	expectvalue true
 	run
 	| warnings |
-	warnings := {}.
+	warnings := String new.
 	[
 		false ifTrue: [ ^ self ].
 		(Rowan
@@ -35,12 +35,13 @@
 
 	on: CompileWarning do: [:ex |
 		(ex description includesString: 'not optimized')
-			ifFalse: [ warnings add: ex asString printString ].
+				ifFalse: [ warnings 
+                            addAll: ex asString;
+                            lf ].
 		ex resume ].
 	warnings isEmpty
 		ifTrue: [ true ]
-		ifFalse: [ 
-			warnings do:[:warning |  GsFile gciLogServer: warning ] ].
+		ifFalse: [ warnings ]
 %
 	commit
 

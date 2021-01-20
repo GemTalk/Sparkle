@@ -6,27 +6,6 @@
 	run
 	| warnings |
 	warnings := String new.
-
-	[
-		(Rowan
-			projectFromUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication/rowan/specs/RemoteServiceReplication.ston'
-			gitUrl: 'file:$ROWAN_PROJECTS_HOME/RemoteServiceReplication') load ] 
-		on: CompileWarning do: [:ex |
-			(ex description includesString: 'not optimized')
-				ifFalse: [ warnings 
-                            addAll: ex asString;
-                            lf ].
-			ex resume ].
-	warnings isEmpty
-		ifTrue: [ true ]
-		ifFalse: [ warnings ]
-%
-	commit
-
-	expectvalue true
-	run
-	| warnings |
-	warnings := String new.
 	[
 		false ifTrue: [ ^ self ].
 		(Rowan

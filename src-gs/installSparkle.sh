@@ -1,9 +1,10 @@
 #! /bin/bash
 ### Install RSR and Sparkle from Tonel files into a Rowan-enabled stone
-### Check for error count of 0 at end
+### Exits with 0 if success, 1 if failed
 
+spkHome=${ROWAN_PROJECTS_HOME}/Sparkle
 ## Topaz refuses to exit from script if input is stdin, so redirect from /dev/zero
-topaz -I loginSystemUser.topaz  -S installSparkle.topaz < /dev/zero
+topaz -I ${spkHome}/src-gs/loginSystemUser.topaz  -S ${spkHome}/src-gs/installSparkle.topaz < /dev/zero
 if [ $? = 0 ]
     then
         exit 0

@@ -17,6 +17,22 @@ SpkScaffoldingDebugProcessServiceServer class >> onSuspendedProcess: aSuspendedG
 		yourself
 ]
 
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> compileMethodSource: sourceString at: aLevel [
+	| homeFrame theMethod theBehavior theCategory |
+	homeFrame := self homeFrameFor: aLevel.
+	theMethod := homeFrame method _method.
+	theBehavior := theMethod inClass.
+	theCategory := theBehavior categoryOfSelector: theMethod selector.
+	theBehavior
+		compileMethod: sourceString
+		dictionaries: GsCurrentSession currentSession symbolList
+		category: theCategory
+		environmentId: 0.
+	rowanProcessService := rowanFrameServices := nil.	"clear these to force recalculation after stack has been trimmed"
+	self trimStackToLevel: homeFrame frameIndex
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> debuggerService [
 	^debuggerService
@@ -36,6 +52,14 @@ SpkScaffoldingDebugProcessServiceServer >> doitException [
 SpkScaffoldingDebugProcessServiceServer >> doitException: anException [
 	self messageText: anException messageText asString.
 	doitException := anException
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugProcessServiceServer >> homeFrameFor: frameIndex [
+	| homeMethod |
+	homeMethod := (self rowanFrameServices at: frameIndex) homeMethod.
+	^ self rowanFrameServices
+		detect: [ :frameService | frameService method _method == homeMethod ]
 ]
 
 { #category : 'initialization' }
@@ -66,13 +90,27 @@ SpkScaffoldingDebugProcessServiceServer >> resumeWith: anObject [
 SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices [
 	^ rowanFrameServices
 		ifNil: [ 
+			| index |
+			index := 1.
 			rowanFrameServices := self rowanProcessService _frames
-				collect: [ :frameService | SpkScaffoldingDebugFrameServiceServer new rowanFrameService: frameService ] ]
+				collect: [ :frameService | 
+					| frame |
+					frame := SpkScaffoldingDebugFrameServiceServer new
+						rowanFrameService: frameService;
+						frameIndex: index;
+						yourself.
+					index := index + 1.
+					frame ] ]
 ]
 
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> rowanProcessService [
 	^ rowanProcessService
+		ifNil: [ 
+			suspendedProcess
+				ifNotNil: [ :aSuspendedGsProcess | 
+					rowanProcessService := RowanProcessService
+						onSuspendedProcess: aSuspendedGsProcess ] ]
 ]
 
 { #category : 'accessing' }
@@ -143,4 +181,17 @@ SpkScaffoldingDebugProcessServiceServer >> suspendedProcessReportString [
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> terminate [
 	self suspendedProcess terminate
+]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> terminate9 [
+	self suspendedProcess terminate9
+]
+
+{ #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> trimStackToLevel: aLevel [
+	| homeFrame |
+	homeFrame := self homeFrameFor: aLevel.
+	rowanProcessService := rowanFrameServices := nil.	"clear these to force recalculation after stack has been trimmed"
+	self suspendedProcess _trimStackToLevel: homeFrame frameIndex
 ]

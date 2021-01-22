@@ -69,17 +69,16 @@ SpkScaffoldingAbstractServiceClient >> processList [
 
 { #category : 'debugger' }
 SpkScaffoldingAbstractServiceClient >> setBreakpointForClass: className meta: isMeta selector: selector atStepPoint: stepPoint [
-
 	"Set a breakpoint that will be signalled to the GCI.
 		Returns true to indicate success.  Otherwise returns a string describing the error."
 
 	| res |
 	(res := (remoteSelf
-		         setBreakpointForClass: className
-		meta: isMeta 
-		         selector: selector
-		         atStepPoint: stepPoint) wait) == true ifFalse: [ 
-		self error: res ]
+		setBreakpointForClass: className
+		meta: isMeta
+		selector: selector
+		atStepPoint: stepPoint) wait) == true
+		ifFalse: [ self error: res ]
 ]
 
 { #category : 'debugger' }

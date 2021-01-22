@@ -4,8 +4,31 @@ Class {
 	#classVars : [
 		'ForkedProcessResult'
 	],
-	#category : 'Sparkle-Scaffolding-GemStone'
+	#category : 'Sparkle-Scaffolding-GemStone-Test'
 }
+
+{ #category : 'accessing' }
+SpkScaffoldingMockObject class >> _optionArray [
+	^ {#'symbol'.
+	1.
+	2.0}
+]
+
+{ #category : 'test support' }
+SpkScaffoldingMockObject class >> almostOutOfMemory: threshold [
+	"careful now"
+
+	| array |
+	array := Array new.
+
+	AlmostOutOfMemoryError enableAtThreshold: threshold.
+
+	[ true ]
+		whileTrue: [ 
+			array add: (String new: 2000).
+			array size \\ 100 == 0
+				ifTrue: [ System _generationScavenge_vmMarkSweep ] ]
+]
 
 { #category : 'examples' }
 SpkScaffoldingMockObject class >> example1 [
@@ -18,7 +41,7 @@ SpkScaffoldingMockObject class >> example1 [
 SpkScaffoldingMockObject class >> example2 [
 	"use this example until the trappability of breakpoints is sorted out"
 
-	self halt.
+	self halt.	"I'm here on purpose - used in a test"
 	^ SpkScaffoldingMockObject new method1
 ]
 
@@ -61,20 +84,35 @@ SpkScaffoldingMockObject class >> example4 [
 	^ ans
 ]
 
+{ #category : 'examples' }
+SpkScaffoldingMockObject class >> example5 [
+	"This method is expected to be used for debugger compilation tests"
+
+	^ SpkScaffoldingMockObject new method3
+]
+
 { #category : 'accessing' }
 SpkScaffoldingMockObject class >> forkedProcessResult [
 	^ ForkedProcessResult
+]
+
+{ #category : 'test support' }
+SpkScaffoldingMockObject class >> stackOverflow [
+	"careful now"
+
+	^ self stackOverflow
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingMockObject >> _optionArray [
+	^ self class _optionArray
 ]
 
 { #category : 'accessing' }
 SpkScaffoldingMockObject >> method1 [
 	"entrypoint for debugger breakpoint/stepping exercises"
 
-	| optionArray |
-	optionArray := {#'symbol'.
-	1.
-	2.0}.	"assignment is steppoint 2"
-	^ self method1: optionArray	"steppoint 3"
+	^ self method1: self _optionArray
 ]
 
 { #category : 'accessing' }
@@ -97,4 +135,17 @@ SpkScaffoldingMockObject >> method2: option [
 	"entrypoint for debugger breakpoint/stepping exercises"
 
 	^ option asString
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingMockObject >> method3 [
+	"entrypoint for debugger compile tests"
+
+	self method3: [:value | ""^ value printString ]
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingMockObject >> method3: aBlock [
+
+	aBlock value: self _optionArray
 ]

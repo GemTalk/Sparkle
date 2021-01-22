@@ -24,27 +24,39 @@ SpkScaffoldingDebuggerServiceClient >> clearAllBreaks [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> compileMethodSource: sourceString at: aLevel [
+	self processService compileMethodSource: sourceString at: aLevel.
+	self openDebuggerOnClient
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> messageText [
 	^ self processService messageText
 ]
 
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
-	| stack |
+	| stack stackLimit |
+stackLimit := 50.
 	GsFile
 		gciLogServer:
 			'simulate opening debugger on process (' , processService printString
 				, ') ... with stack: '.
 	stack := processService rowanFrameServices.
-	1 to: stack size do: [ :index | 
+	1 to: (stack size min: stackLimit) do: [ :index | 
 		| frame |
 		frame := stack at: index.
 		GsFile gciLogServer: '  ' , index printString , '. ' , frame label ].
+	stack size > stackLimit
+		ifTrue: [ 
+			GsFile
+				gciLogServer:
+					'... skipping remaining ' , (stack size - stackLimit) printString , ' frames' ].
 	GsFile
 		gciLogServer:
 			'process service oop (receiver of resume, terminate, etc.) '
 				, processService asOop printString.
-SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal
 ]
 
 { #category : 'debbuger process control' }
@@ -82,6 +94,22 @@ SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> stepThroughFromLevel: aLevel [
+	^ self processService stepThroughFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
 	^ self processService terminate
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> terminate9 [
+	^ self processService terminate9
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceClient >> trimStackToLevel: aLevel [
+	self processService trimStackToLevel: aLevel.
+	self openDebuggerOnClient
 ]

@@ -4,6 +4,14 @@ Class {
 	#category : 'Sparkle-Scaffolding-Common'
 }
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebugProcessServiceClient >> compileMethodSource: sourceString at: aLevel [
+	| res |
+	rowanFrameServices := nil.
+	res := (remoteSelf compileMethodSource: sourceString at: aLevel) wait.
+	^ res
+]
+
 { #category : 'testing' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> foo [
 
@@ -84,4 +92,18 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> suspendedProcessReportString 
 SpkScaffoldingAbstractDebugProcessServiceClient >> terminate [
 
 	^ remoteSelf terminate wait
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebugProcessServiceClient >> terminate9 [
+
+	^ remoteSelf terminate9 wait
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebugProcessServiceClient >> trimStackToLevel: aLevel [
+	| res |
+	rowanFrameServices := nil.
+	res := (remoteSelf trimStackToLevel: aLevel) wait.
+	^ res
 ]

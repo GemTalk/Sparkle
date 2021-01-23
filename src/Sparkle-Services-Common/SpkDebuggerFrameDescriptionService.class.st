@@ -11,7 +11,7 @@ Class {
 { #category : 'other' }
 SpkDebuggerFrameDescriptionService class >> templateClassName [
 
-	^ #SpkDebuggerFrameService
+	^ #SpkDebuggerFrameDescriptionService
 ]
 
 { #category : 'accessing' }

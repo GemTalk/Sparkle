@@ -15,7 +15,7 @@ SpkDebuggerToolTest >> testFrameDescription [
 
 	doitFrames := debugger frames
 		select: [ :frame | 
-			self assert: frame class equals: SpkDebuggerFrameTool.
+			self assert: frame class equals: SpkDebuggerFrameDescriptionTool.
 			frame description = 'Executed Code ' ].
 	self
 		assert: doitFrames size equals: 1;
@@ -31,7 +31,7 @@ SpkDebuggerToolTest >> testFrameIndex [
 	debugger := evaluatorTool evaluateCode.
 	frameTool := debugger frames at: 1.
 	self
-		assert: frameTool class equals: SpkDebuggerFrameTool;
+		assert: frameTool class equals: SpkDebuggerFrameDescriptionTool;
 		assert: frameTool index equals: 1;
 		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
 ]

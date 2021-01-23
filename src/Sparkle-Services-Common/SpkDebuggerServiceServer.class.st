@@ -18,7 +18,7 @@ SpkDebuggerServiceServer class >> forTool: aTool [
 { #category : 'other' }
 SpkDebuggerServiceServer >> initializeFramesFromTool [
 	frames := tool frames
-		collect: [ :frameTool | SpkDebuggerFrameServiceServer forTool: frameTool ]
+		collect: [ :frameTool | SpkDebuggerFrameDescriptionServiceServer forTool: frameTool ]
 ]
 
 { #category : 'other' }

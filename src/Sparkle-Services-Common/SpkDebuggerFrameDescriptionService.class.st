@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkDebuggerFrameService',
+	#name : 'SpkDebuggerFrameDescriptionService',
 	#superclass : 'RsrService',
 	#instVars : [
 		'description',
@@ -9,29 +9,29 @@ Class {
 }
 
 { #category : 'other' }
-SpkDebuggerFrameService class >> templateClassName [
+SpkDebuggerFrameDescriptionService class >> templateClassName [
 
 	^ #SpkDebuggerFrameService
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameService >> description [
+SpkDebuggerFrameDescriptionService >> description [
 
 	^ description
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameService >> description: anObject [
+SpkDebuggerFrameDescriptionService >> description: anObject [
 
 	description := anObject
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameService >> index [
+SpkDebuggerFrameDescriptionService >> index [
 	^index
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameService >> index: object [
+SpkDebuggerFrameDescriptionService >> index: object [
 	index := object
 ]

@@ -29,11 +29,17 @@ SpkExplorerServiceServer class >> initializeServiceClassesForToolTypes [
 	serviceClassesForToolTypes := IdentityDictionary new.
 	^ serviceClassesForToolTypes
 		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
-		  at: SpkDebuggerFrameTool put: SpkDebuggerFrameServiceServer;
+		  at: SpkDebuggerFrameDescriptionTool put: SpkDebuggerFrameDescriptionServiceServer;
 		  at: SpkDebuggerTool put: SpkDebuggerServiceServer;
 		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
 		  at: SpkInspectorTool put: SpkInspectorServiceServer;
 		  yourself
+]
+
+{ #category : 'accessing' }
+SpkExplorerServiceServer class >> serviceClassesForToolTypes [
+
+	^ serviceClassesForToolTypes
 ]
 
 { #category : 'accessing' }
@@ -42,12 +48,6 @@ SpkExplorerServiceServer class >> serviceClassForToolClass: aToolClass [
 	^ self serviceClassesForToolTypes
 		  at: aToolClass
 		  ifAbsent: [ self error: 'Unrecognized tool class' ]
-]
-
-{ #category : 'accessing' }
-SpkExplorerServiceServer class >> serviceClassesForToolTypes [
-
-	^ serviceClassesForToolTypes
 ]
 
 { #category : 'initialization' }

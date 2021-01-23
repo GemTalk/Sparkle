@@ -5,7 +5,7 @@ I represent and manipulate a single stack frame within a GsProcess (#process)
 The Sparkle numbering system allows my index to stay the same during stepping, when the number of frames above me may change, changing my #level.
 "
 Class {
-	#name : 'SpkDebuggerFrameTool',
+	#name : 'SpkDebuggerFrameDescriptionTool',
 	#superclass : 'SpkTool',
 	#instVars : [
 		'process',
@@ -18,27 +18,27 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkDebuggerFrameTool >> description [
+SpkDebuggerFrameDescriptionTool >> description [
 	^ description ifNil: [ self initializeDescription ]
 ]
 
 { #category : 'private' }
-SpkDebuggerFrameTool >> frameContents [
+SpkDebuggerFrameDescriptionTool >> frameContents [
 	^ frameContents ifNil: [ frameContents := process _frameContentsAt: level ]
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameTool >> index [
+SpkDebuggerFrameDescriptionTool >> index [
 	^index
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameTool >> index: object [
+SpkDebuggerFrameDescriptionTool >> index: object [
 	index := object
 ]
 
 { #category : 'private' }
-SpkDebuggerFrameTool >> initializeDescription [
+SpkDebuggerFrameDescriptionTool >> initializeDescription [
 	| meth receiver |
 	meth := self method.
 	receiver := process _receiverInFrameContents: self frameContents.
@@ -47,23 +47,23 @@ SpkDebuggerFrameTool >> initializeDescription [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameTool >> level: anInteger [
+SpkDebuggerFrameDescriptionTool >> level: anInteger [
 	level := anInteger
 ]
 
 { #category : 'private' }
-SpkDebuggerFrameTool >> method [
+SpkDebuggerFrameDescriptionTool >> method [
 	^ process _methodInFrameContents: self frameContents
 ]
 
 { #category : 'printing' }
-SpkDebuggerFrameTool >> printOn: aStream [
+SpkDebuggerFrameDescriptionTool >> printOn: aStream [
 	level isNil | process isNil
 		ifTrue: [ ^ super printOn: aStream ].
 	aStream nextPutAll: self description
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameTool >> process: aProcess [
+SpkDebuggerFrameDescriptionTool >> process: aProcess [
 	process := aProcess
 ]

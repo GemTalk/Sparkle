@@ -1,6 +1,6 @@
 Class {
-	#name : 'SpkDebuggerFrameServiceServer',
-	#superclass : 'SpkDebuggerFrameService',
+	#name : 'SpkDebuggerFrameDescriptionServiceServer',
+	#superclass : 'SpkDebuggerFrameDescriptionService',
 	#instVars : [
 		'tool'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : 'other' }
-SpkDebuggerFrameServiceServer class >> forTool: aTool [
+SpkDebuggerFrameDescriptionServiceServer class >> forTool: aTool [
 
 	^ self new
 		  initializeFromTool: aTool;
@@ -16,14 +16,14 @@ SpkDebuggerFrameServiceServer class >> forTool: aTool [
 ]
 
 { #category : 'other' }
-SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
+SpkDebuggerFrameDescriptionServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
 	self refreshFromTool
 ]
 
 { #category : 'other' }
-SpkDebuggerFrameServiceServer >> refreshFromTool [
+SpkDebuggerFrameDescriptionServiceServer >> refreshFromTool [
 
 	description := tool description.
 	index := tool index

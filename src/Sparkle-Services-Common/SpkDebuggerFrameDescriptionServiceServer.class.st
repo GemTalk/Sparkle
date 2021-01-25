@@ -16,6 +16,11 @@ SpkDebuggerFrameDescriptionServiceServer class >> forTool: aTool [
 ]
 
 { #category : 'other' }
+SpkDebuggerFrameDescriptionServiceServer >> createFrameService [
+	^ SpkDebuggerFrameServiceServer forTool: tool
+]
+
+{ #category : 'other' }
 SpkDebuggerFrameDescriptionServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.

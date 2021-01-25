@@ -141,7 +141,7 @@ SpkInspectorPane >> initializeFieldListModel [
 	| fields |
 	fieldListModel := SpkMultiSelectList new.
 	fields := model fields collect: [ :each | 
-		          (SpkInspectorField for: each)
+		          (SpkMultiSelectListItem for: each)
 			          list: fieldListModel;
 			          yourself ].
 	fieldListModel

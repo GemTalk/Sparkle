@@ -20,7 +20,7 @@ SpkDebuggerPane >> frameSelected: anAnnouncement [
 
 	| frame frameService |
 	frame := anAnnouncement item.
-	frameService := frame model inspectFieldForRequest: frame.
+	frameService := frame model frameServiceForRequest: frame.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
 	frameService
@@ -78,7 +78,7 @@ SpkDebuggerPane >> initializeFrameListModel [
 	| frames |
 	frameListModel := SpkMultiSelectList new.
 	frames := model frames reverse collect: [ :each | 
-		          (SpkDebuggerFrameDescription for: each)
+		          (SpkMultiSelectListItem for: each)
 			          list: frameListModel;
 			          yourself ].
 	frameListModel

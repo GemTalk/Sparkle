@@ -7,7 +7,7 @@ The presentation-layer model for one frame in the frame list of a debugger pane.
 **    Instance Variables**
 *	list: 		<SpkMultiSelectList> 	The list I'm an element in
 *	listIndex:		<Integer> Which item in the list I am
-*	model:		<SpkDebuggerFrameServiceClient> The service for this field.
+*	model:		<SpkDebuggerFrameDescriptoinServiceClient> The service for this field.
 
 
     Implementation Points
@@ -19,7 +19,7 @@ When the frame is selected, a linked debugger frame pane is opened in the next c
 Whether or not linkedPane is nil controls how the link column of the table is displayed.
 "
 Class {
-	#name : 'SpkDebuggerFrame',
+	#name : 'SpkDebuggerFrameDescription',
 	#superclass : 'Object',
 	#traits : 'SpkTLinkedPane',
 	#classTraits : 'SpkTLinkedPane classTrait',
@@ -32,7 +32,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkDebuggerFrame class >> for: aModel [
+SpkDebuggerFrameDescription class >> for: aModel [
 
 	^ self new
 		  model: aModel;
@@ -40,24 +40,24 @@ SpkDebuggerFrame class >> for: aModel [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrame >> description [
+SpkDebuggerFrameDescription >> description [
 
 	^ model description
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrame >> index: anObject [
+SpkDebuggerFrameDescription >> index: anObject [
 
 	listIndex := anObject
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrame >> list: anObject [
+SpkDebuggerFrameDescription >> list: anObject [
 
 	list := anObject
 ]
 
 { #category : 'instance creation' }
-SpkDebuggerFrame >> model: anObject [
+SpkDebuggerFrameDescription >> model: anObject [
 	model := anObject
 ]

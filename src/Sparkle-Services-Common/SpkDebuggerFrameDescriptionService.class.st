@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkDebuggerFrameDescriptionService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkLinkableSubService',
 	#instVars : [
 		'description',
 		'index'

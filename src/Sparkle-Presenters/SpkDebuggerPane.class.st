@@ -13,6 +13,21 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> frameSelected: anAnnouncement [
+
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
+
+	| frame frameService |
+	frame := anAnnouncement item.
+	frameService := frame model inspectFieldForRequest: frame.
+	"If nil, a server round trip is required and the inspector pane 
+	will be created by announcement from the service."
+	frameService
+		ifNil: [ self disableAll ]
+		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerPane >> headerClass [
 
@@ -63,7 +78,7 @@ SpkDebuggerPane >> initializeFrameListModel [
 	| frames |
 	frameListModel := SpkMultiSelectList new.
 	frames := model frames reverse collect: [ :each | 
-		          (SpkDebuggerFrame for: each)
+		          (SpkDebuggerFrameDescription for: each)
 			          list: frameListModel;
 			          yourself ].
 	frameListModel
@@ -118,9 +133,31 @@ SpkDebuggerPane >> initializeTwizzle [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerPane >> linkedPanes [
+
+	^ frameList linkedPanes
+]
+
+{ #category : 'accessing' }
 SpkDebuggerPane >> menuActions [
 
 	
+]
+
+{ #category : 'actions' }
+SpkDebuggerPane >> openLinkedPane: aPaneService forItem: item [
+
+	" Create and open an inspector pane in the next column.
+	item is an InspectorField or an evaluator."
+
+	super openLinkedPane: aPaneService forItem: item.
+	self refreshFrameList "Change linking arrow."
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> refreshFrameList [
+
+	frameList refresh
 ]
 
 { #category : 'as yet unclassified' }
@@ -146,6 +183,15 @@ SpkDebuggerPane >> updateExceptionDescriptionVisibility [
 	fullDescriptionIsShown
 		ifTrue: [ self layout add: fullDescription after: topLayout ]
 		ifFalse: [ self layout remove: fullDescription ]
+]
+
+{ #category : 'updating' }
+SpkDebuggerPane >> updateSelection [
+
+	"If the selected items are changed by means other than a mouse click,
+	we must let the list know to display the correct selection."
+
+	frameList selectIndexes: frameListModel selectedIndexes
 ]
 
 { #category : 'actions' }

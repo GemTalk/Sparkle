@@ -26,6 +26,5 @@ SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
 SpkDebuggerFrameServiceServer >> refreshFromTool [
 
 	description := tool description.
-	index := tool index.
 	source := tool source
 ]

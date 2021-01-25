@@ -78,6 +78,20 @@ SpkPane >> initializeHeader [
 		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
+{ #category : 'actions' }
+SpkPane >> itemDeselected: anAnnouncement [
+
+	"This announcement comes from the UI, not a service,
+	so does not need to be deferred."
+
+	| item |
+	item := anAnnouncement item.
+	"If the close was initiated by the linked pane, 
+	it will already be closed and removed from the field."
+	item linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
+	self updateSelection
+]
+
 { #category : 'accessing' }
 SpkPane >> linkedFrom [
 
@@ -108,10 +122,37 @@ SpkPane >> newLayout [
 	^ SpkAccordianLayout newVertical
 ]
 
+{ #category : 'instance creation' }
+SpkPane >> newPaneForService: newService linkedTo: item [
+	"Item is an InspectorField or an evaluator"
+
+	self openLinkedPane: newService forItem: item.
+	"This announcement came from the server, so all of my widgets are disabled."
+	self reEnableAll
+]
+
 { #category : 'accessing' }
 SpkPane >> nonChildSlotNames [
 
 	^ super nonChildSlotNames , #( #linkedFrom )
+]
+
+{ #category : 'actions' }
+SpkPane >> openLinkedPane: aPaneService forItem: item [
+
+	" Create and open a pane in the next column.
+	Generic part is here, see subclasses for detailed use."
+
+	| nextRightColumn newPane |
+	nextRightColumn := owner nextRightColumn.
+	"Ask the column, since it must own the new pane."
+	newPane := nextRightColumn presenterForService: aPaneService.
+	newPane coordinate: (item coordinateRelativeTo: coordinate).
+	"Add before close so that the column doesn't become empty and remove itself"
+	nextRightColumn add: newPane.
+	item
+		closeLinkedPane;
+		linkedPane: newPane
 ]
 
 { #category : 'actions' }
@@ -124,6 +165,15 @@ an item really should be enabled."
 
 	self enabled: true.
 	self layout enabled: true
+]
+
+{ #category : 'announcements' }
+SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
+
+	self defer: [ 
+		self
+			newPaneForService: anAnnouncement service
+			linkedTo: anAnnouncement requestId ]
 ]
 
 { #category : 'menu messages' }

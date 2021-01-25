@@ -49,20 +49,6 @@ SpkInspectorPane >> evaluators [
 ]
 
 { #category : 'actions' }
-SpkInspectorPane >> fieldDeselected: anAnnouncement [
-
-	"This announcement comes from the UI, not a service,
-	so does not need to be deferred."
-
-	| field |
-	field := anAnnouncement item.
-	"If the close was initiated by the linked pane, 
-	it will already be closed and removed from the field."
-	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
-	self updateSelection
-]
-
-{ #category : 'actions' }
 SpkInspectorPane >> fieldSelected: anAnnouncement [
 
 	"This announcement comes from the UI, not a service, so does not need to be deferred."
@@ -161,7 +147,7 @@ SpkInspectorPane >> initializeFieldListModel [
 	fieldListModel
 		addAll: fields;
 		when: SpkItemSelected send: #fieldSelected: to: self;
-		when: SpkItemDeselected send: #fieldDeselected: to: self
+		when: SpkItemDeselected send: #itemDeselected: to: self
 ]
 
 { #category : 'initialization' }
@@ -216,15 +202,6 @@ SpkInspectorPane >> menuActions [
 		  yourself
 ]
 
-{ #category : 'instance creation' }
-SpkInspectorPane >> newPaneForService: newService linkedTo: item [
-	"Item is an InspectorField or an evaluator"
-
-	self openLinkedPane: newService forItem: item.
-	"This announcement came from the server, so all of my widgets are disabled."
-	self reEnableAll
-]
-
 { #category : 'accessing' }
 SpkInspectorPane >> nextEvaluatorIndex [
 
@@ -237,18 +214,7 @@ SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
 	" Create and open an inspector pane in the next column.
 	item is an InspectorField or an evaluator."
 
-	| nextRightColumn newPane |
-	nextRightColumn := owner nextRightColumn.
-	"Ask the column, since it must own the new pane."
-	newPane := nextRightColumn presenterForService: aPaneService.
-	"Linked panes for fields get a 0 element in their coordinate. 
-	Ones for evaluators get the evaluator's index."
-	newPane coordinate: (item coordinateRelativeTo: coordinate).
-	"Add before close so that the column doesn't become empty and remove itself"
-	nextRightColumn add: newPane.
-	item
-		closeLinkedPane;
-		linkedPane: newPane.
+	super openLinkedPane: aPaneService forItem: item.
 	self flag:
 		'Probably need a different kind of refresh for an evaluator'.
 	self refreshFieldList "Change linking arrow."
@@ -265,9 +231,7 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 { #category : 'private' }
 SpkInspectorPane >> panesLinkedToFields [
 
-	^ fieldListModel items
-		  collect: [ :field | field linkedPane ]
-		  thenSelect: [ :pane | pane notNil ]
+	^ fieldListModel linkedPanes
 ]
 
 { #category : 'printing' }
@@ -286,15 +250,6 @@ SpkInspectorPane >> printOn: aStream [
 		oop printOn: aStream base: 16 ]
 			on: Error
 			do: [ :ex | ex return ] ]
-]
-
-{ #category : 'announcements' }
-SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
-
-	self defer: [ 
-		self
-			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId ]
 ]
 
 { #category : 'actions' }

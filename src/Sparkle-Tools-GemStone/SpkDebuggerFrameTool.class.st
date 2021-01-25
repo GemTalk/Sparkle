@@ -5,7 +5,7 @@ I represent and manipulate a single stack frame within a GsProcess (#process)
 The Sparkle numbering system allows my index to stay the same during stepping, when the number of frames above me may change, changing my #level.
 "
 Class {
-	#name : 'SpkDebuggerFrameDescriptionTool',
+	#name : 'SpkDebuggerFrameTool',
 	#superclass : 'SpkTool',
 	#instVars : [
 		'process',
@@ -18,27 +18,27 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkDebuggerFrameDescriptionTool >> description [
+SpkDebuggerFrameTool >> description [
 	^ description ifNil: [ self initializeDescription ]
 ]
 
 { #category : 'private' }
-SpkDebuggerFrameDescriptionTool >> frameContents [
+SpkDebuggerFrameTool >> frameContents [
 	^ frameContents ifNil: [ frameContents := process _frameContentsAt: level ]
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameDescriptionTool >> index [
+SpkDebuggerFrameTool >> index [
 	^index
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameDescriptionTool >> index: object [
+SpkDebuggerFrameTool >> index: object [
 	index := object
 ]
 
 { #category : 'private' }
-SpkDebuggerFrameDescriptionTool >> initializeDescription [
+SpkDebuggerFrameTool >> initializeDescription [
 	| meth receiver |
 	meth := self method.
 	receiver := process _receiverInFrameContents: self frameContents.
@@ -47,23 +47,28 @@ SpkDebuggerFrameDescriptionTool >> initializeDescription [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameDescriptionTool >> level: anInteger [
+SpkDebuggerFrameTool >> level: anInteger [
 	level := anInteger
 ]
 
 { #category : 'private' }
-SpkDebuggerFrameDescriptionTool >> method [
+SpkDebuggerFrameTool >> method [
 	^ process _methodInFrameContents: self frameContents
 ]
 
 { #category : 'printing' }
-SpkDebuggerFrameDescriptionTool >> printOn: aStream [
+SpkDebuggerFrameTool >> printOn: aStream [
 	level isNil | process isNil
 		ifTrue: [ ^ super printOn: aStream ].
 	aStream nextPutAll: self description
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameDescriptionTool >> process: aProcess [
+SpkDebuggerFrameTool >> process: aProcess [
 	process := aProcess
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> source [
+	^ self method sourceString
 ]

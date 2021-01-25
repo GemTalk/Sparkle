@@ -135,7 +135,7 @@ SpkDebuggerPane >> initializeTwizzle [
 { #category : 'accessing' }
 SpkDebuggerPane >> linkedPanes [
 
-	^ frameList linkedPanes
+	^ frameListModel linkedPanes
 ]
 
 { #category : 'accessing' }

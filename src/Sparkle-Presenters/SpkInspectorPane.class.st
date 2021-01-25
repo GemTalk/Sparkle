@@ -1,13 +1,11 @@
 Class {
 	#name : 'SpkInspectorPane',
-	#superclass : 'SpkPane',
+	#superclass : 'SpkPaneWithList',
 	#instVars : [
 		'topLayout',
 		'twizzle',
 		'description',
-		'fieldList',
 		'fieldListIsShown',
-		'fieldListModel',
 		'addEvaluatorButton',
 		'evaluators',
 		'nextEvaluatorIndex'
@@ -48,21 +46,6 @@ SpkInspectorPane >> evaluators [
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
 ]
 
-{ #category : 'actions' }
-SpkInspectorPane >> fieldSelected: anAnnouncement [
-
-	"This announcement comes from the UI, not a service, so does not need to be deferred."
-
-	| field inspectorService |
-	field := anAnnouncement item.
-	inspectorService := field model inspectFieldForRequest: field.
-	"If nil, a server round trip is required and the inspector pane 
-	will be created by announcement from the service."
-	inspectorService
-		ifNil: [ self disableAll ]
-		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
-]
-
 { #category : 'initialization' }
 SpkInspectorPane >> headerClass [
 
@@ -93,7 +76,7 @@ SpkInspectorPane >> initializeBody [
 	fieldListIsShown := true.
 	self
 		initializeTop;
-		initializeFieldList;
+		initializeList;
 		updateFieldListVisibility
 ]
 
@@ -114,40 +97,11 @@ SpkInspectorPane >> initializeEvaluators [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> initializeFieldList [
+SpkInspectorPane >> initializeListColumns [
 
-	"Dynamically added to or removed from my layout upon twizzle click."
-
-	self initializeFieldListModel.
-	fieldList := self newTable.
-	fieldList
-		whenSelectionChangedDo: [ :selectionMode | 
-			fieldListModel selectedIndexes: selectionMode selectedIndexes ];
-		items: fieldListModel;
+	self list
 		addColumn: (SpStringTableColumn evaluated: #name);
-		addColumn: (SpStringTableColumn evaluated: #description);
-		addColumn: ((SpImageTableColumn evaluated: [ :field | 
-					  field hasLinkedPane
-						  ifTrue: [ self iconNamed: #hidePane16 ]
-						  ifFalse: [ self iconNamed: #showPane16 ] ])
-				 width: 25;
-				 yourself);
-		hideColumnHeaders
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeFieldListModel [
-
-	| fields |
-	fieldListModel := SpkMultiSelectList new.
-	fields := model fields collect: [ :each | 
-		          (SpkMultiSelectListItem for: each)
-			          list: fieldListModel;
-			          yourself ].
-	fieldListModel
-		addAll: fields;
-		when: SpkItemSelected send: #fieldSelected: to: self;
-		when: SpkItemDeselected send: #itemDeselected: to: self
+		addColumn: (SpStringTableColumn evaluated: #description)
 ]
 
 { #category : 'initialization' }
@@ -185,10 +139,31 @@ SpkInspectorPane >> initializeTwizzle [
 			height: 20 ]
 ]
 
+{ #category : 'actions' }
+SpkInspectorPane >> itemSelected: anAnnouncement [
+
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
+
+	| field inspectorService |
+	field := anAnnouncement item.
+	inspectorService := field model inspectFieldForRequest: field.
+	"If nil, a server round trip is required and the inspector pane 
+	will be created by announcement from the service."
+	inspectorService
+		ifNil: [ self disableAll ]
+		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+]
+
 { #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
-	^ self panesLinkedToFields , self panesLinkedToEvaluators
+	^ self panesLinkedToListItems , self panesLinkedToEvaluators
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> listItemModels [
+
+	^ model fields
 ]
 
 { #category : 'accessing' }
@@ -208,30 +183,12 @@ SpkInspectorPane >> nextEvaluatorIndex [
 	^ nextEvaluatorIndex ifNil: [ nextEvaluatorIndex := 1 ]
 ]
 
-{ #category : 'actions' }
-SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
-
-	" Create and open an inspector pane in the next column.
-	item is an InspectorField or an evaluator."
-
-	super openLinkedPane: aPaneService forItem: item.
-	self flag:
-		'Probably need a different kind of refresh for an evaluator'.
-	self refreshFieldList "Change linking arrow."
-]
-
 { #category : 'accessing' }
 SpkInspectorPane >> panesLinkedToEvaluators [
 
 	^ self evaluators
 		  collect: [ :each | each linkedPane ]
 		  thenSelect: [ :each | each notNil ]
-]
-
-{ #category : 'private' }
-SpkInspectorPane >> panesLinkedToFields [
-
-	^ fieldListModel linkedPanes
 ]
 
 { #category : 'printing' }
@@ -250,14 +207,6 @@ SpkInspectorPane >> printOn: aStream [
 		oop printOn: aStream base: 16 ]
 			on: Error
 			do: [ :ex | ex return ] ]
-]
-
-{ #category : 'actions' }
-SpkInspectorPane >> refreshFieldList [
-
-	"Re-draw the field list; sent when something has changed and must be re-displayed."
-
-	fieldList refresh
 ]
 
 { #category : 'removing' }
@@ -289,17 +238,8 @@ SpkInspectorPane >> twizzleIcon [
 SpkInspectorPane >> updateFieldListVisibility [
 
 	fieldListIsShown
-		ifTrue: [ self layout add: fieldList after: topLayout ]
-		ifFalse: [ self layout remove: fieldList ]
-]
-
-{ #category : 'updating' }
-SpkInspectorPane >> updateSelection [
-
-	"If the selected items are changed by means other than a mouse click,
-	we must let the list know to display the correct selection."
-
-	fieldList selectIndexes: fieldListModel selectedIndexes
+		ifTrue: [ self layout add: self list after: topLayout ]
+		ifFalse: [ self layout remove: self list ]
 ]
 
 { #category : 'actions' }

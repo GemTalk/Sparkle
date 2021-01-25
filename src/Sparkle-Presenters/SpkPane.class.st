@@ -78,20 +78,6 @@ SpkPane >> initializeHeader [
 		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
-{ #category : 'actions' }
-SpkPane >> itemDeselected: anAnnouncement [
-
-	"This announcement comes from the UI, not a service,
-	so does not need to be deferred."
-
-	| item |
-	item := anAnnouncement item.
-	"If the close was initiated by the linked pane, 
-	it will already be closed and removed from the field."
-	item linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
-	self updateSelection
-]
-
 { #category : 'accessing' }
 SpkPane >> linkedFrom [
 

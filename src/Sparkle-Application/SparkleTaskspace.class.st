@@ -52,6 +52,7 @@ SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 	presenterClassesForServiceTypes := IdentityDictionary new.
 	^ presenterClassesForServiceTypes
 		  at: SpkCompilationErrorServiceClient put: SpkCompilationErrorPane;
+		  at: SpkDebuggerFrameServiceClient put: SpkDebuggerFramePane;
 		  at: SpkDebuggerServiceClient put: SpkDebuggerPane;
 		  at: SpkInspectorServiceClient put: SpkInspectorPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;

@@ -117,13 +117,7 @@ SpkDebuggerPane >> linkedPanes [
 { #category : 'accessing' }
 SpkDebuggerPane >> listItemModels [
 
-	^ model frames
-]
-
-{ #category : 'accessing' }
-SpkDebuggerPane >> menuActions [
-
-	
+	^ model frames reverse
 ]
 
 { #category : 'actions' }

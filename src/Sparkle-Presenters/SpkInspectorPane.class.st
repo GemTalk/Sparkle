@@ -33,14 +33,6 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> connectPresenters [
-
-	super connectPresenters.
-	header menu: self menuActions asMenuPresenter.
-	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
-]
-
-{ #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
@@ -169,8 +161,7 @@ SpkInspectorPane >> listItemModels [
 { #category : 'accessing' }
 SpkInspectorPane >> menuActions [
 
-	^ CmCommandGroup forSpec
-		  beRoot;
+	^ super menuActions
 		  register: ((SpkViewRawCommand forSpecContext: self)
 				   iconProvider: SpkIconLibrary current;
 				   yourself);

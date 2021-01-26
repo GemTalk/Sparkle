@@ -38,12 +38,6 @@ SpkErrorPane >> labelString [
 ]
 
 { #category : 'accessing' }
-SpkErrorPane >> menuActions [
-
-	
-]
-
-{ #category : 'accessing' }
 SpkErrorPane >> textPresenter [
 
 	^ textPresenter

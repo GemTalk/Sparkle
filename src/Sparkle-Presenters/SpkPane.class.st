@@ -99,7 +99,9 @@ SpkPane >> linkedPanes [
 { #category : 'accessing' }
 SpkPane >> menuActions [
 
-	self subclassResponsibility
+	^ CmCommandGroup forSpec
+		  beRoot;
+		  yourself
 ]
 
 { #category : 'accessing' }

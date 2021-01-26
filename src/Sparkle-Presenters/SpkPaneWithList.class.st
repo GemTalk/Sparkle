@@ -9,6 +9,14 @@ Class {
 }
 
 { #category : 'initialization' }
+SpkPaneWithList >> connectPresenters [
+
+	super connectPresenters.
+	header menu: self menuActions asMenuPresenter.
+	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
+]
+
+{ #category : 'initialization' }
 SpkPaneWithList >> initializeList [
 
 	self initializeListModel.

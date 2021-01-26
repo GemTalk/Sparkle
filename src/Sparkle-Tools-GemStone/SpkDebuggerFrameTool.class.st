@@ -17,6 +17,15 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> currentSourceInterval [
+	| start |
+	start := self method _sourceOffsetsAt: self stepPoint.
+	start >= self source size
+		ifTrue: [ start := start - 1 ].
+	^ start to: start + 1
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> description [
 	^ description ifNil: [ self initializeDescription ]
@@ -71,4 +80,13 @@ SpkDebuggerFrameTool >> process: aProcess [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> source [
 	^ self method sourceString
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> stepPoint [
+	| method |
+	method := self method.
+	^ method == method homeMethod
+		ifTrue: [ process _stepPointAt: level ]
+		ifFalse: [ method homeMethod _stepPointForMeth: method ip: (frameContents at: 2) ]
 ]

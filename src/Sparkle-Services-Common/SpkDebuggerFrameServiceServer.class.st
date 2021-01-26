@@ -25,6 +25,10 @@ SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> refreshFromTool [
 
+	| currentSourceInterval |
 	description := tool description.
-	source := tool source
+	source := tool source.
+	currentSourceInterval := tool currentSourceInterval.
+	currentStartPosition := currentSourceInterval first.
+	currentEndPosition := currentSourceInterval last
 ]

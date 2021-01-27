@@ -17,13 +17,32 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
-	| start |
-	start := self method _sourceOffsetsAt: self stepPoint.
-	start >= self source size
-		ifTrue: [ start := start - 1 ].
-	^ start to: start + 1
+	| startPos startChar source |
+	source := self source.
+	startPos := self method _sourceOffsetsAt: self stepPoint.
+	startChar := self source at: startPos.	
+	"Space for implicit return at end of method."
+	startChar = $ 
+		ifTrue: [ ^ startPos to: startPos ].	
+	"Explicit return"
+	startChar = $^
+		ifTrue: [ ^ startPos to: startPos ].	
+	"Assignment, assume = follows :"
+	startChar = $:
+		ifTrue: [ ^ startPos to: startPos + 1 ].	
+	"Binary selector"
+	(self isBinaryCharacter: startChar)
+		ifTrue: [ ^ startPos to: (self lastBinaryCharacterIn: source startingAt: startPos) ].
+	"Unary or keyword selector"
+	(self isKeywordStartCharacter: startChar)
+		ifTrue: [ ^ startPos to: (self lastKeywordCharacterIn: source startingAt: startPos) ].
+	"Primitive number"
+	(self isDecimalDigitCharacter: startChar)
+		ifTrue: [ ^ startPos to: (self lastDecimalDigitCharacterIn: source startingAt: startPos) ].
+	"Should not get here, but just in case we've missed a possibility..."
+	^ startPos to: startPos
 ]
 
 { #category : 'accessing' }
@@ -55,6 +74,57 @@ SpkDebuggerFrameTool >> initializeDescription [
 	^ description
 ]
 
+{ #category : 'private' }
+SpkDebuggerFrameTool >> isBinaryCharacter: aCharacter [
+
+	^ '+-\*~<>=|/&@%,?!' includes: aCharacter
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> isDecimalDigitCharacter: aCharacter [
+
+	^ '0123456789' includes: aCharacter
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> isKeywordCharacter: aCharacter [
+	^ (aCharacter = $: or: [ self isKeywordStartCharacter: aCharacter ])
+		or: [ self isDecimalDigitCharacter: aCharacter ]
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> isKeywordStartCharacter: aCharacter [
+
+	^ '_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' includes: aCharacter
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> lastBinaryCharacterIn: source startingAt: startPos [
+	"If source at: startPos is not a binary character, startPos - 1 will be returned"
+
+	startPos to: source size do: [ :testPos | 
+		(self isBinaryCharacter: (source at: testPos))
+			ifFalse: [ ^ testPos - 1 ] ]
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> lastDecimalDigitCharacterIn: source startingAt: startPos [
+	"If source at: startPos is not a numeric character, startPos - 1 will be returned"
+
+	startPos to: source size do: [ :testPos | 
+		(self isDecimalDigitCharacter: (source at: testPos))
+			ifFalse: [ ^ testPos - 1 ] ]
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> lastKeywordCharacterIn: source startingAt: startPos [
+	"If source at: startPos is not a keyword character, startPos - 1 will be returned"
+
+	startPos to: source size do: [ :testPos | 
+		(self isKeywordCharacter: (source at: testPos))
+			ifFalse: [ ^ testPos - 1 ] ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> level: anInteger [
 	level := anInteger
@@ -79,10 +149,12 @@ SpkDebuggerFrameTool >> process: aProcess [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> source [
-	^ self method sourceString
+	"Append a space that can be highlighted when at an implicit return self."
+
+	^ self method sourceString , ' '
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerFrameTool >> stepPoint [
 	| method |
 	method := self method.

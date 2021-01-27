@@ -15,7 +15,8 @@ SpkDebuggerFramePane >> addSourcePositionDecoration [
 		addTextSegmentDecoration: (SpTextPresenterDecorator new
 				 highlightColor: (Color orange alpha: 0.5);
 				 underlineColor: Color transparent;
-				 interval: model currentSourceInterval;
+				 interval:
+					 (model currentStartPosition to: model currentEndPosition + 1);
 				 yourself)
 ]
 

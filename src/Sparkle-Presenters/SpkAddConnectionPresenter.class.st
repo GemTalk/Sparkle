@@ -6,43 +6,74 @@ Class {
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'inMemoryCheckbox',
-		'addOrEditButton',
-		'cancelButton',
 		'hostText',
 		'portText',
-		'nameText'
+		'nameText',
+		'addButton',
+		'editButton',
+		'connectionProfile',
+		'clearButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> addOrEdit [
+SpkAddConnectionPresenter >> addOrEdit [ 
+
+	owner addOrEdit.
+	
 ]
 
 { #category : 'actions' }
 SpkAddConnectionPresenter >> cancel [
 ]
 
+{ #category : 'accessing' }
+SpkAddConnectionPresenter >> connectionProfile [
+
+	^ connectionProfile
+]
+
+{ #category : 'accessing' }
+SpkAddConnectionPresenter >> connectionProfile: anObject [
+
+	connectionProfile := anObject
+]
+
+{ #category : 'initialization' }
+SpkAddConnectionPresenter >> initialize [
+
+	super initialize. 
+	self initializeConnectionProfile
+]
+
 { #category : 'initialization' }
 SpkAddConnectionPresenter >> initializeButtons [
 
-	addOrEditButton := self newButton
-		                   label: 'Add';
-		                   action: [ self addOrEdit ].
-	cancelButton := self newButton
-		                label: 'Cancel';
-		                action: [ self cancel ].
-	self layout add: (SpkBoxLayout newHorizontal
-			 add: addOrEditButton withConstraints: [ :constraints | 
-				 constraints
-					 width: 50;
-					 height: 30 ];
-			 add: (SpkBoxLayout newHorizontal
-					  add: cancelButton
-					  withConstraints: [ :constraints | 
-						  constraints
-							  width: 50;
-							  height: 30 ]))
+	addButton := self newButton
+		             label: 'Add';
+		             action: [ self addOrEdit ].
+	editButton := self newButton
+		              label: 'Edit';
+		              action: [ self addOrEdit ].
+	clearButton := self newButton
+		              label: 'Clear';
+		              action: [ self initializeConnectionProfile  ].
+	self layout add: (SpkBoxLayout newHorizontal beHomogeneous
+			 add: addButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: editButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: clearButton
+			 withConstraints: [ :constraints | constraints height: 30 ])
+]
+
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> initializeConnectionProfile [
+
+	connectionProfile := SparkleConnectionProfile new. 
+	self updateGUI. 
+	
 ]
 
 { #category : 'initialization' }
@@ -50,7 +81,7 @@ SpkAddConnectionPresenter >> initializeHostPresenter [
 
 	self layout
 		add: (self newLabel label: 'Host:')
-		withConstraints: [ :constraints | constraints height: 30 ].
+		withConstraints: [ :constraints | constraints height: 20 ].
 	hostText := self newTextInput.
 	self layout
 		add: hostText
@@ -75,7 +106,7 @@ SpkAddConnectionPresenter >> initializeNamePresenter [
 
 	self layout
 		add: (self newLabel label: 'Name:')
-		withConstraints: [ :constraints | constraints height: 30 ].
+		withConstraints: [ :constraints | constraints height: 20 ].
 	nameText := self newTextInput.
 	self layout
 		add: nameText
@@ -87,7 +118,7 @@ SpkAddConnectionPresenter >> initializePortPresenter [
 
 	self layout
 		add: (self newLabel label: 'Port:')
-		withConstraints: [ :constraints | constraints height: 30 ].
+		withConstraints: [ :constraints | constraints height: 20 ].
 	portText := self newTextInput.
 	self layout
 		add: portText
@@ -111,12 +142,45 @@ SpkAddConnectionPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Add Connection';
 		borderColor: Color purple;
-		borderWidth: 3;
-		initialExtent: 250 @ 300
+		borderWidth: 3
 ]
 
 { #category : 'accessing' }
 SpkAddConnectionPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'accessing' }
+SpkAddConnectionPresenter >> newTextInput [
+
+	^ super newTextInput
+		  whenTextChangedDo: [ self updateConnectionProfile ];
+		  autoAccept: true
+]
+
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> setConnectionProfile: aConnectionProfile [
+
+	connectionProfile := aConnectionProfile. 
+	self updateGUI. 
+]
+
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> updateConnectionProfile [
+
+	connectionProfile
+		name: nameText text;
+		host: hostText text;
+		port: portText text;
+		inMemory: inMemoryCheckbox state
+]
+
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> updateGUI [
+
+	nameText text: connectionProfile name.
+	hostText text: connectionProfile host.
+	portText text: connectionProfile port.
+	inMemoryCheckbox state: connectionProfile inMemory
 ]

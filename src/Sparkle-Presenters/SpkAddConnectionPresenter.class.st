@@ -12,20 +12,15 @@ Class {
 		'addButton',
 		'editButton',
 		'connectionProfile',
-		'clearButton'
+		'removeButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> addOrEdit [ 
+SpkAddConnectionPresenter >> add [
 
-	owner addOrEdit.
-	
-]
-
-{ #category : 'actions' }
-SpkAddConnectionPresenter >> cancel [
+	SparkleConnectionProfile addProfile: connectionProfile copy
 ]
 
 { #category : 'accessing' }
@@ -40,6 +35,13 @@ SpkAddConnectionPresenter >> connectionProfile: anObject [
 	connectionProfile := anObject
 ]
 
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> edit [
+
+	self halt: 'fix me'.
+	
+]
+
 { #category : 'initialization' }
 SpkAddConnectionPresenter >> initialize [
 
@@ -52,23 +54,23 @@ SpkAddConnectionPresenter >> initializeButtons [
 
 	addButton := self newButton
 		             label: 'Add';
-		             action: [ self addOrEdit ].
+		             action: [ self add ].
 	editButton := self newButton
 		              label: 'Edit';
-		              action: [ self addOrEdit ].
-	clearButton := self newButton
-		              label: 'Clear';
-		              action: [ self initializeConnectionProfile  ].
+		              action: [ self edit ].
+	removeButton := self newButton
+		               label: 'Remove';
+		               action: [ self remove ].
 	self layout add: (SpkBoxLayout newHorizontal beHomogeneous
 			 add: addButton
 			 withConstraints: [ :constraints | constraints height: 30 ];
 			 add: editButton
 			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: clearButton
+			 add: removeButton
 			 withConstraints: [ :constraints | constraints height: 30 ])
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 SpkAddConnectionPresenter >> initializeConnectionProfile [
 
 	connectionProfile := SparkleConnectionProfile new. 
@@ -157,6 +159,12 @@ SpkAddConnectionPresenter >> newTextInput [
 	^ super newTextInput
 		  whenTextChangedDo: [ self updateConnectionProfile ];
 		  autoAccept: true
+]
+
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> remove [
+
+	SparkleConnectionProfile removeProfile: connectionProfile
 ]
 
 { #category : 'actions' }

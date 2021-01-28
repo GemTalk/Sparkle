@@ -12,17 +12,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'actions' }
-SpkConnectionsPresenter >> addOrEdit [
-
-	"Why doesn't SpAbstractListPresenter have an addItem: api?"
-
-	| copy |
-	copy := addConnectionPresenter connectionProfile.
-	connectionList items: connectionList items , (Array with: copy).
-	connectionList selectItem: addConnectionPresenter connectionProfile
-]
-
 { #category : 'initialization' }
 SpkConnectionsPresenter >> connectPresenters [
 
@@ -38,6 +27,24 @@ SpkConnectionsPresenter >> connectPresenters [
 ]
 
 { #category : 'initialization' }
+SpkConnectionsPresenter >> initialize [
+
+	super initialize.
+	SparkleConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileAddedAnnouncement
+		send: #profileAdded:
+		to: self.
+	SparkleConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileRemovedAnnouncement
+		send: #profileRemoved:
+		to: self.
+	SparkleConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileChangedAnnouncement
+		send: #profileChanged:
+		to: self
+]
+
+{ #category : 'initialization' }
 SpkConnectionsPresenter >> initializeAddConnectionPresenter [
 
 	addConnectionBox add: (addConnectionPresenter := self instantiate: SpkAddConnectionPresenter) withConstraints: [ :constraints | constraints width: 200 ]
@@ -49,7 +56,7 @@ SpkConnectionsPresenter >> initializeConnectionList [
 	connectionsBox add: (SpkBoxLayout newVertical
 			 add: (self newLabel label: 'Connection Profiles')
 			 withConstraints: [ :constraints | constraints height: 20 ];
-			 add: (connectionList := self newTable 
+			 add: (connectionList := self newTable
 					                    sortingBlock: [ :a :b | a name < b name ];
 					                    addColumn:
 						                    (SpStringTableColumn
@@ -70,6 +77,7 @@ SpkConnectionsPresenter >> initializeConnectionList [
 					                    items: OrderedCollection new;
 					                    yourself);
 			 yourself).
+	connectionList items: SparkleConnectionProfile profiles.
 	^ connectionList
 ]
 
@@ -84,21 +92,8 @@ SpkConnectionsPresenter >> initializePresenters [
 	bigBox
 		add: connectionsBox withConstraints: [:constraints | constraints width: 350];
 		add: addConnectionBox.
-	"self initializeToolbar."
 	self initializeConnectionList.
 	self initializeAddConnectionPresenter. 
-]
-
-{ #category : 'initialization' }
-SpkConnectionsPresenter >> initializeToolbar [
-
-	"Not really a toolbar yet"
-
-	toolbar := SpkBoxLayout newHorizontal.
-	self initializeNewButton.
-	connectionsBox
-		add: toolbar
-		withConstraints: [ :constraints | constraints height: 50 ]
 ]
 
 { #category : 'initialization' }
@@ -115,4 +110,18 @@ SpkConnectionsPresenter >> initializeWindow: aWindowPresenter [
 SpkConnectionsPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'events' }
+SpkConnectionsPresenter >> profileAdded: announcement [
+
+	connectionList items:
+		connectionList items , (Array with: announcement profile)
+]
+
+{ #category : 'events' }
+SpkConnectionsPresenter >> profileRemoved: announcement [
+
+	connectionList items:
+		(connectionList items copyWithout: announcement profile)
 ]

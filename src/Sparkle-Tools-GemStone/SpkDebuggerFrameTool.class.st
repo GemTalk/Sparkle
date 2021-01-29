@@ -8,6 +8,7 @@ Class {
 	#name : 'SpkDebuggerFrameTool',
 	#superclass : 'SpkTool',
 	#instVars : [
+		'explorerTool',
 		'process',
 		'level',
 		'frameContents',
@@ -48,6 +49,16 @@ SpkDebuggerFrameTool >> currentSourceInterval [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> description [
 	^ description ifNil: [ self initializeDescription ]
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> explorerTool [
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> explorerTool: object [
+	explorerTool := object
 ]
 
 { #category : 'private' }
@@ -134,6 +145,17 @@ SpkDebuggerFrameTool >> lastKeywordCharacterIn: source startingAt: startPos [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> level: anInteger [
 	level := anInteger
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> localVariables [
+	"Answer an array of InspectorFieldTools, one for each local variable.
+	Local variables for a method include the receiver (self), the contents of the evaluation stack, 
+	formal parameters, and declared temporary variables.
+	Local variables for a block differ in that the receiver is the ExecBlock, not self, and include
+	any outer scope variables actually referenced by the block. 
+	Variables from an outer scope variables that are not referenced by the source code are not
+	necessarily visible in a block frame."
 ]
 
 { #category : 'private' }

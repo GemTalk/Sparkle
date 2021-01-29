@@ -29,6 +29,7 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 		debuggerThread := 
 			[ | debuggerTool |
 			debuggerTool := SpkDebuggerTool new 
+				explorerTool: explorerTool;
 				process: processToDebug;
 				exception: ex;
 				debugActionForContinue: debugAction.

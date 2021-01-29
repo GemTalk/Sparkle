@@ -17,28 +17,13 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkInspectorFieldTool',
-	#superclass : 'SpkTool',
+	#superclass : 'SpkInspectionTool',
 	#instVars : [
-		'explorerTool',
-		'value',
 		'name',
-		'index',
-		'selfDescription'
+		'index'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> explorerTool [
-
-	^ explorerTool
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> explorerTool: anObject [
-
-	explorerTool := anObject
-]
 
 { #category : 'accessing' }
 SpkInspectorFieldTool >> index [
@@ -62,28 +47,4 @@ SpkInspectorFieldTool >> name [
 SpkInspectorFieldTool >> name: anObject [
 
 	name := anObject
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> selfDescription [
-
-	^ selfDescription
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> selfDescription: anObject [
-
-	selfDescription := anObject
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> value [
-
-	^ value
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> value: anObject [
-
-	value := anObject
 ]

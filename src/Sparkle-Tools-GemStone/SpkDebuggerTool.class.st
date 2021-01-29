@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkDebuggerTool',
 	#superclass : 'SpkTool',
 	#instVars : [
+		'explorerTool',
 		'process',
 		'exception',
 		'frames',
@@ -48,6 +49,16 @@ SpkDebuggerTool >> exceptionSpecificMessage [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> explorerTool [
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> explorerTool: object [
+	explorerTool := object
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> frameAt: anInteger [
 	^ self frames at: anInteger
 ]
@@ -67,6 +78,7 @@ SpkDebuggerTool >> initializeFramesFromProcess [
 		index := stackDepth - level + 1.
 		frame := SpkDebuggerFrameTool new.
 		frame
+			explorerTool: explorerTool;
 			process: process;
 			level: level;
 			index: index.

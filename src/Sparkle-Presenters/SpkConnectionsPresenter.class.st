@@ -70,6 +70,10 @@ SpkConnectionsPresenter >> initializeConnectionList [
 						                    (SpStringTableColumn
 							                     title: 'Port'
 							                     evaluated: #port);
+											addColumn:
+						                    (SpStringTableColumn
+							                     title: 'Group'
+							                     evaluated: #group);
 					                    addColumn:
 						                    (SpStringTableColumn
 							                     title: 'In Memory'
@@ -90,7 +94,7 @@ SpkConnectionsPresenter >> initializePresenters [
 	connectionsBox := SpkBoxLayout newVertical.
 	addConnectionBox := SpkBoxLayout newVertical.
 	bigBox
-		add: connectionsBox withConstraints: [:constraints | constraints width: 350];
+		add: connectionsBox withConstraints: [:constraints | constraints width: 500];
 		add: addConnectionBox.
 	self initializeConnectionList.
 	self initializeAddConnectionPresenter. 
@@ -103,7 +107,7 @@ SpkConnectionsPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Connections Launcher';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 600 @ 300
+		initialExtent: 750 @ 300
 ]
 
 { #category : 'accessing' }
@@ -117,8 +121,10 @@ SpkConnectionsPresenter >> profileAdded: announcement [
 
 	"for now, assume only one profile can be added at a time"
 
-	connectionList items:
-		connectionList items , (Array with: announcement profiles first)
+	| profile |
+	profile := announcement profiles first.
+	connectionList items: connectionList items , (Array with: profile).
+	connectionList selectItem: profile
 ]
 
 { #category : 'events' }

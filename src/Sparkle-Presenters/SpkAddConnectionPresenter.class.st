@@ -9,6 +9,7 @@ Class {
 		'hostText',
 		'portText',
 		'nameText',
+		'groupText',
 		'addButton',
 		'connectionProfile',
 		'removeButton',
@@ -20,9 +21,10 @@ Class {
 
 { #category : 'actions' }
 SpkAddConnectionPresenter >> add [
-	self updateConnectionProfile. 
-	SparkleConnectionProfile addProfile: connectionProfile copy.
-	self initializeConnectionProfile 
+
+	self updateConnectionProfile.
+	(SparkleConnectionProfile addProfile: connectionProfile copy) 
+		ifTrue: [ self initializeConnectionProfile ]
 ]
 
 { #category : 'actions' }
@@ -86,6 +88,18 @@ SpkAddConnectionPresenter >> initializeConnectionProfile [
 ]
 
 { #category : 'initialization' }
+SpkAddConnectionPresenter >> initializeGroupPresenter [
+
+	self layout
+		add: (self newLabel label: 'Group: (Optional)')
+		withConstraints: [ :constraints | constraints height: 20 ].
+	groupText := self newTextInput.
+	self layout
+		add: groupText
+		withConstraints: [ :constraints | constraints height: 30 ]
+]
+
+{ #category : 'initialization' }
 SpkAddConnectionPresenter >> initializeHostPresenter [
 
 	self layout
@@ -142,6 +156,7 @@ SpkAddConnectionPresenter >> initializePresenters [
 	self initializeNamePresenter. 
 	self initializeHostPresenter.
 	self initializePortPresenter.
+	self initializeGroupPresenter.
 	self initializeInMemoryCheckbox.
 	self initializeButtons. 
 ]
@@ -185,11 +200,11 @@ SpkAddConnectionPresenter >> setConnectionProfile: aConnectionProfile [
 
 { #category : 'actions' }
 SpkAddConnectionPresenter >> updateConnectionProfile [
-
 	connectionProfile
 		name: nameText text;
 		host: hostText text;
 		port: portText text;
+		group: groupText text;
 		inMemory: inMemoryCheckbox state
 ]
 
@@ -199,5 +214,6 @@ SpkAddConnectionPresenter >> updateGUI [
 	nameText text: connectionProfile name.
 	hostText text: connectionProfile host.
 	portText text: connectionProfile port.
+	groupText text: connectionProfile group. 
 	inMemoryCheckbox state: connectionProfile inMemory
 ]

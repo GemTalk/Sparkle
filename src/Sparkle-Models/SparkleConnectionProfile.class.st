@@ -1,10 +1,11 @@
 "
 A SparkleConnectionProfile contains all the information necessary to establish an in-memory or exteral RSR connection. 
 
-	host:	name of remote server host
-	id:	 	connection ""number"" used by Sparkle to distinguish multiple connections to same server
 	name:	user-generated name 
+	host:	name of remote server host
 	port:	name of remote server port
+	group: optional field useful to categorize collections of profiles
+	inMemory: use an in memory connection. Ignores host and port. 
 
 	Profiles:  Collection of active profiles used by all Sparkle Launchers
 "
@@ -15,8 +16,8 @@ Class {
 		'name',
 		'host',
 		'port',
-		'id',
-		'inMemory'
+		'inMemory',
+		'group'
 	],
 	#classVars : [
 		'ProfileAnnouncer',
@@ -27,10 +28,20 @@ Class {
 
 { #category : 'accessing' }
 SparkleConnectionProfile class >> addProfile: connectionProfile [
+
+	(self connectionProfileExists: connectionProfile) ifTrue: [ 
+		self inform: 'Cannot add duplicate named profile'. ^false ].
 	self profiles add: connectionProfile.
 	ProfileAnnouncer announce:
 		(SpkConnectionProfileAddedAnnouncement new profiles:
-			 (Array with: connectionProfile))
+			 (Array with: connectionProfile)).
+	^true
+]
+
+{ #category : 'testing' }
+SparkleConnectionProfile class >> connectionProfileExists: connectionProfile [
+
+	^ self profiles includes: connectionProfile
 ]
 
 { #category : 'class initialization' }
@@ -69,6 +80,12 @@ SparkleConnectionProfile >> = connectionProfile [
 	^name = connectionProfile name
 ]
 
+{ #category : 'constants' }
+SparkleConnectionProfile >> defaultPort [
+
+	^ '29299'
+]
+
 { #category : 'displaying' }
 SparkleConnectionProfile >> displayStringOn: aStream [
 
@@ -77,7 +94,21 @@ SparkleConnectionProfile >> displayStringOn: aStream [
 		nextPutAll: ' - ';
 		nextPutAll: (host ifNil: [ '<no host>' ] ifNotNil: [ host ]);
 		nextPut: $:;
-		nextPutAll: (port ifNil: [ '<no port>' ] ifNotNil: [ port ])
+		nextPutAll: (port ifNil: [ '<no port>' ] ifNotNil: [ port ]);
+		nextPut: $:;
+		nextPutAll: (group ifNil: [ '<no group>' ] ifNotNil: [ group ])
+]
+
+{ #category : 'accessing' }
+SparkleConnectionProfile >> group [
+
+	^ group
+]
+
+{ #category : 'accessing' }
+SparkleConnectionProfile >> group: anObject [
+
+	group := anObject
 ]
 
 { #category : 'comparing' }
@@ -99,18 +130,6 @@ SparkleConnectionProfile >> host: anObject [
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> id [
-
-	^ id
-]
-
-{ #category : 'accessing' }
-SparkleConnectionProfile >> id: anObject [
-
-	id := anObject
-]
-
-{ #category : 'accessing' }
 SparkleConnectionProfile >> inMemory [
 
 	^ inMemory
@@ -126,9 +145,10 @@ SparkleConnectionProfile >> inMemory: anObject [
 SparkleConnectionProfile >> initialize [
 
 	super initialize.
-	name := String new. 
-	host := String new. 
-	port := String new. 
+	name := String new.
+	host := String new.
+	port := self defaultPort.
+	group := String new. 
 	inMemory := false
 ]
 

@@ -20,7 +20,6 @@ Class {
 	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
-		'inspectorTool',
 		'value',
 		'name',
 		'index',
@@ -51,18 +50,6 @@ SpkInspectorFieldTool >> index [
 SpkInspectorFieldTool >> index: anObject [
 
 	index := anObject
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> inspectorTool [
-
-	^ inspectorTool
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> inspectorTool: anObject [
-
-	inspectorTool := anObject
 ]
 
 { #category : 'accessing' }

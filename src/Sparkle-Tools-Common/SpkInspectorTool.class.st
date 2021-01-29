@@ -131,7 +131,6 @@ SpkInspectorTool >> initializeIndexedInstvars [
 		fieldTool
 			value: value;
 			explorerTool: explorerTool;
-			inspectorTool: self;
 			index: index;
 			name: index printString;
 			selfDescription: (self selfDescriptionOf: value).
@@ -153,7 +152,6 @@ SpkInspectorTool >> initializeNamedInstvars [
 		fieldTool
 			value: value;
 			explorerTool: explorerTool;
-			inspectorTool: self;
 			index: index;
 			name: (names at: index);
 			selfDescription: (self selfDescriptionOf: value).
@@ -170,14 +168,6 @@ SpkInspectorTool >> inspectedObject [
 SpkInspectorTool >> inspectedObject: anObject [
 
 	inspectedObject := anObject
-]
-
-{ #category : 'instance creation' }
-SpkInspectorTool >> newEvaluator [
-
-	^ SpkEvaluatorTool new
-		  inspectorTool: self;
-		  yourself
 ]
 
 { #category : 'accessing' }

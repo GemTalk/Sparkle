@@ -52,7 +52,13 @@ SpkDebuggerFrameTool >> description [
 
 { #category : 'private' }
 SpkDebuggerFrameTool >> frameContents [
-	^ frameContents ifNil: [ frameContents := process _frameContentsAt: level ]
+	^ frameContents
+		ifNil: [ 
+			(frameContents := process _frameContentsAt: level)
+				ifNil: [ 
+					self
+						error:
+							'Internal error -- nil frame contents for frame ' , level printString ] ]
 ]
 
 { #category : 'accessing' }

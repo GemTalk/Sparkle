@@ -10,17 +10,26 @@ Class {
 		'portText',
 		'nameText',
 		'addButton',
-		'editButton',
 		'connectionProfile',
-		'removeButton'
+		'removeButton',
+		'saveButton',
+		'cancelButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'actions' }
 SpkAddConnectionPresenter >> add [
+	self updateConnectionProfile. 
+	SparkleConnectionProfile addProfile: connectionProfile copy.
+	self initializeConnectionProfile 
+]
 
-	SparkleConnectionProfile addProfile: connectionProfile copy
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> cancel [
+
+	self updateGUI
+	
 ]
 
 { #category : 'accessing' }
@@ -33,13 +42,6 @@ SpkAddConnectionPresenter >> connectionProfile [
 SpkAddConnectionPresenter >> connectionProfile: anObject [
 
 	connectionProfile := anObject
-]
-
-{ #category : 'actions' }
-SpkAddConnectionPresenter >> edit [
-
-	self halt: 'fix me'.
-	
 ]
 
 { #category : 'initialization' }
@@ -55,18 +57,23 @@ SpkAddConnectionPresenter >> initializeButtons [
 	addButton := self newButton
 		             label: 'Add';
 		             action: [ self add ].
-	editButton := self newButton
-		              label: 'Edit';
-		              action: [ self edit ].
 	removeButton := self newButton
-		               label: 'Remove';
-		               action: [ self remove ].
+		                label: 'Remove';
+		                action: [ self remove ].
+	saveButton := self newButton
+		              label: 'Save';
+		              action: [ self save ].
+	cancelButton := self newButton
+		                label: 'Cancel';
+		                action: [ self cancel ].
 	self layout add: (SpkBoxLayout newHorizontal beHomogeneous
 			 add: addButton
 			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: editButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
 			 add: removeButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: saveButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: cancelButton
 			 withConstraints: [ :constraints | constraints height: 30 ])
 ]
 
@@ -95,6 +102,7 @@ SpkAddConnectionPresenter >> initializeInMemoryCheckbox [
 
 	inMemoryCheckbox := self newCheckBox
 		                    label: 'In Memory (will ignore host/port)';
+		                    whenChangedDo: [ self updateConnectionProfile ];
 		                    yourself.
 	inMemoryCheckbox help:
 		'Make a client-only connection. Ignores host/port'.
@@ -153,18 +161,19 @@ SpkAddConnectionPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'accessing' }
-SpkAddConnectionPresenter >> newTextInput [
-
-	^ super newTextInput
-		  whenTextChangedDo: [ self updateConnectionProfile ];
-		  autoAccept: true
-]
-
 { #category : 'actions' }
 SpkAddConnectionPresenter >> remove [
 
-	SparkleConnectionProfile removeProfile: connectionProfile
+	owner removeProfiles.
+	self initializeConnectionProfile
+]
+
+{ #category : 'actions' }
+SpkAddConnectionPresenter >> save [
+	self updateConnectionProfile. 
+	SparkleConnectionProfile profileChanged: connectionProfile 
+
+	
 ]
 
 { #category : 'actions' }

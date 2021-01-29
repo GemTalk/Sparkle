@@ -2,19 +2,19 @@ Class {
 	#name : 'SpkConnectionProfileAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
-		'profile'
+		'profiles'
 	],
 	#category : 'Sparkle-Presenters-Announcements'
 }
 
 { #category : 'accessing' }
-SpkConnectionProfileAnnouncement >> profile [
+SpkConnectionProfileAnnouncement >> profiles [
 
-	^ profile
+	^ profiles
 ]
 
 { #category : 'accessing' }
-SpkConnectionProfileAnnouncement >> profile: anObject [
+SpkConnectionProfileAnnouncement >> profiles: anObject [
 
-	profile := anObject
+	profiles := anObject
 ]

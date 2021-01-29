@@ -23,7 +23,7 @@ SpkConnectionsPresenter >> connectPresenters [
 				selection selectedItem
 					ifNil: [ addConnectionPresenter initializeConnectionProfile ]
 					ifNotNil: [ :connectionProfile | 
-						addConnectionPresenter setConnectionProfile: connectionProfile ] ] ]
+						addConnectionPresenter setConnectionProfile: connectionProfile copy ] ] ]
 ]
 
 { #category : 'initialization' }
@@ -115,13 +115,33 @@ SpkConnectionsPresenter >> newLayout [
 { #category : 'events' }
 SpkConnectionsPresenter >> profileAdded: announcement [
 
+	"for now, assume only one profile can be added at a time"
+
 	connectionList items:
-		connectionList items , (Array with: announcement profile)
+		connectionList items , (Array with: announcement profiles first)
+]
+
+{ #category : 'events' }
+SpkConnectionsPresenter >> profileChanged: announcement [
+
+	| profile |
+	profile := announcement profiles first.
+	connectionList selection selectedItem ifNotNil: [ :item | 
+		connectionList items: (connectionList items copyWithout: item).
+		connectionList items: connectionList items, (Array with: profile).
+		connectionList selectItem: profile ]
 ]
 
 { #category : 'events' }
 SpkConnectionsPresenter >> profileRemoved: announcement [
 
 	connectionList items:
-		(connectionList items copyWithout: announcement profile)
+		(connectionList items copyWithoutAll: announcement profiles)
+]
+
+{ #category : 'actions' }
+SpkConnectionsPresenter >> removeProfiles [
+
+	SparkleConnectionProfile removeProfiles:
+		connectionList selection selectedItems
 ]

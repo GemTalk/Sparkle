@@ -27,11 +27,10 @@ Class {
 
 { #category : 'accessing' }
 SparkleConnectionProfile class >> addProfile: connectionProfile [
-
 	self profiles add: connectionProfile.
 	ProfileAnnouncer announce:
-		(SpkConnectionProfileAddedAnnouncement new profile:
-			 connectionProfile)
+		(SpkConnectionProfileAddedAnnouncement new profiles:
+			 (Array with: connectionProfile))
 ]
 
 { #category : 'class initialization' }
@@ -41,17 +40,26 @@ SparkleConnectionProfile class >> profileAnnouncer [
 ]
 
 { #category : 'accessing' }
+SparkleConnectionProfile class >> profileChanged: connectionProfile [
+
+	ProfileAnnouncer announce:
+		(SpkConnectionProfileChangedAnnouncement new profiles:
+			 (Array with: connectionProfile))
+]
+
+{ #category : 'accessing' }
 SparkleConnectionProfile class >> profiles [
 
-	^ Profiles ifNil: [ Profiles := Set new ]
+	^ Profiles ifNil: [ Profiles := OrderedCollection new ]
 ]
 
 { #category : 'profiles' }
-SparkleConnectionProfile class >> removeProfile: aConnectionProfile [
+SparkleConnectionProfile class >> removeProfiles: connectionProfiles [
 
+	Profiles removeAll: connectionProfiles.
 	ProfileAnnouncer announce:
-		(SpkConnectionProfileRemovedAnnouncement new profile:
-			 aConnectionProfile)
+		(SpkConnectionProfileRemovedAnnouncement new profiles:
+			 connectionProfiles)
 ]
 
 { #category : 'comparing' }

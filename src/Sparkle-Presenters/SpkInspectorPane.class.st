@@ -149,7 +149,7 @@ SpkInspectorPane >> itemSelected: anAnnouncement [
 { #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
-	^ self panesLinkedToListItems , self panesLinkedToEvaluators
+	^ super linkedPanes , self panesLinkedToEvaluators
 ]
 
 { #category : 'accessing' }

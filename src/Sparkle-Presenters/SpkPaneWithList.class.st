@@ -82,6 +82,12 @@ SpkPaneWithList >> itemSelected: anAnnouncement [
 ]
 
 { #category : 'accessing' }
+SpkPaneWithList >> linkedPanes [
+
+	^ self panesLinkedToListItems
+]
+
+{ #category : 'accessing' }
 SpkPaneWithList >> list [
 
 	^ list

@@ -174,10 +174,18 @@ SpkBoxLayout >> initialize [
 { #category : 'removing' }
 SpkBoxLayout >> remove: aPresenter [
 
+	self
+		remove: aPresenter
+		ifAbsent: [ self error: 'Presenter not found' ]
+]
+
+{ #category : 'removing' }
+SpkBoxLayout >> remove: aPresenter ifAbsent: aBlock [
+
 	| index |
 	index := children
 		         identityIndexOfKey: aPresenter
-		         ifAbsent: [ self error: 'Presenter not found' ].
+		         ifAbsent: [ ^ aBlock value ].
 	self removePresenterAtIndex: index
 ]
 

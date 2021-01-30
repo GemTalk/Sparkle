@@ -109,12 +109,6 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerPane >> linkedPanes [
-
-	^ self panesLinkedToListItems
-]
-
-{ #category : 'accessing' }
 SpkDebuggerPane >> listItemModels [
 
 	^ model frames reverse

@@ -7,7 +7,8 @@ Class {
 		'bigBox',
 		'connectionsBox',
 		'addConnectionBox',
-		'addConnectionPresenter'
+		'addConnectionPresenter',
+		'filterInput'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -24,6 +25,23 @@ SpkConnectionsPresenter >> connectPresenters [
 					ifNil: [ addConnectionPresenter initializeConnectionProfile ]
 					ifNotNil: [ :connectionProfile | 
 						addConnectionPresenter setConnectionProfile: connectionProfile copy ] ] ]
+]
+
+{ #category : 'actions' }
+SpkConnectionsPresenter >> filterConnections [
+
+	filterInput text = $# asString ifTrue: [ 
+		^connectionList items:
+			(SparkleConnectionProfile profiles select: [ :profile | 
+				 profile group = String new ]) ].
+	connectionList items:
+		(SparkleConnectionProfile profiles select: [ :profile | 
+			 | ws |
+			 ws := (WriteStream on: String new)
+				       nextPutAll: filterInput text;
+				       nextPut: $*;
+				       yourself.
+			 ws contents match: profile group ])
 ]
 
 { #category : 'initialization' }
@@ -55,7 +73,7 @@ SpkConnectionsPresenter >> initializeConnectionList [
 
 	connectionsBox add: (SpkBoxLayout newVertical
 			 add: (self newLabel label: 'Connection Profiles')
-			 withConstraints: [ :constraints | constraints height: 20 ];
+			 withConstraints: [ :constraints | constraints height: 25 ];
 			 add: (connectionList := self newTable
 					                    sortingBlock: [ :a :b | a name < b name ];
 					                    addColumn:
@@ -86,6 +104,22 @@ SpkConnectionsPresenter >> initializeConnectionList [
 ]
 
 { #category : 'initialization' }
+SpkConnectionsPresenter >> initializeGroupFilter [
+
+	filterInput := self newTextInput
+		               whenTextChangedDo: [ self filterConnections ];
+		               autoAccept: true;
+		               placeholder: 'Enter # to show empty group names only';
+		               yourself.
+	connectionsBox
+		add: (self instantiate: (SpLabelledPresenter
+					  label: 'Group Filter:'
+					  input: filterInput
+					  description: String new))
+		withConstraints: [ :constraints | constraints height: 25 ]
+]
+
+{ #category : 'initialization' }
 SpkConnectionsPresenter >> initializePresenters [
 
 	super initializePresenters.
@@ -97,6 +131,7 @@ SpkConnectionsPresenter >> initializePresenters [
 		add: connectionsBox withConstraints: [:constraints | constraints width: 500];
 		add: addConnectionBox.
 	self initializeConnectionList.
+	self initializeGroupFilter. 
 	self initializeAddConnectionPresenter. 
 ]
 

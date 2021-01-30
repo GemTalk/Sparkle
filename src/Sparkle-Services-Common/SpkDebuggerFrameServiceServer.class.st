@@ -15,20 +15,30 @@ SpkDebuggerFrameServiceServer class >> forTool: aTool [
 		  yourself
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
 	self refreshFromTool
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> refreshFromTool [
-
 	| currentSourceInterval |
 	description := tool description.
 	source := tool source.
 	currentSourceInterval := tool currentSourceInterval.
 	currentStartPosition := currentSourceInterval first.
-	currentEndPosition := currentSourceInterval last
+	currentEndPosition := currentSourceInterval last.
+	self refreshLocalVariablesFromTool
+]
+
+{ #category : 'initialization' }
+SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
+	localVariables := tool localVariables
+		collect: [ :fieldTool | 
+			SpkInspectorFieldServiceServer new
+				parentService: self;
+				initializeFromTool: fieldTool;
+				yourself ]
 ]

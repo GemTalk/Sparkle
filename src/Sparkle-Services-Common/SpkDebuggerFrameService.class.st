@@ -6,9 +6,7 @@ Class {
 		'source',
 		'currentStartPosition',
 		'currentEndPosition',
-		'localVariables',
-		'outerScope',
-		'stackVariables'
+		'localVariables'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -61,24 +59,6 @@ SpkDebuggerFrameService >> localVariables [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerFrameService >> localVariables: anObject [
-
-	localVariables := anObject
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameService >> outerScope [
-
-	^ outerScope
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameService >> outerScope: anObject [
-
-	outerScope := anObject
-]
-
-{ #category : 'accessing' }
 SpkDebuggerFrameService >> source [
 
 	^ source
@@ -88,16 +68,4 @@ SpkDebuggerFrameService >> source [
 SpkDebuggerFrameService >> source: anObject [
 
 	source := anObject
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameService >> stackVariables [
-
-	^ stackVariables
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameService >> stackVariables: anObject [
-
-	stackVariables := anObject
 ]

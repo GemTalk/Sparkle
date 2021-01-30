@@ -28,13 +28,12 @@ SpkInspectorServiceServer >> initializeEvaluatorsFromTool [
 
 { #category : 'initialization' }
 SpkInspectorServiceServer >> initializeFieldsFromTool [
-
-	fields := OrderedCollection new.
-	tool fieldTools do: [ :fieldTool | 
-		fields add: (SpkInspectorFieldServiceServer new
-				 parentService: self;
-				 initializeFromTool: fieldTool;
-				 yourself) ]
+	fields := tool fieldTools
+		collect: [ :fieldTool | 
+			SpkInspectorFieldServiceServer new
+				parentService: self;
+				initializeFromTool: fieldTool;
+				yourself ]
 ]
 
 { #category : 'initialization' }

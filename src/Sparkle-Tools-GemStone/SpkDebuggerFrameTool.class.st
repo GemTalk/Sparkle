@@ -18,6 +18,53 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
+{ #category : 'private' }
+SpkDebuggerFrameTool >> addArgAndTempToolsForIndex: anIndex to: aCollection [
+	| tool |
+	tool := SpkInspectorFieldTool new.
+	aCollection add: tool.
+	tool
+		index: aCollection size;
+		name: (self argAndTempNames at: anIndex);
+		inspectedObject: (self argAndTempValues at: anIndex)
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> addArgAndTempToolsTo: aCollection [
+	1 to: self firstEvaluationTempIndex - 1 do: [ :anIndex | self addArgAndTempToolsForIndex: anIndex to: aCollection ]
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> addEvaluationStackToolsTo: aCollection [
+	| names values |
+	names := self argAndTempNames.
+	values := self argAndTempValues.
+	names size = values size
+		ifFalse: [ self error: 'Name and value size mismatch' ].
+	self firstEvaluationTempIndex to: names size do: [ :anIndex | self addArgAndTempToolsForIndex: anIndex to: aCollection ]
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
+	| tool |
+	tool := SpkInspectorFieldTool new.
+	aCollection add: tool.
+	tool
+		index: aCollection size;
+		name: 'receiver';
+		inspectedObject: self frameReceiver
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> argAndTempNames [
+	^ self frameContents at: 9
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> argAndTempValues [
+	^ self frameContents copyFrom: 11 to: self frameContents size
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
 	| startPos startChar source |
@@ -62,6 +109,20 @@ SpkDebuggerFrameTool >> explorerTool: object [
 ]
 
 { #category : 'private' }
+SpkDebuggerFrameTool >> firstEvaluationTempIndex [
+	"Answer one greater than the number of normal args and temps.
+	If there are any evaluation stack temps, this will be the index of the first one."
+
+	| names |
+	names := self argAndTempNames.
+
+	1 to: names size do: [ :anIndex | 
+		(names at: anIndex) first = $.
+			ifTrue: [ ^ anIndex ] ].
+	^ names size + 1
+]
+
+{ #category : 'private' }
 SpkDebuggerFrameTool >> frameContents [
 	^ frameContents
 		ifNil: [ 
@@ -70,6 +131,11 @@ SpkDebuggerFrameTool >> frameContents [
 					self
 						error:
 							'Internal error -- nil frame contents for frame ' , level printString ] ]
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> frameReceiver [
+	^ self frameContents at: 10
 ]
 
 { #category : 'accessing' }
@@ -149,13 +215,22 @@ SpkDebuggerFrameTool >> level: anInteger [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> localVariables [
-	"Answer an array of InspectorFieldTools, one for each local variable.
+	"Answer an OrderedCollection of InspectorFieldTools, one for each local variable.
 	Local variables for a method include the receiver (self), the contents of the evaluation stack, 
 	formal parameters, and declared temporary variables.
 	Local variables for a block differ in that the receiver is the ExecBlock, not self, and include
 	any outer scope variables actually referenced by the block. 
 	Variables from an outer scope variables that are not referenced by the source code are not
 	necessarily visible in a block frame."
+
+	| tools |
+	tools := OrderedCollection new.
+	self
+		addReceiverToolTo: tools;
+		addEvaluationStackToolsTo: tools;
+		addArgAndTempToolsTo: tools.
+
+	^ tools
 ]
 
 { #category : 'private' }

@@ -26,5 +26,5 @@ SparkleConnectionsLauncher class >> menuCommandOn: aBuilder [
 
 { #category : 'running' }
 SparkleConnectionsLauncher >> start [
-	(self new: SpkConnectionsPresenter) openWithSpec
+	(self new: SpkConnectionListPresenter) openWithSpec
 ]

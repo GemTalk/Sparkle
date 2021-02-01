@@ -44,6 +44,12 @@ SparkleConnectionProfile class >> connectionProfileExists: connectionProfile [
 	^ self profiles includes: connectionProfile
 ]
 
+{ #category : 'accessing' }
+SparkleConnectionProfile class >> initializeProfiles [
+	"self initializeProfiles"
+	Profiles := OrderedCollection new
+]
+
 { #category : 'class initialization' }
 SparkleConnectionProfile class >> profileAnnouncer [
 
@@ -61,7 +67,7 @@ SparkleConnectionProfile class >> profileChanged: connectionProfile [
 { #category : 'accessing' }
 SparkleConnectionProfile class >> profiles [
 
-	^ Profiles ifNil: [ Profiles := OrderedCollection new ]
+	^ Profiles ifNil: [ self initializeProfiles ]
 ]
 
 { #category : 'profiles' }
@@ -78,25 +84,6 @@ SparkleConnectionProfile >> = connectionProfile [
 
 	(self isKindOf: self class) ifFalse:[^false]. 
 	^name = connectionProfile name
-]
-
-{ #category : 'constants' }
-SparkleConnectionProfile >> defaultPort [
-
-	^ '29299'
-]
-
-{ #category : 'displaying' }
-SparkleConnectionProfile >> displayStringOn: aStream [
-
-	aStream
-		nextPutAll: (name ifNil: [ '<no name>' ] ifNotNil: [ name ]);
-		nextPutAll: ' - ';
-		nextPutAll: (host ifNil: [ '<no host>' ] ifNotNil: [ host ]);
-		nextPut: $:;
-		nextPutAll: (port ifNil: [ '<no port>' ] ifNotNil: [ port ]);
-		nextPut: $:;
-		nextPutAll: (group ifNil: [ '<no group>' ] ifNotNil: [ group ])
 ]
 
 { #category : 'accessing' }
@@ -129,27 +116,12 @@ SparkleConnectionProfile >> host: anObject [
 	host := anObject
 ]
 
-{ #category : 'accessing' }
-SparkleConnectionProfile >> inMemory [
-
-	^ inMemory
-]
-
-{ #category : 'accessing' }
-SparkleConnectionProfile >> inMemory: anObject [
-
-	inMemory := anObject
-]
-
 { #category : 'initialization' }
 SparkleConnectionProfile >> initialize [
 
 	super initialize.
 	name := String new.
-	host := String new.
-	port := self defaultPort.
 	group := String new. 
-	inMemory := false
 ]
 
 { #category : 'accessing' }
@@ -162,16 +134,4 @@ SparkleConnectionProfile >> name [
 SparkleConnectionProfile >> name: anObject [
 
 	name := anObject
-]
-
-{ #category : 'accessing' }
-SparkleConnectionProfile >> port [
-
-	^ port
-]
-
-{ #category : 'accessing' }
-SparkleConnectionProfile >> port: anObject [
-
-	port := anObject
 ]

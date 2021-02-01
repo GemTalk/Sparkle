@@ -2,8 +2,8 @@
 Adds or Edits an existing connection and returns an instance of SparkleConnectionProfile
 "
 Class {
-	#name : 'SpkAddConnectionPresenter',
-	#superclass : 'SpkPresenter',
+	#name : 'SpkInsecureConnectionPresenter',
+	#superclass : 'SpkConnectionPresenter',
 	#instVars : [
 		'inMemoryCheckbox',
 		'hostText',
@@ -19,42 +19,48 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'accessing' }
+SpkInsecureConnectionPresenter class >> connectionProfileClass [
+
+	^ SparkleInsecureConnectionProfile
+]
+
 { #category : 'actions' }
-SpkAddConnectionPresenter >> add [
+SpkInsecureConnectionPresenter >> add [
 
 	self updateConnectionProfile.
-	(SparkleConnectionProfile addProfile: connectionProfile copy) 
+	(self class connectionProfileClass addProfile: connectionProfile copy) 
 		ifTrue: [ self initializeConnectionProfile ]
 ]
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> cancel [
+SpkInsecureConnectionPresenter >> cancel [
 
 	self updateGUI
 	
 ]
 
 { #category : 'accessing' }
-SpkAddConnectionPresenter >> connectionProfile [
+SpkInsecureConnectionPresenter >> connectionProfile [
 
 	^ connectionProfile
 ]
 
 { #category : 'accessing' }
-SpkAddConnectionPresenter >> connectionProfile: anObject [
+SpkInsecureConnectionPresenter >> connectionProfile: anObject [
 
 	connectionProfile := anObject
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initialize [
+SpkInsecureConnectionPresenter >> initialize [
 
 	super initialize. 
 	self initializeConnectionProfile
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeButtons [
+SpkInsecureConnectionPresenter >> initializeButtons [
 
 	addButton := self newButton
 		             label: 'Add';
@@ -80,15 +86,15 @@ SpkAddConnectionPresenter >> initializeButtons [
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeConnectionProfile [
+SpkInsecureConnectionPresenter >> initializeConnectionProfile [
 
-	connectionProfile := SparkleConnectionProfile new. 
+	connectionProfile := self class connectionProfileClass new. 
 	self updateGUI. 
 	
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeGroupPresenter [
+SpkInsecureConnectionPresenter >> initializeGroupPresenter [
 
 	self layout
 		add: (self newLabel label: 'Group: (Optional)')
@@ -100,7 +106,7 @@ SpkAddConnectionPresenter >> initializeGroupPresenter [
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeHostPresenter [
+SpkInsecureConnectionPresenter >> initializeHostPresenter [
 
 	self layout
 		add: (self newLabel label: 'Host:')
@@ -112,7 +118,7 @@ SpkAddConnectionPresenter >> initializeHostPresenter [
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeInMemoryCheckbox [
+SpkInsecureConnectionPresenter >> initializeInMemoryCheckbox [
 
 	inMemoryCheckbox := self newCheckBox
 		                    label: 'In Memory (will ignore host/port)';
@@ -126,7 +132,7 @@ SpkAddConnectionPresenter >> initializeInMemoryCheckbox [
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeNamePresenter [
+SpkInsecureConnectionPresenter >> initializeNamePresenter [
 
 	self layout
 		add: (self newLabel label: 'Name:')
@@ -138,7 +144,7 @@ SpkAddConnectionPresenter >> initializeNamePresenter [
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializePortPresenter [
+SpkInsecureConnectionPresenter >> initializePortPresenter [
 
 	self layout
 		add: (self newLabel label: 'Port:')
@@ -150,7 +156,7 @@ SpkAddConnectionPresenter >> initializePortPresenter [
 ]
 
 { #category : 'initialization' }
-SpkAddConnectionPresenter >> initializePresenters [
+SpkInsecureConnectionPresenter >> initializePresenters [
 
 	super initializePresenters.
 	self initializeNamePresenter. 
@@ -161,45 +167,36 @@ SpkAddConnectionPresenter >> initializePresenters [
 	self initializeButtons. 
 ]
 
-{ #category : 'initialization' }
-SpkAddConnectionPresenter >> initializeWindow: aWindowPresenter [
-
-	aWindowPresenter
-		title: 'Add Connection';
-		borderColor: Color purple;
-		borderWidth: 3
-]
-
 { #category : 'accessing' }
-SpkAddConnectionPresenter >> newLayout [
+SpkInsecureConnectionPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> remove [
+SpkInsecureConnectionPresenter >> remove [
 
 	owner removeProfiles.
 	self initializeConnectionProfile
 ]
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> save [
+SpkInsecureConnectionPresenter >> save [
 	self updateConnectionProfile. 
-	SparkleConnectionProfile profileChanged: connectionProfile 
+	self class connectionProfileClass profileChanged: connectionProfile 
 
 	
 ]
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> setConnectionProfile: aConnectionProfile [
+SpkInsecureConnectionPresenter >> setConnectionProfile: aConnectionProfile [
 
 	connectionProfile := aConnectionProfile. 
 	self updateGUI. 
 ]
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> updateConnectionProfile [
+SpkInsecureConnectionPresenter >> updateConnectionProfile [
 	connectionProfile
 		name: nameText text;
 		host: hostText text;
@@ -209,7 +206,7 @@ SpkAddConnectionPresenter >> updateConnectionProfile [
 ]
 
 { #category : 'actions' }
-SpkAddConnectionPresenter >> updateGUI [
+SpkInsecureConnectionPresenter >> updateGUI [
 
 	nameText text: connectionProfile name.
 	hostText text: connectionProfile host.

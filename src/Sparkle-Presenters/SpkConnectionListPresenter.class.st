@@ -1,20 +1,26 @@
 Class {
-	#name : 'SpkConnectionsPresenter',
+	#name : 'SpkConnectionListPresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'connectionList',
 		'toolbar',
 		'bigBox',
 		'connectionsBox',
-		'addConnectionBox',
 		'addConnectionPresenter',
-		'filterInput'
+		'filterInput',
+		'insecureConnectionBox'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'actions' }
+SpkConnectionListPresenter >> connect [
+
+	
+]
+
 { #category : 'initialization' }
-SpkConnectionsPresenter >> connectPresenters [
+SpkConnectionListPresenter >> connectPresenters [
 
 	super connectPresenters.
 	connectionList whenSelectionChangedDo: [ :selection | 
@@ -28,7 +34,13 @@ SpkConnectionsPresenter >> connectPresenters [
 ]
 
 { #category : 'actions' }
-SpkConnectionsPresenter >> filterConnections [
+SpkConnectionListPresenter >> disconnect [
+
+	
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> filterConnections [
 
 	filterInput text = $# asString ifTrue: [ 
 		^connectionList items:
@@ -45,7 +57,7 @@ SpkConnectionsPresenter >> filterConnections [
 ]
 
 { #category : 'initialization' }
-SpkConnectionsPresenter >> initialize [
+SpkConnectionListPresenter >> initialize [
 
 	super initialize.
 	SparkleConnectionProfile profileAnnouncer
@@ -63,15 +75,9 @@ SpkConnectionsPresenter >> initialize [
 ]
 
 { #category : 'initialization' }
-SpkConnectionsPresenter >> initializeAddConnectionPresenter [
+SpkConnectionListPresenter >> initializeConnectionList [
 
-	addConnectionBox add: (addConnectionPresenter := self instantiate: SpkAddConnectionPresenter) withConstraints: [ :constraints | constraints width: 200 ]
-]
-
-{ #category : 'initialization' }
-SpkConnectionsPresenter >> initializeConnectionList [
-
-	connectionsBox add: (SpkBoxLayout newVertical
+	connectionsBox add: (SpkBoxLayout newVertical 
 			 add: (self newLabel label: 'Connection Profiles')
 			 withConstraints: [ :constraints | constraints height: 25 ];
 			 add: (connectionList := self newTable
@@ -88,7 +94,7 @@ SpkConnectionsPresenter >> initializeConnectionList [
 						                    (SpStringTableColumn
 							                     title: 'Port'
 							                     evaluated: #port);
-											addColumn:
+					                    addColumn:
 						                    (SpStringTableColumn
 							                     title: 'Group'
 							                     evaluated: #group);
@@ -104,7 +110,7 @@ SpkConnectionsPresenter >> initializeConnectionList [
 ]
 
 { #category : 'initialization' }
-SpkConnectionsPresenter >> initializeGroupFilter [
+SpkConnectionListPresenter >> initializeGroupFilter [
 
 	filterInput := self newTextInput
 		               whenTextChangedDo: [ self filterConnections ];
@@ -120,23 +126,46 @@ SpkConnectionsPresenter >> initializeGroupFilter [
 ]
 
 { #category : 'initialization' }
-SpkConnectionsPresenter >> initializePresenters [
+SpkConnectionListPresenter >> initializeInsecureConnectionPresenter [
+
+	| connectButton disconnectButton |
+	insecureConnectionBox
+		add: (addConnectionPresenter := self instantiate:
+				                           SpkInsecureConnectionPresenter)
+		withConstraints: [ :constraints | constraints width: 200 ].
+
+
+	connectButton := self newButton
+		                 label: 'Connect';
+		                 action: [ self connect ].
+	disconnectButton := self newButton
+		                    label: 'Disconnect';
+		                    action: [ self disconnect ].
+	insecureConnectionBox add: (SpkBoxLayout newHorizontal beHomogeneous
+			 add: connectButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: disconnectButton
+			 withConstraints: [ :constraints | constraints height: 30 ])
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> initializePresenters [
 
 	super initializePresenters.
 	bigBox := SpkBoxLayout newHorizontal.
 	self layout add: bigBox.
 	connectionsBox := SpkBoxLayout newVertical.
-	addConnectionBox := SpkBoxLayout newVertical.
+	insecureConnectionBox := SpkBoxLayout newVertical beNotHomogeneous.
 	bigBox
 		add: connectionsBox withConstraints: [:constraints | constraints width: 500];
-		add: addConnectionBox.
+		add: insecureConnectionBox.
 	self initializeConnectionList.
 	self initializeGroupFilter. 
-	self initializeAddConnectionPresenter. 
+	self initializeInsecureConnectionPresenter. 
 ]
 
 { #category : 'initialization' }
-SpkConnectionsPresenter >> initializeWindow: aWindowPresenter [
+SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Connections Launcher';
@@ -146,13 +175,13 @@ SpkConnectionsPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'accessing' }
-SpkConnectionsPresenter >> newLayout [
+SpkConnectionListPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'events' }
-SpkConnectionsPresenter >> profileAdded: announcement [
+SpkConnectionListPresenter >> profileAdded: announcement [
 
 	"for now, assume only one profile can be added at a time"
 
@@ -163,7 +192,7 @@ SpkConnectionsPresenter >> profileAdded: announcement [
 ]
 
 { #category : 'events' }
-SpkConnectionsPresenter >> profileChanged: announcement [
+SpkConnectionListPresenter >> profileChanged: announcement [
 
 	| profile |
 	profile := announcement profiles first.
@@ -174,14 +203,14 @@ SpkConnectionsPresenter >> profileChanged: announcement [
 ]
 
 { #category : 'events' }
-SpkConnectionsPresenter >> profileRemoved: announcement [
+SpkConnectionListPresenter >> profileRemoved: announcement [
 
 	connectionList items:
 		(connectionList items copyWithoutAll: announcement profiles)
 ]
 
 { #category : 'actions' }
-SpkConnectionsPresenter >> removeProfiles [
+SpkConnectionListPresenter >> removeProfiles [
 
 	SparkleConnectionProfile removeProfiles:
 		connectionList selection selectedItems

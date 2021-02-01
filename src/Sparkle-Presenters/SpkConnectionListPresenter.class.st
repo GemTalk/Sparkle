@@ -6,9 +6,9 @@ Class {
 		'toolbar',
 		'bigBox',
 		'connectionsBox',
-		'addConnectionPresenter',
 		'filterInput',
-		'insecureConnectionBox'
+		'insecureConnectionBox',
+		'insecureConnectionPresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -25,12 +25,12 @@ SpkConnectionListPresenter >> connectPresenters [
 	super connectPresenters.
 	connectionList whenSelectionChangedDo: [ :selection | 
 		selection selectedItems size > 1
-			ifTrue: [ addConnectionPresenter initializeConnectionProfile ]
+			ifTrue: [ insecureConnectionPresenter initializeConnectionProfile ]
 			ifFalse: [ 
 				selection selectedItem
-					ifNil: [ addConnectionPresenter initializeConnectionProfile ]
+					ifNil: [ insecureConnectionPresenter initializeConnectionProfile ]
 					ifNotNil: [ :connectionProfile | 
-						addConnectionPresenter setConnectionProfile: connectionProfile copy ] ] ]
+						insecureConnectionPresenter setConnectionProfile: connectionProfile copy ] ] ]
 ]
 
 { #category : 'actions' }
@@ -130,7 +130,7 @@ SpkConnectionListPresenter >> initializeInsecureConnectionPresenter [
 
 	| connectButton disconnectButton |
 	insecureConnectionBox
-		add: (addConnectionPresenter := self instantiate:
+		add: (insecureConnectionPresenter := self instantiate:
 				                           SpkInsecureConnectionPresenter)
 		withConstraints: [ :constraints | constraints width: 200 ].
 
@@ -145,7 +145,7 @@ SpkConnectionListPresenter >> initializeInsecureConnectionPresenter [
 			 add: connectButton
 			 withConstraints: [ :constraints | constraints height: 30 ];
 			 add: disconnectButton
-			 withConstraints: [ :constraints | constraints height: 30 ])
+			 withConstraints: [ :constraints | constraints height: 30 ]) withConstraints: [ :constraints | constraints height: 40 ]
 ]
 
 { #category : 'initialization' }
@@ -155,13 +155,14 @@ SpkConnectionListPresenter >> initializePresenters [
 	bigBox := SpkBoxLayout newHorizontal.
 	self layout add: bigBox.
 	connectionsBox := SpkBoxLayout newVertical.
-	insecureConnectionBox := SpkBoxLayout newVertical beNotHomogeneous.
+	insecureConnectionBox := SpkBoxLayout newVertical.
 	bigBox
-		add: connectionsBox withConstraints: [:constraints | constraints width: 500];
+		add: connectionsBox
+		withConstraints: [ :constraints | constraints width: 500 ];
 		add: insecureConnectionBox.
 	self initializeConnectionList.
-	self initializeGroupFilter. 
-	self initializeInsecureConnectionPresenter. 
+	self initializeGroupFilter.
+	self initializeInsecureConnectionPresenter
 ]
 
 { #category : 'initialization' }
@@ -171,7 +172,9 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Connections Launcher';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 750 @ 300
+		initialExtent: 750 @ 300;
+		whenClosedDo: [ 
+			SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'accessing' }

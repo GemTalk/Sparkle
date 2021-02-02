@@ -3,12 +3,9 @@ RwSimpleProjectLoadComponentV2 {
 	#condition : 'gemstone',
 	#projectNames : [ ],
 	#componentNames : [
-		'gemstone/deprecated/Sparkle',
 		'gemstone/tests/Sparkle'
 	],
 	#packageNames : [
-		'Sparkle-Scaffolding-GemStone',
-		'Sparkle-Scaffolding-Rowan-GemStone',
 		'Sparkle-Tools-GemStone',
 		'Announcements-Core-GemStone',
 		'Announcements-Extensions-GemStone'
@@ -19,9 +16,6 @@ RwSimpleProjectLoadComponentV2 {
 				#packageNameToPlatformPropertiesMap : {
 					'Announcements-Extensions-GemStone' : {
 						'symbolDictName' : 'Globals'
-					},
-					'Sparkle-Scaffolding-Rowan-GemStone' : {
-						'symbolDictName' : 'RowanKernel'
 					}
 				}
 			}

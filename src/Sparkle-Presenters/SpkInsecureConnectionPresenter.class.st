@@ -11,7 +11,6 @@ Class {
 		'nameText',
 		'groupText',
 		'addButton',
-		'connectionProfile',
 		'removeButton',
 		'saveButton',
 		'cancelButton'
@@ -29,8 +28,7 @@ SpkInsecureConnectionPresenter class >> connectionProfileClass [
 SpkInsecureConnectionPresenter >> add [
 
 	self updateConnectionProfile.
-	(self class connectionProfileClass addProfile: connectionProfile copy) 
-		ifTrue: [ self initializeConnectionProfile ]
+	self class connectionProfileClass addProfile: connectionProfile copy
 ]
 
 { #category : 'actions' }
@@ -40,49 +38,11 @@ SpkInsecureConnectionPresenter >> cancel [
 	
 ]
 
-{ #category : 'accessing' }
-SpkInsecureConnectionPresenter >> connectionProfile [
-
-	^ connectionProfile
-]
-
-{ #category : 'accessing' }
-SpkInsecureConnectionPresenter >> connectionProfile: anObject [
-
-	connectionProfile := anObject
-]
-
 { #category : 'initialization' }
 SpkInsecureConnectionPresenter >> initialize [
 
 	super initialize. 
 	self initializeConnectionProfile
-]
-
-{ #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initializeButtons [
-
-	addButton := self newButton
-		             label: 'Add';
-		             action: [ self add ].
-	removeButton := self newButton
-		                label: 'Remove';
-		                action: [ self remove ].
-	saveButton := self newButton
-		              label: 'Save';
-		              action: [ self save ].
-	cancelButton := self newButton
-		                label: 'Cancel';
-		                action: [ self cancel ].
-	self layout add: (SpkBoxLayout newHorizontal beHomogeneous
-			 add: addButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: removeButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: saveButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: cancelButton
-			 withConstraints: [ :constraints | constraints height: 30 ])
 ]
 
 { #category : 'initialization' }
@@ -164,7 +124,6 @@ SpkInsecureConnectionPresenter >> initializePresenters [
 	self initializePortPresenter.
 	self initializeGroupPresenter.
 	self initializeInMemoryCheckbox.
-	self initializeButtons. 
 ]
 
 { #category : 'accessing' }
@@ -176,7 +135,6 @@ SpkInsecureConnectionPresenter >> newLayout [
 { #category : 'actions' }
 SpkInsecureConnectionPresenter >> remove [
 
-	owner removeProfiles.
 	self initializeConnectionProfile
 ]
 

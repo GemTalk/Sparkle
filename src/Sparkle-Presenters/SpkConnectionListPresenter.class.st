@@ -7,11 +7,30 @@ Class {
 		'bigBox',
 		'connectionsBox',
 		'filterInput',
-		'insecureConnectionBox',
-		'insecureConnectionPresenter'
+		'insecureConnectionPresenter',
+		'connectionsNotebook',
+		'addConnectionsBox',
+		'addButton',
+		'removeButton',
+		'saveButton',
+		'cancelButton',
+		'connectButton',
+		'disconnectButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> add [ 
+
+	insecureConnectionPresenter add
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> cancel [
+
+	insecureConnectionPresenter cancel
+]
 
 { #category : 'actions' }
 SpkConnectionListPresenter >> connect [
@@ -23,6 +42,8 @@ SpkConnectionListPresenter >> connect [
 SpkConnectionListPresenter >> connectPresenters [
 
 	super connectPresenters.
+	connectButton whenActivatedDo: [ self enableButtons ].
+	disconnectButton whenActivatedDo: [ self enableButtons ].
 	connectionList whenSelectionChangedDo: [ :selection | 
 		selection selectedItems size > 1
 			ifTrue: [ insecureConnectionPresenter initializeConnectionProfile ]
@@ -30,13 +51,26 @@ SpkConnectionListPresenter >> connectPresenters [
 				selection selectedItem
 					ifNil: [ insecureConnectionPresenter initializeConnectionProfile ]
 					ifNotNil: [ :connectionProfile | 
-						insecureConnectionPresenter setConnectionProfile: connectionProfile copy ] ] ]
+						insecureConnectionPresenter setConnectionProfile:
+							connectionProfile copy ] ] ]
 ]
 
 { #category : 'actions' }
 SpkConnectionListPresenter >> disconnect [
 
 	
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> enableButtons [
+
+	connectionList selection selectedItems size = 1
+		ifTrue: [ 
+			connectButton enabled: self selectedConnection isNil.
+			disconnectButton enabled: self selectedConnection isNil not ]
+		ifFalse: [ 
+			connectButton enabled: false.
+			disconnectButton enabled: false ]
 ]
 
 { #category : 'actions' }
@@ -72,6 +106,62 @@ SpkConnectionListPresenter >> initialize [
 		when: SpkConnectionProfileChangedAnnouncement
 		send: #profileChanged:
 		to: self
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> initializeAddConnectionPresenter [
+
+	addConnectionsBox := SpkBoxLayout newVertical.
+	connectionsNotebook := self newNotebook.
+	addConnectionsBox
+		add: connectionsNotebook
+		withConstraints: [ :constraints | constraints width: 225; height: 275 ].
+	connectionsNotebook addPage:
+		(SpNotebookPage title: 'Insecure' icon: nil provider: [ 
+			 insecureConnectionPresenter := self instantiate:
+				                                SpkInsecureConnectionPresenter ]).
+	bigBox add: addConnectionsBox
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> initializeButtons [
+
+	addButton := self newButton
+		             label: 'Add';
+		             action: [ self add ].
+	removeButton := self newButton
+		                label: 'Remove';
+		                action: [ self remove ].
+	saveButton := self newButton
+		              label: 'Save';
+		              action: [ self save ].
+	cancelButton := self newButton
+		                label: 'Cancel';
+		                action: [ self cancel ].
+	connectButton := self newButton
+		                 label: 'Connect';
+		                 action: [ self connect ].
+	disconnectButton := self newButton
+		                    label: 'Disconnect';
+		                    action: [ self disconnect ].
+	addConnectionsBox add: (SpkBoxLayout newHorizontal beHomogeneous
+			 add: addButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: removeButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: saveButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: cancelButton
+			 withConstraints: [ :constraints | constraints height: 30 ]).
+
+	addConnectionsBox
+		add: (SpkBoxLayout newHorizontal beHomogeneous
+				 add: connectButton
+				 withConstraints: [ :constraints | constraints height: 30 ];
+				 add: disconnectButton
+				 withConstraints: [ :constraints | constraints height: 30 ])
+		withConstraints: [ :constraints | constraints height: 40 ].
+	self enableButtons
 ]
 
 { #category : 'initialization' }
@@ -126,43 +216,20 @@ SpkConnectionListPresenter >> initializeGroupFilter [
 ]
 
 { #category : 'initialization' }
-SpkConnectionListPresenter >> initializeInsecureConnectionPresenter [
-
-	| connectButton disconnectButton |
-	insecureConnectionBox
-		add: (insecureConnectionPresenter := self instantiate:
-				                           SpkInsecureConnectionPresenter)
-		withConstraints: [ :constraints | constraints width: 200 ].
-
-
-	connectButton := self newButton
-		                 label: 'Connect';
-		                 action: [ self connect ].
-	disconnectButton := self newButton
-		                    label: 'Disconnect';
-		                    action: [ self disconnect ].
-	insecureConnectionBox add: (SpkBoxLayout newHorizontal beHomogeneous
-			 add: connectButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: disconnectButton
-			 withConstraints: [ :constraints | constraints height: 30 ]) withConstraints: [ :constraints | constraints height: 40 ]
-]
-
-{ #category : 'initialization' }
 SpkConnectionListPresenter >> initializePresenters [
 
 	super initializePresenters.
 	bigBox := SpkBoxLayout newHorizontal.
 	self layout add: bigBox.
 	connectionsBox := SpkBoxLayout newVertical.
-	insecureConnectionBox := SpkBoxLayout newVertical.
+	addConnectionsBox := SpkBoxLayout newVertical.
 	bigBox
 		add: connectionsBox
-		withConstraints: [ :constraints | constraints width: 500 ];
-		add: insecureConnectionBox.
+		withConstraints: [ :constraints | constraints width: 500 ].
 	self initializeConnectionList.
 	self initializeGroupFilter.
-	self initializeInsecureConnectionPresenter
+	self initializeAddConnectionPresenter.
+	self initializeButtons 
 ]
 
 { #category : 'initialization' }
@@ -172,7 +239,7 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Connections Launcher';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 750 @ 300;
+		initialExtent: 750 @ 400;
 		whenClosedDo: [ 
 			SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
 ]
@@ -213,8 +280,27 @@ SpkConnectionListPresenter >> profileRemoved: announcement [
 ]
 
 { #category : 'actions' }
+SpkConnectionListPresenter >> remove [
+
+	self removeProfiles. 
+	insecureConnectionPresenter remove
+]
+
+{ #category : 'actions' }
 SpkConnectionListPresenter >> removeProfiles [
 
 	SparkleConnectionProfile removeProfiles:
 		connectionList selection selectedItems
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> save [
+
+	insecureConnectionPresenter save
+]
+
+{ #category : 'accessing' }
+SpkConnectionListPresenter >> selectedConnection [
+
+	^ connectionList selection selectedItem connection
 ]

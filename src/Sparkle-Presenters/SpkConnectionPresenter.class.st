@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkConnectionPresenter',
 	#superclass : 'SpkPresenter',
+	#instVars : [
+		'connectionProfile'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -8,4 +11,16 @@ Class {
 SpkConnectionPresenter class >> connectionProfileClass [
 
 	^self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
+SpkConnectionPresenter >> connectionProfile [
+
+	^ connectionProfile
+]
+
+{ #category : 'accessing' }
+SpkConnectionPresenter >> connectionProfile: anObject [
+
+	connectionProfile := anObject
 ]

@@ -17,7 +17,8 @@ Class {
 		'host',
 		'port',
 		'inMemory',
-		'group'
+		'group',
+		'connection'
 	],
 	#classVars : [
 		'ProfileAnnouncer',
@@ -84,6 +85,18 @@ SparkleConnectionProfile >> = connectionProfile [
 
 	(self isKindOf: self class) ifFalse:[^false]. 
 	^name = connectionProfile name
+]
+
+{ #category : 'accessing' }
+SparkleConnectionProfile >> connection [
+
+	^ connection
+]
+
+{ #category : 'accessing' }
+SparkleConnectionProfile >> connection: anObject [
+
+	connection := anObject
 ]
 
 { #category : 'accessing' }

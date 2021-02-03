@@ -8,6 +8,20 @@ Class {
 }
 
 { #category : 'tests' }
+SpkDebuggerServiceTest >> testCurrentSourceIntervalForPrimitive [
+	| frames frameDesc frame |
+	self zork3.
+	frames := debuggerService frames.
+	frameDesc := frames first.
+	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
+	frame := frameDesc createFrameService.
+	self
+		assert: frame class equals: SpkDebuggerFrameServiceServer;
+		assert: frame currentStartPosition > 100;
+		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
+]
+
+{ #category : 'tests' }
 SpkDebuggerServiceTest >> testExceptionDescription [
 	"Can we make a tree of services out of a DebuggerTool?"
 

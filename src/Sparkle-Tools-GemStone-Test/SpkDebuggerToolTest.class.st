@@ -5,6 +5,23 @@ Class {
 }
 
 { #category : 'other' }
+SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
+	"Do we get a reasonable source code interval for a primitive method?"
+
+	| debugger frameTool interval|
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	interval := frameTool currentSourceInterval.
+	self 
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC';
+		assert: frameTool stepPoint equals: 1;
+		assert: interval class equals: Interval;
+		assert: interval begin > 100;
+		assert: interval size equals: 4
+]
+
+{ #category : 'other' }
 SpkDebuggerToolTest >> testFrameDescription [
 	"Is a frame's description reasonable?"
 
@@ -44,5 +61,5 @@ SpkDebuggerToolTest >> testNumberOfFrames [
 	evaluatorTool newSourceCode: '3 zork'.
 	debugger := evaluatorTool evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
-	self assert: debugger frames size equals: 17
+	self assert: debugger frames size > 6
 ]

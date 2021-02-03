@@ -575,6 +575,46 @@ removeallclassmethods SpkCompilationErrorTool
 
 doit
 (SpkTool
+	subclass: 'SpkDebuggerFrameTool'
+	instVarNames: #( explorerTool process level frameContents description index )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone';
+		comment: 'I represent and manipulate a single stack frame within a GsProcess (#process)
+#level is my position in the stack using the GsProcess numbering system, where level 1 is the top frame of the stack.
+#index is my position in the Sparkle numbering system, where index 1 is the *bottom* frame of the stack.
+The Sparkle numbering system allows my index to stay the same during stepping, when the number of frames above me may change, changing my #level.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerFrameTool
+removeallclassmethods SpkDebuggerFrameTool
+
+doit
+(SpkTool
+	subclass: 'SpkDebuggerTool'
+	instVarNames: #( explorerTool process exception frames debugActionForContinue )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerTool
+removeallclassmethods SpkDebuggerTool
+
+doit
+(SpkTool
 	subclass: 'SpkEvaluatorTool'
 	instVarNames: #( explorerTool inspectorTool oldSourceCode newSourceCode )
 	classVars: #(  )
@@ -611,8 +651,26 @@ removeallclassmethods SpkExplorerLayoutTool
 
 doit
 (SpkTool
+	subclass: 'SpkInspectionTool'
+	instVarNames: #( explorerTool inspectedObject )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectionTool
+removeallclassmethods SpkInspectionTool
+
+doit
+(SpkInspectionTool
 	subclass: 'SpkInspectorFieldTool'
-	instVarNames: #( explorerTool inspectorTool value name index selfDescription )
+	instVarNames: #( name index )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -643,47 +701,9 @@ removeallmethods SpkInspectorFieldTool
 removeallclassmethods SpkInspectorFieldTool
 
 doit
-(SpkInspectorFieldTool
-	subclass: 'SpkInspectorIndexedInstvarTool'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common';
-		comment: 'I provide tool-layer services for one indexed instvar of an inspected object.';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkInspectorIndexedInstvarTool
-removeallclassmethods SpkInspectorIndexedInstvarTool
-
-doit
-(SpkInspectorFieldTool
-	subclass: 'SpkInspectorNamedInstvarTool'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common';
-		comment: 'I provide tool-layer services for one named instvar of an inspected object.';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkInspectorNamedInstvarTool
-removeallclassmethods SpkInspectorNamedInstvarTool
-
-doit
-(SpkTool
+(SpkInspectionTool
 	subclass: 'SpkInspectorTool'
-	instVarNames: #( explorerTool inspectedObject fieldTools evaluatorTools )
+	instVarNames: #( fieldTools evaluatorTools )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -997,6 +1017,78 @@ removeallclassmethods SpkCompilationErrorServiceServer
 
 doit
 (RsrService
+	subclass: 'SpkDebuggerFrameService'
+	instVarNames: #( description source currentStartPosition currentEndPosition localVariables )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerFrameService
+removeallclassmethods SpkDebuggerFrameService
+
+doit
+(SpkDebuggerFrameService
+	subclass: 'SpkDebuggerFrameServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerFrameServiceServer
+removeallclassmethods SpkDebuggerFrameServiceServer
+
+doit
+(RsrService
+	subclass: 'SpkDebuggerService'
+	instVarNames: #( processName processIdentifier processPriority exceptionDescription frames )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerService
+removeallclassmethods SpkDebuggerService
+
+doit
+(SpkDebuggerService
+	subclass: 'SpkDebuggerServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerServiceServer
+removeallclassmethods SpkDebuggerServiceServer
+
+doit
+(RsrService
 	subclass: 'SpkExplorerLayoutService'
 	instVarNames: #( explorerService width height columnLayouts )
 	classVars: #(  )
@@ -1239,6 +1331,42 @@ true.
 
 removeallmethods SpkEvaluatorServiceServer
 removeallclassmethods SpkEvaluatorServiceServer
+
+doit
+(SpkLinkableSubService
+	subclass: 'SpkDebuggerFrameDescriptionService'
+	instVarNames: #( description index )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerFrameDescriptionService
+removeallclassmethods SpkDebuggerFrameDescriptionService
+
+doit
+(SpkDebuggerFrameDescriptionService
+	subclass: 'SpkDebuggerFrameDescriptionServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerFrameDescriptionServiceServer
+removeallclassmethods SpkDebuggerFrameDescriptionServiceServer
 
 doit
 (SpkLinkableSubService
@@ -1589,6 +1717,78 @@ removeallclassmethods AnnouncerTest
 
 doit
 (TestCase
+	subclass: 'SpkEvaluationTest'
+	instVarNames: #( inspectorTool evaluatorTool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkEvaluationTest
+removeallclassmethods SpkEvaluationTest
+
+doit
+(SpkEvaluationTest
+	subclass: 'SpkDebuggerServiceTest'
+	instVarNames: #( debuggerService )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerServiceTest
+removeallclassmethods SpkDebuggerServiceTest
+
+doit
+(SpkEvaluationTest
+	subclass: 'SpkDebuggerToolTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerToolTest
+removeallclassmethods SpkDebuggerToolTest
+
+doit
+(SpkEvaluationTest
+	subclass: 'SpkEvaluatorToolTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkEvaluatorToolTest
+removeallclassmethods SpkEvaluatorToolTest
+
+doit
+(TestCase
 	subclass: 'SpkInspectorToolTest'
 	instVarNames: #( tool )
 	classVars: #(  )
@@ -1604,6 +1804,25 @@ true.
 
 removeallmethods SpkInspectorToolTest
 removeallclassmethods SpkInspectorToolTest
+
+doit
+(TestCase
+	subclass: 'SpkServiceServerTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Tests to test server-side services (and sometimes their underlying tools) on the server, without needing an RSR connection';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkServiceServerTest
+removeallclassmethods SpkServiceServerTest
 
 doit
 (TestCase
@@ -2986,6 +3205,402 @@ sourceCode
 	^ sourceCode
 %
 
+! Class implementation for 'SpkDebuggerFrameTool'
+
+!		Instance methods for 'SpkDebuggerFrameTool'
+
+category: 'private'
+method: SpkDebuggerFrameTool
+addArgAndTempToolsForIndex: anIndex to: aCollection
+	| tool |
+	tool := SpkInspectorFieldTool new.
+	aCollection add: tool.
+	tool
+		index: aCollection size;
+		name: (self argAndTempNames at: anIndex);
+		inspectedObject: (self argAndTempValues at: anIndex)
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+addArgAndTempToolsTo: aCollection
+	1 to: self firstEvaluationTempIndex - 1 do: [ :anIndex | self addArgAndTempToolsForIndex: anIndex to: aCollection ]
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+addEvaluationStackToolsTo: aCollection
+	| names values |
+	names := self argAndTempNames.
+	values := self argAndTempValues.
+	names size = values size
+		ifFalse: [ self error: 'Name and value size mismatch' ].
+	self firstEvaluationTempIndex to: names size do: [ :anIndex | self addArgAndTempToolsForIndex: anIndex to: aCollection ]
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+addReceiverToolTo: aCollection
+	| tool |
+	tool := SpkInspectorFieldTool new.
+	aCollection add: tool.
+	tool
+		index: aCollection size;
+		name: 'receiver';
+		inspectedObject: self frameReceiver
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+argAndTempNames
+	^ self frameContents at: 9
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+argAndTempValues
+	^ self frameContents copyFrom: 11 to: self frameContents size
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+currentSourceInterval
+	| startPos startChar source |
+	source := self source.
+	startPos := self method _sourceOffsetsAt: self stepPoint.
+	startChar := self source at: startPos.	
+	"Space for implicit return at end of method."
+	startChar = $ 
+		ifTrue: [ ^ startPos to: startPos ].	
+	"Explicit return"
+	startChar = $^
+		ifTrue: [ ^ startPos to: startPos ].	
+	"Assignment, assume = follows :"
+	startChar = $:
+		ifTrue: [ ^ startPos to: startPos + 1 ].	
+	"Binary selector"
+	(self isBinaryCharacter: startChar)
+		ifTrue: [ ^ startPos to: (self lastBinaryCharacterIn: source startingAt: startPos) ].
+	"Unary or keyword selector"
+	(self isKeywordStartCharacter: startChar)
+		ifTrue: [ ^ startPos to: (self lastKeywordCharacterIn: source startingAt: startPos) ].
+	"Primitive number"
+	(self isDecimalDigitCharacter: startChar)
+		ifTrue: [ ^ startPos to: (self lastDecimalDigitCharacterIn: source startingAt: startPos) ].
+	"Should not get here, but just in case we've missed a possibility..."
+	^ startPos to: startPos
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+description
+	^ description ifNil: [ self initializeDescription ]
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+explorerTool
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+explorerTool: object
+	explorerTool := object
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+firstEvaluationTempIndex
+	"Answer one greater than the number of normal args and temps.
+	If there are any evaluation stack temps, this will be the index of the first one."
+
+	| names |
+	names := self argAndTempNames.
+
+	1 to: names size do: [ :anIndex | 
+		(names at: anIndex) first = $.
+			ifTrue: [ ^ anIndex ] ].
+	^ names size + 1
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+frameContents
+	^ frameContents
+		ifNil: [ 
+			(frameContents := process _frameContentsAt: level)
+				ifNil: [ 
+					self
+						error:
+							'Internal error -- nil frame contents for frame ' , level printString ] ]
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+frameReceiver
+	^ self frameContents at: 10
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+index
+	^index
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+index: object
+	index := object
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+initializeDescription
+	| meth receiver |
+	meth := self method.
+	receiver := process _receiverInFrameContents: self frameContents.
+	description := meth _descrForStackPadTo: 0 rcvr: receiver.
+	^ description
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+isBinaryCharacter: aCharacter
+
+	^ '+-\*~<>=|/&@%,?!' includes: aCharacter
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+isDecimalDigitCharacter: aCharacter
+
+	^ '0123456789' includes: aCharacter
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+isKeywordCharacter: aCharacter
+	^ (aCharacter = $: or: [ self isKeywordStartCharacter: aCharacter ])
+		or: [ self isDecimalDigitCharacter: aCharacter ]
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+isKeywordStartCharacter: aCharacter
+
+	^ '_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' includes: aCharacter
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+lastBinaryCharacterIn: source startingAt: startPos
+	"If source at: startPos is not a binary character, startPos - 1 will be returned"
+
+	startPos to: source size do: [ :testPos | 
+		(self isBinaryCharacter: (source at: testPos))
+			ifFalse: [ ^ testPos - 1 ] ]
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+lastDecimalDigitCharacterIn: source startingAt: startPos
+	"If source at: startPos is not a numeric character, startPos - 1 will be returned"
+
+	startPos to: source size do: [ :testPos | 
+		(self isDecimalDigitCharacter: (source at: testPos))
+			ifFalse: [ ^ testPos - 1 ] ]
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+lastKeywordCharacterIn: source startingAt: startPos
+	"If source at: startPos is not a keyword character, startPos - 1 will be returned"
+
+	startPos to: source size do: [ :testPos | 
+		(self isKeywordCharacter: (source at: testPos))
+			ifFalse: [ ^ testPos - 1 ] ]
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+level: anInteger
+	level := anInteger
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+localVariables
+	"Answer an OrderedCollection of InspectorFieldTools, one for each local variable.
+	Local variables for a method include the receiver (self), the contents of the evaluation stack, 
+	formal parameters, and declared temporary variables.
+	Local variables for a block differ in that the receiver is the ExecBlock, not self, and include
+	any outer scope variables actually referenced by the block. 
+	Variables from an outer scope variables that are not referenced by the source code are not
+	necessarily visible in a block frame."
+
+	| tools |
+	tools := OrderedCollection new.
+	self
+		addReceiverToolTo: tools;
+		addEvaluationStackToolsTo: tools;
+		addArgAndTempToolsTo: tools.
+
+	^ tools
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+method
+	^ process _methodInFrameContents: self frameContents
+%
+
+category: 'printing'
+method: SpkDebuggerFrameTool
+printOn: aStream
+	level isNil | process isNil
+		ifTrue: [ ^ super printOn: aStream ].
+	aStream nextPutAll: self description
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+process: aProcess
+	process := aProcess
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+source
+	"Append a space that can be highlighted when at an implicit return self."
+
+	^ self method sourceString , ' '
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+stepPoint
+	| method |
+	method := self method.
+	^ method == method homeMethod
+		ifTrue: [ process _stepPointAt: level ]
+		ifFalse: [ method homeMethod _stepPointForMeth: method ip: (frameContents at: 2) ]
+%
+
+! Class implementation for 'SpkDebuggerTool'
+
+!		Instance methods for 'SpkDebuggerTool'
+
+category: 'accessing'
+method: SpkDebuggerTool
+debugActionForContinue: aBlock
+	"I must restore this block as the debugAction of the debugged process before I let it continue.
+	Typically this is the same block that caused me to be created."
+
+	debugActionForContinue := aBlock
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+exception: anException
+	"The exception that caused me to be invoked."
+
+	exception := anException
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+exceptionDescription
+	| string |
+	string := String new.
+	string
+		add: exception class name;
+		add: self exceptionSpecificMessage.
+	^ string
+%
+
+category: 'private'
+method: SpkDebuggerTool
+exceptionSpecificMessage
+	| fullMessage commaIndex latterPart |
+	fullMessage := exception buildMessageText.
+	fullMessage ifNil: [ ^ '' ].
+	commaIndex := fullMessage indexOf: $,.
+	latterPart := commaIndex = 0
+		ifTrue: [ fullMessage ]
+		ifFalse: [ fullMessage copyFrom: commaIndex + 1 to: fullMessage size ].
+	^ ' - ' , latterPart
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+explorerTool
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+explorerTool: object
+	explorerTool := object
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+frameAt: anInteger
+	^ self frames at: anInteger
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+frames
+	^ frames ifNil: [ self initializeFramesFromProcess ]
+%
+
+category: 'initialization'
+method: SpkDebuggerTool
+initializeFramesFromProcess
+	| stackDepth |
+	stackDepth := process stackDepth.
+	frames := Array new: process stackDepth.
+	1 to: stackDepth do: [ :level | 
+		| frame index |
+		index := stackDepth - level + 1.
+		frame := SpkDebuggerFrameTool new.
+		frame
+			explorerTool: explorerTool;
+			process: process;
+			level: level;
+			index: index.
+		frames at: index put: frame ].
+	^ frames
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+process: aProcess
+	"The GsProcess that I am to debug."
+
+	process := aProcess
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+processIdentifier
+	^ SpkReflection identifierOf: process
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+processName
+	^ process name
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+processPriority
+	^ process priority
+%
+
 ! Class implementation for 'SpkEvaluatorTool'
 
 !		Instance methods for 'SpkEvaluatorTool'
@@ -3011,12 +3626,11 @@ accept
 category: 'accessing'
 method: SpkEvaluatorTool
 evaluateCode
-
 	"Evaluate the newSource and answer an appropriate tool for 
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
-	| context method resultObject |
+	| context method |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
@@ -3024,12 +3638,7 @@ evaluateCode
 		do: [ :ex | ^ self toolForCompilationError: ex ].
 
 
-	[ resultObject := self evaluateMethod: method inContext: context ]
-		on: Error
-		do: [ :ex | ^ self toolForRuntimeError: ex ].
-	^ (SpkInspectorTool on: resultObject)
-		  explorerTool: explorerTool;
-		  yourself
+	^ self evaluateMethod: method inContext: context
 %
 
 category: 'accessing'
@@ -3087,13 +3696,6 @@ method: SpkEvaluatorTool
 toolForCompilationError: aCompilationException
 
 	^ SpkCompilationErrorTool forException: aCompilationException
-%
-
-category: 'tool creation'
-method: SpkEvaluatorTool
-toolForRuntimeError: anError
-
-	^ SpkRuntimeErrorTool forException: anError
 %
 
 ! Class implementation for 'SpkExplorerLayoutTool'
@@ -3183,23 +3785,59 @@ width: anObject
 	width := anObject
 %
 
+! Class implementation for 'SpkInspectionTool'
+
+!		Instance methods for 'SpkInspectionTool'
+
+category: 'accessing'
+method: SpkInspectionTool
+explorerTool
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkInspectionTool
+explorerTool: object
+	explorerTool := object
+%
+
+category: 'accessing'
+method: SpkInspectionTool
+inspectedObject
+	^inspectedObject
+%
+
+category: 'accessing'
+method: SpkInspectionTool
+inspectedObject: object
+	inspectedObject := object
+%
+
+category: 'other'
+method: SpkInspectionTool
+selfDescription
+
+        "Answer a string showing how the inspected object describes itself using printOn:.
+        Objects that do not understand #printOn: will answer the empty string.
+        Limit output size in case of very long or infinitely recursive implementation of #printOn:,
+        but set a high limit."
+
+        | stream |
+        stream := SpkLimitedWriteStream on: String new.
+        stream
+                limit: 250000;
+                limitBlock: [ ^ stream contents ].
+        SpkReflection
+                carefullySend: #printOn:
+                withArguments: { stream }
+                to: inspectedObject
+                ifNotUnderstood: [  ].
+        ^ stream contents
+%
+
 ! Class implementation for 'SpkInspectorFieldTool'
 
 !		Instance methods for 'SpkInspectorFieldTool'
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-explorerTool
-
-	^ explorerTool
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-explorerTool: anObject
-
-	explorerTool := anObject
-%
 
 category: 'accessing'
 method: SpkInspectorFieldTool
@@ -3217,20 +3855,6 @@ index: anObject
 
 category: 'accessing'
 method: SpkInspectorFieldTool
-inspectorTool
-
-	^ inspectorTool
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-inspectorTool: anObject
-
-	inspectorTool := anObject
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
 name
 
 	^ name
@@ -3241,34 +3865,6 @@ method: SpkInspectorFieldTool
 name: anObject
 
 	name := anObject
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-selfDescription
-
-	^ selfDescription
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-selfDescription: anObject
-
-	selfDescription := anObject
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-value
-
-	^ value
-%
-
-category: 'accessing'
-method: SpkInspectorFieldTool
-value: anObject
-
-	value := anObject
 %
 
 ! Class implementation for 'SpkInspectorTool'
@@ -3332,20 +3928,6 @@ evaluatorTools
 
 category: 'accessing'
 method: SpkInspectorTool
-explorerTool
-
-	^ explorerTool
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-explorerTool: anObject
-
-	explorerTool := anObject
-%
-
-category: 'accessing'
-method: SpkInspectorTool
 fieldTools
 
 	^ fieldTools ifNil: [ self initializeFieldTools ]
@@ -3383,69 +3965,37 @@ initializeForDefault
 category: 'private'
 method: SpkInspectorTool
 initializeIndexedInstvars
-
 	| size |
 	size := SpkReflection indexedSizeOf: inspectedObject.
 	1 to: size do: [ :index | 
 		| value fieldTool |
-		value := SpkReflection
-			         fetchIndexedInstvarAt: index
-			         from: inspectedObject.
-		fieldTool := SpkInspectorIndexedInstvarTool new.
+		value := SpkReflection fetchIndexedInstvarAt: index from: inspectedObject.
+		fieldTool := SpkInspectorFieldTool new.
 		fieldTool
-			value: value;
+			inspectedObject: value;
 			explorerTool: explorerTool;
-			inspectorTool: self;
 			index: index;
-			name: index printString;
-			selfDescription: (self selfDescriptionOf: value).
+			name: index printString.
+
 		fieldTools add: fieldTool ]
 %
 
 category: 'private'
 method: SpkInspectorTool
 initializeNamedInstvars
-
 	| class names |
 	class := self classOfInspectedObject.
 	names := class allInstVarNames.
 	1 to: names size do: [ :index | 
 		| value fieldTool |
-		value := SpkReflection
-			         fetchNamedInstvarAt: index
-			         from: inspectedObject.
-		fieldTool := SpkInspectorNamedInstvarTool new.
+		value := SpkReflection fetchNamedInstvarAt: index from: inspectedObject.
+		fieldTool := SpkInspectorFieldTool new.
 		fieldTool
-			value: value;
+			inspectedObject: value;
 			explorerTool: explorerTool;
-			inspectorTool: self;
 			index: index;
-			name: (names at: index);
-			selfDescription: (self selfDescriptionOf: value).
+			name: (names at: index).
 		fieldTools add: fieldTool ]
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-inspectedObject
-
-	^ inspectedObject
-%
-
-category: 'private'
-method: SpkInspectorTool
-inspectedObject: anObject
-
-	inspectedObject := anObject
-%
-
-category: 'instance creation'
-method: SpkInspectorTool
-newEvaluator
-
-	^ SpkEvaluatorTool new
-		  inspectorTool: self;
-		  yourself
 %
 
 category: 'accessing'
@@ -3455,35 +4005,6 @@ oop
 	"In Pharo, this is the identity hash, or 0 if #identityHash is not understood."
 
 	^ SpkReflection identifierOf: inspectedObject
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-selfDescription
-
-	^ self selfDescriptionOf: inspectedObject
-%
-
-category: 'private'
-method: SpkInspectorTool
-selfDescriptionOf: anObject
-
-        "Answer a string showing how the object describes itself using printOn:.
-        Objects that do not understand #printOn: will answer the empty string.
-        Limit output size in case of very long or infinitely recursive implementation of #printOn:,
-        but set a high limit."
-
-        | stream |
-        stream := SpkLimitedWriteStream on: String new.
-        stream
-                limit: 250000;
-                limitBlock: [ ^ stream contents ].
-        SpkReflection
-                carefullySend: #printOn:
-                withArguments: { stream }
-                to: anObject
-                ifNotUnderstood: [  ].
-        ^ stream contents
 %
 
 ! Class implementation for 'SpkPaneLayoutTool'
@@ -4151,6 +4672,217 @@ initializeFromTool: aTool
 	sourceCode := aTool sourceCode
 %
 
+! Class implementation for 'SpkDebuggerFrameService'
+
+!		Class methods for 'SpkDebuggerFrameService'
+
+category: 'other'
+classmethod: SpkDebuggerFrameService
+templateClassName
+	^ #'SpkDebuggerFrameService'
+%
+
+!		Instance methods for 'SpkDebuggerFrameService'
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+currentEndPosition
+
+	^ currentEndPosition
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+currentEndPosition: anObject
+
+	currentEndPosition := anObject
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+currentStartPosition
+
+	^ currentStartPosition
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+currentStartPosition: anObject
+
+	currentStartPosition := anObject
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+description
+
+	^ description
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+description: anObject
+
+	description := anObject
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+localVariables
+
+	^ localVariables
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+source
+
+	^ source
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameService
+source: anObject
+
+	source := anObject
+%
+
+! Class implementation for 'SpkDebuggerFrameServiceServer'
+
+!		Class methods for 'SpkDebuggerFrameServiceServer'
+
+category: 'other'
+classmethod: SpkDebuggerFrameServiceServer
+forTool: aTool
+
+	^ self new
+		  initializeFromTool: aTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkDebuggerFrameServiceServer'
+
+category: 'initialization'
+method: SpkDebuggerFrameServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkDebuggerFrameServiceServer
+refreshFromTool
+	| currentSourceInterval |
+	description := tool description.
+	source := tool source.
+	currentSourceInterval := tool currentSourceInterval.
+	currentStartPosition := currentSourceInterval first.
+	currentEndPosition := currentSourceInterval last.
+	self refreshLocalVariablesFromTool
+%
+
+category: 'initialization'
+method: SpkDebuggerFrameServiceServer
+refreshLocalVariablesFromTool
+	localVariables := tool localVariables
+		collect: [ :fieldTool | 
+			SpkInspectorFieldServiceServer new
+				parentService: self;
+				initializeFromTool: fieldTool;
+				yourself ]
+%
+
+! Class implementation for 'SpkDebuggerService'
+
+!		Class methods for 'SpkDebuggerService'
+
+category: 'other'
+classmethod: SpkDebuggerService
+templateClassName
+
+	^ #SpkDebuggerService
+%
+
+!		Instance methods for 'SpkDebuggerService'
+
+category: 'accessing'
+method: SpkDebuggerService
+exceptionDescription
+
+	^ exceptionDescription
+%
+
+category: 'accessing'
+method: SpkDebuggerService
+frames
+
+	^ frames
+%
+
+category: 'accessing'
+method: SpkDebuggerService
+processIdentifier
+	^ processIdentifier
+%
+
+category: 'accessing'
+method: SpkDebuggerService
+processName
+	^ processName
+%
+
+category: 'accessing'
+method: SpkDebuggerService
+processPriority
+	^ processPriority
+%
+
+! Class implementation for 'SpkDebuggerServiceServer'
+
+!		Class methods for 'SpkDebuggerServiceServer'
+
+category: 'other'
+classmethod: SpkDebuggerServiceServer
+forTool: aTool
+
+	^ self new
+		  initializeFromTool: aTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkDebuggerServiceServer'
+
+category: 'other'
+method: SpkDebuggerServiceServer
+initializeFramesFromTool
+
+	frames := tool frames collect: [ :frameTool | 
+		          (SpkDebuggerFrameDescriptionServiceServer forTool:
+				           frameTool)
+			          parentService: self;
+			          yourself ]
+%
+
+category: 'other'
+method: SpkDebuggerServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'other'
+method: SpkDebuggerServiceServer
+refreshFromTool
+
+	exceptionDescription := tool exceptionDescription.
+	processName := tool processName.
+	processIdentifier := tool processIdentifier.
+	processPriority := tool processPriority.
+	self initializeFramesFromTool
+%
+
 ! Class implementation for 'SpkExplorerLayoutService'
 
 !		Class methods for 'SpkExplorerLayoutService'
@@ -4371,6 +5103,7 @@ initializeServiceClassesForToolTypes
 	serviceClassesForToolTypes := IdentityDictionary new.
 	^ serviceClassesForToolTypes
 		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
+		  at: SpkDebuggerTool put: SpkDebuggerServiceServer;
 		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
 		  at: SpkInspectorTool put: SpkInspectorServiceServer;
 		  yourself
@@ -4531,13 +5264,12 @@ initializeEvaluatorsFromTool
 category: 'initialization'
 method: SpkInspectorServiceServer
 initializeFieldsFromTool
-
-	fields := OrderedCollection new.
-	tool fieldTools do: [ :fieldTool | 
-		fields add: (SpkInspectorFieldServiceServer new
-				 parentService: self;
-				 initializeFromTool: fieldTool;
-				 yourself) ]
+	fields := tool fieldTools
+		collect: [ :fieldTool | 
+			SpkInspectorFieldServiceServer new
+				parentService: self;
+				initializeFromTool: fieldTool;
+				yourself ]
 %
 
 category: 'initialization'
@@ -4732,6 +5464,82 @@ tool
 	^ tool ifNil: [ self initializeTool ]
 %
 
+! Class implementation for 'SpkDebuggerFrameDescriptionService'
+
+!		Class methods for 'SpkDebuggerFrameDescriptionService'
+
+category: 'other'
+classmethod: SpkDebuggerFrameDescriptionService
+templateClassName
+
+	^ #SpkDebuggerFrameDescriptionService
+%
+
+!		Instance methods for 'SpkDebuggerFrameDescriptionService'
+
+category: 'accessing'
+method: SpkDebuggerFrameDescriptionService
+description
+
+	^ description
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameDescriptionService
+description: anObject
+
+	description := anObject
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameDescriptionService
+index
+	^index
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameDescriptionService
+index: object
+	index := object
+%
+
+! Class implementation for 'SpkDebuggerFrameDescriptionServiceServer'
+
+!		Class methods for 'SpkDebuggerFrameDescriptionServiceServer'
+
+category: 'other'
+classmethod: SpkDebuggerFrameDescriptionServiceServer
+forTool: aTool
+
+	^ self new
+		  initializeFromTool: aTool;
+		  yourself
+%
+
+!		Instance methods for 'SpkDebuggerFrameDescriptionServiceServer'
+
+category: 'other'
+method: SpkDebuggerFrameDescriptionServiceServer
+createFrameService
+	^ SpkDebuggerFrameServiceServer forTool: tool
+%
+
+category: 'other'
+method: SpkDebuggerFrameDescriptionServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'other'
+method: SpkDebuggerFrameDescriptionServiceServer
+refreshFromTool
+
+	description := tool description.
+	index := tool index
+%
+
 ! Class implementation for 'SpkInspectorFieldService'
 
 !		Class methods for 'SpkInspectorFieldService'
@@ -4786,12 +5594,10 @@ name: anObject
 category: 'inspecting'
 method: SpkInspectorFieldServiceServer
 createInspectorService
-
-	| objectToInspect newTool |
-	objectToInspect := tool value.
-	newTool := (SpkInspectorTool on: objectToInspect)
-		           explorerTool: tool explorerTool;
-		           yourself.
+	| newTool |
+	newTool := (SpkInspectorTool on: tool inspectedObject)
+		explorerTool: tool explorerTool;
+		yourself.
 	^ SpkInspectorServiceServer forTool: newTool
 %
 
@@ -5762,6 +6568,232 @@ testUnsubscribeSet
 	self assert: announcement isNil
 %
 
+! Class implementation for 'SpkEvaluationTest'
+
+!		Instance methods for 'SpkEvaluationTest'
+
+category: 'other'
+method: SpkEvaluationTest
+setUp
+	super setUp.
+	inspectorTool := SpkInspectorTool on: nil.
+	evaluatorTool := SpkEvaluatorTool new
+		inspectorTool: inspectorTool;
+		yourself
+%
+
+! Class implementation for 'SpkDebuggerServiceTest'
+
+!		Instance methods for 'SpkDebuggerServiceTest'
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testCurrentSourceIntervalForPrimitive
+	| frames frameDesc frame |
+	self zork3.
+	frames := debuggerService frames.
+	frameDesc := frames first.
+	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
+	frame := frameDesc createFrameService.
+	self
+		assert: frame class equals: SpkDebuggerFrameServiceServer;
+		assert: frame currentStartPosition > 100;
+		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testExceptionDescription
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessFrameNumbering
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self assert: frames first index equals: 1
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessFrameQuantity
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self
+		assert: (frames isKindOf: SequenceableCollection);
+		assert: (frames size between: 10 and: 20)
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessIdentifier
+	| id |
+	self zork3.
+	id := debuggerService processIdentifier.
+	self
+		assert: id class equals: SmallInteger;
+		assert: (id bitAnd: 16rFF) equals: 1
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessName
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService processName equals: 'Evaluation'
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessPriority
+	| prio |
+	self zork3.
+	prio := debuggerService processPriority.
+	self
+		assert: prio class equals: SmallInteger;
+		assert: prio equals: 15
+%
+
+category: 'support'
+method: SpkDebuggerServiceTest
+zork3
+	| debuggerTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debuggerTool := evaluatorTool evaluateCode.
+	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+%
+
+! Class implementation for 'SpkDebuggerToolTest'
+
+!		Instance methods for 'SpkDebuggerToolTest'
+
+category: 'other'
+method: SpkDebuggerToolTest
+testCurrentSourceIntervalForPrimitive
+	"Do we get a reasonable source code interval for a primitive method?"
+
+	| debugger frameTool interval|
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	interval := frameTool currentSourceInterval.
+	self 
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC';
+		assert: frameTool stepPoint equals: 1;
+		assert: interval class equals: Interval;
+		assert: interval begin > 100;
+		assert: interval size equals: 4
+%
+
+category: 'other'
+method: SpkDebuggerToolTest
+testFrameDescription
+	"Is a frame's description reasonable?"
+
+	| debugger doitFrames |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+
+	doitFrames := debugger frames
+		select: [ :frame | 
+			self assert: frame class equals: SpkDebuggerFrameTool.
+			frame description = 'Executed Code ' ].
+	self
+		assert: doitFrames size equals: 1;
+		assert: doitFrames first index equals: 6
+%
+
+category: 'other'
+method: SpkDebuggerToolTest
+testFrameIndex
+	"Are frames indexed from the bottom of the stack?"
+
+	| debugger frameTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	self
+		assert: frameTool class equals: SpkDebuggerFrameTool;
+		assert: frameTool index equals: 1;
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
+%
+
+category: 'other'
+method: SpkDebuggerToolTest
+testNumberOfFrames
+	"Can the debugger get frames from the process?"
+
+	| debugger |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	self assert: debugger frames size > 6
+%
+
+! Class implementation for 'SpkEvaluatorToolTest'
+
+!		Instance methods for 'SpkEvaluatorToolTest'
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testEvaluationReferencingInstvar
+	| result |
+	inspectorTool inspectedObject: #'foo' -> 'bar'.
+	evaluatorTool newSourceCode: 'value , ''n'''.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 'barn'
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testEvaluationUsingSelf
+	| result |
+	inspectorTool inspectedObject: 7.
+	evaluatorTool newSourceCode: 'self - 4'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 3
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testRuntimeError
+	| result |
+	evaluatorTool newSourceCode: '3 zork'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkDebuggerTool
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testSimpleEvaluation
+	| result |
+	evaluatorTool newSourceCode: '3 + 4'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 7
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testSyntaxError
+	| result |
+	evaluatorTool newSourceCode: '(self class'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkCompilationErrorTool.
+	self assert: result errorLocation equals: 12.
+	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0
+%
+
 ! Class implementation for 'SpkInspectorToolTest'
 
 !		Instance methods for 'SpkInspectorToolTest'
@@ -5877,6 +6909,21 @@ testSelfDescription
 		assert: description size equals: 250000;
 		assert: (description beginsWith: 'done yet? done yet? ');
 		assert: (description endsWith: 'done yet? done yet? ')
+%
+
+! Class implementation for 'SpkServiceServerTest'
+
+!		Instance methods for 'SpkServiceServerTest'
+
+category: 'tests'
+method: SpkServiceServerTest
+testDefaultTaskspaceLayout
+	"Basically, can we create a default taskspace and all its server-side bitses"
+
+	| server layout |
+	server := SpkTaskspaceRegistryServiceServer new.
+	layout := server newDefaultTaskspaceLayout.
+	self assert: layout class equals: SpkTaskspaceLayoutServiceServer
 %
 
 ! Class implementation for 'SpkSmallStackTest'
@@ -6372,7 +7419,73 @@ compileNewSourceCodeInContext: anObject
 category: '*Sparkle-Tools-GemStone'
 method: SpkEvaluatorTool
 evaluateMethod: method inContext: context
-	^ method _executeInContext: context
+	| completion evaluatorDebugAction evaluationProcess resultTool debugAction |
+	completion := Semaphore new.
+	"Bugs in the debugger handled by evaluatorDebugAction."
+	evaluatorDebugAction := Processor activeProcess debugActionBlock.
+	debugAction := 
+		[ :ex | | debuggerProcess processToDebug originalPriority|
+		processToDebug := Processor activeProcess.
+		originalPriority := processToDebug priority.
+		debuggerProcess := 
+			[ | debuggerTool |
+			"Must suspend before initializing tool, or process state could change without the debugger realizing."
+			processToDebug suspend. 
+			debuggerTool := SpkDebuggerTool new 
+				explorerTool: explorerTool;
+				process: processToDebug;
+				exception: ex;
+				debugActionForContinue: debugAction.
+			processToDebug == evaluationProcess
+				ifTrue: [ resultTool := debuggerTool.
+							completion signal ]
+				ifFalse: [ self error: 'Not yet implemented'	"This error should be handled by RSR's debugAction block."	
+							"debuggerTool announceInTaskspace: NeedToGetATaskspaceInScope" ] ] newProcess.
+		self setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug.
+		debuggerProcess
+			debugActionBlock: evaluatorDebugAction;
+		"This resume preempts processToDebug, and the debuggerProcess takes over."
+			resume.
+		" If I get here, the debugger has decided to proceed processToDebug.
+		Its priority will have been changed if it was running at max priority, set it back before continuing."
+		processToDebug priority: originalPriority  ].
+	evaluationProcess := 
+		[ | resultObject |
+		resultObject := method _executeInContext: context.
+		resultTool := (SpkInspectorTool on: resultObject)
+			explorerTool: explorerTool;
+			yourself.
+		completion signal ] newProcess.
+	evaluationProcess
+		priority: self evaluationPriority;
+		name: 'Evaluation';
+		debugActionBlock: debugAction;
+		breakpointLevel: 1;
+		resume.
+	completion wait.
+	^ resultTool
+%
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkEvaluatorTool
+evaluationPriority
+	^ Processor userSchedulingPriority
+%
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkEvaluatorTool
+setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug
+	"In order to reliably suspend the debugged process, the debugger must run at a higher priority.
+	Normally, just run the debugger one higher, but if that's impossible lower the debugged process priority.
+	It will be restored upon continue (see #evaluateMethod:inContext:)."
+
+	| debuggedPriority |
+	debuggedPriority := processToDebug priority.
+	debuggedPriority = Processor highestPriority
+		ifFalse: [ debuggerProcess priority: debuggedPriority + 1 ]
+		ifTrue: [ 
+			debuggerProcess priority: debuggedPriority.
+			processToDebug priority: debuggedPriority - 1 ]
 %
 
 ! Class extensions for 'SpkObject'

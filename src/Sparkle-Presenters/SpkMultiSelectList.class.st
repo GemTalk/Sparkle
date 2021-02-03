@@ -79,6 +79,14 @@ SpkMultiSelectList >> items [
 	^ items
 ]
 
+{ #category : 'accessing' }
+SpkMultiSelectList >> linkedPanes [
+
+	^ items
+		  collect: [ :item | item linkedPane ]
+		  thenSelect: [ :pane | pane notNil ]
+]
+
 { #category : 'selection' }
 SpkMultiSelectList >> selectItem: anItem [
 

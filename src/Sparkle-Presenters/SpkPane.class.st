@@ -56,11 +56,26 @@ SpkPane >> disableAll [
 	self layout enabled: false
 ]
 
+{ #category : 'tests - header' }
+SpkPane >> headerClass [
+
+	self subclassResponsibility
+]
+
 { #category : 'initialization' }
 SpkPane >> initialize [
 
 	super initialize.
 	coordinate := SpkPaneCoordinate new
+]
+
+{ #category : 'initialization' }
+SpkPane >> initializeHeader [
+
+	header := self instantiate: self headerClass on: model.
+	self layout
+		add: header
+		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
 { #category : 'accessing' }
@@ -84,13 +99,48 @@ SpkPane >> linkedPanes [
 { #category : 'accessing' }
 SpkPane >> menuActions [
 
-	self subclassResponsibility
+	^ CmCommandGroup forSpec
+		  beRoot;
+		  yourself
+]
+
+{ #category : 'accessing' }
+SpkPane >> newLayout [
+
+	^ SpkAccordianLayout newVertical
+]
+
+{ #category : 'instance creation' }
+SpkPane >> newPaneForService: newService linkedTo: item [
+	"Item is an InspectorField or an evaluator"
+
+	self openLinkedPane: newService forItem: item.
+	"This announcement came from the server, so all of my widgets are disabled."
+	self reEnableAll
 ]
 
 { #category : 'accessing' }
 SpkPane >> nonChildSlotNames [
 
 	^ super nonChildSlotNames , #( #linkedFrom )
+]
+
+{ #category : 'actions' }
+SpkPane >> openLinkedPane: aPaneService forItem: item [
+
+	" Create and open a pane in the next column.
+	Generic part is here, see subclasses for detailed use."
+
+	| nextRightColumn newPane |
+	nextRightColumn := owner nextRightColumn.
+	"Ask the column, since it must own the new pane."
+	newPane := nextRightColumn presenterForService: aPaneService.
+	newPane coordinate: (item coordinateRelativeTo: coordinate).
+	"Add before close so that the column doesn't become empty and remove itself"
+	nextRightColumn add: newPane.
+	item
+		closeLinkedPane;
+		linkedPane: newPane
 ]
 
 { #category : 'actions' }
@@ -103,6 +153,15 @@ an item really should be enabled."
 
 	self enabled: true.
 	self layout enabled: true
+]
+
+{ #category : 'announcements' }
+SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
+
+	self defer: [ 
+		self
+			newPaneForService: anAnnouncement service
+			linkedTo: anAnnouncement requestId ]
 ]
 
 { #category : 'menu messages' }

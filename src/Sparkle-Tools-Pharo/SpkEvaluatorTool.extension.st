@@ -24,6 +24,23 @@ SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 { #category : '*Sparkle-Tools-Pharo' }
 SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 
+	"Answer a tool for the result of evaluation"
+
+	| resultObject |
+	[ 
+	resultObject := self innerEvaluateMethod: method inContext: context ]
+		on: Error
+		do: [ :ex | ^ self toolForRuntimeError: ex ].
+	^ (SpkInspectorTool on: resultObject)
+		  explorerTool: explorerTool;
+		  yourself
+]
+
+{ #category : '*Sparkle-Tools-Pharo' }
+SpkEvaluatorTool >> innerEvaluateMethod: method inContext: context [
+
+	
+
 	^ SpkReflection
 		  carefullySend: #withArgs:executeMethod:
 		  withArguments: { 
@@ -32,4 +49,10 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 		  to: context
 		  ifNotUnderstood: [ 
 		  'Evaluation message not understood by this object' ]
+]
+
+{ #category : '*Sparkle-Tools-Pharo' }
+SpkEvaluatorTool >> toolForRuntimeError: anError [
+
+	^ SpkRuntimeErrorTool forException: anError
 ]

@@ -19,7 +19,7 @@ When the field is clicked on, a linked inspector pane is opened in the next colu
 Whether or not linkedPane is nil controls how the link column of the table is displayed.
 "
 Class {
-	#name : 'SpkInspectorField',
+	#name : 'SpkMultiSelectListItem',
 	#superclass : 'Object',
 	#traits : 'SpkTLinkedPane',
 	#classTraits : 'SpkTLinkedPane classTrait',
@@ -32,7 +32,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkInspectorField class >> for: aModel [
+SpkMultiSelectListItem class >> for: aModel [
 
 	^ self new
 		  model: aModel;
@@ -40,7 +40,7 @@ SpkInspectorField class >> for: aModel [
 ]
 
 { #category : 'events' }
-SpkInspectorField >> closingLinkedPane: aPane [
+SpkMultiSelectListItem >> closingLinkedPane: aPane [
 
 	self linkedPane == aPane ifFalse: [ 
 		self error: 'Only my linked pane should notify me when closing.' ].
@@ -49,7 +49,7 @@ SpkInspectorField >> closingLinkedPane: aPane [
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> coordinateRelativeTo: parentCoordinate [
+SpkMultiSelectListItem >> coordinateRelativeTo: parentCoordinate [
 
 	"Linked inspectors for fields get a 0 element in their coordinate. 
 	Ones for evaluators get the evaluator's index."
@@ -58,37 +58,37 @@ SpkInspectorField >> coordinateRelativeTo: parentCoordinate [
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> description [
+SpkMultiSelectListItem >> description [
 	^ model description
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> index [
+SpkMultiSelectListItem >> index [
 	^ index
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> index: anObject [
+SpkMultiSelectListItem >> index: anObject [
 	index := anObject
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> list: anObject [
+SpkMultiSelectListItem >> list: anObject [
 
 	list := anObject
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> model [
+SpkMultiSelectListItem >> model [
 	^ model
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> model: anObject [
+SpkMultiSelectListItem >> model: anObject [
 	model := anObject
 ]
 
 { #category : 'accessing' }
-SpkInspectorField >> name [
+SpkMultiSelectListItem >> name [
 	^ model name
 ]

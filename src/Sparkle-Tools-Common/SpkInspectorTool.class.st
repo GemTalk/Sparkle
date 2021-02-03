@@ -15,10 +15,8 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkInspectorTool',
-	#superclass : 'SpkTool',
+	#superclass : 'SpkInspectionTool',
 	#instVars : [
-		'explorerTool',
-		'inspectedObject',
 		'fieldTools',
 		'evaluatorTools'
 	],
@@ -74,18 +72,6 @@ SpkInspectorTool >> evaluatorTools [
 ]
 
 { #category : 'accessing' }
-SpkInspectorTool >> explorerTool [
-
-	^ explorerTool
-]
-
-{ #category : 'accessing' }
-SpkInspectorTool >> explorerTool: anObject [
-
-	explorerTool := anObject
-]
-
-{ #category : 'accessing' }
 SpkInspectorTool >> fieldTools [
 
 	^ fieldTools ifNil: [ self initializeFieldTools ]
@@ -119,65 +105,36 @@ SpkInspectorTool >> initializeForDefault [
 
 { #category : 'private' }
 SpkInspectorTool >> initializeIndexedInstvars [
-
 	| size |
 	size := SpkReflection indexedSizeOf: inspectedObject.
 	1 to: size do: [ :index | 
 		| value fieldTool |
-		value := SpkReflection
-			         fetchIndexedInstvarAt: index
-			         from: inspectedObject.
-		fieldTool := SpkInspectorIndexedInstvarTool new.
+		value := SpkReflection fetchIndexedInstvarAt: index from: inspectedObject.
+		fieldTool := SpkInspectorFieldTool new.
 		fieldTool
-			value: value;
+			inspectedObject: value;
 			explorerTool: explorerTool;
-			inspectorTool: self;
 			index: index;
-			name: index printString;
-			selfDescription: (self selfDescriptionOf: value).
+			name: index printString.
+
 		fieldTools add: fieldTool ]
 ]
 
 { #category : 'private' }
 SpkInspectorTool >> initializeNamedInstvars [
-
 	| class names |
 	class := self classOfInspectedObject.
 	names := class allInstVarNames.
 	1 to: names size do: [ :index | 
 		| value fieldTool |
-		value := SpkReflection
-			         fetchNamedInstvarAt: index
-			         from: inspectedObject.
-		fieldTool := SpkInspectorNamedInstvarTool new.
+		value := SpkReflection fetchNamedInstvarAt: index from: inspectedObject.
+		fieldTool := SpkInspectorFieldTool new.
 		fieldTool
-			value: value;
+			inspectedObject: value;
 			explorerTool: explorerTool;
-			inspectorTool: self;
 			index: index;
-			name: (names at: index);
-			selfDescription: (self selfDescriptionOf: value).
+			name: (names at: index).
 		fieldTools add: fieldTool ]
-]
-
-{ #category : 'accessing' }
-SpkInspectorTool >> inspectedObject [
-
-	^ inspectedObject
-]
-
-{ #category : 'private' }
-SpkInspectorTool >> inspectedObject: anObject [
-
-	inspectedObject := anObject
-]
-
-{ #category : 'instance creation' }
-SpkInspectorTool >> newEvaluator [
-
-	^ SpkEvaluatorTool new
-		  inspectorTool: self;
-		  yourself
 ]
 
 { #category : 'accessing' }
@@ -186,31 +143,4 @@ SpkInspectorTool >> oop [
 	"In Pharo, this is the identity hash, or 0 if #identityHash is not understood."
 
 	^ SpkReflection identifierOf: inspectedObject
-]
-
-{ #category : 'accessing' }
-SpkInspectorTool >> selfDescription [
-
-	^ self selfDescriptionOf: inspectedObject
-]
-
-{ #category : 'private' }
-SpkInspectorTool >> selfDescriptionOf: anObject [
-
-        "Answer a string showing how the object describes itself using printOn:.
-        Objects that do not understand #printOn: will answer the empty string.
-        Limit output size in case of very long or infinitely recursive implementation of #printOn:,
-        but set a high limit."
-
-        | stream |
-        stream := SpkLimitedWriteStream on: String new.
-        stream
-                limit: 250000;
-                limitBlock: [ ^ stream contents ].
-        SpkReflection
-                carefullySend: #printOn:
-                withArguments: { stream }
-                to: anObject
-                ifNotUnderstood: [  ].
-        ^ stream contents
 ]

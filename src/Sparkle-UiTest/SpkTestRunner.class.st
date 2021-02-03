@@ -1,3 +1,9 @@
+"
+Differs from the standard test runner in that it does not run tests in the UI process, but runs the entire selected suite in a new process.
+This makes it suitable for running UI tests that involve multiple processes, where the test must trigger UI actions from a non-UI process.
+Most non-UI tests don't care what process they run in, so this runner is also suitable for running most other tests. Therefore, it installs itself as the standard test runner upon load.
+
+"
 Class {
 	#name : 'SpkTestRunner',
 	#superclass : 'TestRunner',
@@ -41,6 +47,12 @@ SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 
 	[ aBlock cull: aTestSuite cull: result ] ensure: [ 
 		aTestSuite unsubscribe: TestAnnouncement ]
+]
+
+{ #category : 'api' }
+SpkTestRunner >> initialExtent [
+
+	^ 900 @ 500
 ]
 
 { #category : 'accessing-ui' }

@@ -1,6 +1,10 @@
 Class {
 	#name : 'SparkleInsecureConnectionProfile',
 	#superclass : 'SparkleConnectionProfile',
+	#instVars : [
+		'port',
+		'inMemory'
+	],
 	#category : 'Sparkle-Models'
 }
 
@@ -41,11 +45,14 @@ SparkleInsecureConnectionProfile >> inMemory: anObject [
 SparkleInsecureConnectionProfile >> initialize [
 
 	super initialize.
-	name := String new.
-	host := String new.
 	port := self defaultPort.
-	group := String new. 
 	inMemory := false
+]
+
+{ #category : 'testing' }
+SparkleInsecureConnectionProfile >> isInsecureProfile [
+
+	^true
 ]
 
 { #category : 'accessing' }

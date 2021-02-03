@@ -15,21 +15,28 @@ Class {
 		'saveButton',
 		'cancelButton',
 		'connectButton',
-		'disconnectButton'
+		'disconnectButton',
+		'gciConnectionPresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'actions' }
-SpkConnectionListPresenter >> add [ 
+{ #category : 'accessing' }
+SpkConnectionListPresenter >> activeConnectionPage [
 
-	insecureConnectionPresenter add
+	^ connectionsNotebook selectedPage activePresenter
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> add [
+
+	self activeConnectionPage add
 ]
 
 { #category : 'actions' }
 SpkConnectionListPresenter >> cancel [
 
-	insecureConnectionPresenter cancel
+	self activeConnectionPage cancel
 ]
 
 { #category : 'actions' }
@@ -46,13 +53,12 @@ SpkConnectionListPresenter >> connectPresenters [
 	disconnectButton whenActivatedDo: [ self enableButtons ].
 	connectionList whenSelectionChangedDo: [ :selection | 
 		selection selectedItems size > 1
-			ifTrue: [ insecureConnectionPresenter initializeConnectionProfile ]
+			ifTrue: [ self initializeConnectionProfileTabs ]
 			ifFalse: [ 
 				selection selectedItem
-					ifNil: [ insecureConnectionPresenter initializeConnectionProfile ]
+					ifNil: [ self initializeConnectionProfileTabs ]
 					ifNotNil: [ :connectionProfile | 
-						insecureConnectionPresenter setConnectionProfile:
-							connectionProfile copy ] ] ]
+					self setConnectionProfile: connectionProfile ] ] ]
 ]
 
 { #category : 'actions' }
@@ -106,21 +112,6 @@ SpkConnectionListPresenter >> initialize [
 		when: SpkConnectionProfileChangedAnnouncement
 		send: #profileChanged:
 		to: self
-]
-
-{ #category : 'initialization' }
-SpkConnectionListPresenter >> initializeAddConnectionPresenter [
-
-	addConnectionsBox := SpkBoxLayout newVertical.
-	connectionsNotebook := self newNotebook.
-	addConnectionsBox
-		add: connectionsNotebook
-		withConstraints: [ :constraints | constraints width: 225; height: 275 ].
-	connectionsNotebook addPage:
-		(SpNotebookPage title: 'Insecure' icon: nil provider: [ 
-			 insecureConnectionPresenter := self instantiate:
-				                                SpkInsecureConnectionPresenter ]).
-	bigBox add: addConnectionsBox
 ]
 
 { #category : 'initialization' }
@@ -178,25 +169,51 @@ SpkConnectionListPresenter >> initializeConnectionList [
 							                     evaluated: #name);
 					                    addColumn:
 						                    (SpStringTableColumn
-							                     title: 'Host'
-							                     evaluated: #host);
-					                    addColumn:
-						                    (SpStringTableColumn
-							                     title: 'Port'
-							                     evaluated: #port);
-					                    addColumn:
-						                    (SpStringTableColumn
 							                     title: 'Group'
 							                     evaluated: #group);
 					                    addColumn:
 						                    (SpStringTableColumn
-							                     title: 'In Memory'
-							                     evaluated: #inMemory);
+							                     title: 'Details'
+							                     evaluated: #displayString);
 					                    items: OrderedCollection new;
 					                    yourself);
 			 yourself).
 	connectionList items: SparkleConnectionProfile profiles.
 	^ connectionList
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> initializeConnectionPresenterTabs [
+
+	addConnectionsBox := SpkBoxLayout newVertical.
+	connectionsNotebook := self newNotebook.
+	addConnectionsBox
+		add: connectionsNotebook
+		withConstraints: [ :constraints | 
+			constraints
+				width: 225;
+				height: 275 ].
+	connectionsNotebook addPage:
+		(SpNotebookPage title: 'GCI' icon: nil provider: [ 
+			 gciConnectionPresenter := self instantiate:
+				                           SpkGciConnectionPresenter ]).
+
+	connectionsNotebook addPage:
+		(SpNotebookPage title: 'Insecure' icon: nil provider: [ 
+			 insecureConnectionPresenter := self instantiate:
+				                                SpkInsecureConnectionPresenter ]).
+
+
+	bigBox add: addConnectionsBox
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> initializeConnectionProfileTabs [
+
+	insecureConnectionPresenter ifNotNil: [ :presenter | 
+		presenter initializeConnectionProfile ].
+	gciConnectionPresenter ifNotNil: [ :presenter | 
+		presenter initializeConnectionProfile ]
 ]
 
 { #category : 'initialization' }
@@ -228,7 +245,7 @@ SpkConnectionListPresenter >> initializePresenters [
 		withConstraints: [ :constraints | constraints width: 500 ].
 	self initializeConnectionList.
 	self initializeGroupFilter.
-	self initializeAddConnectionPresenter.
+	self initializeConnectionPresenterTabs.
 	self initializeButtons 
 ]
 
@@ -283,7 +300,7 @@ SpkConnectionListPresenter >> profileRemoved: announcement [
 SpkConnectionListPresenter >> remove [
 
 	self removeProfiles. 
-	insecureConnectionPresenter remove
+	self activeConnectionPage remove
 ]
 
 { #category : 'actions' }
@@ -296,11 +313,23 @@ SpkConnectionListPresenter >> removeProfiles [
 { #category : 'actions' }
 SpkConnectionListPresenter >> save [
 
-	insecureConnectionPresenter save
+	self activeConnectionPage save
 ]
 
 { #category : 'accessing' }
 SpkConnectionListPresenter >> selectedConnection [
 
 	^ connectionList selection selectedItem connection
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> setConnectionProfile: connectionProfile [
+
+	connectionProfile isGciProfile
+		ifTrue: [ 
+		connectionsNotebook selectPageIndex: 1 "need to fix. Avoid constant" ]
+		ifFalse: [ 
+		connectionsNotebook selectPageIndex: 2 "need to fix. Avoid constant" ].
+	^ self activeConnectionPage setConnectionProfile:
+		  connectionProfile copy
 ]

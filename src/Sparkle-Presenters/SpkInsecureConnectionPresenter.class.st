@@ -6,14 +6,7 @@ Class {
 	#superclass : 'SpkConnectionPresenter',
 	#instVars : [
 		'inMemoryCheckbox',
-		'hostText',
-		'portText',
-		'nameText',
-		'groupText',
-		'addButton',
-		'removeButton',
-		'saveButton',
-		'cancelButton'
+		'portText'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -24,57 +17,16 @@ SpkInsecureConnectionPresenter class >> connectionProfileClass [
 	^ SparkleInsecureConnectionProfile
 ]
 
-{ #category : 'actions' }
-SpkInsecureConnectionPresenter >> add [
+{ #category : 'accessing' }
+SpkInsecureConnectionPresenter >> inMemoryCheckbox [
 
-	self updateConnectionProfile.
-	self class connectionProfileClass addProfile: connectionProfile copy
+	^ inMemoryCheckbox
 ]
 
-{ #category : 'actions' }
-SpkInsecureConnectionPresenter >> cancel [
+{ #category : 'accessing' }
+SpkInsecureConnectionPresenter >> inMemoryCheckbox: anObject [
 
-	self updateGUI
-	
-]
-
-{ #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initialize [
-
-	super initialize. 
-	self initializeConnectionProfile
-]
-
-{ #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initializeConnectionProfile [
-
-	connectionProfile := self class connectionProfileClass new. 
-	self updateGUI. 
-	
-]
-
-{ #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initializeGroupPresenter [
-
-	self layout
-		add: (self newLabel label: 'Group: (Optional)')
-		withConstraints: [ :constraints | constraints height: 20 ].
-	groupText := self newTextInput.
-	self layout
-		add: groupText
-		withConstraints: [ :constraints | constraints height: 30 ]
-]
-
-{ #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initializeHostPresenter [
-
-	self layout
-		add: (self newLabel label: 'Host:')
-		withConstraints: [ :constraints | constraints height: 20 ].
-	hostText := self newTextInput.
-	self layout
-		add: hostText
-		withConstraints: [ :constraints | constraints height: 30 ]
+	inMemoryCheckbox := anObject
 ]
 
 { #category : 'initialization' }
@@ -88,18 +40,6 @@ SpkInsecureConnectionPresenter >> initializeInMemoryCheckbox [
 		'Make a client-only connection. Ignores host/port'.
 	self layout
 		add: inMemoryCheckbox
-		withConstraints: [ :constraints | constraints height: 30 ]
-]
-
-{ #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initializeNamePresenter [
-
-	self layout
-		add: (self newLabel label: 'Name:')
-		withConstraints: [ :constraints | constraints height: 20 ].
-	nameText := self newTextInput.
-	self layout
-		add: nameText
 		withConstraints: [ :constraints | constraints height: 30 ]
 ]
 
@@ -119,10 +59,7 @@ SpkInsecureConnectionPresenter >> initializePortPresenter [
 SpkInsecureConnectionPresenter >> initializePresenters [
 
 	super initializePresenters.
-	self initializeNamePresenter. 
-	self initializeHostPresenter.
 	self initializePortPresenter.
-	self initializeGroupPresenter.
 	self initializeInMemoryCheckbox.
 ]
 
@@ -132,43 +69,31 @@ SpkInsecureConnectionPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'actions' }
-SpkInsecureConnectionPresenter >> remove [
+{ #category : 'accessing' }
+SpkInsecureConnectionPresenter >> portText [
 
-	self initializeConnectionProfile
+	^ portText
 ]
 
-{ #category : 'actions' }
-SpkInsecureConnectionPresenter >> save [
-	self updateConnectionProfile. 
-	self class connectionProfileClass profileChanged: connectionProfile 
+{ #category : 'accessing' }
+SpkInsecureConnectionPresenter >> portText: anObject [
 
-	
-]
-
-{ #category : 'actions' }
-SpkInsecureConnectionPresenter >> setConnectionProfile: aConnectionProfile [
-
-	connectionProfile := aConnectionProfile. 
-	self updateGUI. 
+	portText := anObject
 ]
 
 { #category : 'actions' }
 SpkInsecureConnectionPresenter >> updateConnectionProfile [
+
+	super updateConnectionProfile.
 	connectionProfile
-		name: nameText text;
-		host: hostText text;
 		port: portText text;
-		group: groupText text;
 		inMemory: inMemoryCheckbox state
 ]
 
 { #category : 'actions' }
 SpkInsecureConnectionPresenter >> updateGUI [
 
-	nameText text: connectionProfile name.
-	hostText text: connectionProfile host.
+	super updateGUI ifFalse: [ ^ false ].
 	portText text: connectionProfile port.
-	groupText text: connectionProfile group. 
 	inMemoryCheckbox state: connectionProfile inMemory
 ]

@@ -15,8 +15,6 @@ Class {
 	#instVars : [
 		'name',
 		'host',
-		'port',
-		'inMemory',
 		'group',
 		'connection'
 	],
@@ -134,7 +132,20 @@ SparkleConnectionProfile >> initialize [
 
 	super initialize.
 	name := String new.
-	group := String new. 
+	host := String new.
+	group := String new
+]
+
+{ #category : 'testing' }
+SparkleConnectionProfile >> isGciProfile [
+
+	^false
+]
+
+{ #category : 'testing' }
+SparkleConnectionProfile >> isInsecureProfile [
+
+	^false
 ]
 
 { #category : 'accessing' }

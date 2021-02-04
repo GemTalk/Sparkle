@@ -17,6 +17,21 @@ SpkInsecureConnectionPresenter class >> connectionProfileClass [
 	^ SparkleInsecureConnectionProfile
 ]
 
+{ #category : 'actions' }
+SpkInsecureConnectionPresenter >> connect [
+
+	| connectionThing connection |
+	connectionThing := inMemoryCheckbox state
+		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
+		                   ifFalse: [ 
+			                   RsrInitiateConnection
+				                   host: hostText text
+				                   port: portText text asInteger ].
+	connection := connectionThing connect.
+	self openExplorer: connection.
+	^ connection
+]
+
 { #category : 'accessing' }
 SpkInsecureConnectionPresenter >> inMemoryCheckbox [
 

@@ -22,6 +22,21 @@ Class {
 	#category : 'Sparkle-Models'
 }
 
+{ #category : 'displaying' }
+SparkleGCIConnectionProfile >> displayString [
+
+	| displayString |
+	displayString := super displayString.
+	^ String streamContents: [ :stream | 
+		  displayString putOn: stream.
+		  stream
+			  space;
+			  nextPutAll: version printString;
+			  nextPutAll: stone printString;
+			  nextPutAll: netldi.
+		  stream ]
+]
+
 { #category : 'initialization' }
 SparkleGCIConnectionProfile >> initialize [
 
@@ -72,6 +87,13 @@ SparkleGCIConnectionProfile >> threadSafe [
 SparkleGCIConnectionProfile >> threadSafe: anObject [
 
 	threadSafe := anObject
+]
+
+{ #category : 'accessing' }
+SparkleGCIConnectionProfile >> type [
+
+	^'GCI'
+	
 ]
 
 { #category : 'accessing' }

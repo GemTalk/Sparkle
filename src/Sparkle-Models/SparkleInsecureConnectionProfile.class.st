@@ -8,6 +8,19 @@ Class {
 	#category : 'Sparkle-Models'
 }
 
+{ #category : 'actions' }
+SparkleInsecureConnectionProfile >> connect [
+
+	| connectionThing |
+	connectionThing := inMemory 
+		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
+		                   ifFalse: [ 
+			                   RsrInitiateConnection
+				                   host: host
+				                   port: port asInteger ].
+	^connectionThing connect.
+]
+
 { #category : 'constants' }
 SparkleInsecureConnectionProfile >> defaultPort [
 
@@ -15,18 +28,18 @@ SparkleInsecureConnectionProfile >> defaultPort [
 ]
 
 { #category : 'displaying' }
-SparkleInsecureConnectionProfile >> displayStringOn: aStream [
+SparkleInsecureConnectionProfile >> displayString [
 
-	aStream
-		nextPutAll: self class name;
-		space;
-		nextPutAll: (name ifNil: [ '<no name>' ] ifNotNil: [ name ]);
-		nextPutAll: ' - ';
-		nextPutAll: (host ifNil: [ '<no host>' ] ifNotNil: [ host ]);
-		nextPut: $:;
-		nextPutAll: (port ifNil: [ '<no port>' ] ifNotNil: [ port ]);
-		nextPut: $:;
-		nextPutAll: (group ifNil: [ '<no group>' ] ifNotNil: [ group ])
+	| displayString |
+	displayString := super displayString.
+	^ String streamContents: [ :stream | 
+		  displayString putOn: stream.
+		  stream
+			  space;
+			  nextPutAll: '@';
+			  nextPutAll: port.
+		  inMemory ifTrue: [ stream nextPutAll: '(in memory)' ].
+		  stream ]
 ]
 
 { #category : 'accessing' }
@@ -65,4 +78,9 @@ SparkleInsecureConnectionProfile >> port [
 SparkleInsecureConnectionProfile >> port: anObject [
 
 	port := anObject
+]
+
+{ #category : 'accessing' }
+SparkleInsecureConnectionProfile >> type [ 
+	^'Insecure'
 ]

@@ -103,6 +103,16 @@ SpkConnectionPresenter >> initializePresenters [
 ]
 
 { #category : 'actions' }
+SpkConnectionPresenter >> openExplorer: connection [
+
+	| taskspace |
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: connection;
+		openNewDefaultTaskspace
+]
+
+{ #category : 'actions' }
 SpkConnectionPresenter >> remove [
 
 	self initializeConnectionProfile

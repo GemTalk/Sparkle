@@ -42,7 +42,10 @@ SpkConnectionListPresenter >> cancel [
 { #category : 'actions' }
 SpkConnectionListPresenter >> connect [
 
-	
+	connectionList selection selectedItems do: [ :connectionProfile | 
+		| connection |
+		connection := connectionProfile connect.
+		self openExplorer: connection ]
 ]
 
 { #category : 'initialization' }
@@ -64,7 +67,8 @@ SpkConnectionListPresenter >> connectPresenters [
 { #category : 'actions' }
 SpkConnectionListPresenter >> disconnect [
 
-	
+	connectionList selection selectedItems do: [ :connection | 
+		connection close ]
 ]
 
 { #category : 'actions' }
@@ -158,23 +162,23 @@ SpkConnectionListPresenter >> initializeButtons [
 { #category : 'initialization' }
 SpkConnectionListPresenter >> initializeConnectionList [
 
-	connectionsBox add: (SpkBoxLayout newVertical 
+	connectionsBox add: (SpkBoxLayout newVertical
 			 add: (self newLabel label: 'Connection Profiles')
 			 withConstraints: [ :constraints | constraints height: 25 ];
 			 add: (connectionList := self newTable
 					                    sortingBlock: [ :a :b | a name < b name ];
-					                    addColumn:
-						                    (SpStringTableColumn
-							                     title: 'Name'
+					                    addColumn: (SpStringTableColumn new
+							                     title: 'Name';
+							                     sortFunction: #name ascending;
 							                     evaluated: #name);
-					                    addColumn:
-						                    (SpStringTableColumn
-							                     title: 'Group'
+					                    addColumn: (SpStringTableColumn new
+							                     title: 'Group';
+							                     sortFunction: #group ascending;
 							                     evaluated: #group);
-					                    addColumn:
-						                    (SpStringTableColumn
-							                     title: 'Details'
-							                     evaluated: #displayString);
+					                    addColumn: (SpStringTableColumn new
+							                     title: 'Details';
+							                     evaluated: #displayString;
+							                     sortFunction: #displayString ascending);
 					                    items: OrderedCollection new;
 					                    yourself);
 			 yourself).
@@ -267,6 +271,16 @@ SpkConnectionListPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
+{ #category : 'actions' }
+SpkConnectionListPresenter >> openExplorer: connection [
+
+	| taskspace |
+	taskspace := SparkleTaskspace new.
+	taskspace
+		connection: connection;
+		openNewDefaultTaskspace
+]
+
 { #category : 'events' }
 SpkConnectionListPresenter >> profileAdded: announcement [
 
@@ -306,6 +320,7 @@ SpkConnectionListPresenter >> remove [
 { #category : 'actions' }
 SpkConnectionListPresenter >> removeProfiles [
 
+	(self confirm: 'Really remove profiles?') ifFalse: [ ^ self ].
 	SparkleConnectionProfile removeProfiles:
 		connectionList selection selectedItems
 ]

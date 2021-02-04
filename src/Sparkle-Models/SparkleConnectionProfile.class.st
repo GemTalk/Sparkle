@@ -97,6 +97,17 @@ SparkleConnectionProfile >> connection: anObject [
 	connection := anObject
 ]
 
+{ #category : 'displaying' }
+SparkleConnectionProfile >> displayString [
+
+	^ String streamContents: [ :stream | 
+		  stream
+			  nextPutAll: self type;
+			  nextPutAll: ' - ';
+			  nextPutAll: host.
+		  stream ]
+]
+
 { #category : 'accessing' }
 SparkleConnectionProfile >> group [
 
@@ -158,4 +169,10 @@ SparkleConnectionProfile >> name [
 SparkleConnectionProfile >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : 'accessing' }
+SparkleConnectionProfile >> type [
+
+	self subclassResponsibility 
 ]

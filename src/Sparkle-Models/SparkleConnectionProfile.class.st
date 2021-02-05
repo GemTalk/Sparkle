@@ -78,23 +78,10 @@ SparkleConnectionProfile class >> removeProfiles: connectionProfiles [
 			 connectionProfiles)
 ]
 
-{ #category : 'accessing' }
-SparkleConnectionProfile class >> saveProfile: connectionProfile [
-
-	(self connectionProfileExists: connectionProfile) ifTrue: [ 
-		self removeProfiles: (Array with: connectionProfile) ].
-	self profiles add: connectionProfile.
-	ProfileAnnouncer announce:
-		(SpkConnectionProfileAddedAnnouncement new profiles:
-			 (Array with: connectionProfile)).
-	^true
-]
-
 { #category : 'comparing' }
 SparkleConnectionProfile >> = connectionProfile [
 
-	(self isKindOf: self class) ifFalse:[^false]. 
-	^name = connectionProfile name
+	^ name = connectionProfile name
 ]
 
 { #category : 'accessing' }
@@ -114,7 +101,10 @@ SparkleConnectionProfile >> disconnect [
 
 	connection ifNotNil: [ :conn | 
 		conn close.
-		connection := nil ]
+		connection := nil.
+		ProfileAnnouncer announce:
+			(SpkConnectionProfileDisconnectedAnnouncement new profiles:
+				 (Array with: self)) ]
 ]
 
 { #category : 'displaying' }

@@ -12,13 +12,17 @@ Class {
 SparkleInsecureConnectionProfile >> connect [
 
 	| connectionThing |
-	connectionThing := inMemory 
+	connectionThing := inMemory
 		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
 		                   ifFalse: [ 
-			                   RsrInitiateConnection
-				                   host: host
-				                   port: port asInteger ].
-	^connection := connectionThing connect.
+		                   RsrInitiateConnection
+			                   host: host
+			                   port: port asInteger ].
+	connection := connectionThing connect.
+	ProfileAnnouncer announce:
+		(SpkConnectionProfileConnectedAnnouncement new profiles:
+			 (Array with: self)).
+	^ connection
 ]
 
 { #category : 'constants' }

@@ -34,6 +34,7 @@ SpkGciConnectionPresenter >> initializePresenters [
 	self initializeVersionPresenter.
 	self initializeStonePresenter.
 	self initializeNetldiPresenter.
+	self initializeButtons. 
 	self setFocusOrder
 	
 ]
@@ -72,12 +73,6 @@ SpkGciConnectionPresenter >> netldiText [
 SpkGciConnectionPresenter >> netldiText: anObject [
 
 	netldiText := anObject
-]
-
-{ #category : 'accessing' }
-SpkGciConnectionPresenter >> newLayout [
-
-	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'initialization' }

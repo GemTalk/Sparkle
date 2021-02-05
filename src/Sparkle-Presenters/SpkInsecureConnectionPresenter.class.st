@@ -17,21 +17,6 @@ SpkInsecureConnectionPresenter class >> connectionProfileClass [
 	^ SparkleInsecureConnectionProfile
 ]
 
-{ #category : 'actions' }
-SpkInsecureConnectionPresenter >> connect [
-
-	| connectionThing connection |
-	connectionThing := inMemoryCheckbox state
-		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
-		                   ifFalse: [ 
-			                   RsrInitiateConnection
-				                   host: hostText text
-				                   port: portText text asInteger ].
-	connection := connectionThing connect.
-	self openExplorer: connection.
-	^ connection
-]
-
 { #category : 'accessing' }
 SpkInsecureConnectionPresenter >> inMemoryCheckbox [
 
@@ -49,7 +34,6 @@ SpkInsecureConnectionPresenter >> initializeInMemoryCheckbox [
 
 	inMemoryCheckbox := self newCheckBox
 		                    label: 'In Memory (will ignore host/port)';
-		                    whenChangedDo: [ self updateConnectionProfile ];
 		                    yourself.
 	inMemoryCheckbox help:
 		'Make a client-only connection. Ignores host/port'.
@@ -76,12 +60,7 @@ SpkInsecureConnectionPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializePortPresenter.
 	self initializeInMemoryCheckbox.
-]
-
-{ #category : 'accessing' }
-SpkInsecureConnectionPresenter >> newLayout [
-
-	^ SpkBoxLayout newVertical
+	self initializeButtons.
 ]
 
 { #category : 'accessing' }

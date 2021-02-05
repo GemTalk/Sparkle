@@ -5,7 +5,13 @@ Class {
 		'connectionProfile',
 		'groupText',
 		'nameText',
-		'hostText'
+		'hostText',
+		'addButton',
+		'removeButton',
+		'saveButton',
+		'cancelButton',
+		'connectButton',
+		'disconnectButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -19,8 +25,10 @@ SpkConnectionPresenter class >> connectionProfileClass [
 { #category : 'actions' }
 SpkConnectionPresenter >> add [
 
+	connectionProfile := connectionProfile copy. 
+	connectionProfile connection: nil. 
 	self updateConnectionProfile.
-	self class connectionProfileClass addProfile: connectionProfile copy
+	self class connectionProfileClass addProfile: connectionProfile
 ]
 
 { #category : 'actions' }
@@ -28,6 +36,33 @@ SpkConnectionPresenter >> cancel [
 
 	self updateGUI
 	
+]
+
+{ #category : 'actions' }
+SpkConnectionPresenter >> closeConnectionWindows [
+
+	| connection connectedPresenters |
+	connection := connectionProfile connection.
+	connectedPresenters := SparkleTaskspace allInstances select: [ 
+		                       :presenter | 
+		                       presenter connection == connection ].
+	connectedPresenters do: [ :presenter | presenter close ]
+]
+
+{ #category : 'actions' }
+SpkConnectionPresenter >> connect [
+
+	connectionProfile connect.
+	self openExplorer: connectionProfile connection.
+]
+
+{ #category : 'initialization' }
+SpkConnectionPresenter >> connectPresenters [
+
+	super connectPresenters.
+	connectButton whenActivatedDo: [ self enableButtons ].
+	disconnectButton whenActivatedDo: [ self enableButtons ].
+
 ]
 
 { #category : 'accessing' }
@@ -42,11 +77,75 @@ SpkConnectionPresenter >> connectionProfile: anObject [
 	connectionProfile := anObject
 ]
 
+{ #category : 'actions' }
+SpkConnectionPresenter >> disconnect [
+
+	self closeConnectionWindows.
+	connectionProfile disconnect
+]
+
+{ #category : 'actions' }
+SpkConnectionPresenter >> enableButtons [
+
+	self connectionProfile ifNil: [ ^self ].
+	connectButton enabled: self connectionProfile connection isNil.
+	disconnectButton enabled: self connectionProfile connection isNil not
+]
+
 { #category : 'initialization' }
 SpkConnectionPresenter >> initialize [
 
 	super initialize. 
-	self initializeConnectionProfile
+	self initializeConnectionProfile.
+	SparkleConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileConnectedAnnouncement
+		send: #enableButtons
+		to: self.
+	SparkleConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileDisconnectedAnnouncement
+		send: #enableButtons
+		to: self
+]
+
+{ #category : 'initialization' }
+SpkConnectionPresenter >> initializeButtons [
+
+	addButton := self newButton
+		             label: 'Add';
+		             action: [ self add ].
+	removeButton := self newButton
+		                label: 'Remove';
+		                action: [ self remove ].
+	saveButton := self newButton
+		              label: 'Save';
+		              action: [ self save ].
+	cancelButton := self newButton
+		                label: 'Cancel';
+		                action: [ self cancel ].
+	connectButton := self newButton
+		                 label: 'Connect';
+		                 action: [ self connect ].
+	disconnectButton := self newButton
+		                    label: 'Disconnect';
+		                    action: [ self disconnect ].
+	self layout add: (SpkBoxLayout newHorizontal beHomogeneous
+			 add: addButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: removeButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: saveButton
+			 withConstraints: [ :constraints | constraints height: 30 ];
+			 add: cancelButton
+			 withConstraints: [ :constraints | constraints height: 30 ]).
+
+	self layout
+		add: (SpkBoxLayout newHorizontal beHomogeneous
+				 add: connectButton
+				 withConstraints: [ :constraints | constraints height: 30 ];
+				 add: disconnectButton
+				 withConstraints: [ :constraints | constraints height: 30 ])
+		withConstraints: [ :constraints | constraints height: 40 ].
+	self enableButtons
 ]
 
 { #category : 'initialization' }
@@ -102,6 +201,19 @@ SpkConnectionPresenter >> initializePresenters [
 	self initializeHostPresenter.
 ]
 
+{ #category : 'initialization' }
+SpkConnectionPresenter >> initializeWindow: aWindowPresenter [
+
+	aWindowPresenter whenClosedDo: [ 
+		SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
+]
+
+{ #category : 'accessing' }
+SpkConnectionPresenter >> newLayout [
+
+	^ SpkBoxLayout newVertical
+]
+
 { #category : 'actions' }
 SpkConnectionPresenter >> openExplorer: connection [
 
@@ -115,16 +227,18 @@ SpkConnectionPresenter >> openExplorer: connection [
 { #category : 'actions' }
 SpkConnectionPresenter >> remove [
 
+	(self confirm: 'Really remove connection profile?') ifFalse: [ 
+		^ self ].
+	SparkleConnectionProfile removeProfiles:
+		(Array with: connectionProfile).
 	self initializeConnectionProfile
 ]
 
 { #category : 'actions' }
 SpkConnectionPresenter >> save [
-	self updateConnectionProfile. 
-	SparkleConnectionProfile saveProfile: connectionProfile.
-	self class connectionProfileClass profileChanged: connectionProfile 
 
-	
+	self updateConnectionProfile.
+	self class connectionProfileClass profileChanged: connectionProfile
 ]
 
 { #category : 'actions' }
@@ -132,6 +246,7 @@ SpkConnectionPresenter >> setConnectionProfile: aConnectionProfile [
 
 	connectionProfile := aConnectionProfile. 
 	self updateGUI. 
+	self enableButtons. 
 ]
 
 { #category : 'actions' }

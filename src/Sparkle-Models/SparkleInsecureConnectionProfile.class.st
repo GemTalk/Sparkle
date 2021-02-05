@@ -18,7 +18,7 @@ SparkleInsecureConnectionProfile >> connect [
 			                   RsrInitiateConnection
 				                   host: host
 				                   port: port asInteger ].
-	^connectionThing connect.
+	^connection := connectionThing connect.
 ]
 
 { #category : 'constants' }
@@ -37,7 +37,8 @@ SparkleInsecureConnectionProfile >> displayString [
 		  stream
 			  space;
 			  nextPutAll: '@';
-			  nextPutAll: port.
+			  nextPutAll: port;
+			  space.
 		  inMemory ifTrue: [ stream nextPutAll: '(in memory)' ].
 		  stream ]
 ]

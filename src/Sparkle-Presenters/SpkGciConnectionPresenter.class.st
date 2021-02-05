@@ -33,7 +33,9 @@ SpkGciConnectionPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeVersionPresenter.
 	self initializeStonePresenter.
-	self initializeNetldiPresenter
+	self initializeNetldiPresenter.
+	self setFocusOrder
+	
 ]
 
 { #category : 'initialization' }
@@ -78,6 +80,18 @@ SpkGciConnectionPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
+{ #category : 'initialization' }
+SpkGciConnectionPresenter >> setFocusOrder [
+
+	self focusOrder
+		add: nameText;
+		add: groupText;
+		add: hostText;
+		add: versionText;
+		add: stoneText;
+		add: netldiText
+]
+
 { #category : 'accessing' }
 SpkGciConnectionPresenter >> stoneText [
 
@@ -88,6 +102,16 @@ SpkGciConnectionPresenter >> stoneText [
 SpkGciConnectionPresenter >> stoneText: anObject [
 
 	stoneText := anObject
+]
+
+{ #category : 'actions' }
+SpkGciConnectionPresenter >> updateConnectionProfile [
+
+	super updateConnectionProfile.
+	connectionProfile
+		version: versionText text;
+		stone: stoneText text;
+		netldi: netldiText text
 ]
 
 { #category : 'actions' }

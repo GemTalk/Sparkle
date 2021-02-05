@@ -121,6 +121,7 @@ SpkConnectionPresenter >> remove [
 { #category : 'actions' }
 SpkConnectionPresenter >> save [
 	self updateConnectionProfile. 
+	SparkleConnectionProfile saveProfile: connectionProfile.
 	self class connectionProfileClass profileChanged: connectionProfile 
 
 	

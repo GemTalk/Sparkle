@@ -45,7 +45,8 @@ SpkConnectionListPresenter >> connect [
 	connectionList selection selectedItems do: [ :connectionProfile | 
 		| connection |
 		connection := connectionProfile connect.
-		self openExplorer: connection ]
+		self openExplorer: connection ].
+	self update
 ]
 
 { #category : 'initialization' }
@@ -55,6 +56,7 @@ SpkConnectionListPresenter >> connectPresenters [
 	connectButton whenActivatedDo: [ self enableButtons ].
 	disconnectButton whenActivatedDo: [ self enableButtons ].
 	connectionList whenSelectionChangedDo: [ :selection | 
+		self enableButtons.
 		selection selectedItems size > 1
 			ifTrue: [ self initializeConnectionProfileTabs ]
 			ifFalse: [ 
@@ -67,8 +69,9 @@ SpkConnectionListPresenter >> connectPresenters [
 { #category : 'actions' }
 SpkConnectionListPresenter >> disconnect [
 
-	connectionList selection selectedItems do: [ :connection | 
-		connection close ]
+	connectionList selection selectedItems do: [ :connectionProfile | 
+		connectionProfile disconnect ].
+	self update.
 ]
 
 { #category : 'actions' }
@@ -167,12 +170,20 @@ SpkConnectionListPresenter >> initializeConnectionList [
 			 withConstraints: [ :constraints | constraints height: 25 ];
 			 add: (connectionList := self newTable
 					                    sortingBlock: [ :a :b | a name < b name ];
+					                    addColumn: (SpImageTableColumn new
+							                     width: 25;
+							                     evaluated: [ :profile | 
+								                     profile connection
+									                     ifNil: [  ]
+									                     ifNotNil: [ self iconNamed: #smallOk ] ]);
 					                    addColumn: (SpStringTableColumn new
 							                     title: 'Name';
 							                     sortFunction: #name ascending;
+							                     width: 100;
 							                     evaluated: #name);
 					                    addColumn: (SpStringTableColumn new
 							                     title: 'Group';
+							                     width: 100;
 							                     sortFunction: #group ascending;
 							                     evaluated: #group);
 					                    addColumn: (SpStringTableColumn new

@@ -31,8 +31,12 @@ SparkleGCIConnectionProfile >> displayString [
 		  displayString putOn: stream.
 		  stream
 			  space;
-			  nextPutAll: version printString;
-			  nextPutAll: stone printString;
+			  nextPutAll: version;
+			  space;
+			  nextPutAll: ' on ';
+			  space;
+			  nextPutAll: ' @ ';
+			  nextPutAll: stone;
 			  nextPutAll: netldi.
 		  stream ]
 ]

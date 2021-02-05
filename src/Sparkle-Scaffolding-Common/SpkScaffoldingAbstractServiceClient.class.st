@@ -25,8 +25,8 @@ SpkScaffoldingAbstractServiceClient class >> connection [
 SpkScaffoldingAbstractServiceClient class >> initiateConnection [
 
 	| host port initiator |
-	host := '0.0.0.0'.
-	port := 7652.
+	host := '127.0.0.1'.
+	port := 29299.
 	initiator := RsrInitiateConnection host: host port: port.
 	^ Connection := initiator connect
 ]

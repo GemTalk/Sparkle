@@ -118,7 +118,7 @@ SpkConnectionListPresenter >> initializeConnectionPresenterTabs [
 	connectionsNotebook := self newNotebook.
 	bigBox
 		add: connectionsNotebook
-		withConstraints: [ :constraints | constraints width: 225 ].
+		"withConstraints: [ :constraints | constraints width: 225 ]".
 	gciConnectionPresenter := self instantiate: SpkGciConnectionPresenter.
 	connectionsNotebook addPage: (SpNotebookPage
 			 title: 'GCI'
@@ -163,13 +163,34 @@ SpkConnectionListPresenter >> initializePresenters [
 	super initializePresenters.
 	bigBox := SpkBoxLayout newHorizontal.
 	self layout add: bigBox.
-	connectionsBox := SpkBoxLayout newVertical.
+	connectionsBox := SpBoxLayout newVertical.
 	bigBox
 		add: connectionsBox
 		withConstraints: [ :constraints | constraints width: 500 ].
+	self initializeToolbar. 
 	self initializeConnectionList.
 	self initializeGroupFilter.
 	self initializeConnectionPresenterTabs
+]
+
+{ #category : 'initialization' }
+SpkConnectionListPresenter >> initializeToolbar [
+
+	toolbar := self newToolbar
+		           addItem: (SpToolbarButtonPresenter new
+				            label: 'Save to file';
+				            icon: (self iconNamed: #smallSave);
+				            help: 'Save profiles to a file';
+				            action: [ self saveToFile ];
+				            yourself);
+		           addItem: (SpToolbarButtonPresenter new
+				            label: 'Restore from file';
+				            icon: (self iconNamed: #smallOpen);
+				            help: 'Restore profiles from a file';
+				            action: [ self restoreFromFile ];
+				            yourself);
+		           yourself.
+	connectionsBox add: #toolbar expand: false fill: false padding: 0
 ]
 
 { #category : 'initialization' }
@@ -179,7 +200,7 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Connections Launcher';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 750 @ 400;
+		initialExtent: 800 @ 400;
 		whenClosedDo: [ 
 			SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
 ]
@@ -229,6 +250,25 @@ SpkConnectionListPresenter >> profileRemoved: announcement [
 
 	connectionList items:
 		(connectionList items copyWithoutAll: announcement profiles)
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> restoreFromFile [
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> saveToFile [
+	| path fileRef |
+	path := UIManager default 
+		chooseForSaveFileReference: 'Save Connection Profiles As ...'
+		extensions: #('ston') 
+		path: 'profiles'.
+	path ifNil: [ ^self].
+	fileRef := path asFileReference. 
+	^ fileRef writeStreamDo: [ :stream | 
+		  STON writer
+			  on: stream;
+			  nextPut: SparkleConnectionProfile profiles ]
 ]
 
 { #category : 'accessing' }

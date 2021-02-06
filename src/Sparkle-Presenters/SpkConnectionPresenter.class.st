@@ -112,18 +112,20 @@ SpkConnectionPresenter >> initializeButtons [
 
 	addButton := self newButton
 		             label: 'Add';
+		             icon: (self iconNamed: #add);
 		             action: [ self add ].
 	removeButton := self newButton
 		                label: 'Remove';
+		                icon: (self iconNamed: #smallDelete);
 		                action: [ self remove ].
 	saveButton := self newButton
-		              label: 'Save';
+		              label: 'Change';
 		              action: [ self save ].
 	cancelButton := self newButton
-		                label: 'Cancel';
+		                label: 'Cancel'; icon: (self iconNamed: #delete);
 		                action: [ self cancel ].
 	connectButton := self newButton
-		                 label: 'Connect';
+		                 label: 'Connect'; 
 		                 action: [ self connect ].
 	disconnectButton := self newButton
 		                    label: 'Disconnect';

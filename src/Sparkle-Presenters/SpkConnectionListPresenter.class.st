@@ -254,6 +254,21 @@ SpkConnectionListPresenter >> profileRemoved: announcement [
 
 { #category : 'actions' }
 SpkConnectionListPresenter >> restoreFromFile [
+
+	| path stream profiles |
+	(self confirm: 'This will replace the connection profiles. Continue?') ifFalse:[^self].
+	path := UIManager default
+		        chooseExistingFileReference:
+		        'Restore Connection Profiles As ...'
+		        extensions: #( 'ston' )
+		        path: 'profiles'.
+	path ifNil: [ ^ self ].
+	stream := path asFileReference readStream.
+	profiles := (STON reader on: stream) next.
+	(profiles isKindOf: Collection) ifFalse: [ 
+		^ self inform: 'Improper connection profiles file' "need a better sanity check on what is restored" ].
+	SparkleConnectionProfile profiles: profiles.
+	connectionList items: SparkleConnectionProfile profiles
 ]
 
 { #category : 'actions' }

@@ -69,6 +69,12 @@ SparkleConnectionProfile class >> profiles [
 	^ Profiles ifNil: [ self initializeProfiles ]
 ]
 
+{ #category : 'accessing' }
+SparkleConnectionProfile class >> profiles: collection [
+
+	^ Profiles := collection 
+]
+
 { #category : 'profiles' }
 SparkleConnectionProfile class >> removeProfiles: connectionProfiles [
 

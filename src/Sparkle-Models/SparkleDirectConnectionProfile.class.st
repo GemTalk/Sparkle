@@ -87,5 +87,5 @@ SparkleDirectConnectionProfile >> port: anObject [
 
 { #category : 'accessing' }
 SparkleDirectConnectionProfile >> type [ 
-	^'Insecure'
+	^'Direct'
 ]

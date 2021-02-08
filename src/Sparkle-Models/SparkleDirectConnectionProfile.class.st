@@ -1,5 +1,5 @@
 Class {
-	#name : 'SparkleInsecureConnectionProfile',
+	#name : 'SparkleDirectConnectionProfile',
 	#superclass : 'SparkleConnectionProfile',
 	#instVars : [
 		'port',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : 'actions' }
-SparkleInsecureConnectionProfile >> connect [
+SparkleDirectConnectionProfile >> connect [
 
 	| connectionThing |
 	connectionThing := inMemory
@@ -26,13 +26,13 @@ SparkleInsecureConnectionProfile >> connect [
 ]
 
 { #category : 'constants' }
-SparkleInsecureConnectionProfile >> defaultPort [
+SparkleDirectConnectionProfile >> defaultPort [
 
 	^ '29299'
 ]
 
 { #category : 'displaying' }
-SparkleInsecureConnectionProfile >> displayString [
+SparkleDirectConnectionProfile >> displayString [
 
 	| displayString |
 	displayString := super displayString.
@@ -48,19 +48,19 @@ SparkleInsecureConnectionProfile >> displayString [
 ]
 
 { #category : 'accessing' }
-SparkleInsecureConnectionProfile >> inMemory [
+SparkleDirectConnectionProfile >> inMemory [
 
 	^ inMemory
 ]
 
 { #category : 'accessing' }
-SparkleInsecureConnectionProfile >> inMemory: anObject [
+SparkleDirectConnectionProfile >> inMemory: anObject [
 
 	inMemory := anObject
 ]
 
 { #category : 'initialization' }
-SparkleInsecureConnectionProfile >> initialize [
+SparkleDirectConnectionProfile >> initialize [
 
 	super initialize.
 	port := self defaultPort.
@@ -68,24 +68,24 @@ SparkleInsecureConnectionProfile >> initialize [
 ]
 
 { #category : 'testing' }
-SparkleInsecureConnectionProfile >> isInsecureProfile [
+SparkleDirectConnectionProfile >> isInsecureProfile [
 
 	^true
 ]
 
 { #category : 'accessing' }
-SparkleInsecureConnectionProfile >> port [
+SparkleDirectConnectionProfile >> port [
 
 	^ port
 ]
 
 { #category : 'accessing' }
-SparkleInsecureConnectionProfile >> port: anObject [
+SparkleDirectConnectionProfile >> port: anObject [
 
 	port := anObject
 ]
 
 { #category : 'accessing' }
-SparkleInsecureConnectionProfile >> type [ 
+SparkleDirectConnectionProfile >> type [ 
 	^'Insecure'
 ]

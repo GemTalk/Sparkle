@@ -127,7 +127,7 @@ SpkConnectionListPresenter >> initializeConnectionPresenterTabs [
 	insecureConnectionPresenter := self instantiate:
 		                               SpkInsecureConnectionPresenter.
 	connectionsNotebook addPage: (SpNotebookPage
-			 title: 'Insecure'
+			 title: 'Direct'
 			 icon: nil
 			 provider: [ insecureConnectionPresenter ])
 ]

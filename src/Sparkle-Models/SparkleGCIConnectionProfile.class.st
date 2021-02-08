@@ -17,10 +17,39 @@ Class {
 		'version',
 		'threadSafe',
 		'stone',
-		'netldi'
+		'netldi',
+		'user',
+		'password',
+		'path',
+		'session'
 	],
 	#category : 'Sparkle-Models'
 }
+
+{ #category : 'actions' }
+SparkleGCIConnectionProfile >> connect [
+
+	"initialize gci library"
+
+	GciInterface libraryDirectoryIsSet ifFalse: [ 
+		GciInterface libraryDirectory:
+			'/home/ewinger/Pharo/images/ericNewLauncher1077/clientlibs' ].
+	session := GsSession
+		        newForGsVersion: version
+		        threadSafe: true
+		        stone: stone
+		        host: host
+		        netldi: netldi.
+	session loginWithGsUser: 'SystemUser' password: 'swordfish'.
+	self setupRSRConnection. 
+]
+
+{ #category : 'actions' }
+SparkleGCIConnectionProfile >> disconnect [
+	super disconnect.
+	session logout.
+	session := nil
+]
 
 { #category : 'displaying' }
 SparkleGCIConnectionProfile >> displayString [
@@ -67,6 +96,29 @@ SparkleGCIConnectionProfile >> netldi [
 SparkleGCIConnectionProfile >> netldi: anObject [
 
 	netldi := anObject
+]
+
+{ #category : 'actions' }
+SparkleGCIConnectionProfile >> setupRSRConnection [
+
+	| initiator |
+	session
+		executeStringAndFetchResultByteArray:
+		'| acceptor |
+		acceptor := RsrAcceptConnection port: 29298.
+		acceptor ensureListening.
+		SessionTemps current
+			at: #PendingConnectionAcceptor
+			put: acceptor.
+		ByteArray new: 80'
+		maxResultSize: 1024.
+	session executeStringNb:
+		'| connection |
+		connection := (SessionTemps current at: #PendingConnectionAcceptor) waitForConnection.
+		SessionTemps current removeKey: #PendingConnectionAcceptor.
+		connection waitUntilClose.'.
+	initiator := RsrInitiateConnection host: host port: 29298.
+	connection := initiator connect
 ]
 
 { #category : 'accessing' }

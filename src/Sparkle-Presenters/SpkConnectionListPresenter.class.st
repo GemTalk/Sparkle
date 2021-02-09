@@ -39,10 +39,10 @@ SpkConnectionListPresenter >> filterConnections [
 
 	filterInput text = $# asString ifTrue: [ 
 		^connectionList items:
-			(SparkleConnectionProfile profiles select: [ :profile | 
+			(SpkConnectionProfile profiles select: [ :profile | 
 				 profile group = String new ]) ].
 	connectionList items:
-		(SparkleConnectionProfile profiles select: [ :profile | 
+		(SpkConnectionProfile profiles select: [ :profile | 
 			 | ws |
 			 ws := (WriteStream on: String new)
 				       nextPutAll: filterInput text;
@@ -55,23 +55,23 @@ SpkConnectionListPresenter >> filterConnections [
 SpkConnectionListPresenter >> initialize [
 
 	super initialize.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileAddedAnnouncement
 		send: #profileAdded:
 		to: self.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileRemovedAnnouncement
 		send: #profileRemoved:
 		to: self.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileChangedAnnouncement
 		send: #profileChanged:
 		to: self.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileConnectedAnnouncement
 		send: #update
 		to: self.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
 		send: #update
 		to: self
@@ -108,7 +108,7 @@ SpkConnectionListPresenter >> initializeConnectionList [
 					                    items: OrderedCollection new;
 					                    yourself);
 			 yourself).
-	connectionList items: SparkleConnectionProfile profiles.
+	connectionList items: SpkConnectionProfile profiles.
 	^ connectionList
 ]
 
@@ -202,7 +202,7 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		borderWidth: 3;
 		initialExtent: 800 @ 400;
 		whenClosedDo: [ 
-			SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
+			SpkConnectionProfile profileAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'actions' }
@@ -220,8 +220,8 @@ SpkConnectionListPresenter >> loadFromFile [
 	profiles := (STON reader on: stream) next.
 	(profiles isKindOf: Collection) ifFalse: [ 
 		^ self inform: 'Improper connection profiles file' "need a better sanity check on what is restored" ].
-	SparkleConnectionProfile profiles: profiles.
-	connectionList items: SparkleConnectionProfile profiles
+	SpkConnectionProfile profiles: profiles.
+	connectionList items: SpkConnectionProfile profiles
 ]
 
 { #category : 'accessing' }
@@ -283,7 +283,7 @@ SpkConnectionListPresenter >> saveToFile [
 	^ fileRef writeStreamDo: [ :stream | 
 		  STON writer
 			  on: stream;
-			  nextPut: SparkleConnectionProfile profiles ]
+			  nextPut: SpkConnectionProfile profiles ]
 ]
 
 { #category : 'accessing' }

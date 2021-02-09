@@ -12,7 +12,7 @@ Class {
 { #category : 'accessing' }
 SpkGciConnectionPresenter class >> connectionProfileClass [
 
-	^ SparkleGCIConnectionProfile
+	^ SpkGCIConnectionProfile
 ]
 
 { #category : 'initialization' }

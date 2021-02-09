@@ -14,7 +14,7 @@ Class {
 { #category : 'accessing' }
 SpkInsecureConnectionPresenter class >> connectionProfileClass [
 
-	^ SparkleDirectConnectionProfile
+	^ SpkDirectConnectionProfile
 ]
 
 { #category : 'accessing' }

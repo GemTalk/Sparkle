@@ -1,15 +1,15 @@
 Class {
-	#name : 'SparkleDirectConnectionProfile',
-	#superclass : 'SparkleConnectionProfile',
+	#name : 'SpkDirectConnectionProfile',
+	#superclass : 'SpkConnectionProfile',
 	#instVars : [
 		'port',
 		'inMemory'
 	],
-	#category : 'Sparkle-Models'
+	#category : 'Sparkle-Tools-Pharo-Support'
 }
 
 { #category : 'actions' }
-SparkleDirectConnectionProfile >> connect [
+SpkDirectConnectionProfile >> connect [
 
 	| connectionThing |
 	connectionThing := inMemory
@@ -26,13 +26,13 @@ SparkleDirectConnectionProfile >> connect [
 ]
 
 { #category : 'constants' }
-SparkleDirectConnectionProfile >> defaultPort [
+SpkDirectConnectionProfile >> defaultPort [
 
 	^ '29299'
 ]
 
 { #category : 'displaying' }
-SparkleDirectConnectionProfile >> displayString [
+SpkDirectConnectionProfile >> displayString [
 
 	| displayString |
 	displayString := super displayString.
@@ -48,19 +48,19 @@ SparkleDirectConnectionProfile >> displayString [
 ]
 
 { #category : 'accessing' }
-SparkleDirectConnectionProfile >> inMemory [
+SpkDirectConnectionProfile >> inMemory [
 
 	^ inMemory
 ]
 
 { #category : 'accessing' }
-SparkleDirectConnectionProfile >> inMemory: anObject [
+SpkDirectConnectionProfile >> inMemory: anObject [
 
 	inMemory := anObject
 ]
 
 { #category : 'initialization' }
-SparkleDirectConnectionProfile >> initialize [
+SpkDirectConnectionProfile >> initialize [
 
 	super initialize.
 	port := self defaultPort.
@@ -68,24 +68,24 @@ SparkleDirectConnectionProfile >> initialize [
 ]
 
 { #category : 'testing' }
-SparkleDirectConnectionProfile >> isInsecureProfile [
+SpkDirectConnectionProfile >> isInsecureProfile [
 
 	^true
 ]
 
 { #category : 'accessing' }
-SparkleDirectConnectionProfile >> port [
+SpkDirectConnectionProfile >> port [
 
 	^ port
 ]
 
 { #category : 'accessing' }
-SparkleDirectConnectionProfile >> port: anObject [
+SpkDirectConnectionProfile >> port: anObject [
 
 	port := anObject
 ]
 
 { #category : 'accessing' }
-SparkleDirectConnectionProfile >> type [ 
+SpkDirectConnectionProfile >> type [ 
 	^'Direct'
 ]

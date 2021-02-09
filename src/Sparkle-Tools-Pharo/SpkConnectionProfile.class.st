@@ -10,7 +10,7 @@ A SparkleConnectionProfile contains all the information necessary to establish a
 	Profiles:  Collection of active profiles used by all Sparkle Launchers
 "
 Class {
-	#name : 'SparkleConnectionProfile',
+	#name : 'SpkConnectionProfile',
 	#superclass : 'Object',
 	#instVars : [
 		'name',
@@ -22,11 +22,11 @@ Class {
 		'ProfileAnnouncer',
 		'Profiles'
 	],
-	#category : 'Sparkle-Models'
+	#category : 'Sparkle-Tools-Pharo-Support'
 }
 
 { #category : 'accessing' }
-SparkleConnectionProfile class >> addProfile: connectionProfile [
+SpkConnectionProfile class >> addProfile: connectionProfile [
 
 	(self connectionProfileExists: connectionProfile) ifTrue: [ 
 		self inform: 'Cannot add duplicate named profile'. ^false ].
@@ -38,25 +38,25 @@ SparkleConnectionProfile class >> addProfile: connectionProfile [
 ]
 
 { #category : 'testing' }
-SparkleConnectionProfile class >> connectionProfileExists: connectionProfile [
+SpkConnectionProfile class >> connectionProfileExists: connectionProfile [
 
 	^ self profiles includes: connectionProfile
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile class >> initializeProfiles [
+SpkConnectionProfile class >> initializeProfiles [
 	"self initializeProfiles"
 	Profiles := OrderedCollection new
 ]
 
 { #category : 'class initialization' }
-SparkleConnectionProfile class >> profileAnnouncer [
+SpkConnectionProfile class >> profileAnnouncer [
 
 	^ ProfileAnnouncer ifNil: [ ProfileAnnouncer := Announcer new ]
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile class >> profileChanged: connectionProfile [
+SpkConnectionProfile class >> profileChanged: connectionProfile [
 
 	ProfileAnnouncer announce:
 		(SpkConnectionProfileChangedAnnouncement new profiles:
@@ -64,19 +64,19 @@ SparkleConnectionProfile class >> profileChanged: connectionProfile [
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile class >> profiles [
+SpkConnectionProfile class >> profiles [
 
 	^ Profiles ifNil: [ self initializeProfiles ]
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile class >> profiles: collection [
+SpkConnectionProfile class >> profiles: collection [
 
 	^ Profiles := collection 
 ]
 
 { #category : 'profiles' }
-SparkleConnectionProfile class >> removeProfiles: connectionProfiles [
+SpkConnectionProfile class >> removeProfiles: connectionProfiles [
 
 	Profiles removeAll: connectionProfiles.
 	ProfileAnnouncer announce:
@@ -85,25 +85,25 @@ SparkleConnectionProfile class >> removeProfiles: connectionProfiles [
 ]
 
 { #category : 'comparing' }
-SparkleConnectionProfile >> = connectionProfile [
+SpkConnectionProfile >> = connectionProfile [
 
 	^ name = connectionProfile name
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> connection [
+SpkConnectionProfile >> connection [
 
 	^ connection
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> connection: anObject [
+SpkConnectionProfile >> connection: anObject [
 
 	connection := anObject
 ]
 
 { #category : 'actions' }
-SparkleConnectionProfile >> disconnect [
+SpkConnectionProfile >> disconnect [
 
 	connection ifNotNil: [ :conn | 
 		conn close.
@@ -114,7 +114,7 @@ SparkleConnectionProfile >> disconnect [
 ]
 
 { #category : 'displaying' }
-SparkleConnectionProfile >> displayString [
+SpkConnectionProfile >> displayString [
 
 	^ String streamContents: [ :stream | 
 		  stream
@@ -125,37 +125,37 @@ SparkleConnectionProfile >> displayString [
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> group [
+SpkConnectionProfile >> group [
 
 	^ group
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> group: anObject [
+SpkConnectionProfile >> group: anObject [
 
 	group := anObject
 ]
 
 { #category : 'comparing' }
-SparkleConnectionProfile >> hash [
+SpkConnectionProfile >> hash [
 
 	^ name identityHash
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> host [
+SpkConnectionProfile >> host [
 
 	^ host
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> host: anObject [
+SpkConnectionProfile >> host: anObject [
 
 	host := anObject
 ]
 
 { #category : 'initialization' }
-SparkleConnectionProfile >> initialize [
+SpkConnectionProfile >> initialize [
 
 	super initialize.
 	name := String new.
@@ -164,31 +164,31 @@ SparkleConnectionProfile >> initialize [
 ]
 
 { #category : 'testing' }
-SparkleConnectionProfile >> isGciProfile [
+SpkConnectionProfile >> isGciProfile [
 
 	^false
 ]
 
 { #category : 'testing' }
-SparkleConnectionProfile >> isInsecureProfile [
+SpkConnectionProfile >> isInsecureProfile [
 
 	^false
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> name [
+SpkConnectionProfile >> name [
 
 	^ name
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> name: anObject [
+SpkConnectionProfile >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : 'accessing' }
-SparkleConnectionProfile >> type [
+SpkConnectionProfile >> type [
 
 	self subclassResponsibility 
 ]

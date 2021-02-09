@@ -97,11 +97,11 @@ SpkConnectionPresenter >> initialize [
 
 	super initialize. 
 	self initializeConnectionProfile.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileConnectedAnnouncement
 		send: #enableButtons
 		to: self.
-	SparkleConnectionProfile profileAnnouncer
+	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
 		send: #enableButtons
 		to: self
@@ -207,7 +207,7 @@ SpkConnectionPresenter >> initializePresenters [
 SpkConnectionPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter whenClosedDo: [ 
-		SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
+		SpkConnectionProfile profileAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'accessing' }
@@ -231,7 +231,7 @@ SpkConnectionPresenter >> remove [
 
 	(self confirm: 'Really remove connection profile?') ifFalse: [ 
 		^ self ].
-	SparkleConnectionProfile removeProfiles:
+	SpkConnectionProfile removeProfiles:
 		(Array with: connectionProfile).
 	self initializeConnectionProfile
 ]

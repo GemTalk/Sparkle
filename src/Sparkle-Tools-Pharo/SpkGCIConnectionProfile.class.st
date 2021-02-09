@@ -11,8 +11,8 @@ A connection to a stone using a gci library
     Implementation Points
 "
 Class {
-	#name : 'SparkleGCIConnectionProfile',
-	#superclass : 'SparkleConnectionProfile',
+	#name : 'SpkGCIConnectionProfile',
+	#superclass : 'SpkConnectionProfile',
 	#instVars : [
 		'version',
 		'threadSafe',
@@ -23,11 +23,11 @@ Class {
 		'path',
 		'session'
 	],
-	#category : 'Sparkle-Models'
+	#category : 'Sparkle-Tools-Pharo-Support'
 }
 
 { #category : 'actions' }
-SparkleGCIConnectionProfile >> connect [
+SpkGCIConnectionProfile >> connect [
 
 	"initialize gci library"
 
@@ -45,14 +45,14 @@ SparkleGCIConnectionProfile >> connect [
 ]
 
 { #category : 'actions' }
-SparkleGCIConnectionProfile >> disconnect [
+SpkGCIConnectionProfile >> disconnect [
 	super disconnect.
 	session logout.
 	session := nil
 ]
 
 { #category : 'displaying' }
-SparkleGCIConnectionProfile >> displayString [
+SpkGCIConnectionProfile >> displayString [
 
 	| displayString |
 	displayString := super displayString.
@@ -71,7 +71,7 @@ SparkleGCIConnectionProfile >> displayString [
 ]
 
 { #category : 'initialization' }
-SparkleGCIConnectionProfile >> initialize [
+SpkGCIConnectionProfile >> initialize [
 
 	super initialize.
 	version := String new.
@@ -81,25 +81,25 @@ SparkleGCIConnectionProfile >> initialize [
 ]
 
 { #category : 'testing' }
-SparkleGCIConnectionProfile >> isGciProfile [
+SpkGCIConnectionProfile >> isGciProfile [
 
 	^true
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> netldi [
+SpkGCIConnectionProfile >> netldi [
 
 	^ netldi
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> netldi: anObject [
+SpkGCIConnectionProfile >> netldi: anObject [
 
 	netldi := anObject
 ]
 
 { #category : 'actions' }
-SparkleGCIConnectionProfile >> setupRSRConnection [
+SpkGCIConnectionProfile >> setupRSRConnection [
 
 	| initiator |
 	session
@@ -122,44 +122,44 @@ SparkleGCIConnectionProfile >> setupRSRConnection [
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> stone [
+SpkGCIConnectionProfile >> stone [
 
 	^ stone
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> stone: anObject [
+SpkGCIConnectionProfile >> stone: anObject [
 
 	stone := anObject
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> threadSafe [
+SpkGCIConnectionProfile >> threadSafe [
 
 	^ threadSafe
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> threadSafe: anObject [
+SpkGCIConnectionProfile >> threadSafe: anObject [
 
 	threadSafe := anObject
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> type [
+SpkGCIConnectionProfile >> type [
 
 	^'GCI'
 	
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> version [
+SpkGCIConnectionProfile >> version [
 
 	^ version
 ]
 
 { #category : 'accessing' }
-SparkleGCIConnectionProfile >> version: anObject [
+SpkGCIConnectionProfile >> version: anObject [
 
 	version := anObject
 ]

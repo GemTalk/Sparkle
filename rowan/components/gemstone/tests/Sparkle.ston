@@ -3,7 +3,6 @@ RwSimpleProjectLoadComponentV2 {
 	#condition : 'tests',
 	#projectNames : [ ],
 	#componentNames : [ ],
-	#packageNames : [
-	],
+	#packageNames : [ ],
 	#comment : 'gemstone packages for Sparkle'
 }

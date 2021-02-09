@@ -36,17 +36,17 @@ SpkExplorerServiceServer class >> initializeServiceClassesForToolTypes [
 ]
 
 { #category : 'accessing' }
+SpkExplorerServiceServer class >> serviceClassesForToolTypes [
+
+	^ serviceClassesForToolTypes
+]
+
+{ #category : 'accessing' }
 SpkExplorerServiceServer class >> serviceClassForToolClass: aToolClass [
 
 	^ self serviceClassesForToolTypes
 		  at: aToolClass
-		  ifAbsent: [ self error: 'Unrecognized tool class' ]
-]
-
-{ #category : 'accessing' }
-SpkExplorerServiceServer class >> serviceClassesForToolTypes [
-
-	^ serviceClassesForToolTypes
+		  ifAbsent: [ self error: 'Unrecognized tool class ' , aToolClass name ]
 ]
 
 { #category : 'initialization' }

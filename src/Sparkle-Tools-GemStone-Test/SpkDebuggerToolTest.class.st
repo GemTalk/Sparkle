@@ -4,7 +4,20 @@ Class {
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
-{ #category : 'other' }
+{ #category : 'support' }
+SpkDebuggerToolTest >> executedCodeFrameInDebugger: debugger [
+	| doitFrames |
+	self assert: debugger class equals: SpkDebuggerTool.
+
+	doitFrames := debugger frames
+		select: [ :frame | 
+			self assert: frame class equals: SpkDebuggerFrameTool.
+			frame description = 'Executed Code ' ].
+	self assert: doitFrames size equals: 1.
+	^ doitFrames first
+]
+
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testContinueOnce [
 	"Get a debugger, continue, get an inspector"
 
@@ -18,23 +31,26 @@ SpkDebuggerToolTest >> testContinueOnce [
 		assert: inspector inspectedObject equals: 7
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testContinueTwice [
 	"Get a debugger, continue, get the same debugger, continue, get inspector"
 
-	| debugger1 debugger2 inspector |
+	| debugger1 debugger2 inspector frame |
 	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
 	debugger1 := evaluatorTool evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	self assert: frame currentSourceInterval equals: (4 to: 8).
 	debugger2 := debugger1 continue.
 	self assert: debugger1 == debugger2.
+	self assert: frame currentSourceInterval equals: (15 to: 19).
 	inspector := debugger2 continue.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 12
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
 	"Do we get a reasonable source code interval for a primitive method?"
 
@@ -51,25 +67,19 @@ SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
 		assert: interval size equals: 4
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testFrameDescription [
 	"Is a frame's description reasonable?"
 
-	| debugger doitFrames |
+	| debugger frame |
 	evaluatorTool newSourceCode: '3 zork'.
 	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
 
-	doitFrames := debugger frames
-		select: [ :frame | 
-			self assert: frame class equals: SpkDebuggerFrameTool.
-			frame description = 'Executed Code ' ].
-	self
-		assert: doitFrames size equals: 1;
-		assert: doitFrames first index equals: 7
+	frame := self executedCodeFrameInDebugger: debugger.
+	self assert: frame index equals: 7
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testFrameIndex [
 	"Are frames indexed from the bottom of the stack?"
 
@@ -83,7 +93,7 @@ SpkDebuggerToolTest >> testFrameIndex [
 		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testNumberOfFrames [
 	"Can the debugger get frames from the process?"
 

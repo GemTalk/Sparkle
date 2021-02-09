@@ -11,6 +11,14 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+SpkProcessLauncherAndManager >> continueProcess [
+	"Evaluation process waits for an answer and returns it"
+
+	super continueProcess.
+	^ self waitForResult
+]
+
+{ #category : 'as yet unclassified' }
 SpkProcessLauncherAndManager >> debuggerMustInitiate [
 
 	^ false

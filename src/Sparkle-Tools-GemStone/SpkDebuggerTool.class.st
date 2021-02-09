@@ -14,6 +14,13 @@ Class {
 }
 
 { #category : 'other' }
+SpkDebuggerTool >> continue [
+	"May wait for an answer, depending on whether the process is an evaluation process"
+
+	^ processManager continueProcess
+]
+
+{ #category : 'other' }
 SpkDebuggerTool >> currentException: anException [
 	exception ifNil: [ exception := anException ]
 ]

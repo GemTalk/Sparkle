@@ -10,6 +10,13 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'as yet unclassified' }
+SpkProcessManager >> continueProcess [
+	"Non-evaluation process does not wait for an answer."
+
+	self resumeProcess
+]
+
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
 
@@ -57,16 +64,15 @@ SpkProcessManager >> debuggerMustInitiate [
 
 { #category : 'as yet unclassified' }
 SpkProcessManager >> debuggerProcessForException: anException [
-
 	"Answer a new debugger process for a new or existing debugger,
 	debugging process. Start by suspending the process."
 
 	^ [ 
-	  process suspend.
-	  debuggerTool ifNil: self initializeDebuggerTool.
-	  debuggerTool
-		  currentException: anException;
-		  debug ] newProcess
+	process suspend.
+	debuggerTool ifNil: [ self initializeDebuggerTool ].
+	debuggerTool
+		currentException: anException;
+		debug ] newProcess
 ]
 
 { #category : 'as yet unclassified' }

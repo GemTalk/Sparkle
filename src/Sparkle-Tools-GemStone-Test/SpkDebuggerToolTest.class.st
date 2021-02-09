@@ -5,6 +5,36 @@ Class {
 }
 
 { #category : 'other' }
+SpkDebuggerToolTest >> testContinueOnce [
+	"Get a debugger, continue, get an inspector"
+
+	| debugger inspector |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	inspector := debugger continue.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 7
+]
+
+{ #category : 'other' }
+SpkDebuggerToolTest >> testContinueTwice [
+	"Get a debugger, continue, get the same debugger, continue, get inspector"
+
+	| debugger1 debugger2 inspector |
+	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	debugger2 := debugger1 continue.
+	self assert: debugger1 == debugger2.
+	inspector := debugger2 continue.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 12
+]
+
+{ #category : 'other' }
 SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
 	"Do we get a reasonable source code interval for a primitive method?"
 

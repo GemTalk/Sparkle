@@ -6,20 +6,7 @@ RwSimpleProjectLoadComponentV2 {
 		'gemstone/tests/Sparkle'
 	],
 	#packageNames : [
-		'Sparkle-Tools-GemStone',
-		'Announcements-Core-GemStone',
-		'Announcements-Extensions-GemStone'
+		'Sparkle-Tools-GemStone'
 	],
-	#conditionalPackageMapSpecs : {
-		'gemstone' : {
-			'allusers' : {
-				#packageNameToPlatformPropertiesMap : {
-					'Announcements-Extensions-GemStone' : {
-						'symbolDictName' : 'Globals'
-					}
-				}
-			}
-		}
-	},
 	#comment : 'gemstone packages for Sparkle'
 }

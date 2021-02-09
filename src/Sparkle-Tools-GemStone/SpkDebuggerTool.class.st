@@ -2,21 +2,27 @@ Class {
 	#name : 'SpkDebuggerTool',
 	#superclass : 'SpkTool',
 	#instVars : [
+		'taskspaceTool',
 		'explorerTool',
+		'processManager',
 		'process',
 		'exception',
 		'frames',
-		'debugActionForContinue'
+		'mustInitiate'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'accessing' }
-SpkDebuggerTool >> debugActionForContinue: aBlock [
-	"I must restore this block as the debugAction of the debugged process before I let it continue.
-	Typically this is the same block that caused me to be created."
+{ #category : 'other' }
+SpkDebuggerTool >> currentException: anException [
+	exception ifNil: [ exception := anException ]
+]
 
-	debugActionForContinue := aBlock
+{ #category : 'private' }
+SpkDebuggerTool >> debug [
+	mustInitiate
+		ifFalse: [ processManager returnValue: self ]
+		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
 ]
 
 { #category : 'accessing' }
@@ -87,6 +93,11 @@ SpkDebuggerTool >> initializeFramesFromProcess [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> mustInitiate: object [
+	mustInitiate := object
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> process: aProcess [
 	"The GsProcess that I am to debug."
 
@@ -99,6 +110,11 @@ SpkDebuggerTool >> processIdentifier [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> processManager: object [
+	processManager := object
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> processName [
 	^ process name
 ]
@@ -106,4 +122,9 @@ SpkDebuggerTool >> processName [
 { #category : 'accessing' }
 SpkDebuggerTool >> processPriority [
 	^ process priority
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> taskspaceTool: object [
+	taskspaceTool := object
 ]

@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkEvaluatorTool',
 	#superclass : 'SpkTool',
 	#instVars : [
+		'taskspaceTool',
 		'explorerTool',
 		'inspectorTool',
 		'oldSourceCode',

@@ -36,7 +36,7 @@ SpkDebuggerToolTest >> testFrameDescription [
 			frame description = 'Executed Code ' ].
 	self
 		assert: doitFrames size equals: 1;
-		assert: doitFrames first index equals: 6
+		assert: doitFrames first index equals: 7
 ]
 
 { #category : 'other' }

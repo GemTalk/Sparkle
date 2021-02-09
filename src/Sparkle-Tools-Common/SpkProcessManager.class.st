@@ -39,28 +39,6 @@ SpkProcessManager >> debugForeignProcess: processToDebug withException: anExcept
 		debugException: anException
 ]
 
-{ #category : 'as yet unclassified' }
-SpkProcessManager >> debugMyProcessWithException: anException [
-
-	"process is the active process on empty. Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess originalPriority |
-	originalPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessForException: anException.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts processToDebug, and the debuggerProcess takes over."
-			resume.
-	" If I get here, the debugger has decided to proceed my process.
-	Its priority will have been changed if it was running at max priority, set it back before continuing."
-	process priority: originalPriority
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> debuggerDebugAction: aBlock [
 
@@ -89,6 +67,28 @@ SpkProcessManager >> debuggerProcessForException: anException [
 	  debuggerTool
 		  currentException: anException;
 		  debug ] newProcess
+]
+
+{ #category : 'as yet unclassified' }
+SpkProcessManager >> debugMyProcessWithException: anException [
+
+	"process is the active process on empty. Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess originalPriority |
+	originalPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessForException: anException.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts processToDebug, and the debuggerProcess takes over."
+			resume.
+	" If I get here, the debugger has decided to proceed my process.
+	Its priority will have been changed if it was running at max priority, set it back before continuing."
+	process priority: originalPriority
 ]
 
 { #category : 'initialization' }
@@ -121,6 +121,21 @@ SpkProcessManager >> resumeProcess [
 SpkProcessManager >> setDebugAction [
 
 	process debugActionBlock: self debugAction
+]
+
+{ #category : 'other' }
+SpkProcessManager >> setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug [
+	"In order to reliably suspend the debugged process, the debugger must run at a higher priority.
+	Normally, just run the debugger one higher, but if that's impossible lower the debugged process priority.
+	It will be restored upon continue (see #evaluateMethod:inContext:)."
+
+	| debuggedPriority |
+	debuggedPriority := processToDebug priority.
+	debuggedPriority = Processor highestPriority
+		ifFalse: [ debuggerProcess priority: debuggedPriority + 1 ]
+		ifTrue: [ 
+			debuggerProcess priority: debuggedPriority.
+			processToDebug priority: debuggedPriority - 1 ]
 ]
 
 { #category : 'accessing' }

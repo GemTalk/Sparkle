@@ -3,6 +3,7 @@ Class {
 	#superclass : 'SpkProcessManager',
 	#instVars : [
 		'processPriority',
+		'processName',
 		'result',
 		'resultReady'
 	],
@@ -24,10 +25,12 @@ SpkProcessLauncherAndManager >> initialize [
 
 { #category : 'as yet unclassified' }
 SpkProcessLauncherAndManager >> processBody: aBlock [
+	process := [ self returnValue: aBlock value ] newProcess
+]
 
-	process := [ 
-	           result := aBlock value.
-	           resultReady signal ] newProcess
+{ #category : 'accessing' }
+SpkProcessLauncherAndManager >> processName: object [
+	processName := object
 ]
 
 { #category : 'accessing' }
@@ -36,10 +39,17 @@ SpkProcessLauncherAndManager >> processPriority: aPriority [
 	processPriority := aPriority
 ]
 
+{ #category : 'other' }
+SpkProcessLauncherAndManager >> returnValue: anObject [
+	result := anObject.
+	resultReady signal
+]
+
 { #category : 'as yet unclassified' }
 SpkProcessLauncherAndManager >> runProcess [
-
-	process priority: processPriority.
+	process
+		name: processName;
+		priority: processPriority.
 	self resumeProcess
 ]
 

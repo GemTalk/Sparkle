@@ -187,7 +187,7 @@ SpkConnectionListPresenter >> initializeToolbar [
 				            label: 'Load';
 				            icon: (self iconNamed: #smallOpen);
 				            help: 'Restore profiles from a file';
-				            action: [ self restoreFromFile ];
+				            action: [ self loadFromFile ];
 				            yourself);
 		           yourself.
 	connectionsBox add: #toolbar expand: false fill: false padding: 0
@@ -203,6 +203,25 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 800 @ 400;
 		whenClosedDo: [ 
 			SparkleConnectionProfile profileAnnouncer unsubscribe: self ]
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> loadFromFile [
+
+	| path stream profiles |
+	(self confirm: 'This will replace the connection profiles. Continue?') ifFalse:[^self].
+	path := UIManager default
+		        chooseExistingFileReference:
+		        'Restore Connection Profiles As ...'
+		        extensions: #( 'ston' )
+		        path: 'profiles'.
+	path ifNil: [ ^ self ].
+	stream := path asFileReference readStream.
+	profiles := (STON reader on: stream) next.
+	(profiles isKindOf: Collection) ifFalse: [ 
+		^ self inform: 'Improper connection profiles file' "need a better sanity check on what is restored" ].
+	SparkleConnectionProfile profiles: profiles.
+	connectionList items: SparkleConnectionProfile profiles
 ]
 
 { #category : 'accessing' }
@@ -250,25 +269,6 @@ SpkConnectionListPresenter >> profileRemoved: announcement [
 
 	connectionList items:
 		(connectionList items copyWithoutAll: announcement profiles)
-]
-
-{ #category : 'actions' }
-SpkConnectionListPresenter >> restoreFromFile [
-
-	| path stream profiles |
-	(self confirm: 'This will replace the connection profiles. Continue?') ifFalse:[^self].
-	path := UIManager default
-		        chooseExistingFileReference:
-		        'Restore Connection Profiles As ...'
-		        extensions: #( 'ston' )
-		        path: 'profiles'.
-	path ifNil: [ ^ self ].
-	stream := path asFileReference readStream.
-	profiles := (STON reader on: stream) next.
-	(profiles isKindOf: Collection) ifFalse: [ 
-		^ self inform: 'Improper connection profiles file' "need a better sanity check on what is restored" ].
-	SparkleConnectionProfile profiles: profiles.
-	connectionList items: SparkleConnectionProfile profiles
 ]
 
 { #category : 'actions' }

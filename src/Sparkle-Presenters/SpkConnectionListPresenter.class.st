@@ -178,13 +178,13 @@ SpkConnectionListPresenter >> initializeToolbar [
 
 	toolbar := self newToolbar
 		           addItem: (SpToolbarButtonPresenter new
-				            label: 'Save to file';
+				            label: 'Save';
 				            icon: (self iconNamed: #smallSave);
 				            help: 'Save profiles to a file';
 				            action: [ self saveToFile ];
 				            yourself);
 		           addItem: (SpToolbarButtonPresenter new
-				            label: 'Restore from file';
+				            label: 'Load';
 				            icon: (self iconNamed: #smallOpen);
 				            help: 'Restore profiles from a file';
 				            action: [ self restoreFromFile ];

@@ -20,12 +20,6 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkLinkableSubService >> parentService [
-
-	^ parentService
-]
-
-{ #category : 'accessing' }
 SpkLinkableSubService >> parentService: anObject [
 
 	parentService := anObject

@@ -18,7 +18,7 @@ SparkleConnectionsLauncher class >> menuCommandOn: aBuilder [
 	(aBuilder item: #'Sparkle Connections Launcher')
 		order: 0.9; 
 		icon: nil;  
-		parent: #'Tools';
+		parent: #'Browse';
 		keyText: 'L'; "hot key doesn't work yet" 
 		help: 'Sparkle is the GemStone connection creator for Pharo';
 		action: [ self new start ]

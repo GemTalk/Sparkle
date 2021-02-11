@@ -40,7 +40,10 @@ SpkGCIConnectionProfile >> connect [
 		        stone: stone
 		        host: host
 		        netldi: netldi.
-	session loginWithGsUser: 'SystemUser' password: 'swordfish'.
+	session loginWithGsUser: 'SystemUser' password: 'swordfish'. "need to analyze result b4 proceeding"
+	ProfileAnnouncer announce:
+		(SpkConnectionProfileConnectedAnnouncement new profiles:
+			 (Array with: self)).
 	self setupRSRConnection. 
 ]
 

@@ -83,14 +83,12 @@ SpkConnectionListPresenter >> initializeConnectionList [
 	connectionsBox add: (SpkBoxLayout newVertical
 			 add: (self newLabel label: 'Connection Profiles')
 			 withConstraints: [ :constraints | constraints height: 25 ];
-			 add: (connectionList := self newTable beSingleSelection 
+			 add: (connectionList := self newTable beSingleSelection
 					                    sortingBlock: [ :a :b | a name < b name ];
 					                    addColumn: (SpImageTableColumn new
 							                     width: 25;
 							                     evaluated: [ :profile | 
-								                     profile connection
-									                     ifNil: [  ]
-									                     ifNotNil: [ self iconNamed: #smallOk ] ]);
+								                     self showConnectionIndicatorFor: profile ]);
 					                    addColumn: (SpStringTableColumn new
 							                     title: 'Name';
 							                     sortFunction: #name ascending;
@@ -302,4 +300,12 @@ SpkConnectionListPresenter >> setConnectionProfile: connectionProfile [
 		connectionsNotebook selectPageIndex: 2 "need to fix. Avoid constant" ].
 	^ self activeConnectionPage setConnectionProfile:
 		  connectionProfile
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> showConnectionIndicatorFor: profile [
+
+	^ profile connection
+		  ifNil: [  ]
+		  ifNotNil: [ self iconNamed: #smallOk ]
 ]

@@ -155,7 +155,7 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 	session
 		executeStringAndFetchResultByteArray:
 		'| acceptor |
-		acceptor := RsrAcceptConnection port: 29298.
+		acceptor := RsrAcceptConnection port: ', port, '.
 		acceptor ensureListening.
 		SessionTemps current
 			at: #PendingConnectionAcceptor
@@ -167,7 +167,7 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 		connection := (SessionTemps current at: #PendingConnectionAcceptor) waitForConnection.
 		SessionTemps current removeKey: #PendingConnectionAcceptor.
 		connection waitUntilClose.'.
-	initiator := RsrInitiateConnection host: host port: 29298.
+	initiator := RsrInitiateConnection host: host port: port asInteger.
 	connection := initiator connect
 ]
 

@@ -66,7 +66,6 @@ SpkInsecureConnectionPresenter >> updateConnectionProfile [
 
 	super updateConnectionProfile.
 	connectionProfile
-		port: portText text;
 		inMemory: inMemoryCheckbox state
 ]
 

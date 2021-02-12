@@ -41,6 +41,12 @@ SpkGCIConnectionProfile class >> defaultPath: string [
 	DefaultPath := string
 ]
 
+{ #category : 'initialization' }
+SpkGCIConnectionProfile class >> initialize [
+
+	DefaultPath := String new
+]
+
 { #category : 'actions' }
 SpkGCIConnectionProfile >> connect [
 
@@ -93,9 +99,10 @@ SpkGCIConnectionProfile >> initialize [
 
 	super initialize.
 	version := String new.
-	stone := String new. 
+	stone := String new.
 	netldi := String new.
-	threadSafe := true "always true for now"
+	threadSafe := true. "always true for now"
+	path := self class defaultPath
 ]
 
 { #category : 'testing' }
@@ -114,6 +121,18 @@ SpkGCIConnectionProfile >> netldi [
 SpkGCIConnectionProfile >> netldi: anObject [
 
 	netldi := anObject
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile >> path [
+
+	^ path
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile >> path: anObject [
+
+	path := anObject
 ]
 
 { #category : 'actions' }

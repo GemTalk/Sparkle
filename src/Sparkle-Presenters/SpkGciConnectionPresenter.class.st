@@ -39,7 +39,7 @@ SpkGciConnectionPresenter >> initializePathPresenter [
 	setPathButton := self newButton
 		                 label: 'Set Path';
 		                 icon: (self iconNamed: #smallHome);
-		                 action: [ self add ].
+		                 action: [ self setPath ].
 	pathBox add: setPathButton withConstraints: [ :constraints1 | 
 		constraints1
 			height: 30;
@@ -130,6 +130,17 @@ SpkGciConnectionPresenter >> setFocusOrder [
 		add: netldiText
 ]
 
+{ #category : 'actions' }
+SpkGciConnectionPresenter >> setPath [
+
+	| path |
+	path := UIManager default chooseDirectory.
+	path ifNil: [ ^ self ].
+	connectionProfile path: path fullName.
+	SpkGCIConnectionProfile defaultPath: connectionProfile path.
+	self updateGUI
+]
+
 { #category : 'accessing' }
 SpkGciConnectionPresenter >> stoneText [
 
@@ -149,7 +160,8 @@ SpkGciConnectionPresenter >> updateConnectionProfile [
 	connectionProfile
 		version: versionText text;
 		stone: stoneText text;
-		netldi: netldiText text
+		netldi: netldiText text;
+		path: pathText text
 ]
 
 { #category : 'actions' }
@@ -158,7 +170,8 @@ SpkGciConnectionPresenter >> updateGUI [
 	super updateGUI ifFalse:[^false]. 
 	versionText text: connectionProfile version.
 	netldiText text: connectionProfile netldi.
-	stoneText text: connectionProfile stone
+	stoneText text: connectionProfile stone.
+	pathText text: connectionProfile path. 
 ]
 
 { #category : 'accessing' }

@@ -73,6 +73,13 @@ SpkInspectorTool >> evaluatorTools [
 ]
 
 { #category : 'accessing' }
+SpkInspectorTool >> explorerTool: aTool [
+
+	super explorerTool: aTool.
+	explorerTool addPane: self
+]
+
+{ #category : 'accessing' }
 SpkInspectorTool >> fieldTools [
 
 	^ fieldTools ifNil: [ self initializeFieldTools ]

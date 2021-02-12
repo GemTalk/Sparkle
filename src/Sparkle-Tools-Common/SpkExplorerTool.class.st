@@ -30,7 +30,7 @@ SpkExplorerTool >> addPane: aPaneTool [
 SpkExplorerTool >> initialize [
 
 	super initialize.
-	panes := Set new
+	panes := IdentitySet new
 ]
 
 { #category : 'initialization' }

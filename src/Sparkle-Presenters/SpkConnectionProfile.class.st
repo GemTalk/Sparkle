@@ -22,7 +22,7 @@ Class {
 		'ProfileAnnouncer',
 		'Profiles'
 	],
-	#category : 'Sparkle-Tools-Pharo-Support'
+	#category : 'Sparkle-Presenters-Support'
 }
 
 { #category : 'accessing' }
@@ -66,7 +66,9 @@ SpkConnectionProfile class >> profileChanged: connectionProfile [
 { #category : 'accessing' }
 SpkConnectionProfile class >> profiles [
 
-	^ Profiles ifNil: [ self initializeProfiles ]
+	^ Profiles ifNil: [ 
+		  self initializeProfiles.
+		  Profiles ]
 ]
 
 { #category : 'accessing' }

@@ -5,8 +5,7 @@ Class {
 	#name : 'SpkInsecureConnectionPresenter',
 	#superclass : 'SpkConnectionPresenter',
 	#instVars : [
-		'inMemoryCheckbox',
-		'portText'
+		'inMemoryCheckbox'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -43,22 +42,9 @@ SpkInsecureConnectionPresenter >> initializeInMemoryCheckbox [
 ]
 
 { #category : 'initialization' }
-SpkInsecureConnectionPresenter >> initializePortPresenter [
-
-	self layout
-		add: (self newLabel label: 'Port:')
-		withConstraints: [ :constraints | constraints height: 20 ].
-	portText := self newTextInput.
-	self layout
-		add: portText
-		withConstraints: [ :constraints | constraints height: 30 ]
-]
-
-{ #category : 'initialization' }
 SpkInsecureConnectionPresenter >> initializePresenters [
 
 	super initializePresenters.
-	self initializePortPresenter.
 	self initializeInMemoryCheckbox.
 	self initializeButtons.
 ]

@@ -11,7 +11,8 @@ Class {
 		'saveButton',
 		'cancelButton',
 		'connectButton',
-		'disconnectButton'
+		'disconnectButton',
+		'portText'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -171,15 +172,27 @@ SpkConnectionPresenter >> initializeGroupPresenter [
 ]
 
 { #category : 'initialization' }
-SpkConnectionPresenter >> initializeHostPresenter [
+SpkConnectionPresenter >> initializeHostAndPortPresenter [
 
-	self layout
+	| labelBox inputBox |
+	labelBox := SpkBoxLayout newHorizontal.
+	labelBox
 		add: (self newLabel label: 'Host:')
 		withConstraints: [ :constraints | constraints height: 20 ].
+	labelBox
+		add: (self newLabel label: 'Port:')
+		withConstraints: [ :constraints | constraints height: 20 ].
+	self layout add: labelBox.
+	inputBox := SpkBoxLayout newHorizontal.
 	hostText := self newTextInput.
-	self layout
+	inputBox
 		add: hostText
-		withConstraints: [ :constraints | constraints height: 30 ]
+		withConstraints: [ :constraints | constraints height: 30 ].
+	portText := self newTextInput.
+	inputBox
+		add: portText
+		withConstraints: [ :constraints | constraints height: 30 ].
+	self layout add: inputBox
 ]
 
 { #category : 'initialization' }
@@ -200,7 +213,7 @@ SpkConnectionPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeNamePresenter. 
 	self initializeGroupPresenter.
-	self initializeHostPresenter.
+	self initializeHostAndPortPresenter.
 ]
 
 { #category : 'initialization' }

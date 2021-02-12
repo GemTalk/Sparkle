@@ -5,7 +5,7 @@ Class {
 		'port',
 		'inMemory'
 	],
-	#category : 'Sparkle-Tools-Pharo-Support'
+	#category : 'Sparkle-Presenters-Support'
 }
 
 { #category : 'actions' }

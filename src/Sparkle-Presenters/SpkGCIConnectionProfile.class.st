@@ -23,7 +23,7 @@ Class {
 		'path',
 		'session'
 	],
-	#category : 'Sparkle-Tools-Pharo-Support'
+	#category : 'Sparkle-Presenters-Support'
 }
 
 { #category : 'actions' }
@@ -33,7 +33,7 @@ SpkGCIConnectionProfile >> connect [
 
 	GciInterface libraryDirectoryIsSet ifFalse: [ 
 		GciInterface libraryDirectory:
-			'/home/ewinger/Pharo/images/ericNewLauncher1077/clientlibs' ].
+			'/Users/eric/Documents/Pharo/images/ericDev1124/clientlibs' ].
 	session := GsSession
 		        newForGsVersion: version
 		        threadSafe: true

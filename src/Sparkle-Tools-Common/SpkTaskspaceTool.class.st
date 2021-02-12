@@ -70,6 +70,8 @@ SpkTaskspaceTool >> initializeForDefault [
 	"The default initial taskspace has one default explorer."
 
 	| explorer |
-	explorer := SpkExplorerTool newDefault.
+	explorer := SpkExplorerTool new
+		            taskspaceTool: self;
+		            initializeForDefault.
 	self addExplorer: explorer
 ]

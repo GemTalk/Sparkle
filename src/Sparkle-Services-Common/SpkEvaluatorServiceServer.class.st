@@ -41,11 +41,12 @@ SpkEvaluatorServiceServer >> initializeTool [
 	inspectorTool := parentService tool.
 	tool := SpkEvaluatorTool new.
 	^ tool
-		oldSourceCode: oldSourceCode;
-		newSourceCode: newSourceCode;
-		inspectorTool: inspectorTool;
-		explorerTool: inspectorTool explorerTool;
-		yourself
+		  oldSourceCode: oldSourceCode;
+		  newSourceCode: newSourceCode;
+		  inspectorTool: inspectorTool;
+		  explorerTool: inspectorTool explorerTool;
+		  taskspaceTool: inspectorTool taskspaceTool;
+		  yourself
 ]
 
 { #category : 'initialization' }

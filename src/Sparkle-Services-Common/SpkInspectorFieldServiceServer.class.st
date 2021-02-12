@@ -9,10 +9,12 @@ Class {
 
 { #category : 'inspecting' }
 SpkInspectorFieldServiceServer >> createInspectorService [
+
 	| newTool |
 	newTool := (SpkInspectorTool on: tool inspectedObject)
-		explorerTool: tool explorerTool;
-		yourself.
+		           explorerTool: tool explorerTool;
+		           taskspaceTool: tool taskspaceTool;
+		           yourself.
 	^ SpkInspectorServiceServer forTool: newTool
 ]
 

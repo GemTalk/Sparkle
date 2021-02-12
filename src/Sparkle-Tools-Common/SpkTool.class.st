@@ -1,11 +1,14 @@
 "
 General services needed by tool objects.
+
+Every tool has a reference to the tool for the taskspace that it is part of.
 "
 Class {
 	#name : 'SpkTool',
 	#superclass : 'SpkObject',
 	#instVars : [
-		'announcer'
+		'announcer',
+		'taskspaceTool'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -20,6 +23,25 @@ SpkTool >> announce: anAnnouncement [
 SpkTool >> announcer [
 
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : 'initialization' }
+SpkTool >> initialize [
+
+	super initialize.
+	announcer := Announcer new
+]
+
+{ #category : 'accessing' }
+SpkTool >> taskspaceTool [
+
+	^ taskspaceTool
+]
+
+{ #category : 'accessing' }
+SpkTool >> taskspaceTool: anObject [
+
+	taskspaceTool := anObject
 ]
 
 { #category : 'accessing' }

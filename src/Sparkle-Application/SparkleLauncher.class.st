@@ -21,9 +21,9 @@ SparkleLauncher class >> menuCommandOn: aBuilder [
 	<worldMenu> 
 	
 	(aBuilder item: #'Sparkle Launcher')
-		order: 0.7; 
+		order: 1.2; 
 		icon: nil;  
-		parent: #'Tools';
+		parent: #'Browse';
 		keyText: 's, p'; "hot key doesn't work yet" 
 		help: 'Sparke is the GemStone interface for Pharo';
 		action: [ self new start ]

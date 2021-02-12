@@ -46,6 +46,28 @@ SpkProcessManager >> debugForeignProcess: processToDebug withException: anExcept
 		debugException: anException
 ]
 
+{ #category : 'as yet unclassified' }
+SpkProcessManager >> debugMyProcessWithException: anException [
+
+	"process is the active process on empty. Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess originalPriority |
+	originalPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessForException: anException.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts processToDebug, and the debuggerProcess takes over."
+			resume.
+	" If I get here, the debugger has decided to proceed my process.
+	Its priority will have been changed if it was running at max priority, set it back before continuing."
+	process priority: originalPriority
+]
+
 { #category : 'accessing' }
 SpkProcessManager >> debuggerDebugAction: aBlock [
 
@@ -73,28 +95,6 @@ SpkProcessManager >> debuggerProcessForException: anException [
 	debuggerTool
 		currentException: anException;
 		debug ] newProcess
-]
-
-{ #category : 'as yet unclassified' }
-SpkProcessManager >> debugMyProcessWithException: anException [
-
-	"process is the active process on empty. Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess originalPriority |
-	originalPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessForException: anException.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts processToDebug, and the debuggerProcess takes over."
-			resume.
-	" If I get here, the debugger has decided to proceed my process.
-	Its priority will have been changed if it was running at max priority, set it back before continuing."
-	process priority: originalPriority
 ]
 
 { #category : 'initialization' }

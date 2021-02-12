@@ -20,14 +20,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'instance creation' }
-SpkExplorerTool class >> newDefault [
-
-	^ self new
-		  initializeForDefault;
-		  yourself
-]
-
 { #category : 'adding' }
 SpkExplorerTool >> addPane: aPaneTool [
 
@@ -49,6 +41,7 @@ SpkExplorerTool >> initializeForDefault [
 	| inspector |
 	inspector := SpkInspectorTool new
 		             explorerTool: self;
+		             taskspaceTool: taskspaceTool;
 		             initializeForDefault;
 		             yourself.
 	self addPane: inspector

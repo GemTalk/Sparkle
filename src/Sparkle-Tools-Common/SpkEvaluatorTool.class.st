@@ -2,7 +2,6 @@ Class {
 	#name : 'SpkEvaluatorTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'taskspaceTool',
 		'explorerTool',
 		'inspectorTool',
 		'oldSourceCode',
@@ -91,5 +90,7 @@ SpkEvaluatorTool >> oldSourceCode: anObject [
 { #category : 'tool creation' }
 SpkEvaluatorTool >> toolForCompilationError: aCompilationException [
 
-	^ SpkCompilationErrorTool forException: aCompilationException
+	^ (SpkCompilationErrorTool forException: aCompilationException)
+		  taskspaceTool: taskspaceTool;
+		  yourself
 ]

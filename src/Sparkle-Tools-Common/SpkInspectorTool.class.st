@@ -37,6 +37,7 @@ SpkInspectorTool >> addEvaluator [
 	^ evaluatorTools add: (SpkEvaluatorTool new
 			   inspectorTool: self;
 			   explorerTool: explorerTool;
+			   taskspaceTool: taskspaceTool;
 			   yourself)
 ]
 
@@ -105,15 +106,19 @@ SpkInspectorTool >> initializeForDefault [
 
 { #category : 'private' }
 SpkInspectorTool >> initializeIndexedInstvars [
+
 	| size |
 	size := SpkReflection indexedSizeOf: inspectedObject.
 	1 to: size do: [ :index | 
 		| value fieldTool |
-		value := SpkReflection fetchIndexedInstvarAt: index from: inspectedObject.
+		value := SpkReflection
+			         fetchIndexedInstvarAt: index
+			         from: inspectedObject.
 		fieldTool := SpkInspectorFieldTool new.
 		fieldTool
 			inspectedObject: value;
 			explorerTool: explorerTool;
+			taskspaceTool: taskspaceTool;
 			index: index;
 			name: index printString.
 
@@ -122,16 +127,20 @@ SpkInspectorTool >> initializeIndexedInstvars [
 
 { #category : 'private' }
 SpkInspectorTool >> initializeNamedInstvars [
+
 	| class names |
 	class := self classOfInspectedObject.
 	names := class allInstVarNames.
 	1 to: names size do: [ :index | 
 		| value fieldTool |
-		value := SpkReflection fetchNamedInstvarAt: index from: inspectedObject.
+		value := SpkReflection
+			         fetchNamedInstvarAt: index
+			         from: inspectedObject.
 		fieldTool := SpkInspectorFieldTool new.
 		fieldTool
 			inspectedObject: value;
 			explorerTool: explorerTool;
+			taskspaceTool: taskspaceTool;
 			index: index;
 			name: (names at: index).
 		fieldTools add: fieldTool ]

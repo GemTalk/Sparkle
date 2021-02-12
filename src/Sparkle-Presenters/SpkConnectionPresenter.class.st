@@ -12,7 +12,8 @@ Class {
 		'cancelButton',
 		'connectButton',
 		'disconnectButton',
-		'portText'
+		'portText',
+		'setPathButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -269,7 +270,8 @@ SpkConnectionPresenter >> updateConnectionProfile [
 	connectionProfile
 		name: nameText text;
 		host: hostText text;
-		group: groupText text
+		group: groupText text;
+		port: portText text
 ]
 
 { #category : 'actions' }
@@ -278,5 +280,6 @@ SpkConnectionPresenter >> updateGUI [
 	nameText text: connectionProfile name.
 	hostText text: connectionProfile host.
 	groupText text: connectionProfile group.
+	portText text: connectionProfile port.
 	^ true
 ]

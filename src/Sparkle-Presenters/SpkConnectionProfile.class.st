@@ -16,7 +16,8 @@ Class {
 		'name',
 		'host',
 		'group',
-		'connection'
+		'connection',
+		'port'
 	],
 	#classVars : [
 		'ProfileAnnouncer',
@@ -104,6 +105,12 @@ SpkConnectionProfile >> connection: anObject [
 	connection := anObject
 ]
 
+{ #category : 'constants' }
+SpkConnectionProfile >> defaultPort [
+
+	^ '29299'
+]
+
 { #category : 'actions' }
 SpkConnectionProfile >> disconnect [
 
@@ -162,7 +169,8 @@ SpkConnectionProfile >> initialize [
 	super initialize.
 	name := String new.
 	host := String new.
-	group := String new
+	group := String new.
+	port := self defaultPort.
 ]
 
 { #category : 'testing' }
@@ -187,6 +195,18 @@ SpkConnectionProfile >> name [
 SpkConnectionProfile >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : 'accessing' }
+SpkConnectionProfile >> port [
+
+	^ port
+]
+
+{ #category : 'accessing' }
+SpkConnectionProfile >> port: anObject [
+
+	port := anObject
 ]
 
 { #category : 'accessing' }

@@ -23,8 +23,23 @@ Class {
 		'path',
 		'session'
 	],
+	#classVars : [
+		'DefaultPath'
+	],
 	#category : 'Sparkle-Presenters-Support'
 }
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile class >> defaultPath [
+
+	^DefaultPath
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile class >> defaultPath: string [
+
+	DefaultPath := string
+]
 
 { #category : 'actions' }
 SpkGCIConnectionProfile >> connect [

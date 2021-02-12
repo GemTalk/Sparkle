@@ -74,6 +74,5 @@ SpkInsecureConnectionPresenter >> updateConnectionProfile [
 SpkInsecureConnectionPresenter >> updateGUI [
 
 	super updateGUI ifFalse: [ ^ false ].
-	portText text: connectionProfile port.
 	inMemoryCheckbox state: connectionProfile inMemory
 ]

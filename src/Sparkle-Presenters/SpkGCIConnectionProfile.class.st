@@ -53,15 +53,14 @@ SpkGCIConnectionProfile >> connect [
 	"initialize gci library"
 
 	GciInterface libraryDirectoryIsSet ifFalse: [ 
-		GciInterface libraryDirectory:
-			'/Users/eric/Documents/Pharo/images/ericDev1124/clientlibs' ].
+		GciInterface libraryDirectory: path ].
 	session := GsSession
 		        newForGsVersion: version
 		        threadSafe: true
 		        stone: stone
 		        host: host
 		        netldi: netldi.
-	session loginWithGsUser: 'SystemUser' password: 'swordfish'. "need to analyze result b4 proceeding"
+	session loginWithGsUser: user password: password . "need to analyze result b4 proceeding"
 	ProfileAnnouncer announce:
 		(SpkConnectionProfileConnectedAnnouncement new profiles:
 			 (Array with: self)).
@@ -102,7 +101,9 @@ SpkGCIConnectionProfile >> initialize [
 	stone := String new.
 	netldi := String new.
 	threadSafe := true. "always true for now"
-	path := self class defaultPath
+	path := self class defaultPath.
+	user := String new.
+	password := String new
 ]
 
 { #category : 'testing' }
@@ -121,6 +122,18 @@ SpkGCIConnectionProfile >> netldi [
 SpkGCIConnectionProfile >> netldi: anObject [
 
 	netldi := anObject
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile >> password [
+
+	^ password
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile >> password: anObject [
+
+	password := anObject
 ]
 
 { #category : 'accessing' }
@@ -187,6 +200,18 @@ SpkGCIConnectionProfile >> type [
 
 	^'GCI'
 	
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile >> user [
+
+	^ user
+]
+
+{ #category : 'accessing' }
+SpkGCIConnectionProfile >> user: anObject [
+
+	user := anObject
 ]
 
 { #category : 'accessing' }

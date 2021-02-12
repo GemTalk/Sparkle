@@ -171,6 +171,7 @@ SpkConnectionProfile >> initialize [
 	host := String new.
 	group := String new.
 	port := self defaultPort.
+	
 ]
 
 { #category : 'testing' }

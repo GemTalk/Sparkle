@@ -72,6 +72,6 @@ SpkInsecureConnectionPresenter >> updateConnectionProfile [
 { #category : 'actions' }
 SpkInsecureConnectionPresenter >> updateGUI [
 
-	super updateGUI ifFalse: [ ^ false ].
+	super updateGUI.
 	inMemoryCheckbox state: connectionProfile inMemory
 ]

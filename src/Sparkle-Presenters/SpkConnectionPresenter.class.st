@@ -80,6 +80,13 @@ SpkConnectionPresenter >> connectionProfile: anObject [
 ]
 
 { #category : 'actions' }
+SpkConnectionPresenter >> disableButtons [
+
+	connectButton enabled: false.
+	disconnectButton enabled: false
+]
+
+{ #category : 'actions' }
 SpkConnectionPresenter >> disconnect [
 
 	self closeConnectionWindows.
@@ -218,6 +225,13 @@ SpkConnectionPresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
+SpkConnectionPresenter >> initializeUnselectedProfile [
+
+	self initializeConnectionProfile.
+	self disableButtons. 
+]
+
+{ #category : 'initialization' }
 SpkConnectionPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter whenClosedDo: [ 
@@ -281,5 +295,4 @@ SpkConnectionPresenter >> updateGUI [
 	hostText text: connectionProfile host.
 	groupText text: connectionProfile group.
 	portText text: connectionProfile port.
-	^ true
 ]

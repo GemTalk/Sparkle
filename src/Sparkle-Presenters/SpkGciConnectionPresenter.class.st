@@ -5,7 +5,9 @@ Class {
 		'versionText',
 		'netldiText',
 		'stoneText',
-		'pathText'
+		'pathText',
+		'userText',
+		'passwordText'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -56,6 +58,7 @@ SpkGciConnectionPresenter >> initializePresenters [
 
 	super initializePresenters.
 	self initializeVersionStoneNetldiPresenters.
+	self initializeUserPasswordPresenter.
 	self initializePathPresenter.
 	self initializeButtons. 
 	self setFocusOrder
@@ -75,6 +78,30 @@ SpkGciConnectionPresenter >> initializeStonePresenter [
 ]
 
 { #category : 'initialization' }
+SpkGciConnectionPresenter >> initializeUserPasswordPresenter [
+
+	| labelBox inputBox |
+	labelBox := SpkBoxLayout newHorizontal.
+	labelBox
+		add: (self newLabel label: 'User:')
+		withConstraints: [ :constraints | constraints height: 20 ].
+	labelBox
+		add: (self newLabel label: 'Password:')
+		withConstraints: [ :constraints | constraints height: 20 ].
+	self layout add: labelBox.
+	inputBox := SpkBoxLayout newHorizontal.
+	userText := self newTextInput.
+	inputBox
+		add: userText
+		withConstraints: [ :constraints | constraints height: 30 ].
+	passwordText := self newTextInput bePassword.
+	inputBox
+		add: passwordText
+		withConstraints: [ :constraints | constraints height: 30 ].
+	self layout add: inputBox
+]
+
+{ #category : 'initialization' }
 SpkGciConnectionPresenter >> initializeVersionStoneNetldiPresenters [
 
 	| labelBox inputBox |
@@ -91,6 +118,10 @@ SpkGciConnectionPresenter >> initializeVersionStoneNetldiPresenters [
 	
 	self layout add: labelBox.
 	inputBox := SpkBoxLayout newHorizontal.
+	versionText := self newTextInput.
+	inputBox 
+		add: versionText
+		withConstraints: [ :constraints | constraints height: 30 ].
 	stoneText := self newTextInput.
 	inputBox
 		add: stoneText
@@ -99,10 +130,7 @@ SpkGciConnectionPresenter >> initializeVersionStoneNetldiPresenters [
 	inputBox
 		add: netldiText
 		withConstraints: [ :constraints | constraints height: 30 ].
-	versionText := self newTextInput.
-	inputBox 
-		add: versionText
-		withConstraints: [ :constraints | constraints height: 30 ].
+
 	self layout add: inputBox
 ]
 
@@ -125,9 +153,17 @@ SpkGciConnectionPresenter >> setFocusOrder [
 		add: nameText;
 		add: groupText;
 		add: hostText;
+		add: portText; 
 		add: versionText;
 		add: stoneText;
-		add: netldiText
+		add: netldiText;
+		add: userText;
+		add: passwordText;
+		add: pathText;
+		add: setPathButton;
+		add: connectButton;
+		add: disconnectButton 
+		
 ]
 
 { #category : 'actions' }
@@ -161,17 +197,21 @@ SpkGciConnectionPresenter >> updateConnectionProfile [
 		version: versionText text;
 		stone: stoneText text;
 		netldi: netldiText text;
-		path: pathText text
+		path: pathText text;
+		user: userText text;
+		password: passwordText text
 ]
 
 { #category : 'actions' }
 SpkGciConnectionPresenter >> updateGUI [
 
-	super updateGUI ifFalse:[^false]. 
+	super updateGUI.
 	versionText text: connectionProfile version.
 	netldiText text: connectionProfile netldi.
 	stoneText text: connectionProfile stone.
 	pathText text: connectionProfile path. 
+	userText text: connectionProfile user.
+	passwordText text: connectionProfile password
 ]
 
 { #category : 'accessing' }

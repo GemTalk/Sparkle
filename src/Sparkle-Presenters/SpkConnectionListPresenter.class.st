@@ -168,7 +168,8 @@ SpkConnectionListPresenter >> initializePresenters [
 	self initializeToolbar. 
 	self initializeConnectionList.
 	self initializeGroupFilter.
-	self initializeConnectionPresenterTabs
+	self initializeConnectionPresenterTabs.
+	self initializeUnselectedProfile
 ]
 
 { #category : 'initialization' }
@@ -192,13 +193,22 @@ SpkConnectionListPresenter >> initializeToolbar [
 ]
 
 { #category : 'initialization' }
+SpkConnectionListPresenter >> initializeUnselectedProfile [
+
+	insecureConnectionPresenter ifNotNil: [ :presenter | 
+		presenter initializeUnselectedProfile ].
+	gciConnectionPresenter ifNotNil: [ :presenter | 
+		presenter initializeUnselectedProfile ]
+]
+
+{ #category : 'initialization' }
 SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Connections Launcher';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 800 @ 400;
+		initialExtent: 800 @ 450;
 		whenClosedDo: [ 
 			SpkConnectionProfile profileAnnouncer unsubscribe: self ]
 ]

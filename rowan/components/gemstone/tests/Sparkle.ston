@@ -1,8 +1,0 @@
-RwSimpleProjectLoadComponentV2 {
-	#name : 'gemstone/tests/Sparkle',
-	#condition : 'tests',
-	#projectNames : [ ],
-	#componentNames : [ ],
-	#packageNames : [ ],
-	#comment : 'gemstone packages for Sparkle'
-}

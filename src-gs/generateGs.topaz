@@ -1,27 +1,53 @@
 run
-	| topazFileHeader gsSrcRoot repositoryRoot specUrl loadSpec resolvedProject topazFileNameMap 
-		projectSetDefinition projectSetModification visitor |
-		topazFileHeader := '! Copyright (C) GemTalk Systems 1986-2020.  All Rights Reserved.
+	| topazFileHeader projectSetDefinition sparkleRepositoryRoot gsSrcRoot topazFileNameMap 
+		projectSetModification visitor |
+
+	topazFileHeader := '! Copyright (C) GemTalk Systems 1986-', Date today year printString, '.  All Rights Reserved.
 '.
-	repositoryRoot := '$ROWAN_PROJECTS_HOME/Sparkle' asFileReference.
-  gsSrcRoot := repositoryRoot / 'src-gs'.
-	specUrl := repositoryRoot / 'rowan' / 'specs' / 'Sparkle.ston'.
-	(loadSpec := RwSpecification fromUrl: 'file:' , specUrl pathString)
-		projectsHome: repositoryRoot;
-		diskUrl: 'file:' , repositoryRoot pathString;
-		yourself.
+	projectSetDefinition := RwProjectSetDefinition new.
+	sparkleRepositoryRoot := '$ROWAN_PROJECTS_HOME/Sparkle' asFileReference.
+	gsSrcRoot := sparkleRepositoryRoot / 'src-gs'.
+	topazFileNameMap := Dictionary new.
 
-	resolvedProject := loadSpec resolve.
+	{
+		{
+			sparkleRepositoryRoot.
+			'Sparkle.ston'.
+		}.
+		{
+			'$ROWAN_PROJECTS_HOME/RemoteServiceReplication' asFileReference.
+			'RemoteServiceReplication.ston'.
+		}.
+		{
+			'$ROWAN_PROJECTS_HOME/Announcements' asFileReference.
+			'Announcements.ston'.
+		}
+	} do: [:ar |
+		| gsSrcRoot repositoryRoot specUrl loadSpec resolvedProject specFileName |
 
-	projectSetDefinition := RwProjectSetDefinition new
-		addDefinition: resolvedProject;
-		yourself.
+		repositoryRoot := ar at: 1.
+		specFileName := ar at: 2.
+
+		specUrl := repositoryRoot / 'rowan' / 'specs' / specFileName.
+		(loadSpec := RwSpecification fromUrl: 'file:' , specUrl pathString)
+			projectsHome: repositoryRoot;
+			diskUrl: 'file:' , repositoryRoot pathString;
+			yourself.
+
+		resolvedProject := loadSpec resolve.	"reads project from disk"
+
+		projectSetDefinition
+			addDefinition: resolvedProject;
+			yourself.
+
+		(topazFileNameMap 
+			at: 'bootstrapSparkle' ifAbsentPut: [ {} ])
+				addAll: resolvedProject packageNames.
+
+		].
+
 	projectSetModification := projectSetDefinition
 		compareAgainstBase: RwProjectSetDefinition new.
-
-	topazFileNameMap := Dictionary new
-		at: 'bootstrapSparkle' put: resolvedProject packageNames;
-		yourself.
 
 	visitor := RwGsModificationTopazWriterVisitorV2 new
 		repositoryRootPath: gsSrcRoot;

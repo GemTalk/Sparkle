@@ -2,7 +2,6 @@ Class {
 	#name : 'SpkDebuggerTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'taskspaceTool',
 		'explorerTool',
 		'processManager',
 		'process',
@@ -68,7 +67,8 @@ SpkDebuggerTool >> explorerTool [
 
 { #category : 'accessing' }
 SpkDebuggerTool >> explorerTool: object [
-	explorerTool := object
+	explorerTool := object.
+	explorerTool addPane: self
 ]
 
 { #category : 'accessing' }
@@ -129,9 +129,4 @@ SpkDebuggerTool >> processName [
 { #category : 'accessing' }
 SpkDebuggerTool >> processPriority [
 	^ process priority
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> taskspaceTool: object [
-	taskspaceTool := object
 ]

@@ -1,6 +1,6 @@
 run
 	| topazFileHeader projectSetDefinition sparkleRepositoryRoot gsSrcRoot topazFileNameMap 
-		projectSetModification visitor |
+		projectSetModification visitor testsOnlyTopazFileNameMap |
 
 	topazFileHeader := '! Copyright (C) GemTalk Systems 1986-', Date today year printString, '.  All Rights Reserved.
 '.
@@ -8,25 +8,39 @@ run
 	sparkleRepositoryRoot := '$ROWAN_PROJECTS_HOME/Sparkle' asFileReference.
 	gsSrcRoot := sparkleRepositoryRoot / 'src-gs'.
 	topazFileNameMap := Dictionary new.
+	testsOnlyTopazFileNameMap := Dictionary new.
 
 	{
 		{
 			sparkleRepositoryRoot.
 			'Sparkle.ston'.
+			{
+				'tests/Sparkle'.
+				'tests/gemstone/Sparkle'.
+			}.
 		}.
 		{
 			'$ROWAN_PROJECTS_HOME/RemoteServiceReplication' asFileReference.
 			'RemoteServiceReplication.ston'.
+			{
+				'tests/RemoteServiceReplication'.
+			}
 		}.
 		{
 			'$ROWAN_PROJECTS_HOME/Announcements' asFileReference.
 			'Announcements.ston'.
+			{
+				'tests/Announcements'.
+				'tests/gemstone/Announcements'.
+			}.
 		}
 	} do: [:ar |
-		| gsSrcRoot repositoryRoot specUrl loadSpec resolvedProject specFileName |
+		| gsSrcRoot repositoryRoot specUrl loadSpec resolvedProject testsResolvedProject 
+			specFileName testsComponents testPackageNames |
 
 		repositoryRoot := ar at: 1.
 		specFileName := ar at: 2.
+		testsComponents := ar at: 3.
 
 		specUrl := repositoryRoot / 'rowan' / 'specs' / specFileName.
 		(loadSpec := RwSpecification fromUrl: 'file:' , specUrl pathString)
@@ -35,25 +49,48 @@ run
 			yourself.
 
 		resolvedProject := loadSpec resolve.	"reads project from disk"
-
 		projectSetDefinition
 			addDefinition: resolvedProject;
 			yourself.
 
+		"this is a bit hacky, but the better API is not available in 
+			masterV2.1, yet (when issue_660 branch merged, this can be 
+			cleaned up a bit more"
+		testPackageNames := Set new.
+		testsComponents
+			do: [:testComponentName |
+				| testComponent |
+				testComponent := resolvedProject componentNamed: testComponentName.
+				testPackageNames addAll: testComponent packageNames ].
+
 		(topazFileNameMap 
 			at: 'bootstrapSparkle' ifAbsentPut: [ {} ])
-				addAll: resolvedProject packageNames.
+				addAll: (resolvedProject packageNames 
+					reject: [:each | testPackageNames includes: each ]).
 
+		(testsOnlyTopazFileNameMap 
+			at: 'bootstrapSparkleTests' ifAbsentPut: [ {} ])
+				addAll: testPackageNames.
 		].
 
 	projectSetModification := projectSetDefinition
 		compareAgainstBase: RwProjectSetDefinition new.
 
+	"bootstrapSparkle.gs"
 	visitor := RwGsModificationTopazWriterVisitorV2 new
 		repositoryRootPath: gsSrcRoot;
 		topazFilenamePackageNamesMap: topazFileNameMap;
 		topazFileHeader: topazFileHeader;
 		yourself.
 	visitor visit: projectSetModification.
+
+	"bootstrapSparkleTests.gs"
+	visitor := RwGsModificationTopazWriterVisitorV2 new
+		repositoryRootPath: gsSrcRoot;
+		topazFilenamePackageNamesMap: testsOnlyTopazFileNameMap;
+		topazFileHeader: topazFileHeader;
+		yourself.
+	visitor visit: projectSetModification.
+
 
 %

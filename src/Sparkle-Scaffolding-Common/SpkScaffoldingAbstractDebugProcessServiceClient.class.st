@@ -12,15 +12,6 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> compileMethodSource: sourceSt
 	^ res
 ]
 
-{ #category : 'testing' }
-SpkScaffoldingAbstractDebugProcessServiceClient >> foo [
-
-	
-	"MNU created on server ... odd result if the process is continued on server by topaz"
-
-	^ remoteSelf foo
-]
-
 { #category : 'printing' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> printOn: aStream [
 

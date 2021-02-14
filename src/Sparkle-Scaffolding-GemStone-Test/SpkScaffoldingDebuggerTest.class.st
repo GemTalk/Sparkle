@@ -115,25 +115,40 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 	[ 
 	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
-	promise := client gsDebugger_07: '7 foo' usingDebugger: debuggerClient.
+	promise := client gsDebugger_07: '
+| res |
+GsFile gciLogServer: ''doit [1]''.
+res := 7 foo.
+GsFile gciLogServer: ''doit [2]: '', res printString.
+^ res' usingDebugger: debuggerClient.
+GsFile gciLogServer: 'testDebugger_07c [1]'.
 	self expectCatch: promise.
-	sem signal ]
-		ensure: [ debuggerClient terminate ] ]
+GsFile gciLogServer: 'testDebugger_07c [2]'.
+	sem signal .
+GsFile gciLogServer: 'testDebugger_07c [3]'.
+]
+		ensure: [ GsFile gciLogServer: 'testDebugger_07c [3a]'.
+false ifTrue: [ debuggerClient terminate] ] ]
 		forkAt: Processor userSchedulingPriority.
+GsFile gciLogServer: 'testDebugger_07c [4]'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
+GsFile gciLogServer: 'testDebugger_07c [5]'.
 	self
 		assert: debuggerClient messageText
 		equals:
 			'a MessageNotUnderstood occurred (error 2010), a SmallInteger does not understand  #''foo'''.	"nothing left to do, but turn out the lights"
 
+GsFile gciLogServer: 'testDebugger_07c [6]'.
 	debuggerClient terminate.
 
+GsFile gciLogServer: 'testDebugger_07c [7]'.
 	sem wait.	"expected catch and got it"
+GsFile gciLogServer: 'testDebugger_07c [8]'.
 
-	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'SUCCESS'.
-	GsFile gciLogServer: '========='
+	GsFile gcigciLogServer: '========='.
+	GsFile gcigciLogServer: 'SUCCESS'.
+	GsFile gcigciLogServer: '========='
 ]
 
 { #category : 'tests' }

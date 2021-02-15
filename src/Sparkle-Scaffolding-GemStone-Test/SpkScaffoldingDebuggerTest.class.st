@@ -601,6 +601,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
 
+GsFile gciLogServer: 'SKIPPED'.
+true ifTrue: [ ^self ].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -650,6 +652,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
 	GsFile gciLogServer: '========='.
+GsFile gciLogServer: 'SKIPPED'.
+true ifTrue: [ ^self ].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -700,6 +704,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07m - stack overflow'.
 	GsFile gciLogServer: '========='.
+GsFile gciLogServer: 'SKIPPED'.
+true ifTrue: [ ^self ].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;

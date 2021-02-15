@@ -11,7 +11,8 @@ Class {
 	#name : 'SpkEvaluatorService',
 	#superclass : 'SpkCodeEditorService',
 	#instVars : [
-		'evaluationContext'
+		'evaluationContext',
+		'updatedInspectors'
 	],
 	#category : 'Sparkle-Services-Common'
 }

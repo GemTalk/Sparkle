@@ -41,6 +41,15 @@ SpkTaskspaceTool >> addExplorer: anExplorerTool [
 	self announceNewExplorer: anExplorerTool
 ]
 
+{ #category : 'as yet unclassified' }
+SpkTaskspaceTool >> announceExecutionWithUpdatedInspectors: aSet [
+
+	| announcement |
+	announcement := SpkExecutionAnnouncement new.
+	announcement updatedInspectors: aSet.
+	self announcer announce: announcement
+]
+
 { #category : 'announcing' }
 SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
 

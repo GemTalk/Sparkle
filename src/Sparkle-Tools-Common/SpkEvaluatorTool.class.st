@@ -5,7 +5,8 @@ Class {
 		'explorerTool',
 		'inspectorTool',
 		'oldSourceCode',
-		'newSourceCode'
+		'newSourceCode',
+		'updatedInspectors'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -29,11 +30,12 @@ SpkEvaluatorTool >> accept [
 
 { #category : 'accessing' }
 SpkEvaluatorTool >> evaluateCode [
+
 	"Evaluate the newSource and answer an appropriate tool for 
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
-	| context method |
+	| context method resultTool |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
@@ -41,7 +43,11 @@ SpkEvaluatorTool >> evaluateCode [
 		do: [ :ex | ^ self toolForCompilationError: ex ].
 
 
-	^ self evaluateMethod: method inContext: context
+	resultTool := self evaluateMethod: method inContext: context.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors:
+		updatedInspectors.
+	^ resultTool
 ]
 
 { #category : 'accessing' }
@@ -93,4 +99,16 @@ SpkEvaluatorTool >> toolForCompilationError: aCompilationException [
 	^ (SpkCompilationErrorTool forException: aCompilationException)
 		  taskspaceTool: taskspaceTool;
 		  yourself
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> updatedInspectors [
+
+	^ updatedInspectors
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> updatedInspectors: anObject [
+
+	updatedInspectors := anObject
 ]

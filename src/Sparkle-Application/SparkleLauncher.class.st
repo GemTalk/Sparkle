@@ -25,7 +25,7 @@ SparkleLauncher class >> menuCommandOn: aBuilder [
 		icon: nil;  
 		parent: #'Browse';
 		keyText: 's, p'; "hot key doesn't work yet" 
-		help: 'Sparke is the GemStone interface for Pharo';
+		help: 'Sparkle is the GemStone interface for Pharo';
 		action: [ self new start ]
 ]
 

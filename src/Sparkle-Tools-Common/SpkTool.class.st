@@ -22,7 +22,7 @@ SpkTool >> announce: anAnnouncement [
 { #category : 'accessing' }
 SpkTool >> announcer [
 
-	^ announcer ifNil: [ announcer := Announcer new ]
+	^ announcer 
 ]
 
 { #category : 'initialization' }

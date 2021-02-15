@@ -227,38 +227,29 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 	"
 
 	| cur debugActionBlock |
-GsFile gciLogServer: 'gsDebugger_07: [1]'.
 	cur := GsProcess _current.
 	cur name: procName.
-GsFile gciLogServer: 'gsDebugger_07: procName: ', procName, ' oop: ', cur asOop printString.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
 		priority: Processor userSchedulingPriority;
 		breakpointLevel: 1;
 		debugActionBlock: [ :ex | 
 					| mon theDebugProcess |
-GsFile gciLogServer: 'gsDebugger_07: [2]'.
 					theDebugProcess := GsProcess _current.
 					mon := [ 
 					GsProcess _current
 						breakpointLevel: 0;
 						debugActionBlock: nil.	"any errors at this point should go straight to GCI"
-GsFile gciLogServer: 'gsDebugger_07: [3]'.
 					theDebugProcess suspend.
-GsFile gciLogServer: 'gsDebugger_07: [4]'.
 					debuggerService
 						openDebuggerOnClientForProcess: theDebugProcess
-						exception: ex.
-GsFile gciLogServer: 'gsDebugger_07: [5]'. ] forkAt: Processor userInterruptPriority.
-GsFile gciLogServer: 'gsDebugger_07: [6]'.
+						exception: ex ] forkAt: Processor userInterruptPriority.
 					ex isResumable
 						ifFalse: [ 
 							"cannot resume from a not-resumable Exception."
 							^ RsrNonresumableError
 								signal: 'cannot resume from a not-resumable Exception' ].
-GsFile gciLogServer: 'gsDebugger_07: [7]'.
 					debuggerService resumptionValue	"necessary" ].
-GsFile gciLogServer: 'gsDebugger_07: [8]'.
 	doitResult := aString evaluate
 ]
 

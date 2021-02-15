@@ -100,7 +100,6 @@ SpkScaffoldingDebuggerServiceClient >> stepThroughFromLevel: aLevel [
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
-	self synchronize.
 	^ self processService terminate
 ]
 

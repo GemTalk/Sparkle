@@ -6,7 +6,7 @@ SpkScaffoldingAbstractService >> debug: anException raisedDuring: aMessageSend a
 	type := UserGlobals
 		at: #'ScaffoldingServiceServerDebugHandlerType'
 		ifAbsent: [ #'remoteClientError' ].
-	type == #'remoteClientError'
+	type ~~ #'remoteClientError'
 		ifTrue: [ 
 			" gsDebugger_05: and earlier"
 			aResolver break: (RsrRemoteException from: anException) ]

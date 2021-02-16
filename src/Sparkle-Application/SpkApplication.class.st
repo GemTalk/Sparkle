@@ -11,7 +11,6 @@ Class {
 SpkApplication >> initialize [
 
 	super initialize.
-	iconManager := SpkIconLibrary current.
 	self initializeSylesheet
 ]
 
@@ -34,6 +33,12 @@ SpkApplication >> initializeSylesheet [
 				addPropertyGeometryWith: [ :g | 
 				g height: SpStyleVariableReset new ] ].
 	self styleSheet: sheet
+]
+
+{ #category : 'private factory' }
+SpkApplication >> newIconProvider [
+
+	^ SpkIconLibrary current
 ]
 
 { #category : 'running' }

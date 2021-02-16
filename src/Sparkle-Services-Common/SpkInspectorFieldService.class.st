@@ -21,7 +21,8 @@ Class {
 	#superclass : 'SpkLinkableSubService',
 	#instVars : [
 		'name',
-		'description'
+		'description',
+		'oop'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -59,4 +60,16 @@ SpkInspectorFieldService >> name [
 { #category : 'accessing' }
 SpkInspectorFieldService >> name: anObject [
 	name := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldService >> oop [
+
+	^ oop
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldService >> oop: anObject [
+
+	oop := anObject
 ]

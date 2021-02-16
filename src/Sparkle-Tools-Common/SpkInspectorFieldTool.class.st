@@ -20,7 +20,8 @@ Class {
 	#superclass : 'SpkInspectionTool',
 	#instVars : [
 		'name',
-		'index'
+		'index',
+		'oop'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -47,4 +48,16 @@ SpkInspectorFieldTool >> name [
 SpkInspectorFieldTool >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldTool >> oop [
+
+	^ oop
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldTool >> oop: anObject [
+
+	oop := anObject
 ]

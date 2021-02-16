@@ -28,6 +28,19 @@ SpkInspectorFieldServiceServer >> initializeFromTool: aFieldTool [
 { #category : 'initialization' }
 SpkInspectorFieldServiceServer >> refreshFromTool [
 
+	| changed |
+	changed := false.
+	name = tool name ifFalse: [ changed := true ].
+	description = tool selfDescription ifFalse: [ changed := true ].
+	oop = tool oop ifFalse: [ changed := true ].
 	name := tool name.
-	description := tool selfDescription
+	description := tool selfDescription.
+	oop := tool oop.
+	^ changed
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldServiceServer >> tool: anObject [
+
+	tool := anObject
 ]

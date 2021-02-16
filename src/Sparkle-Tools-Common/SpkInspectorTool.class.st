@@ -127,8 +127,8 @@ SpkInspectorTool >> initializeIndexedInstvars [
 			explorerTool: explorerTool;
 			taskspaceTool: taskspaceTool;
 			index: index;
-			name: index printString.
-
+			name: index printString;
+			oop: (SpkReflection identifierOf: value).
 		fieldTools add: fieldTool ]
 ]
 
@@ -149,7 +149,8 @@ SpkInspectorTool >> initializeNamedInstvars [
 			explorerTool: explorerTool;
 			taskspaceTool: taskspaceTool;
 			index: index;
-			name: (names at: index).
+			name: (names at: index);
+			oop: (SpkReflection identifierOf: value).
 		fieldTools add: fieldTool ]
 ]
 

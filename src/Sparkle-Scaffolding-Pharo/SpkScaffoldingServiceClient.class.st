@@ -393,35 +393,46 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 		show: '=========';
 		cr;
 		show:
-			'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution';
+			'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution ';
+		cr;
+		show: DateAndTime now printString;
 		cr;
 		show: '=========';
 		cr.
 	(client gsDebugger_07: '7 halt' usingDebugger: debuggerClient)
 		when: [ :result | 
-				Transcript
-					cr;
-					show: '=========';
-					cr;
-					show: 'doit result is ' , result doitResult printString;
-					cr;
-					show: '=========';
-					cr;
-					yourself ]
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'doit result is ' , result doitResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself ]
 		catch: [ :reason | 
-			Transcript cr; show: 'here is johnny'.
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'CATCH: ' , reason printString ;cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself.
 			WorldState defer: [ 
-			false ifTrue: [   	{ 
-					'catch'.
-					reason } inspect ] ] ].
+				false ifTrue: [ 
+					{ 
+						'catch'.
+						reason } inspect ] ] ].
 	Transcript
 		cr;
 		show: '=========';
 		cr;
-		show: 'SUCCESS';
+		show: 'SUCCESS ' , DateAndTime now printString;
 		cr;
 		show: '=========';
-		cr 
+		cr
 ]
 
 { #category : 'active examples' }

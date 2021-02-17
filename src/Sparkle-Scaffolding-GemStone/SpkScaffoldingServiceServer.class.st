@@ -193,6 +193,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 	"
 
 	| cur debugActionBlock |
+GsFile gciLogServer: '--->	SpkScaffoldingServiceServer >> gsDebugger_07:'.
 	cur := GsProcess _current.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
@@ -214,6 +215,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService [
+GsFile gciLogServer: '--->	SpkScaffoldingServiceServer >> gsDebugger_07:usingDebugger:'.
 	^ self
 		gsDebugger_07: aString
 		usingDebugger: debuggerService

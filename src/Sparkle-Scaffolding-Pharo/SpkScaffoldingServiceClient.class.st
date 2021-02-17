@@ -16,7 +16,7 @@ SpkScaffoldingServiceClient class >> clearAllBreaks_01 [
 		           self connection) clearAllBreaks
 ]
 
-{ #category : 'active examples' }
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> closeConnection_01 [
 
 	"
@@ -371,7 +371,7 @@ SpkScaffoldingServiceClient class >> debugger_07a [
 		cr;
 		show: '=========';
 		cr;
-		show: 'SUCCESS';
+		show: 'SUCCESS ', DateAndTime now printString;
 		cr;
 		show: '=========';
 		cr

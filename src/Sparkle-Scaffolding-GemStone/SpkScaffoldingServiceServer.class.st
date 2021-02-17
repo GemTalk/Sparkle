@@ -39,6 +39,7 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 	GsFile gciLogServer: 'waiting for connection'.
 	connection := acceptor waitForConnection.
 	System abort.	"update view"
+	acceptor initialize.	"prepare to wait for next connection"
 	true ]
 		whileTrue: [ 
 			GsFile gciLogServer: 'got a connection'.

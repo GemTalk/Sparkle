@@ -325,7 +325,7 @@ SpkScaffoldingServiceClient class >> debugger_06g [
 					reason } halt ] ]
 ]
 
-{ #category : 'active examples' }
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07a [
 
 	"return doitResult after error-free execution"
@@ -367,7 +367,6 @@ SpkScaffoldingServiceClient class >> debugger_07a [
 				{ 
 					'catch'.
 					reason } inspect ] ].
-	sem wait.
 	Transcript
 		cr;
 		show: '=========';
@@ -378,33 +377,51 @@ SpkScaffoldingServiceClient class >> debugger_07a [
 		cr
 ]
 
-{ #category : 'active examples' }
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07b [
 
-	"
-		trigger exception during doit and expect to trigger a remote debugger (inspector with option to
-		resume).
-		The following debugger commands can be executed in the inspector/debugger:
-			1. self resume
-			2. self terminate
-	"
+	""
 
 	<example>
-	| service |
-	service := SpkScaffoldingServiceClient new registerWith:
-		           self connection.
-	(service gsDebugger_07: '7 halt')
+	| client debuggerClient |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution';
+		cr;
+		show: '=========';
+		cr.
+	(client gsDebugger_07: '7 halt' usingDebugger: debuggerClient)
 		when: [ :result | 
-			WorldState defer: [ 
-				{ 
-					'when'.
-					result.
-					result doitResult } inspect ] ]
+				Transcript
+					cr;
+					show: '=========';
+					cr;
+					show: 'doit result is ' , result doitResult printString;
+					cr;
+					show: '=========';
+					cr;
+					yourself ]
 		catch: [ :reason | 
+			Transcript cr; show: 'here is johnny'.
 			WorldState defer: [ 
-				{ 
+			false ifTrue: [   	{ 
 					'catch'.
-					reason } halt ] ]
+					reason } inspect ] ] ].
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS';
+		cr;
+		show: '=========';
+		cr 
 ]
 
 { #category : 'active examples' }
@@ -734,6 +751,11 @@ SpkScaffoldingServiceClient >> gsDebugger_07: aString [
 
 	^ remoteSelf
 		  gsDebugger_07: aString
+]
+
+{ #category : 'new debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_07: aString usingDebugger: debuggerService [
+	^ remoteSelf gsDebugger_07: aString usingDebugger: debuggerService
 ]
 
 { #category : 'debugger' }

@@ -3,7 +3,7 @@ Common facilities for GUI testing
 "
 Class {
 	#name : 'SpkUiTest',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#instVars : [
 		'connection',
 		'uiWaitingSemaphore'

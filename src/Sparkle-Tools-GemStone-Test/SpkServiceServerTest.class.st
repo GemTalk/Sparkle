@@ -3,7 +3,7 @@ Tests to test server-side services (and sometimes their underlying tools) on the
 "
 Class {
 	#name : 'SpkServiceServerTest',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 

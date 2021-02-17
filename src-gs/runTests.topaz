@@ -1,11 +1,32 @@
-# Run the Sparkle test suite. Sparkle must already be loaded into a Rowan-enable stone.
+# Run the Sparkle test suite. Does not depend on Rowan, so can be run in a non-Rowan stone
 
 run
-	| suite tests scaffoldingTests result |
-	suite := Rowan projectTools test testSuiteForProjectsNamed: { 'Sparkle' }.
-	tests := suite tests.
-	scaffoldingTests := tests select: [:each | (each class name indexOfSubCollection: 'Scaffolding') > 0].
-	tests removeAll: scaffoldingTests.
-	result := suite run.
-	result printString.
+    | result report |
+    result := SpkTestCase run.
+    report := String
+        streamContents:
+            [:stream |
+            stream nextPutAll: 'Passes: (', result passed size printString, ')'.
+            result passed
+                do:
+                    [:each |
+                    stream lf; tab.
+                    each printOn: stream].
+            stream
+                lf; lf;
+                nextPutAll: 'Failures:(', result failures size printString, ')'.
+            result failures
+                do:
+                    [:each |
+                    stream lf; tab.
+                    each printOn: stream].
+            stream
+                lf; lf;
+                nextPutAll: 'Errors:(', result errors size printString, ')'.
+            result errors
+                do:
+                    [:each |
+                    stream lf; tab.
+                    each printOn: stream]].
+    report printString
 %

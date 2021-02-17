@@ -24,7 +24,7 @@ BaselineOfSparkle >> baselineNoScaffolding: spec [
 			package: 'Sparkle-Tools-Common-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Tools-Pharo-Test'
-			with: [ spec requires: 'Sparkle-Tools-Common' ];
+			with: [ spec requires: 'Sparkle-Tools-Common-Test' ];
 			package: 'Sparkle-Services-Common'
 			with: [ spec requires: 'RemoteServiceReplication' ];
 			package: 'Sparkle-Services-PharoClient'
@@ -37,9 +37,9 @@ BaselineOfSparkle >> baselineNoScaffolding: spec [
 				spec requires:
 						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient' ) ];
 			package: 'Sparkle-Presenters-Test'
-			with: [ spec requires: 'Sparkle-Presenters' ];
+			with: [ spec requires: #('Sparkle-Presenters' 'Sparkle-Tools-Common-Test') ];
 			package: 'Sparkle-UiTest'
-			with: [ spec requires: 'Sparkle-Presenters' ];
+			with: [ spec requires: #('Sparkle-Presenters' 'Sparkle-Tools-Common-Test') ];
 			package: 'Sparkle-Application'
 			with: [ spec requires: 'Sparkle-Presenters' ];
 			package: 'Sparkle-Spextensions'.

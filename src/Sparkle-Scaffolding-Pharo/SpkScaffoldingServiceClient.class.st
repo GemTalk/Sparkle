@@ -331,21 +331,51 @@ SpkScaffoldingServiceClient class >> debugger_07a [
 	"return doitResult after error-free execution"
 
 	<example>
-	| service |
-	service := SpkScaffoldingServiceClient new registerWith:
-		           self connection.
-	(service gsDebugger_07: '{3+4} at: 1')
+	| client sem |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	sem := Semaphore new.
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07a - return doitResult after error-free execution';
+		cr;
+		show: '=========';
+		cr.
+	(client gsDebugger_07: '{3+4} at: 1')
 		when: [ :result | 
-			WorldState defer: [ 
-				{ 
-					'when'.
-					result.
-					result doitResult } inspect ] ]
+			| doitResult |
+			doitResult := result doitResult.
+			doitResult = 7 ifFalse: [ 
+				self error:
+					'Incorrect result ' , doitResult printString , ' should be ''7''' ].
+			sem signal.
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'doit result is ' , doitResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself ]
 		catch: [ :reason | 
 			WorldState defer: [ 
 				{ 
 					'catch'.
-					reason } inspect ] ]
+					reason } inspect ] ].
+	sem wait.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS';
+		cr;
+		show: '=========';
+		cr
 ]
 
 { #category : 'active examples' }

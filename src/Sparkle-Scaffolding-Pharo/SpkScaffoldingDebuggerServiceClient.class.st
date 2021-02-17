@@ -35,3 +35,9 @@ SpkScaffoldingDebuggerServiceClient >> resume [
 
 	^ remoteSelf resume wait
 ]
+
+{ #category : 'debugger' }
+SpkScaffoldingDebuggerServiceClient >> terminate [
+
+	^ remoteSelf terminate wait
+]

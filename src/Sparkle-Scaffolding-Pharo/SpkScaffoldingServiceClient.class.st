@@ -380,7 +380,7 @@ SpkScaffoldingServiceClient class >> debugger_07a [
 { #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07b [
 
-	""
+	"testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution, print stack to Transcript, resume execution and print result to Transcript"
 
 	<example>
 	| client debuggerClient sem |
@@ -395,7 +395,7 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 		show: '=========';
 		cr;
 		show:
-			'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution ';
+			'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution, print stack to Transcript, resume execution and print result to Transcript ';
 		cr;
 		show: DateAndTime now printString;
 		cr;
@@ -648,6 +648,59 @@ SpkScaffoldingServiceClient class >> debugger_07i [
 				{ 
 					'catch'.
 					reason } halt ] ]
+]
+
+{ #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07q [
+
+	"testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript"
+
+	<example>
+	| client debuggerClient sem |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript ';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr.
+	(client gsDebugger_07: '7 halt' usingDebugger: debuggerClient)
+		when: [ :result | self error: 'unexpected result' ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself.
+			sem signal ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	debuggerClient terminate. "resume execution"
+
+	sem wait. "wait for CATCH"
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
 ]
 
 { #category : 'examples' }

@@ -86,7 +86,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 		forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
-	debuggerClient processService resume.
+	debuggerClient resume.
 
 	sem wait.	"assertion passed"
 
@@ -953,6 +953,45 @@ SpkScaffoldingDebuggerTest >> testDebugger_07p [
 		equals: 'Error class (AbstractException class) >> signal: @3 line 4'.
 
 	Processor yield.	"just in case we promise was fulfilled"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07q [
+	"
+		trigger exception during doit and expect to trigger a remote debugger; resume execution
+	"
+
+	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile
+		gciLogServer:
+			'testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
+	self expectCatch: promise.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	debuggerClient terminate.
+
+	sem wait.	"assertion passed"
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

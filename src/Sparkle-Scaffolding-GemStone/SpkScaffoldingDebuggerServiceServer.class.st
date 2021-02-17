@@ -80,3 +80,8 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		breakpointLevel: 1.
 	^ res
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> terminate [
+	^ self processService terminate
+]

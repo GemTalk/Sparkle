@@ -8,7 +8,7 @@ Class {
 BaselineOfSparkle >> baseline: spec [
 
 	<baseline>
-	self baselineNoScaffolding: spec
+	self baselineWithScaffolding: spec
 ]
 
 { #category : 'baselines' }

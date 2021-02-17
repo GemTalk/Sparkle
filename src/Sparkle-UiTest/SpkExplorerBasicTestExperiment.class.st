@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkExplorerBasicTestExperiment',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#category : 'Sparkle-UiTest'
 }
 

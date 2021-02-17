@@ -47,6 +47,11 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 	^ res
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> resume [
+	^ self processService resume
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> resumptionValue [
 	^ resumptionValue

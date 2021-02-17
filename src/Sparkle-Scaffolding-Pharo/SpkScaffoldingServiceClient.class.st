@@ -383,11 +383,12 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 	""
 
 	<example>
-	| client debuggerClient |
+	| client debuggerClient sem |
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
 	Transcript clear.
 	Transcript
 		cr;
@@ -410,7 +411,8 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 				cr;
 				show: '=========';
 				cr;
-				yourself ]
+				yourself.
+			sem signal ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -427,7 +429,12 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 					{ 
 						'catch'.
 						reason } inspect ] ] ].
-	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. Transcript
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	debuggerClient resume. "resume execution"
+
+	sem wait. "wait for result"
+	Transcript
 		cr;
 		show: '=========';
 		cr;

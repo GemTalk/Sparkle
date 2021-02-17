@@ -61,7 +61,7 @@ stackLimit := 50.
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> resume [
-	^ self processService resume
+	^ remoteSelf resume wait
 ]
 
 { #category : 'debbuger process control' }

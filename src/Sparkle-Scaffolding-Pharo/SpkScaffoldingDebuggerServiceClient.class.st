@@ -29,3 +29,9 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 				, ' frames' ].
 			(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) signal
 ]
+
+{ #category : 'debugger' }
+SpkScaffoldingDebuggerServiceClient >> resume [
+
+	^ remoteSelf resume wait
+]

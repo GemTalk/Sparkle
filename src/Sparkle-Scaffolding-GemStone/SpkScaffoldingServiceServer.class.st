@@ -230,6 +230,9 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 	"
 
 	| cur debugActionBlock |
+	GsFile
+		gciLogServer:
+			'--->	SpkScaffoldingServiceServer >> gsDebugger_07:usingDebugger:procName: [0]'.
 	cur := GsProcess _current.
 	cur name: procName.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
@@ -240,13 +243,18 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					| mon theDebugProcess |
 					theDebugProcess := GsProcess _current.
 					mon := [ 
+					| res |
 					GsProcess _current
 						breakpointLevel: 0;
 						debugActionBlock: nil.	"any errors at this point should go straight to GCI"
 					theDebugProcess suspend.
-					debuggerService
+					res := debuggerService
 						openDebuggerOnClientForProcess: theDebugProcess
-						exception: ex ] forkAt: Processor userInterruptPriority.
+						exception: ex.
+					GsFile
+						gciLogServer:
+							'--->	SpkScaffoldingServiceServer >> gsDebugger_07:usingDebugger:procName: [1]'.
+					res ] forkAt: Processor userInterruptPriority.
 					ex isResumable
 						ifFalse: [ 
 							"cannot resume from a not-resumable Exception."
@@ -258,6 +266,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> openDebuggerOnClient [
+	GsFile gciLogServer: self class name, '>>openDebuggerOnClient'.
 	^ remoteSelf openDebuggerOnClient
 ]
 
@@ -265,6 +274,7 @@ SpkScaffoldingServiceServer >> openDebuggerOnClient [
 SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution"
 
+	GsFile gciLogServer: self class name, '>>openDebuggerOnClient:'.
 	self debugService
 		doitException: ex;
 		doitStack: (GsProcess stackReportToLevel: 1000).
@@ -275,6 +285,7 @@ SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
 SpkScaffoldingServiceServer >> openDebuggerOnClientWithProcessService: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution, populate the doitStack with a process service for the suspended debugProcess"
 
+	GsFile gciLogServer: self class name, '>>openDebuggerOnClientWithProcessService:'.
 	self debugService
 		doitException: ex;
 		doitStack: (self processServiceFor: debugProcess).

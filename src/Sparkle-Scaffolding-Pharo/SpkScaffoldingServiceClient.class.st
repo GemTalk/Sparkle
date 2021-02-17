@@ -387,6 +387,7 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	Transcript clear.
 	Transcript
 		cr;
@@ -415,7 +416,8 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 				cr;
 				show: '=========';
 				cr;
-				show: 'CATCH: ' , reason printString ;cr;
+				show: 'CATCH: ' , reason printString;
+				cr;
 				show: DateAndTime now printString;
 				cr;
 				show: '=========';
@@ -425,7 +427,7 @@ SpkScaffoldingServiceClient class >> debugger_07b [
 					{ 
 						'catch'.
 						reason } inspect ] ] ].
-	Transcript
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. Transcript
 		cr;
 		show: '=========';
 		cr;
@@ -772,11 +774,13 @@ SpkScaffoldingServiceClient >> gsDebugger_07: aString usingDebugger: debuggerSer
 { #category : 'debugger' }
 SpkScaffoldingServiceClient >> openDebuggerOnClient [
 
-	self doitStack inspect
+	Transcript
+		cr;
+		show: self class name
 ]
 
 { #category : 'debugger' }
 SpkScaffoldingServiceClient >> openInspectorOnClient [
 
-	self doitExceptionDescription inspect
+	self halt.
 ]

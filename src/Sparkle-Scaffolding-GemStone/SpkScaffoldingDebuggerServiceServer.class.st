@@ -16,11 +16,19 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClient [
-	^ remoteSelf openDebuggerOnClient
+	| res |
+	GsFile gciLogServer: self class name, '>>openDebuggerOnClient'.
+	res := remoteSelf openDebuggerOnClient wait.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
+	^ res
 ]
 
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspendedGsProcess exception: ex [
+	| res |
+	GsFile
+		gciLogServer:
+			self class name , '>>openDebuggerOnClientForProcess:exception: [0]'.
 	self
 		processService:
 			((SpkScaffoldingDebugProcessServiceServer
@@ -28,7 +36,15 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				doitException: ex;
 				debuggerService: self;
 				yourself).
-	^ self openDebuggerOnClient wait
+	res := remoteSelf openDebuggerOnClient wait.
+	GsFile
+		gciLogServer:
+			self class name
+				,
+					'>>openDebuggerOnClientForProcess:exception: [1] -- after openDebuggerOnClient returned: '
+				, res printString.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
+	^ res
 ]
 
 { #category : 'debugger' }

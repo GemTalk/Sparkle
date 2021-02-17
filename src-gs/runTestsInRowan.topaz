@@ -1,0 +1,11 @@
+# Run the Sparkle test suite. Sparkle must already be loaded into a Rowan-enabled stone.
+
+run
+	| suite tests scaffoldingTests result |
+	suite := Rowan projectTools test testSuiteForProjectsNamed: { 'Sparkle' }.
+	tests := suite tests.
+	scaffoldingTests := tests select: [:each | (each class name indexOfSubCollection: 'Scaffolding') > 0].
+	tests removeAll: scaffoldingTests.
+	result := suite run.
+	result printString.
+%

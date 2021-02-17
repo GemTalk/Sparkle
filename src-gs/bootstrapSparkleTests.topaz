@@ -1,0 +1,5 @@
+input $ROWAN_PROJECTS_HOME/Sparkle/src-gs/bootstrapSparkleTests.gs
+
+commit
+
+errorcount

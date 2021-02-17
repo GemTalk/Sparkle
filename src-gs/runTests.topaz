@@ -1,4 +1,4 @@
-# Run the Sparkle test suite. Sparkle must already be loaded into a Rowan-enable stone.
+# Run the Sparkle test suite. Sparkle must already be loaded into a Rowan-enabled stone.
 
 run
 	| suite tests scaffoldingTests result |

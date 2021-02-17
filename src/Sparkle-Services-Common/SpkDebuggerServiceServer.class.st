@@ -17,8 +17,12 @@ SpkDebuggerServiceServer class >> forTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> initializeFramesFromTool [
-	frames := tool frames
-		collect: [ :frameTool | SpkDebuggerFrameServiceServer forTool: frameTool ]
+
+	frames := tool frames collect: [ :frameTool | 
+		          (SpkDebuggerFrameDescriptionServiceServer forTool:
+				           frameTool)
+			          parentService: self;
+			          yourself ]
 ]
 
 { #category : 'other' }
@@ -32,5 +36,8 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 SpkDebuggerServiceServer >> refreshFromTool [
 
 	exceptionDescription := tool exceptionDescription.
+	processName := tool processName.
+	processIdentifier := tool processIdentifier.
+	processPriority := tool processPriority.
 	self initializeFramesFromTool
 ]

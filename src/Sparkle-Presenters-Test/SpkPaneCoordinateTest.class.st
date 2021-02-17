@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkPaneCoordinateTest',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#instVars : [
 		'inst1',
 		'inst2'

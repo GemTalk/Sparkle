@@ -16,6 +16,8 @@ Responsibilities of this class
 Class {
 	#name : 'SparkleTaskspace',
 	#superclass : 'SpkApplication',
+	#traits : 'SpkTModel',
+	#classTraits : 'SpkTModel classTrait',
 	#instVars : [
 		'connection',
 		'registryService',
@@ -44,11 +46,14 @@ SparkleTaskspace >> connection: anObject [
 { #category : 'initialization' }
 SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 
-	"This is only for pane presenters and services."
+	"This is only for pane presenters and services.
+	Elements smaller than panes are handled by the panes themselves."
 
 	presenterClassesForServiceTypes := IdentityDictionary new.
 	^ presenterClassesForServiceTypes
 		  at: SpkCompilationErrorServiceClient put: SpkCompilationErrorPane;
+		  at: SpkDebuggerFrameServiceClient put: SpkDebuggerFramePane;
+		  at: SpkDebuggerServiceClient put: SpkDebuggerPane;
 		  at: SpkInspectorServiceClient put: SpkInspectorPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;
 		  yourself
@@ -82,7 +87,9 @@ SparkleTaskspace >> openAllWindows [
 			            model: xlServ explorerService.
 		explorer
 			openWithSpec;
-			initializeFromLayoutService: xlServ ]
+			initializeFromLayoutService: xlServ.
+		self announce:
+			(SpkExplorerOpenedAnnouncement new explorer: explorer) ]
 ]
 
 { #category : 'initialization' }

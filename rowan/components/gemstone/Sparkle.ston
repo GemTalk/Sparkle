@@ -1,31 +1,10 @@
-RwSimpleProjectLoadComponentV2 {
+RwPlatformNestedProjectLoadComponentV2 {
 	#name : 'gemstone/Sparkle',
-	#condition : 'gemstone',
-	#projectNames : [ ],
-	#componentNames : [
-		'gemstone/deprecated/Sparkle',
-		'gemstone/tests/Sparkle'
+	#condition : [
+		'gs3.[7-]'
 	],
 	#packageNames : [
-		'Sparkle-Scaffolding-GemStone',
-		'Sparkle-Scaffolding-Rowan-GemStone',
-		'Sparkle-Tools-GemStone',
-		'Announcements-Core-GemStone',
-		'Announcements-Extensions-GemStone'
+		'Sparkle-Tools-GemStone'
 	],
-	#conditionalPackageMapSpecs : {
-		'gemstone' : {
-			'allusers' : {
-				#packageNameToPlatformPropertiesMap : {
-					'Announcements-Extensions-GemStone' : {
-						'symbolDictName' : 'Globals'
-					},
-					'Sparkle-Scaffolding-Rowan-GemStone' : {
-						'symbolDictName' : 'RowanKernel'
-					}
-				}
-			}
-		}
-	},
-	#comment : 'gemstone packages for Sparkle'
+	#comment : 'gemstone packages for Sparkle, minimum version 3.7.0'
 }

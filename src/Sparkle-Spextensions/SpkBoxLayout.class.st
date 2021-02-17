@@ -32,13 +32,19 @@ SpkBoxLayout >> add: aPresenter [
 ]
 
 { #category : 'adding' }
+SpkBoxLayout >> add: newPresenter after: anExistingPresenter [
+
+	self
+		add: newPresenter
+		beforeIndex: (self indexOfPresenter: anExistingPresenter) + 1
+]
+
+{ #category : 'adding' }
 SpkBoxLayout >> add: newPresenter before: anExistingPresenter [
 
-	| index |
-	index := children
-		         identityIndexOfKey: anExistingPresenter
-		         ifAbsent: [ self error: 'Presenter not found' ].
-	self add: newPresenter beforeIndex: index
+	self
+		add: newPresenter
+		beforeIndex: (self indexOfPresenter: anExistingPresenter)
 ]
 
 { #category : 'adding/removing presenters' }
@@ -149,6 +155,14 @@ SpkBoxLayout >> enabled: aBoolean [
 	self withAdapterDo: [ :dapt | dapt enabled: aBoolean ]
 ]
 
+{ #category : 'adding' }
+SpkBoxLayout >> indexOfPresenter: anExistingPresenter [
+
+	^ children
+		  identityIndexOfKey: anExistingPresenter
+		  ifAbsent: [ self error: 'Presenter not found' ]
+]
+
 { #category : 'initialization' }
 SpkBoxLayout >> initialize [
 
@@ -160,10 +174,18 @@ SpkBoxLayout >> initialize [
 { #category : 'removing' }
 SpkBoxLayout >> remove: aPresenter [
 
+	self
+		remove: aPresenter
+		ifAbsent: [ self error: 'Presenter not found' ]
+]
+
+{ #category : 'removing' }
+SpkBoxLayout >> remove: aPresenter ifAbsent: aBlock [
+
 	| index |
 	index := children
 		         identityIndexOfKey: aPresenter
-		         ifAbsent: [ self error: 'Presenter not found' ].
+		         ifAbsent: [ ^ aBlock value ].
 	self removePresenterAtIndex: index
 ]
 

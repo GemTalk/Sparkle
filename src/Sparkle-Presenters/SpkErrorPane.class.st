@@ -13,11 +13,10 @@ SpkErrorPane >> errorText [
 	self subclassResponsibility
 ]
 
-{ #category : 'initialization' }
-SpkErrorPane >> initializeHeader [
+{ #category : 'tests - header' }
+SpkErrorPane >> headerClass [
 
-	header := self instantiate: SpkErrorPaneHeader on: model.
-	self layout add: header withConstraints: [ :c | c height: 30 ]
+	^ SpkErrorPaneHeader
 ]
 
 { #category : 'initialization' }
@@ -36,18 +35,6 @@ SpkErrorPane >> initializePresenters [
 SpkErrorPane >> labelString [
 
 	self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SpkErrorPane >> menuActions [
-
-	
-]
-
-{ #category : 'accessing' }
-SpkErrorPane >> newLayout [
-
-	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'accessing' }

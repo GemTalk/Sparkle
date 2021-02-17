@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkDebuggerTool',
 	#superclass : 'SpkTool',
 	#instVars : [
+		'explorerTool',
 		'process',
 		'exception',
 		'frames',
@@ -25,7 +26,7 @@ SpkDebuggerTool >> exception: anException [
 	exception := anException
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerTool >> exceptionDescription [
 	| string |
 	string := String new.
@@ -35,7 +36,7 @@ SpkDebuggerTool >> exceptionDescription [
 	^ string
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> exceptionSpecificMessage [
 	| fullMessage commaIndex latterPart |
 	fullMessage := exception buildMessageText.
@@ -45,6 +46,16 @@ SpkDebuggerTool >> exceptionSpecificMessage [
 		ifTrue: [ fullMessage ]
 		ifFalse: [ fullMessage copyFrom: commaIndex + 1 to: fullMessage size ].
 	^ ' - ' , latterPart
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> explorerTool [
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> explorerTool: object [
+	explorerTool := object
 ]
 
 { #category : 'accessing' }
@@ -59,14 +70,19 @@ SpkDebuggerTool >> frames [
 
 { #category : 'initialization' }
 SpkDebuggerTool >> initializeFramesFromProcess [
+	| stackDepth |
+	stackDepth := process stackDepth.
 	frames := Array new: process stackDepth.
-	1 to: frames size do: [ :level | 
-		| frame |
+	1 to: stackDepth do: [ :level | 
+		| frame index |
+		index := stackDepth - level + 1.
 		frame := SpkDebuggerFrameTool new.
 		frame
+			explorerTool: explorerTool;
 			process: process;
-			level: level.
-		frames at: level put: frame ].
+			level: level;
+			index: index.
+		frames at: index put: frame ].
 	^ frames
 ]
 
@@ -75,4 +91,19 @@ SpkDebuggerTool >> process: aProcess [
 	"The GsProcess that I am to debug."
 
 	process := aProcess
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> processIdentifier [
+	^ SpkReflection identifierOf: process
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> processName [
+	^ process name
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> processPriority [
+	^ process priority
 ]

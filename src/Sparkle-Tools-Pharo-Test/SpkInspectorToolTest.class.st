@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkInspectorToolTest',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#instVars : [
 		'tool'
 	],

@@ -1,16 +1,84 @@
 Class {
 	#name : 'SpkDebuggerServiceTest',
 	#superclass : 'SpkEvaluationTest',
+	#instVars : [
+		'debuggerService'
+	],
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
-{ #category : 'other' }
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testCurrentSourceIntervalForPrimitive [
+	| frames frameDesc frame |
+	self zork3.
+	frames := debuggerService frames.
+	frameDesc := frames first.
+	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
+	frame := frameDesc createFrameService.
+	self
+		assert: frame class equals: SpkDebuggerFrameServiceServer;
+		assert: frame currentStartPosition > 100;
+		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
+]
+
+{ #category : 'tests' }
 SpkDebuggerServiceTest >> testExceptionDescription [
 	"Can we make a tree of services out of a DebuggerTool?"
 
-	| debuggerTool debuggerService |
+	self zork3.
+	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+]
+
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testProcessFrameNumbering [
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self assert: frames first index equals: 1
+]
+
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testProcessFrameQuantity [
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self
+		assert: (frames isKindOf: SequenceableCollection);
+		assert: (frames size between: 10 and: 20)
+]
+
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testProcessIdentifier [
+	| id |
+	self zork3.
+	id := debuggerService processIdentifier.
+	self
+		assert: id class equals: SmallInteger;
+		assert: (id bitAnd: 16rFF) equals: 1
+]
+
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testProcessName [
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService processName equals: 'Evaluation'
+]
+
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testProcessPriority [
+	| prio |
+	self zork3.
+	prio := debuggerService processPriority.
+	self
+		assert: prio class equals: SmallInteger;
+		assert: prio equals: 15
+]
+
+{ #category : 'support' }
+SpkDebuggerServiceTest >> zork3 [
+	| debuggerTool |
 	evaluatorTool newSourceCode: '3 zork'.
 	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool.
-	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
 ]

@@ -1,8 +1,11 @@
 Class {
 	#name : 'SpkInspectorPane',
-	#superclass : 'SpkPane',
+	#superclass : 'SpkPaneWithList',
 	#instVars : [
-		'body',
+		'topLayout',
+		'twizzle',
+		'description',
+		'fieldListIsShown',
 		'addEvaluatorButton',
 		'evaluators',
 		'nextEvaluatorIndex'
@@ -30,46 +33,15 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> connectPresenters [
-
-	super connectPresenters.
-	header menu: self menuActions asMenuPresenter.
-	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
-]
-
-{ #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
 ]
 
-{ #category : 'actions' }
-SpkInspectorPane >> fieldDeselected: anAnnouncement [
+{ #category : 'initialization' }
+SpkInspectorPane >> headerClass [
 
-	"This announcement comes from the UI, not a service,
-	so does not need to be deferred."
-
-	| field |
-	field := anAnnouncement item.
-	"If the close was initiated by the linked pane, 
-	it will already be closed and removed from the field."
-	field linkedPane ifNotNil: [ :linkedPane | linkedPane close ].
-	body updateSelection
-]
-
-{ #category : 'actions' }
-SpkInspectorPane >> fieldSelected: anAnnouncement [
-
-	"This announcement comes from the UI, not a service, so does not need to be deferred."
-
-	| field inspectorService |
-	field := anAnnouncement item.
-	inspectorService := field model inspectFieldForRequest: field.
-	"If nil, a server round trip is required and the inspector pane 
-	will be created by announcement from the service."
-	inspectorService
-		ifNil: [ self disableAll ]
-		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+	^ SpkInspectorPaneHeader
 ]
 
 { #category : 'adding' }
@@ -93,8 +65,20 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 { #category : 'initialization' }
 SpkInspectorPane >> initializeBody [
 
-	body := self instantiate: SpkInspectorPaneBody on: model.
-	self layout add: body
+	fieldListIsShown := true.
+	self
+		initializeTop;
+		initializeList;
+		updateFieldListVisibility
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeDescription [
+
+	description := self newLabel
+		               label: model selfDescription;
+		               yourself.
+	topLayout add: description withConstraints: [ :c | c fill: false ]
 ]
 
 { #category : 'adding' }
@@ -105,10 +89,11 @@ SpkInspectorPane >> initializeEvaluators [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> initializeHeader [
+SpkInspectorPane >> initializeListColumns [
 
-	header := self instantiate: SpkInspectorPaneHeader on: model.
-	self layout add: header withConstraints: [ :c | c height: 30 ]
+	self list
+		addColumn: (SpStringTableColumn evaluated: #name);
+		addColumn: (SpStringTableColumn evaluated: #description)
 ]
 
 { #category : 'initialization' }
@@ -121,17 +106,62 @@ SpkInspectorPane >> initializePresenters [
 		initializeEvaluators
 ]
 
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeTop [
+
+	topLayout := SpkBoxLayout newHorizontal.
+	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
+	self
+		initializeTwizzle;
+		initializeDescription
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeTwizzle [
+
+	twizzle := self newIconButton
+		           icon: self twizzleIcon;
+		           help: 'Show or hide the field list';
+		           action: [ self toggleFieldList ];
+		           yourself.
+	topLayout add: twizzle withConstraints: [ :c | 
+		c
+			fill: false;
+			width: 20;
+			height: 20 ]
+]
+
+{ #category : 'actions' }
+SpkInspectorPane >> itemSelected: anAnnouncement [
+
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
+
+	| field inspectorService |
+	field := anAnnouncement item.
+	inspectorService := field model inspectFieldForRequest: field.
+	"If nil, a server round trip is required and the inspector pane 
+	will be created by announcement from the service."
+	inspectorService
+		ifNil: [ self disableAll ]
+		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+]
+
 { #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
-	^ body linkedPanes , self panesLinkedToEvaluators
+	^ super linkedPanes , self panesLinkedToEvaluators
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> listItemModels [
+
+	^ model fields
 ]
 
 { #category : 'accessing' }
 SpkInspectorPane >> menuActions [
 
-	^ CmCommandGroup forSpec
-		  beRoot;
+	^ super menuActions
 		  register: ((SpkViewRawCommand forSpecContext: self)
 				   iconProvider: SpkIconLibrary current;
 				   yourself);
@@ -139,47 +169,9 @@ SpkInspectorPane >> menuActions [
 ]
 
 { #category : 'accessing' }
-SpkInspectorPane >> newLayout [
-
-	^ SpkAccordianLayout newVertical
-]
-
-{ #category : 'instance creation' }
-SpkInspectorPane >> newPaneForService: newService linkedTo: item [
-	"Item is an InspectorField or an evaluator"
-
-	self openLinkedPane: newService forItem: item.
-	"This announcement came from the server, so all of my widgets are disabled."
-	self reEnableAll
-]
-
-{ #category : 'accessing' }
 SpkInspectorPane >> nextEvaluatorIndex [
 
 	^ nextEvaluatorIndex ifNil: [ nextEvaluatorIndex := 1 ]
-]
-
-{ #category : 'actions' }
-SpkInspectorPane >> openLinkedPane: aPaneService forItem: item [
-
-	" Create and open an inspector pane in the next column.
-	item is an InspectorField or an evaluator."
-
-	| nextRightColumn newPane |
-	nextRightColumn := owner nextRightColumn.
-	"Ask the column, since it must own the new pane."
-	newPane := nextRightColumn presenterForService: aPaneService.
-	"Linked panes for fields get a 0 element in their coordinate. 
-	Ones for evaluators get the evaluator's index."
-	newPane coordinate: (item coordinateRelativeTo: coordinate).
-	"Add before close so that the column doesn't become empty and remove itself"
-	nextRightColumn add: newPane.
-	item
-		closeLinkedPane;
-		linkedPane: newPane.
-	self flag:
-		'Probably need a different kind of refresh for an evaluator'.
-	body refreshFieldList "Change linking arrow."
 ]
 
 { #category : 'accessing' }
@@ -208,19 +200,41 @@ SpkInspectorPane >> printOn: aStream [
 			do: [ :ex | ex return ] ]
 ]
 
-{ #category : 'announcements' }
-SpkInspectorPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
-
-	self defer: [ 
-		self
-			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId ]
-]
-
 { #category : 'removing' }
 SpkInspectorPane >> removeEvaluator: anEvaluator [
 
 	model removeEvaluator: anEvaluator model.
 	layout remove: anEvaluator.
 	evaluators remove: anEvaluator
+]
+
+{ #category : 'actions' }
+SpkInspectorPane >> toggleFieldList [
+
+	fieldListIsShown := fieldListIsShown not.
+	self
+		updateTwizzleIcon;
+		updateFieldListVisibility
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> twizzleIcon [
+
+	^ fieldListIsShown
+		  ifTrue: [ self iconNamed: #treeExpanded ]
+		  ifFalse: [ self iconNamed: #treeUnexpanded ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> updateFieldListVisibility [
+
+	fieldListIsShown
+		ifTrue: [ self layout add: self list after: topLayout ]
+		ifFalse: [ self layout remove: self list ]
+]
+
+{ #category : 'actions' }
+SpkInspectorPane >> updateTwizzleIcon [
+
+	twizzle icon: self twizzleIcon
 ]

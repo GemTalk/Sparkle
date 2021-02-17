@@ -58,6 +58,12 @@ SpkHeader >> headerColor [
 	^ Color transparent
 ]
 
+{ #category : 'accessing colors' }
+SpkHeader >> headerHeight [
+
+	^ 30
+]
+
 { #category : 'initialization' }
 SpkHeader >> initializePresenters [
 

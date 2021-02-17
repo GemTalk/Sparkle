@@ -2,7 +2,7 @@ RwSimpleProjectLoadComponentV2 {
 	#name : 'tests/Sparkle',
 	#condition : 'tests',
 	#projectNames : [ ],
-	#componentNames : [ 
+	#componentNames : [
 		'tests/gemstone/Sparkle'
 	],
 	#packageNames : [

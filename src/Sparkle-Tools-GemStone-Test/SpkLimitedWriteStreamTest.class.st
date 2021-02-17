@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkLimitedWriteStreamTest',
-	#superclass : 'RsrTestCase',
+	#superclass : 'SpkTestCase',
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 

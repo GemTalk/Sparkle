@@ -15,3 +15,10 @@ SpkTestCase class >> isAbstract [
 
 	^ self == SpkTestCase
 ]
+
+{ #category : 'asserting' }
+SpkTestCase >> assert: anObject
+identicalTo: bObject [
+
+	self assert: anObject == bObject
+]

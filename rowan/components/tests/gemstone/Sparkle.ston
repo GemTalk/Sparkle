@@ -3,10 +3,8 @@ RwPlatformNestedProjectLoadComponentV2 {
 	#condition : [
 		'gs3.[7-]'
 	],
-	#projectNames : [ ],
-	#componentNames : [ ],
 	#packageNames : [
 		'Sparkle-Tools-GemStone-Test'
- ],
+	],
 	#comment : 'gemstone packages for Sparkle, minimum version 3.7.0'
 }

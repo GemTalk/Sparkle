@@ -577,6 +577,9 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: 'testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times'.
 	GsFile gciLogServer: '========='.
 
+true ifTrue: [ 
+"halts test runs when it fails"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.

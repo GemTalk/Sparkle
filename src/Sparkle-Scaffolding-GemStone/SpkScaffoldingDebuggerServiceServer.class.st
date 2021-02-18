@@ -43,6 +43,11 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				,
 					'>>openDebuggerOnClientForProcess:exception: [1] -- after openDebuggerOnClient returned: '
 				, res printString.
+	GsFile
+		gciLogServer:
+			self class name
+				,
+					'>>openDebuggerOnClientForProcess:exception: [2] -- processService: ', processService printString.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
 	^ res
 ]

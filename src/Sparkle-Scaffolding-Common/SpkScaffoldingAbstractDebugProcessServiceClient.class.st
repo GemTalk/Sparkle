@@ -32,7 +32,7 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> printOn: aStream [
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> resume [
 
-	^ remoteSelf resume wait
+	^ remoteSelf resume
 ]
 
 { #category : 'debbuger process control' }
@@ -91,7 +91,7 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> suspendedProcessReportString 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> terminate [
 
-	^ remoteSelf terminate wait
+	^ remoteSelf terminate
 ]
 
 { #category : 'debbuger process control' }

@@ -109,6 +109,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 		synchronize.
 	server := connectionB serviceAt: client _id.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+GsFile gciLogServer: '--->	testDebugger_07c [0] - ', debuggerClient processService printString.
 	sem := Semaphore new.
 
 	doitProcess := [ 
@@ -121,6 +122,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c [
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+GsFile gciLogServer: '--->	testDebugger_07c [1] - ', debuggerClient processService printString.
 
 	self
 		assert: debuggerClient messageText

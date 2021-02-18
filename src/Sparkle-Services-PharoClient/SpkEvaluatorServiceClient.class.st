@@ -107,3 +107,10 @@ SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 			(SpkUnsavedChangesAnnouncement hasUnsavedChanges: hasUnsavedChanges) ].
 	^ hasUnsavedChanges
 ]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluatorServiceClient >> updateInspectors [
+
+	updatedInspectors do: [ :each | each announceUpdate ].
+	updatedInspectors := Set new
+]

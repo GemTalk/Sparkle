@@ -33,6 +33,16 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 ]
 
 { #category : 'initialization' }
+SpkInspectorPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkInspectorUpdateAnnouncement
+		send: #updateFromModel
+		to: self
+]
+
+{ #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
@@ -231,6 +241,12 @@ SpkInspectorPane >> updateFieldListVisibility [
 	fieldListIsShown
 		ifTrue: [ self layout add: self list after: topLayout ]
 		ifFalse: [ self layout remove: self list ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> updateInspectors [
+
+	evaluators do: [ :each | each updateInspectors ]
 ]
 
 { #category : 'actions' }

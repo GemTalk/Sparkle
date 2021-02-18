@@ -20,6 +20,12 @@ SpkInspectorServiceClient >> addEvaluator [
 	^ newEvaluator
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorServiceClient >> announceUpdate [
+
+	self announce: SpkInspectorUpdateAnnouncement new
+]
+
 { #category : 'removing' }
 SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
 

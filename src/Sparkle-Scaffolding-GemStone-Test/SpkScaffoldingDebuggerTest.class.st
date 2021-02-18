@@ -227,7 +227,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07e [
 		Use `self resumeWith: 8`
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07e - trigger OffsetError during doit and expect to trigger a remote debugger. Use `self resumeWith: 8`'.
 	GsFile gciLogServer: '========='.
@@ -241,11 +241,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07e [
 
 	doitProcess := [ 
 	[ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client gsDebugger_07: '#() at: 1' usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: 8.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
@@ -258,7 +257,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07e [
 
 	debuggerClient resumeWith: 8.
 
-	sem wait.	"assertion passed"
+	sem wait.	"run assertion"
+	self assert: expressionResult equals: 8.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

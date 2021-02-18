@@ -215,7 +215,6 @@ GsFile gciLogServer: '--->	SpkScaffoldingServiceServer >> gsDebugger_07:'.
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService [
-GsFile gciLogServer: '--->	SpkScaffoldingServiceServer >> gsDebugger_07:usingDebugger:'.
 	^ self
 		gsDebugger_07: aString
 		usingDebugger: debuggerService
@@ -230,9 +229,6 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 	"
 
 	| cur debugActionBlock |
-	GsFile
-		gciLogServer:
-			'--->	SpkScaffoldingServiceServer >> gsDebugger_07:usingDebugger:procName: [0] - ', debuggerService processService printString.
 	cur := GsProcess _current.
 	cur name: procName.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
@@ -251,9 +247,6 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					res := debuggerService
 						openDebuggerOnClientForProcess: theDebugProcess
 						exception: ex.
-					GsFile
-						gciLogServer:
-							'--->	SpkScaffoldingServiceServer >> gsDebugger_07:usingDebugger:procName: [1] - ', debuggerService processService printString.
 					res ] forkAt: Processor userInterruptPriority.
 					ex isResumable
 						ifFalse: [ 

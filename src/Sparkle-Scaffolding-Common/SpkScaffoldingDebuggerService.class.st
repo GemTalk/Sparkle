@@ -21,6 +21,5 @@ SpkScaffoldingDebuggerService >> processService [
 
 { #category : 'accessing' }
 SpkScaffoldingDebuggerService >> processService: object [
-GsFile gciLogServer: ' ---> SpkScaffoldingAbstractService>>processService: ', object printString.
 	processService := object
 ]

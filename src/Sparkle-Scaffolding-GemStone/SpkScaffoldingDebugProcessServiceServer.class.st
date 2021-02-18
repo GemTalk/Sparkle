@@ -50,8 +50,6 @@ SpkScaffoldingDebugProcessServiceServer >> doitException [
 
 { #category : 'accessing' }
 SpkScaffoldingDebugProcessServiceServer >> doitException: anException [
-GsFile gciLogServer: 'doitException: [0] ', anException printString.
-GsFile gciLogServer: 'doitException: [1] ', anException messageText asString.
 	self messageText: anException messageText asString.
 	doitException := anException
 ]

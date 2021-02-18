@@ -96,7 +96,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 ]
 
 { #category : 'tests' }
-SpkScaffoldingDebuggerTest >> testDebugger_07c [
+SpkScaffoldingDebuggerTest >> testDebugger_07c_01 [
 	"trigger an MNU"
 
 	| client server sem debuggerClient |
@@ -129,6 +129,47 @@ GsFile gciLogServer: '--->	testDebugger_07c [1] - ', debuggerClient processServi
 		assert: debuggerClient messageText
 		equals:
 			'a MessageNotUnderstood occurred (error 2010), a SmallInteger does not understand  #''foo'''.	"nothing left to do, but turn out the lights"
+
+	debuggerClient terminate.
+
+	sem wait.	"expected catch and got it"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07c_02 [
+	"trigger an MNU"
+
+	| client server sem debuggerClient |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07c - trigger a Halt'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
+	self expectCatch: promise.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals:
+			'a Halt occurred (error 2709)'.	"nothing left to do, but turn out the lights"
 
 	debuggerClient terminate.
 
@@ -539,6 +580,9 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: 'testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times'.
 	GsFile gciLogServer: '========='.
 
+true ifTrue: [ 
+"halts test runs when it fails"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.

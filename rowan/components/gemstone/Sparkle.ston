@@ -4,7 +4,6 @@ RwPlatformNestedProjectLoadComponentV2 {
 		'gs3.[7-]'
 	],
 	#packageNames : [
-		'Sparkle-Scaffolding-GemStone-Deprecated',
 		'Sparkle-Scaffolding-GemStone',
 		'Sparkle-Scaffolding-Rowan-GemStone',
 		'Sparkle-Tools-GemStone'

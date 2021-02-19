@@ -15,16 +15,6 @@ SpkScaffoldingAbstractServiceClient class >> closeConnection [
 ]
 
 { #category : 'connections' }
-SpkScaffoldingAbstractServiceClient class >> connection [
-
-	SpkConnectionProfile defaultConnection ifNotNil: [ :conn | 
-		Connection := conn ].
-	(Connection isNil or: [ Connection isOpen not ]) ifTrue: [ 
-		self initiateConnection ].
-	^ Connection
-]
-
-{ #category : 'connections' }
 SpkScaffoldingAbstractServiceClient class >> initiateConnection [
 
 	| host port initiator |

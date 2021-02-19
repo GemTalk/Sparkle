@@ -27,6 +27,14 @@ SpkScaffoldingServiceClient class >> closeConnection_01 [
 	 self closeConnection 
 ]
 
+{ #category : 'connections' }
+SpkScaffoldingServiceClient class >> connection [
+
+	(Connection isNil or: [ Connection isOpen not ]) ifTrue: [ 
+		self initiateConnection ].
+	^ Connection
+]
+
 { #category : 'examples' }
 SpkScaffoldingServiceClient class >> debugger_01 [
 

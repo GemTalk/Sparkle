@@ -17,9 +17,8 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClient [
 	| res |
-	GsFile gciLogServer: self class name, '>>openDebuggerOnClient'.
+	GsFile gciLogServer: self class name , '>>openDebuggerOnClient'.
 	res := remoteSelf openDebuggerOnClient wait.
-	SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
 	^ res
 ]
 
@@ -34,7 +33,6 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				debuggerService: self;
 				yourself).
 	res := remoteSelf openDebuggerOnClient wait.
-	SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
 	^ res
 ]
 
@@ -70,6 +68,11 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		env: 0
 		breakpointLevel: 1.
 	^ res
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> stepOverFromLevel: aLevel [
+	^ self processService stepOverFromLevel: aLevel
 ]
 
 { #category : 'debbuger process control' }

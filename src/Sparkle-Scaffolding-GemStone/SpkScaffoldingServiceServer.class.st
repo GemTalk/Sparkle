@@ -259,7 +259,6 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> openDebuggerOnClient [
-	GsFile gciLogServer: self class name, '>>openDebuggerOnClient'.
 	^ remoteSelf openDebuggerOnClient
 ]
 

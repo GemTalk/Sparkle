@@ -37,7 +37,7 @@ SpkScaffoldingDebuggerServiceClient >> messageText [
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	| stack stackLimit |
-stackLimit := 50.
+	stackLimit := 50.
 	GsFile
 		gciLogServer:
 			'simulate opening debugger on process (' , processService printString
@@ -90,7 +90,7 @@ SpkScaffoldingDebuggerServiceClient >> setBreakpointForClass: className meta: is
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
-	^ self processService stepOverFromLevel: aLevel
+	^ (remoteSelf stepOverFromLevel: aLevel) wait
 ]
 
 { #category : 'debbuger process control' }

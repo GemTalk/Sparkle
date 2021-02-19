@@ -312,7 +312,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'STEP OVER'.
 	GsFile gciLogServer: '========='.
-	debuggerClient stepOverFromLevel: 12.
+	debuggerClient stepOverFromLevel: 13.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
 	self
@@ -320,8 +320,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 		equals:
 			'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
 	self
-		assert: (debuggerClient rowanFrameServices at: 15) label
-		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
+		assert: (debuggerClient rowanFrameServices at: 14) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @3 line 5'.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'RESUME'.

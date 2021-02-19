@@ -43,6 +43,11 @@ SpkScaffoldingDebugFrameServiceServer >> methodService [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> methodSource [
+	^ methodSource ifNil: [ methodSource := self rowanFrameService _method source ]
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> rowanFrameService [
 	^rowanFrameService
 ]

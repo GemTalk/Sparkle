@@ -10,6 +10,12 @@ SpkScaffoldingAbstractDebugFrameServiceClient >> label [
 	^label ifNil: [ label := remoteSelf label wait ]
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingAbstractDebugFrameServiceClient >> methodSource [
+
+	^methodSource ifNil: [ methodSource := remoteSelf methodSource wait ]
+]
+
 { #category : 'printing' }
 SpkScaffoldingAbstractDebugFrameServiceClient >> printOn: aStream [
 

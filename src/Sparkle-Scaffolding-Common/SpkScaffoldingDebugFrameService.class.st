@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'label',
 		'variableMap',
-		'methodService'
+		'methodService',
+		'methodSource'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -23,6 +24,12 @@ SpkScaffoldingDebugFrameService >> label [
 
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameService >> methodService [
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> methodSource [
 
 	self subclassResponsibility
 ]

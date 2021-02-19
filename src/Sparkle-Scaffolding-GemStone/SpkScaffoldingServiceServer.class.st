@@ -193,7 +193,6 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 	"
 
 	| cur debugActionBlock |
-GsFile gciLogServer: '--->	SpkScaffoldingServiceServer >> gsDebugger_07:'.
 	cur := GsProcess _current.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur

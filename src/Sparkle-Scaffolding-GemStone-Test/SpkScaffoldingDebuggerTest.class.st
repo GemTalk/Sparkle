@@ -275,8 +275,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	GsFile gciLogServer: 'testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"errors out with a RsrUnknownSID occurred (error 2710) during testSuite run ... passes when run individually"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** Passes when run independently'.
 ^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
@@ -580,8 +580,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: 'testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"errors out with a RsrUnknownSID occurred (error 2710) during testSuite run ... passes when run individually"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** Passes when run independently'.
 ^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
@@ -649,9 +649,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"hanging so still needs work"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** HANGS instead of test failure'.
 ^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -702,9 +703,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"fails with error instead of TestFailure/TestError"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** ERROR instead of test failure'.
 ^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -804,9 +806,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 	GsFile gciLogServer: 'testDebugger_07n - trim stack'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"fails during test suirte run, passes individually"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** Passes when run independently'.
 ^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -893,9 +896,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 			'testDebugger_07o - save method (home context) and save method (embedded block)'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"fails with error instead of TestFailure/TestError"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** Passes when run independently'.
 ^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -942,6 +946,9 @@ true ifTrue: [
 		at: 14.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
+	self
+		assert: (debuggerClient rowanFrameServices at: 1) label
+		equals: 'SpkScaffoldingMockObject >> method3 @1 line 1'.
 	self assert: debuggerClient rowanFrameServices size equals: 22.
 
 	GsFile gciLogServer: '========='.
@@ -972,9 +979,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07p [
 			'testDebugger_07p -Trigger an exception in a static handler and open debugger'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"fails during test suirte run, passes individually"
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** Passes when run independently'.
 ^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1052,6 +1060,86 @@ true ifTrue: [
 	debuggerClient terminate.
 
 	sem wait.	"assertion passed"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07r [
+	"
+		trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume
+	"
+
+	| client server sem debuggerClient expressionResult |
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'testDebugger_07r - trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume'.
+	GsFile gciLogServer: '========='.
+
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** Passes when run independently'.
+^self assert: false].
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example2'
+		usingDebugger: debuggerClient.
+	expressionResult := (self expectWhen: promise) doitResult.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'STEP OVER'.
+	GsFile gciLogServer: '========='.
+	debuggerClient stepOverFromLevel: 13.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals:
+			'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 14) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @3 line 5'.
+
+	self
+		assert: (debuggerClient rowanFrameServices at: 14) methodSource
+		equals: 'example2
+	"use this example until the trappability of breakpoints is sorted out"
+
+	self halt.	"I''m here on purpose - used in a test"
+	^ SpkScaffoldingMockObject new method1'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+
+	sem wait.	"run assertion"
+	self
+		assert: expressionResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

@@ -63,7 +63,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 		trigger exception during doit and expect to trigger a remote debugger; resume execution
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07b - trigger exception during doit and expect to trigger a remote debugger; resume execution'.
 	GsFile gciLogServer: '========='.
@@ -76,11 +76,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 	sem := Semaphore new.
 	doitProcess := [ 
 	[ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: 7.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
@@ -88,7 +87,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 
 	debuggerClient resume.
 
-	sem wait.	"assertion passed"
+	sem wait.	"run assertion"
+	self assert: expressionResult equals: 7.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
@@ -109,7 +109,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c_01 [
 		synchronize.
 	server := connectionB serviceAt: client _id.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
-GsFile gciLogServer: '--->	testDebugger_07c [0] - ', debuggerClient processService printString.
 	sem := Semaphore new.
 
 	doitProcess := [ 
@@ -122,8 +121,6 @@ GsFile gciLogServer: '--->	testDebugger_07c [0] - ', debuggerClient processServi
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
-
-GsFile gciLogServer: '--->	testDebugger_07c [1] - ', debuggerClient processService printString.
 
 	self
 		assert: debuggerClient messageText
@@ -273,10 +270,14 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 			2.	debugger resume
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume'.
 	GsFile gciLogServer: '========='.
+
+true ifTrue: [ 
+"errors out with a RsrUnknownSID occurred (error 2710) during testSuite run ... passes when run individually"
+^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -287,18 +288,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 
 	doitProcess := [ 
 	[ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client
 		gsDebugger_07: 'SpkScaffoldingMockObject example2'
 		usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self
-		assert: result
-		equals:
-			{'symbol'.
-			'1'.
-			'2.0'}.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
@@ -328,7 +323,13 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	GsFile gciLogServer: '========='.
 	debuggerClient resume.
 
-	sem wait.	"assertion passed"
+	sem wait.	"run assertion"
+	self
+		assert: expressionResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
@@ -343,7 +344,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 			2. stepOverFromLevel: to confirm we've returned to calling method ... and then done
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07g - Set 2 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test; stepThroughFromLevel:; resume to hit second breakpoint; stepOverFromLevel: to confirm we''ve returned to calling method ... and then done'.
 	GsFile gciLogServer: '========='.
@@ -373,18 +374,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 
 	doitProcess := [ 
 	[ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client
 		gsDebugger_07: 'SpkScaffoldingMockObject example1'
 		usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self
-		assert: result
-		equals:
-			{'symbol'.
-			'1'.
-			'2.0'}.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
@@ -445,8 +440,13 @@ SpkScaffoldingDebuggerTest >> testDebugger_07g [
 		clearAllBreaks;
 		resume.
 
-	sem wait.	"assertion passed"
-
+	sem wait.	"run assertion"
+	self
+		assert: expressionResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
@@ -458,7 +458,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07h [
 		trigger a halt in a forked process on SpkScaffoldingMockObject and resume ... result of execution dumped to log
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07h - trigger a halt in a forked process on SpkScaffoldingMockObject and resume ... result of execution dumped to log'.
 	GsFile gciLogServer: '========='.
@@ -471,17 +471,17 @@ SpkScaffoldingDebuggerTest >> testDebugger_07h [
 	sem := Semaphore new.
 
 	doitProcess := [ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client
 		gsDebugger_07: 'SpkScaffoldingMockObject example3'
 		usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: 'forked'.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ] forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
 	sem wait.	"doitProcess forked"
+	self assert: expressionResult equals: 'forked'.
 	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
 	self
 		assert: (debuggerClient rowanFrameServices at: 13) label
@@ -513,7 +513,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 			then halt in original process and return answer from example2 as result (#('symbol' '1' '2.0')).
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07i - two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, then halt in original process and return answer from example2 as result (#(''symbol'' ''1'' ''2.0''))'.
 	GsFile gciLogServer: '========='.
@@ -526,18 +526,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 	sem := Semaphore new.
 
 	doitProcess := [ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client
 		gsDebugger_07: 'SpkScaffoldingMockObject example4'
 		usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self
-		assert: result
-		equals:
-			{'symbol'.
-			'1'.
-			'2.0'}.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ] forkAt: Processor userSchedulingPriority.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
 
@@ -562,7 +556,13 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 	GsFile gciLogServer: '========='.
 	debuggerClient resume.
 
-	sem wait.	"doitProcess forked"
+	sem wait.	"test assertion"
+	self
+		assert: expressionResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
@@ -581,8 +581,9 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: '========='.
 
 true ifTrue: [ 
-"halts test runs when it fails"
+"errors out with a RsrUnknownSID occurred (error 2710) during testSuite run ... passes when run individually"
 ^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -649,7 +650,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: '========='.
 
 true ifTrue: [ 
-"halts test runs when it fails"
+"hanging so still needs work"
 ^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -700,10 +701,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
 	GsFile gciLogServer: '========='.
-true ifTrue: [ 
-"halts test runs when it fails"
-^self assert: false].
 
+true ifTrue: [ 
+"fails with error instead of TestFailure/TestError"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -798,11 +799,14 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 		set breakpoint, trim stack
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07n - trim stack'.
 	GsFile gciLogServer: '========='.
 
+true ifTrue: [ 
+"fails during test suirte run, passes individually"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -820,18 +824,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 
 	doitProcess := [ 
 	[ 
-	| promise result |
+	| promise |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client
 		gsDebugger_07: 'SpkScaffoldingMockObject example1'
 		usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self
-		assert: result
-		equals:
-			{'symbol'.
-			'1'.
-			'2.0'}.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
@@ -869,7 +867,13 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 		clearAllBreaks;
 		resume.
 
-	sem wait.	"assertion passed"
+	sem wait.	"test assertion"
+	self
+		assert: expressionResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
@@ -882,13 +886,16 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 		save method (home context) and save method (embedded block)
 	"
 
-	| client server sem debuggerClient |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile
 		gciLogServer:
 			'testDebugger_07o - save method (home context) and save method (embedded block)'.
 	GsFile gciLogServer: '========='.
 
+true ifTrue: [ 
+"fails with error instead of TestFailure/TestError"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -906,13 +913,12 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 
 	doitProcess := [ 
 	[ 
-	| promise result |
+	| promise  |
 	GsProcess _current name: self printString , ' doit proc'.
 	promise := client
 		gsDebugger_07: 'SpkScaffoldingMockObject example5'
 		usingDebugger: debuggerClient.
-	result := (self expectWhen: promise) doitResult.
-	self assert: result equals: SpkScaffoldingMockObject _optionArray printString.
+	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
@@ -945,7 +951,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 		clearAllBreaks;
 		resume.
 
-	sem wait.	"assertion passed"
+	sem wait.	"test assertion"
+	self assert: expressionResult equals: SpkScaffoldingMockObject _optionArray printString.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
@@ -955,16 +962,19 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07p [
 	"
-		Trigger an exceiption in a static handler and open debugger
+		Trigger an exception in a static handler and open debugger
 	"
 
 	| client server sem debuggerClient staticHandler message |
 	GsFile gciLogServer: '========='.
 	GsFile
 		gciLogServer:
-			'testDebugger_07p -Trigger an exceiption in a static handler and open debugger'.
+			'testDebugger_07p -Trigger an exception in a static handler and open debugger'.
 	GsFile gciLogServer: '========='.
 
+true ifTrue: [ 
+"fails during test suirte run, passes individually"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1019,6 +1029,9 @@ SpkScaffoldingDebuggerTest >> testDebugger_07q [
 			'testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript'.
 	GsFile gciLogServer: '========='.
 
+true ifTrue: [ 
+"fails during test suirte run, passes individually"
+^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.

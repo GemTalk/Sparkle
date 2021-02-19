@@ -15,6 +15,11 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingDebuggerServiceServer >> methodSourceAt: aLevel [
+	^ (self rowanFrameServices at: aLevel) methodSource
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClient [
 	| res |
 	GsFile gciLogServer: self class name , '>>openDebuggerOnClient'.
@@ -51,6 +56,11 @@ SpkScaffoldingDebuggerServiceServer >> resumptionValue: anObject [
 	"Note that if nil is used, then the exception will resume with object that is on the top of the stack"
 
 	resumptionValue := anObject
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> rowanFrameServices [
+	^ self processService rowanFrameServices
 ]
 
 { #category : 'debugger' }

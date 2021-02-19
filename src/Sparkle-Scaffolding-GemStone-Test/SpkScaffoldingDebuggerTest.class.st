@@ -1077,10 +1077,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 	GsFile gciLogServer: 'testDebugger_07r - trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** Passes when run independently'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1121,7 +1117,7 @@ GsFile gciLogServer: '***** Passes when run independently'.
 		equals: 'SpkScaffoldingMockObject class >> example2 @3 line 5'.
 
 	self
-		assert: (debuggerClient rowanFrameServices at: 14) methodSource
+		assert: (debuggerClient methodSourceAt: 14)
 		equals: 'example2
 	"use this example until the trappability of breakpoints is sorted out"
 

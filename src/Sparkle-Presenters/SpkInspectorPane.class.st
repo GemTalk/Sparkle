@@ -42,6 +42,12 @@ SpkInspectorPane >> connectPresenters [
 		to: self
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> deselectChangedFields [ 
+|  |
+self halt 
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
@@ -235,12 +241,28 @@ SpkInspectorPane >> twizzleIcon [
 		  ifFalse: [ self iconNamed: #treeUnexpanded ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> updateFieldList [
+
+	self
+		deselectChangedFields;
+		updateFieldListDisplay
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> updateFieldListVisibility [
 
 	fieldListIsShown
 		ifTrue: [ self layout add: self list after: topLayout ]
 		ifFalse: [ self layout remove: self list ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> updateFromModel [
+
+	description label: model selfDescription.
+	header classMembershipDescription: model classMembershipDescription.
+	self updateFieldList
 ]
 
 { #category : 'as yet unclassified' }

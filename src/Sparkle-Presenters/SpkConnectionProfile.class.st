@@ -45,6 +45,20 @@ SpkConnectionProfile class >> connectionProfileExists: connectionProfile [
 ]
 
 { #category : 'accessing' }
+SpkConnectionProfile class >> defaultConnection [
+
+	"convenience method to return the first live connection.
+	Eventually make a way to set the current connection
+	for things like tests and example methods, etc."
+
+	| connectedProfile |
+	connectedProfile := self profiles
+		                    detect: [ :profile | profile connection notNil ]
+		                    ifNone: [ ^ nil ].
+	^ connectedProfile connection
+]
+
+{ #category : 'accessing' }
 SpkConnectionProfile class >> initializeProfiles [
 	"self initializeProfiles"
 	Profiles := OrderedCollection new

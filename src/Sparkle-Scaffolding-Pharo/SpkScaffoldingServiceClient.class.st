@@ -30,9 +30,9 @@ SpkScaffoldingServiceClient class >> closeConnection_01 [
 { #category : 'connections' }
 SpkScaffoldingServiceClient class >> connection [
 
-	(Connection isNil or: [ Connection isOpen not ]) ifTrue: [ 
-		self initiateConnection ].
-	^ Connection
+	SpkConnectionProfile defaultConnection ifNotNil: [ :conn | 
+		^Connection := conn ].
+	^super connection
 ]
 
 { #category : 'examples' }

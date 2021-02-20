@@ -100,7 +100,7 @@ SpkScaffoldingDebuggerServiceClient >> stepThroughFromLevel: aLevel [
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
-	^ remoteSelf terminate
+	^ remoteSelf terminate wait
 ]
 
 { #category : 'debbuger process control' }

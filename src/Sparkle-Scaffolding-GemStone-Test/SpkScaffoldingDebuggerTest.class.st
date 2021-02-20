@@ -275,10 +275,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 	GsFile gciLogServer: 'testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** Passes when run independently'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -580,10 +576,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsFile gciLogServer: 'testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** Passes when run independently'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -806,10 +798,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 	GsFile gciLogServer: 'testDebugger_07n - trim stack'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** Passes when run independently'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -896,10 +884,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07o [
 			'testDebugger_07o - save method (home context) and save method (embedded block)'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** Passes when run independently'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -979,10 +963,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07p [
 			'testDebugger_07p -Trigger an exception in a static handler and open debugger'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** Passes when run independently'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1037,9 +1017,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07q [
 			'testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript'.
 	GsFile gciLogServer: '========='.
 
-true ifTrue: [ 
-"fails during test suirte run, passes individually"
-^self assert: false].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.

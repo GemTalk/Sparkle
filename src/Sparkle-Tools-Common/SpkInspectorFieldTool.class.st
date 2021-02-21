@@ -26,6 +26,14 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'private' }
+SpkInspectorFieldTool >> classOfInspectedObject [
+
+	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
+
+	^ SpkReflection classOf: inspectedObject
+]
+
 { #category : 'accessing' }
 SpkInspectorFieldTool >> index [
 
@@ -60,4 +68,41 @@ SpkInspectorFieldTool >> oop [
 SpkInspectorFieldTool >> oop: anObject [
 
 	oop := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldTool >> refresh [
+
+	self
+		refreshName;
+		refreshOop
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldTool >> refreshName [
+
+	| class names |
+	class := self classOfInspectedObject.
+	names := class allInstVarNames.
+	name := index > names size
+		        ifFalse: [ names at: index ]
+		        ifTrue: [ (index - names size) printString ]
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldTool >> refreshOop [
+
+	| class names value |
+	class := self classOfInspectedObject.
+	names := class allInstVarNames.
+	value := index > names size
+		         ifFalse: [ 
+		         SpkReflection
+			         fetchNamedInstvarAt: index
+			         from: inspectedObject ]
+		         ifTrue: [ 
+			         SpkReflection
+				         fetchIndexedInstvarAt: index - names size
+				         from: inspectedObject ].
+	oop := SpkReflection identifierOf: value
 ]

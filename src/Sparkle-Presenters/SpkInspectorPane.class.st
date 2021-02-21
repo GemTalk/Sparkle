@@ -43,9 +43,19 @@ SpkInspectorPane >> connectPresenters [
 ]
 
 { #category : 'as yet unclassified' }
-SpkInspectorPane >> deselectChangedFields [ 
-|  |
-self halt 
+SpkInspectorPane >> deselectChangedFields [
+
+	self
+		deselectOffTheEndFields;
+		deselectNameChangedFields
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> deselectOffTheEndFields [
+
+	| newNumberOfFields |
+	newNumberOfFields := model fields size.
+	listModel deselectItemsBeyond: newNumberOfFields
 ]
 
 { #category : 'initialization' }
@@ -268,7 +278,7 @@ SpkInspectorPane >> updateFromModel [
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> updateInspectors [
 
-	evaluators do: [ :each | each updateInspectors ]
+	self evaluators do: [ :each | each updateInspectors ]
 ]
 
 { #category : 'actions' }

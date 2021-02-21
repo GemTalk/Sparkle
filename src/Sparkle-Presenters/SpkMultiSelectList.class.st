@@ -54,6 +54,15 @@ SpkMultiSelectList >> deselectItem: anItem [
 	self announce: (SpkItemDeselected forItem: anItem index: index)
 ]
 
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> deselectItemsBeyond: lastIndex [
+
+	lastIndex + 1 to: items size do: [ :i | 
+		| item |
+		item := items at: i.
+		(selectedItems includes: item) ifTrue: [ self deselectItem: item ] ]
+]
+
 { #category : 'initialization' }
 SpkMultiSelectList >> initialize [
 

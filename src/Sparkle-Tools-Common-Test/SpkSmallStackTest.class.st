@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkSmallStackTest',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#instVars : [
 		'stack'
 	],

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkUndoManagerTest',
-	#superclass : 'TestCase',
+	#superclass : 'SpkTestCase',
 	#instVars : [
 		'manager'
 	],

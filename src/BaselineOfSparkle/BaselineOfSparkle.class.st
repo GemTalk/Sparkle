@@ -1,13 +1,56 @@
 Class {
-	#name : #BaselineOfSparkle,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfSparkle
+	#name : 'BaselineOfSparkle',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfSparkle'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfSparkle >> baseline: spec [
 
 	<baseline>
+	self baselineNoScaffolding: spec
+]
+
+{ #category : 'baselines' }
+BaselineOfSparkle >> baselineNoScaffolding: spec [
+
+	<baseline>
+	spec for: #pharo do: [ 
+		spec
+			postLoadDoIt: #postload:package:;
+			package: 'Sparkle-Tools-Common';
+			package: 'Sparkle-Tools-Pharo'
+			with: [ spec requires: 'Sparkle-Tools-Common' ];
+			package: 'Sparkle-Tools-Common-Test'
+			with: [ spec requires: 'Sparkle-Tools-Common' ];
+			package: 'Sparkle-Tools-Pharo-Test'
+			with: [ spec requires: 'Sparkle-Tools-Common-Test' ];
+			package: 'Sparkle-Services-Common'
+			with: [ spec requires: 'RemoteServiceReplication' ];
+			package: 'Sparkle-Services-PharoClient'
+			with: [ spec requires: 'Sparkle-Services-Common' ];
+			package: 'Sparkle-Services-PharoServer'
+			with: [ 
+				spec requires:
+						#( 'Sparkle-Services-Common' 'Sparkle-Tools-Pharo' ) ];
+			package: 'Sparkle-Presenters' with: [ 
+				spec requires:
+						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient' ) ];
+			package: 'Sparkle-Presenters-Test'
+			with: [ spec requires: #('Sparkle-Presenters' 'Sparkle-Tools-Common-Test') ];
+			package: 'Sparkle-UiTest'
+			with: [ spec requires: #('Sparkle-Presenters' 'Sparkle-Tools-Common-Test') ];
+			package: 'Sparkle-Application'
+			with: [ spec requires: 'Sparkle-Presenters' ];
+			package: 'Sparkle-Spextensions'.
+		spec
+			baseline: 'RemoteServiceReplication'
+			with: [ spec repository: self rsrUrl ] ]
+]
+
+{ #category : 'baselines' }
+BaselineOfSparkle >> baselineWithScaffolding: spec [
+
 	spec for: #pharo do: [ 
 		spec
 			postLoadDoIt: #postload:package:;
@@ -52,7 +95,7 @@ BaselineOfSparkle >> baseline: spec [
 			with: [ spec repository: self rsrUrl ] ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 BaselineOfSparkle >> postload: loader package: packageSpec [
 	| repositoriesSpec map urlString |
 	repositoriesSpec := packageSpec repositories.
@@ -64,7 +107,7 @@ BaselineOfSparkle >> postload: loader package: packageSpec [
 	SpkIconLibrary loadFromLocalSrcUrlString: urlString
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfSparkle >> rsrUrl [
 	| projectsHome |
 	projectsHome := OSEnvironment current

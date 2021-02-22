@@ -22,3 +22,9 @@ SpkScaffoldingAbstractDebugFrameServiceClient >> printOn: aStream [
 	aStream
 		nextPutAll: self label
 ]
+
+{ #category : 'accessing' }
+SpkScaffoldingAbstractDebugFrameServiceClient >> variableMap [
+
+	^variableMap ifNil: [ variableMap := remoteSelf variableMap wait ]
+]

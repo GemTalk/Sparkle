@@ -1118,3 +1118,80 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07s [
+	"
+		trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13; debugger resume
+	"
+
+	| client server sem debuggerClient expressionResult frame |
+	GsFile gciLogServer: '========='.
+	GsFile
+		gciLogServer:
+			'testDebugger_07s - trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13; debugger resume'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SpkScaffoldingMockObject example2'
+		usingDebugger: debuggerClient.
+	expressionResult := (self expectWhen: promise) doitResult.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'STEP OVER'.
+	GsFile gciLogServer: '========='.
+	debuggerClient stepOverFromLevel: 13.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: debuggerClient messageText
+		equals:
+			'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
+	frame := debuggerClient frameAt: 14.
+	self
+		assert: frame label
+		equals: 'SpkScaffoldingMockObject class >> example2 @3 line 5'.
+
+	GsFile gciLogServer: 'FRAME VARS'.
+	GsFile gciLogServer: '========='.
+	frame variableMap
+		keysAndValuesDo: [ :varName :value | GsFile gciLogServer: '  ' , varName printString , '	' , value printString ].
+	GsFile gciLogServer: '========='.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'RESUME'.
+	GsFile gciLogServer: '========='.
+	debuggerClient resume.
+
+	sem wait.	"run assertion"
+	self
+		assert: expressionResult
+		equals:
+			{'symbol'.
+			'1'.
+			'2.0'}.
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]

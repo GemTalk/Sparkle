@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> frameAt: aLevel [
+	^ (remoteSelf frameAt: aLevel) wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> methodSourceAt: aLevel [
 	^ (remoteSelf methodSourceAt: aLevel) wait
 ]

@@ -15,6 +15,11 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingDebuggerServiceServer >> frameAt: aLevel [
+	^ self rowanFrameServices at: aLevel
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> methodSourceAt: aLevel [
 	^ (self rowanFrameServices at: aLevel) methodSource
 ]

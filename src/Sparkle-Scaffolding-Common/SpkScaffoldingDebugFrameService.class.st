@@ -33,3 +33,9 @@ SpkScaffoldingDebugFrameService >> methodSource [
 
 	self subclassResponsibility
 ]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> variableMap [
+
+	self subclassResponsibility
+]

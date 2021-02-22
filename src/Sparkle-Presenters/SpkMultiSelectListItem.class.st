@@ -49,6 +49,12 @@ SpkMultiSelectListItem >> closingLinkedPane: aPane [
 ]
 
 { #category : 'accessing' }
+SpkMultiSelectListItem >> columnAt: anInteger [
+
+	^ model columnAt: anInteger
+]
+
+{ #category : 'accessing' }
 SpkMultiSelectListItem >> coordinateRelativeTo: parentCoordinate [
 
 	"Linked inspectors for fields get a 0 element in their coordinate. 

@@ -10,15 +10,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'instance creation' }
-SpkInspectorTool class >> on: anObject [
-
-	^ self new
-		  inspectedObject: anObject;
-		  initializeViews;
-		  yourself
-]
-
 { #category : 'adding' }
 SpkInspectorTool >> addEvaluator [
 
@@ -32,6 +23,7 @@ SpkInspectorTool >> addEvaluator [
 { #category : 'as yet unclassified' }
 SpkInspectorTool >> announceUpdate: anAnnouncement [
 
+	self refreshFieldTools.
 	self announce: anAnnouncement
 ]
 
@@ -115,6 +107,9 @@ SpkInspectorTool >> initializeViews [
 
 	| rawView |
 	rawView := SpkInspectorRawViewTool on: inspectedObject.
+	rawView
+		taskspaceTool: taskspaceTool;
+		refreshFieldTools.
 	views
 		at: 'raw' put: rawView;
 		at: 'default' put: rawView.
@@ -156,4 +151,14 @@ SpkInspectorTool >> selfDescription [
         but set a high limit."
 
 	^ self selfDescriptionOf: inspectedObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorTool >> taskspaceTool: aTool [
+
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #announceUpdate: 
+		to: self
 ]

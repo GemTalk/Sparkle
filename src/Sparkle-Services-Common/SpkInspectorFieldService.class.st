@@ -20,9 +20,7 @@ Class {
 	#name : 'SpkInspectorFieldService',
 	#superclass : 'SpkLinkableSubService',
 	#instVars : [
-		'name',
-		'description',
-		'oop'
+		'columns'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -43,33 +41,26 @@ SpkInspectorFieldService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
-SpkInspectorFieldService >> description [
-	^ description
+SpkInspectorFieldService >> columnAt: anInteger [
+
+	^ columns at: anInteger
 ]
 
 { #category : 'accessing' }
-SpkInspectorFieldService >> description: anObject [
-	description := anObject
+SpkInspectorFieldService >> columns [
+
+	^ columns
 ]
 
 { #category : 'accessing' }
-SpkInspectorFieldService >> name [
-	^ name
+SpkInspectorFieldService >> columns: anObject [
+
+	columns := anObject
 ]
 
-{ #category : 'accessing' }
-SpkInspectorFieldService >> name: anObject [
-	name := anObject
-]
+{ #category : 'initialization' }
+SpkInspectorFieldService >> initialize [
 
-{ #category : 'accessing' }
-SpkInspectorFieldService >> oop [
-
-	^ oop
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldService >> oop: anObject [
-
-	oop := anObject
+	super initialize.
+	columns := #(  )
 ]

@@ -47,7 +47,21 @@ SpkInspectorPane >> deselectChangedFields [
 
 	self
 		deselectOffTheEndFields;
-		deselectNameChangedFields
+		deselectIdentityChangedFields
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> deselectIdentityChangedFields [
+
+	| oldFields newFields |
+	oldFields := listModel items.
+	newFields := model fields.
+	1 to: (newFields size min: oldFields size) do: [ :i | 
+		| oldField newField |
+		oldField := oldFields at: i.
+		newField := newFields at: i.
+		oldField model == newField ifFalse: [ 
+			listModel deselectItem: oldField ] ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -118,8 +132,10 @@ SpkInspectorPane >> initializeEvaluators [
 SpkInspectorPane >> initializeListColumns [
 
 	self list
-		addColumn: (SpStringTableColumn evaluated: #name);
-		addColumn: (SpStringTableColumn evaluated: #description)
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item columnAt: 2 ])
 ]
 
 { #category : 'initialization' }

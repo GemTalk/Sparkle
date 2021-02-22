@@ -14,7 +14,6 @@ SpkInspectorViewTool class >> on: anObject [
 
 	^ self new
 		  inspectedObject: anObject;
-		  refreshFieldTools;
 		  yourself
 ]
 
@@ -67,9 +66,7 @@ SpkInspectorViewTool >> refreshFieldToolQuantity [
 
 	numberOfFields > fieldTools size ifTrue: [ 
 		fieldTools size + 1 to: numberOfFields do: [ :i | 
-			fieldTools add: (self newFieldTool
-					 index: i;
-					 yourself) ] ].
+		fieldTools add: self newFieldTool ] ].
 
 	numberOfFields < fieldTools size ifTrue: [ 
 		fieldTools removeLast: fieldTools size - numberOfFields ]

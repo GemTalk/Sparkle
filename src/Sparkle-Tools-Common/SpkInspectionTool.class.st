@@ -7,12 +7,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
-SpkInspectionTool >> announceUpdate: anAnnouncement [
-
-	self announce: anAnnouncement
-]
-
 { #category : 'accessing' }
 SpkInspectionTool >> explorerTool [
 	^explorerTool
@@ -42,14 +36,4 @@ SpkInspectionTool >> selfDescriptionOf: anObject [
 		to: anObject
 		ifNotUnderstood: [  ].
 	^ stream contents
-]
-
-{ #category : 'accessing' }
-SpkInspectionTool >> taskspaceTool: aTool [
-
-	super taskspaceTool: aTool.
-	taskspaceTool
-		when: SpkExecutionAnnouncement
-		send: #announceUpdate: 
-		to: self
 ]

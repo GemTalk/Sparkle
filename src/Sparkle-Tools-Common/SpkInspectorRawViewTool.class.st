@@ -50,13 +50,17 @@ SpkInspectorRawViewTool >> refreshFieldToolContents [
 SpkInspectorRawViewTool >> refreshIndexedFieldTools [
 
 	1 to: self indexedSize do: [ :index | 
-		| fieldTool |
+		| fieldTool referencedObject |
 		fieldTool := fieldTools at: index + self namedSize.
+
+		referencedObject := SpkReflection
+			                    fetchIndexedInstvarAt: index
+			                    from: inspectedObject.
+
 		fieldTool
-			referencedObject:
-				(SpkReflection fetchIndexedInstvarAt: index from: inspectedObject);
+			referencedObject: referencedObject;
 			columnAt: 1 put: index printString;
-			columnAt: 2 put: (self selfDescriptionOf: inspectedObject) ]
+			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -66,11 +70,13 @@ SpkInspectorRawViewTool >> refreshNamedFieldTools [
 	names := self instVarNames.
 
 	1 to: names size do: [ :index | 
-		| fieldTool |
+		| fieldTool referencedObject |
 		fieldTool := fieldTools at: index.
+		referencedObject := SpkReflection
+			                    fetchNamedInstvarAt: index
+			                    from: inspectedObject.
 		fieldTool
-			referencedObject:
-				(SpkReflection fetchNamedInstvarAt: index from: inspectedObject);
+			referencedObject: referencedObject;
 			columnAt: 1 put: (names at: index);
-			columnAt: 2 put: (self selfDescriptionOf: inspectedObject) ]
+			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
 ]

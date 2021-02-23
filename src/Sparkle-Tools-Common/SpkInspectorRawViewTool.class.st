@@ -56,7 +56,10 @@ SpkInspectorRawViewTool >> refreshIndexedFieldTools [
 		referencedObject := SpkReflection
 			                    fetchIndexedInstvarAt: index
 			                    from: inspectedObject.
-
+		(fieldTool referencedObject == referencedObject)
+			ifFalse:
+				[fieldTool := self newFieldTool.
+				fieldTools at: index + self namedSize put: fieldTool].
 		fieldTool
 			referencedObject: referencedObject;
 			columnAt: 1 put: index printString;
@@ -75,6 +78,10 @@ SpkInspectorRawViewTool >> refreshNamedFieldTools [
 		referencedObject := SpkReflection
 			                    fetchNamedInstvarAt: index
 			                    from: inspectedObject.
+		(fieldTool referencedObject == referencedObject)
+			ifFalse:
+				[fieldTool := self newFieldTool.
+				fieldTools at: index put: fieldTool].
 		fieldTool
 			referencedObject: referencedObject;
 			columnAt: 1 put: (names at: index);

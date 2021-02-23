@@ -272,7 +272,7 @@ SpkInspectorPane >> updateFieldList [
 
 	self
 		deselectChangedFields;
-		updateFieldListDisplay
+		halt: #updateFieldListDisplay
 ]
 
 { #category : 'initialization' }

@@ -37,7 +37,8 @@ SpkEvaluatorService >> evaluationContext: anObject [
 SpkEvaluatorService >> initialize [
 
 	super initialize.
-	evaluationContext := nil
+	evaluationContext := nil.
+	updatedInspectors := Set new
 ]
 
 { #category : 'accessing' }

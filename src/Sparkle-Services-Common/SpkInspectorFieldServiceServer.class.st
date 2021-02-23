@@ -52,6 +52,12 @@ SpkInspectorFieldServiceServer >> refreshFromTool [
 ]
 
 { #category : 'accessing' }
+SpkInspectorFieldServiceServer >> tool [
+
+	^tool
+]
+
+{ #category : 'accessing' }
 SpkInspectorFieldServiceServer >> tool: anObject [
 
 	tool := anObject

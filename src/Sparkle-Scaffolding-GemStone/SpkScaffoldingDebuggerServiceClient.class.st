@@ -65,11 +65,6 @@ SpkScaffoldingDebuggerServiceClient >> resume [
 ]
 
 { #category : 'debbuger process control' }
-SpkScaffoldingDebuggerServiceClient >> resumeWith: anObject [
-	^ self processService resumeWith: anObject
-]
-
-{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> rowanFrameServices [
 	^ self processService rowanFrameServices
 ]

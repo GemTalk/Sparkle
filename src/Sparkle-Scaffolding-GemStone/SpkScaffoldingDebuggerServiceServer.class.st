@@ -49,6 +49,11 @@ SpkScaffoldingDebuggerServiceServer >> resume [
 	^ self processService resume
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> resumeWith: anObject [
+	^ self processService resumeWith: anObject
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> resumptionValue [
 	^ resumptionValue

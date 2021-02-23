@@ -97,11 +97,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07c_01 [
-	"trigger an MNU"
+	"trigger an MNU - expectCatch"
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07c - trigger an MNU'.
+	GsFile gciLogServer: 'testDebugger_07c_01 - trigger an MNU - expectCatch'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new
@@ -138,11 +138,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c_01 [
 
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07c_02 [
-	"trigger an MNU"
+	"trigger a Halt ; terminate process; expectCatch"
 
 	| client server sem debuggerClient |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07c - trigger a Halt'.
+	GsFile gciLogServer: 'testDebugger_07c_02 - trigger a Halt ; terminate process; expectCatch'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new

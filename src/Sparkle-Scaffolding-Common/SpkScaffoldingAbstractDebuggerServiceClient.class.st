@@ -13,3 +13,8 @@ SpkScaffoldingAbstractDebuggerServiceClient >> frameAt: aLevel [
 SpkScaffoldingAbstractDebuggerServiceClient >> methodSourceAt: aLevel [
 	^ (remoteSelf methodSourceAt: aLevel) wait
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> resumeWith: anObject [
+	^ (remoteSelf resumeWith: anObject) wait
+]

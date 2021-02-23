@@ -90,7 +90,6 @@ SpkScaffoldingDebuggerServiceClient >> setBreakpointForClass: className meta: is
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
-GsFile gciLogServer: self class name, '>>stepOverFromLevel:'.
 	^ (remoteSelf stepOverFromLevel: aLevel) wait
 ]
 

@@ -26,10 +26,7 @@ SpkScaffoldingDebuggerServiceServer >> methodSourceAt: aLevel [
 
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClient [
-	| res |
-	GsFile gciLogServer: self class name , '>>openDebuggerOnClient'.
-	res := remoteSelf openDebuggerOnClient wait.
-	^ res
+	^ remoteSelf openDebuggerOnClient wait
 ]
 
 { #category : 'debugger' }
@@ -88,7 +85,6 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> stepOverFromLevel: aLevel [
-GsFile gciLogServer: self class name, '>>stepOverFromLevel:'.
 	^ self processService stepOverFromLevel: aLevel
 ]
 

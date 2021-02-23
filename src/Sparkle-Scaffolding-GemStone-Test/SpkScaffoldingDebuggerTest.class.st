@@ -545,7 +545,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07i [
 	self assert: debuggerClient messageText equals: 'a Halt occurred (error 2709)'.
 	self
 		assert: (debuggerClient rowanFrameServices at: 13) label
-		equals: 'SpkScaffoldingMockObject class >> example4 @9 line 16'.
+		equals: 'SpkScaffoldingMockObject class >> example4 @7 line 14'.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'RESUME'.
@@ -1049,7 +1049,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 		trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume
 	"
 
-[	| client server sem debuggerClient expressionResult |
+	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07r - trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume'.
 	GsFile gciLogServer: '========='.
@@ -1121,7 +1121,6 @@ GsFile gciLogServer: 'testDebugger_07r [2] after wait'.
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
-] on: TestFailure, Error do: [:ex | self halt]
 ]
 
 { #category : 'tests' }
@@ -1130,7 +1129,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07s [
 		trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13; debugger resume
 	"
 
-[	| client server sem debuggerClient expressionResult frame |
+	| client server sem debuggerClient expressionResult frame |
 	GsFile gciLogServer: '========='.
 	GsFile
 		gciLogServer:
@@ -1199,5 +1198,4 @@ SpkScaffoldingDebuggerTest >> testDebugger_07s [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
-] on: TestFailure, Error do: [:ex | self halt]
 ]

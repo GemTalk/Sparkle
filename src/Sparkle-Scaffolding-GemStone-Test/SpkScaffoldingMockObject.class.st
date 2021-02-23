@@ -48,7 +48,6 @@ SpkScaffoldingMockObject class >> example2 [
 { #category : 'examples' }
 SpkScaffoldingMockObject class >> example3 [
 	"should get a debugger in a forked process"
-
 	ForkedProcessResult := nil.
 	[ 
 	| res |

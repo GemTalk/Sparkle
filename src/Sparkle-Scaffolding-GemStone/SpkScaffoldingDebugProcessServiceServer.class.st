@@ -127,9 +127,13 @@ SpkScaffoldingDebugProcessServiceServer >> stepIntoFromLevel: aLevel [
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
+GsFile gciLogServer: self class name, '>>stepOverFromLevel: [0]'.
 	self suspendedProcess _activate.
+GsFile gciLogServer: self class name, '>>stepOverFromLevel: [1]'.
 	self suspendedProcess stepOverFromLevel: aLevel.
-	Processor yield
+GsFile gciLogServer: self class name, '>>stepOverFromLevel: [2]'.
+	Processor yield.
+GsFile gciLogServer: self class name, '>>stepOverFromLevel: [3]'.
 ]
 
 { #category : 'debugging' }

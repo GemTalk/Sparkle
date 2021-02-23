@@ -1049,7 +1049,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 		trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume
 	"
 
-	| client server sem debuggerClient expressionResult |
+[	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07r - trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume'.
 	GsFile gciLogServer: '========='.
@@ -1082,8 +1082,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'STEP OVER'.
 	GsFile gciLogServer: '========='.
+GsFile gciLogServer: 'testDebugger_07r [0] before STEP OVER'.
 	debuggerClient stepOverFromLevel: 13.
+GsFile gciLogServer: 'testDebugger_07r [1] after STEP OVER'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+GsFile gciLogServer: 'testDebugger_07r [2] after wait'.
 
 	self
 		assert: debuggerClient messageText
@@ -1104,6 +1107,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'RESUME'.
 	GsFile gciLogServer: '========='.
+
 	debuggerClient resume.
 
 	sem wait.	"run assertion"
@@ -1117,6 +1121,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
+] on: TestFailure, Error do: [:ex | self halt]
 ]
 
 { #category : 'tests' }
@@ -1125,7 +1130,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07s [
 		trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13; debugger resume
 	"
 
-	| client server sem debuggerClient expressionResult frame |
+[	| client server sem debuggerClient expressionResult frame |
 	GsFile gciLogServer: '========='.
 	GsFile
 		gciLogServer:
@@ -1194,4 +1199,5 @@ SpkScaffoldingDebuggerTest >> testDebugger_07s [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
+] on: TestFailure, Error do: [:ex | self halt]
 ]

@@ -41,7 +41,8 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				onSuspendedProcess: aSuspendedGsProcess)
 				doitException: ex;
 				debuggerService: self;
-				yourself).
+				yourself);
+		synchronize.
 	res := remoteSelf openDebuggerOnClient wait.
 	^ res
 ]
@@ -87,6 +88,7 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> stepOverFromLevel: aLevel [
+GsFile gciLogServer: self class name, '>>stepOverFromLevel:'.
 	^ self processService stepOverFromLevel: aLevel
 ]
 

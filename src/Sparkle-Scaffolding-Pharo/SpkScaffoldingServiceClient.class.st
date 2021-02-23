@@ -894,7 +894,7 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 		=
 		'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
 	self assert: (x := (debuggerClient frameAt: 14) label)
-		= '''[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
+		= '[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
 
 	debuggerClient
 		clearAllBreaks;

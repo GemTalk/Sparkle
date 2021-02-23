@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> clearAllBreaks [
+	"clear all breakpoints"
+
+	^ remoteSelf clearAllBreaks wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> frameAt: aLevel [
 	^ (remoteSelf frameAt: aLevel) wait
 ]

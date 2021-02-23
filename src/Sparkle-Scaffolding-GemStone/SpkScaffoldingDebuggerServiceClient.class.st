@@ -17,13 +17,6 @@ SpkScaffoldingDebuggerServiceClient class >> resetDebuggerSemaphore [
 ]
 
 { #category : 'debbuger process control' }
-SpkScaffoldingDebuggerServiceClient >> clearAllBreaks [
-	"clear all breakpoints"
-
-	^ remoteSelf clearAllBreaks wait
-]
-
-{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> compileMethodSource: sourceString at: aLevel [
 	self processService compileMethodSource: sourceString at: aLevel.
 	self openDebuggerOnClient

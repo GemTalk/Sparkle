@@ -10,6 +10,11 @@ SpkScaffoldingAbstractDebuggerServiceClient >> frameAt: aLevel [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> messageText [
+	^ remoteSelf messageText wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> methodSourceAt: aLevel [
 	^ (remoteSelf methodSourceAt: aLevel) wait
 ]
@@ -17,4 +22,9 @@ SpkScaffoldingAbstractDebuggerServiceClient >> methodSourceAt: aLevel [
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> resumeWith: anObject [
 	^ (remoteSelf resumeWith: anObject) wait
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> stepOverFromLevel: aLevel [
+	^ (remoteSelf stepOverFromLevel: aLevel) wait
 ]

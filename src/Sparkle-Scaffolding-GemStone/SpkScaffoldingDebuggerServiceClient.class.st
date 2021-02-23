@@ -29,11 +29,6 @@ SpkScaffoldingDebuggerServiceClient >> compileMethodSource: sourceString at: aLe
 	self openDebuggerOnClient
 ]
 
-{ #category : 'debbuger process control' }
-SpkScaffoldingDebuggerServiceClient >> messageText [
-	^ self processService messageText
-]
-
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	| stack stackLimit |
@@ -81,11 +76,6 @@ SpkScaffoldingDebuggerServiceClient >> setBreakpointForClass: className meta: is
 		selector: selector
 		atStepPoint: stepPoint) wait) == true
 		ifFalse: [ self error: res ]
-]
-
-{ #category : 'debbuger process control' }
-SpkScaffoldingDebuggerServiceClient >> stepOverFromLevel: aLevel [
-	^ (remoteSelf stepOverFromLevel: aLevel) wait
 ]
 
 { #category : 'debbuger process control' }

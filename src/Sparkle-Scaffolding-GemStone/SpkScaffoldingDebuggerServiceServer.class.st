@@ -19,6 +19,11 @@ SpkScaffoldingDebuggerServiceServer >> frameAt: aLevel [
 	^ self rowanFrameServices at: aLevel
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> messageText [
+	^ self processService messageText
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> methodSourceAt: aLevel [
 	^ (self rowanFrameServices at: aLevel) methodSource

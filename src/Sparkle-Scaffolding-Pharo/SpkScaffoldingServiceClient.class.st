@@ -780,6 +780,84 @@ SpkScaffoldingServiceClient class >> debugger_07r [
 		cr
 ]
 
+{ #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07s [
+
+	"trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13; debugger resume in Transcript"
+
+	<example>
+	| client debuggerClient sem frame |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07s - trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13 in Transcript; debugger resume ';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr.
+	(client
+		 gsDebugger_07: 'SpkScaffoldingMockObject example2'
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'doit result is ' , result doitResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself.
+			sem signal ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself.
+			WorldState defer: [ 
+				false ifTrue: [ 
+					{ 
+						'catch'.
+						reason } inspect ] ] ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	frame := debuggerClient frameAt: 13.
+	Transcript
+		cr;
+		show: '========= FRAME VARS ========='.
+			frame variableMap
+		keysAndValuesDo: [ :varName :value | Transcript cr; show: varName printString , ' -> ' , value printString ].
+Transcript		cr;
+		show: '========='.
+
+	debuggerClient resume. "resume execution"
+
+	sem wait. "wait for result"
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
+]
+
 { #category : 'examples' }
 SpkScaffoldingServiceClient class >> doit_01 [
 

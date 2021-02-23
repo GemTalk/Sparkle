@@ -802,26 +802,20 @@ SpkScaffoldingServiceClient class >> debugger_07f [
 		cr
 ]
 
-{ #category : 'active examples' }
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07g [
 
-	"
-		Set 2 breakpoints in mock class designed to exercise the various step options. 
-		Upon second resume, the result should be an array of strings. The following debugger commands can
-		be executed in the inspector/debugger
-			1. self resume
-			2. 
-				self stepThroughFromLevel: 13. ""SpkScaffoldingMockObject >> method1: @3 line 7""
-				self resume	""continue to next breakpoint""
-				self stepOverFromLevel: 13. ""SpkScaffoldingMockObject >> method2: @3 line 4""
-			3. self terminate
-	"
+	"testDebugger_07g - Set 3 breakpoints in SpkScaffoldingMockObject; stepThroughFromLevel:; resume; stepOverFromLevel:; clear breakpoints and resume"
 
 	<example>
-	| service |
-	service := SpkScaffoldingServiceClient new registerWith:
-		           self connection.
-	service
+	| client debuggerClient sem expressionResult x |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+
+	debuggerClient
 		setBreakpointForClass: 'SpkScaffoldingMockObject'
 		meta: false
 		selector: #method1:
@@ -829,19 +823,93 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 		setBreakpointForClass: 'SpkScaffoldingMockObject'
 		meta: false
 		selector: #method2:
-		atStepPoint: 3.
-	(service gsDebugger_07: 'SpkScaffoldingMockObject example1')
+		atStepPoint: 3;
+		setBreakpointForClass: 'SpkScaffoldingMockObject'
+		meta: false
+		selector: #method1:
+		atStepPoint: 10.
+
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07g - Set 3 breakpoints in SpkScaffoldingMockObject; stepThroughFromLevel:; resume; stepOverFromLevel:; clear breakpoints and resume ';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr.
+	(client
+		 gsDebugger_07: 'SpkScaffoldingMockObject example1'
+		 usingDebugger: debuggerClient)
 		when: [ :result | 
-			WorldState defer: [ 
-				{ 
-					'when'.
-					result.
-					result doitResult } inspect ] ]
+			expressionResult := result doitResult.
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'EXPECTED doit result is ' , expressionResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself.
+			sem signal ]
 		catch: [ :reason | 
-			WorldState defer: [ 
-				{ 
-					'catch'.
-					reason } halt ] ]
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert: (x := debuggerClient messageText)
+		=
+		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+	self assert: (x := (debuggerClient frameAt: 14) label)
+		=
+		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'STEP THROUGH';
+		cr;
+		show: '========='.
+
+	debuggerClient stepThroughFromLevel: 14.
+
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert: debuggerClient messageText
+		=
+		'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
+	self assert: (x := (debuggerClient frameAt: 14) label)
+		= '''[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
+
+	debuggerClient 
+		clearAllBreaks;
+		resume. "resume execution"
+
+	sem wait. "wait for result"
+
+	self assert: expressionResult = { 'symbol'. '1'. '2.0' }.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
 ]
 
 { #category : 'active examples' }

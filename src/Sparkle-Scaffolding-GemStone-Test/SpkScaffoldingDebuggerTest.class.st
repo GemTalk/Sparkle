@@ -335,14 +335,14 @@ SpkScaffoldingDebuggerTest >> testDebugger_07f [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07g [
 	"
-		Set 2 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test 
+		Set 3 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test 
 			1. stepThroughFromLevel:; resume to hit second breakpoint, 
 			2. stepOverFromLevel: to confirm we've returned to calling method ... and then done
 	"
 
 	| client server sem debuggerClient expressionResult |
 	GsFile gciLogServer: '========='.
-	GsFile gciLogServer: 'testDebugger_07g - Set 2 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test; stepThroughFromLevel:; resume to hit second breakpoint; stepOverFromLevel: to confirm we''ve returned to calling method ... and then done'.
+	GsFile gciLogServer: 'testDebugger_07g - Set 3 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test; stepThroughFromLevel:; resume to hit second breakpoint; stepOverFromLevel: to confirm we''ve returned to calling method ... and then done'.
 	GsFile gciLogServer: '========='.
 
 	client := SpkScaffoldingServiceClient new

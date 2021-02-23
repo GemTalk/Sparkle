@@ -721,7 +721,7 @@ SpkScaffoldingServiceClient class >> debugger_07f [
 	"testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume"
 
 	<example>
-	| client debuggerClient sem expressionResult X |
+	| client debuggerClient sem expressionResult x |
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
@@ -768,7 +768,7 @@ SpkScaffoldingServiceClient class >> debugger_07f [
 	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
 
 	self assert:
-		(X := debuggerClient messageText) = 'a Halt occurred (error 2709)'.
+		(x := debuggerClient messageText) = 'a Halt occurred (error 2709)'.
 
 	Transcript
 		cr;
@@ -811,7 +811,9 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 	| client debuggerClient sem expressionResult x |
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
-	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new 
+		                  registerWith: self connection;
+		                  synchronize.
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	sem := Semaphore new.
 
@@ -874,7 +876,7 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
 	self assert: (x := (debuggerClient frameAt: 14) label)
 		=
-		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+		'SpkScaffoldingMockObject >> method1: @3 line 7'.
 
 	Transcript
 		cr;
@@ -894,7 +896,7 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 	self assert: (x := (debuggerClient frameAt: 14) label)
 		= '''[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
 
-	debuggerClient 
+	debuggerClient
 		clearAllBreaks;
 		resume. "resume execution"
 

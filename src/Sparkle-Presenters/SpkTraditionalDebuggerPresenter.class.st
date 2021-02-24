@@ -7,11 +7,11 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'examples' }
-SpkTraditionalDebuggerPresenter class >> example [
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> initializeFrameList: list [
 
-	<example>
-	self new start
+	frameList items:
+		(list collect: [ :string | (list indexOf: string) -> string ])
 ]
 
 { #category : 'initialization' }
@@ -34,7 +34,7 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparkle Tranditional Debugger';
+		title: 'Sparkle Traditional Debugger';
 		borderColor: Color purple;
 		borderWidth: 3;
 		initialExtent: 400 @ 500

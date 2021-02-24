@@ -15,6 +15,7 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 			'simulate opening debugger on process ('
 			, processService printString , ') ... with stack: '.
 	stack := processService rowanFrameServices.
+	SparkleTraditionalDebugger new start initializeFrameList: (stack collect:[:frame | frame label]).
 	1 to: (stack size min: stackLimit) do: [ :index | 
 		| frame |
 		frame := stack at: index.

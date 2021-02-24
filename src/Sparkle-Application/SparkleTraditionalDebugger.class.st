@@ -13,5 +13,7 @@ SparkleTraditionalDebugger class >> example [
 { #category : 'running' }
 SparkleTraditionalDebugger >> start [
 
-	(self new: SpkTraditionalDebuggerPresenter) openWithSpec
+	| presenter |
+	(presenter := self new: SpkTraditionalDebuggerPresenter) openWithSpec.
+	^presenter
 ]

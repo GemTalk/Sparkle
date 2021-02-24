@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : 'running' }
-SpkToolTest >> newToolOn: anObject [
+SpkToolTest >> newInspectorToolOn: anObject [
 
 	| taskspaceTool explorerTool |
 	taskspaceTool := SpkTaskspaceTool new.

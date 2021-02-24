@@ -1,38 +1,8 @@
 Class {
 	#name : 'SpkInspectorToolTest',
-	#superclass : 'SpkTestCase',
-	#instVars : [
-		'tool'
-	],
+	#superclass : 'SpkToolTest',
 	#category : 'Sparkle-Tools-Pharo-Test'
 }
-
-{ #category : 'running' }
-SpkInspectorToolTest >> newTool [
-
-	| taskspaceTool explorerTool |
-	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := SpkExplorerTool new.
-	tool := SpkInspectorTool new
-		        taskspaceTool: taskspaceTool;
-		        initializeViews;
-		        explorerTool: explorerTool;
-		        yourself
-]
-
-{ #category : 'running' }
-SpkInspectorToolTest >> newToolOn: anObject [
-
-	| taskspaceTool explorerTool |
-	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := SpkExplorerTool new.
-	tool := SpkInspectorTool new
-		        inspectedObject: anObject;
-		        taskspaceTool: taskspaceTool;
-		        initializeViews;
-		        explorerTool: explorerTool;
-		        yourself
-]
 
 { #category : 'tests' }
 SpkInspectorToolTest >> testClassMembershipDescription [

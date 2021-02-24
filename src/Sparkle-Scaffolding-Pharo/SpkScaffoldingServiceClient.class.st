@@ -1268,6 +1268,44 @@ SpkScaffoldingServiceClient class >> debugger_07j [
 ]
 
 { #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07k [
+
+	"testDebugger_07k - deferred, launch a hot running doit ... interrupt ala soft break"
+
+	<example>
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07k - deferred, launch a hot running doit ... interrupt ala soft break';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
+]
+
+{ #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07l [
+
+	"testDebugger_07l - deferred, almost out of memory"
+
+	<example>
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07l - deferred, almost out of memory';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
+]
+
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07m [
 
 	"testDebugger_07m - stack overflow - WARNING: lots of frames and takes a while to run"
@@ -1549,6 +1587,24 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 		show: '=========';
 		cr;
 		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
+]
+
+{ #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07p [
+
+	"testDebugger_07p - deferred, requires creation of a GemStone static handler"
+
+	<example>
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'testDebugger_07p - deferred, requires creation of a GemStone static handler';
+		cr;
+		show: DateAndTime now printString;
 		cr;
 		show: '=========';
 		cr

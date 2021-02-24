@@ -1066,33 +1066,102 @@ SpkScaffoldingServiceClient class >> debugger_07h [
 		cr
 ]
 
-{ #category : 'active examples' }
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07i [
 
-	"
-		two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, 
-			then halt in original process and return answer from example2 as result (#('symbol' '1' '2.0')).
-			The following debugger commands can be executed in the inspector/debugger:
-			1. self resume
-			2. self terminate
-	"
+	"testDebugger_07i - two processes, halt in forked process, wait on sempaphore (signalled if resumed) from forked process, then halt in original process and return answer from example2 as result (#(''symbol'' ''1'' ''2.0''))"
 
 	<example>
-	| service |
-	service := SpkScaffoldingServiceClient new registerWith:
-		           self connection.
-	(service gsDebugger_07: 'SpkScaffoldingMockObject example4')
+	| client debuggerClient sem expressionResult x |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume ';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr.
+	(client
+		 gsDebugger_07: 'SpkScaffoldingMockObject example4'
+		 usingDebugger: debuggerClient)
 		when: [ :result | 
-			WorldState defer: [ 
-				{ 
-					'when'.
-					result.
-					result doitResult } inspect ] ]
+			expressionResult := result doitResult.
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'EXPECTED doit result is ' , expressionResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself.
+			sem signal ]
 		catch: [ :reason | 
-			WorldState defer: [ 
-				{ 
-					'catch'.
-					reason } halt ] ]
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert:
+		(x := debuggerClient messageText) = 'a Halt occurred (error 2709)'.
+	self assert: (x := (debuggerClient frameAt: 13) label)
+		= 'SpkScaffoldingMockObject class >> example2 @2 line 4'.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'RESUME';
+		cr;
+		show: '========='.
+
+	debuggerClient resume.
+
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert:
+		(x := debuggerClient messageText) = 'a Halt occurred (error 2709)'.
+	self assert: (x := (debuggerClient frameAt: 13) label)
+		= 'SpkScaffoldingMockObject class >> example4 @7 line 14'.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'RESUME';
+		cr;
+		show: '========='.
+
+	debuggerClient resume. "resume execution"
+
+	sem wait. "wait for result"
+
+	self assert: expressionResult = { 'symbol'. '1'. '2.0' }.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
 ]
 
 { #category : 'new examples' }

@@ -16,12 +16,6 @@ SpkScaffoldingDebuggerServiceClient class >> resetDebuggerSemaphore [
 	SessionTemps current removeKey: #'SpkScaffoldingSempahore' ifAbsent: [  ]
 ]
 
-{ #category : 'debbuger process control' }
-SpkScaffoldingDebuggerServiceClient >> compileMethodSource: sourceString at: aLevel [
-	self processService compileMethodSource: sourceString at: aLevel.
-	self openDebuggerOnClient
-]
-
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	| stack stackLimit |

@@ -12,6 +12,12 @@ SpkScaffoldingAbstractDebuggerServiceClient >> clearAllBreaks [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> compileMethodSource: sourceString at: aLevel [
+	(remoteSelf compileMethodSource: sourceString at: aLevel) wait.
+	self openDebuggerOnClient
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> frameAt: aLevel [
 	^ (remoteSelf frameAt: aLevel) wait
 ]

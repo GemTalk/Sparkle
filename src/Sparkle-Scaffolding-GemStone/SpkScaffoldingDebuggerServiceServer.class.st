@@ -14,6 +14,11 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 	GsNMethod clearAllBreaks
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> compileMethodSource: sourceString at: aLevel [
+	^ self processService compileMethodSource: sourceString at: aLevel
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> frameAt: aLevel [
 	^ self rowanFrameServices at: aLevel

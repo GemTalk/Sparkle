@@ -107,3 +107,8 @@ SpkScaffoldingDebuggerServiceServer >> stepThroughFromLevel: aLevel [
 SpkScaffoldingDebuggerServiceServer >> terminate [
 	^ self processService terminate
 ]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> trimStackToLevel: aLevel [
+	^ self processService trimStackToLevel: aLevel
+]

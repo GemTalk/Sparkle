@@ -33,10 +33,10 @@ Class {
 
 { #category : 'instance creation' }
 SpkMultiSelectListItem class >> for: aModel [
-
+self halt.
 	^ self new
 		  model: aModel;
-		  yourself
+		  yourself 
 ]
 
 { #category : 'events' }

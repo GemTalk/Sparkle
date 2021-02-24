@@ -62,21 +62,19 @@ SpkInspectorServiceServer >> refreshFieldsFromTool [
 		changed := true.
 		fields removeLast: fields size - tool fieldTools size ].
 	fieldTools := tool fieldTools.
-	1
-		to: fieldTools size
-		do:
-			[:i | | fieldTool field newField |
-			fieldTool := fieldTools at: i.
-			field := fields at: i.
-			(fieldTool == field tool)
-				ifFalse:
-					[changed := true.
-					newField := SpkInspectorFieldServiceServer new
-					 parentService: self;
-					 tool: fieldTool;
-					 yourself.
-					fields at: i put: newField].
-			changed := changed | field refreshFromTool].
+	1 to: fieldTools size do: [ :i | 
+		| fieldTool field newField |
+		fieldTool := fieldTools at: i.
+		field := fields at: i.
+		fieldTool == field tool ifFalse: [ 
+			changed := true.
+			newField := SpkInspectorFieldServiceServer new
+				            parentService: self;
+				            tool: fieldTool;
+				            yourself.
+			fields at: i put: newField.
+			field := newField ].
+		changed := changed | field refreshFromTool ].
 	^ changed
 ]
 

@@ -46,14 +46,9 @@ SpkPaneWithList >> initializeListColumns [
 { #category : 'initialization' }
 SpkPaneWithList >> initializeListModel [
 
-	| items |
 	listModel := SpkMultiSelectList new.
-	items := self listItemModels collect: [ :each | 
-		         (SpkMultiSelectListItem for: each)
-			         list: listModel;
-			         yourself ].
+	self refreshListModel.
 	listModel
-		addAll: items;
 		when: SpkItemSelected send: #itemSelected: to: self;
 		when: SpkItemDeselected send: #itemDeselected: to: self
 ]
@@ -120,6 +115,14 @@ SpkPaneWithList >> panesLinkedToListItems [
 SpkPaneWithList >> refreshList [
 
 	list refresh
+]
+
+{ #category : 'initialization' }
+SpkPaneWithList >> refreshListModel [
+
+	listModel
+		updateItemQuantity: model fields size;
+		refreshFrom: model fields
 ]
 
 { #category : 'updating' }

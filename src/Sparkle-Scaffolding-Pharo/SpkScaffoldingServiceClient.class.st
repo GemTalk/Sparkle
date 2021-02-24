@@ -1268,6 +1268,77 @@ SpkScaffoldingServiceClient class >> debugger_07j [
 ]
 
 { #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07m [
+
+	"testDebugger_07m - stack overflow - WARNING: lots of frames and takes a while to run"
+
+	<example>
+	| client debuggerClient sem expressionResult x |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		                  registerWith: self connection;
+		                  synchronize.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'testDebugger_07m - stack overflow - WARNING: lots of frames ';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr.
+	(client
+		 gsDebugger_07: 'SpkScaffoldingMockObject stackOverflow'
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			expressionResult := result doitResult.
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED doit result is ' , expressionResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert: (x := debuggerClient messageText)
+		=
+		'a AlmostOutOfStack occurred (notification 2059), Smalltalk execution stack error, ''overflow during execution'''.
+	self assert: (x := (debuggerClient frameAt: 9) label)
+		= 'SpkScaffoldingMockObject class >> stackOverflow @1 line 1'.
+
+	debuggerClient terminate.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
+]
+
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07q [
 
 	"testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript"

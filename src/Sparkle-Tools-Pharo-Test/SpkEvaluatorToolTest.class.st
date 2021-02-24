@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkEvaluatorToolTest',
 	#superclass : 'SpkTestCase',
 	#instVars : [
+		'taskspaceTool',
 		'evaluatorTool',
 		'inspectorTool',
 		'resultTool'
@@ -14,10 +15,14 @@ SpkEvaluatorToolTest >> setUp [
 
 	| explorerTool |
 	super setUp.
+	taskspaceTool := SpkTaskspaceTool new.
 	explorerTool := SpkExplorerTool new.
 	inspectorTool := SpkInspectorTool new
+		                 taskspaceTool: taskspaceTool;
+		                 initializeViews;
 		                 explorerTool: explorerTool;
 		                 yourself.
+
 	explorerTool addPane: inspectorTool.
 	evaluatorTool := inspectorTool addEvaluator
 ]

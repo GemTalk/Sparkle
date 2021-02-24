@@ -1165,6 +1165,109 @@ SpkScaffoldingServiceClient class >> debugger_07i [
 ]
 
 { #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07j [
+
+	"testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times"
+ 
+	<example>
+	| client debuggerClient sem expressionResult x count |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		                  registerWith: self connection;
+		                  synchronize.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+
+	Transcript clear.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show:
+			'testDebugger_07j - trigger nonresumable exception during doit ; attempt to resume execution several times ';
+		cr;
+		show: DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr.
+	(client
+		 gsDebugger_07: 'RsrNonresumableError signal: ''oh oh'''
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			expressionResult := result doitResult.
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED doit result is ' , expressionResult printString;
+				cr;
+				show: '=========';
+				cr;
+				yourself ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert: (x := debuggerClient messageText) = 'oh oh'.
+	self assert: (x := (debuggerClient frameAt: 7) label)
+		=
+		'RsrNonresumableError (AbstractException) >> _signalToDebugger @7 line 4'.
+
+	count := 1.
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'RESUME ' , count printString;
+		cr;
+		show: '========='.
+
+	debuggerClient resume. "resume execution"
+
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	3 timesRepeat: [ "infinite loop"
+		self assert: (x := debuggerClient messageText)
+			= 'cannot resume from a not-resumable Exception'.
+		self assert: (x := (debuggerClient frameAt: 7) label)
+			=
+			'RsrNonresumableError (AbstractException) >> _signalToDebugger @7 line 4'.
+
+		count := count + 1.
+
+		Transcript
+			cr;
+			show: '=========';
+			cr;
+			show: 'RESUME ' , count printString;
+			cr;
+			show: '========='.
+
+		debuggerClient resume. "resume execution"
+
+		(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait "wait for stack to print" ].
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'SUCCESS ' , DateAndTime now printString;
+		cr;
+		show: '=========';
+		cr
+]
+
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07q [
 
 	"testDebugger_07q - trigger exception during doit and expect to trigger a remote debugger; terminate process after printing stack to Transcript"

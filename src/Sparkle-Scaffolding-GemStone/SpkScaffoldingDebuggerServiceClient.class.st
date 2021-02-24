@@ -53,11 +53,6 @@ SpkScaffoldingDebuggerServiceClient >> resume [
 ]
 
 { #category : 'debbuger process control' }
-SpkScaffoldingDebuggerServiceClient >> rowanFrameServices [
-	^ self processService rowanFrameServices
-]
-
-{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
 	^ remoteSelf terminate wait
 ]

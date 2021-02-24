@@ -32,6 +32,11 @@ SpkScaffoldingAbstractDebuggerServiceClient >> resumeWith: anObject [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> rowanFrameServices [
+	^ remoteSelf rowanFrameServices wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> setBreakpointForClass: className meta: isMeta selector: selector atStepPoint: stepPoint [
 	"Set a breakpoint that will be signalled to the GCI.
 		Returns true to indicate success.  Otherwise returns a string describing the error."

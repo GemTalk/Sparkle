@@ -1447,7 +1447,7 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 	"testDebugger_07o - save method (home context) and save method (embedded block)"
 
 	<example>
-	| client debuggerClient sem expectedResult expressionResult x | 
+	| client debuggerClient sem expectedResult expressionResult x |
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new
@@ -1459,7 +1459,7 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 	debuggerClient
 		setBreakpointForClass: 'SpkScaffoldingMockObject'
 		meta: false
-		selector: #method3:
+		selector: #method3
 		atStepPoint: 6. "inside block"
 
 	Transcript clear.
@@ -1510,8 +1510,6 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
 	self assert: (x := (debuggerClient frameAt: 14) label)
 		= '[] in SpkScaffoldingMockObject >> method3 @6 line 4'.
-	self assert: (x := (debuggerClient frameAt: 18) label)
-		= 'SpkScaffoldingMockObject >> method1 @3 line 4'.
 	self assert: debuggerClient rowanFrameServices size = 37.
 
 	Transcript
@@ -1524,13 +1522,14 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 		cr.
 
 	debuggerClient
-		compileMethodSource:
-		'method3
+		compileMethodSource: 'method3
 	"entrypoint for debugger compile tests"
-
 	self method3: [:value | ""^ value printString ]'
 		at: 14.
 	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert: (x := (debuggerClient rowanFrameServices at: 1) label)
+		= 'SpkScaffoldingMockObject >> method3 @1 line 1'.
 	self assert: debuggerClient rowanFrameServices size = 22.
 
 	debuggerClient

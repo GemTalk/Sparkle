@@ -1509,7 +1509,7 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 		=
 		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
 	self assert: (x := (debuggerClient frameAt: 14) label)
-		= '[] in SpkScaffoldingMockObject >> method3 @6 line 4'.
+		= '[] in SpkScaffoldingMockObject >> method3 @6 line 3'.
 	self assert: debuggerClient rowanFrameServices size = 37.
 
 	Transcript
@@ -1537,7 +1537,12 @@ SpkScaffoldingServiceClient class >> debugger_07o [
 		resume.
 
 	sem wait. "test assertion"
-	self assert: expressionResult = { 'symbol'. '1'. '2.0' }.
+	self assert:
+		expressionResult
+		= (x := (((client
+			       gsDebugger_07:
+			       'SpkScaffoldingMockObject _optionArray printString'
+			       usingDebugger: debuggerClient) wait) doitResult)).
 
 	Transcript
 		cr;

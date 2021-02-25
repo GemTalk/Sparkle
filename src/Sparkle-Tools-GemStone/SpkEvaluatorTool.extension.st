@@ -18,9 +18,13 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 	processBody := [ 
 	| resultObject |
 	resultObject := method _executeInContext: context.
-	(SpkInspectorTool on: resultObject)
+	SpkInspectorTool new
+		inspectedObject: resultObject;
+		taskspaceTool: taskspaceTool;
+		initializeViews;
 		explorerTool: explorerTool;
 		yourself ].
+
 	processManager := SpkProcessLauncherAndManager new
 		taskspaceTool: taskspaceTool;
 		debuggerDebugAction: Processor activeProcess debugActionBlock;

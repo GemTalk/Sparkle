@@ -3,3 +3,9 @@ Class {
 	#superclass : 'SpkScaffoldingAbstractDebugFrameServiceClient',
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceClient >> methodService [
+
+	^methodService
+]

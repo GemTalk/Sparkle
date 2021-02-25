@@ -2,32 +2,71 @@ Class {
 	#name : 'SpkTraditionalDebuggerPresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
-		'frameList'
+		'frameList',
+		'processService',
+		'sourceCode'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> initializeFrameList: list [
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> connectPresenters [
 
+	super connectPresenters.
+	frameList whenSelectionChangedDo: [ :selection | self displaySource ]
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> displaySource [
+
+	^ frameList selection selectedItem ifNotNil: [ :frame | 
+		  sourceCode text: frame value methodService source ]
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> initializeFrameList: theProcessService [
+
+	| frames |
+	processService := theProcessService.
+	self window title: processService printString.
+	frames := processService rowanFrameServices.
 	frameList items:
-		(list collect: [ :string | (list indexOf: string) -> string ])
+		(frames collect: [ :frame | (frames indexOf: frame) -> frame ])
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializePresenters [
+SpkTraditionalDebuggerPresenter >> initializeFrameListLayout [
 
-	super initializePresenters.
-	self layout
-		add: (self newLabel label: 'Stack')
-		withConstraints: [ :constraints | constraints height: 25 ].
 	self layout add: (frameList := self newTable beSingleSelection
 			              addColumn: (SpImageTableColumn new
 					               width: 20;
 					               evaluated: [ :assoc | assoc key printString ]);
 			              addColumn:
 			              (SpImageTableColumn new evaluated: [ :assoc | 
-				               assoc value ]))
+				               assoc value label]))
+]
+
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializePresenters [
+
+	super initializePresenters.
+	self initializeStackLabel.
+	self initializeFrameListLayout.
+	self initializeSourceCodeLayout.
+]
+
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializeSourceCodeLayout [
+
+	self layout add: (sourceCode := self newText)
+]
+
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializeStackLabel [
+
+	self layout
+		add: (self newLabel label: 'Stack')
+		withConstraints: [ :constraints | constraints height: 25 ]
 ]
 
 { #category : 'initialization' }
@@ -37,7 +76,7 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Traditional Debugger';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 400 @ 500
+		initialExtent: 750 @ 500
 ]
 
 { #category : 'accessing' }

@@ -39,12 +39,22 @@ SpkExplorerTool >> initializeForDefault [
 	"A default explorer starts with an inspector pane on nil, with one evaluator"
 
 	| inspector |
-	inspector := SpkInspectorTool new
-		             explorerTool: self;
-		             taskspaceTool: taskspaceTool;
+	inspector := (self newInspectorToolOn: nil)
 		             initializeForDefault;
 		             yourself.
 	self addPane: inspector
+]
+
+{ #category : 'instance creation' }
+SpkExplorerTool >> newInspectorToolOn: anObject [
+
+	^ SpkInspectorTool new
+		  explorerTool: self;
+		  taskspaceTool: taskspaceTool;
+		  inspectedObject: anObject;
+		  initializeViews;
+		  refreshFieldTools;
+		  yourself
 ]
 
 { #category : 'accessing' }

@@ -3,6 +3,7 @@ Class {
 	#superclass : 'SpkTestCase',
 	#instVars : [
 		'taskspaceTool',
+		'explorerTool',
 		'evaluatorTool',
 		'inspectorTool',
 		'resultTool'
@@ -10,27 +11,27 @@ Class {
 	#category : 'Sparkle-Tools-Pharo-Test'
 }
 
+{ #category : 'actions' }
+SpkEvaluatorToolTest >> inspect: anObject [
+
+	inspectorTool := explorerTool newInspectorToolOn: anObject.
+	explorerTool addPane: inspectorTool.
+	evaluatorTool := inspectorTool addEvaluator
+]
+
 { #category : 'running' }
 SpkEvaluatorToolTest >> setUp [
 
-	| explorerTool |
 	super setUp.
 	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := SpkExplorerTool new.
-	inspectorTool := SpkInspectorTool new
-		                 taskspaceTool: taskspaceTool;
-		                 initializeViews;
-		                 explorerTool: explorerTool;
-		                 yourself.
-
-	explorerTool addPane: inspectorTool.
-	evaluatorTool := inspectorTool addEvaluator
+	explorerTool := taskspaceTool newExplorerTool
 ]
 
 { #category : 'tests' }
 SpkEvaluatorToolTest >> testCompilationError [
 
-	inspectorTool inspectedObject: 7.
+	self inspect: 7.
+
 	evaluatorTool newSourceCode: 'class: name'.
 	resultTool := evaluatorTool accept.
 	self assert: resultTool class equals: SpkCompilationErrorTool
@@ -39,7 +40,8 @@ SpkEvaluatorToolTest >> testCompilationError [
 { #category : 'tests' }
 SpkEvaluatorToolTest >> testExpressionReferencingSelf [
 
-	inspectorTool inspectedObject: 7.
+	self inspect: 7.
+
 	evaluatorTool newSourceCode: 'self class name'.
 	resultTool := evaluatorTool accept.
 	self
@@ -55,6 +57,8 @@ SpkEvaluatorToolTest >> testExpressionReferencingSelf [
 
 { #category : 'tests' }
 SpkEvaluatorToolTest >> testIndependentExpression [
+
+	self inspect: nil.
 
 	self
 		assert: evaluatorTool newSourceCode equals: '';
@@ -74,7 +78,7 @@ SpkEvaluatorToolTest >> testIndependentExpression [
 { #category : 'tests' }
 SpkEvaluatorToolTest >> testProxyContext [
 
-	inspectorTool inspectedObject: SpkTestSubclassOfNil basicNew.
+	self inspect: SpkTestSubclassOfNil basicNew.
 	evaluatorTool newSourceCode: '4 + 3'.
 	resultTool := evaluatorTool accept.
 	self
@@ -86,7 +90,7 @@ SpkEvaluatorToolTest >> testProxyContext [
 { #category : 'tests' }
 SpkEvaluatorToolTest >> testRuntimeError [
 
-	inspectorTool inspectedObject: 3.
+	self inspect: 3.
 	evaluatorTool newSourceCode: 'self zork'.
 	resultTool := evaluatorTool accept.
 	self assert: resultTool class equals: SpkRuntimeErrorTool

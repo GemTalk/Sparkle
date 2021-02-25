@@ -94,10 +94,7 @@ SpkInspectorTool >> initialize [
 { #category : 'accessing' }
 SpkInspectorTool >> initializeForDefault [
 
-	inspectedObject := nil.
-	self
-		initializeViews;
-		addEvaluator
+	self addEvaluator
 ]
 
 { #category : 'initialization' }
@@ -126,6 +123,12 @@ SpkInspectorTool >> inspectedObject [
 SpkInspectorTool >> inspectedObject: anObject [
 
 	inspectedObject := anObject
+]
+
+{ #category : 'instance creation' }
+SpkInspectorTool >> newInspectorToolOn: anObject [
+
+	^ explorerTool newInspectorToolOn: anObject
 ]
 
 { #category : 'accessing' }

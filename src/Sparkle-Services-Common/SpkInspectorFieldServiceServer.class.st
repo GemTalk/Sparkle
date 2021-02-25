@@ -12,12 +12,8 @@ Class {
 SpkInspectorFieldServiceServer >> createInspectorService [
 
 	| newTool |
-	newTool := SpkInspectorTool new
-		           taskspaceTool: tool taskspaceTool;
-		           inspectedObject: tool referencedObject;
-		           initializeViews;
-		           refreshFieldTools;
-		           yourself.
+	newTool := parentService tool newInspectorToolOn:
+		           tool referencedObject.
 
 	^ SpkInspectorServiceServer forTool: newTool
 ]

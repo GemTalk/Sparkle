@@ -12,11 +12,11 @@ SpkToolTest >> newInspectorToolOn: anObject [
 
 	| taskspaceTool explorerTool |
 	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := SpkExplorerTool new.
+	explorerTool := taskspaceTool newExplorerTool.
 	^ tool := SpkInspectorTool new
-		        inspectedObject: anObject;
-		        taskspaceTool: taskspaceTool;
-		        initializeViews;
-		        explorerTool: explorerTool;
-		        yourself
+		          inspectedObject: anObject;
+		          taskspaceTool: taskspaceTool;
+		          initializeViews;
+		          explorerTool: explorerTool;
+		          yourself
 ]

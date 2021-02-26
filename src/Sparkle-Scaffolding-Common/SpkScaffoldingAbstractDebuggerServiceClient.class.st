@@ -57,6 +57,11 @@ SpkScaffoldingAbstractDebuggerServiceClient >> setBreakpointForClass: className 
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> stepIntoFromLevel: aLevel [
+	^ (remoteSelf stepIntoFromLevel: aLevel) wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> stepOverFromLevel: aLevel [
 	^ (remoteSelf stepOverFromLevel: aLevel) wait
 ]

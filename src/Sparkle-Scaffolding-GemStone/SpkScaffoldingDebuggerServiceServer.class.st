@@ -99,6 +99,11 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> stepIntoFromLevel: aLevel [
+	^ self processService stepIntoFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> stepOverFromLevel: aLevel [
 	^ self processService stepOverFromLevel: aLevel
 ]

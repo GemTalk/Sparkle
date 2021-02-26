@@ -15,6 +15,12 @@ SpkInspectorFieldServiceClient >> createInspectorService [
 	^ remoteSelf createInspectorService
 ]
 
+{ #category : 'accessing' }
+SpkInspectorFieldServiceClient >> description [
+
+	^ self columnAt: 2
+]
+
 { #category : 'inspecting' }
 SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 
@@ -29,4 +35,10 @@ SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 			parentService announceNewService: inspector forRequest: aRequestId ]
 		catch: [ :reason | self signalPromiseBrokenBecause: reason ].
 	^ nil
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldServiceClient >> name [
+
+	^ self columnAt: 1
 ]

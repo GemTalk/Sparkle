@@ -121,8 +121,8 @@ SpkPaneWithList >> refreshList [
 SpkPaneWithList >> refreshListModel [
 
 	listModel
-		updateItemQuantity: model fields size;
-		refreshFrom: model fields
+		updateItemQuantity: model listItems size;
+		refreshFrom: model listItems
 ]
 
 { #category : 'updating' }

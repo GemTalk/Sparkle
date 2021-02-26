@@ -26,6 +26,12 @@ SpkInspectorServiceClient >> announceUpdate [
 	self announce: SpkInspectorUpdateAnnouncement new
 ]
 
+{ #category : 'api' }
+SpkInspectorServiceClient >> listItems [
+
+	^ fields
+]
+
 { #category : 'removing' }
 SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
 

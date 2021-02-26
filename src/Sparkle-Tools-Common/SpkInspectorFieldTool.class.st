@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkInspectorFieldTool',
-	#superclass : 'SpkTool',
+	#superclass : 'SpkInspectionTool',
 	#instVars : [
 		'columns',
 		'referencedObject'

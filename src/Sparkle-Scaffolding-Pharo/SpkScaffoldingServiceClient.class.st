@@ -860,7 +860,7 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 	| client debuggerClient sem expressionResult x |
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
-	debuggerClient := SpkScaffoldingDebuggerServiceClient new 
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
 		                  registerWith: self connection;
 		                  synchronize.
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
@@ -924,8 +924,7 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 		=
 		'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
 	self assert: (x := (debuggerClient frameAt: 14) label)
-		=
-		'SpkScaffoldingMockObject >> method1: @3 line 7'.
+		= 'SpkScaffoldingMockObject >> method1: @3 line 7'.
 
 	Transcript
 		cr;
@@ -944,6 +943,24 @@ SpkScaffoldingServiceClient class >> debugger_07g [
 		'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
 	self assert: (x := (debuggerClient frameAt: 14) label)
 		= '[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
+
+	Transcript
+		cr;
+		show: '=========';
+		cr;
+		show: 'STEP INTO';
+		cr;
+		show: '========='.
+
+	debuggerClient stepIntoFromLevel: 14.
+
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert: debuggerClient messageText
+		=
+		'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
+	self assert: (x := (debuggerClient frameAt: 14) label)
+		= 'SpkScaffoldingMockObject >> method2: @1 line 1'.
 
 	debuggerClient
 		clearAllBreaks;

@@ -4,31 +4,22 @@ Class {
 	#instVars : [
 		'inspectorTool',
 		'evaluatorTool',
-		'taskspaceTool'
+		'taskspaceTool',
+		'explorerTool'
 	],
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
 { #category : 'other' }
 SpkEvaluationTest >> newInspectorToolOn: anObject [
-
-	| explorerTool |
 	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := SpkExplorerTool new.
-	^ tool := SpkInspectorTool new
-		        inspectedObject: anObject;
-		        taskspaceTool: taskspaceTool;
-		        initializeViews;
-		        explorerTool: explorerTool;
-		        yourself
+	explorerTool := taskspaceTool newExplorerTool.
+	^ tool := explorerTool newInspectorToolOn: anObject
 ]
 
 { #category : 'other' }
 SpkEvaluationTest >> setUp [
 	super setUp.
 	inspectorTool := self newInspectorToolOn: nil.
-	evaluatorTool := SpkEvaluatorTool new
-		taskspaceTool: taskspaceTool;
-		inspectorTool: inspectorTool;
-		yourself
+	evaluatorTool := inspectorTool addEvaluator
 ]

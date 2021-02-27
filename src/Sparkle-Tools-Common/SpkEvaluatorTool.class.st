@@ -60,7 +60,9 @@ SpkEvaluatorTool >> explorerTool: anObject [
 SpkEvaluatorTool >> initialize [
 
 	super initialize.
-	oldSourceCode := newSourceCode := ''
+
+	updatedInspectors := Set new.
+	newSourceCode := oldSourceCode := ''
 ]
 
 { #category : 'accessing' }

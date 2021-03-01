@@ -98,6 +98,7 @@ SpkScaffoldingDebugProcessServiceServer >> rowanFrameServices [
 					frame := SpkScaffoldingDebugFrameServiceServer new
 						rowanFrameService: frameService;
 						frameIndex: index;
+						setCurrentPosition: suspendedProcess level: index; 
 						yourself.
 					index := index + 1.
 					frame ] ]

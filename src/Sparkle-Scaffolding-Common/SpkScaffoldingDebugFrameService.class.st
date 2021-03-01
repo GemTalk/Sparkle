@@ -5,7 +5,9 @@ Class {
 		'label',
 		'variableMap',
 		'methodService',
-		'methodSource'
+		'methodSource',
+		'startPos',
+		'stopPos'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }

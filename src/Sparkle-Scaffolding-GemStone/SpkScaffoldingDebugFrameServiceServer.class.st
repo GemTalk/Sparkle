@@ -58,6 +58,18 @@ SpkScaffoldingDebugFrameServiceServer >> rowanFrameService: object [
 	self methodService.	"prime the pump"
 ]
 
+{ #category : 'actions' }
+SpkScaffoldingDebugFrameServiceServer >> setCurrentPosition: theProcess level: level [
+	| frameTool currentSourceInterval |
+	frameTool := SpkDebuggerFrameTool new.
+	frameTool
+		process: theProcess;
+		level: level.
+	currentSourceInterval := frameTool currentSourceInterval.
+	startPos := currentSourceInterval first.
+	stopPos := currentSourceInterval last
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> variableMap [
 	^ variableMap

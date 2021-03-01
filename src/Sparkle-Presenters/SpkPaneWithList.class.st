@@ -88,14 +88,6 @@ SpkPaneWithList >> list [
 	^ list
 ]
 
-{ #category : 'as yet unclassified' }
-SpkPaneWithList >> listItemModels [
-
-	"Answer the collection of services that correspond to my list items."
-
-	self subclassResponsibility
-]
-
 { #category : 'actions' }
 SpkPaneWithList >> openLinkedPane: aPaneService forItem: item [
 

@@ -9,5 +9,5 @@ Class {
 { #category : 'api' }
 SpkDebuggerServiceClient >> listItems [
 
-	^ frames
+	^ frames reverse
 ]

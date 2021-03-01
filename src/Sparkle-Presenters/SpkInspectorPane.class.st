@@ -195,12 +195,6 @@ SpkInspectorPane >> linkedPanes [
 ]
 
 { #category : 'accessing' }
-SpkInspectorPane >> listItemModels [
-
-	^ model fields
-]
-
-{ #category : 'accessing' }
 SpkInspectorPane >> menuActions [
 
 	^ super menuActions

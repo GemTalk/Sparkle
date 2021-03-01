@@ -69,7 +69,8 @@ SpkInspectorViewTool >> refreshFieldToolQuantity [
 		numberOfFieldsInObject - numberOfFieldsInView timesRepeat: [ 
 			fieldTools add: self newFieldTool ] ].
 	numberOfFieldsInObject < numberOfFieldsInView ifTrue: [ 
-		fieldTools removeLast: numberOfFieldsInView - numberOfFieldsInObject ]
+		numberOfFieldsInView - numberOfFieldsInObject timesRepeat: [ 
+			fieldTools removeLast ] ]
 ]
 
 { #category : 'as yet unclassified' }

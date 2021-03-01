@@ -60,7 +60,7 @@ SpkInspectorServiceServer >> refreshFieldsFromTool [
 					 yourself) ] ].
 	fields size > tool fieldTools size ifTrue: [ 
 		changed := true.
-		fields removeLast: fields size - tool fieldTools size ].
+		fields size - tool fieldTools size timesRepeat: [ fields removeLast ] ].
 	fieldTools := tool fieldTools.
 	1 to: fieldTools size do: [ :i | 
 		| fieldTool field newField |

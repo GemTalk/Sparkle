@@ -59,12 +59,6 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> stepIntoFromLevel: aLevel [
 ]
 
 { #category : 'debbuger process control' }
-SpkScaffoldingAbstractDebugProcessServiceClient >> stepOverFromLevel: aLevel [
-
-	^ (remoteSelf stepOverFromLevel: aLevel) 
-]
-
-{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> stepThroughFromLevel: aLevel [
 
 	^ remoteSelf stepThroughFromLevel: aLevel
@@ -91,7 +85,7 @@ SpkScaffoldingAbstractDebugProcessServiceClient >> suspendedProcessReportString 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebugProcessServiceClient >> terminate [
 
-	^ remoteSelf terminate
+	^ remoteSelf terminate wait
 ]
 
 { #category : 'debbuger process control' }

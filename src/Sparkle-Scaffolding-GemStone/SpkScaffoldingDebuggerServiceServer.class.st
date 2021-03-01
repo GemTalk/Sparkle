@@ -14,12 +14,29 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 	GsNMethod clearAllBreaks
 ]
 
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> compileMethodSource: sourceString at: aLevel [
+	^ self processService compileMethodSource: sourceString at: aLevel
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingDebuggerServiceServer >> frameAt: aLevel [
+	^ self rowanFrameServices at: aLevel
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> messageText [
+	^ self processService messageText
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingDebuggerServiceServer >> methodSourceAt: aLevel [
+	^ (self rowanFrameServices at: aLevel) methodSource
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClient [
-	| res |
-	GsFile gciLogServer: self class name , '>>openDebuggerOnClient'.
-	res := remoteSelf openDebuggerOnClient wait.
-	^ res
+	^ remoteSelf openDebuggerOnClient wait
 ]
 
 { #category : 'debugger' }
@@ -31,7 +48,8 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				onSuspendedProcess: aSuspendedGsProcess)
 				doitException: ex;
 				debuggerService: self;
-				yourself).
+				yourself);
+		synchronize.
 	res := remoteSelf openDebuggerOnClient wait.
 	^ res
 ]
@@ -39,6 +57,11 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> resume [
 	^ self processService resume
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> resumeWith: anObject [
+	^ self processService resumeWith: anObject
 ]
 
 { #category : 'debugger' }
@@ -51,6 +74,11 @@ SpkScaffoldingDebuggerServiceServer >> resumptionValue: anObject [
 	"Note that if nil is used, then the exception will resume with object that is on the top of the stack"
 
 	resumptionValue := anObject
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> rowanFrameServices [
+	^ self processService rowanFrameServices
 ]
 
 { #category : 'debugger' }
@@ -71,11 +99,26 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> stepIntoFromLevel: aLevel [
+	^ self processService stepIntoFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> stepOverFromLevel: aLevel [
 	^ self processService stepOverFromLevel: aLevel
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> stepThroughFromLevel: aLevel [
+	^ self processService stepThroughFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> terminate [
 	^ self processService terminate
+]
+
+{ #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> trimStackToLevel: aLevel [
+	^ self processService trimStackToLevel: aLevel
 ]

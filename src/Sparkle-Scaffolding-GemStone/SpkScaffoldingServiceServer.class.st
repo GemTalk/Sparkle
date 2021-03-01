@@ -193,7 +193,6 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString [
 	"
 
 	| cur debugActionBlock |
-GsFile gciLogServer: '--->	SpkScaffoldingServiceServer >> gsDebugger_07:'.
 	cur := GsProcess _current.
 	debugActionBlock := cur debugActionBlock.	"in case it's needed"
 	cur
@@ -266,7 +265,6 @@ SpkScaffoldingServiceServer >> openDebuggerOnClient [
 SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution"
 
-	GsFile gciLogServer: self class name, '>>openDebuggerOnClient:'.
 	self debugService
 		doitException: ex;
 		doitStack: (GsProcess stackReportToLevel: 1000).
@@ -277,7 +275,6 @@ SpkScaffoldingServiceServer >> openDebuggerOnClient: ex [
 SpkScaffoldingServiceServer >> openDebuggerOnClientWithProcessService: ex [
 	"at this point, just send a message to the client in the event of an error during doit execution, populate the doitStack with a process service for the suspended debugProcess"
 
-	GsFile gciLogServer: self class name, '>>openDebuggerOnClientWithProcessService:'.
 	self debugService
 		doitException: ex;
 		doitStack: (self processServiceFor: debugProcess).

@@ -20,7 +20,7 @@ SpkInspectorTool >> addEvaluator [
 			   yourself)
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorTool >> announceUpdate: anAnnouncement [
 
 	self refreshFieldTools.
@@ -139,7 +139,7 @@ SpkInspectorTool >> oop [
 	^ SpkReflection identifierOf: inspectedObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorTool >> refreshFieldTools [
 
 	currentView refreshFieldTools

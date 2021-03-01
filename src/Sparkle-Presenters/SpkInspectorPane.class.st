@@ -292,7 +292,7 @@ SpkInspectorPane >> updateFromModel [
 	self updateFieldList
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorPane >> updateInspectors [
 
 	self evaluators do: [ :each | each updateInspectors ]

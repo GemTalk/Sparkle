@@ -39,7 +39,7 @@ SpkInspectorServiceServer >> initializeFromTool: aTool [
 		initializeEvaluatorsFromTool
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorServiceServer >> receiveExecutionAnnouncement: announcement [
 
 	self refreshFromTool ifTrue: [ 
@@ -83,7 +83,6 @@ SpkInspectorServiceServer >> refreshFromTool [
 
 	| changed |
 	changed := false.
-
 	oop = tool oop ifFalse: [ changed := true ].
 	classMembershipDescription = tool classMembershipDescription 
 		ifFalse: [ changed := true ].

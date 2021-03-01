@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkProcessLauncherAndManager',
 	#superclass : 'SpkProcessManager',
 	#instVars : [
+		'explorerTool',
 		'processPriority',
 		'processName',
 		'result',
@@ -24,11 +25,30 @@ SpkProcessLauncherAndManager >> debuggerMustInitiate [
 	^ false
 ]
 
+{ #category : 'accessing' }
+SpkProcessLauncherAndManager >> explorerTool [
+
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkProcessLauncherAndManager >> explorerTool: anExplorerTool [
+
+	explorerTool := anExplorerTool
+]
+
 { #category : 'initialization' }
 SpkProcessLauncherAndManager >> initialize [
 
 	super initialize.
 	resultReady := Semaphore new
+]
+
+{ #category : 'initialization' }
+SpkProcessLauncherAndManager >> initializeDebuggerTool [
+
+	super initializeDebuggerTool.
+	debuggerTool explorerTool: explorerTool
 ]
 
 { #category : 'as yet unclassified' }

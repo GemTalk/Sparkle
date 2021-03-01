@@ -86,22 +86,30 @@ SpkDebuggerTool >> initializeFramesFromProcess [
 	| stackDepth |
 	stackDepth := process stackDepth.
 	frames := Array new: process stackDepth.
-	1 to: stackDepth do: [ :level | 
+	1 to: stackDepth do: [:level | 
 		| frame index |
 		index := stackDepth - level + 1.
-		frame := SpkDebuggerFrameTool new.
+		frame := self newDebuggerFrameTool.
 		frame
-			explorerTool: explorerTool;
-			process: process;
 			level: level;
 			index: index.
-		frames at: index put: frame ].
+		frames at: index put: frame].
 	^ frames
 ]
 
 { #category : 'accessing' }
 SpkDebuggerTool >> mustInitiate: object [
 	mustInitiate := object
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> newDebuggerFrameTool [
+	"Create and initialize a new DebuggerFrameTool instance."
+
+	^SpkDebuggerFrameTool new
+		explorerTool: explorerTool;
+		process: process;
+		yourself
 ]
 
 { #category : 'accessing' }

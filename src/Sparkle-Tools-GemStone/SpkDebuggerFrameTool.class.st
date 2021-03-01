@@ -247,6 +247,12 @@ SpkDebuggerFrameTool >> newInspectorFieldTool [
 		  yourself
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> newInspectorToolOn: anObject [
+
+	^ explorerTool newInspectorToolOn: anObject
+]
+
 { #category : 'printing' }
 SpkDebuggerFrameTool >> printOn: aStream [
 	level isNil | process isNil

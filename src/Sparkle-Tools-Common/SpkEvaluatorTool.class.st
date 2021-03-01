@@ -72,6 +72,18 @@ SpkEvaluatorTool >> inspectorTool: anObject [
 ]
 
 { #category : 'accessing' }
+SpkEvaluatorTool >> newProcessLauncherAndManager [
+
+	^SpkProcessLauncherAndManager new
+		taskspaceTool: taskspaceTool;
+		debuggerDebugAction: Processor activeProcess debugActionBlock;
+		processName: 'Evaluation';
+		processPriority: self evaluationPriority;
+		explorerTool: explorerTool;
+		yourself.
+]
+
+{ #category : 'accessing' }
 SpkEvaluatorTool >> newSourceCode [
 
 	^ newSourceCode

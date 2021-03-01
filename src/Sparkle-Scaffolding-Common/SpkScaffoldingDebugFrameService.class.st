@@ -37,6 +37,18 @@ SpkScaffoldingDebugFrameService >> methodSource [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> startPos [
+
+	^ startPos
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> stopPos [
+
+	^ stopPos
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugFrameService >> variableMap [
 
 	self subclassResponsibility

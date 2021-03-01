@@ -20,7 +20,8 @@ SpkTraditionalDebuggerPresenter >> connectPresenters [
 SpkTraditionalDebuggerPresenter >> displaySource [
 
 	^ frameList selection selectedItem ifNotNil: [ :frame | 
-		  sourceCode text: frame value methodService source ]
+		  sourceCode text: frame value methodService source.
+		  self showSourcePositionIn: frame ]
 ]
 
 { #category : 'actions' }
@@ -83,4 +84,16 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 SpkTraditionalDebuggerPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'private' }
+SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
+
+	^ sourceCode
+		  removeAllTextSegmentDecorations;
+		  addTextSegmentDecoration: (SpTextPresenterDecorator new
+				   highlightColor: (Color orange alpha: 0.5); 
+				   underlineColor: Color transparent;
+				   interval: (frame value startPos to: frame value stopPos + 1);
+				   yourself)
 ]

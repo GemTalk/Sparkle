@@ -1,3 +1,3 @@
 #!/bin/bash
 
-topaz -l -I loginSystemUser.topaz  -S ${ROWAN_PROJECTS_HOME}/Sparkle/src-gs/runServer.topaz
+topaz -l -I login.topaz  -S ${ROWAN_PROJECTS_HOME}/Sparkle/src-gs/runServer.topaz

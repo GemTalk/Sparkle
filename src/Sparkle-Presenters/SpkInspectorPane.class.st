@@ -37,7 +37,7 @@ SpkInspectorPane >> connectPresenters [
 
 	super connectPresenters.
 	model
-		when: SpkInspectorUpdateAnnouncement
+		when: SpkUpdateAnnouncement
 		send: #updateFromModel
 		to: self
 ]

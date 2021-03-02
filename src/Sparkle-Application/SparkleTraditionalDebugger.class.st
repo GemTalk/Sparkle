@@ -1,6 +1,9 @@
 Class {
 	#name : 'SparkleTraditionalDebugger',
 	#superclass : 'SpkApplication',
+	#instVars : [
+		'debuggerService'
+	],
 	#category : 'Sparkle-Application'
 }
 
@@ -10,10 +13,30 @@ SparkleTraditionalDebugger class >> example [
 	self new start
 ]
 
+{ #category : 'instance creation' }
+SparkleTraditionalDebugger class >> on: debuggerService [
+
+	^self new debuggerService: debuggerService 
+]
+
+{ #category : 'accessing' }
+SparkleTraditionalDebugger >> debuggerService [
+
+	^ debuggerService
+]
+
+{ #category : 'accessing' }
+SparkleTraditionalDebugger >> debuggerService: anObject [
+
+	debuggerService := anObject
+]
+
 { #category : 'running' }
 SparkleTraditionalDebugger >> start [
 
 	| presenter |
-	(presenter := self new: SpkTraditionalDebuggerPresenter) openWithSpec.
-	^presenter
+	(presenter := self new: SpkTraditionalDebuggerPresenter) 
+		debuggerService: debuggerService.
+	presenter openWithSpec.
+	^ presenter
 ]

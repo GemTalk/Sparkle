@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'frameList',
 		'processService',
-		'sourceCode'
+		'sourceCode',
+		'debuggerService'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -16,6 +17,18 @@ SpkTraditionalDebuggerPresenter >> connectPresenters [
 	frameList whenSelectionChangedDo: [ :selection | self displaySource ]
 ]
 
+{ #category : 'accessing' }
+SpkTraditionalDebuggerPresenter >> debuggerService [
+
+	^ debuggerService
+]
+
+{ #category : 'accessing' }
+SpkTraditionalDebuggerPresenter >> debuggerService: anObject [
+
+	debuggerService := anObject
+]
+
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> displaySource [
 
@@ -25,10 +38,10 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> initializeFrameList: theProcessService [
+SpkTraditionalDebuggerPresenter >> initializeFrameList [
 
 	| frames |
-	processService := theProcessService.
+	processService := debuggerService processService.
 	self window title: processService printString.
 	frames := processService rowanFrameServices.
 	frameList items:
@@ -77,7 +90,8 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Traditional Debugger';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 750 @ 500
+		initialExtent: 750 @ 500;
+		whenClosedDo: [ self terminate ]
 ]
 
 { #category : 'accessing' }
@@ -86,14 +100,25 @@ SpkTraditionalDebuggerPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> resume [
+
+	debuggerService resume
+]
+
 { #category : 'private' }
 SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
-
-	^ sourceCode
+	^ sourceCode 
 		  removeAllTextSegmentDecorations;
 		  addTextSegmentDecoration: (SpTextPresenterDecorator new
 				   highlightColor: (Color orange alpha: 0.5); 
 				   underlineColor: Color transparent;
 				   interval: (frame value startPos to: frame value stopPos + 1);
 				   yourself)
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> terminate [
+
+	debuggerService terminate
 ]

@@ -77,7 +77,7 @@ SpkDebuggerPane >> initializeProcessControls [
 
 	processControlLayout := SpkBoxLayout newHorizontal
 		                        hAlignCenter;
-		                        color: Color veryVeryDarkGray ;
+		                        color: Color veryVeryDarkGray;
 		                        yourself.
 	self layout
 		add: processControlLayout
@@ -85,14 +85,14 @@ SpkDebuggerPane >> initializeProcessControls [
 
 	proceedButton := self newIconButton
 		                 color: Color transparent;
-		                 icon: (self iconNamed: #glamorousClose);
+		                 icon: (self iconNamed: #proceed28);
 		                 help: 'Proceed';
 		                 action: [ self proceed ];
 		                 yourself.
 
 	terminateButton := self newIconButton
 		                   color: Color transparent;
-		                   icon: (self iconNamed: #glamorousClose);
+		                   icon: (self iconNamed: #terminate28);
 		                   help: 'Terminate';
 		                   action: [ self closeRequestedLocally ];
 		                   yourself.
@@ -100,13 +100,13 @@ SpkDebuggerPane >> initializeProcessControls [
 	processControlLayout
 		add: proceedButton withConstraints: [ :c | 
 			c
-				height: 30;
-				width: 30 ];
-		add: SpkBoxLayout newVertical withConstraints: [ :c | c width: 10 ];
+				height: 28;
+				width: 28 ];
+		add: SpkBoxLayout newVertical withConstraints: [ :c | c width: 25 ];
 		add: terminateButton withConstraints: [ :c | 
 		c
-			height: 30;
-			width: 30 ]
+			height: 28;
+			width: 28 ]
 ]
 
 { #category : 'initialization' }

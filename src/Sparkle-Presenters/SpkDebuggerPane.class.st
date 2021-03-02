@@ -6,7 +6,10 @@ Class {
 		'twizzle',
 		'description',
 		'fullDescriptionIsShown',
-		'fullDescription'
+		'fullDescription',
+		'processControlLayout',
+		'proceedButton',
+		'terminateButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -65,7 +68,45 @@ SpkDebuggerPane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeExceptionDescription;
+		initializeProcessControls;
 		initializeFrameList
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> initializeProcessControls [
+
+	processControlLayout := SpkBoxLayout newHorizontal
+		                        hAlignCenter;
+		                        color: Color veryVeryDarkGray ;
+		                        yourself.
+	self layout
+		add: processControlLayout
+		withConstraints: [ :c | c height: 35 ].
+
+	proceedButton := self newIconButton
+		                 color: Color transparent;
+		                 icon: (self iconNamed: #glamorousClose);
+		                 help: 'Proceed';
+		                 action: [ self proceed ];
+		                 yourself.
+
+	terminateButton := self newIconButton
+		                   color: Color transparent;
+		                   icon: (self iconNamed: #glamorousClose);
+		                   help: 'Terminate';
+		                   action: [ self closeRequestedLocally ];
+		                   yourself.
+
+	processControlLayout
+		add: proceedButton withConstraints: [ :c | 
+			c
+				height: 30;
+				width: 30 ];
+		add: SpkBoxLayout newVertical withConstraints: [ :c | c width: 10 ];
+		add: terminateButton withConstraints: [ :c | 
+		c
+			height: 30;
+			width: 30 ]
 ]
 
 { #category : 'initialization' }

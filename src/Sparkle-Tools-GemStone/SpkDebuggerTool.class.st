@@ -7,7 +7,8 @@ Class {
 		'process',
 		'exception',
 		'frames',
-		'mustInitiate'
+		'mustInitiate',
+		'updatedInspectors'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -16,7 +17,11 @@ Class {
 SpkDebuggerTool >> continue [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	^ processManager continueProcess
+	| resultTool | 
+	resultTool := processManager continueProcess.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	^resultTool
 ]
 
 { #category : 'other' }
@@ -137,4 +142,11 @@ SpkDebuggerTool >> processName [
 { #category : 'accessing' }
 SpkDebuggerTool >> processPriority [
 	^ process priority
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> updatedInspectors [
+	"The set of updated Inspector Services that have changed."
+
+	^updatedInspectors
 ]

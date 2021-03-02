@@ -23,8 +23,6 @@ SpkEvaluatorTool >> accept [
 		          newSourceCode: newSourceCode;
 		          yourself.
 	resultTool := explorerTool performAction: action.
-	self flag:
-		'Need to make announcement here. All existing inspectors need to check whether their object changed state.'.
 	^ resultTool
 ]
 

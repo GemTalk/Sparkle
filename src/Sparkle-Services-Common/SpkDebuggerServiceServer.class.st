@@ -15,6 +15,17 @@ SpkDebuggerServiceServer class >> forTool: aTool [
 		  yourself
 ]
 
+{ #category : 'actions' }
+SpkDebuggerServiceServer >> continue [
+
+	| resultTool |
+	resultTool := tool continue.
+	self refreshFromTool.
+	^resultTool == tool
+		ifTrue: [self]
+		ifFalse: [self serviceForTool: resultTool]
+]
+
 { #category : 'other' }
 SpkDebuggerServiceServer >> initializeFramesFromTool [
 
@@ -39,5 +50,15 @@ SpkDebuggerServiceServer >> refreshFromTool [
 	processName := tool processName.
 	processIdentifier := tool processIdentifier.
 	processPriority := tool processPriority.
+	updatedInspectors := tool updatedInspectors.
 	self initializeFramesFromTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerServiceServer >> serviceForTool: aTool [
+
+	| serviceClass |
+	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
+		                aTool class.
+	^ serviceClass forTool: aTool
 ]

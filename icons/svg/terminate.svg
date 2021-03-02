@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="120"
+   inkscape:export-xdpi="120"
+   inkscape:export-filename="/home/martin/Repositories/Sparkle/icons/png/terminate30.png"
+   sodipodi:docname="terminate.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 6.3499999 6.3500002"
+   height="24"
+   width="24">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="154"
+     inkscape:window-x="655"
+     inkscape:window-height="1198"
+     inkscape:window-width="1589"
+     inkscape:showpageshadow="true"
+     showborder="true"
+     inkscape:pagecheckerboard="true"
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="12.818169"
+     inkscape:cx="10.299677"
+     inkscape:zoom="22.4"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <circle
+       r="2.7826326"
+       cy="3.175"
+       cx="3.175"
+       id="path851"
+       style="opacity:0.9;fill:none;stroke:#c9c9c9;stroke-width:0.396875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       id="g938"
+       transform="matrix(0.82018691,0,0,0.85224189,0.57090654,0.46913205)">
+      <path
+         id="path853"
+         d="M 4.5379527,1.8845298 1.8120474,4.46547"
+         style="fill:#fb0404;fill-opacity:1;fill-rule:evenodd;stroke:#c72424;stroke-width:0.648138;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <use
+         height="100%"
+         width="100%"
+         transform="matrix(0,1.019277,-0.98108755,0,6.2899529,-0.06120456)"
+         id="use855"
+         xlink:href="#path853"
+         y="0"
+         x="0"
+         style="fill:#fb0404;fill-opacity:1;stroke:#c72424;stroke-linecap:round;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>

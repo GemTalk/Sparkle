@@ -6,7 +6,8 @@ Class {
 		'processIdentifier',
 		'processPriority',
 		'exceptionDescription',
-		'frames'
+		'frames',
+		'updatedInspectors'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -27,6 +28,13 @@ SpkDebuggerService >> exceptionDescription [
 SpkDebuggerService >> frames [
 
 	^ frames
+]
+
+{ #category : 'initialize' }
+SpkDebuggerService >> initialize [
+
+	super initialize.
+	updatedInspectors := Set new
 ]
 
 { #category : 'accessing' }

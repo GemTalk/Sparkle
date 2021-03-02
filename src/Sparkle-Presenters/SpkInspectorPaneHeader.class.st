@@ -18,6 +18,12 @@ SpkInspectorPaneHeader >> classLabel: anObject [
 	classLabel := anObject
 ]
 
+{ #category : 'accessing' }
+SpkInspectorPaneHeader >> classMembershipDescription: aString [
+
+	classLabel label: aString
+]
+
 { #category : 'accessing colors' }
 SpkInspectorPaneHeader >> headerColor [
 

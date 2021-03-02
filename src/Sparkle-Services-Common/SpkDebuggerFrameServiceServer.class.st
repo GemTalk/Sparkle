@@ -42,3 +42,8 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 				initializeFromTool: fieldTool;
 				yourself ]
 ]
+
+{ #category : 'other' }
+SpkDebuggerFrameServiceServer >> tool [
+	^ tool
+]

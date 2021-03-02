@@ -31,9 +31,7 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 	resultObject := self innerEvaluateMethod: method inContext: context ]
 		on: Error
 		do: [ :ex | ^ self toolForRuntimeError: ex ].
-	^ (SpkInspectorTool on: resultObject)
-		  explorerTool: explorerTool;
-		  yourself
+	^ explorerTool newInspectorToolOn: resultObject
 ]
 
 { #category : '*Sparkle-Tools-Pharo' }
@@ -54,5 +52,7 @@ SpkEvaluatorTool >> innerEvaluateMethod: method inContext: context [
 { #category : '*Sparkle-Tools-Pharo' }
 SpkEvaluatorTool >> toolForRuntimeError: anError [
 
-	^ SpkRuntimeErrorTool forException: anError
+	^ (SpkRuntimeErrorTool forException: anError)
+		  taskspaceTool: taskspaceTool;
+		  yourself
 ]

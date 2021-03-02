@@ -54,6 +54,15 @@ SpkMultiSelectList >> deselectItem: anItem [
 	self announce: (SpkItemDeselected forItem: anItem index: index)
 ]
 
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> deselectItemsBeyond: lastIndex [
+
+	lastIndex + 1 to: items size do: [ :i | 
+		| item |
+		item := items at: i.
+		(selectedItems includes: item) ifTrue: [ self deselectItem: item ] ]
+]
+
 { #category : 'initialization' }
 SpkMultiSelectList >> initialize [
 
@@ -85,6 +94,14 @@ SpkMultiSelectList >> linkedPanes [
 	^ items
 		  collect: [ :item | item linkedPane ]
 		  thenSelect: [ :pane | pane notNil ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> refreshFrom: fieldServices [
+
+	items
+		with: fieldServices
+		do: [ :item :fieldService | item model: fieldService ]
 ]
 
 { #category : 'selection' }
@@ -134,4 +151,19 @@ SpkMultiSelectList >> selectedItems [
 SpkMultiSelectList >> size [
 
 	^ items size
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> updateItemQuantity: newQuantity [
+
+	items size < newQuantity ifTrue: [ 
+		items size + 1 to: newQuantity do: [ :i | 
+			items add: (SpkMultiSelectListItem new
+					 index: i;
+					 list: self;
+					 yourself) ] ].
+
+	"Excess items have already been deselected."
+	items size > newQuantity ifTrue: [ 
+		items removeLast: items size - newQuantity ]
 ]

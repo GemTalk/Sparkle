@@ -161,7 +161,8 @@ SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 	self defer: [ 
 		self
 			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId ]
+			linkedTo: anAnnouncement requestId.
+		self updateInspectors ]
 ]
 
 { #category : 'menu messages' }
@@ -181,4 +182,12 @@ SpkPane >> setCoordinateFromLayoutService [
 SpkPane >> undo [
 
 	^ model undo
+]
+
+{ #category : 'as yet unclassified' }
+SpkPane >> updateInspectors [
+
+	" default does nothing "
+
+	
 ]

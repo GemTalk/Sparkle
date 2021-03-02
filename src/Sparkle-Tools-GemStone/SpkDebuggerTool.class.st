@@ -3,20 +3,37 @@ Class {
 	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
+		'processManager',
 		'process',
 		'exception',
 		'frames',
-		'debugActionForContinue'
+		'mustInitiate',
+		'updatedInspectors'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'accessing' }
-SpkDebuggerTool >> debugActionForContinue: aBlock [
-	"I must restore this block as the debugAction of the debugged process before I let it continue.
-	Typically this is the same block that caused me to be created."
+{ #category : 'other' }
+SpkDebuggerTool >> continue [
+	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	debugActionForContinue := aBlock
+	| resultTool | 
+	resultTool := processManager continueProcess.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	^resultTool
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> currentException: anException [
+	exception ifNil: [ exception := anException ]
+]
+
+{ #category : 'private' }
+SpkDebuggerTool >> debug [
+	mustInitiate
+		ifFalse: [ processManager returnValue: self ]
+		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
 ]
 
 { #category : 'accessing' }
@@ -55,7 +72,8 @@ SpkDebuggerTool >> explorerTool [
 
 { #category : 'accessing' }
 SpkDebuggerTool >> explorerTool: object [
-	explorerTool := object
+	explorerTool := object.
+	explorerTool addPane: self
 ]
 
 { #category : 'accessing' }
@@ -73,17 +91,30 @@ SpkDebuggerTool >> initializeFramesFromProcess [
 	| stackDepth |
 	stackDepth := process stackDepth.
 	frames := Array new: process stackDepth.
-	1 to: stackDepth do: [ :level | 
+	1 to: stackDepth do: [:level | 
 		| frame index |
 		index := stackDepth - level + 1.
-		frame := SpkDebuggerFrameTool new.
+		frame := self newDebuggerFrameTool.
 		frame
-			explorerTool: explorerTool;
-			process: process;
 			level: level;
 			index: index.
-		frames at: index put: frame ].
+		frames at: index put: frame].
 	^ frames
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> mustInitiate: object [
+	mustInitiate := object
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> newDebuggerFrameTool [
+	"Create and initialize a new DebuggerFrameTool instance."
+
+	^SpkDebuggerFrameTool new
+		explorerTool: explorerTool;
+		process: process;
+		yourself
 ]
 
 { #category : 'accessing' }
@@ -99,6 +130,11 @@ SpkDebuggerTool >> processIdentifier [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> processManager: object [
+	processManager := object
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> processName [
 	^ process name
 ]
@@ -106,4 +142,11 @@ SpkDebuggerTool >> processName [
 { #category : 'accessing' }
 SpkDebuggerTool >> processPriority [
 	^ process priority
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> updatedInspectors [
+	"The set of updated Inspector Services that have changed."
+
+	^updatedInspectors
 ]

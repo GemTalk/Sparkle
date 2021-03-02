@@ -1,8 +1,8 @@
 Class {
 	#name : 'SpkInspectorFieldServiceClient',
 	#superclass : 'SpkInspectorFieldService',
-	#traits : 'SpkTPromise + SpkTModel',
-	#classTraits : 'SpkTPromise classTrait + SpkTModel classTrait',
+	#traits : 'SpkTPromise + SpkTModel + SpkTLinkedService',
+	#classTraits : 'SpkTPromise classTrait + SpkTModel classTrait + SpkTLinkedService classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
@@ -15,18 +15,30 @@ SpkInspectorFieldServiceClient >> createInspectorService [
 	^ remoteSelf createInspectorService
 ]
 
+{ #category : 'accessing' }
+SpkInspectorFieldServiceClient >> description [
+
+	^ self columnAt: 2
+]
+
 { #category : 'inspecting' }
 SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 
 	| promise |
 	"I might already have the necessary service cached."
-	linkedService ifNotNil: [ :service | ^ service ].
+	self linkedService ifNotNil: [ :service | ^ service ].
 	"Create and announce a new inspectorService for the object I reference."
 	promise := self createInspectorService.
 	promise
 		when: [ :inspector | 
-			linkedService := inspector.
+			self linkedService: inspector.
 			parentService announceNewService: inspector forRequest: aRequestId ]
 		catch: [ :reason | self signalPromiseBrokenBecause: reason ].
 	^ nil
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldServiceClient >> name [
+
+	^ self columnAt: 1
 ]

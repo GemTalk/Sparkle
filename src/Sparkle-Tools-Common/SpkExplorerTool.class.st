@@ -20,14 +20,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'instance creation' }
-SpkExplorerTool class >> newDefault [
-
-	^ self new
-		  initializeForDefault;
-		  yourself
-]
-
 { #category : 'adding' }
 SpkExplorerTool >> addPane: aPaneTool [
 
@@ -38,7 +30,7 @@ SpkExplorerTool >> addPane: aPaneTool [
 SpkExplorerTool >> initialize [
 
 	super initialize.
-	panes := Set new
+	panes := IdentitySet new
 ]
 
 { #category : 'initialization' }
@@ -47,11 +39,22 @@ SpkExplorerTool >> initializeForDefault [
 	"A default explorer starts with an inspector pane on nil, with one evaluator"
 
 	| inspector |
-	inspector := SpkInspectorTool new
-		             explorerTool: self;
+	inspector := (self newInspectorToolOn: nil)
 		             initializeForDefault;
 		             yourself.
 	self addPane: inspector
+]
+
+{ #category : 'instance creation' }
+SpkExplorerTool >> newInspectorToolOn: anObject [
+
+	^ SpkInspectorTool new
+		  explorerTool: self;
+		  taskspaceTool: taskspaceTool;
+		  inspectedObject: anObject;
+		  initializeViews;
+		  refreshFieldTools;
+		  yourself
 ]
 
 { #category : 'accessing' }

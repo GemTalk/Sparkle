@@ -14,29 +14,10 @@ Class {
 	#name : 'SpkLinkableSubService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'parentService',
-		'linkedService'
+		'parentService'
 	],
 	#category : 'Sparkle-Services-Common'
 }
-
-{ #category : 'accessing' }
-SpkLinkableSubService >> linkedService [
-
-	^ linkedService
-]
-
-{ #category : 'accessing' }
-SpkLinkableSubService >> linkedService: anObject [
-
-	linkedService := anObject
-]
-
-{ #category : 'accessing' }
-SpkLinkableSubService >> parentService [
-
-	^ parentService
-]
 
 { #category : 'accessing' }
 SpkLinkableSubService >> parentService: anObject [

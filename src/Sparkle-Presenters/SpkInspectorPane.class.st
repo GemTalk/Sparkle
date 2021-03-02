@@ -33,6 +33,46 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 ]
 
 { #category : 'initialization' }
+SpkInspectorPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkUpdateAnnouncement
+		send: #updateFromModel
+		to: self
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> deselectChangedFields [
+
+	self
+		deselectOffTheEndFields;
+		deselectIdentityChangedFields
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> deselectIdentityChangedFields [
+
+	| oldFields newFields |
+	oldFields := listModel items.
+	newFields := model fields.
+	1 to: (newFields size min: oldFields size) do: [ :i | 
+		| oldField newField |
+		oldField := oldFields at: i.
+		newField := newFields at: i.
+		oldField model == newField ifFalse: [ 
+			listModel deselectItem: oldField ] ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> deselectOffTheEndFields [
+
+	| newNumberOfFields |
+	newNumberOfFields := model fields size.
+	listModel deselectItemsBeyond: newNumberOfFields
+]
+
+{ #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
@@ -92,8 +132,10 @@ SpkInspectorPane >> initializeEvaluators [
 SpkInspectorPane >> initializeListColumns [
 
 	self list
-		addColumn: (SpStringTableColumn evaluated: #name);
-		addColumn: (SpStringTableColumn evaluated: #description)
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item columnAt: 2 ])
 ]
 
 { #category : 'initialization' }
@@ -150,12 +192,6 @@ SpkInspectorPane >> itemSelected: anAnnouncement [
 SpkInspectorPane >> linkedPanes [
 
 	^ super linkedPanes , self panesLinkedToEvaluators
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> listItemModels [
-
-	^ model fields
 ]
 
 { #category : 'accessing' }
@@ -225,12 +261,35 @@ SpkInspectorPane >> twizzleIcon [
 		  ifFalse: [ self iconNamed: #treeUnexpanded ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> updateFieldList [
+
+	self
+		deselectChangedFields;
+		refreshListModel;
+		refreshList
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> updateFieldListVisibility [
 
 	fieldListIsShown
 		ifTrue: [ self layout add: self list after: topLayout ]
 		ifFalse: [ self layout remove: self list ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> updateFromModel [
+
+	description label: model selfDescription.
+	header classMembershipDescription: model classMembershipDescription.
+	self updateFieldList
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> updateInspectors [
+
+	self evaluators do: [ :each | each updateInspectors ]
 ]
 
 { #category : 'actions' }

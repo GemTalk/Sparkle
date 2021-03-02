@@ -21,12 +21,12 @@ Class {
 { #category : 'private' }
 SpkDebuggerFrameTool >> addArgAndTempToolsForIndex: anIndex to: aCollection [
 	| tool |
-	tool := SpkInspectorFieldTool new.
+	tool := self newInspectorFieldTool.
 	aCollection add: tool.
 	tool
-		index: aCollection size;
-		name: (self argAndTempNames at: anIndex);
-		inspectedObject: (self argAndTempValues at: anIndex)
+		referencedObject: (self argAndTempValues at: anIndex);
+		columnAt: 1 put: (self argAndTempNames at: anIndex);
+		columnAt: 2 put: (tool selfDescriptionOf: tool referencedObject)
 ]
 
 { #category : 'private' }
@@ -47,12 +47,12 @@ SpkDebuggerFrameTool >> addEvaluationStackToolsTo: aCollection [
 { #category : 'private' }
 SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
 	| tool |
-	tool := SpkInspectorFieldTool new.
+	tool := self newInspectorFieldTool.
 	aCollection add: tool.
 	tool
-		index: aCollection size;
-		name: 'receiver';
-		inspectedObject: self frameReceiver
+		columnAt: 1 put: 'receiver';
+		columnAt: 2 put: (tool selfDescriptionOf: self frameReceiver);
+		referencedObject: self frameReceiver
 ]
 
 { #category : 'private' }
@@ -236,6 +236,21 @@ SpkDebuggerFrameTool >> localVariables [
 { #category : 'private' }
 SpkDebuggerFrameTool >> method [
 	^ process _methodInFrameContents: self frameContents
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> newInspectorFieldTool [ 
+
+	^ SpkInspectorFieldTool new
+		  taskspaceTool: taskspaceTool;
+		  numberOfColumns: 2;
+		  yourself
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> newInspectorToolOn: anObject [
+
+	^ explorerTool newInspectorToolOn: anObject
 ]
 
 { #category : 'printing' }

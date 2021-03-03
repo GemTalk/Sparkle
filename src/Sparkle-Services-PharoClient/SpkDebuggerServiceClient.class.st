@@ -39,3 +39,10 @@ SpkDebuggerServiceClient >> terminate [
 		when: [ :unused | self announceTermination ]
 		catch: self defaultCatchBlock
 ]
+
+{ #category : 'accessing' }
+SpkDebuggerServiceClient >> updateInspectors [
+
+	updatedInspectors do: [ :each | each announceUpdate ].
+	updatedInspectors := Set new
+]

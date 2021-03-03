@@ -208,6 +208,12 @@ SpkDebuggerPane >> updateExceptionDescriptionVisibility [
 		ifFalse: [ self layout remove: fullDescription ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> updateInspectors [
+
+	model updateInspectors
+]
+
 { #category : 'actions' }
 SpkDebuggerPane >> updateTwizzleIcon [
 

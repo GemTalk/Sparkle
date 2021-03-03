@@ -44,6 +44,17 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 ]
 
 { #category : 'other' }
+SpkDebuggerServiceServer >> proceed [
+
+	| resultTool resultService |
+	resultTool :=  tool continue.
+
+	self refreshFromTool.
+	resultService := self serviceForTool: resultTool.
+	^ resultService
+]
+
+{ #category : 'other' }
 SpkDebuggerServiceServer >> refreshFromTool [
 
 	exceptionDescription := tool exceptionDescription.

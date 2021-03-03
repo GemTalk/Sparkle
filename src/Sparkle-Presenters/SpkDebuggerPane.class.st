@@ -153,7 +153,7 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 SpkDebuggerPane >> proceed [
 
 	self disableAll.
-	model proceedFor: self
+	model proceedFor: linkedFrom
 ]
 
 { #category : 'actions' }

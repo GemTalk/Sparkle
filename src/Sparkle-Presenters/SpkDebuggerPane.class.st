@@ -14,6 +14,25 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'events' }
+SpkDebuggerPane >> closeRequestedLocally [
+
+	"Terminate process then close UI."
+
+	self disableAll.
+	model terminate
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkTermination
+		send: #receiveTerminationAnnouncement:
+		to: self
+]
+
 { #category : 'accessing' }
 SpkDebuggerPane >> headerClass [
 
@@ -154,6 +173,14 @@ SpkDebuggerPane >> proceed [
 
 	self disableAll.
 	model proceedFor: linkedFrom
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
+
+	self defer: [ 
+		self close.
+		self updateInspectors ]
 ]
 
 { #category : 'actions' }

@@ -10,7 +10,7 @@ Class {
 { #category : 'events' }
 SpkPresenterWithHeader >> closeRequestedLocally [
 
-	model notYetImplemented: 'Pane closing'
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }

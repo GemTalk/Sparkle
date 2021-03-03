@@ -6,6 +6,12 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerServiceClient >> announceTermination [
+
+	self announce: SpkTermination new
+]
+
 { #category : 'api' }
 SpkDebuggerServiceClient >> listItems [
 
@@ -21,5 +27,15 @@ SpkDebuggerServiceClient >> proceedFor: requestId [
 		when: [ :newService | 
 			self announceNewService: newService forRequest: requestId.
 			self flag: 'handle identical debugger return' ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerServiceClient >> terminate [
+
+	| promise |
+	promise := remoteSelf terminate.
+	promise
+		when: [ :unused | self announceTermination ]
 		catch: self defaultCatchBlock
 ]

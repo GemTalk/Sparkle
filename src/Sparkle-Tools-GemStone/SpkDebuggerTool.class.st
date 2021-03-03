@@ -118,6 +118,12 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> process [
+
+	^ process
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> process: aProcess [
 	"The GsProcess that I am to debug."
 
@@ -142,6 +148,11 @@ SpkDebuggerTool >> processName [
 { #category : 'accessing' }
 SpkDebuggerTool >> processPriority [
 	^ process priority
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> terminate [
+	process terminate
 ]
 
 { #category : 'accessing' }

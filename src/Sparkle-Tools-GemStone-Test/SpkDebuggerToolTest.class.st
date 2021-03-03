@@ -103,3 +103,18 @@ SpkDebuggerToolTest >> testNumberOfFrames [
 	self assert: debugger class equals: SpkDebuggerTool.
 	self assert: debugger frames size > 6
 ]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testTerminate [
+	"Get a debugger, terminate, verify termination"
+
+	| debugger process |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	process := debugger process.
+
+	self deny: process _isTerminated.
+	debugger terminate.
+	self assert: process _isTerminated
+]

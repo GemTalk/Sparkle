@@ -86,6 +86,12 @@ SpkDebuggerTool >> frames [
 	^ frames ifNil: [ self initializeFramesFromProcess ]
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> initialize [
+	super initialize.
+	updatedInspectors := Set new
+]
+
 { #category : 'initialization' }
 SpkDebuggerTool >> initializeFramesFromProcess [
 	| stackDepth |

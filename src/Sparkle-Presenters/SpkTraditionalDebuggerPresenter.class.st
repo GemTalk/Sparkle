@@ -5,10 +5,17 @@ Class {
 		'frameList',
 		'processService',
 		'sourceCode',
-		'debuggerService'
+		'debuggerService',
+		'toolbar'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> closeWindow [
+
+	self window close
+]
 
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> connectPresenters [
@@ -35,6 +42,34 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 	^ frameList selection selectedItem ifNotNil: [ :frame | 
 		  sourceCode text: frame value methodService source.
 		  self showSourcePositionIn: frame ]
+]
+
+{ #category : 'private' }
+SpkTraditionalDebuggerPresenter >> ifConnectedDo: symbol [
+
+	debuggerService connection isOpen ifTrue: [ debuggerService perform: symbol ].
+]
+
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
+
+	toolbar := self newToolbar.
+	toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Resume';
+			 icon: (self iconNamed: #smallForward);
+			 help: 'Resume the suspended process';
+			 action: [ self resume ];
+			 yourself).
+	toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Terminate';
+			 icon: (self iconNamed: #smallCancel);
+			 help: 'Terminate the suspended process';
+			 action: [ self terminate ];
+			 yourself).
+
+	self layout
+		add: toolbar
+		withConstraints: [ :constraints | constraints height: 30 ]
 ]
 
 { #category : 'actions' }
@@ -66,6 +101,7 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeStackLabel.
 	self initializeFrameListLayout.
+	self initializeDebuggerToolbar. 
 	self initializeSourceCodeLayout.
 ]
 
@@ -103,7 +139,8 @@ SpkTraditionalDebuggerPresenter >> newLayout [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> resume [
 
-	debuggerService resume
+	self ifConnectedDo: #resume. 
+	self closeWindow
 ]
 
 { #category : 'private' }
@@ -120,5 +157,6 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> terminate [
 
-	debuggerService terminate
+	self ifConnectedDo: #terminate.
+	self closeWindow
 ]

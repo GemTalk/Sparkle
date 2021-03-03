@@ -525,7 +525,7 @@ SpkScaffoldingServiceClient class >> debugger_07b_eric [
 		cr;
 		show: '=========';
 		cr.
-	(client gsDebugger_07: '7 halt' usingDebugger: debuggerClient)
+	(client gsDebugger_07: '7 halt. GsFile _log: ''resumed''. 1' usingDebugger: debuggerClient)
 		when: [ :result | 
 			Transcript
 				cr;

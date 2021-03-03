@@ -149,6 +149,13 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
 ]
 
+{ #category : 'menu' }
+SpkDebuggerPane >> proceed [
+
+	self disableAll.
+	model proceedFor: self
+]
+
 { #category : 'actions' }
 SpkDebuggerPane >> toggleExceptionDescription [
 

@@ -22,12 +22,6 @@ Class {
 { #category : 'actions' }
 SpkEvaluator >> accept [
 
-	"Ignore ctrl-s if no unsaved changes"
-
-	self flag:
-		'The command itself and menu item should be disabled instead of this test.'.
-	model hasUnsavedChanges ifFalse: [ ^ self ].
-
 	pane disableAll.
 	model acceptFor: self
 ]

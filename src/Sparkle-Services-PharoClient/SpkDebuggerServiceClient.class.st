@@ -1,8 +1,8 @@
 Class {
 	#name : 'SpkDebuggerServiceClient',
 	#superclass : 'SpkDebuggerService',
-	#traits : 'SpkTModel',
-	#classTraits : 'SpkTModel classTrait',
+	#traits : 'SpkTModel + SpkTPromise',
+	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
@@ -10,4 +10,16 @@ Class {
 SpkDebuggerServiceClient >> listItems [
 
 	^ frames reverse
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerServiceClient >> proceedFor: requestId [
+
+	| promise |
+	promise := remoteSelf proceed.
+	promise
+		when: [ :newService | 
+			self announceNewService: newService forRequest: requestId.
+			self flag: 'handle identical debugger return' ]
+		catch: self defaultCatchBlock
 ]

@@ -158,7 +158,9 @@ SpkDebuggerTool >> processPriority [
 
 { #category : 'other' }
 SpkDebuggerTool >> terminate [
-	process terminate
+	process terminate.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors
 ]
 
 { #category : 'accessing' }

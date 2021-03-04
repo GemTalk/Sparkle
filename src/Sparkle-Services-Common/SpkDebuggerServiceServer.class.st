@@ -64,5 +64,6 @@ SpkDebuggerServiceServer >> serviceForTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
-	tool terminate
+	tool terminate.
+	self refreshFromTool
 ]

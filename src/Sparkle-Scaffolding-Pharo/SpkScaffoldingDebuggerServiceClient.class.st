@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkScaffoldingDebuggerServiceClient',
 	#superclass : 'SpkScaffoldingAbstractDebuggerServiceClient',
+	#instVars : [
+		'debugger'
+	],
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 
@@ -15,7 +18,9 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 			'simulate opening debugger on process ('
 			, processService printString , ') ... with stack: '.
 	stack := processService rowanFrameServices.
-	(SparkleTraditionalDebugger on: self) start initializeFrameList.
+	debugger ifNil:[debugger := 
+	(SparkleTraditionalDebugger on: self) start].
+	debugger initializeFrameList.
 	1 to: (stack size min: stackLimit) do: [ :index | 
 		| frame |
 		frame := stack at: index.

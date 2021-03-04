@@ -66,6 +66,12 @@ SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 			 help: 'Terminate the suspended process';
 			 action: [ self terminate ];
 			 yourself).
+	toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Step Over';
+			 icon: (self iconNamed: #top);
+			 help: 'Step Over';
+			 action: [ self stepOver ];
+			 yourself).
 
 	self layout
 		add: toolbar
@@ -152,6 +158,12 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 				   underlineColor: Color transparent;
 				   interval: (frame value startPos to: frame value stopPos + 1);
 				   yourself)
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> stepOver [
+
+	debuggerService stepOverFromLevel: frameList selection selectedIndex. 
 ]
 
 { #category : 'actions' }

@@ -13,7 +13,7 @@ RwPlatformNestedProjectLoadComponentV2 {
 			'allusers' : {
 				#packageNameToPlatformPropertiesMap : {
 					'Sparkle-Scaffolding-Rowan-GemStone' : {
-						'symbolDictName' : 'RowanKernel'
+						'symbolDictName' : 'RowanClientServices'
 					}
 				}
 			}

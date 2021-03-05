@@ -4,7 +4,7 @@
 
 spkHome=${ROWAN_PROJECTS_HOME}/Sparkle
 ## Topaz refuses to exit from script if input is stdin, so redirect from /dev/zero
-topaz -I ${spkHome}/src-gs/loginSystemUser.topaz  -S ${spkHome}/src-gs/installSparkle.topaz < /dev/zero
+topaz -l -I ${spkHome}/src-gs/loginSystemUser.topaz  -S ${spkHome}/src-gs/installSparkle.topaz < /dev/zero
 if [ $? = 0 ]
     then
         exit 0

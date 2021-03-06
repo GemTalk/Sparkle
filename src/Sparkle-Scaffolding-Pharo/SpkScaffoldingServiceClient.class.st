@@ -992,6 +992,33 @@ SpkScaffoldingServiceClient class >> debugger_07f_eric [
 ]
 
 { #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_07f_eric_wo_transcript [
+
+	"testDebugger_07f - trigger a halt in SpkScaffoldingMockObject; debugger stepOverFromLevel:; debugger resume"
+
+	<example>
+	| client debuggerClient sem expressionResult x |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+
+	(client
+		 gsDebugger_07: 'SpkScaffoldingMockObject example2'
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			expressionResult := result doitResult.
+
+			sem signal ]
+		catch: [ :reason |  ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert:
+		(x := debuggerClient messageText) = 'a Halt occurred (error 2709)'
+]
+
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_07g [
 
 	"testDebugger_07g - Set 3 breakpoints in SpkScaffoldingMockObject; stepThroughFromLevel:; resume; stepOverFromLevel:; clear breakpoints and resume"

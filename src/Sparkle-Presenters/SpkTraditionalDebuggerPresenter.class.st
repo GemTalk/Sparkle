@@ -44,6 +44,12 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 		  self showSourcePositionIn: frame ]
 ]
 
+{ #category : 'constants' }
+SpkTraditionalDebuggerPresenter >> glueSelectors [
+	"when showing a stack, select the frame just above these methods"
+	^#(#halt #_signalAsync) 
+]
+
 { #category : 'private' }
 SpkTraditionalDebuggerPresenter >> ifConnectedDo: symbol [
 
@@ -86,7 +92,8 @@ SpkTraditionalDebuggerPresenter >> initializeFrameList [
 	self window title: processService printString.
 	frames := processService rowanFrameServices.
 	frameList items:
-		(frames collect: [ :frame | (frames indexOf: frame) -> frame ])
+		(frames collect: [ :frame | (frames indexOf: frame) -> frame ]).
+	self selectAppropriateFrame
 ]
 
 { #category : 'initialization' }
@@ -132,7 +139,7 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Traditional Debugger';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 750 @ 500;
+		initialExtent: 750 @ 700;
 		whenClosedDo: [ self terminate ]
 ]
 
@@ -147,6 +154,20 @@ SpkTraditionalDebuggerPresenter >> resume [
 
 	self ifConnectedDo: #resume. 
 	self closeWindow
+]
+
+{ #category : 'private' }
+SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
+	"try to set the selection without touching the rsr object inappropriately"
+	| glueFrame |
+	frameList items do: [ :assoc | 
+		| frame index |
+		glueFrame ifNil: [ 
+			index := assoc key.
+			frame := assoc value.
+			(self glueSelectors includes: frame methodService selector) 
+				ifTrue: [ glueFrame := frameList items at: index + 1 ] ] ].
+	frameList selectItem: glueFrame
 ]
 
 { #category : 'private' }

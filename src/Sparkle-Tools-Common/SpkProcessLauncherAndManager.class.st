@@ -5,6 +5,7 @@ Class {
 		'explorerTool',
 		'processPriority',
 		'processName',
+		'processBreakpointLevel',
 		'result',
 		'resultReady'
 	],
@@ -57,6 +58,12 @@ SpkProcessLauncherAndManager >> processBody: aBlock [
 ]
 
 { #category : 'accessing' }
+SpkProcessLauncherAndManager >> processBreakpointLevel: anObject [
+
+	processBreakpointLevel := anObject
+]
+
+{ #category : 'accessing' }
 SpkProcessLauncherAndManager >> processName: object [
 	processName := object
 ]
@@ -75,9 +82,11 @@ SpkProcessLauncherAndManager >> returnValue: anObject [
 
 { #category : 'as yet unclassified' }
 SpkProcessLauncherAndManager >> runProcess [
+
 	process
 		name: processName;
-		priority: processPriority.
+		priority: processPriority;
+		breakpointLevel: processBreakpointLevel.
 	self resumeProcess
 ]
 

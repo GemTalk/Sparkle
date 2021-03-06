@@ -72,13 +72,14 @@ SpkEvaluatorTool >> inspectorTool: anObject [
 { #category : 'accessing' }
 SpkEvaluatorTool >> newProcessLauncherAndManager [
 
-	^SpkProcessLauncherAndManager new
-		taskspaceTool: taskspaceTool;
-		debuggerDebugAction: Processor activeProcess debugActionBlock;
-		processName: 'Evaluation';
-		processPriority: self evaluationPriority;
-		explorerTool: explorerTool;
-		yourself.
+	^ SpkProcessLauncherAndManager new
+		  taskspaceTool: taskspaceTool;
+		  debuggerDebugAction: Processor activeProcess debugActionBlock;
+		  processName: 'Evaluation';
+		  processPriority: self evaluationPriority;
+		  processBreakpointLevel: 1;
+		  explorerTool: explorerTool;
+		  yourself
 ]
 
 { #category : 'accessing' }

@@ -2002,6 +2002,45 @@ Transcript		cr;
 		cr
 ]
 
+{ #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_stepOver [
+
+	<example>
+	| client debuggerClient sem expressionResult x |
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+
+	(client
+		 gsDebugger_07: '| array |
+		array := Array new halt. 
+		SpkScaffoldingMockObject example2.
+		array add: 1. 
+		array add: 2. 
+		^(array at: 1) + 3'
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			expressionResult := result doitResult.
+
+			sem signal ]
+		catch: [ :reason | Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself  ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
+
+	self assert:
+		(x := debuggerClient messageText) = 'a Halt occurred (error 2709)'
+]
+
 { #category : 'examples' }
 SpkScaffoldingServiceClient class >> doit_01 [
 

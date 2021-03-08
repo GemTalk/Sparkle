@@ -74,9 +74,21 @@ SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 			 yourself).
 	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Step Over';
-			 icon: (self iconNamed: #top);
+			 icon: (self iconNamed: #glamorousOver);
 			 help: 'Step Over';
 			 action: [ self stepOver ];
+			 yourself).
+		toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Step Into';
+			 icon: (self iconNamed: #glamorousInto);
+			 help: 'Step Into';
+			 action: [ self stepInto ];
+			 yourself).
+		toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Restart';
+			 icon: (self iconNamed: #glamorousRestart);
+			 help: 'Restart';
+			 action: [ self restart ];
 			 yourself).
 
 	self layout
@@ -150,6 +162,12 @@ SpkTraditionalDebuggerPresenter >> newLayout [
 ]
 
 { #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> restart [
+
+	debuggerService trimStackToLevel: frameList selection selectedIndex. 
+]
+
+{ #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> resume [
 
 	self ifConnectedDo: #resume. 
@@ -158,7 +176,9 @@ SpkTraditionalDebuggerPresenter >> resume [
 
 { #category : 'private' }
 SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
+
 	"try to set the selection without touching the rsr object inappropriately"
+
 	| glueFrame |
 	frameList items do: [ :assoc | 
 		| frame index |
@@ -167,11 +187,15 @@ SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
 			frame := assoc value.
 			(self glueSelectors includes: frame methodService selector) 
 				ifTrue: [ glueFrame := frameList items at: index + 1 ] ] ].
+	glueFrame ifNil: [ glueFrame := frameList items at: 1 ].
 	frameList selectItem: glueFrame
 ]
 
 { #category : 'private' }
 SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
+	Transcript cr; show: 'startPos:'; show: frame value startPos printString.
+	Transcript cr; show: 'stopPos:'; show: frame value stopPos printString.
+	Transcript flush. 
 	^ sourceCode 
 		  removeAllTextSegmentDecorations;
 		  addTextSegmentDecoration: (SpTextPresenterDecorator new
@@ -179,6 +203,12 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 				   underlineColor: Color transparent;
 				   interval: (frame value startPos to: frame value stopPos + 1);
 				   yourself)
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> stepInto [
+
+	debuggerService stepThroughFromLevel: frameList selection selectedIndex. 
 ]
 
 { #category : 'actions' }

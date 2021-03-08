@@ -67,13 +67,20 @@ SpkDebuggerFrameTool >> argAndTempValues [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
-	| startPos startChar source |
+
+	| startPos startChar source method stepPoint |
+	method := self method.
+	method == nil
+		ifTrue: [^1 to: 0].
 	source := self source.
-	startPos := self method _sourceOffsetsAt: self stepPoint.
-	startChar := self source at: startPos.	
-	"Space for implicit return at end of method."
-	startChar = $ 
-		ifTrue: [ ^ startPos to: startPos ].	
+	stepPoint := self stepPoint.
+	stepPoint == nil
+		ifTrue: [^1 to: (1 min: source size)].
+	startPos := method _sourceOffsetsAt: stepPoint.
+	startChar := source at: startPos.	
+	"Point at the last character of the source if we are at the end of the method w/o explicit return."
+	startPos > source size
+		ifTrue: [^source size to: source size].
 	"Explicit return"
 	startChar = $^
 		ifTrue: [ ^ startPos to: startPos ].	
@@ -152,6 +159,8 @@ SpkDebuggerFrameTool >> index: object [
 SpkDebuggerFrameTool >> initializeDescription [
 	| meth receiver |
 	meth := self method.
+	meth == nil
+		ifTrue: [^description := '<no method>'].
 	receiver := process _receiverInFrameContents: self frameContents.
 	description := meth _descrForStackPadTo: 0 rcvr: receiver.
 	^ description
@@ -269,9 +278,12 @@ SpkDebuggerFrameTool >> process: aProcess [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> source [
-	"Append a space that can be highlighted when at an implicit return self."
+	"Return the source code of the associated method.
+	If there is no method, empty string."
 
-	^ self method sourceString , ' '
+	^self method
+		ifNil: ['']
+		ifNotNil: [:method | method sourceString]
 ]
 
 { #category : 'accessing' }

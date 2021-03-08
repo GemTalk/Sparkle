@@ -65,7 +65,7 @@ SpkScaffoldingDebugFrameServiceServer >> setCurrentPosition: theProcess level: l
 	frameTool
 		process: theProcess;
 		level: level.
-	currentSourceInterval := frameTool currentSourceInterval.
+	currentSourceInterval := [frameTool currentSourceInterval] on: Error do:[:ex | "currentSourceInterval still not stable" 0 to: 0].
 	startPos := currentSourceInterval first.
 	stopPos := currentSourceInterval last
 ]

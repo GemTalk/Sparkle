@@ -2,17 +2,19 @@ Class {
 	#name : 'SpkInspectorFieldServiceServer',
 	#superclass : 'SpkInspectorFieldService',
 	#instVars : [
-		'tool'
+		'tool',
+		'referencedObject'
 	],
 	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'inspecting' }
 SpkInspectorFieldServiceServer >> createInspectorService [
+
 	| newTool |
-	newTool := (SpkInspectorTool on: tool inspectedObject)
-		explorerTool: tool explorerTool;
-		yourself.
+	newTool := parentService tool newInspectorToolOn:
+		           tool referencedObject.
+
 	^ SpkInspectorServiceServer forTool: newTool
 ]
 
@@ -26,6 +28,33 @@ SpkInspectorFieldServiceServer >> initializeFromTool: aFieldTool [
 { #category : 'initialization' }
 SpkInspectorFieldServiceServer >> refreshFromTool [
 
-	name := tool name.
-	description := tool selfDescription
+	| changed |
+	changed := false.
+
+	columns size = tool numberOfColumns ifFalse: [ 
+		changed := true.
+		columns := Array new: tool numberOfColumns ].
+	tool referencedObject == referencedObject ifFalse: [ 
+		changed := true.
+		referencedObject := tool referencedObject ].
+
+	1 to: columns size do: [ :i | 
+		| toolColumn |
+		toolColumn := tool columnAt: i.
+		toolColumn = (columns at: i) ifFalse: [ 
+			changed := true.
+			columns at: i put: toolColumn ] ].
+	^ changed
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldServiceServer >> tool [
+
+	^tool
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldServiceServer >> tool: anObject [
+
+	tool := anObject
 ]

@@ -41,6 +41,15 @@ SpkTaskspaceTool >> addExplorer: anExplorerTool [
 	self announceNewExplorer: anExplorerTool
 ]
 
+{ #category : 'accessing' }
+SpkTaskspaceTool >> announceExecutionWithUpdatedInspectors: aSet [
+
+	| announcement |
+	announcement := SpkExecutionAnnouncement new.
+	announcement updatedInspectors: aSet.
+	self announcer announce: announcement
+]
+
 { #category : 'announcing' }
 SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
 
@@ -70,6 +79,17 @@ SpkTaskspaceTool >> initializeForDefault [
 	"The default initial taskspace has one default explorer."
 
 	| explorer |
-	explorer := SpkExplorerTool newDefault.
+	explorer := self newExplorerTool
+		            initializeForDefault;
+		            yourself.
+
 	self addExplorer: explorer
+]
+
+{ #category : 'instance creation' }
+SpkTaskspaceTool >> newExplorerTool [
+
+	^ SpkExplorerTool new
+		  taskspaceTool: self;
+		  yourself
 ]

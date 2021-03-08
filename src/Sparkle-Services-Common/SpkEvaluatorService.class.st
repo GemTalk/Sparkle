@@ -11,7 +11,8 @@ Class {
 	#name : 'SpkEvaluatorService',
 	#superclass : 'SpkCodeEditorService',
 	#instVars : [
-		'evaluationContext'
+		'evaluationContext',
+		'updatedInspectors'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -36,5 +37,12 @@ SpkEvaluatorService >> evaluationContext: anObject [
 SpkEvaluatorService >> initialize [
 
 	super initialize.
-	evaluationContext := nil
+	evaluationContext := nil.
+	updatedInspectors := Set new
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorService >> updatedInspectors [
+
+	^ updatedInspectors
 ]

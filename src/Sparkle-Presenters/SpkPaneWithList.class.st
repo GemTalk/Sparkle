@@ -46,14 +46,9 @@ SpkPaneWithList >> initializeListColumns [
 { #category : 'initialization' }
 SpkPaneWithList >> initializeListModel [
 
-	| items |
 	listModel := SpkMultiSelectList new.
-	items := self listItemModels collect: [ :each | 
-		         (SpkMultiSelectListItem for: each)
-			         list: listModel;
-			         yourself ].
+	self refreshListModel.
 	listModel
-		addAll: items;
 		when: SpkItemSelected send: #itemSelected: to: self;
 		when: SpkItemDeselected send: #itemDeselected: to: self
 ]
@@ -93,14 +88,6 @@ SpkPaneWithList >> list [
 	^ list
 ]
 
-{ #category : 'as yet unclassified' }
-SpkPaneWithList >> listItemModels [
-
-	"Answer the collection of services that correspond to my list items."
-
-	self subclassResponsibility
-]
-
 { #category : 'actions' }
 SpkPaneWithList >> openLinkedPane: aPaneService forItem: item [
 
@@ -120,6 +107,14 @@ SpkPaneWithList >> panesLinkedToListItems [
 SpkPaneWithList >> refreshList [
 
 	list refresh
+]
+
+{ #category : 'initialization' }
+SpkPaneWithList >> refreshListModel [
+
+	listModel
+		updateItemQuantity: model listItems size;
+		refreshFrom: model listItems
 ]
 
 { #category : 'updating' }

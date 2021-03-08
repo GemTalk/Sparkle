@@ -108,12 +108,6 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
 ]
 
-{ #category : 'accessing' }
-SpkDebuggerPane >> listItemModels [
-
-	^ model frames reverse
-]
-
 { #category : 'actions' }
 SpkDebuggerPane >> toggleExceptionDescription [
 

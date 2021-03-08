@@ -113,12 +113,6 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
 ]
 
-{ #category : 'as yet unclassified' }
-SpkDebuggerFramePane >> listItemModels [
-
-	^ model localVariables
-]
-
 { #category : 'printing' }
 SpkDebuggerFramePane >> sourceText [
 

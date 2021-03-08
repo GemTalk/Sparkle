@@ -399,24 +399,6 @@ removeallmethods RsrProtoObject
 removeallclassmethods RsrProtoObject
 
 doit
-(RsrProtoObject
-	subclass: 'RsrForwarder'
-	instVarNames: #( _service )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'RemoteServiceReplication-GemStone';
-		immediateInvariant.
-true.
-%
-
-removeallmethods RsrForwarder
-removeallclassmethods RsrForwarder
-
-doit
 (Object
 	subclass: 'Announcement'
 	instVarNames: #(  )
@@ -455,6 +437,61 @@ removeallclassmethods GemToGemAnnouncement
 
 doit
 (Announcement
+	subclass: 'RsrAnnouncement'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Base';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrAnnouncement
+removeallclassmethods RsrAnnouncement
+
+doit
+(RsrAnnouncement
+	subclass: 'RsrConnectionStateAnnouncement'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrConnectionStateAnnouncement
+removeallclassmethods RsrConnectionStateAnnouncement
+
+doit
+(RsrConnectionStateAnnouncement
+	subclass: 'RsrConnectionClosed'
+	instVarNames: #( connection )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		comment: 'This Announcement is used to signal that the specified Connection was closed.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrConnectionClosed
+removeallclassmethods RsrConnectionClosed
+
+doit
+(Announcement
 	subclass: 'SpkContentsChangedAnnouncement'
 	instVarNames: #( newContents )
 	classVars: #(  )
@@ -470,6 +507,25 @@ true.
 
 removeallmethods SpkContentsChangedAnnouncement
 removeallclassmethods SpkContentsChangedAnnouncement
+
+doit
+(Announcement
+	subclass: 'SpkExecutionAnnouncement'
+	instVarNames: #( updatedInspectors )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		comment: 'Execution has occurred. Values in inspectors may have changed.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkExecutionAnnouncement
+removeallclassmethods SpkExecutionAnnouncement
 
 doit
 (Announcement
@@ -575,6 +631,24 @@ removeallclassmethods MessageSend
 
 doit
 (Object
+	subclass: 'RsrForwarder'
+	instVarNames: #( _service )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrForwarder
+removeallclassmethods RsrForwarder
+
+doit
+(Object
 	subclass: 'RsrObject'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -614,7 +688,7 @@ removeallclassmethods RsrAbstractReason
 
 doit
 (RsrAbstractReason
-	subclass: 'RsrConnectionClosed'
+	subclass: 'RsrConnectionClosedBeforeReceivingResponse'
 	instVarNames: #(  )
 	classVars: #(  )
 	classInstVars: #(  )
@@ -627,8 +701,8 @@ doit
 true.
 %
 
-removeallmethods RsrConnectionClosed
-removeallclassmethods RsrConnectionClosed
+removeallmethods RsrConnectionClosedBeforeReceivingResponse
+removeallclassmethods RsrConnectionClosedBeforeReceivingResponse
 
 doit
 (RsrAbstractReason
@@ -883,7 +957,7 @@ removeallclassmethods SpkDebuggerFrameServiceServer
 doit
 (RsrService
 	subclass: 'SpkDebuggerService'
-	instVarNames: #( processName processIdentifier processPriority exceptionDescription frames )
+	instVarNames: #( processName processIdentifier processPriority exceptionDescription frames updatedInspectors )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1062,7 +1136,7 @@ removeallclassmethods SpkInspectorServiceServer
 doit
 (RsrService
 	subclass: 'SpkLinkableSubService'
-	instVarNames: #( parentService linkedService )
+	instVarNames: #( parentService )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1121,7 +1195,7 @@ removeallclassmethods SpkCodeEditorService
 doit
 (SpkCodeEditorService
 	subclass: 'SpkEvaluatorService'
-	instVarNames: #( evaluationContext )
+	instVarNames: #( evaluationContext updatedInspectors )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1200,7 +1274,7 @@ removeallclassmethods SpkDebuggerFrameDescriptionServiceServer
 doit
 (SpkLinkableSubService
 	subclass: 'SpkInspectorFieldService'
-	instVarNames: #( name description )
+	instVarNames: #( columns )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1234,7 +1308,7 @@ removeallclassmethods SpkInspectorFieldService
 doit
 (SpkInspectorFieldService
 	subclass: 'SpkInspectorFieldServiceServer'
-	instVarNames: #( tool )
+	instVarNames: #( tool referencedObject )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1808,7 +1882,7 @@ removeallclassmethods RsrReleaseServices
 doit
 (RsrObject
 	subclass: 'RsrConnection'
-	instVarNames: #( channel transactionSpigot oidSpigot dispatchQueue log registry pendingMessages closeSemaphore specification )
+	instVarNames: #( channel transactionSpigot oidSpigot log registry pendingMessages specification announcer )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1816,11 +1890,13 @@ doit
 	options: #()
 )
 		category: 'RemoteServiceReplication';
-		comment: 'No class-specific documentation for RsrConnection, hierarchy is:
-Object
-  RsrObject
-    RsrConnection( isOpen transactionSpigot commandWriter commandReader registry objectCache socket stream pendingMessages dispatcher oidSpigot serviceFactory log closeSemaphore)
-';
+		comment: 'Connection is the central mediator for RSR. When using the framework, an associated application will hold onto Connection. When terminating or otherwise done with RSR, it will close the Connection to signal this.
+
+Connection offers a limited public interface. The private methods are subject to change and shouldn''t be used by any application.
+
+The Connection can be monitored by subscribing to any of the Announcements defined under ConnectionStateAnnouncement. See #announcer.
+
+The Connection is generally created indirectly via one of the ConnectionSpecification subclasses.';
 		immediateInvariant.
 true.
 %
@@ -1983,32 +2059,6 @@ true.
 
 removeallmethods RsrDateAndTime
 removeallclassmethods RsrDateAndTime
-
-doit
-(RsrObject
-	subclass: 'RsrDispatchQueue'
-	instVarNames: #( queue process isRunning )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'RemoteServiceReplication';
-		comment: 'DispatchQueue
-
-This class serves one purpose -- evaluate actions serially. Certain parts of the framework require this. For instance, Command processing needs to happen in the order it was received. (Note, this is not true of SendMessage commands which should fork the actual message send.)
-
-
-Protections
-
-This class should provide some low-level #on:do:. I don''t yet know what form this should take. I suspect it should coordinate w/ the Connection but I will leave this until I find an example error case.';
-		immediateInvariant.
-true.
-%
-
-removeallmethods RsrDispatchQueue
-removeallclassmethods RsrDispatchQueue
 
 doit
 (RsrObject
@@ -3609,6 +3659,42 @@ removeallclassmethods SpkEvaluatorCancelAction
 
 doit
 (SpkObject
+	subclass: 'SpkProcessManager'
+	instVarNames: #( process taskspaceTool debuggerDebugAction debuggerTool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessManager
+removeallclassmethods SpkProcessManager
+
+doit
+(SpkProcessManager
+	subclass: 'SpkProcessLauncherAndManager'
+	instVarNames: #( explorerTool processPriority processName result resultReady )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessLauncherAndManager
+removeallclassmethods SpkProcessLauncherAndManager
+
+doit
+(SpkObject
 	subclass: 'SpkReflection'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -3659,7 +3745,7 @@ removeallclassmethods SpkSmallStack
 doit
 (SpkObject
 	subclass: 'SpkTool'
-	instVarNames: #( announcer )
+	instVarNames: #( announcer taskspaceTool )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3667,7 +3753,9 @@ doit
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
-		comment: 'General services needed by tool objects.';
+		comment: 'General services needed by tool objects.
+
+Every tool has a reference to the tool for the taskspace that it is part of.';
 		immediateInvariant.
 true.
 %
@@ -3736,7 +3824,7 @@ removeallclassmethods SpkDebuggerFrameTool
 doit
 (SpkTool
 	subclass: 'SpkDebuggerTool'
-	instVarNames: #( explorerTool process exception frames debugActionForContinue )
+	instVarNames: #( explorerTool processManager process exception frames mustInitiate updatedInspectors )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3754,7 +3842,7 @@ removeallclassmethods SpkDebuggerTool
 doit
 (SpkTool
 	subclass: 'SpkEvaluatorTool'
-	instVarNames: #( explorerTool inspectorTool oldSourceCode newSourceCode )
+	instVarNames: #( explorerTool inspectorTool oldSourceCode newSourceCode updatedInspectors )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3790,7 +3878,7 @@ removeallclassmethods SpkExplorerLayoutTool
 doit
 (SpkTool
 	subclass: 'SpkInspectionTool'
-	instVarNames: #( explorerTool inspectedObject )
+	instVarNames: #( explorerTool )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3808,7 +3896,7 @@ removeallclassmethods SpkInspectionTool
 doit
 (SpkInspectionTool
 	subclass: 'SpkInspectorFieldTool'
-	instVarNames: #( name index )
+	instVarNames: #( columns referencedObject )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3816,21 +3904,6 @@ doit
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
-		comment: 'Abstract. 
-I am a tool providing information about and the ability to manipulate one "field" of an object being inspected.
-A field is some bit of information about the object. In the raw view this means an instance variable, named or indexed. In other views it might mean some other piece of information, such as an element of a Set. My subclasses handle the details.
- 
-Internal Representation and Key Implementation Points.
-
-    **Instance Variables**
--	index:					<Integer> One-based index into named instvars, indexed instvars, or other elements depending on subclass.
--	inspectorTool:		<SpkInspectorTool> The inspector tool that I serve, and which refers to the object being inspected.
--	name:		<String>	The name of the field. Indexed instvars are named like the strings ''1'', ''2'', etc.
--	selfDescription:		<String>	The result of sending #printOn: to the value of the field. Empty string if #printOn: is not understood.
--	value:		<Object>	The actual object referred to by this field in the object under inspection.
-
-
-    Implementation Points';
 		immediateInvariant.
 true.
 %
@@ -3841,7 +3914,7 @@ removeallclassmethods SpkInspectorFieldTool
 doit
 (SpkInspectionTool
 	subclass: 'SpkInspectorTool'
-	instVarNames: #( fieldTools evaluatorTools )
+	instVarNames: #( evaluatorTools views currentView inspectedObject )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3849,25 +3922,48 @@ doit
 	options: #()
 )
 		category: 'Sparkle-Tools-Common';
-		comment: 'I inspect a single object.
-I''m the Tool layer counterpart of an inspector pane in the presentation layer.
- 
-Internal Representation and Key Implementation Points.
-
-**Instance Variables**
-- explorerTool	<SpkExplorerTool>	The tool that handles undo/redo for me.
-- fieldTools		<OrderedCollection of SpkInspectorFieldTool>	One per field of the inspected object
-- inspectedObject	<any object>		The actual object being inspected.
-
-    Implementation Points
-- My inspectedObject may be anything, even a subclass of nil that understands no messages at all. I use reflection primitives wherever possible, to avoid sending messages to the inspected object. Operations that require sending a message to the object are only performed if the object understands that message.
-';
 		immediateInvariant.
 true.
 %
 
 removeallmethods SpkInspectorTool
 removeallclassmethods SpkInspectorTool
+
+doit
+(SpkInspectionTool
+	subclass: 'SpkInspectorViewTool'
+	instVarNames: #( numberOfColumns fieldTools inspectedObject )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorViewTool
+removeallclassmethods SpkInspectorViewTool
+
+doit
+(SpkInspectorViewTool
+	subclass: 'SpkInspectorRawViewTool'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorRawViewTool
+removeallclassmethods SpkInspectorRawViewTool
 
 doit
 (SpkTool
@@ -3908,7 +4004,7 @@ removeallclassmethods SpkRuntimeErrorTool
 doit
 (SpkTool
 	subclass: 'SpkTaskspaceLayoutTool'
-	instVarNames: #( explorerLayouts taskspaceTool )
+	instVarNames: #( explorerLayouts )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4548,6 +4644,37 @@ signalNumber
 	^self class signalNumber
 %
 
+! Class implementation for 'RsrConnectionClosed'
+
+!		Class methods for 'RsrConnectionClosed'
+
+category: 'instance creation'
+classmethod: RsrConnectionClosed
+connection: aConnection
+
+	^self new
+		connection: aConnection;
+		yourself
+%
+
+!		Instance methods for 'RsrConnectionClosed'
+
+category: 'accessing'
+method: RsrConnectionClosed
+connection
+	"The Connection that was closed."
+
+	^connection
+%
+
+category: 'accessing'
+method: RsrConnectionClosed
+connection: aConnection
+	"Store the Connection that was closed."
+
+	connection := aConnection
+%
+
 ! Class implementation for 'SpkContentsChangedAnnouncement'
 
 !		Instance methods for 'SpkContentsChangedAnnouncement'
@@ -4562,6 +4689,24 @@ category: 'accessing'
 method: SpkContentsChangedAnnouncement
 newContents: anObject
 	newContents := anObject
+%
+
+! Class implementation for 'SpkExecutionAnnouncement'
+
+!		Instance methods for 'SpkExecutionAnnouncement'
+
+category: 'accessing'
+method: SpkExecutionAnnouncement
+updatedInspectors
+
+	^ updatedInspectors
+%
+
+category: 'accessing'
+method: SpkExecutionAnnouncement
+updatedInspectors: anObject
+
+	updatedInspectors := anObject
 %
 
 ! Class implementation for 'SpkNewExplorerToolAnnouncement'
@@ -5794,6 +5939,12 @@ refreshLocalVariablesFromTool
 				yourself ]
 %
 
+category: 'other'
+method: SpkDebuggerFrameServiceServer
+tool
+	^ tool
+%
+
 ! Class implementation for 'SpkDebuggerService'
 
 !		Class methods for 'SpkDebuggerService'
@@ -5819,6 +5970,14 @@ method: SpkDebuggerService
 frames
 
 	^ frames
+%
+
+category: 'initialize'
+method: SpkDebuggerService
+initialize
+
+	super initialize.
+	updatedInspectors := Set new
 %
 
 category: 'accessing'
@@ -5854,6 +6013,18 @@ forTool: aTool
 
 !		Instance methods for 'SpkDebuggerServiceServer'
 
+category: 'actions'
+method: SpkDebuggerServiceServer
+continue
+
+	| resultTool |
+	resultTool := tool continue.
+	self refreshFromTool.
+	^resultTool == tool
+		ifTrue: [self]
+		ifFalse: [self serviceForTool: resultTool]
+%
+
 category: 'other'
 method: SpkDebuggerServiceServer
 initializeFramesFromTool
@@ -5881,7 +6052,18 @@ refreshFromTool
 	processName := tool processName.
 	processIdentifier := tool processIdentifier.
 	processPriority := tool processPriority.
+	updatedInspectors := tool updatedInspectors.
 	self initializeFramesFromTool
+%
+
+category: 'accessing'
+method: SpkDebuggerServiceServer
+serviceForTool: aTool
+
+	| serviceClass |
+	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
+		                aTool class.
+	^ serviceClass forTool: aTool
 %
 
 ! Class implementation for 'SpkExplorerLayoutService'
@@ -6123,7 +6305,7 @@ serviceClassForToolClass: aToolClass
 
 	^ self serviceClassesForToolTypes
 		  at: aToolClass
-		  ifAbsent: [ self error: 'Unrecognized tool class' ]
+		  ifAbsent: [ self error: 'Unrecognized tool class ' , aToolClass name ]
 %
 
 !		Instance methods for 'SpkExplorerServiceServer'
@@ -6264,32 +6446,74 @@ initializeEvaluatorsFromTool
 
 category: 'initialization'
 method: SpkInspectorServiceServer
-initializeFieldsFromTool
-	fields := tool fieldTools
-		collect: [ :fieldTool | 
-			SpkInspectorFieldServiceServer new
-				parentService: self;
-				initializeFromTool: fieldTool;
-				yourself ]
+initializeFromTool: aTool
+
+	tool := aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #receiveExecutionAnnouncement:
+		to: self.
+	self
+		refreshFromTool;
+		initializeEvaluatorsFromTool
+%
+
+category: 'accessing'
+method: SpkInspectorServiceServer
+receiveExecutionAnnouncement: announcement
+
+	self refreshFromTool ifTrue: [ 
+		announcement updatedInspectors add: self ]
 %
 
 category: 'initialization'
 method: SpkInspectorServiceServer
-initializeFromTool: aTool
+refreshFieldsFromTool
 
-	tool := aTool.
-	self refreshFromTool
+	| changed fieldTools |
+	changed := false.
+	fields size < tool fieldTools size ifTrue: [ 
+		changed := true.
+		fields size + 1 to: tool fieldTools size do: [ :i | 
+			fields add: (SpkInspectorFieldServiceServer new
+					 parentService: self;
+					 tool: (tool fieldTools at: i);
+					 yourself) ] ].
+	fields size > tool fieldTools size ifTrue: [ 
+		changed := true.
+		fields size - tool fieldTools size timesRepeat: [ fields removeLast ] ].
+	fieldTools := tool fieldTools.
+	1 to: fieldTools size do: [ :i | 
+		| fieldTool field newField |
+		fieldTool := fieldTools at: i.
+		field := fields at: i.
+		fieldTool == field tool ifFalse: [ 
+			changed := true.
+			newField := SpkInspectorFieldServiceServer new
+				            parentService: self;
+				            tool: fieldTool;
+				            yourself.
+			fields at: i put: newField.
+			field := newField ].
+		changed := changed | field refreshFromTool ].
+	^ changed
 %
 
 category: 'initialization'
 method: SpkInspectorServiceServer
 refreshFromTool
 
+	| changed |
+	changed := false.
+	oop = tool oop ifFalse: [ changed := true ].
+	classMembershipDescription = tool classMembershipDescription 
+		ifFalse: [ changed := true ].
+	selfDescription = tool selfDescription ifFalse: [ changed := true ].
 	oop := tool oop.
 	classMembershipDescription := tool classMembershipDescription.
 	selfDescription := tool selfDescription.
-	self initializeFieldsFromTool.
-	self initializeEvaluatorsFromTool
+	changed := changed | self refreshFieldsFromTool.
+	^ changed
 %
 
 category: 'accessing'
@@ -6302,27 +6526,6 @@ tool
 ! Class implementation for 'SpkLinkableSubService'
 
 !		Instance methods for 'SpkLinkableSubService'
-
-category: 'accessing'
-method: SpkLinkableSubService
-linkedService
-
-	^ linkedService
-%
-
-category: 'accessing'
-method: SpkLinkableSubService
-linkedService: anObject
-
-	linkedService := anObject
-%
-
-category: 'accessing'
-method: SpkLinkableSubService
-parentService
-
-	^ parentService
-%
 
 category: 'accessing'
 method: SpkLinkableSubService
@@ -6387,7 +6590,15 @@ method: SpkEvaluatorService
 initialize
 
 	super initialize.
-	evaluationContext := nil
+	evaluationContext := nil.
+	updatedInspectors := Set new
+%
+
+category: 'accessing'
+method: SpkEvaluatorService
+updatedInspectors
+
+	^ updatedInspectors
 %
 
 ! Class implementation for 'SpkEvaluatorServiceServer'
@@ -6431,11 +6642,12 @@ initializeTool
 	inspectorTool := parentService tool.
 	tool := SpkEvaluatorTool new.
 	^ tool
-		oldSourceCode: oldSourceCode;
-		newSourceCode: newSourceCode;
-		inspectorTool: inspectorTool;
-		explorerTool: inspectorTool explorerTool;
-		yourself
+		  oldSourceCode: oldSourceCode;
+		  newSourceCode: newSourceCode;
+		  inspectorTool: inspectorTool;
+		  explorerTool: inspectorTool explorerTool;
+		  taskspaceTool: inspectorTool taskspaceTool;
+		  yourself
 %
 
 category: 'initialization'
@@ -6443,7 +6655,9 @@ method: SpkEvaluatorServiceServer
 refreshFromTool
 
 	oldSourceCode := tool oldSourceCode.
-	newSourceCode := tool newSourceCode
+	newSourceCode := tool newSourceCode.
+	updatedInspectors := tool updatedInspectors
+	
 %
 
 category: 'accessing'
@@ -6566,26 +6780,31 @@ templateClassName
 
 category: 'accessing'
 method: SpkInspectorFieldService
-description
-	^ description
+columnAt: anInteger
+
+	^ columns at: anInteger
 %
 
 category: 'accessing'
 method: SpkInspectorFieldService
-description: anObject
-	description := anObject
+columns
+
+	^ columns
 %
 
 category: 'accessing'
 method: SpkInspectorFieldService
-name
-	^ name
+columns: anObject
+
+	columns := anObject
 %
 
-category: 'accessing'
+category: 'initialization'
 method: SpkInspectorFieldService
-name: anObject
-	name := anObject
+initialize
+
+	super initialize.
+	columns := #(  )
 %
 
 ! Class implementation for 'SpkInspectorFieldServiceServer'
@@ -6595,10 +6814,11 @@ name: anObject
 category: 'inspecting'
 method: SpkInspectorFieldServiceServer
 createInspectorService
+
 	| newTool |
-	newTool := (SpkInspectorTool on: tool inspectedObject)
-		explorerTool: tool explorerTool;
-		yourself.
+	newTool := parentService tool newInspectorToolOn:
+		           tool referencedObject.
+
 	^ SpkInspectorServiceServer forTool: newTool
 %
 
@@ -6614,8 +6834,37 @@ category: 'initialization'
 method: SpkInspectorFieldServiceServer
 refreshFromTool
 
-	name := tool name.
-	description := tool selfDescription
+	| changed |
+	changed := false.
+
+	columns size = tool numberOfColumns ifFalse: [ 
+		changed := true.
+		columns := Array new: tool numberOfColumns ].
+	tool referencedObject == referencedObject ifFalse: [ 
+		changed := true.
+		referencedObject := tool referencedObject ].
+
+	1 to: columns size do: [ :i | 
+		| toolColumn |
+		toolColumn := tool columnAt: i.
+		toolColumn = (columns at: i) ifFalse: [ 
+			changed := true.
+			columns at: i put: toolColumn ] ].
+	^ changed
+%
+
+category: 'accessing'
+method: SpkInspectorFieldServiceServer
+tool
+
+	^tool
+%
+
+category: 'accessing'
+method: SpkInspectorFieldServiceServer
+tool: anObject
+
+	tool := anObject
 %
 
 ! Class implementation for 'SpkPaneLayoutService'
@@ -8380,6 +8629,14 @@ oidSpigot: anOidSpigot
 
 !		Instance methods for 'RsrConnection'
 
+category: 'public-accessing'
+method: RsrConnection
+announcer
+	"Returns the announcer used by RSR to announce events."
+
+	^announcer
+%
+
 category: 'private-accessing'
 method: RsrConnection
 channel
@@ -8409,13 +8666,12 @@ close
 
 	| pm temp |
 	channel close.
-	dispatchQueue stop.
 	temp := Dictionary new.
 	pm := pendingMessages.
 	pendingMessages := temp.
-	pm do: [:each | each promise break: RsrConnectionClosed new].
+	pm do: [:each | each promise break: RsrConnectionClosedBeforeReceivingResponse new].
 	registry := RsrThreadSafeDictionary new.
-	closeSemaphore signal
+	announcer announce: (RsrConnectionClosed connection: self)
 %
 
 category: 'private-initialization'
@@ -8426,9 +8682,8 @@ initialize
 	transactionSpigot := RsrThreadSafeNumericSpigot naturals.
 	pendingMessages := RsrThreadSafeDictionary new.
 	registry := RsrThreadSafeDictionary new.
-	dispatchQueue := RsrDispatchQueue new.
 	log := RsrLog new.
-	closeSemaphore := Semaphore new.
+	announcer := Announcer new
 %
 
 category: 'public-testing'
@@ -8449,17 +8704,15 @@ category: 'private-service management'
 method: RsrConnection
 mournActionForClientSID: aSID
 
-	^[dispatchQueue
-		dispatch:
-			[registry removeKey: aSID.
-			self releaseOid: aSID]]
+	^[registry removeKey: aSID.
+			self _releaseSID: aSID]
 %
 
 category: 'private-service management'
 method: RsrConnection
 mournActionForServerSID: aSID
 
-	^[dispatchQueue dispatch: [registry removeKey: aSID]]
+	^[registry removeKey: aSID]
 %
 
 category: 'private-accessing'
@@ -8480,7 +8733,6 @@ category: 'public-lifecycle'
 method: RsrConnection
 open
 
-	dispatchQueue start.
 	channel open
 %
 
@@ -8489,18 +8741,6 @@ method: RsrConnection
 pendingMessages
 
 	^pendingMessages
-%
-
-category: 'private-coordination'
-method: RsrConnection
-releaseOid: anOid
-
-	| command |
-	self isOpen
-		ifFalse: [^self].
-	self log trace: 'Cleaning up OID:', anOid printString.
-	command := RsrReleaseServices sids: (Array with: anOid).
-	self _sendCommand: command
 %
 
 category: 'private-service management'
@@ -8573,9 +8813,13 @@ category: 'public-waiting'
 method: RsrConnection
 waitUntilClose
 
-	closeSemaphore
-		wait;
-		signal
+	| semaphore |
+	semaphore := Semaphore new.
+	announcer
+		when: RsrConnectionClosed
+		send: #signal
+		to: semaphore.
+	semaphore wait
 %
 
 category: 'private-service management'
@@ -8625,6 +8869,18 @@ as: sid
 	registry
 		at: sid
 		put: registryEntry
+%
+
+category: 'private-coordination'
+method: RsrConnection
+_releaseSID: aSID
+
+	| command |
+	self isOpen
+		ifFalse: [^self].
+	self log trace: 'Cleaning up OID:', aSID printString.
+	command := RsrReleaseServices sids: (Array with: aSID).
+	self _sendCommand: command
 %
 
 category: 'private-service management'
@@ -8986,73 +9242,6 @@ connect
 		transactionSpigot: RsrThreadSafeNumericSpigot naturals negated
 		oidSpigot: RsrThreadSafeNumericSpigot naturals negated.
 	^connection open
-%
-
-! Class implementation for 'RsrDispatchQueue'
-
-!		Instance methods for 'RsrDispatchQueue'
-
-category: 'dispatching'
-method: RsrDispatchQueue
-async: aBlock
-	"Evaluate the block asynchronously and do not return a result"
-
-	queue nextPut: aBlock.
-	^nil
-%
-
-category: 'dispatching'
-method: RsrDispatchQueue
-dispatch: aBlock
-
-	^self async: aBlock
-%
-
-category: 'initializing'
-method: RsrDispatchQueue
-initialize
-
-	super initialize.
-	queue := SharedQueue new
-%
-
-category: 'testing'
-method: RsrDispatchQueue
-isRunning
-
-	^isRunning
-%
-
-category: 'running'
-method: RsrDispatchQueue
-runLoop
-
-	[self isRunning]
-		whileTrue:
-			[[queue next value]
-				on: Error
-				do: [:ex | self trace. Transcript show: ex messageText; cr. ex pass]]
-%
-
-category: 'lifecycle'
-method: RsrDispatchQueue
-start
-	"Start processing queued events."
-
-	isRunning := true.
-	process := RsrProcessModel
-		fork: [self runLoop]
-		named: 'DispatchQueue run loop'
-%
-
-category: 'lifecycle'
-method: RsrDispatchQueue
-stop
-	"Stop process events in the dispatch queue."
-
-	isRunning := false.
-	self dispatch: []. "Ensure another action is added to the queue to ensure shutdown if it hasn't yet happened."
-	process := nil
 %
 
 ! Class implementation for 'RsrEnvironment'
@@ -12629,6 +12818,259 @@ undoAction
 	^ nil
 %
 
+! Class implementation for 'SpkProcessManager'
+
+!		Instance methods for 'SpkProcessManager'
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+continueProcess
+	"Non-evaluation process does not wait for an answer."
+
+	self resumeProcess
+%
+
+category: 'accessing'
+method: SpkProcessManager
+debugAction
+
+	^ [ :ex | self debugException: ex ]
+%
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+debugException: anException
+
+	| processToDebug |
+	processToDebug := Processor activeProcess.
+	"Either the process is mine, or it was forked from mine and inherited the debug action and therefore sent me a message"
+	processToDebug == process
+		ifTrue: [ self debugMyProcessWithException: anException ]
+		ifFalse: [ 
+		self debugForeignProcess: processToDebug withException: anException ]
+%
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+debugForeignProcess: processToDebug withException: anException
+
+	"This process is not my problem, create another manager for it
+	and pass the buck."
+
+	SpkProcessManager new
+		process: processToDebug;
+		debugException: anException
+%
+
+category: 'accessing'
+method: SpkProcessManager
+debuggerDebugAction: aBlock
+
+	"This is the debug action block that should handle any errors in the debugger process
+	(which should generally not invoke the same debugger). A typical block is the one
+	that RSR sets to just break the promise with the stack as the reason."
+
+	debuggerDebugAction := aBlock
+%
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+debuggerMustInitiate
+
+	^ true
+%
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+debuggerProcessForException: anException
+	"Answer a new debugger process for a new or existing debugger,
+	debugging process. Start by suspending the process."
+
+	^ [ 
+	process suspend.
+	debuggerTool ifNil: [ self initializeDebuggerTool ].
+	debuggerTool
+		currentException: anException;
+		debug ] newProcess
+%
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+debugMyProcessWithException: anException
+
+	"process is the active process on empty. Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess originalPriority |
+	originalPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessForException: anException.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts processToDebug, and the debuggerProcess takes over."
+			resume.
+	" If I get here, the debugger has decided to proceed my process.
+	Its priority will have been changed if it was running at max priority, set it back before continuing."
+	process priority: originalPriority
+%
+
+category: 'initialization'
+method: SpkProcessManager
+initializeDebuggerTool
+
+	debuggerTool := SpkDebuggerTool new
+		                taskspaceTool: taskspaceTool;
+		                process: process;
+		                processManager: self;
+		                mustInitiate: self debuggerMustInitiate;
+		                yourself
+%
+
+category: 'accessing'
+method: SpkProcessManager
+process: anObject
+
+	process := anObject
+%
+
+category: 'as yet unclassified'
+method: SpkProcessManager
+resumeProcess
+
+	"Debug action might be right already, but simpler to always set it"
+
+	self setDebugAction.
+	process resume
+%
+
+category: 'initialization'
+method: SpkProcessManager
+setDebugAction
+
+	process debugActionBlock: self debugAction
+%
+
+category: 'other'
+method: SpkProcessManager
+setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug
+	"In order to reliably suspend the debugged process, the debugger must run at a higher priority.
+	Normally, just run the debugger one higher, but if that's impossible lower the debugged process priority.
+	It will be restored upon continue (see #evaluateMethod:inContext:)."
+
+	| debuggedPriority |
+	debuggedPriority := processToDebug priority.
+	debuggedPriority = Processor highestPriority
+		ifFalse: [ debuggerProcess priority: debuggedPriority + 1 ]
+		ifTrue: [ 
+			debuggerProcess priority: debuggedPriority.
+			processToDebug priority: debuggedPriority - 1 ]
+%
+
+category: 'accessing'
+method: SpkProcessManager
+taskspaceTool: anObject
+
+	taskspaceTool := anObject
+%
+
+! Class implementation for 'SpkProcessLauncherAndManager'
+
+!		Instance methods for 'SpkProcessLauncherAndManager'
+
+category: 'as yet unclassified'
+method: SpkProcessLauncherAndManager
+continueProcess
+	"Evaluation process waits for an answer and returns it"
+
+	super continueProcess.
+	^ self waitForResult
+%
+
+category: 'as yet unclassified'
+method: SpkProcessLauncherAndManager
+debuggerMustInitiate
+
+	^ false
+%
+
+category: 'accessing'
+method: SpkProcessLauncherAndManager
+explorerTool
+
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkProcessLauncherAndManager
+explorerTool: anExplorerTool
+
+	explorerTool := anExplorerTool
+%
+
+category: 'initialization'
+method: SpkProcessLauncherAndManager
+initialize
+
+	super initialize.
+	resultReady := Semaphore new
+%
+
+category: 'initialization'
+method: SpkProcessLauncherAndManager
+initializeDebuggerTool
+
+	super initializeDebuggerTool.
+	debuggerTool explorerTool: explorerTool
+%
+
+category: 'as yet unclassified'
+method: SpkProcessLauncherAndManager
+processBody: aBlock
+	process := [ self returnValue: aBlock value ] newProcess
+%
+
+category: 'accessing'
+method: SpkProcessLauncherAndManager
+processName: object
+	processName := object
+%
+
+category: 'accessing'
+method: SpkProcessLauncherAndManager
+processPriority: aPriority
+
+	processPriority := aPriority
+%
+
+category: 'other'
+method: SpkProcessLauncherAndManager
+returnValue: anObject
+	result := anObject.
+	resultReady signal
+%
+
+category: 'as yet unclassified'
+method: SpkProcessLauncherAndManager
+runProcess
+	process
+		name: processName;
+		priority: processPriority.
+	self resumeProcess
+%
+
+category: 'as yet unclassified'
+method: SpkProcessLauncherAndManager
+waitForResult
+
+	"Result may be a debugger"
+
+	resultReady wait.
+	^ result
+%
+
 ! Class implementation for 'SpkReflection'
 
 !		Class methods for 'SpkReflection'
@@ -12787,7 +13229,29 @@ category: 'accessing'
 method: SpkTool
 announcer
 
-	^ announcer ifNil: [ announcer := Announcer new ]
+	^ announcer 
+%
+
+category: 'initialization'
+method: SpkTool
+initialize
+
+	super initialize.
+	announcer := Announcer new
+%
+
+category: 'accessing'
+method: SpkTool
+taskspaceTool
+
+	^ taskspaceTool
+%
+
+category: 'accessing'
+method: SpkTool
+taskspaceTool: anObject
+
+	taskspaceTool := anObject
 %
 
 category: 'accessing'
@@ -12917,12 +13381,12 @@ category: 'private'
 method: SpkDebuggerFrameTool
 addArgAndTempToolsForIndex: anIndex to: aCollection
 	| tool |
-	tool := SpkInspectorFieldTool new.
+	tool := self newInspectorFieldTool.
 	aCollection add: tool.
 	tool
-		index: aCollection size;
-		name: (self argAndTempNames at: anIndex);
-		inspectedObject: (self argAndTempValues at: anIndex)
+		referencedObject: (self argAndTempValues at: anIndex);
+		columnAt: 1 put: (self argAndTempNames at: anIndex);
+		columnAt: 2 put: (tool selfDescriptionOf: tool referencedObject)
 %
 
 category: 'private'
@@ -12946,12 +13410,12 @@ category: 'private'
 method: SpkDebuggerFrameTool
 addReceiverToolTo: aCollection
 	| tool |
-	tool := SpkInspectorFieldTool new.
+	tool := self newInspectorFieldTool.
 	aCollection add: tool.
 	tool
-		index: aCollection size;
-		name: 'receiver';
-		inspectedObject: self frameReceiver
+		columnAt: 1 put: 'receiver';
+		columnAt: 2 put: (tool selfDescriptionOf: self frameReceiver);
+		referencedObject: self frameReceiver
 %
 
 category: 'private'
@@ -13159,6 +13623,23 @@ method
 	^ process _methodInFrameContents: self frameContents
 %
 
+category: 'other'
+method: SpkDebuggerFrameTool
+newInspectorFieldTool 
+
+	^ SpkInspectorFieldTool new
+		  taskspaceTool: taskspaceTool;
+		  numberOfColumns: 2;
+		  yourself
+%
+
+category: 'other'
+method: SpkDebuggerFrameTool
+newInspectorToolOn: anObject
+
+	^ explorerTool newInspectorToolOn: anObject
+%
+
 category: 'printing'
 method: SpkDebuggerFrameTool
 printOn: aStream
@@ -13195,13 +13676,30 @@ stepPoint
 
 !		Instance methods for 'SpkDebuggerTool'
 
-category: 'accessing'
+category: 'other'
 method: SpkDebuggerTool
-debugActionForContinue: aBlock
-	"I must restore this block as the debugAction of the debugged process before I let it continue.
-	Typically this is the same block that caused me to be created."
+continue
+	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	debugActionForContinue := aBlock
+	| resultTool | 
+	resultTool := processManager continueProcess.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	^resultTool
+%
+
+category: 'other'
+method: SpkDebuggerTool
+currentException: anException
+	exception ifNil: [ exception := anException ]
+%
+
+category: 'private'
+method: SpkDebuggerTool
+debug
+	mustInitiate
+		ifFalse: [ processManager returnValue: self ]
+		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
 %
 
 category: 'accessing'
@@ -13245,7 +13743,8 @@ explorerTool
 category: 'accessing'
 method: SpkDebuggerTool
 explorerTool: object
-	explorerTool := object
+	explorerTool := object.
+	explorerTool addPane: self
 %
 
 category: 'accessing'
@@ -13266,17 +13765,32 @@ initializeFramesFromProcess
 	| stackDepth |
 	stackDepth := process stackDepth.
 	frames := Array new: process stackDepth.
-	1 to: stackDepth do: [ :level | 
+	1 to: stackDepth do: [:level | 
 		| frame index |
 		index := stackDepth - level + 1.
-		frame := SpkDebuggerFrameTool new.
+		frame := self newDebuggerFrameTool.
 		frame
-			explorerTool: explorerTool;
-			process: process;
 			level: level;
 			index: index.
-		frames at: index put: frame ].
+		frames at: index put: frame].
 	^ frames
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+mustInitiate: object
+	mustInitiate := object
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+newDebuggerFrameTool
+	"Create and initialize a new DebuggerFrameTool instance."
+
+	^SpkDebuggerFrameTool new
+		explorerTool: explorerTool;
+		process: process;
+		yourself
 %
 
 category: 'accessing'
@@ -13295,6 +13809,12 @@ processIdentifier
 
 category: 'accessing'
 method: SpkDebuggerTool
+processManager: object
+	processManager := object
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
 processName
 	^ process name
 %
@@ -13303,6 +13823,14 @@ category: 'accessing'
 method: SpkDebuggerTool
 processPriority
 	^ process priority
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+updatedInspectors
+	"The set of updated Inspector Services that have changed."
+
+	^updatedInspectors
 %
 
 ! Class implementation for 'SpkEvaluatorTool'
@@ -13322,19 +13850,18 @@ accept
 		          newSourceCode: newSourceCode;
 		          yourself.
 	resultTool := explorerTool performAction: action.
-	self flag:
-		'Need to make announcement here. All existing inspectors need to check whether their object changed state.'.
 	^ resultTool
 %
 
 category: 'accessing'
 method: SpkEvaluatorTool
 evaluateCode
+
 	"Evaluate the newSource and answer an appropriate tool for 
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
-	| context method |
+	| context method resultTool |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
@@ -13342,7 +13869,11 @@ evaluateCode
 		do: [ :ex | ^ self toolForCompilationError: ex ].
 
 
-	^ self evaluateMethod: method inContext: context
+	resultTool := self evaluateMethod: method inContext: context.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors:
+		updatedInspectors.
+	^ resultTool
 %
 
 category: 'accessing'
@@ -13357,7 +13888,9 @@ method: SpkEvaluatorTool
 initialize
 
 	super initialize.
-	oldSourceCode := newSourceCode := ''
+
+	updatedInspectors := Set new.
+	newSourceCode := oldSourceCode := ''
 %
 
 category: 'accessing'
@@ -13365,6 +13898,19 @@ method: SpkEvaluatorTool
 inspectorTool: anObject
 
 	inspectorTool := anObject
+%
+
+category: 'accessing'
+method: SpkEvaluatorTool
+newProcessLauncherAndManager
+
+	^SpkProcessLauncherAndManager new
+		taskspaceTool: taskspaceTool;
+		debuggerDebugAction: Processor activeProcess debugActionBlock;
+		processName: 'Evaluation';
+		processPriority: self evaluationPriority;
+		explorerTool: explorerTool;
+		yourself.
 %
 
 category: 'accessing'
@@ -13399,7 +13945,23 @@ category: 'tool creation'
 method: SpkEvaluatorTool
 toolForCompilationError: aCompilationException
 
-	^ SpkCompilationErrorTool forException: aCompilationException
+	^ (SpkCompilationErrorTool forException: aCompilationException)
+		  taskspaceTool: taskspaceTool;
+		  yourself
+%
+
+category: 'accessing'
+method: SpkEvaluatorTool
+updatedInspectors
+
+	^ updatedInspectors
+%
+
+category: 'accessing'
+method: SpkEvaluatorTool
+updatedInspectors: anObject
+
+	updatedInspectors := anObject
 %
 
 ! Class implementation for 'SpkExplorerLayoutTool'
@@ -13505,38 +14067,26 @@ explorerTool: object
 	explorerTool := object
 %
 
-category: 'accessing'
-method: SpkInspectionTool
-inspectedObject
-	^inspectedObject
-%
-
-category: 'accessing'
-method: SpkInspectionTool
-inspectedObject: object
-	inspectedObject := object
-%
-
 category: 'other'
 method: SpkInspectionTool
-selfDescription
+selfDescriptionOf: anObject
 
-        "Answer a string showing how the inspected object describes itself using printOn:.
+	"Answer a string showing how the inspected object describes itself using printOn:.
         Objects that do not understand #printOn: will answer the empty string.
         Limit output size in case of very long or infinitely recursive implementation of #printOn:,
         but set a high limit."
 
-        | stream |
-        stream := SpkLimitedWriteStream on: String new.
-        stream
-                limit: 250000;
-                limitBlock: [ ^ stream contents ].
-        SpkReflection
-                carefullySend: #printOn:
-                withArguments: { stream }
-                to: inspectedObject
-                ifNotUnderstood: [  ].
-        ^ stream contents
+	| stream |
+	stream := SpkLimitedWriteStream on: String new.
+	stream
+		limit: 250000;
+		limitBlock: [ ^ stream contents ].
+	SpkReflection
+		carefullySend: #printOn:
+		withArguments: { stream }
+		to: anObject
+		ifNotUnderstood: [  ].
+	^ stream contents
 %
 
 ! Class implementation for 'SpkInspectorFieldTool'
@@ -13545,58 +14095,70 @@ selfDescription
 
 category: 'accessing'
 method: SpkInspectorFieldTool
-index
+columnAt: anInteger
 
-	^ index
+	^ columns at: anInteger
 %
 
 category: 'accessing'
 method: SpkInspectorFieldTool
-index: anObject
+columnAt: anInteger put: aString
 
-	index := anObject
+	columns at: anInteger put: aString
 %
 
 category: 'accessing'
 method: SpkInspectorFieldTool
-name
+numberOfColumns
 
-	^ name
+	^ columns size
 %
 
 category: 'accessing'
 method: SpkInspectorFieldTool
-name: anObject
+numberOfColumns: anInteger
 
-	name := anObject
+	columns := Array new: anInteger
+%
+
+category: 'accessing'
+method: SpkInspectorFieldTool
+referencedObject
+
+	^ referencedObject
+%
+
+category: 'accessing'
+method: SpkInspectorFieldTool
+referencedObject: anObject
+
+	referencedObject := anObject
 %
 
 ! Class implementation for 'SpkInspectorTool'
 
-!		Class methods for 'SpkInspectorTool'
-
-category: 'instance creation'
-classmethod: SpkInspectorTool
-on: anObject
-
-	^ self new
-		  inspectedObject: anObject;
-		  yourself
-%
-
 !		Instance methods for 'SpkInspectorTool'
 
-category: 'initialization'
+category: 'adding'
 method: SpkInspectorTool
 addEvaluator
 
 	^ evaluatorTools add: (SpkEvaluatorTool new
 			   inspectorTool: self;
 			   explorerTool: explorerTool;
+			   taskspaceTool: taskspaceTool;
 			   yourself)
 %
 
 category: 'accessing'
+method: SpkInspectorTool
+announceUpdate: anAnnouncement
+
+	self refreshFieldTools.
+	self announce: anAnnouncement
+%
+
+category: 'adding'
 method: SpkInspectorTool
 classMembershipDescription
 	"Answer a string description of the object as an instance of its class"
@@ -13614,7 +14176,7 @@ classMembershipDescription
 				ifFalse: [ 'a ' ]) , title ]
 %
 
-category: 'private'
+category: 'adding'
 method: SpkInspectorTool
 classOfInspectedObject
 
@@ -13623,7 +14185,14 @@ classOfInspectedObject
 	^ SpkReflection classOf: inspectedObject
 %
 
-category: 'accessing'
+category: 'as yet unclassified'
+method: SpkInspectorTool
+defaultView
+
+	^ views at: 'default'
+%
+
+category: 'adding'
 method: SpkInspectorTool
 evaluatorTools
 
@@ -13632,74 +14201,78 @@ evaluatorTools
 
 category: 'accessing'
 method: SpkInspectorTool
-fieldTools
+explorerTool
 
-	^ fieldTools ifNil: [ self initializeFieldTools ]
+	^ explorerTool
 %
 
-category: 'initialization'
+category: 'accessing'
+method: SpkInspectorTool
+explorerTool: anObject
+
+	explorerTool := anObject.
+	explorerTool addPane: self
+%
+
+category: 'accessing'
+method: SpkInspectorTool
+fieldTools
+
+	^ currentView fieldTools
+%
+
+category: 'accessing'
 method: SpkInspectorTool
 initialize
 
 	super initialize.
-	evaluatorTools := OrderedCollection new
+	evaluatorTools := OrderedCollection new.
+	views := Dictionary new
 %
 
-category: 'private'
+category: 'accessing'
 method: SpkInspectorTool
-initializeFieldTools
+initializeForDefault
 
-	"Must have set inspectedObject already"
-
-	fieldTools := OrderedCollection new.
-	self
-		initializeNamedInstvars;
-		initializeIndexedInstvars.
-	^ fieldTools
+	self addEvaluator
 %
 
 category: 'initialization'
 method: SpkInspectorTool
-initializeForDefault
+initializeViews
 
-	inspectedObject := nil.
-	self addEvaluator
+	"only raw view, for now"
+
+	| rawView |
+	rawView := SpkInspectorRawViewTool on: inspectedObject.
+	rawView
+		taskspaceTool: taskspaceTool;
+		refreshFieldTools.
+	views
+		at: 'raw' put: rawView;
+		at: 'default' put: rawView.
+	currentView := rawView
 %
 
-category: 'private'
+category: 'accessing'
 method: SpkInspectorTool
-initializeIndexedInstvars
-	| size |
-	size := SpkReflection indexedSizeOf: inspectedObject.
-	1 to: size do: [ :index | 
-		| value fieldTool |
-		value := SpkReflection fetchIndexedInstvarAt: index from: inspectedObject.
-		fieldTool := SpkInspectorFieldTool new.
-		fieldTool
-			inspectedObject: value;
-			explorerTool: explorerTool;
-			index: index;
-			name: index printString.
+inspectedObject
 
-		fieldTools add: fieldTool ]
+	^ inspectedObject
 %
 
-category: 'private'
+category: 'accessing'
 method: SpkInspectorTool
-initializeNamedInstvars
-	| class names |
-	class := self classOfInspectedObject.
-	names := class allInstVarNames.
-	1 to: names size do: [ :index | 
-		| value fieldTool |
-		value := SpkReflection fetchNamedInstvarAt: index from: inspectedObject.
-		fieldTool := SpkInspectorFieldTool new.
-		fieldTool
-			inspectedObject: value;
-			explorerTool: explorerTool;
-			index: index;
-			name: (names at: index).
-		fieldTools add: fieldTool ]
+inspectedObject: anObject
+
+	inspectedObject := anObject
+%
+
+category: 'instance creation'
+method: SpkInspectorTool
+newInspectorToolOn: anObject
+
+	^ explorerTool newInspectorToolOn: anObject
 %
 
 category: 'accessing'
@@ -13709,6 +14282,219 @@ oop
 	"In Pharo, this is the identity hash, or 0 if #identityHash is not understood."
 
 	^ SpkReflection identifierOf: inspectedObject
+%
+
+category: 'accessing'
+method: SpkInspectorTool
+refreshFieldTools
+
+	currentView refreshFieldTools
+%
+
+category: 'accessing'
+method: SpkInspectorTool
+selfDescription
+
+	"Answer a string showing how the inspected object describes itself using printOn:.
+        Objects that do not understand #printOn: will answer the empty string.
+        Limit output size in case of very long or infinitely recursive implementation of #printOn:,
+        but set a high limit."
+
+	^ self selfDescriptionOf: inspectedObject
+%
+
+category: 'accessing'
+method: SpkInspectorTool
+taskspaceTool: aTool
+
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #announceUpdate: 
+		to: self
+%
+
+! Class implementation for 'SpkInspectorViewTool'
+
+!		Class methods for 'SpkInspectorViewTool'
+
+category: 'instance creation'
+classmethod: SpkInspectorViewTool
+on: anObject
+
+	^ self new
+		  inspectedObject: anObject;
+		  yourself
+%
+
+!		Instance methods for 'SpkInspectorViewTool'
+
+category: 'private'
+method: SpkInspectorViewTool
+classOfInspectedObject
+
+	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
+
+	^ SpkReflection classOf: inspectedObject
+%
+
+category: 'accessing'
+method: SpkInspectorViewTool
+fieldTools
+
+	^ fieldTools
+%
+
+category: 'accessing'
+method: SpkInspectorViewTool
+inspectedObject: anObject
+
+	inspectedObject := anObject
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorViewTool
+newFieldTool
+
+	^ SpkInspectorFieldTool new
+		  taskspaceTool: taskspaceTool;
+		  numberOfColumns: numberOfColumns;
+		  yourself
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorViewTool
+numberOfFields
+
+	self subclassResponsibility
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorViewTool
+refreshFieldToolContents
+
+	self subclassResponsibility
+%
+
+category: 'accessing'
+method: SpkInspectorViewTool
+refreshFieldToolQuantity
+
+	| numberOfFieldsInObject numberOfFieldsInView |
+	"Smalltalk garbageCollect."
+	numberOfFieldsInObject := self numberOfFields.
+	numberOfFieldsInView := fieldTools size.
+	numberOfFieldsInObject > numberOfFieldsInView ifTrue: [ 
+		numberOfFieldsInObject - numberOfFieldsInView timesRepeat: [ 
+			fieldTools add: self newFieldTool ] ].
+	numberOfFieldsInObject < numberOfFieldsInView ifTrue: [ 
+		numberOfFieldsInView - numberOfFieldsInObject timesRepeat: [ 
+			fieldTools removeLast ] ]
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorViewTool
+refreshFieldTools
+
+	self
+		refreshFieldToolQuantity;
+		refreshFieldToolContents
+%
+
+! Class implementation for 'SpkInspectorRawViewTool'
+
+!		Instance methods for 'SpkInspectorRawViewTool'
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+indexedSize
+
+	^ SpkReflection indexedSizeOf: inspectedObject
+%
+
+category: 'initialization'
+method: SpkInspectorRawViewTool
+initialize
+
+	super initialize.
+	fieldTools := OrderedCollection new.
+	numberOfColumns := 2 "name and self description"
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+instVarNames
+
+	| class |
+	class := self classOfInspectedObject.
+	^ class allInstVarNames
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+namedSize
+
+	^ self instVarNames size
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+numberOfFields
+
+	^ self namedSize + self indexedSize
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+refreshFieldToolContents
+
+	self
+		refreshNamedFieldTools;
+		refreshIndexedFieldTools
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+refreshIndexedFieldTools
+
+	1 to: self indexedSize do: [ :index | 
+		| fieldTool referencedObject |
+		fieldTool := fieldTools at: index + self namedSize.
+
+		referencedObject := SpkReflection
+			                    fetchIndexedInstvarAt: index
+			                    from: inspectedObject.
+		(fieldTool referencedObject == referencedObject)
+			ifFalse:
+				[fieldTool := self newFieldTool.
+				fieldTools at: index + self namedSize put: fieldTool].
+		fieldTool
+			referencedObject: referencedObject;
+			columnAt: 1 put: index printString;
+			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
+%
+
+category: 'as yet unclassified'
+method: SpkInspectorRawViewTool
+refreshNamedFieldTools
+
+	| names |
+	names := self instVarNames.
+
+	1 to: names size do: [ :index | 
+		| fieldTool referencedObject |
+		fieldTool := fieldTools at: index.
+		referencedObject := SpkReflection
+			                    fetchNamedInstvarAt: index
+			                    from: inspectedObject.
+		(fieldTool referencedObject == referencedObject)
+			ifFalse:
+				[fieldTool := self newFieldTool.
+				fieldTools at: index put: fieldTool].
+		fieldTool
+			referencedObject: referencedObject;
+			columnAt: 1 put: (names at: index);
+			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
 %
 
 ! Class implementation for 'SpkPaneLayoutTool'
@@ -13855,13 +14641,6 @@ initializeForTool: aTaskspaceTool
 			                   yourself ]
 %
 
-category: 'accessing'
-method: SpkTaskspaceLayoutTool
-taskspaceTool
-
-	^ taskspaceTool
-%
-
 ! Class implementation for 'SpkToolWithUndoManager'
 
 !		Instance methods for 'SpkToolWithUndoManager'
@@ -13883,17 +14662,6 @@ performAction: anAction
 
 ! Class implementation for 'SpkExplorerTool'
 
-!		Class methods for 'SpkExplorerTool'
-
-category: 'instance creation'
-classmethod: SpkExplorerTool
-newDefault
-
-	^ self new
-		  initializeForDefault;
-		  yourself
-%
-
 !		Instance methods for 'SpkExplorerTool'
 
 category: 'adding'
@@ -13908,7 +14676,7 @@ method: SpkExplorerTool
 initialize
 
 	super initialize.
-	panes := Set new
+	panes := IdentitySet new
 %
 
 category: 'initialization'
@@ -13918,11 +14686,23 @@ initializeForDefault
 	"A default explorer starts with an inspector pane on nil, with one evaluator"
 
 	| inspector |
-	inspector := SpkInspectorTool new
-		             explorerTool: self;
+	inspector := (self newInspectorToolOn: nil)
 		             initializeForDefault;
 		             yourself.
 	self addPane: inspector
+%
+
+category: 'instance creation'
+method: SpkExplorerTool
+newInspectorToolOn: anObject
+
+	^ SpkInspectorTool new
+		  explorerTool: self;
+		  taskspaceTool: taskspaceTool;
+		  inspectedObject: anObject;
+		  initializeViews;
+		  refreshFieldTools;
+		  yourself
 %
 
 category: 'accessing'
@@ -13953,6 +14733,16 @@ addExplorer: anExplorerTool
 
 	explorerTools add: anExplorerTool.
 	self announceNewExplorer: anExplorerTool
+%
+
+category: 'accessing'
+method: SpkTaskspaceTool
+announceExecutionWithUpdatedInspectors: aSet
+
+	| announcement |
+	announcement := SpkExecutionAnnouncement new.
+	announcement updatedInspectors: aSet.
+	self announcer announce: announcement
 %
 
 category: 'announcing'
@@ -13988,8 +14778,20 @@ initializeForDefault
 	"The default initial taskspace has one default explorer."
 
 	| explorer |
-	explorer := SpkExplorerTool newDefault.
+	explorer := self newExplorerTool
+		            initializeForDefault;
+		            yourself.
+
 	self addExplorer: explorer
+%
+
+category: 'instance creation'
+method: SpkTaskspaceTool
+newExplorerTool
+
+	^ SpkExplorerTool new
+		  taskspaceTool: self;
+		  yourself
 %
 
 ! Class implementation for 'SpkUndoManager'
@@ -14734,73 +15536,22 @@ compileNewSourceCodeInContext: anObject
 category: '*Sparkle-Tools-GemStone'
 method: SpkEvaluatorTool
 evaluateMethod: method inContext: context
-	| completion evaluatorDebugAction evaluationProcess resultTool debugAction |
-	completion := Semaphore new.
-	"Bugs in the debugger handled by evaluatorDebugAction."
-	evaluatorDebugAction := Processor activeProcess debugActionBlock.
-	debugAction := 
-		[ :ex | | debuggerProcess processToDebug originalPriority|
-		processToDebug := Processor activeProcess.
-		originalPriority := processToDebug priority.
-		debuggerProcess := 
-			[ | debuggerTool |
-			"Must suspend before initializing tool, or process state could change without the debugger realizing."
-			processToDebug suspend. 
-			debuggerTool := SpkDebuggerTool new 
-				explorerTool: explorerTool;
-				process: processToDebug;
-				exception: ex;
-				debugActionForContinue: debugAction.
-			processToDebug == evaluationProcess
-				ifTrue: [ resultTool := debuggerTool.
-							completion signal ]
-				ifFalse: [ self error: 'Not yet implemented'	"This error should be handled by RSR's debugAction block."	
-							"debuggerTool announceInTaskspace: NeedToGetATaskspaceInScope" ] ] newProcess.
-		self setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug.
-		debuggerProcess
-			debugActionBlock: evaluatorDebugAction;
-		"This resume preempts processToDebug, and the debuggerProcess takes over."
-			resume.
-		" If I get here, the debugger has decided to proceed processToDebug.
-		Its priority will have been changed if it was running at max priority, set it back before continuing."
-		processToDebug priority: originalPriority  ].
-	evaluationProcess := 
-		[ | resultObject |
-		resultObject := method _executeInContext: context.
-		resultTool := (SpkInspectorTool on: resultObject)
-			explorerTool: explorerTool;
-			yourself.
-		completion signal ] newProcess.
-	evaluationProcess
-		priority: self evaluationPriority;
-		name: 'Evaluation';
-		debugActionBlock: debugAction;
-		breakpointLevel: 1;
-		resume.
-	completion wait.
-	^ resultTool
+	| processBody  |
+	processBody := [ 
+	| resultObject |
+	resultObject := method _executeInContext: context.
+	explorerTool newInspectorToolOn: resultObject ].
+
+	^self newProcessLauncherAndManager
+		processBody: processBody;
+		runProcess;
+		waitForResult
 %
 
 category: '*Sparkle-Tools-GemStone'
 method: SpkEvaluatorTool
 evaluationPriority
 	^ Processor userSchedulingPriority
-%
-
-category: '*Sparkle-Tools-GemStone'
-method: SpkEvaluatorTool
-setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug
-	"In order to reliably suspend the debugged process, the debugger must run at a higher priority.
-	Normally, just run the debugger one higher, but if that's impossible lower the debugged process priority.
-	It will be restored upon continue (see #evaluateMethod:inContext:)."
-
-	| debuggedPriority |
-	debuggedPriority := processToDebug priority.
-	debuggedPriority = Processor highestPriority
-		ifFalse: [ debuggerProcess priority: debuggedPriority + 1 ]
-		ifTrue: [ 
-			debuggerProcess priority: debuggedPriority.
-			processToDebug priority: debuggedPriority - 1 ]
 %
 
 ! Class extensions for 'SpkObject'

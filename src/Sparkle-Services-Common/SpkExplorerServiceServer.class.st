@@ -40,7 +40,7 @@ SpkExplorerServiceServer class >> serviceClassForToolClass: aToolClass [
 
 	^ self serviceClassesForToolTypes
 		  at: aToolClass
-		  ifAbsent: [ self error: 'Unrecognized tool class' ]
+		  ifAbsent: [ self error: 'Unrecognized tool class ' , aToolClass name ]
 ]
 
 { #category : 'accessing' }

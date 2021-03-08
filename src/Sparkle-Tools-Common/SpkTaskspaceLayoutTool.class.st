@@ -2,8 +2,7 @@ Class {
 	#name : 'SpkTaskspaceLayoutTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'explorerLayouts',
-		'taskspaceTool'
+		'explorerLayouts'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -51,10 +50,4 @@ SpkTaskspaceLayoutTool >> initializeForTool: aTaskspaceTool [
 		                   SpkExplorerLayoutTool new
 			                   initializeForTool: each;
 			                   yourself ]
-]
-
-{ #category : 'accessing' }
-SpkTaskspaceLayoutTool >> taskspaceTool [
-
-	^ taskspaceTool
 ]

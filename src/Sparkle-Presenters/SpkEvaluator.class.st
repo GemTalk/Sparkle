@@ -177,3 +177,9 @@ SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnounceme
 		self hasUnsavedChanges:
 			anSpkUnsavedChangesAnnouncement hasUnsavedChanges ]
 ]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluator >> updateInspectors [
+
+	model updateInspectors
+]

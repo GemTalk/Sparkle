@@ -1598,8 +1598,81 @@ removeallclassmethods SpkTestCase
 
 doit
 (SpkTestCase
+	subclass: 'SpkLimitedWriteStreamTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkLimitedWriteStreamTest
+removeallclassmethods SpkLimitedWriteStreamTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkServiceServerTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Tests to test server-side services (and sometimes their underlying tools) on the server, without needing an RSR connection';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkServiceServerTest
+removeallclassmethods SpkServiceServerTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkSmallStackTest'
+	instVarNames: #( stack )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkSmallStackTest
+removeallclassmethods SpkSmallStackTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkToolTest'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkToolTest
+removeallclassmethods SpkToolTest
+
+doit
+(SpkToolTest
 	subclass: 'SpkEvaluationTest'
-	instVarNames: #( inspectorTool evaluatorTool )
+	instVarNames: #( inspectorTool evaluatorTool taskspaceTool explorerTool )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1669,9 +1742,9 @@ removeallmethods SpkEvaluatorToolTest
 removeallclassmethods SpkEvaluatorToolTest
 
 doit
-(SpkTestCase
+(SpkToolTest
 	subclass: 'SpkInspectorToolTest'
-	instVarNames: #( tool )
+	instVarNames: #(  )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1685,61 +1758,6 @@ true.
 
 removeallmethods SpkInspectorToolTest
 removeallclassmethods SpkInspectorToolTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkLimitedWriteStreamTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkLimitedWriteStreamTest
-removeallclassmethods SpkLimitedWriteStreamTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkServiceServerTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		comment: 'Tests to test server-side services (and sometimes their underlying tools) on the server, without needing an RSR connection';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkServiceServerTest
-removeallclassmethods SpkServiceServerTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkSmallStackTest'
-	instVarNames: #( stack )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkSmallStackTest
-removeallclassmethods SpkSmallStackTest
 
 doit
 (SpkTestCase
@@ -2454,14 +2472,14 @@ category: 'evaluating'
 method: RsrRemoteActionClient
 asyncValue
 
-	^remoteSelf value
+	^remoteSelf evaluateAction
 %
 
 category: 'evaluating'
 method: RsrRemoteActionClient
 asyncValue: anObject
 
-	^remoteSelf value: anObject
+	^remoteSelf evaluateAction: anObject
 %
 
 category: 'evaluating'
@@ -2522,6 +2540,20 @@ debugHandler: aBlock
 	debugHandler := aBlock
 %
 
+category: 'evaluating'
+method: RsrRemoteActionServer
+evaluateAction
+
+	^self action value
+%
+
+category: 'evaluating'
+method: RsrRemoteActionServer
+evaluateAction: anObject
+
+	^self action value: anObject
+%
+
 category: 'processing'
 method: RsrRemoteActionServer
 postUpdate
@@ -2562,27 +2594,6 @@ method: RsrRemoteActionServer
 preUpdateHandler: aBlock
 
 	preUpdateHandler := aBlock
-%
-
-category: 'evaluating'
-method: RsrRemoteActionServer
-value
-
-	^self action value
-%
-
-category: 'evaluating'
-method: RsrRemoteActionServer
-value: anObject
-
-	^self action value: anObject
-%
-
-category: 'evaluating'
-method: RsrRemoteActionServer
-valueWithArguments: anArray
-
-	^self action valueWithArguments: anArray
 %
 
 ! Class implementation for 'RsrReturnUnknownService'
@@ -5983,7 +5994,7 @@ testCloseConnectionDuringMessageSend
 	reason := self expectCatch: promise.
 	self
 		assert: reason class
-		equals: RsrConnectionClosed
+		equals: RsrConnectionClosedBeforeReceivingResponse
 %
 
 category: 'running-errors'
@@ -6345,7 +6356,7 @@ testReturnArgument
 	arguments
 		do:
 			[:each | | result |
-			result := server value: each.
+			result := server evaluateAction: each.
 			self
 				assert: result
 				equals: each].
@@ -6353,7 +6364,7 @@ testReturnArgument
 		assert: (client value: arguments)
 		equals: arguments.
 	self
-		assert: (server value: arguments)
+		assert: (server evaluateAction: arguments)
 		equals: arguments.
 	self
 		assert: (client value: client)
@@ -7437,349 +7448,6 @@ identicalTo: bObject
 	self assert: anObject == bObject
 %
 
-! Class implementation for 'SpkEvaluationTest'
-
-!		Instance methods for 'SpkEvaluationTest'
-
-category: 'other'
-method: SpkEvaluationTest
-setUp
-	super setUp.
-	inspectorTool := SpkInspectorTool on: nil.
-	evaluatorTool := SpkEvaluatorTool new
-		inspectorTool: inspectorTool;
-		yourself
-%
-
-! Class implementation for 'SpkDebuggerServiceTest'
-
-!		Instance methods for 'SpkDebuggerServiceTest'
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testCurrentSourceIntervalForPrimitive
-	| frames frameDesc frame |
-	self zork3.
-	frames := debuggerService frames.
-	frameDesc := frames first.
-	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
-	frame := frameDesc createFrameService.
-	self
-		assert: frame class equals: SpkDebuggerFrameServiceServer;
-		assert: frame currentStartPosition > 100;
-		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testExceptionDescription
-	"Can we make a tree of services out of a DebuggerTool?"
-
-	self zork3.
-	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessFrameNumbering
-	| frames |
-	self zork3.
-	frames := debuggerService frames.
-	self assert: frames first index equals: 1
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessFrameQuantity
-	| frames |
-	self zork3.
-	frames := debuggerService frames.
-	self
-		assert: (frames isKindOf: SequenceableCollection);
-		assert: (frames size between: 10 and: 20)
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessIdentifier
-	| id |
-	self zork3.
-	id := debuggerService processIdentifier.
-	self
-		assert: id class equals: SmallInteger;
-		assert: (id bitAnd: 16rFF) equals: 1
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessName
-	"Can we make a tree of services out of a DebuggerTool?"
-
-	self zork3.
-	self assert: debuggerService processName equals: 'Evaluation'
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessPriority
-	| prio |
-	self zork3.
-	prio := debuggerService processPriority.
-	self
-		assert: prio class equals: SmallInteger;
-		assert: prio equals: 15
-%
-
-category: 'support'
-method: SpkDebuggerServiceTest
-zork3
-	| debuggerTool |
-	evaluatorTool newSourceCode: '3 zork'.
-	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
-%
-
-! Class implementation for 'SpkDebuggerToolTest'
-
-!		Instance methods for 'SpkDebuggerToolTest'
-
-category: 'other'
-method: SpkDebuggerToolTest
-testCurrentSourceIntervalForPrimitive
-	"Do we get a reasonable source code interval for a primitive method?"
-
-	| debugger frameTool interval|
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	frameTool := debugger frames at: 1.
-	interval := frameTool currentSourceInterval.
-	self 
-		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC';
-		assert: frameTool stepPoint equals: 1;
-		assert: interval class equals: Interval;
-		assert: interval begin > 100;
-		assert: interval size equals: 4
-%
-
-category: 'other'
-method: SpkDebuggerToolTest
-testFrameDescription
-	"Is a frame's description reasonable?"
-
-	| debugger doitFrames |
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-
-	doitFrames := debugger frames
-		select: [ :frame | 
-			self assert: frame class equals: SpkDebuggerFrameTool.
-			frame description = 'Executed Code ' ].
-	self
-		assert: doitFrames size equals: 1;
-		assert: doitFrames first index equals: 6
-%
-
-category: 'other'
-method: SpkDebuggerToolTest
-testFrameIndex
-	"Are frames indexed from the bottom of the stack?"
-
-	| debugger frameTool |
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	frameTool := debugger frames at: 1.
-	self
-		assert: frameTool class equals: SpkDebuggerFrameTool;
-		assert: frameTool index equals: 1;
-		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
-%
-
-category: 'other'
-method: SpkDebuggerToolTest
-testNumberOfFrames
-	"Can the debugger get frames from the process?"
-
-	| debugger |
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	self assert: debugger frames size > 6
-%
-
-! Class implementation for 'SpkEvaluatorToolTest'
-
-!		Instance methods for 'SpkEvaluatorToolTest'
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testEvaluationReferencingInstvar
-	| result |
-	inspectorTool inspectedObject: #'foo' -> 'bar'.
-	evaluatorTool newSourceCode: 'value , ''n'''.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkInspectorTool.
-	self assert: result inspectedObject equals: 'barn'
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testEvaluationUsingSelf
-	| result |
-	inspectorTool inspectedObject: 7.
-	evaluatorTool newSourceCode: 'self - 4'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkInspectorTool.
-	self assert: result inspectedObject equals: 3
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testRuntimeError
-	| result |
-	evaluatorTool newSourceCode: '3 zork'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkDebuggerTool
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testSimpleEvaluation
-	| result |
-	evaluatorTool newSourceCode: '3 + 4'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkInspectorTool.
-	self assert: result inspectedObject equals: 7
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testSyntaxError
-	| result |
-	evaluatorTool newSourceCode: '(self class'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkCompilationErrorTool.
-	self assert: result errorLocation equals: 12.
-	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0
-%
-
-! Class implementation for 'SpkInspectorToolTest'
-
-!		Instance methods for 'SpkInspectorToolTest'
-
-category: 'tests'
-method: SpkInspectorToolTest
-testClassMembershipDescription
-
-	tool := SpkInspectorTool on: nil.
-	self
-		assert: tool classMembershipDescription
-		equals: 'an UndefinedObject'.
-
-	tool := SpkInspectorTool on: nil class.
-	self
-		assert: tool classMembershipDescription
-		equals: 'UndefinedObject'.
-
-	tool := SpkInspectorTool on: 42.
-	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
-
-	tool := SpkInspectorTool on: 'Hi!'.
-	self assert: tool classMembershipDescription equals: 'a ' , '' class name asString.
-
-	tool := SpkInspectorTool on: Object new.
-	self assert: tool classMembershipDescription equals: 'an Object'.
-
-	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
-	self
-		assert: tool classMembershipDescription
-		equals: 'a SpkTestSubclassOfNil'
-%
-
-category: 'tests'
-method: SpkInspectorToolTest
-testFieldToolsSize
-
-	"Here, just testing that we get the right number of FieldTools back."
-
-	tool := SpkInspectorTool on: nil.
-	self assert: tool fieldTools size equals: 0.
-
-	tool := SpkInspectorTool on: nil class.
-	self assert: tool fieldTools size equals: 19.
-
-	tool := SpkInspectorTool on: 42.
-	self assert: tool fieldTools size equals: 0.
-
-	tool := SpkInspectorTool on: 'Hi!'.
-	self assert: tool fieldTools size equals: 3.
-
-	tool := SpkInspectorTool on: Object new.
-	self assert: tool fieldTools size equals: 0.
-
-	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
-	self assert: tool fieldTools size equals: 2.
-
-	tool := SpkInspectorTool on: SpkTestClassWithInfinitePrintOn new.
-	self assert: tool fieldTools size equals: 0.
-
-	"ZeroDivide has both inherited and declared named instvars"
-	tool := SpkInspectorTool on: ZeroDivide new.
-	self assert: tool fieldTools size equals: 11.
-
-	"Class with both named and indexed instvars."
-	tool := SpkInspectorTool on:
-		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
-	self assert: tool fieldTools size equals: 8
-%
-
-category: 'tests'
-method: SpkInspectorToolTest
-testOop
-	| object |
-	tool := SpkInspectorTool on: nil.
-	self assert: tool oop equals: 16r14.
-	tool := SpkInspectorTool on: 42.
-	self assert: tool oop equals: 42 * 8 + 2.
-	object := Object new.
-	tool := SpkInspectorTool on: object.
-	self assert: tool oop equals: object asOop.
-	object := SpkTestSubclassOfNil basicNew.
-	tool := SpkInspectorTool on: object.
-	self assert: tool oop equals: (Reflection oopOf: object)
-%
-
-category: 'tests'
-method: SpkInspectorToolTest
-testSelfDescription
-
-	| description |
-	tool := SpkInspectorTool on: nil.
-	self assert: tool selfDescription equals: 'nil'.
-
-	tool := SpkInspectorTool on: nil class.
-	self assert: tool selfDescription equals: 'UndefinedObject'.
-
-	tool := SpkInspectorTool on: 42.
-	self assert: tool selfDescription equals: '42'.
-
-	tool := SpkInspectorTool on: 'Hi!'.
-	self assert: tool selfDescription equals: '''Hi!'''.
-
-	tool := SpkInspectorTool on: Object new.
-	self assert: tool selfDescription equals: 'anObject'.
-
-	tool := SpkInspectorTool on: SpkTestSubclassOfNil basicNew.
-	self assert: tool selfDescription equals: ''.
-
-	tool := SpkInspectorTool on: SpkTestClassWithInfinitePrintOn new.
-	description := tool selfDescription.
-	self
-		assert: description size equals: 250000;
-		assert: (description beginsWith: 'done yet? done yet? ');
-		assert: (description endsWith: 'done yet? done yet? ')
-%
-
 ! Class implementation for 'SpkLimitedWriteStreamTest'
 
 !		Instance methods for 'SpkLimitedWriteStreamTest'
@@ -8152,6 +7820,417 @@ testStackLimit
 	self assert: stack pop equals: 'third'.
 	self assert: stack pop equals: 'second'.
 	self assert: stack isEmpty
+%
+
+! Class implementation for 'SpkToolTest'
+
+!		Instance methods for 'SpkToolTest'
+
+category: 'running'
+method: SpkToolTest
+newInspectorToolOn: anObject
+
+	| taskspaceTool explorerTool |
+	taskspaceTool := SpkTaskspaceTool new.
+	explorerTool := taskspaceTool newExplorerTool.
+	^ tool := SpkInspectorTool new
+		          inspectedObject: anObject;
+		          taskspaceTool: taskspaceTool;
+		          initializeViews;
+		          explorerTool: explorerTool;
+		          yourself
+%
+
+! Class implementation for 'SpkEvaluationTest'
+
+!		Instance methods for 'SpkEvaluationTest'
+
+category: 'other'
+method: SpkEvaluationTest
+newInspectorToolOn: anObject
+	taskspaceTool := SpkTaskspaceTool new.
+	explorerTool := taskspaceTool newExplorerTool.
+	^ tool := explorerTool newInspectorToolOn: anObject
+%
+
+category: 'other'
+method: SpkEvaluationTest
+setUp
+	super setUp.
+	inspectorTool := self newInspectorToolOn: nil.
+	evaluatorTool := inspectorTool addEvaluator
+%
+
+! Class implementation for 'SpkDebuggerServiceTest'
+
+!		Instance methods for 'SpkDebuggerServiceTest'
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testCurrentSourceIntervalForPrimitive
+	| frames frameDesc frame |
+	self zork3.
+	frames := debuggerService frames.
+	frameDesc := frames first.
+	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
+	frame := frameDesc createFrameService.
+	self
+		assert: frame class equals: SpkDebuggerFrameServiceServer;
+		assert: frame currentStartPosition > 100;
+		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testExceptionDescription
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessFrameNumbering
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self assert: frames first index equals: 1
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessFrameQuantity
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self
+		assert: (frames isKindOf: SequenceableCollection);
+		assert: (frames size between: 10 and: 20)
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessIdentifier
+	| id |
+	self zork3.
+	id := debuggerService processIdentifier.
+	self
+		assert: id class equals: SmallInteger;
+		assert: (id bitAnd: 16rFF) equals: 1
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessName
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService processName equals: 'Evaluation'
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessPriority
+	| prio |
+	self zork3.
+	prio := debuggerService processPriority.
+	self
+		assert: prio class equals: SmallInteger;
+		assert: prio equals: 15
+%
+
+category: 'support'
+method: SpkDebuggerServiceTest
+zork3
+	| debuggerTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debuggerTool := evaluatorTool evaluateCode.
+	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+%
+
+! Class implementation for 'SpkDebuggerToolTest'
+
+!		Instance methods for 'SpkDebuggerToolTest'
+
+category: 'support'
+method: SpkDebuggerToolTest
+executedCodeFrameInDebugger: debugger
+	| doitFrames |
+	self assert: debugger class equals: SpkDebuggerTool.
+
+	doitFrames := debugger frames
+		select: [ :frame | 
+			self assert: frame class equals: SpkDebuggerFrameTool.
+			frame description = 'Executed Code ' ].
+	self assert: doitFrames size equals: 1.
+	^ doitFrames first
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testContinueOnce
+	"Get a debugger, continue, get an inspector"
+
+	| debugger inspector |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	inspector := debugger continue.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 7
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testContinueTwice
+	"Get a debugger, continue, get the same debugger, continue, get inspector"
+
+	| debugger1 debugger2 inspector frame |
+	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	self assert: frame currentSourceInterval equals: (4 to: 8).
+	debugger2 := debugger1 continue.
+	self assert: debugger1 == debugger2.
+	self assert: frame currentSourceInterval equals: (15 to: 19).
+	inspector := debugger2 continue.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 12
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testCurrentSourceIntervalForPrimitive
+	"Do we get a reasonable source code interval for a primitive method?"
+
+	| debugger frameTool interval|
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	interval := frameTool currentSourceInterval.
+	self 
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC';
+		assert: frameTool stepPoint equals: 1;
+		assert: interval class equals: Interval;
+		assert: interval begin > 100;
+		assert: interval size equals: 4
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testFrameDescription
+	"Is a frame's description reasonable?"
+
+	| debugger frame |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+
+	frame := self executedCodeFrameInDebugger: debugger.
+	self assert: frame index equals: 7
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testFrameIndex
+	"Are frames indexed from the bottom of the stack?"
+
+	| debugger frameTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	self
+		assert: frameTool class equals: SpkDebuggerFrameTool;
+		assert: frameTool index equals: 1;
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testNumberOfFrames
+	"Can the debugger get frames from the process?"
+
+	| debugger |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	self assert: debugger frames size > 6
+%
+
+! Class implementation for 'SpkEvaluatorToolTest'
+
+!		Instance methods for 'SpkEvaluatorToolTest'
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testEvaluationReferencingInstvar
+	| result |
+	inspectorTool inspectedObject: #'foo' -> 'bar'.
+	evaluatorTool newSourceCode: 'value , ''n'''.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 'barn'
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testEvaluationUsingSelf
+	| result |
+	inspectorTool inspectedObject: 7.
+	evaluatorTool newSourceCode: 'self - 4'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 3
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testRuntimeError
+	| result |
+	evaluatorTool newSourceCode: '3 zork'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkDebuggerTool
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testSimpleEvaluation
+	| result |
+	evaluatorTool newSourceCode: '3 + 4'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 7
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testSyntaxError
+	| result |
+	evaluatorTool newSourceCode: '(self class'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkCompilationErrorTool.
+	self assert: result errorLocation equals: 12.
+	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0
+%
+
+! Class implementation for 'SpkInspectorToolTest'
+
+!		Instance methods for 'SpkInspectorToolTest'
+
+category: 'tests'
+method: SpkInspectorToolTest
+testClassMembershipDescription
+
+	self newInspectorToolOn: nil.
+	self
+		assert: tool classMembershipDescription
+		equals: 'an UndefinedObject'.
+
+	self newInspectorToolOn: nil class.
+	self
+		assert: tool classMembershipDescription
+		equals: 'UndefinedObject'.
+
+	self newInspectorToolOn: 42.
+	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
+
+	self newInspectorToolOn: 'Hi!'.
+	self assert: tool classMembershipDescription equals: 'a ' , '' class name asString.
+
+	self newInspectorToolOn: Object new.
+	self assert: tool classMembershipDescription equals: 'an Object'.
+
+	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
+	self
+		assert: tool classMembershipDescription
+		equals: 'a SpkTestSubclassOfNil'
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testFieldToolsSize
+
+	"Here, just testing that we get the right number of FieldTools back."
+
+	self newInspectorToolOn: nil.
+	self assert: tool fieldTools size equals: 0.
+
+	self newInspectorToolOn: nil class.
+	self assert: tool fieldTools size equals: 19.
+
+	self newInspectorToolOn: 42.
+	self assert: tool fieldTools size equals: 0.
+
+	self newInspectorToolOn: 'Hi!'.
+	self assert: tool fieldTools size equals: 3.
+
+	self newInspectorToolOn: Object new.
+	self assert: tool fieldTools size equals: 0.
+
+	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
+	self assert: tool fieldTools size equals: 2.
+
+	self newInspectorToolOn: SpkTestClassWithInfinitePrintOn new.
+	self assert: tool fieldTools size equals: 0.
+
+	"ZeroDivide has both inherited and declared named instvars"
+	self newInspectorToolOn: ZeroDivide new.
+	self assert: tool fieldTools size equals: 11.
+
+	"Class with both named and indexed instvars."
+	self newInspectorToolOn:
+		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
+	self assert: tool fieldTools size equals: 8
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testOop
+	| object |
+	self newInspectorToolOn: nil.
+	self assert: tool oop equals: 16r14.
+	self newInspectorToolOn: 42.
+	self assert: tool oop equals: 42 * 8 + 2.
+	object := Object new.
+	self newInspectorToolOn: object.
+	self assert: tool oop equals: object asOop.
+	object := SpkTestSubclassOfNil basicNew.
+	self newInspectorToolOn: object.
+	self assert: tool oop equals: (Reflection oopOf: object)
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testSelfDescription
+
+	| description |
+	self newInspectorToolOn: nil.
+	self assert: tool selfDescription equals: 'nil'.
+
+	self newInspectorToolOn: nil class.
+	self assert: tool selfDescription equals: 'UndefinedObject'.
+
+	self newInspectorToolOn: 42.
+	self assert: tool selfDescription equals: '42'.
+
+	self newInspectorToolOn: 'Hi!'.
+	self assert: tool selfDescription equals: '''Hi!'''.
+
+	self newInspectorToolOn: Object new.
+	self assert: tool selfDescription equals: 'anObject'.
+
+	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
+	self assert: tool selfDescription equals: ''.
+
+	self newInspectorToolOn: SpkTestClassWithInfinitePrintOn new.
+	description := tool selfDescription.
+	self
+		assert: description size equals: 250000;
+		assert: (description beginsWith: 'done yet? done yet? ');
+		assert: (description endsWith: 'done yet? done yet? ')
 %
 
 ! Class implementation for 'SpkUndoManagerTest'

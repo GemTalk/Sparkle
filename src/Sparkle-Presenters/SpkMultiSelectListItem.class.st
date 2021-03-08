@@ -33,10 +33,10 @@ Class {
 
 { #category : 'instance creation' }
 SpkMultiSelectListItem class >> for: aModel [
-
+self halt.
 	^ self new
 		  model: aModel;
-		  yourself
+		  yourself 
 ]
 
 { #category : 'events' }
@@ -46,6 +46,12 @@ SpkMultiSelectListItem >> closingLinkedPane: aPane [
 		self error: 'Only my linked pane should notify me when closing.' ].
 	self clearLinkedPane.
 	list deselectItem: self
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectListItem >> columnAt: anInteger [
+
+	^ model columnAt: anInteger
 ]
 
 { #category : 'accessing' }

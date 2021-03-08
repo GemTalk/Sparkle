@@ -17,6 +17,20 @@ SpkDebuggerToolTest >> executedCodeFrameInDebugger: debugger [
 	^ doitFrames first
 ]
 
+{ #category : 'other' }
+SpkDebuggerToolTest >> testBreakpoint01 [
+	| method debugger |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	method setBreakAtStepPoint: 3 breakpointLevel: 1.
+	self deny: GsProcess usingNativeCode.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	self halt ]
+		ensure: [ method clearAllBreaks ]
+]
+
 { #category : 'tests' }
 SpkDebuggerToolTest >> testContinueOnce [
 	"Get a debugger, continue, get an inspector"

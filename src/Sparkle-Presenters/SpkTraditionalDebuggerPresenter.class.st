@@ -6,7 +6,8 @@ Class {
 		'processService',
 		'sourceCode',
 		'debuggerService',
-		'toolbar'
+		'toolbar',
+		'variableList'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -21,7 +22,7 @@ SpkTraditionalDebuggerPresenter >> closeWindow [
 SpkTraditionalDebuggerPresenter >> connectPresenters [
 
 	super connectPresenters.
-	frameList whenSelectionChangedDo: [ :selection | self displaySource ]
+	frameList whenSelectionChangedDo: [ :selection | self displayFrameDetails ]
 ]
 
 { #category : 'accessing' }
@@ -37,11 +38,27 @@ SpkTraditionalDebuggerPresenter >> debuggerService: anObject [
 ]
 
 { #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> displayFrameDetails [
+
+	self displaySource.
+	self displayVariables. 
+]
+
+{ #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> displaySource [
 
 	^ frameList selection selectedItem ifNotNil: [ :frame | 
 		  sourceCode text: frame value methodService source.
 		  self showSourcePositionIn: frame ]
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> displayVariables [
+
+	frameList selection selectedItem ifNotNil: [ :frame | 
+		variableList items:
+			(frame value variableMap associations asSortedCollection: [ :x :y | 
+				 x key < y key ]) ]
 ]
 
 { #category : 'constants' }
@@ -128,6 +145,8 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	self initializeFrameListLayout.
 	self initializeDebuggerToolbar. 
 	self initializeSourceCodeLayout.
+	self initializeVariablePaneLabel. 
+	self initializeVariablePane.
 ]
 
 { #category : 'initialization' }
@@ -145,13 +164,33 @@ SpkTraditionalDebuggerPresenter >> initializeStackLabel [
 ]
 
 { #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializeVariablePane [
+
+	self layout add: (variableList := self newTable beSingleSelection
+			              addColumn: (SpImageTableColumn new
+					               width: 150;
+					               evaluated: [ :assoc | assoc key asString ]);
+			              addColumn:
+			              (SpImageTableColumn new evaluated: [ :assoc | 
+				               assoc value]))
+]
+
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializeVariablePaneLabel [
+
+	self layout
+		add: (self newLabel label: 'Variables')
+		withConstraints: [ :constraints | constraints height: 25 ]
+]
+
+{ #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Traditional Debugger';
 		borderColor: Color purple;
 		borderWidth: 3;
-		initialExtent: 750 @ 700;
+		initialExtent: 750 @ 1000;
 		whenClosedDo: [ self terminate ]
 ]
 
@@ -193,13 +232,11 @@ SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
 
 { #category : 'private' }
 SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
-	Transcript cr; show: 'startPos:'; show: frame value startPos printString.
-	Transcript cr; show: 'stopPos:'; show: frame value stopPos printString.
-	Transcript flush. 
-	^ sourceCode 
+
+	^ sourceCode
 		  removeAllTextSegmentDecorations;
 		  addTextSegmentDecoration: (SpTextPresenterDecorator new
-				   highlightColor: (Color orange alpha: 0.5); 
+				   highlightColor: (Color orange alpha: 0.5);
 				   underlineColor: Color transparent;
 				   interval: (frame value startPos to: frame value stopPos + 1);
 				   yourself)

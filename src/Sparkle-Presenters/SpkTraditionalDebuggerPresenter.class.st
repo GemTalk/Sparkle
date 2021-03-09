@@ -56,9 +56,14 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 SpkTraditionalDebuggerPresenter >> displayVariables [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
+		| varArray |
+		varArray := frame value variableMap associations collect: [ :assoc | 
+			            OrderedCollection
+				            with: assoc key
+				            with: (frame value variableOopMap at: assoc key)
+				            with: assoc value ].
 		variableList items:
-			(frame value variableMap associations asSortedCollection: [ :x :y | 
-				 x key < y key ]) ]
+			(varArray asSortedCollection: [ :x :y | x first < y first ]) ]
 ]
 
 { #category : 'constants' }
@@ -168,12 +173,19 @@ SpkTraditionalDebuggerPresenter >> initializeStackLabel [
 SpkTraditionalDebuggerPresenter >> initializeVariablePane [
 
 	self layout add: (variableList := self newTable beSingleSelection
-			              addColumn: (SpImageTableColumn new
-					               width: 150;
-					               evaluated: [ :assoc | assoc key asString ]);
-			              addColumn:
-			              (SpImageTableColumn new evaluated: [ :assoc | 
-				               assoc value]))
+			                 addColumn: (SpImageTableColumn new
+					                  width: 150;
+					                  title: 'Name';
+					                  evaluated: [ :varArray | 
+						                  varArray first asString ]);
+			                 addColumn: (SpImageTableColumn new
+					                  width: 100;
+					                  title: 'Oop';
+					                  evaluated: [ :varArray | 
+						                  varArray second asString ]);
+			                 addColumn: (SpImageTableColumn new
+					                  title: 'Value';
+					                  evaluated: [ :varArray | varArray last ]))
 ]
 
 { #category : 'initialization' }

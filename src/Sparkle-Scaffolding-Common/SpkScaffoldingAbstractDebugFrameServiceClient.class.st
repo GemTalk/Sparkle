@@ -28,3 +28,9 @@ SpkScaffoldingAbstractDebugFrameServiceClient >> variableMap [
 
 	^variableMap ifNil: [ variableMap := remoteSelf variableMap wait ]
 ]
+
+{ #category : 'accessing' }
+SpkScaffoldingAbstractDebugFrameServiceClient >> variableOopMap [
+
+	^variableOopMap ifNil: [ variableOopMap := remoteSelf variableOopMap wait ]
+]

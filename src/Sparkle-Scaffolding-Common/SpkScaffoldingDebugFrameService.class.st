@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'label',
 		'variableMap',
+		'variableOopMap',
 		'methodService',
 		'methodSource',
 		'startPos',

@@ -6,6 +6,11 @@ RowanVariableService >> _key [
 ]
 
 { #category : '*sparkle-scaffolding-rowan-gemstone' }
+RowanVariableService >> _oop [
+	^ oop
+]
+
+{ #category : '*sparkle-scaffolding-rowan-gemstone' }
 RowanVariableService >> _value [
 	^ value
 ]

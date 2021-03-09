@@ -72,10 +72,13 @@ SpkScaffoldingDebugFrameServiceServer >> setCurrentPosition: theProcess level: l
 
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> variableMap [
+	"a bit redundant to have a separate variable oop map but fine for development for now" 
 	^ variableMap
 		ifNil: [ 
 			variableMap := Dictionary new.
+			variableOopMap := Dictionary new.
 			rowanFrameService _vars
-				do: [ :rowanVariableService | variableMap at: rowanVariableService _key put: rowanVariableService _value ].
+				do: [ :rowanVariableService | variableMap at: rowanVariableService _key put: rowanVariableService _value.
+														variableOopMap at: rowanVariableService _key put: rowanVariableService _oop  ].
 			variableMap ]
 ]

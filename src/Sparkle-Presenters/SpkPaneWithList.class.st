@@ -49,6 +49,7 @@ SpkPaneWithList >> initializeListModel [
 	listModel := SpkMultiSelectList new.
 	self refreshListModel.
 	listModel
+		pane: self;
 		when: SpkItemSelected send: #itemSelected: to: self;
 		when: SpkItemDeselected send: #itemDeselected: to: self
 ]

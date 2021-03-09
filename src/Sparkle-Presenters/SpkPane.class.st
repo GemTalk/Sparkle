@@ -37,6 +37,14 @@ SpkPane >> closeRequestedLocally [
 ]
 
 { #category : 'accessing' }
+SpkPane >> column [
+
+	"What column am I in?"
+
+	^ owner
+]
+
+{ #category : 'accessing' }
 SpkPane >> coordinate [
 	^ coordinate
 ]
@@ -132,7 +140,7 @@ SpkPane >> openLinkedPane: aPaneService forItem: item [
 	Generic part is here, see subclasses for detailed use."
 
 	| nextRightColumn newPane |
-	nextRightColumn := owner nextRightColumn.
+	nextRightColumn := item column nextRightColumn.
 	"Ask the column, since it must own the new pane."
 	newPane := nextRightColumn presenterForService: aPaneService.
 	newPane coordinate: (item coordinateRelativeTo: coordinate).

@@ -10,7 +10,8 @@ Class {
 	#classTraits : 'SpkTModel classTrait',
 	#instVars : [
 		'items',
-		'selectedItems'
+		'selectedItems',
+		'pane'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -42,6 +43,12 @@ SpkMultiSelectList >> at: anIndex [
 SpkMultiSelectList >> at: anIndex ifAbsent: aBlock [
 
 	^ items at: anIndex ifAbsent: aBlock
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectList >> column [
+
+	^ pane column
 ]
 
 { #category : 'selection' }
@@ -94,6 +101,12 @@ SpkMultiSelectList >> linkedPanes [
 	^ items
 		  collect: [ :item | item linkedPane ]
 		  thenSelect: [ :pane | pane notNil ]
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectList >> pane: anObject [
+
+	pane := anObject
 ]
 
 { #category : 'as yet unclassified' }

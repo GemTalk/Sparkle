@@ -53,6 +53,14 @@ SpkEvaluator >> closingLinkedPane: aPane [
 	self clearLinkedPane
 ]
 
+{ #category : 'accessing' }
+SpkEvaluator >> column [
+
+	"What column am I in? The same column as the pane I'm part of."
+
+	^ pane column
+]
+
 { #category : 'initialization' }
 SpkEvaluator >> connectPresenters [
 

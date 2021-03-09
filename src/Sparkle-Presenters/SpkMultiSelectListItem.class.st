@@ -49,6 +49,12 @@ SpkMultiSelectListItem >> closingLinkedPane: aPane [
 ]
 
 { #category : 'accessing' }
+SpkMultiSelectListItem >> column [
+
+	^ list column
+]
+
+{ #category : 'accessing' }
 SpkMultiSelectListItem >> columnAt: anInteger [
 
 	^ model columnAt: anInteger

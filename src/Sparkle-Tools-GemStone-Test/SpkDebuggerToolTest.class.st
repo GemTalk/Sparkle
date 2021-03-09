@@ -19,7 +19,7 @@ SpkDebuggerToolTest >> executedCodeFrameInDebugger: debugger [
 
 { #category : 'other' }
 SpkDebuggerToolTest >> testBreakpoint01 [
-	| method debugger |
+	| method debugger frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
 	self assert: method class equals: GsNMethod.
 	[ 
@@ -27,8 +27,32 @@ SpkDebuggerToolTest >> testBreakpoint01 [
 	self deny: GsProcess usingNativeCode.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
-	self halt ]
-		ensure: [ method clearAllBreaks ]
+	frame := debugger frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
+	self assert: (frame description includesString: 'twelve').
+	self
+		assert: frame stepPoint
+		equals: 3.
+	localVariables := frame localVariables.
+	variable := localVariables at: 1.
+	self
+		assert: (variable columnAt: 1)
+		equals: 'receiver'.
+	variable := localVariables at: 2.
+	self
+		assert: (variable columnAt: 2)
+		equals: '7'.
+	variable := localVariables at: 3.
+	self
+		assert: (variable columnAt: 2)
+		equals: '5'.
+	inspector := debugger continue.
+	self
+		assert: inspector class
+		equals: SpkInspectorTool.
+	self
+		assert: inspector inspectedObject
+		equals: 12
+	] ensure: [ method clearAllBreaks ]
 ]
 
 { #category : 'tests' }
@@ -57,6 +81,7 @@ SpkDebuggerToolTest >> testContinueTwice [
 	self assert: frame currentSourceInterval equals: (4 to: 8).
 	debugger2 := debugger1 continue.
 	self assert: debugger1 == debugger2.
+	self assert: (frame == (self executedCodeFrameInDebugger: debugger1)).
 	self assert: frame currentSourceInterval equals: (15 to: 19).
 	inspector := debugger2 continue.
 	self

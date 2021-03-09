@@ -78,7 +78,7 @@ SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 
 	toolbar := self newToolbar.
 	toolbar addItem: (SpToolbarButtonPresenter new
-			 label: 'Resume';
+			 label: 'Proceed';
 			 icon: (self iconNamed: #smallForward);
 			 help: 'Resume the suspended process';
 			 action: [ self resume ];
@@ -134,7 +134,7 @@ SpkTraditionalDebuggerPresenter >> initializeFrameListLayout [
 					               evaluated: [ :assoc | assoc key printString ]);
 			              addColumn:
 			              (SpImageTableColumn new evaluated: [ :assoc | 
-				               assoc value label]))
+				               assoc value label ]))
 ]
 
 { #category : 'initialization' }
@@ -147,6 +147,7 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	self initializeSourceCodeLayout.
 	self initializeVariablePaneLabel. 
 	self initializeVariablePane.
+	self layout color: Color purple muchLighter.
 ]
 
 { #category : 'initialization' }
@@ -188,8 +189,8 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Traditional Debugger';
-		borderColor: Color purple;
-		borderWidth: 3;
+		"borderColor: Color purple;
+		borderWidth: 3; 'no longer works not sure why'"
 		initialExtent: 750 @ 1000;
 		whenClosedDo: [ self terminate ]
 ]

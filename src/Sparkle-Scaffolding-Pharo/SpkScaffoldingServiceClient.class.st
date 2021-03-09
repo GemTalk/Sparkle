@@ -2016,8 +2016,8 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 	(client
 		 gsDebugger_07: '| array |
 		array := Array new. 
-		SpkScaffoldingMockObject example2.
 		array add: 1. self halt. 
+		[ array add: 3 ] value. 
 		array add: 2. 
 		^(array at: 1) + 3'
 		 usingDebugger: debuggerClient)

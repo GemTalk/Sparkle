@@ -12,6 +12,24 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'menus' }
+SpkTraditionalDebuggerPresenter >> addBreakpointMenuItemsIn: aMenu [
+
+	aMenu addItem: [ :menuItem | 
+		menuItem
+			name: 'Add Breakpoint';
+			action: [ self notify: 'adding breakpoint someday' ] ]
+]
+
+{ #category : 'menus' }
+SpkTraditionalDebuggerPresenter >> breakpointMenu [
+
+	| aMenu |
+	aMenu := self newMenu.
+	self addBreakpointMenuItemsIn: aMenu.
+	^ aMenu
+]
+
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> closeWindow [
 
@@ -64,6 +82,12 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 				            with: assoc value ].
 		variableList items:
 			(varArray asSortedCollection: [ :x :y | x first < y first ]) ]
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> doIt [
+
+	debuggerService doit_01: sourceCode selection 
 ]
 
 { #category : 'constants' }
@@ -158,7 +182,14 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeSourceCodeLayout [
 
-	self layout add: (sourceCode := self newText)
+	self layout add: (sourceCode := self newCode).
+	sourceCode overridingContextMenu contextMenu:
+		(SpMenuPresenter new addGroup: [ :group | 
+			 group addItem: [ :item | 
+				 item
+					 name: 'Add Breakpoint';
+					 icon: (self iconNamed: #glamorousBug);
+					 action: [ self setBreakpoint ] ] ])
 ]
 
 { #category : 'initialization' }
@@ -214,6 +245,14 @@ SpkTraditionalDebuggerPresenter >> newLayout [
 ]
 
 { #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> printIt [
+
+	| result |
+	result := debuggerService doit_01: sourceCode selection.
+	sourceCode halt 
+]
+
+{ #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> restart [
 
 	debuggerService trimStackToLevel: frameList selection selectedIndex. 
@@ -241,6 +280,27 @@ SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
 				ifTrue: [ glueFrame := frameList items at: index + 1 ] ] ].
 	glueFrame ifNil: [ glueFrame := frameList items at: 1 ].
 	frameList selectItem: glueFrame
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> setBreakpoint [
+
+	"debuggerService setBreakpointForClass: frame value methodService className meta: isMeta selector: frame value methodService selector atStepPoint: stepPoint"
+
+	frameList selection selectedItem ifNotNil: [ :frame | 
+		Transcript
+			cr;
+			show: frame value printString;
+			flush.
+		Transcript
+			cr;
+			show: frame value methodService className;
+			flush.
+		Transcript cr; show: frame value methodService meta printString; flush.
+		Transcript
+			cr;
+			show: frame value methodService selector;
+			flush ]
 ]
 
 { #category : 'private' }

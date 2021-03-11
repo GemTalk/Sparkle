@@ -3,12 +3,14 @@ Class {
 	#superclass : 'SpkPaneWithList',
 	#instVars : [
 		'topLayout',
-		'twizzle',
 		'description',
 		'fieldListIsShown',
 		'addEvaluatorButton',
 		'evaluators',
-		'nextEvaluatorIndex'
+		'nextEvaluatorIndex',
+		'fieldsTwizzle',
+		'selfDescription',
+		'fieldList'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -107,14 +109,13 @@ SpkInspectorPane >> initializeBody [
 
 	fieldListIsShown := true.
 	self
-		initializeTop;
-		initializeList;
-		updateFieldListVisibility
+		initializeSelfDescription;
+		initializeFieldList
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> initializeDescription [
-
+	self flag: 'Update'.
 	description := self newLabel
 		               label: model selfDescription;
 		               yourself.
@@ -131,11 +132,10 @@ SpkInspectorPane >> initializeEvaluators [
 { #category : 'initialization' }
 SpkInspectorPane >> initializeListColumns [
 
-	self list
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 2 ])
+	self flag: 'Number of columns will be variable by view and class of inspected object'.
+	list
+		addColumnEvaluated: [ :item | item columnAt: 1 ];
+		addColumnEvaluated: [ :item | item columnAt: 2 ]
 ]
 
 { #category : 'initialization' }
@@ -149,28 +149,25 @@ SpkInspectorPane >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> initializeTop [
+SpkInspectorPane >> initializeSelfDescription [
 
-	topLayout := SpkBoxLayout newHorizontal.
-	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
-	self
-		initializeTwizzle;
-		initializeDescription
+	selfDescription := self instantiate: SpkTwizzledString.
+	selfDescription
+		pane: self;
+		labelString: model selfDescription;
+		bodyString: model selfDescription.
+	self layout add: selfDescription
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> initializeTwizzle [
+SpkInspectorPane >> initializeTop [
 
-	twizzle := self newIconButton
-		           icon: self twizzleIcon;
-		           help: 'Show or hide the field list';
-		           action: [ self toggleFieldList ];
-		           yourself.
-	topLayout add: twizzle withConstraints: [ :c | 
-		c
-			fill: false;
-			width: 20;
-			height: 20 ]
+	self flag: 'Update'.
+	topLayout := SpkBoxLayout newHorizontal.
+	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
+	self
+		initializeFieldsTwizzle;
+		initializeDescription
 ]
 
 { #category : 'actions' }
@@ -244,23 +241,6 @@ SpkInspectorPane >> removeEvaluator: anEvaluator [
 	evaluators remove: anEvaluator
 ]
 
-{ #category : 'actions' }
-SpkInspectorPane >> toggleFieldList [
-
-	fieldListIsShown := fieldListIsShown not.
-	self
-		updateTwizzleIcon;
-		updateFieldListVisibility
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> twizzleIcon [
-
-	^ fieldListIsShown
-		  ifTrue: [ self iconNamed: #treeExpanded ]
-		  ifFalse: [ self iconNamed: #treeUnexpanded ]
-]
-
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> updateFieldList [
 
@@ -271,16 +251,9 @@ SpkInspectorPane >> updateFieldList [
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> updateFieldListVisibility [
-
-	fieldListIsShown
-		ifTrue: [ self layout add: self list after: topLayout ]
-		ifFalse: [ self layout remove: self list ]
-]
-
-{ #category : 'initialization' }
 SpkInspectorPane >> updateFromModel [
 
+	self flag: 'Slight update'.
 	description label: model selfDescription.
 	header classMembershipDescription: model classMembershipDescription.
 	self updateFieldList
@@ -290,10 +263,4 @@ SpkInspectorPane >> updateFromModel [
 SpkInspectorPane >> updateInspectors [
 
 	self evaluators do: [ :each | each updateInspectors ]
-]
-
-{ #category : 'actions' }
-SpkInspectorPane >> updateTwizzleIcon [
-
-	twizzle icon: self twizzleIcon
 ]

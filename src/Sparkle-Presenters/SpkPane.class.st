@@ -116,6 +116,9 @@ SpkPane >> menuActions [
 SpkPane >> newLayout [
 
 	^ SpkAccordianLayout newVertical
+		  color: Color veryVeryDarkGray;
+			borderWidth: 3;
+		  yourself
 ]
 
 { #category : 'instance creation' }

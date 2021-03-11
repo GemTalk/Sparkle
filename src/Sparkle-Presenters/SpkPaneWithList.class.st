@@ -19,21 +19,7 @@ SpkPaneWithList >> connectPresenters [
 { #category : 'initialization' }
 SpkPaneWithList >> initializeList [
 
-	self initializeListModel.
-	list := self newTable.
-	list
-		whenSelectionChangedDo: [ :selectionMode | 
-			listModel selectedIndexes: selectionMode selectedIndexes ];
-		items: listModel.
-	self initializeListColumns.
-	list
-		addColumn: ((SpImageTableColumn evaluated: [ :item | 
-					  item hasLinkedPane
-						  ifTrue: [ self iconNamed: #hidePane16 ]
-						  ifFalse: [ self iconNamed: #showPane16 ] ])
-				 width: 25;
-				 yourself);
-		hideColumnHeaders
+	list instantiate: SpkTwizzledList
 ]
 
 { #category : 'initialization' }
@@ -41,17 +27,6 @@ SpkPaneWithList >> initializeListColumns [
 
 	self subclassResponsibility 
 	
-]
-
-{ #category : 'initialization' }
-SpkPaneWithList >> initializeListModel [
-
-	listModel := SpkMultiSelectList new.
-	self refreshListModel.
-	listModel
-		pane: self;
-		when: SpkItemSelected send: #itemSelected: to: self;
-		when: SpkItemDeselected send: #itemDeselected: to: self
 ]
 
 { #category : 'actions' }

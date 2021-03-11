@@ -27,8 +27,8 @@ SpkBoxLayout >> add: aPresenter [
 
 	self
 		add: aPresenter
-		withConstraints: [ :constraints |  ]
 		beforeIndex: children size + 1
+		withConstraints: [ :constraints |  ]
 ]
 
 { #category : 'adding' }
@@ -36,7 +36,17 @@ SpkBoxLayout >> add: newPresenter after: anExistingPresenter [
 
 	self
 		add: newPresenter
+		after: anExistingPresenter
+		withConstraints: [ :c |  ]
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: newPresenter after: anExistingPresenter withConstraints: aBlock [
+
+	self
+		add: newPresenter
 		beforeIndex: (self indexOfPresenter: anExistingPresenter) + 1
+		withConstraints: aBlock
 ]
 
 { #category : 'adding' }
@@ -49,10 +59,21 @@ SpkBoxLayout >> add: newPresenter before: anExistingPresenter [
 
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
+
 	self
 		add: aNameOrPresenter
-		withConstraints: [ :constraints |  ]
 		beforeIndex: anInteger
+		withConstraints: [ :c |  ]
+]
+
+{ #category : 'adding/removing presenters' }
+SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger withConstraints: aBlock [
+
+	| constraints |
+	constraints := self constraintsClass new.
+	aBlock value: constraints.
+	children add: aNameOrPresenter -> constraints beforeIndex: anInteger.
+	self announceChildAdded: aNameOrPresenter beforeIndex: anInteger
 ]
 
 { #category : 'adding' }
@@ -69,15 +90,6 @@ SpkBoxLayout >> add: aPresenter width: anInteger [
 	self
 		add: aPresenter
 		withConstraints: [ :constraints | constraints width: anInteger ]
-]
-
-{ #category : 'adding/removing presenters' }
-SpkBoxLayout >> add: aNameOrPresenter withConstraints: aBlock beforeIndex: anInteger [
-	| constraints |
-	constraints := self constraintsClass new.
-	aBlock value: constraints.
-	children add: aNameOrPresenter -> constraints beforeIndex: anInteger.
-	self announceChildAdded: aNameOrPresenter beforeIndex: anInteger
 ]
 
 { #category : 'adding' }
@@ -153,6 +165,12 @@ SpkBoxLayout >> constraintsClass [
 SpkBoxLayout >> enabled: aBoolean [
 
 	self withAdapterDo: [ :dapt | dapt enabled: aBoolean ]
+]
+
+{ #category : 'testing' }
+SpkBoxLayout >> includesPresenter: aPresenter [
+
+	^ children includesKey: aPresenter
 ]
 
 { #category : 'adding' }

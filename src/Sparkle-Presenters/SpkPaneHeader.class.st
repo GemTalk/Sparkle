@@ -7,16 +7,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'layout' }
-SpkPaneHeader class >> oldDefaultSpec [
-
-	^ super defaultSpec
-		  add: #dragHandle
-		  withConstraints: [ :constraints | constraints width: 16 ]
-		  beforeIndex: 1;
-		  yourself
-]
-
 { #category : 'accessing' }
 SpkPaneHeader >> closeButtonHelp [
 

@@ -17,7 +17,8 @@ Class {
 { #category : 'events' }
 SpkDebuggerPane >> closeRequestedLocally [
 
-	"Terminate process then close UI."
+	"Terminate process then close UI.
+	Pane presenter close comes via announcement once the server gets done terminating."
 
 	self disableAll.
 	model terminate
@@ -40,17 +41,9 @@ SpkDebuggerPane >> headerClass [
 ]
 
 { #category : 'initialization' }
-SpkDebuggerPane >> initializeDescription [
-
-	description := self newLabel
-		               label: model exceptionDescription;
-		               yourself.
-	topLayout add: description withConstraints: [ :c | c fill: false ]
-]
-
-{ #category : 'initialization' }
 SpkDebuggerPane >> initializeExceptionDescription [
 
+	self flag: 'Make this initialize the factored twizzled string'.
 	fullDescriptionIsShown := false.
 	self
 		initializeTop;
@@ -60,6 +53,7 @@ SpkDebuggerPane >> initializeExceptionDescription [
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeFrameList [
 
+	self flag: 'Update for factored twizzled list'.
 	self initializeList.
 	self layout add: self list
 ]
@@ -69,6 +63,7 @@ SpkDebuggerPane >> initializeFullDescription [
 
 	"Dynamically added to or removed from my layout upon twizzle click."
 
+	self flag: 'Needs update'.
 	fullDescription := self newText.
 	fullDescription
 		beNotEditable;
@@ -78,7 +73,7 @@ SpkDebuggerPane >> initializeFullDescription [
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeListColumns [
 
-	self list addColumn: (SpStringTableColumn evaluated: #description)
+	list addColumnEvaluated: #description
 ]
 
 { #category : 'initialization' }
@@ -131,26 +126,12 @@ SpkDebuggerPane >> initializeProcessControls [
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeTop [
 
+	self flag: 'Update for factored twizzle'.
 	topLayout := SpkBoxLayout newHorizontal.
 	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
 	self
 		initializeTwizzle;
 		initializeDescription
-]
-
-{ #category : 'initialization' }
-SpkDebuggerPane >> initializeTwizzle [
-
-	twizzle := self newIconButton
-		           icon: self twizzleIcon;
-		           help: 'Show or hide the full exception description';
-		           action: [ self toggleExceptionDescription ];
-		           yourself.
-	topLayout add: twizzle withConstraints: [ :c | 
-		c
-			fill: false;
-			width: 20;
-			height: 20 ]
 ]
 
 { #category : 'actions' }
@@ -183,39 +164,8 @@ SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 		self updateInspectors ]
 ]
 
-{ #category : 'actions' }
-SpkDebuggerPane >> toggleExceptionDescription [
-
-	fullDescriptionIsShown := fullDescriptionIsShown not.
-	self
-		updateTwizzleIcon;
-		updateExceptionDescriptionVisibility
-]
-
-{ #category : 'initialization' }
-SpkDebuggerPane >> twizzleIcon [
-
-	^ fullDescriptionIsShown
-		  ifTrue: [ self iconNamed: #treeExpanded ]
-		  ifFalse: [ self iconNamed: #treeUnexpanded ]
-]
-
-{ #category : 'actions' }
-SpkDebuggerPane >> updateExceptionDescriptionVisibility [
-
-	fullDescriptionIsShown
-		ifTrue: [ self layout add: fullDescription after: topLayout ]
-		ifFalse: [ self layout remove: fullDescription ]
-]
-
 { #category : 'as yet unclassified' }
 SpkDebuggerPane >> updateInspectors [
 
 	model updateInspectors
-]
-
-{ #category : 'actions' }
-SpkDebuggerPane >> updateTwizzleIcon [
-
-	twizzle icon: self twizzleIcon
 ]

@@ -8,7 +8,8 @@ Class {
 		'methodService',
 		'methodSource',
 		'startPos',
-		'stopPos'
+		'stopPos',
+		'stepPoint'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -41,6 +42,12 @@ SpkScaffoldingDebugFrameService >> methodSource [
 SpkScaffoldingDebugFrameService >> startPos [
 
 	^ startPos
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> stepPoint [
+
+	^ stepPoint
 ]
 
 { #category : 'accessing' }

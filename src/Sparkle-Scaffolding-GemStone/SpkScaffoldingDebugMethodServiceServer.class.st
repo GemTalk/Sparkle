@@ -21,7 +21,8 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService [
 SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 	rowanMethodService := object.
 	selector := rowanMethodService selector.
-	source := rowanMethodService source
+	source := rowanMethodService source.
+	meta := rowanMethodService meta
 ]
 
 { #category : 'debugging' }

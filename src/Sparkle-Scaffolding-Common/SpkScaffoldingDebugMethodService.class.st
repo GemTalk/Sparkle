@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'selector',
 		'source',
-		'meta'
+		'meta',
+		'className'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -13,6 +14,11 @@ Class {
 SpkScaffoldingDebugMethodService class >> templateClassName [
 
 	^ #SpkScaffoldingDebugMethodService
+]
+
+{ #category : 'other' }
+SpkScaffoldingDebugMethodService >> className [
+	^ className
 ]
 
 { #category : 'other' }

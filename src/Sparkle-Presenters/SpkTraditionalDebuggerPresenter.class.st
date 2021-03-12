@@ -294,27 +294,7 @@ SpkTraditionalDebuggerPresenter >> setBreakpoint [
 			setBreakpointForClass: methodService className
 			meta: methodService meta
 			selector: methodService selector asSymbol
-			atStepPoint: 1.
-		Transcript
-			cr;
-			show: frame value printString;
-			flush.
-		Transcript
-			cr;
-			show: frame value methodService className;
-			flush.
-		Transcript
-			cr;
-			show: frame value methodService selector;
-			flush.
-		Transcript
-			cr;
-			show: frame value methodService meta printString;
-			flush.
-		Transcript
-			cr;
-			show: frame value stepPoint printString;
-			flush ]
+			atStepPoint: 1]
 ]
 
 { #category : 'private' }

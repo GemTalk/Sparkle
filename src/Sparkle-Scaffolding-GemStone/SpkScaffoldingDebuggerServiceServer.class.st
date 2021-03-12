@@ -98,6 +98,15 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 	^ res
 ]
 
+{ #category : 'other' }
+SpkScaffoldingDebuggerServiceServer >> stDisplayString [
+	"sent by Pharo nspector (or debugger?) but the RSR service somehow
+	tries to send it to the server and throws an error if this method is not present
+	and freezes Pharo."
+
+	^ 'SpkScaffoldingDebuggerServiceServer>>stDisplayString was sent to the server'
+]
+
 { #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> stepIntoFromLevel: aLevel [
 	^ self processService stepIntoFromLevel: aLevel

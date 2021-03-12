@@ -33,3 +33,12 @@ SpkScaffoldingDebugMethodServiceServer >> setBreakAtStepPoint: aStepPoint [
 	(self method setBreakAtStepPoint: aStepPoint pType: 1)
 		ifNil: [ self error: 'error setting breakpoint' ]
 ]
+
+{ #category : 'accessing' }
+SpkScaffoldingDebugMethodServiceServer >> stDisplayString [
+	"sent by Pharo nspector (or debugger?) but the RSR service somehow
+	tries to send it to the server and throws an error if this method is not present
+	and freezes Pharo."
+
+	^ 'SpkScaffoldingDebugMethodServiceServer>>stDisplayString was sent to the server'
+]

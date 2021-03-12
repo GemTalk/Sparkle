@@ -1,8 +1,7 @@
 Class {
 	#name : 'SpkTwizzledString',
-	#superclass : 'SpkPresenter',
+	#superclass : 'SpkPresenterWithinPane',
 	#instVars : [
-		'pane',
 		'twizzledPresenter',
 		'textPresenter'
 	],
@@ -20,11 +19,11 @@ SpkTwizzledString >> initializePresenters [
 
 	super initializePresenters.
 	textPresenter := self newText.
-	self layout add: textPresenter.
 	twizzledPresenter := self instantiate: SpkTwizzledPresenter.
 	twizzledPresenter
-		subLayout: self layout;
-		showSubLayout: false "Closed by default"
+		subLayout: textPresenter;
+		showSubLayout: false. "Closed by default"
+	self layout add: twizzledPresenter
 ]
 
 { #category : 'accessing' }
@@ -41,6 +40,6 @@ SpkTwizzledString >> newLayout [
 { #category : 'accessing' }
 SpkTwizzledString >> pane: anObject [
 
-	pane := anObject.
-	twizzledPresenter pane: pane
+	super pane: anObject.
+	twizzledPresenter pane: anObject
 ]

@@ -23,9 +23,8 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkTwizzledPresenter',
-	#superclass : 'SpkPresenter',
+	#superclass : 'SpkPresenterWithinPane',
 	#instVars : [
-		'pane',
 		'twizzle',
 		'label',
 		'labelString',
@@ -91,12 +90,6 @@ SpkTwizzledPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'accessing' }
-SpkTwizzledPresenter >> pane: anObject [
-
-	pane := anObject
-]
-
 { #category : 'as yet unclassified' }
 SpkTwizzledPresenter >> showSubLayout: aBoolean [
 
@@ -116,7 +109,7 @@ SpkTwizzledPresenter >> toggle [
 	subLayoutIsShown  := subLayoutIsShown not.
 	self
 		updateTwizzleIcon;
-		updateSublayoutVisibility
+		updateSubLayoutVisibility
 ]
 
 { #category : 'initialization' }

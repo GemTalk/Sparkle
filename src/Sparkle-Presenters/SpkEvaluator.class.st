@@ -154,9 +154,9 @@ SpkEvaluator >> newLayout [
 { #category : 'accessing' }
 SpkEvaluator >> nonChildSlotNames [
 
-	"This slot is defined in the SpkLinkedPane trait"
+	"linkedPane slot is defined in the SpkLinkedPane trait"
 
-	^ super nonChildSlotNames , #( #linkedPane )
+	^ super nonChildSlotNames , #( #pane #linkedPane )
 ]
 
 { #category : 'accessing' }

@@ -130,6 +130,12 @@ SpkInspectorPane >> initializeEvaluators [
 ]
 
 { #category : 'initialization' }
+SpkInspectorPane >> initializeFieldList [
+
+	self flag: 'Need a field list'
+]
+
+{ #category : 'initialization' }
 SpkInspectorPane >> initializeListColumns [
 
 	self flag: 'Number of columns will be variable by view and class of inspected object'.
@@ -213,6 +219,13 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 	^ self evaluators
 		  collect: [ :each | each linkedPane ]
 		  thenSelect: [ :each | each notNil ]
+]
+
+{ #category : 'private-traversing' }
+SpkInspectorPane >> presentersDo: aBlock [
+
+	super presentersDo: aBlock.
+	evaluators do: aBlock
 ]
 
 { #category : 'printing' }

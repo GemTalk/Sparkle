@@ -24,6 +24,7 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 	source := rowanMethodService source.
 	meta := rowanMethodService meta.
 	className := rowanMethodService className.
+	stepPoints := rowanMethodService stepPoints
 ]
 
 { #category : 'debugging' }

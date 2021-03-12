@@ -5,7 +5,8 @@ Class {
 		'selector',
 		'source',
 		'meta',
-		'className'
+		'className',
+		'stepPoints'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -34,4 +35,9 @@ SpkScaffoldingDebugMethodService >> selector [
 { #category : 'other' }
 SpkScaffoldingDebugMethodService >> source [
 	^ source
+]
+
+{ #category : 'other' }
+SpkScaffoldingDebugMethodService >> stepPoints [
+	^ stepPoints
 ]

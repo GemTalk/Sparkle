@@ -330,7 +330,7 @@ SpkTraditionalDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
 	| distances |
 	distances := (methodService stepPoints collect: [ :array | 
 							Array with: 
-		              (array first - offset) abs with: array first. 
+		              (array first - offset) abs with: (methodService stepPoints indexOf: array). 
 			             ]) asSortedCollection: [:x :y | x first <= y first].
 	^ distances first last
 ]

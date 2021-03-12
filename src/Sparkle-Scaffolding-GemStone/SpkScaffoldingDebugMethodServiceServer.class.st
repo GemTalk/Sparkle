@@ -25,6 +25,7 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 	meta := rowanMethodService meta.
 	className := rowanMethodService className.
 	stepPoints := rowanMethodService stepPoints
+		collect: [ :assoc | Array with: assoc key with: assoc value ]
 ]
 
 { #category : 'debugging' }

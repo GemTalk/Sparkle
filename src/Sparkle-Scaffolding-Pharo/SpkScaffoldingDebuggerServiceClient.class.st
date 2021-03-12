@@ -42,6 +42,14 @@ SpkScaffoldingDebuggerServiceClient >> resume [
 	^ remoteSelf resume wait
 ]
 
+{ #category : 'as yet unclassified' }
+SpkScaffoldingDebuggerServiceClient >> stDisplayString [ 
+	"sent by inspector (or debugger?) but the RSR service somehow
+	tries to send it to the server and throws an error on the server
+	and freezes Pharo."
+	^'SpkScaffoldingDebuggerServiceClient>>stDisplayString was sent to the client' 
+]
+
 { #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> terminate [
 

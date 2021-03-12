@@ -294,7 +294,10 @@ SpkTraditionalDebuggerPresenter >> setBreakpoint [
 			setBreakpointForClass: methodService className
 			meta: methodService meta
 			selector: methodService selector asSymbol
-			atStepPoint: 1]
+			atStepPoint:
+			(sourceCode selectionInterval isEmpty ifTrue:[1] ifFalse:[self
+				 stepPoint: methodService
+				 fromOffset: sourceCode selectionInterval first]) ]
 ]
 
 { #category : 'private' }
@@ -319,6 +322,17 @@ SpkTraditionalDebuggerPresenter >> stepInto [
 SpkTraditionalDebuggerPresenter >> stepOver [
 
 	debuggerService stepOverFromLevel: frameList selection selectedIndex. 
+]
+
+{ #category : 'private' }
+SpkTraditionalDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
+
+	| distances |
+	distances := (methodService stepPoints collect: [ :array | 
+							Array with: 
+		              (array first - offset) abs with: array first. 
+			             ]) asSortedCollection: [:x :y | x first <= y first].
+	^ distances first last
 ]
 
 { #category : 'actions' }

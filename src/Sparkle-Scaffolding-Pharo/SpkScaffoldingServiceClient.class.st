@@ -2038,8 +2038,6 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 				yourself  ].
 	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
 
-	self assert:
-		(x := debuggerClient messageText) = 'a Halt occurred (error 2709)'
 ]
 
 { #category : 'examples' }

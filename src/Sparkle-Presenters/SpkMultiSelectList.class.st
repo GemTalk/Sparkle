@@ -110,11 +110,11 @@ SpkMultiSelectList >> pane: anObject [
 ]
 
 { #category : 'as yet unclassified' }
-SpkMultiSelectList >> refreshFrom: fieldServices [
+SpkMultiSelectList >> refreshFromServices: services [
 
 	items
-		with: fieldServices
-		do: [ :item :fieldService | item model: fieldService ]
+		with: services
+		do: [ :item :service | item model: service ]
 ]
 
 { #category : 'selection' }

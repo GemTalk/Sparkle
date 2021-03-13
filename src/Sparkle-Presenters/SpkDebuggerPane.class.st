@@ -73,7 +73,7 @@ SpkDebuggerPane >> initializeFullDescription [
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeListColumns [
 
-	list addColumnEvaluated: #description
+	twizzledList addColumnEvaluated: #description
 ]
 
 { #category : 'initialization' }

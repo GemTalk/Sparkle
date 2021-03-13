@@ -7,7 +7,7 @@ The presentation-layer model for one field in the field list of an inspector pan
 **    Instance Variables**
 *	list: 		<SpkMultiSelectList> 	The list I'm an element in
 *	index:		<Integer> Which item in the list I am
-*	model:		<SpkInspectorFieldServiceClient> The service for this field.
+*	model:		<Spk*ServiceClient> The service for this field.
 
 
     Implementation Points
@@ -96,8 +96,8 @@ SpkMultiSelectListItem >> model [
 ]
 
 { #category : 'accessing' }
-SpkMultiSelectListItem >> model: anObject [
-	model := anObject
+SpkMultiSelectListItem >> model: aService [
+	model := aService
 ]
 
 { #category : 'accessing' }

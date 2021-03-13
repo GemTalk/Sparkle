@@ -86,6 +86,12 @@ SpkPane >> initializeHeader [
 		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
+{ #category : 'testing' }
+SpkPane >> isPane [
+
+	^ true
+]
+
 { #category : 'accessing' }
 SpkPane >> linkedFrom [
 

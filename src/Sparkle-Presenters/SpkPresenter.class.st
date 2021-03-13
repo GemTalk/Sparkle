@@ -40,6 +40,14 @@ SpkPresenter >> iconNamed: aSymbol [
 	^ self application iconNamed: aSymbol
 ]
 
+{ #category : 'testing' }
+SpkPresenter >> isPane [
+
+	"Pane classes answer true, others false"
+
+	^ false
+]
+
 { #category : 'accessing' }
 SpkPresenter >> layout [
 
@@ -97,6 +105,14 @@ SpkPresenter >> nonChildSlotNames [
 SpkPresenter >> notYetImplemented: aString [
 
 	self class notYetImplemented: aString
+]
+
+{ #category : 'accessing' }
+SpkPresenter >> pane [
+
+	^ self isPane
+		  ifTrue: [ self ]
+		  ifFalse: [ owner pane ]
 ]
 
 { #category : 'private' }

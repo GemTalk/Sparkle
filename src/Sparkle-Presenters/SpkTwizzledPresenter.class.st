@@ -23,14 +23,14 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : 'SpkTwizzledPresenter',
-	#superclass : 'SpkPresenterWithinPane',
+	#superclass : 'SpkPresenter',
 	#instVars : [
 		'twizzle',
 		'label',
 		'labelString',
 		'topLayout',
-		'subLayout',
-		'subLayoutIsShown'
+		'subPresenter',
+		'subPresenterIsShown'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -64,7 +64,7 @@ SpkTwizzledPresenter >> initializeTop [
 { #category : 'accessing' }
 SpkTwizzledPresenter >> initializeTwizzle [
 
-	subLayoutIsShown := false. "Don't want to set this true until there is a sublayout."
+	subPresenterIsShown := false. "Don't want to set this true until there is a subpresenter."
 	twizzle := self newIconButton
 		           icon: self twizzleIcon;
 		           help: 'Show or hide the full exception description';
@@ -91,31 +91,31 @@ SpkTwizzledPresenter >> newLayout [
 ]
 
 { #category : 'as yet unclassified' }
-SpkTwizzledPresenter >> showSubLayout: aBoolean [
+SpkTwizzledPresenter >> showSubPresenter: aBoolean [
 
-	subLayoutIsShown := aBoolean.
-	self updateSubLayoutVisibility
+	subPresenterIsShown := aBoolean.
+	self updateSubPresenterVisibility
 ]
 
 { #category : 'accessing' }
-SpkTwizzledPresenter >> subLayout: anObject [
+SpkTwizzledPresenter >> subPresenter: anObject [
 
-	subLayout := anObject
+	subPresenter := anObject
 ]
 
 { #category : 'operations' }
 SpkTwizzledPresenter >> toggle [
 
-	subLayoutIsShown  := subLayoutIsShown not.
+	subPresenterIsShown  := subPresenterIsShown not.
 	self
 		updateTwizzleIcon;
-		updateSubLayoutVisibility
+		updateSubPresenterVisibility
 ]
 
 { #category : 'initialization' }
 SpkTwizzledPresenter >> twizzleIcon [
 
-	^ subLayoutIsShown
+	^ subPresenterIsShown
 		  ifTrue: [ self iconNamed: #treeExpanded ]
 		  ifFalse: [ self iconNamed: #treeUnexpanded ]
 ]
@@ -127,15 +127,15 @@ SpkTwizzledPresenter >> updateLabel [
 ]
 
 { #category : 'operations' }
-SpkTwizzledPresenter >> updateSubLayoutVisibility [
+SpkTwizzledPresenter >> updateSubPresenterVisibility [
 
 	"We don't always know whether it is already shown."
 
-	subLayoutIsShown
+	subPresenterIsShown
 		ifTrue: [ 
-			(self layout includesPresenter: subLayout) ifFalse: [ 
-				self layout add: subLayout after: topLayout ] ]
-		ifFalse: [ self layout remove: subLayout ifAbsent: [  ] ]
+			(self layout includesPresenter: subPresenter) ifFalse: [ 
+				self layout add: subPresenter after: topLayout ] ]
+		ifFalse: [ self layout remove: subPresenter ifAbsent: [  ] ]
 ]
 
 { #category : 'actions' }

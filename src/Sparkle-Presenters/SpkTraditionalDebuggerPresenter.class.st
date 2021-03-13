@@ -12,22 +12,10 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'menus' }
-SpkTraditionalDebuggerPresenter >> addBreakpointMenuItemsIn: aMenu [
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> clearAllBreaks [
 
-	aMenu addItem: [ :menuItem | 
-		menuItem
-			name: 'Add Breakpoint';
-			action: [ self notify: 'adding breakpoint someday' ] ]
-]
-
-{ #category : 'menus' }
-SpkTraditionalDebuggerPresenter >> breakpointMenu [
-
-	| aMenu |
-	aMenu := self newMenu.
-	self addBreakpointMenuItemsIn: aMenu.
-	^ aMenu
+	debuggerService clearAllBreaks
 ]
 
 { #category : 'actions' }
@@ -183,13 +171,7 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 SpkTraditionalDebuggerPresenter >> initializeSourceCodeLayout [
 
 	self layout add: (sourceCode := self newCode).
-	sourceCode overridingContextMenu contextMenu:
-		(SpMenuPresenter new addGroup: [ :group | 
-			 group addItem: [ :item | 
-				 item
-					 name: 'Add Breakpoint';
-					 icon: (self iconNamed: #glamorousBug);
-					 action: [ self setBreakpoint ] ] ])
+	self overrideContextMenu
 ]
 
 { #category : 'initialization' }
@@ -242,6 +224,22 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 SpkTraditionalDebuggerPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'menus' }
+SpkTraditionalDebuggerPresenter >> overrideContextMenu [
+
+	sourceCode overridingContextMenu contextMenu:
+		(SpMenuPresenter new addGroup: [ :group | 
+			 group addItem: [ :item | 
+				 item
+					 name: 'Add Breakpoint';
+					 icon: (self iconNamed: #stop);
+					 action: [ self setBreakpoint ] ].
+			 group addItem: [ :item | 
+				 item
+					 name: 'Clear All Breakpoints';
+					 action: [ self setBreakpoint ] ] ])
 ]
 
 { #category : 'actions' }

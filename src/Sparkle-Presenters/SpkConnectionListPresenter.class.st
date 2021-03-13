@@ -169,7 +169,8 @@ SpkConnectionListPresenter >> initializePresenters [
 	self initializeConnectionList.
 	self initializeGroupFilter.
 	self initializeConnectionPresenterTabs.
-	self initializeUnselectedProfile
+	self initializeUnselectedProfile.
+	self layout color: Color purple muchLighter.
 ]
 
 { #category : 'initialization' }

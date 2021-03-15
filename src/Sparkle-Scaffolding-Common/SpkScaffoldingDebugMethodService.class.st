@@ -19,6 +19,11 @@ SpkScaffoldingDebugMethodService class >> templateClassName [
 ]
 
 { #category : 'other' }
+SpkScaffoldingDebugMethodService >> breakPoints [
+	^ breakPoints
+]
+
+{ #category : 'other' }
 SpkScaffoldingDebugMethodService >> className [
 	^ className
 ]

@@ -15,7 +15,8 @@ Class {
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> clearAllBreaks [
 
-	debuggerService clearAllBreaks
+	debuggerService clearAllBreaks.
+	self displayTextAnnotationsIn: frameList selection selectedItem
 ]
 
 { #category : 'actions' }
@@ -53,9 +54,18 @@ SpkTraditionalDebuggerPresenter >> displayFrameDetails [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> displaySource [
 
-	^ frameList selection selectedItem ifNotNil: [ :frame | 
-		  sourceCode text: frame value methodService source.
-		  self showSourcePositionIn: frame ]
+	frameList selection selectedItem ifNotNil: [ :frame | 
+		sourceCode text: frame value methodService source.
+		self displayTextAnnotationsIn: frame ]
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
+
+	sourceCode removeAllTextSegmentDecorations.
+	frame ifNotNil: [ 
+		self showSourcePositionIn: frame.
+		self showBreakPoints ]
 ]
 
 { #category : 'actions' }
@@ -295,19 +305,36 @@ SpkTraditionalDebuggerPresenter >> setBreakpoint [
 			atStepPoint:
 			(sourceCode selectionInterval isEmpty ifTrue:[1] ifFalse:[self
 				 stepPoint: methodService
-				 fromOffset: sourceCode selectionInterval first]) ]
+				 fromOffset: sourceCode selectionInterval first]).
+		self displayTextAnnotationsIn: frameList selection selectedItem]
+]
+
+{ #category : 'private' }
+SpkTraditionalDebuggerPresenter >> showBreakPoints [
+
+	| bpSourcePositions methodService |
+	debuggerService ifNil: [ ^ self ].
+	methodService := debuggerService methodService ifNil: [ ^ self ].
+	methodService breakPoints ifNil: [ ^ self ].
+	bpSourcePositions := methodService breakPoints collect: [ :bp | 
+		                     methodService stepPoints at: bp ].
+	bpSourcePositions do: [ :posAndSource | 
+		sourceCode addTextSegmentDecoration: (SpTextPresenterDecorator new
+				 highlightColor: Color purple muchLighter;
+				 interval:
+					 (posAndSource first to:
+						  posAndSource first + posAndSource last size);
+				 yourself) ]
 ]
 
 { #category : 'private' }
 SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 
-	^ sourceCode
-		  removeAllTextSegmentDecorations;
-		  addTextSegmentDecoration: (SpTextPresenterDecorator new
-				   highlightColor: (Color orange alpha: 0.5);
-				   underlineColor: Color transparent;
-				   interval: (frame value startPos to: frame value stopPos + 1);
-				   yourself)
+	^ sourceCode addTextSegmentDecoration: (SpTextPresenterDecorator new
+			   highlightColor: (Color orange alpha: 0.5);
+			   underlineColor: Color transparent;
+			   interval: (frame value startPos to: frame value stopPos + 1);
+			   yourself)
 ]
 
 { #category : 'actions' }

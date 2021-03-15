@@ -8,11 +8,13 @@ The additional capabilities:
 "
 Class {
 	#name : 'SpkBoxLayout',
-	#superclass : 'SpBoxLayout',
-	#traits : 'SpkTAlignable',
-	#classTraits : 'SpkTAlignable classTrait',
+	#superclass : 'SpDirectionableLayout',
 	#instVars : [
-		'color'
+		'color',
+		'borderWidth'
+	],
+	#classInstVars : [
+		'bogus'
 	],
 	#category : 'Sparkle-Spextensions-Layouts'
 }
@@ -144,6 +146,21 @@ SpkBoxLayout >> beVertical [
 ]
 
 { #category : 'accessing' }
+SpkBoxLayout >> borderWidth [
+	"Answer the border width defined for the layout (default is zero)"
+
+	^ borderWidth
+]
+
+{ #category : 'accessing' }
+SpkBoxLayout >> borderWidth: aNumber [
+	"Set the border width to be used by the layout"
+
+	borderWidth := aNumber.
+	self withAdapterDo: [ :anAdapter | anAdapter updateBorderWidth ]
+]
+
+{ #category : 'accessing' }
 SpkBoxLayout >> color [
 
 	^ color ifNil: [ color := Color transparent ]
@@ -159,6 +176,12 @@ SpkBoxLayout >> color: anObject [
 SpkBoxLayout >> constraintsClass [
 
 	^ SpkBoxConstraints
+]
+
+{ #category : 'accessing' }
+SpkBoxLayout >> direction [
+
+	^ direction
 ]
 
 { #category : 'accessing' }
@@ -185,8 +208,23 @@ SpkBoxLayout >> indexOfPresenter: anExistingPresenter [
 SpkBoxLayout >> initialize [
 
 	super initialize.
+	self borderWidth: 0.
 	color := Color transparent.
 	children := SpkOrderedDictionary new
+]
+
+{ #category : 'testing' }
+SpkBoxLayout >> isHorizontal [ 
+	"Answer true if the layout direction is horizontal"
+
+	^ direction = SpkLayoutDirectionHorizontal uniqueInstance
+]
+
+{ #category : 'initialization' }
+SpkBoxLayout >> isVertical [ 
+	"Answer true if the layout direction is vertical"
+
+	^ self direction = SpkLayoutDirectionVertical uniqueInstance
 ]
 
 { #category : 'removing' }
@@ -205,6 +243,13 @@ SpkBoxLayout >> remove: aPresenter ifAbsent: aBlock [
 		         identityIndexOfKey: aPresenter
 		         ifAbsent: [ ^ aBlock value ].
 	self removePresenterAtIndex: index
+]
+
+{ #category : 'removing' }
+SpkBoxLayout >> removeAll [
+
+	children removeAll.
+	self withAdapterDo: [ :anAdapter | anAdapter removeAll ]
 ]
 
 { #category : 'adding/removing presenters' }

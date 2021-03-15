@@ -55,6 +55,7 @@ SpkTraditionalDebuggerPresenter >> displayFrameDetails [
 SpkTraditionalDebuggerPresenter >> displaySource [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
+		debuggerService methodService: frame value methodService.
 		sourceCode text: frame value methodService source.
 		self displayTextAnnotationsIn: frame ]
 ]

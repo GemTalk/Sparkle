@@ -39,8 +39,8 @@ Class {
 SpkTwizzledPresenter >> initializeLabel [
 
 	label := self newLabel
-		               label: ''
-		               yourself.
+		         label: '';
+		         yourself.
 	topLayout add: label withConstraints: [ :c | c fill: false ]
 ]
 
@@ -54,7 +54,9 @@ SpkTwizzledPresenter >> initializePresenters [
 { #category : 'initialization' }
 SpkTwizzledPresenter >> initializeTop [
 
-	topLayout := SpkBoxLayout newHorizontal.
+	topLayout := SpkBoxLayout newHorizontal
+		hAlignStart;
+		yourself.
 	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
 	self
 		initializeTwizzle;
@@ -134,7 +136,10 @@ SpkTwizzledPresenter >> updateSubPresenterVisibility [
 	subPresenterIsShown
 		ifTrue: [ 
 			(self layout includesPresenter: subPresenter) ifFalse: [ 
-				self layout add: subPresenter after: topLayout ] ]
+				self layout
+					add: subPresenter
+					after: topLayout
+					withConstraints: [ :c | c fill: true ] ] ]
 		ifFalse: [ self layout remove: subPresenter ifAbsent: [  ] ]
 ]
 

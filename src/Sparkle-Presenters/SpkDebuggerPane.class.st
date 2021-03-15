@@ -2,11 +2,7 @@ Class {
 	#name : 'SpkDebuggerPane',
 	#superclass : 'SpkPaneWithList',
 	#instVars : [
-		'topLayout',
-		'twizzle',
 		'description',
-		'fullDescriptionIsShown',
-		'fullDescription',
 		'processControlLayout',
 		'proceedButton',
 		'terminateButton'
@@ -41,39 +37,24 @@ SpkDebuggerPane >> headerClass [
 ]
 
 { #category : 'initialization' }
-SpkDebuggerPane >> initializeExceptionDescription [
+SpkDebuggerPane >> initializeDescription [
 
-	self flag: 'Make this initialize the factored twizzled string'.
-	fullDescriptionIsShown := false.
-	self
-		initializeTop;
-		initializeFullDescription
+	description := self instantiate: SpkTwizzledString.
+	self layout add: description.
+	self updateDescription
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeFrameList [
 
-	self flag: 'Update for factored twizzled list'.
 	self initializeList.
-	self layout add: self list
-]
-
-{ #category : 'initialization' }
-SpkDebuggerPane >> initializeFullDescription [
-
-	"Dynamically added to or removed from my layout upon twizzle click."
-
-	self flag: 'Needs update'.
-	fullDescription := self newText.
-	fullDescription
-		beNotEditable;
-		text: model exceptionDescription
+	self layout add: list
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeListColumns [
 
-	twizzledList addColumnEvaluated: #description
+	list addColumn: (SpStringTableColumn evaluated: #description)
 ]
 
 { #category : 'initialization' }
@@ -81,7 +62,7 @@ SpkDebuggerPane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializeExceptionDescription;
+		initializeDescription;
 		initializeProcessControls;
 		initializeFrameList
 ]
@@ -123,17 +104,6 @@ SpkDebuggerPane >> initializeProcessControls [
 			width: 28 ]
 ]
 
-{ #category : 'initialization' }
-SpkDebuggerPane >> initializeTop [
-
-	self flag: 'Update for factored twizzle'.
-	topLayout := SpkBoxLayout newHorizontal.
-	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
-	self
-		initializeTwizzle;
-		initializeDescription
-]
-
 { #category : 'actions' }
 SpkDebuggerPane >> itemSelected: anAnnouncement [
 
@@ -162,6 +132,14 @@ SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 	self defer: [ 
 		self close.
 		self updateInspectors ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> updateDescription [
+
+	description
+		labelString: model exceptionDescription;
+		bodyString: model exceptionDescription
 ]
 
 { #category : 'as yet unclassified' }

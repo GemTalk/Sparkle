@@ -10,24 +10,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'specs' }
-SpkHeader class >> oldDfaultSpec [
-
-	^ SpkBoxLayout newHorizontal
-		  color: self headerColor;
-		  add: (SpkBoxLayout newHorizontal
-				   hAlignCenter;
-				   vAlignEnd;
-				   add: #label withConstraints: [ :constraints | 
-					   constraints
-						   fill: false;
-						   yourself ];
-				   yourself);
-		  add: #menuButton width: 24;
-		  add: #closeButton width: 24;
-		  yourself
-]
-
 { #category : 'accessing' }
 SpkHeader >> closeButton [
 	^ closeButton

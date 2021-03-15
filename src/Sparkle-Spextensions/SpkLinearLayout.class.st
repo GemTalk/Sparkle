@@ -175,7 +175,7 @@ SpkLinearLayout >> scanSubmorphs [
 
 	"See how many submorphs there are, how many are #spaceFill, 
 	and compute total of minimum space along the primary axis.
-	Cache some if this information in LayoutCells"
+	Cache some of this information in LayoutCells"
 
 	numberOfSpaceFills := minimumPrimarySize := 0.
 	cells := OrderedCollection new.

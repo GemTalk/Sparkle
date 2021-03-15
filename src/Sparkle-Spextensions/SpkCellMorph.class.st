@@ -1,3 +1,6 @@
+"
+A cell morph that can be enabled and disabled
+"
 Class {
 	#name : 'SpkCellMorph',
 	#superclass : 'FTCellMorph',

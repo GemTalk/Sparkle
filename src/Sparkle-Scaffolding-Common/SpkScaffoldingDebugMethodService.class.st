@@ -6,7 +6,8 @@ Class {
 		'source',
 		'meta',
 		'className',
-		'stepPoints'
+		'stepPoints',
+		'breakPoints'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }

@@ -3,7 +3,8 @@ Class {
 	#superclass : 'SpkScaffoldingAbstractService',
 	#instVars : [
 		'doitResult',
-		'processService'
+		'processService',
+		'methodService'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }

@@ -86,7 +86,7 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 	"Set a breakpoint that will be signalled to the GCI.
 		Returns true to indicate success.  Otherwise returns a string describing the error."
 
-	| beh res |
+	| beh res method rowanMethodService |
 	beh := Rowan globalNamed: className.
 	isMeta
 		ifTrue: [ beh := beh class ].
@@ -95,6 +95,9 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		stepPoint: stepPoint
 		env: 0
 		breakpointLevel: 1.
+	method := (beh class methodDictForEnv: 0) detect:[:meth | meth selector = selector]. 
+	rowanMethodService := RowanMethodService forGsNMethod: method organizer: ClassOrganizer new. 
+	methodService := SpkScaffoldingDebugMethodServiceServer new rowanMethodService: rowanMethodService. 
 	^ res
 ]
 

@@ -16,7 +16,8 @@ Class {
 SpkTraditionalDebuggerPresenter >> clearAllBreaks [
 
 	debuggerService clearAllBreaks.
-	self displayTextAnnotationsIn: frameList selection selectedItem
+	self displayTextAnnotationsIn: frameList selection selectedItem.
+	sourceCode text: sourceCode text. "not sure how to refresh the display yet"
 ]
 
 { #category : 'actions' }
@@ -47,20 +48,21 @@ SpkTraditionalDebuggerPresenter >> debuggerService: anObject [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> displayFrameDetails [
 
+	frameList selection selectedItem ifNotNil: [ :frame | 
+		debuggerService methodService: frame value methodService ].
 	self displaySource.
-	self displayVariables. 
+	self displayVariables
 ]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> displaySource [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
-		debuggerService methodService: frame value methodService.
 		sourceCode text: frame value methodService source.
 		self displayTextAnnotationsIn: frame ]
 ]
 
-{ #category : 'actions' }
+{ #category : 'private' }
 SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
 
 	sourceCode removeAllTextSegmentDecorations.
@@ -250,7 +252,7 @@ SpkTraditionalDebuggerPresenter >> overrideContextMenu [
 			 group addItem: [ :item | 
 				 item
 					 name: 'Clear All Breakpoints';
-					 action: [ self setBreakpoint ] ] ])
+					 action: [ self clearAllBreaks ] ] ])
 ]
 
 { #category : 'actions' }

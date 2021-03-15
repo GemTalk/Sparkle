@@ -11,7 +11,9 @@ Class {
 SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 	"clear all breakpoints set in image"
 
-	GsNMethod clearAllBreaks
+	GsNMethod clearAllBreaks.
+	methodService rowanMethodService update.
+	methodService rowanMethodService: methodService rowanMethodService. "awkward but update the scaffolding method service this way for now"
 ]
 
 { #category : 'debbuger process control' }
@@ -86,7 +88,7 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 	"Set a breakpoint that will be signalled to the GCI.
 		Returns true to indicate success.  Otherwise returns a string describing the error."
 
-	| beh res method rowanMethodService |
+	| beh res |
 	beh := Rowan globalNamed: className.
 	isMeta
 		ifTrue: [ beh := beh class ].
@@ -95,9 +97,9 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		stepPoint: stepPoint
 		env: 0
 		breakpointLevel: 1.
-	method := (beh methodDictForEnv: 0) detect:[:meth | meth selector = selector]. 
-	rowanMethodService := RowanMethodService forGsNMethod: method organizer: ClassOrganizer new. 
-	methodService := SpkScaffoldingDebugMethodServiceServer new rowanMethodService: rowanMethodService. 
+	methodService rowanMethodService update.
+	methodService rowanMethodService: methodService rowanMethodService.	"awkward but update the scaffolding method service this way for now"
+
 	^ res
 ]
 

@@ -95,7 +95,7 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		stepPoint: stepPoint
 		env: 0
 		breakpointLevel: 1.
-	method := (beh class methodDictForEnv: 0) detect:[:meth | meth selector = selector]. 
+	method := (beh methodDictForEnv: 0) detect:[:meth | meth selector = selector]. 
 	rowanMethodService := RowanMethodService forGsNMethod: method organizer: ClassOrganizer new. 
 	methodService := SpkScaffoldingDebugMethodServiceServer new rowanMethodService: rowanMethodService. 
 	^ res

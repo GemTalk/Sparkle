@@ -131,15 +131,16 @@ SpkConnectionPresenter >> initializeButtons [
 		              label: 'Change';
 		              action: [ self save ].
 	cancelButton := self newButton
-		                label: 'Cancel'; icon: (self iconNamed: #delete);
+		                label: 'Cancel';
+		                icon: (self iconNamed: #delete);
 		                action: [ self cancel ].
 	connectButton := self newButton
-		                 label: 'Connect'; 
+		                 label: 'Connect';
 		                 action: [ self connect ].
 	disconnectButton := self newButton
 		                    label: 'Disconnect';
 		                    action: [ self disconnect ].
-	self layout add: (SpkBoxLayout newHorizontal beHomogeneous
+	self layout add: (SpkBoxLayout newHorizontal
 			 add: addButton
 			 withConstraints: [ :constraints | constraints height: 30 ];
 			 add: removeButton
@@ -150,7 +151,7 @@ SpkConnectionPresenter >> initializeButtons [
 			 withConstraints: [ :constraints | constraints height: 30 ]).
 
 	self layout
-		add: (SpkBoxLayout newHorizontal beHomogeneous
+		add: (SpkBoxLayout newHorizontal
 				 add: connectButton
 				 withConstraints: [ :constraints | constraints height: 30 ];
 				 add: disconnectButton

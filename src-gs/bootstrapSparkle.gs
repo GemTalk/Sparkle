@@ -13620,6 +13620,8 @@ localVariables
 category: 'private'
 method: SpkDebuggerFrameTool
 method
+	"Can answer nil if GCI or User Action, according to GsProcess>>_reportWithFrameContents:level:"
+
 	^ process _methodInFrameContents: self frameContents
 %
 
@@ -13665,11 +13667,14 @@ source
 category: 'accessing'
 method: SpkDebuggerFrameTool
 stepPoint
-	| method |
+	| method ip |
 	method := self method.
-	^ method == method homeMethod
-		ifTrue: [ process _stepPointAt: level ]
-		ifFalse: [ method homeMethod _stepPointForMeth: method ip: (frameContents at: 2) ]
+	method ifNil: [ ^ nil ].
+	ip := (self frameContents at: 2) abs.
+	^ method
+		_stepPointForIp: ip
+		level: level
+		useNext: (process _nativeStack or: [ process _calleeIsAsync: level ])
 %
 
 ! Class implementation for 'SpkDebuggerTool'

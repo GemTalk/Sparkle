@@ -189,6 +189,11 @@ SpkConnectionProfile >> initialize [
 ]
 
 { #category : 'testing' }
+SpkConnectionProfile >> isConnected [ 
+	^connection isNotNil 
+]
+
+{ #category : 'testing' }
 SpkConnectionProfile >> isGciProfile [
 
 	^false

@@ -13,9 +13,6 @@ Class {
 		'color',
 		'borderWidth'
 	],
-	#classInstVars : [
-		'bogus'
-	],
 	#category : 'Sparkle-Spextensions-Layouts'
 }
 

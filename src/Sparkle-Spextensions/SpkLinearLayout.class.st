@@ -9,6 +9,7 @@ Class {
 		'morph',
 		'cells',
 		'numberOfSpaceFills',
+		'totalRigidSize',
 		'bounds',
 		'minimumPrimarySize',
 		'xform'
@@ -17,16 +18,18 @@ Class {
 }
 
 { #category : 'layout' }
-SpkLinearLayout >> adjacentLayoutStartingAt: gap [
+SpkLinearLayout >> adjacentLayoutCells: someCells startingAt: gap [
 
-	"Just pack 'em in, starting after a specified gap."
+	"Just pack 'em in, starting after a specified gap.
+	The gap may be negative.
+	Answer the coordinate after the last cell placed."
 
 	| p sStart sEnd |
 	p := (xform pStartOf: bounds) + gap.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
 
-	cells do: [ :cell | 
+	someCells do: [ :cell | 
 		| pEnd rect |
 		pEnd := p + cell pMinimumSize.
 		rect := xform
@@ -36,6 +39,17 @@ SpkLinearLayout >> adjacentLayoutStartingAt: gap [
 			        sEnd: sEnd.
 		cell targetMorph layoutInBounds: rect.
 		p := pEnd ].
+	^ p
+]
+
+{ #category : 'layout' }
+SpkLinearLayout >> adjacentLayoutStartingAt: gap [
+
+	"Just pack 'em in, starting after a specified gap.
+	Used when all rigids will fit in available space."
+
+	| p |
+	p := self adjacentLayoutCells: cells startingAt: gap. 
 	p > (xform pEndOf: bounds) ifTrue: [ self error: 'Layout overrun' ]
 ]
 
@@ -59,9 +73,11 @@ SpkLinearLayout >> computeLayout [
 	If there are none, place the extra space according to my primary-axis alignment."
 
 	self scanSubmorphs.
+	totalRigidSize > self availableSpace ifTrue: [ 
+		^ self placeRigidsOnly ].
 	self extraSpace < 0 ifTrue: [ ^ self layoutTrimming ].
 	numberOfSpaceFills > 0 ifTrue: [ ^ self layoutWithSpaceFills ].
-	^ self layoutWithAlignment
+	^ self layoutWithPlacementRule
 ]
 
 { #category : 'accessing' }
@@ -81,18 +97,30 @@ SpkLinearLayout >> extraSpace [
 { #category : 'layout' }
 SpkLinearLayout >> layoutTrimming [
 
-	"We don't have enough space for the minimum size of all our submorphs, so overlap them proportionally"
+	"We don't have enough space for the minimum size of all our submorphs.
+	The available primary (p) space is allocated first to #rigid submorphs
+	  * If there isn't enough p size for just the #rigid ones, they will be
+		 truncated according to the placement rule, and we won't get to this method.
+	Any space left over is then allocated to #spaceFill and #shrinkWrap submorphs."
 
-	| deficit p sStart sEnd |
+	| deficit cellsToTrim totalNonRigidSize p sStart sEnd |
 	deficit := self extraSpace negated.
+	cellsToTrim := cells reject: [ :cell | cell isRigid ].
+	totalNonRigidSize := cellsToTrim
+		                     inject: 0
+		                     into: [ :sum :cell | sum + cell pMinimumSize ].
 	p := xform pStartOf: bounds.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
 
 	cells do: [ :cell | 
-		| cellPortion cellTrim trimmedSize pEnd rect |
-		cellPortion := cell pMinimumSize asFloat / minimumPrimarySize.
-		cellTrim := (cellPortion * deficit) ceiling.
+		| cellTrim trimmedSize pEnd rect |
+		cell isRigid
+			ifTrue: [ cellTrim := 0 ]
+			ifFalse: [ 
+				| cellPortion |
+				cellPortion := cell pMinimumSize asFloat / totalNonRigidSize.
+				cellTrim := (cellPortion * deficit) ceiling ].
 		trimmedSize := cell pMinimumSize - cellTrim.
 		pEnd := p + trimmedSize.
 		rect := xform
@@ -106,7 +134,7 @@ SpkLinearLayout >> layoutTrimming [
 ]
 
 { #category : 'layout' }
-SpkLinearLayout >> layoutWithAlignment [
+SpkLinearLayout >> layoutWithPlacementRule [
 
 	"No submorphs have #spaceFill, so place any extra space according to my alignment."
 
@@ -165,6 +193,12 @@ SpkLinearLayout >> pResizingOf: aMorph [
 	^ xform pResizingOf: aMorph
 ]
 
+{ #category : 'as yet unclassified' }
+SpkLinearLayout >> placeRigidsOnly [
+
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 SpkLinearLayout >> policy: anObject [
 	policy := anObject
@@ -177,14 +211,18 @@ SpkLinearLayout >> scanSubmorphs [
 	and compute total of minimum space along the primary axis.
 	Cache some of this information in LayoutCells"
 
-	numberOfSpaceFills := minimumPrimarySize := 0.
+	numberOfSpaceFills := minimumPrimarySize := totalRigidSize := 0.
 	cells := OrderedCollection new.
 	morph submorphsDo: [ :submorph | 
-		| cell |
+		| cell resizing |
 		cell := cells add: (SpkLayoutCell forMorph: submorph).
+		resizing := self pResizingOf: submorph.
 		cell pMinimumSize: (self pMinimumSizeOf: submorph).
-		(self pResizingOf: submorph) == #spaceFill ifTrue: [ 
+		resizing == #spaceFill ifTrue: [ 
 			cell isSpaceFill: true.
 			numberOfSpaceFills := numberOfSpaceFills + 1 ].
-		minimumPrimarySize := minimumPrimarySize + cell pMinimumSize ]
+		minimumPrimarySize := minimumPrimarySize + cell pMinimumSize.
+		resizing == #rigid ifTrue: [ 
+			cell isRigid: true.
+			totalRigidSize := totalRigidSize + cell pMinimumSize ] ]
 ]

@@ -15,6 +15,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'targetMorph',
+		'isRigid',
 		'isSpaceFill',
 		'pMinimumSize'
 	],
@@ -33,7 +34,19 @@ SpkLayoutCell class >> forMorph: aMorph [
 SpkLayoutCell >> initialize [
 
 	super initialize.
-	isSpaceFill := false
+	isSpaceFill := isRigid := false
+]
+
+{ #category : 'accessing' }
+SpkLayoutCell >> isRigid [
+
+	^ isRigid
+]
+
+{ #category : 'accessing' }
+SpkLayoutCell >> isRigid: anObject [
+
+	isRigid := anObject
 ]
 
 { #category : 'accessing' }

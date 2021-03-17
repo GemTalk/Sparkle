@@ -5,9 +5,20 @@ Class {
 }
 
 { #category : 'layout' }
-SpkLinearLayoutPlaceInCenter >> layoutWithAlignment [
+SpkLinearLayoutPlaceInCenter >> layoutWithPlacementRule [
 
-	"No submorphs have #spaceFill, so place any extra space according to my alignment."
+	"No submorphs have #spaceFill, so place extra space equally before and after the submorphs."
 
 	self adjacentLayoutStartingAt: self extraSpace // 2
+]
+
+{ #category : 'as yet unclassified' }
+SpkLinearLayoutPlaceInCenter >> placeRigidsOnly [
+
+	"In this class it is expected that the argument to startingAt: will be negative,
+	and that the endCoord will be beyond my bounds."
+
+	self
+		adjacentLayoutCells: (cells select: [ :cell | cell isRigid ])
+		startingAt: self availableSpace - totalRigidSize // 2
 ]

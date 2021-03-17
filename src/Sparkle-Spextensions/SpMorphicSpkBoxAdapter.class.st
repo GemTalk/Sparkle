@@ -33,24 +33,6 @@ SpMorphicSpkBoxAdapter class >> placementClassFor: placementSymbol [
 		  ifAbsent: [ self error: 'Unsupported placement rule' ]
 ]
 
-{ #category : 'private' }
-SpMorphicSpkBoxAdapter >> OLDapplyAlignmentTo: aWidget [
-
-	aWidget changeLinearLayout.
-	layout isVertical
-		ifTrue: [ 
-			layout vAlign ifNotNil: [ :vAlign | 
-				aWidget layoutClass: (self placementClassFor: vAlign) ].
-			layout hAlign ifNotNil: [ :hAlign | 
-				aWidget cellPositioning: hAlign asMorphicAlign ] ]
-		ifFalse: [ 
-			layout hAlign ifNotNil: [ :hAlign | 
-				aWidget layoutClass: (self placementClassFor: hAlign) ].
-			layout vAlign ifNotNil: [ :vAlign | 
-				aWidget cellPositioning: vAlign asMorphicAlign ] ].
-	^ aWidget
-]
-
 { #category : 'factory' }
 SpMorphicSpkBoxAdapter >> add: aPresenter constraints: constraints beforeIndex: anInteger [
 	self widgetDo: [ :aPanel | 

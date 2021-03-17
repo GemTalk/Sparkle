@@ -63,8 +63,7 @@ SpkPaneWithList >> initializeTwizzledList [
 	twizzledList
 		labelString: self listLabelString;
 		subPresenter: list;
-		showSubPresenter: true.
-	self layout add: twizzledList
+		showSubPresenter: true
 ]
 
 { #category : 'actions' }

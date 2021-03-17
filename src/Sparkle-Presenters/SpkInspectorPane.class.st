@@ -75,6 +75,12 @@ SpkInspectorPane >> evaluators [
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
 ]
 
+{ #category : 'private-traversing' }
+SpkInspectorPane >> extraPresenters [
+
+	^ super extraPresenters , self evaluators
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> headerClass [
 
@@ -138,7 +144,6 @@ SpkInspectorPane >> initializePresenters [
 SpkInspectorPane >> initializeSelfDescription [
 
 	selfDescription := self instantiate: SpkTwizzledString.
-	self layout add: selfDescription.
 	self updateSelfDescription
 ]
 
@@ -191,13 +196,6 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 	^ self evaluators
 		  collect: [ :each | each linkedPane ]
 		  thenSelect: [ :each | each notNil ]
-]
-
-{ #category : 'private-traversing' }
-SpkInspectorPane >> presentersDo: aBlock [
-
-	super presentersDo: aBlock.
-	self evaluators do: aBlock
 ]
 
 { #category : 'printing' }

@@ -23,8 +23,7 @@ SpkTwizzledString >> initializePresenters [
 	twizzledPresenter := self instantiate: SpkTwizzledPresenter.
 	twizzledPresenter
 		subPresenter: textPresenter;
-		showSubPresenter: false. "Closed by default"
-	self layout add: twizzledPresenter
+		showSubPresenter: false "Closed by default"
 ]
 
 { #category : 'accessing' }
@@ -34,7 +33,15 @@ SpkTwizzledString >> labelString: aString [
 ]
 
 { #category : 'accessing' }
+SpkTwizzledString >> layout [
+  
+	^ owner layout
+]
+
+{ #category : 'accessing' }
 SpkTwizzledString >> newLayout [
 
-	^ SpkBoxLayout newVertical
+	"I use my owner's layout for the twizzledPresenter"
+
+	self shouldNotImplement
 ]

@@ -28,6 +28,7 @@ Class {
 		'twizzle',
 		'label',
 		'labelString',
+		'ownerLayout',
 		'topLayout',
 		'subPresenter',
 		'subPresenterIsShown'
@@ -48,6 +49,7 @@ SpkTwizzledPresenter >> initializeLabel [
 SpkTwizzledPresenter >> initializePresenters [
 
 	super initializePresenters.
+	ownerLayout := owner layout.
 	self initializeTop
 ]
 
@@ -57,7 +59,7 @@ SpkTwizzledPresenter >> initializeTop [
 	topLayout := SpkBoxLayout newHorizontal
 		hAlignWidgetsAtLeft;
 		yourself.
-	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
+	ownerLayout add: topLayout withConstraints: [ :c | c height: 25 ].
 	self
 		initializeTwizzle;
 		initializeLabel
@@ -96,7 +98,9 @@ SpkTwizzledPresenter >> newLayout [
 SpkTwizzledPresenter >> showSubPresenter: aBoolean [
 
 	subPresenterIsShown := aBoolean.
-	self updateSubPresenterVisibility
+	self
+		updateTwizzleIcon;
+		updateSubPresenterVisibility
 ]
 
 { #category : 'accessing' }
@@ -135,12 +139,12 @@ SpkTwizzledPresenter >> updateSubPresenterVisibility [
 
 	subPresenterIsShown
 		ifTrue: [ 
-			(self layout includesPresenter: subPresenter) ifFalse: [ 
-				self layout
+			(ownerLayout includesPresenter: subPresenter) ifFalse: [ 
+				ownerLayout
 					add: subPresenter
 					after: topLayout
 					withConstraints: [ :c | c fill: true ] ] ]
-		ifFalse: [ self layout remove: subPresenter ifAbsent: [  ] ]
+		ifFalse: [ ownerLayout remove: subPresenter ifAbsent: [  ] ]
 ]
 
 { #category : 'actions' }

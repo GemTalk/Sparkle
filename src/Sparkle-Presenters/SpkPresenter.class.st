@@ -35,6 +35,16 @@ SpkPresenter class >> notYetImplemented: aString [
 	self inform: aString , ' not yet implemented (shucks)'
 ]
 
+{ #category : 'as yet unclassified' }
+SpkPresenter >> extraPresenters [
+
+	"Answer a collection of presenters that are logically my children but answer false 
+	to isKindOf: SpAbstractPresenter. For instance, children held in a collection, rather
+	than directly in slots."
+
+	^ OrderedCollection new
+]
+
 { #category : 'accessing' }
 SpkPresenter >> iconNamed: aSymbol [
 	^ self application iconNamed: aSymbol
@@ -95,8 +105,8 @@ SpkPresenter >> newTable [
 { #category : 'accessing' }
 SpkPresenter >> nonChildSlotNames [
 
-	"Answer a collection of the names of slots that, though they might refer to presenters, those presenters
-	are not my children."
+	"Answer a collection of the names of slots that, though they might 
+	refer to presenters, those presenters are not my children."
 
 	^ #( #owner )
 ]
@@ -137,5 +147,6 @@ SpkPresenter >> presentersDo: aBlock [
 		thenDo: [ :each | 
 			| var |
 			var := self readSlot: each.
-			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ]
+			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ].
+	self extraPresenters do: aBlock
 ]

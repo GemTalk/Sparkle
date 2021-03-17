@@ -118,8 +118,8 @@ SpkTwizzledPresenter >> toggle [
 SpkTwizzledPresenter >> twizzleIcon [
 
 	^ subPresenterIsShown
-		  ifTrue: [ self iconNamed: #treeExpanded ]
-		  ifFalse: [ self iconNamed: #treeUnexpanded ]
+		  ifTrue: [ self iconNamed: #twizzleExpanded24 ]
+		  ifFalse: [ self iconNamed: #twizzleUnexpanded24 ]
 ]
 
 { #category : 'updating' }

@@ -10,6 +10,8 @@ Class {
 	#name : 'SpkBoxLayout',
 	#superclass : 'SpDirectionableLayout',
 	#instVars : [
+		'placementRule',
+		'widgetAlignment',
 		'color',
 		'borderWidth'
 	],
@@ -187,6 +189,24 @@ SpkBoxLayout >> enabled: aBoolean [
 	self withAdapterDo: [ :dapt | dapt enabled: aBoolean ]
 ]
 
+{ #category : 'widget alignment' }
+SpkBoxLayout >> hAlignWidgetsAtCenter [
+
+	widgetAlignment := widgetAlignment hAlignWidgetsAtCenter
+]
+
+{ #category : 'widget alignment' }
+SpkBoxLayout >> hAlignWidgetsAtLeft [
+
+	widgetAlignment := widgetAlignment hAlignWidgetsAtLeft
+]
+
+{ #category : 'widget alignment' }
+SpkBoxLayout >> hAlignWidgetsAtRight [
+
+	widgetAlignment := widgetAlignment hAlignWidgetsAtRight
+]
+
 { #category : 'testing' }
 SpkBoxLayout >> includesPresenter: aPresenter [
 
@@ -207,7 +227,9 @@ SpkBoxLayout >> initialize [
 	super initialize.
 	self borderWidth: 0.
 	color := Color transparent.
-	children := SpkOrderedDictionary new
+	children := SpkOrderedDictionary new.
+	placementRule := #start.
+	widgetAlignment := SpkLayoutWidgetAlignmentFactory default
 ]
 
 { #category : 'testing' }
@@ -222,6 +244,36 @@ SpkBoxLayout >> isVertical [
 	"Answer true if the layout direction is vertical"
 
 	^ self direction = SpkLayoutDirectionVertical uniqueInstance
+]
+
+{ #category : 'placement rules' }
+SpkBoxLayout >> placeWidgetsAtCenter [
+
+	placementRule := #center
+]
+
+{ #category : 'placement rules' }
+SpkBoxLayout >> placeWidgetsAtEnd [
+
+	placementRule := #end
+]
+
+{ #category : 'placement rules' }
+SpkBoxLayout >> placeWidgetsAtStart [
+
+	placementRule := #start
+]
+
+{ #category : 'placement rules' }
+SpkBoxLayout >> placeWidgetsJustified [
+
+	placementRule := #justified
+]
+
+{ #category : 'accessing' }
+SpkBoxLayout >> placementRule [
+
+	^ placementRule
 ]
 
 { #category : 'removing' }
@@ -256,6 +308,24 @@ SpkBoxLayout >> removePresenterAtIndex: anInteger [
 	self announceChildRemoved: association key atIndex: anInteger
 ]
 
+{ #category : 'widget alignment' }
+SpkBoxLayout >> vAlignWidgetsAtBottom [
+
+	widgetAlignment := widgetAlignment vAlignWidgetsAtBottom
+]
+
+{ #category : 'widget alignment' }
+SpkBoxLayout >> vAlignWidgetsAtCenter [
+
+	widgetAlignment := widgetAlignment vAlignWidgetsAtCenter
+]
+
+{ #category : 'widget alignment' }
+SpkBoxLayout >> vAlignWidgetsAtTop [
+
+	widgetAlignment := widgetAlignment vAlignWidgetsAtTop
+]
+
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> whenChildrenAddedDo: aBlock [
 	"It's really *one* child that has been added, sigh."
@@ -268,4 +338,10 @@ SpkBoxLayout >> whenChildrenRemovedDo: aBlock [
 	"It's really *one* child that has been removed, sigh."
 
 	self announcer when: SpkChildRemoved do: aBlock
+]
+
+{ #category : 'accessing' }
+SpkBoxLayout >> widgetAlignment [
+
+	^ widgetAlignment
 ]

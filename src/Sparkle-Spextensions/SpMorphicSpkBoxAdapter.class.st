@@ -7,31 +7,30 @@ Class {
 	#name : 'SpMorphicSpkBoxAdapter',
 	#superclass : 'SpMorphicLayoutAdapter',
 	#classVars : [
-		'AlignmentClasses'
+		'PlacementRules'
 	],
 	#category : 'Sparkle-Spextensions-Adapters'
 }
-
-{ #category : 'private' }
-SpMorphicSpkBoxAdapter class >> alignmentClassFor: anAlignment [
-
-	^ AlignmentClasses
-		  at: anAlignment asMorphicAlign
-		  ifAbsent: [ self error: 'Unsupported alignment' ]
-]
 
 { #category : 'class initialization' }
 SpMorphicSpkBoxAdapter class >> initialize [
 
 	"SpMorphicSpkBoxAdapter initialize"
 
-	AlignmentClasses := IdentityDictionary new
-		                    at: #center put: SpkLinearLayoutAlignCenter;
-		                    at: #bottomRight put: SpkLinearLayoutAlignEnd;
-		                    at: #topLeft put: SpkLinearLayoutAlignStart;
-		                    at: #justified
-		                    put: SpkLinearLayoutAlignJustified;
-		                    yourself
+	PlacementRules := IdentityDictionary new
+		                  at: #center put: SpkLinearLayoutPlaceInCenter;
+		                  at: #end put: SpkLinearLayoutPlaceAtEnd;
+		                  at: #start put: SpkLinearLayoutPlaceAtStart;
+		                  at: #justified put: SpkLinearLayoutPlaceJustified;
+		                  yourself
+]
+
+{ #category : 'private' }
+SpMorphicSpkBoxAdapter class >> placementClassFor: placementSymbol [
+
+	^ PlacementRules
+		  at: placementSymbol
+		  ifAbsent: [ self error: 'Unsupported placement rule' ]
 ]
 
 { #category : 'private' }
@@ -41,12 +40,12 @@ SpMorphicSpkBoxAdapter >> OLDapplyAlignmentTo: aWidget [
 	layout isVertical
 		ifTrue: [ 
 			layout vAlign ifNotNil: [ :vAlign | 
-				aWidget primaryAlignmentClass: (self alignmentClassFor: vAlign) ].
+				aWidget layoutClass: (self placementClassFor: vAlign) ].
 			layout hAlign ifNotNil: [ :hAlign | 
 				aWidget cellPositioning: hAlign asMorphicAlign ] ]
 		ifFalse: [ 
 			layout hAlign ifNotNil: [ :hAlign | 
-				aWidget primaryAlignmentClass: (self alignmentClassFor: hAlign) ].
+				aWidget layoutClass: (self placementClassFor: hAlign) ].
 			layout vAlign ifNotNil: [ :vAlign | 
 				aWidget cellPositioning: vAlign asMorphicAlign ] ].
 	^ aWidget
@@ -125,24 +124,18 @@ SpMorphicSpkBoxAdapter >> addPadding: aNumber toMorph: aMorph [
 ]
 
 { #category : 'private' }
-SpMorphicSpkBoxAdapter >> alignmentClassFor: anAlignment [
-
-	^ self class alignmentClassFor: anAlignment
-]
-
-{ #category : 'private' }
 SpMorphicSpkBoxAdapter >> applyAlignmentTo: aWidget [
 
 	aWidget changeLinearLayout.
 	layout isVertical
 		ifTrue: [ 
 			layout vAlign ifNotNil: [ :vAlign | 
-				aWidget primaryAlignmentClass: (self alignmentClassFor: vAlign) ].
+				aWidget layoutClass: (self placementClassFor: vAlign) ].
 			layout hAlign ifNotNil: [ :hAlign | 
 				aWidget cellPositioning: hAlign asMorphicAlign ] ]
 		ifFalse: [ 
 			layout hAlign ifNotNil: [ :hAlign | 
-				aWidget primaryAlignmentClass: (self alignmentClassFor: hAlign) ].
+				aWidget layoutClass: (self placementClassFor: hAlign) ].
 			layout vAlign ifNotNil: [ :vAlign | 
 				aWidget cellPositioning: vAlign asMorphicAlign ] ].
 	^ aWidget
@@ -179,11 +172,13 @@ SpMorphicSpkBoxAdapter >> children [
 SpMorphicSpkBoxAdapter >> layout: aLayout [
 
 	layout := aLayout.
-	widget ifNil: [ "build of widget was differed up to here (to know what is the direction)"
+	widget ifNil: [ 
 		widget := aLayout direction newWidgetOn: self.
-		widget borderWidth: aLayout borderWidth.
-		aLayout hasAlignment ifTrue: [ 
-			widget := self applyAlignmentTo: widget ] ].
+		widget
+			changeLinearLayout;
+			borderWidth: aLayout borderWidth;
+			layoutClass: (self placementClassFor: layout placementRule);
+			cellPositioning: layout widgetAlignment asMorphicAlign ].
 	aLayout whenChildrenAddedDo: [ :ann | 
 		self
 			add: ann child
@@ -224,6 +219,12 @@ SpMorphicSpkBoxAdapter >> newVertical [
 	^ self newPanel
 		  coordinateTransform: SpkVerticalTransform uniqueInstance;
 		  yourself
+]
+
+{ #category : 'private' }
+SpMorphicSpkBoxAdapter >> placementClassFor: anAlignment [
+
+	^ self class placementClassFor: anAlignment
 ]
 
 { #category : 'removing' }

@@ -1,11 +1,11 @@
 Class {
-	#name : 'SpkLinearLayoutAlignJustified',
+	#name : 'SpkLinearLayoutPlaceJustified',
 	#superclass : 'SpkLinearLayout',
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
 
 { #category : 'layout' }
-SpkLinearLayoutAlignJustified >> layoutWithAlignment [
+SpkLinearLayoutPlaceJustified >> layoutWithAlignment [
 
 	"No submorphs have #spaceFill, so place any extra space according to my alignment."
 

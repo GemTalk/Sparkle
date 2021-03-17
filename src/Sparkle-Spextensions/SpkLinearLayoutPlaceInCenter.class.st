@@ -1,13 +1,13 @@
 Class {
-	#name : 'SpkLinearLayoutAlignEnd',
+	#name : 'SpkLinearLayoutPlaceInCenter',
 	#superclass : 'SpkLinearLayout',
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
 
 { #category : 'layout' }
-SpkLinearLayoutAlignEnd >> layoutWithAlignment [
+SpkLinearLayoutPlaceInCenter >> layoutWithAlignment [
 
 	"No submorphs have #spaceFill, so place any extra space according to my alignment."
 
-	self adjacentLayoutStartingAt: self extraSpace
+	self adjacentLayoutStartingAt: self extraSpace // 2
 ]

@@ -55,7 +55,7 @@ SpkTwizzledPresenter >> initializePresenters [
 SpkTwizzledPresenter >> initializeTop [
 
 	topLayout := SpkBoxLayout newHorizontal
-		hAlignStart;
+		hAlignWidgetsAtLeft;
 		yourself.
 	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
 	self

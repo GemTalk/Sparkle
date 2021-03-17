@@ -68,6 +68,13 @@ SpkLayoutMorph >> coordinateTransform: xform [
 	self assureLayoutProperties coordinateTransform: xform
 ]
 
+{ #category : 'layout-properties' }
+SpkLayoutMorph >> layoutClass: aClass [
+
+	self assureLayoutProperties layoutClass: aClass.
+	self layoutChanged
+]
+
 { #category : 'bogus properties' }
 SpkLayoutMorph >> layoutInset: aNumber [
 
@@ -127,13 +134,6 @@ SpkLayoutMorph >> minCellSize: aPoint [
 	"Layout specific. This property specifies the minimal size of a table cell."
 
 	self shouldNotImplement
-]
-
-{ #category : 'layout-properties' }
-SpkLayoutMorph >> primaryAlignmentClass: aClass [
-
-	self assureLayoutProperties primaryAlignmentClass: aClass.
-	self layoutChanged
 ]
 
 { #category : 'bogus properties' }

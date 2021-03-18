@@ -12,8 +12,10 @@ SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 	"clear all breakpoints set in image"
 
 	GsNMethod clearAllBreaks.
-	methodService rowanMethodService update.
-	methodService rowanMethodService: methodService rowanMethodService. "awkward but update the scaffolding method service this way for now"
+	methodService
+		ifNotNil: [ 
+			methodService rowanMethodService update.
+			methodService rowanMethodService: methodService rowanMethodService	"awkward but update the scaffolding method service this way for now" ]
 ]
 
 { #category : 'debbuger process control' }

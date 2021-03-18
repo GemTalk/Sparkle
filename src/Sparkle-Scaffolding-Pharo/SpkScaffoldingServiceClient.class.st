@@ -2015,7 +2015,7 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 
 	(client
 		 gsDebugger_07: '| array |
-		RowanAnsweringService putABreakInHere. 
+		Play putABreakInHere. 
 		array := Array new. 
 		array add: 1. self halt. 
 		[ array add: 3 ] value. 

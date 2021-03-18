@@ -67,6 +67,7 @@ SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
 
 	sourceCode removeAllTextSegmentDecorations.
 	frame ifNotNil: [ 
+		Transcript cr; show: 'displayTextAnnotationsIn: ', frame printString; flush. 
 		self showSourcePositionIn: frame.
 		self showBreakPoints ]
 ]
@@ -94,7 +95,7 @@ SpkTraditionalDebuggerPresenter >> doIt [
 { #category : 'constants' }
 SpkTraditionalDebuggerPresenter >> glueSelectors [
 	"when showing a stack, select the frame just above these methods"
-	^#(#halt #_signalAsync) 
+	^#(#halt #_signalAsync #_doesNotUnderstand:args:envId:reason:) 
 ]
 
 { #category : 'private' }

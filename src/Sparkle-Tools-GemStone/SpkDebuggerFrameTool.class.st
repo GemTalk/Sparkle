@@ -214,7 +214,9 @@ SpkDebuggerFrameTool >> lastKeywordCharacterIn: source startingAt: startPos [
 
 	startPos to: source size do: [ :testPos | 
 		(self isKeywordCharacter: (source at: testPos))
-			ifFalse: [ ^ testPos - 1 ] ]
+			ifFalse: [ ^ testPos - 1 ] ].
+	"Reached the end of the method."
+	^ source size
 ]
 
 { #category : 'accessing' }

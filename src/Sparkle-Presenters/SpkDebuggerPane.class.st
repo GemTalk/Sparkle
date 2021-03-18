@@ -40,7 +40,6 @@ SpkDebuggerPane >> headerClass [
 SpkDebuggerPane >> initializeDescription [
 
 	description := self instantiate: SpkTwizzledString.
-	self layout add: description.
 	self updateDescription
 ]
 
@@ -71,7 +70,7 @@ SpkDebuggerPane >> initializePresenters [
 SpkDebuggerPane >> initializeProcessControls [
 
 	processControlLayout := SpkBoxLayout newHorizontal
-		                        hAlignCenter;
+		                        placeWidgetsAtCenter;
 		                        color: Color veryVeryDarkGray;
 		                        yourself.
 	self layout

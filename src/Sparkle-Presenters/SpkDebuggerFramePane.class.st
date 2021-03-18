@@ -44,9 +44,9 @@ SpkDebuggerFramePane >> initializeDescription [
 { #category : 'initialization' }
 SpkDebuggerFramePane >> initializeListColumns [
 
-	twizzledList
-		addColumnEvaluated: #name;
-		addColumnEvaluated: #description
+	list
+		addColumn: (SpStringTableColumn evaluated: #name);
+		addColumn: (SpStringTableColumn evaluated: #description)
 ]
 
 { #category : 'initialization' }

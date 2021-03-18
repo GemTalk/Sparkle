@@ -1,12 +1,22 @@
 Class {
 	#name : 'SpkTwizzledString',
-	#superclass : 'SpkPresenter',
+	#superclass : 'Object',
 	#instVars : [
+		'owner',
 		'twizzledPresenter',
 		'textPresenter'
 	],
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Support'
 }
+
+{ #category : 'accessing' }
+SpkTwizzledString class >> owner: aPresenter [
+
+	^ self new
+		  owner: aPresenter;
+		  initializePresenters;
+		  yourself
+]
 
 { #category : 'accessing' }
 SpkTwizzledString >> bodyString: aString [
@@ -17,10 +27,9 @@ SpkTwizzledString >> bodyString: aString [
 { #category : 'initialization' }
 SpkTwizzledString >> initializePresenters [
 
-	super initializePresenters.
-	textPresenter := self newText.
+	textPresenter := owner newText.
 	textPresenter beNotEditable.
-	twizzledPresenter := self instantiate: SpkTwizzledPresenter.
+	twizzledPresenter := owner instantiate: SpkTwizzledPresenter.
 	twizzledPresenter
 		subPresenter: textPresenter;
 		showSubPresenter: false "Closed by default"
@@ -39,9 +48,7 @@ SpkTwizzledString >> layout [
 ]
 
 { #category : 'accessing' }
-SpkTwizzledString >> newLayout [
+SpkTwizzledString >> owner: anObject [
 
-	"I use my owner's layout for the twizzledPresenter"
-
-	self shouldNotImplement
+	owner := anObject
 ]

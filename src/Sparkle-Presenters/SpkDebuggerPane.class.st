@@ -40,6 +40,8 @@ SpkDebuggerPane >> headerClass [
 SpkDebuggerPane >> initializeDescription [
 
 	description := self instantiate: SpkTwizzledString.
+	description twizzleHelp:
+		'Show or hide the full description of the exception'.
 	self updateDescription
 ]
 
@@ -116,6 +118,12 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 	frameService
 		ifNil: [ self disableAll ]
 		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> listLabelString [
+
+	self subclassResponsibility
 ]
 
 { #category : 'menu' }

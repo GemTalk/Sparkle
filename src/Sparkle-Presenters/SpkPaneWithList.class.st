@@ -3,8 +3,7 @@ Class {
 	#superclass : 'SpkPane',
 	#instVars : [
 		'list',
-		'listModel',
-		'twizzledList'
+		'listModel'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -55,17 +54,6 @@ SpkPaneWithList >> initializeListModel [
 		when: SpkItemDeselected send: #itemDeselected: to: self
 ]
 
-{ #category : 'initialization' }
-SpkPaneWithList >> initializeTwizzledList [
-
-	self initializeList.
-	twizzledList := self instantiate: SpkTwizzledPresenter.
-	twizzledList
-		labelString: self listLabelString;
-		subPresenter: list;
-		showSubPresenter: true
-]
-
 { #category : 'actions' }
 SpkPaneWithList >> itemDeselected: anAnnouncement [
 
@@ -99,12 +87,6 @@ SpkPaneWithList >> linkedPanes [
 SpkPaneWithList >> listItemServices [
 
 	^ model listItems
-]
-
-{ #category : 'as yet unclassified' }
-SpkPaneWithList >> listLabelString [
-
-	self subclassResponsibility
 ]
 
 { #category : 'actions' }

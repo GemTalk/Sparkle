@@ -71,7 +71,6 @@ SpkTwizzledPresenter >> initializeTwizzle [
 	subPresenterIsShown := false. "Don't want to set this true until there is a subpresenter."
 	twizzle := self newIconButton
 		           icon: self twizzleIcon;
-		           help: 'Show or hide the full exception description';
 		           action: [ self toggle ];
 		           yourself.
 	topLayout add: twizzle withConstraints: [ :c | 
@@ -116,6 +115,12 @@ SpkTwizzledPresenter >> toggle [
 	self
 		updateTwizzleIcon;
 		updateSubPresenterVisibility
+]
+
+{ #category : 'accessing' }
+SpkTwizzledPresenter >> twizzleHelp: aString [
+
+	twizzle help: aString
 ]
 
 { #category : 'initialization' }

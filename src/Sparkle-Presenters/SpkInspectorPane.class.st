@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkInspectorPane',
-	#superclass : 'SpkPaneWithList',
+	#superclass : 'SpkPaneWithTwizzledList',
 	#instVars : [
 		'addEvaluatorButton',
 		'evaluators',
@@ -105,19 +105,20 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 				width: 26 ]
 ]
 
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeBody [
-
-	self
-		initializeSelfDescription;
-		initializeTwizzledList
-]
-
 { #category : 'adding' }
 SpkInspectorPane >> initializeEvaluators [
 
 	model evaluators do: [ :evaluatorModel | 
 		self addEvaluatorWithModel: evaluatorModel ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initializeFieldList [
+
+	self
+		initializeSelfDescription;
+		initializeTwizzledList.
+	twizzledList twizzleHelp: 'Show or hide the field list'
 ]
 
 { #category : 'initialization' }
@@ -135,7 +136,7 @@ SpkInspectorPane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializeBody;
+		initializeFieldList;
 		initializeAddEvaluatorButton;
 		initializeEvaluators
 ]
@@ -144,6 +145,7 @@ SpkInspectorPane >> initializePresenters [
 SpkInspectorPane >> initializeSelfDescription [
 
 	selfDescription := self instantiate: SpkTwizzledString.
+	selfDescription twizzleHelp: 'Show or hide the full printString'.
 	self updateSelfDescription
 ]
 

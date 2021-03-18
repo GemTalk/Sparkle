@@ -52,3 +52,9 @@ SpkTwizzledString >> owner: anObject [
 
 	owner := anObject
 ]
+
+{ #category : 'accessing' }
+SpkTwizzledString >> twizzleHelp: aString [
+
+	twizzledPresenter twizzleHelp: aString
+]

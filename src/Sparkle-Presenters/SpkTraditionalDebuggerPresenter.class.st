@@ -243,17 +243,24 @@ SpkTraditionalDebuggerPresenter >> newLayout [
 { #category : 'menus' }
 SpkTraditionalDebuggerPresenter >> overrideContextMenu [
 
+	| menu |
 	sourceCode overridingContextMenu contextMenu:
-		(SpMenuPresenter new addGroup: [ :group | 
-			 group addItem: [ :item | 
-				 item
-					 name: 'Add Breakpoint';
-					 icon: (self iconNamed: #stop);
-					 action: [ self setBreakpoint ] ].
-			 group addItem: [ :item | 
-				 item
-					 name: 'Clear All Breakpoints';
-					 action: [ self clearAllBreaks ] ] ])
+		(menu := SpMenuPresenter new addGroup: [ :group | 
+			         group addItem: [ :item | 
+				         item
+					         name: 'Add Breakpoint';
+					         icon: (self iconNamed: #stop);
+					         action: [ self setBreakpoint ] ].
+			         group addItem: [ :item | 
+				         item
+					         name: 'Clear All Breakpoints';
+					         action: [ self clearAllBreaks ] ] ]).
+	menu addGroup: [ :group | 
+		group addItem: [ :item | 
+			item
+				name: 'Save';
+				action: [ self save ];
+				shortcut: PharoShortcuts current acceptShortcut ] ]
 ]
 
 { #category : 'actions' }
@@ -275,6 +282,14 @@ SpkTraditionalDebuggerPresenter >> resume [
 
 	self ifConnectedDo: #resume. 
 	self closeWindow
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> save [
+
+	debuggerService
+		compileMethodSource: sourceCode text asString
+		at: frameList selection selectedIndexes first
 ]
 
 { #category : 'private' }
@@ -306,11 +321,10 @@ SpkTraditionalDebuggerPresenter >> setBreakpoint [
 			setBreakpointForClass: methodService className
 			meta: methodService meta
 			selector: methodService selector asSymbol
-			atStepPoint:
-			(sourceCode selectionInterval isEmpty ifTrue:[1] ifFalse:[self
-				 stepPoint: methodService
-				 fromOffset: sourceCode selectionInterval first]).
-		self displayTextAnnotationsIn: frameList selection selectedItem]
+			atStepPoint: (self
+					 stepPoint: methodService
+					 fromOffset: sourceCode cursorPositionIndex).
+		self displayTextAnnotationsIn: frameList selection selectedItem ]
 ]
 
 { #category : 'private' }

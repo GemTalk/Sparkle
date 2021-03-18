@@ -97,8 +97,10 @@ SpkScaffoldingDebuggerServiceServer >> setBreakpointForClass: className meta: is
 		stepPoint: stepPoint
 		env: 0
 		breakpointLevel: 1.
-	methodService rowanMethodService update.
-	methodService rowanMethodService: methodService rowanMethodService.	"awkward but update the scaffolding method service this way for now"
+	methodService
+		ifNotNil: [ :methService | 
+			methService rowanMethodService update.
+			methService rowanMethodService: methService rowanMethodService	"awkward but update the scaffolding method service this way for now" ].
 
 	^ res
 ]

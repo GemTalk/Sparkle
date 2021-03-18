@@ -66,8 +66,8 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
 
 	sourceCode removeAllTextSegmentDecorations.
+	self update. 
 	frame ifNotNil: [ 
-		Transcript cr; show: 'displayTextAnnotationsIn: ', frame printString; flush. 
 		self showSourcePositionIn: frame.
 		self showBreakPoints ]
 ]

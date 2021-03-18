@@ -2009,10 +2009,17 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 	| client debuggerClient sem expressionResult x |
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
-	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		                  registerWith: self connection;
+		                  synchronize.
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	sem := Semaphore new.
-
+	debuggerClient
+		setBreakpointForClass: 'Play'
+		meta: true
+		selector: #putABreakInHere
+		atStepPoint: 2.
+		
 	(client
 		 gsDebugger_07: '| array |
 		Play putABreakInHere. 
@@ -2026,7 +2033,8 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 			expressionResult := result doitResult.
 
 			sem signal ]
-		catch: [ :reason | Transcript
+		catch: [ :reason | 
+			Transcript
 				cr;
 				show: '=========';
 				cr;
@@ -2035,9 +2043,8 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 				show: DateAndTime now printString;
 				cr;
 				show: '=========';
-				yourself  ].
-	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait. "wait for stack to print"
-
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait "wait for stack to print"
 ]
 
 { #category : 'examples' }

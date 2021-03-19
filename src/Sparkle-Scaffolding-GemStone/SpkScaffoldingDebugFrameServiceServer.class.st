@@ -74,6 +74,13 @@ SpkScaffoldingDebugFrameServiceServer >> setCurrentPosition: theProcess level: l
 	stopPos := currentSourceInterval last
 ]
 
+{ #category : 'actions' }
+SpkScaffoldingDebugFrameServiceServer >> setLabel [
+
+	"force label to be set. saves roundtrips later"
+	self label
+]
+
 { #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> variableMap [
 	"a bit redundant to have a separate variable oop map but fine for development for now" 

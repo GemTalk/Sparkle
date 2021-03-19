@@ -24,7 +24,6 @@ SpkDebuggerToolTest >> testBreakpoint01 [
 	self assert: method class equals: GsNMethod.
 	[ 
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
-	self deny: GsProcess usingNativeCode.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
 	frame := debugger frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].

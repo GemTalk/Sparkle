@@ -13,7 +13,10 @@ Class {
 		'level',
 		'frameContents',
 		'description',
-		'index'
+		'index',
+		'method',
+		'receiver',
+		'stepPoint'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -52,7 +55,7 @@ SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
 	tool
 		columnAt: 1 put: 'receiver';
 		columnAt: 2 put: (tool selfDescriptionOf: self frameReceiver);
-		referencedObject: self frameReceiver
+		referencedObject: self receiver
 ]
 
 { #category : 'private' }
@@ -68,12 +71,12 @@ SpkDebuggerFrameTool >> argAndTempValues [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
 
-	| startPos startChar source method stepPoint |
-	method := self method.
+	| startPos startChar source   |
+	"Make sure method and stepPoint are initialized."
+	self method; stepPoint.
 	method == nil
 		ifTrue: [^1 to: 0].
 	source := self source.
-	stepPoint := self stepPoint.
 	stepPoint == nil
 		ifTrue: [^1 to: (1 min: source size)].
 	startPos := method _sourceOffsetsAt: stepPoint.
@@ -141,8 +144,28 @@ SpkDebuggerFrameTool >> frameContents [
 ]
 
 { #category : 'private' }
+SpkDebuggerFrameTool >> frameMethod [
+	"Can answer nil if GCI or User Action, according to GsProcess>>_reportWithFrameContents:level:"
+
+	^ process _methodInFrameContents: self frameContents
+]
+
+{ #category : 'private' }
 SpkDebuggerFrameTool >> frameReceiver [
 	^ self frameContents at: 10
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> frameStepPoint [
+	| ip |
+	"Make sure method is initialized."
+	self method.
+	method ifNil: [ ^ nil ].
+	ip := (self frameContents at: 2) abs.
+	^ method
+		_stepPointForIp: ip
+		level: level
+		useNext: (process _nativeStack or: [ process _calleeIsAsync: level ])
 ]
 
 { #category : 'accessing' }
@@ -157,12 +180,13 @@ SpkDebuggerFrameTool >> index: object [
 
 { #category : 'private' }
 SpkDebuggerFrameTool >> initializeDescription [
-	| meth receiver |
-	meth := self method.
-	meth == nil
-		ifTrue: [^description := '<no method>'].
-	receiver := process _receiverInFrameContents: self frameContents.
-	description := meth _descrForStackPadTo: 0 rcvr: receiver.
+	| aReceiver |
+	"Make sure method is initialized."
+	self method.
+	method == nil
+		ifTrue: [ ^ description := '<no method>' ].
+	aReceiver := process _receiverInFrameContents: self frameContents.
+	description := method _descrForStackPadTo: 0 rcvr: aReceiver.
 	^ description
 ]
 
@@ -244,26 +268,25 @@ SpkDebuggerFrameTool >> localVariables [
 	^ tools
 ]
 
-{ #category : 'private' }
+{ #category : 'accessing' }
 SpkDebuggerFrameTool >> method [
 	"Can answer nil if GCI or User Action, according to GsProcess>>_reportWithFrameContents:level:"
 
-	^ process _methodInFrameContents: self frameContents
+	^ method ifNil: [ method := self frameMethod ]
 ]
 
-{ #category : 'other' }
+{ #category : 'testing' }
+SpkDebuggerFrameTool >> methodHasChanged [
+	^ self method ~~ self frameMethod
+]
+
+{ #category : 'private' }
 SpkDebuggerFrameTool >> newInspectorFieldTool [ 
 
 	^ SpkInspectorFieldTool new
 		  taskspaceTool: taskspaceTool;
 		  numberOfColumns: 2;
 		  yourself
-]
-
-{ #category : 'other' }
-SpkDebuggerFrameTool >> newInspectorToolOn: anObject [
-
-	^ explorerTool newInspectorToolOn: anObject
 ]
 
 { #category : 'printing' }
@@ -279,6 +302,16 @@ SpkDebuggerFrameTool >> process: aProcess [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerFrameTool >> receiver [
+	^ receiver ifNil: [ receiver := self frameReceiver ]
+]
+
+{ #category : 'testing' }
+SpkDebuggerFrameTool >> receiverHasChanged [
+	^ self receiver ~~ self frameReceiver
+]
+
+{ #category : 'accessing' }
 SpkDebuggerFrameTool >> source [
 	"Return the source code of the associated method.
 	If there is no method, empty string."
@@ -290,12 +323,10 @@ SpkDebuggerFrameTool >> source [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> stepPoint [
-	| method ip |
-	method := self method.
-	method ifNil: [ ^ nil ].
-	ip := (self frameContents at: 2) abs.
-	^ method
-		_stepPointForIp: ip
-		level: level
-		useNext: (process _nativeStack or: [ process _calleeIsAsync: level ])
+	^ stepPoint ifNil: [ stepPoint := self frameStepPoint ]
+]
+
+{ #category : 'testing' }
+SpkDebuggerFrameTool >> stepPointHasChanged [
+	^ self stepPoint ~~ self frameStepPoint
 ]

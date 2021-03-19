@@ -6,7 +6,7 @@ Class {
 
 { #category : 'accessing' }
 SpkScaffoldingAbstractDebugFrameServiceClient >> label [
-
+	
 	^label ifNil: [ label := remoteSelf label wait ]
 ]
 

@@ -89,9 +89,11 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> doIt [
 
-	| result | 
-	result := (debuggerService doit_02: sourceCode selectedText) doitResult. 
-	result inspect
+	| result service | 
+	service := SpkScaffoldingServiceClient new registerWith: 
+		           SpkConnectionProfile defaultConnection.
+	^(service doit_02: sourceCode selectedText) doitResult. 
+	
 ]
 
 { #category : 'constants' }
@@ -269,15 +271,20 @@ SpkTraditionalDebuggerPresenter >> overrideContextMenu [
 			item
 				name: 'Do It';
 				action: [ self doIt ];
-				shortcut: PharoShortcuts current doItShortcut  ] ]
+				shortcut: PharoShortcuts current doItShortcut  ].
+		group addItem: [ :item | 
+			item
+				name: 'Print It';
+				action: [ self printIt ];
+				shortcut: PharoShortcuts current printItShortcut  ] ]
 ]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> printIt [
 
 	| result |
-	result := debuggerService doit_01: sourceCode selection.
-	sourceCode halt 
+	result := self doIt. 
+	sourceCode insert: result printString at: sourceCode cursorPositionIndex + 3 
 ]
 
 { #category : 'actions' }

@@ -89,11 +89,12 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> doIt [
 
-	| result service | 
-	service := SpkScaffoldingServiceClient new registerWith: 
+	| service |
+	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
-	^(service doit_02: sourceCode selectedText) doitResult. 
-	
+	^ (service
+		   doit: sourceCode selectedText
+		   inContext: frameList selection selectedItem frameOop) doitResult
 ]
 
 { #category : 'constants' }

@@ -21,6 +21,12 @@ SpkScaffoldingDebugFrameService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugFrameService >> frameOop [
+
+	^frameOop
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugFrameService >> label [
 
 	self subclassResponsibility

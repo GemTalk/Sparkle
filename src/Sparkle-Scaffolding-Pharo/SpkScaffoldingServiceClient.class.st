@@ -2116,6 +2116,12 @@ SpkScaffoldingServiceClient class >> resetConnection_01 [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceClient >> doit: aString inContext: oop [
+
+	^ (remoteSelf doit: aString contextOop: oop) wait
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit_01: aString [
 
 	^ (remoteSelf doit_01: aString) wait

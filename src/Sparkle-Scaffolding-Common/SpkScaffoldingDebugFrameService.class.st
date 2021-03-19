@@ -8,7 +8,8 @@ Class {
 		'methodService',
 		'methodSource',
 		'startPos',
-		'stopPos'
+		'stopPos',
+		'frameOop'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }

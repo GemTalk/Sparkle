@@ -11,6 +11,12 @@ RowanFrameService >> _method [
 ]
 
 { #category : '*sparkle-scaffolding-rowan-gemstone' }
+RowanFrameService >> _oop [
+
+	^oop
+]
+
+{ #category : '*sparkle-scaffolding-rowan-gemstone' }
 RowanFrameService >> _vars [
 	^ vars
 ]

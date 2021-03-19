@@ -19,6 +19,11 @@ SpkScaffoldingDebugFrameServiceServer >> frameIndex: object [
 ]
 
 { #category : 'accessing' }
+SpkScaffoldingDebugFrameServiceServer >> frameOop: object [
+	frameOop := object
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingDebugFrameServiceServer >> homeMethod [
 	^ self method _homeMethod
 ]

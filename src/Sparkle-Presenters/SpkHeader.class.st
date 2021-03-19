@@ -64,6 +64,7 @@ SpkHeader >> initializePresenters [
 	labelLayout := SpkBoxLayout newHorizontal
 		               placeWidgetsJustified;
 		               vAlignWidgetsAtCenter;
+		               hAlignWidgetsAtLeft;
 		               yourself
 ]
 

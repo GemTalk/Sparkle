@@ -13,14 +13,6 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SpkProcessLauncherAndManager >> continueProcess [
-	"Evaluation process waits for an answer and returns it"
-
-	super continueProcess.
-	^ self waitForResult
-]
-
-{ #category : 'as yet unclassified' }
 SpkProcessLauncherAndManager >> debuggerMustInitiate [
 
 	^ false
@@ -50,6 +42,14 @@ SpkProcessLauncherAndManager >> initializeDebuggerTool [
 
 	super initializeDebuggerTool.
 	debuggerTool explorerTool: explorerTool
+]
+
+{ #category : 'as yet unclassified' }
+SpkProcessLauncherAndManager >> proceedProcess [
+	"Evaluation process waits for an answer and returns it"
+
+	super proceedProcess.
+	^ self waitForResult
 ]
 
 { #category : 'as yet unclassified' }

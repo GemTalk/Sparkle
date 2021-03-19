@@ -10,13 +10,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
-SpkProcessManager >> continueProcess [
-	"Non-evaluation process does not wait for an answer."
-
-	self resumeProcess
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
 
@@ -106,6 +99,13 @@ SpkProcessManager >> initializeDebuggerTool [
 		                processManager: self;
 		                mustInitiate: self debuggerMustInitiate;
 		                yourself
+]
+
+{ #category : 'as yet unclassified' }
+SpkProcessManager >> proceedProcess [
+	"Non-evaluation process does not wait for an answer."
+
+	self resumeProcess
 ]
 
 { #category : 'accessing' }

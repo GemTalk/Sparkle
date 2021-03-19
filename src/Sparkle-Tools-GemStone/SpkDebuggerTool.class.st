@@ -14,17 +14,6 @@ Class {
 }
 
 { #category : 'other' }
-SpkDebuggerTool >> continue [
-	"May wait for an answer, depending on whether the process is an evaluation process"
-
-	| resultTool | 
-	resultTool := processManager continueProcess.
-	updatedInspectors := Set new.
-	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
-	^resultTool
-]
-
-{ #category : 'other' }
 SpkDebuggerTool >> currentException: anException [
 	exception ifNil: [ exception := anException ]
 ]
@@ -121,6 +110,17 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 		explorerTool: explorerTool;
 		process: process;
 		yourself
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> proceed [
+	"May wait for an answer, depending on whether the process is an evaluation process"
+
+	| resultTool | 
+	resultTool := processManager proceedProcess.
+	updatedInspectors := Set new.
+	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	^resultTool
 ]
 
 { #category : 'accessing' }

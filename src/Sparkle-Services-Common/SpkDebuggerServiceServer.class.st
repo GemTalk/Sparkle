@@ -35,7 +35,7 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 { #category : 'other' }
 SpkDebuggerServiceServer >> proceed [
 	| resultTool |
-	resultTool := tool continue.
+	resultTool := tool proceed.
 	self refreshFromTool.
 	^ resultTool == tool
 		ifTrue: [ self ]

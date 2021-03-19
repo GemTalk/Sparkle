@@ -30,7 +30,7 @@ SpkTraditionalDebuggerPresenter >> closeWindow [
 SpkTraditionalDebuggerPresenter >> connectPresenters [
 
 	super connectPresenters.
-	frameList whenSelectionChangedDo: [ :selection | self displayFrameDetails ]
+	frameList whenSelectionChangedDo: [ :selection | self displayFrameDetails ].
 ]
 
 { #category : 'accessing' }
@@ -89,7 +89,9 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> doIt [
 
-	debuggerService doit_01: sourceCode selection 
+	| result | 
+	result := (debuggerService doit_02: sourceCode selectedText) doitResult. 
+	result inspect
 ]
 
 { #category : 'constants' }
@@ -159,7 +161,8 @@ SpkTraditionalDebuggerPresenter >> initializeFrameList [
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeFrameListLayout [
 
-	self layout add: (frameList := self newTable beSingleSelection
+	self layout add:
+		(frameList := self newTable beSingleSelection beResizable hideColumnHeaders
 			              addColumn: (SpImageTableColumn new
 					               width: 20;
 					               evaluated: [ :assoc | assoc key printString ]);
@@ -231,7 +234,7 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		"borderColor: Color purple;
 		borderWidth: 3; 'no longer works not sure why'"
 		initialExtent: 750 @ 1000;
-		whenClosedDo: [ self terminate ]
+		whenClosedDo: [ self terminate ].
 ]
 
 { #category : 'accessing' }
@@ -260,7 +263,13 @@ SpkTraditionalDebuggerPresenter >> overrideContextMenu [
 			item
 				name: 'Save';
 				action: [ self save ];
-				shortcut: PharoShortcuts current acceptShortcut ] ]
+				shortcut: PharoShortcuts current acceptShortcut ] ].
+	menu addGroup: [ :group | 
+		group addItem: [ :item | 
+			item
+				name: 'Do It';
+				action: [ self doIt ];
+				shortcut: PharoShortcuts current doItShortcut  ] ]
 ]
 
 { #category : 'actions' }
@@ -311,8 +320,6 @@ SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> setBreakpoint [
-
-	"debuggerService setBreakpointForClass: frame value methodService className meta: isMeta selector: frame value methodService selector atStepPoint: stepPoint"
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
 		| methodService |

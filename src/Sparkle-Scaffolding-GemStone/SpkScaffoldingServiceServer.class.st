@@ -72,6 +72,13 @@ SpkScaffoldingServiceServer >> doit_02: aString [
 	doitResult := aString evaluate
 ]
 
+{ #category : 'doits' }
+SpkScaffoldingServiceServer >> doit: aString contextOop: oop [
+	doitResult := aString
+		evaluateInContext: (Object _objectForOop: oop)
+		symbolList: GsSession currentSession symbolList
+]
+
 { #category : 'accessing' }
 SpkScaffoldingServiceServer >> doitException [
 	^doitException

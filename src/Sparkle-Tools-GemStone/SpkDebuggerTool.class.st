@@ -13,8 +13,10 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerTool >> currentException: anException [
+	"Stepping does not update the exception. 
+	Proceed and terminate set to nil, so we will re-initialize."
 	exception ifNil: [ exception := anException ]
 ]
 
@@ -23,13 +25,6 @@ SpkDebuggerTool >> debug [
 	mustInitiate
 		ifFalse: [ processManager returnValue: self ]
 		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> exception: anException [
-	"The exception that caused me to be invoked."
-
-	exception := anException
 ]
 
 { #category : 'accessing' }
@@ -72,13 +67,14 @@ SpkDebuggerTool >> frameAt: anInteger [
 
 { #category : 'accessing' }
 SpkDebuggerTool >> frames [
-	^ frames ifNil: [ self initializeFramesFromProcess ]
+	^ frames
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkDebuggerTool >> initialize [
 	super initialize.
-	updatedInspectors := Set new
+	updatedInspectors := Set new.
+	frames := #()
 ]
 
 { #category : 'initialization' }
@@ -112,11 +108,12 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 		yourself
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerTool >> proceed [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
 	| resultTool | 
+	exception := nil. "If we hit another exception, we want the exception to be updated."
 	resultTool := processManager proceedProcess.
 	updatedInspectors := Set new.
 	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
@@ -156,8 +153,25 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
+SpkDebuggerTool >> refreshFromProcess [
+	| stackDepth oldFrames |
+	stackDepth := process stackDepth.
+	frames := Array new: process stackDepth.
+	1 to: stackDepth do: [:level | 
+		| frame index |
+		index := stackDepth - level + 1.
+		frame := self newDebuggerFrameTool.
+		frame
+			level: level;
+			index: index.
+		frames at: index put: frame].
+	^ frames
+]
+
+{ #category : 'actions' }
 SpkDebuggerTool >> terminate [
+	exception := nil.	"If we hit another exception, we want the exception to be updated."
 	process terminate.
 	updatedInspectors := Set new.
 	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors

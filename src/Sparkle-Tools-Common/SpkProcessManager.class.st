@@ -98,6 +98,7 @@ SpkProcessManager >> initializeDebuggerTool [
 		                process: process;
 		                processManager: self;
 		                mustInitiate: self debuggerMustInitiate;
+						refreshFromProcess;
 		                yourself
 ]
 

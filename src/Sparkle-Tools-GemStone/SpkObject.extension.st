@@ -9,8 +9,3 @@ SpkObject class >> new [
 SpkObject >> flag: anObject [
 	"Look at senders of #flag: to find code that needs further attention"
 ]
-
-{ #category : '*Sparkle-Tools-GemStone' }
-SpkObject >> initialize [
-	"Subclasses can do what they like; default is to do nothing."
-]

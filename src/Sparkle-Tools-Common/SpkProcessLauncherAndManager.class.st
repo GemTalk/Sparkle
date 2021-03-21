@@ -37,13 +37,6 @@ SpkProcessLauncherAndManager >> initialize [
 	resultReady := Semaphore new
 ]
 
-{ #category : 'initialization' }
-SpkProcessLauncherAndManager >> initializeDebuggerTool [
-
-	super initializeDebuggerTool.
-	debuggerTool explorerTool: explorerTool
-]
-
 { #category : 'as yet unclassified' }
 SpkProcessLauncherAndManager >> proceedProcess [
 	"Evaluation process waits for an answer and returns it"

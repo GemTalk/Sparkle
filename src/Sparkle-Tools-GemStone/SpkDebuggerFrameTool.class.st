@@ -10,13 +10,9 @@ Class {
 	#instVars : [
 		'explorerTool',
 		'process',
-		'level',
-		'frameContents',
-		'description',
-		'index',
-		'method',
-		'receiver',
-		'stepPoint'
+		'currentState',
+		'previousState',
+		'index'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -54,58 +50,29 @@ SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
 	aCollection add: tool.
 	tool
 		columnAt: 1 put: 'receiver';
-		columnAt: 2 put: (tool selfDescriptionOf: self frameReceiver);
+		columnAt: 2 put: (tool selfDescriptionOf: self receiver);
 		referencedObject: self receiver
 ]
 
 { #category : 'private' }
 SpkDebuggerFrameTool >> argAndTempNames [
-	^ self frameContents at: 9
+	^ currentState argAndTempNames
 ]
 
 { #category : 'private' }
 SpkDebuggerFrameTool >> argAndTempValues [
-	^ self frameContents copyFrom: 11 to: self frameContents size
+	^ currentState argAndTempValues
 ]
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
 
-	| startPos startChar source   |
-	"Make sure method and stepPoint are initialized."
-	self method; stepPoint.
-	method == nil
-		ifTrue: [^1 to: 0].
-	source := self source.
-	stepPoint == nil
-		ifTrue: [^1 to: (1 min: source size)].
-	startPos := method _sourceOffsetsAt: stepPoint.
-	startChar := source at: startPos.	
-	"Point at the last character of the source if we are at the end of the method w/o explicit return."
-	startPos > source size
-		ifTrue: [^source size to: source size].
-	"Explicit return"
-	startChar = $^
-		ifTrue: [ ^ startPos to: startPos ].	
-	"Assignment, assume = follows :"
-	startChar = $:
-		ifTrue: [ ^ startPos to: startPos + 1 ].	
-	"Binary selector"
-	(self isBinaryCharacter: startChar)
-		ifTrue: [ ^ startPos to: (self lastBinaryCharacterIn: source startingAt: startPos) ].
-	"Unary or keyword selector"
-	(self isKeywordStartCharacter: startChar)
-		ifTrue: [ ^ startPos to: (self lastKeywordCharacterIn: source startingAt: startPos) ].
-	"Primitive number"
-	(self isDecimalDigitCharacter: startChar)
-		ifTrue: [ ^ startPos to: (self lastDecimalDigitCharacterIn: source startingAt: startPos) ].
-	"Should not get here, but just in case we've missed a possibility..."
-	^ startPos to: startPos
+	^ currentState sourceInterval
 ]
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> description [
-	^ description ifNil: [ self initializeDescription ]
+	^ currentState description
 ]
 
 { #category : 'accessing' }
@@ -132,42 +99,6 @@ SpkDebuggerFrameTool >> firstEvaluationTempIndex [
 	^ names size + 1
 ]
 
-{ #category : 'private' }
-SpkDebuggerFrameTool >> frameContents [
-	^ frameContents
-		ifNil: [ 
-			(frameContents := process _frameContentsAt: level)
-				ifNil: [ 
-					self
-						error:
-							'Internal error -- nil frame contents for frame ' , level printString ] ]
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> frameMethod [
-	"Can answer nil if GCI or User Action, according to GsProcess>>_reportWithFrameContents:level:"
-
-	^ process _methodInFrameContents: self frameContents
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> frameReceiver [
-	^ self frameContents at: 10
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> frameStepPoint [
-	| ip |
-	"Make sure method is initialized."
-	self method.
-	method ifNil: [ ^ nil ].
-	ip := (self frameContents at: 2) abs.
-	^ method
-		_stepPointForIp: ip
-		level: level
-		useNext: (process _nativeStack or: [ process _calleeIsAsync: level ])
-]
-
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> index [
 	^index
@@ -176,76 +107,6 @@ SpkDebuggerFrameTool >> index [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> index: object [
 	index := object
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> initializeDescription [
-	| aReceiver |
-	"Make sure method is initialized."
-	self method.
-	method == nil
-		ifTrue: [ ^ description := '<no method>' ].
-	aReceiver := process _receiverInFrameContents: self frameContents.
-	description := method _descrForStackPadTo: 0 rcvr: aReceiver.
-	^ description
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> isBinaryCharacter: aCharacter [
-
-	^ '+-\*~<>=|/&@%,?!' includes: aCharacter
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> isDecimalDigitCharacter: aCharacter [
-
-	^ '0123456789' includes: aCharacter
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> isKeywordCharacter: aCharacter [
-	^ (aCharacter = $: or: [ self isKeywordStartCharacter: aCharacter ])
-		or: [ self isDecimalDigitCharacter: aCharacter ]
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> isKeywordStartCharacter: aCharacter [
-
-	^ '_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' includes: aCharacter
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> lastBinaryCharacterIn: source startingAt: startPos [
-	"If source at: startPos is not a binary character, startPos - 1 will be returned"
-
-	startPos to: source size do: [ :testPos | 
-		(self isBinaryCharacter: (source at: testPos))
-			ifFalse: [ ^ testPos - 1 ] ]
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> lastDecimalDigitCharacterIn: source startingAt: startPos [
-	"If source at: startPos is not a numeric character, startPos - 1 will be returned"
-
-	startPos to: source size do: [ :testPos | 
-		(self isDecimalDigitCharacter: (source at: testPos))
-			ifFalse: [ ^ testPos - 1 ] ]
-]
-
-{ #category : 'private' }
-SpkDebuggerFrameTool >> lastKeywordCharacterIn: source startingAt: startPos [
-	"If source at: startPos is not a keyword character, startPos - 1 will be returned"
-
-	startPos to: source size do: [ :testPos | 
-		(self isKeywordCharacter: (source at: testPos))
-			ifFalse: [ ^ testPos - 1 ] ].
-	"Reached the end of the method."
-	^ source size
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameTool >> level: anInteger [
-	level := anInteger
 ]
 
 { #category : 'accessing' }
@@ -272,12 +133,14 @@ SpkDebuggerFrameTool >> localVariables [
 SpkDebuggerFrameTool >> method [
 	"Can answer nil if GCI or User Action, according to GsProcess>>_reportWithFrameContents:level:"
 
-	^ method ifNil: [ method := self frameMethod ]
+	^ currentState method
 ]
 
-{ #category : 'testing' }
+{ #category : 'post-refresh' }
 SpkDebuggerFrameTool >> methodHasChanged [
-	^ self method ~~ self frameMethod
+	"Only valid after first initialization and at least one refresh."
+
+	^ currentState method ~~ previousState method
 ]
 
 { #category : 'private' }
@@ -289,9 +152,14 @@ SpkDebuggerFrameTool >> newInspectorFieldTool [
 		  yourself
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> newInspectorToolOn: anObject [
+	^ explorerTool newInspectorToolOn: anObject
+]
+
 { #category : 'printing' }
 SpkDebuggerFrameTool >> printOn: aStream [
-	level isNil | process isNil
+	currentState isNil
 		ifTrue: [ ^ super printOn: aStream ].
 	aStream nextPutAll: self description
 ]
@@ -303,12 +171,23 @@ SpkDebuggerFrameTool >> process: aProcess [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> receiver [
-	^ receiver ifNil: [ receiver := self frameReceiver ]
+	^ currentState receiver
 ]
 
-{ #category : 'testing' }
+{ #category : 'post-refresh' }
 SpkDebuggerFrameTool >> receiverHasChanged [
-	^ self receiver ~~ self frameReceiver
+	"Only valid after first initialization and at least one refresh."
+
+	^ currentState receiver ~~ previousState receiver
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> refreshAtLevel: aLevel [
+	"Note that if the stack depth of the process has changed, aLevel
+	will be different from the previous level."
+
+	previousState := currentState.
+	currentState := SpkProcessFrameInfo forProcess: process level: aLevel
 ]
 
 { #category : 'accessing' }
@@ -316,17 +195,17 @@ SpkDebuggerFrameTool >> source [
 	"Return the source code of the associated method.
 	If there is no method, empty string."
 
-	^self method
-		ifNil: ['']
-		ifNotNil: [:method | method sourceString]
+	^ currentState source
 ]
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> stepPoint [
-	^ stepPoint ifNil: [ stepPoint := self frameStepPoint ]
+	^ currentState stepPoint
 ]
 
-{ #category : 'testing' }
+{ #category : 'post-refresh' }
 SpkDebuggerFrameTool >> stepPointHasChanged [
-	^ self stepPoint ~~ self frameStepPoint
+	"Only valid after first initialization and at least one refresh."
+
+	^ currentState stepPoint ~~ previousState stepPoint
 ]

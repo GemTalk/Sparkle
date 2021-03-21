@@ -77,22 +77,6 @@ SpkDebuggerTool >> initialize [
 	frames := #()
 ]
 
-{ #category : 'initialization' }
-SpkDebuggerTool >> initializeFramesFromProcess [
-	| stackDepth |
-	stackDepth := process stackDepth.
-	frames := Array new: process stackDepth.
-	1 to: stackDepth do: [:level | 
-		| frame index |
-		index := stackDepth - level + 1.
-		frame := self newDebuggerFrameTool.
-		frame
-			level: level;
-			index: index.
-		frames at: index put: frame].
-	^ frames
-]
-
 { #category : 'accessing' }
 SpkDebuggerTool >> mustInitiate: object [
 	mustInitiate := object
@@ -103,6 +87,7 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 	"Create and initialize a new DebuggerFrameTool instance."
 
 	^SpkDebuggerFrameTool new
+		taskspaceTool: taskspaceTool;
 		explorerTool: explorerTool;
 		process: process;
 		yourself
@@ -154,19 +139,37 @@ SpkDebuggerTool >> processPriority [
 ]
 
 { #category : 'initialization' }
+SpkDebuggerTool >> refreshExistingFrames [
+
+	| numberOfValidFrames |
+	numberOfValidFrames := 0.
+	"update the valid ones, update numberOfValidFrames."
+	^ numberOfValidFrames
+]
+
+{ #category : 'initialization' }
 SpkDebuggerTool >> refreshFromProcess [
-	| stackDepth oldFrames |
-	stackDepth := process stackDepth.
-	frames := Array new: process stackDepth.
-	1 to: stackDepth do: [:level | 
-		| frame index |
-		index := stackDepth - level + 1.
+	"Keep the FrameTools for any still-valid bottom portion of the stack.
+	The service layer uses identity of frame tools to determine what needs refreshing."
+
+	| numberOfValidFrames newStackDepth newFrames |
+	numberOfValidFrames := self refreshExistingFrames.
+	newStackDepth := process stackDepth.
+	newFrames := Array new: process stackDepth.
+	newFrames
+		replaceFrom: 1
+		to: numberOfValidFrames
+		with: frames
+		startingAt: 1.
+	numberOfValidFrames + 1 to: newStackDepth do: [ :index | 
+		| frame level |
+		level := newStackDepth - index + 1.
 		frame := self newDebuggerFrameTool.
 		frame
-			level: level;
-			index: index.
-		frames at: index put: frame].
-	^ frames
+			index: index;
+			refreshAtLevel: level.
+		newFrames at: index put: frame ].
+	^ frames := newFrames
 ]
 
 { #category : 'actions' }

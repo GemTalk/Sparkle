@@ -140,10 +140,24 @@ SpkDebuggerTool >> processPriority [
 
 { #category : 'initialization' }
 SpkDebuggerTool >> refreshExistingFrames [
+	"Update any frames at the bottom of the stack that still
+	represent the same frame. Answerthe number of frames
+	that are still valid.
+	For a new debugger, frames size is 0."
 
-	| numberOfValidFrames |
+	| numberOfValidFrames newStackDepth |
 	numberOfValidFrames := 0.
-	"update the valid ones, update numberOfValidFrames."
+	newStackDepth := process stackDepth.
+	1 to: (frames size min: newStackDepth) do: [ :index | 
+		| level frame |
+		level := newStackDepth - index + 1.
+		frame := frames at: index.
+		frame refreshAtLevel: level.
+		(frame methodHasChanged or: [ frame receiverHasChanged ])
+			ifTrue: [ ^ numberOfValidFrames ].
+		numberOfValidFrames := numberOfValidFrames + 1.
+		frame stepPointHasChanged
+			ifTrue: [ ^ numberOfValidFrames ] ].
 	^ numberOfValidFrames
 ]
 

@@ -184,7 +184,8 @@ SpkDebuggerFrameTool >> receiverHasChanged [
 { #category : 'other' }
 SpkDebuggerFrameTool >> refreshAtLevel: aLevel [
 	"Note that if the stack depth of the process has changed, aLevel
-	will be different from the previous level."
+	will be different from the previous level. It's up to the sender
+	to determine the correct new level."
 
 	previousState := currentState.
 	currentState := SpkProcessFrameInfo forProcess: process level: aLevel

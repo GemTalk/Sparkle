@@ -65,6 +65,7 @@ SpkProcessManager >> debuggerProcessForException: anException [
 	debuggerTool ifNil: [ self initializeDebuggerTool ].
 	debuggerTool
 		currentException: anException;
+		refreshFromProcess;
 		debug ] newProcess
 ]
 
@@ -100,15 +101,13 @@ SpkProcessManager >> explorerTool [
 
 { #category : 'initialization' }
 SpkProcessManager >> initializeDebuggerTool [
-
 	debuggerTool := SpkDebuggerTool new
-		                taskspaceTool: taskspaceTool;
-						explorerTool: self explorerTool;
-		                process: process;
-		                processManager: self;
-		                mustInitiate: self debuggerMustInitiate;
-						refreshFromProcess;
-		                yourself
+		taskspaceTool: taskspaceTool;
+		explorerTool: self explorerTool;
+		process: process;
+		processManager: self;
+		mustInitiate: self debuggerMustInitiate;
+		yourself
 ]
 
 { #category : 'as yet unclassified' }

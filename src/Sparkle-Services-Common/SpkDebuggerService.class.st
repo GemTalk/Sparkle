@@ -34,7 +34,8 @@ SpkDebuggerService >> frames [
 SpkDebuggerService >> initialize [
 
 	super initialize.
-	updatedInspectors := Set new
+	updatedInspectors := Set new.
+	frames := #()
 ]
 
 { #category : 'accessing' }

@@ -169,7 +169,7 @@ SpkDebuggerTool >> refreshFromProcess [
 	| numberOfValidFrames newStackDepth newFrames |
 	numberOfValidFrames := self refreshExistingFrames.
 	newStackDepth := process stackDepth.
-	newFrames := Array new: process stackDepth.
+	newFrames := Array new: newStackDepth.
 	newFrames
 		replaceFrom: 1
 		to: numberOfValidFrames

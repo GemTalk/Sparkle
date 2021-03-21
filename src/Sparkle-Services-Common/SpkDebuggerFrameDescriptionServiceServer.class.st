@@ -33,3 +33,8 @@ SpkDebuggerFrameDescriptionServiceServer >> refreshFromTool [
 	description := tool description.
 	index := tool index
 ]
+
+{ #category : 'other' }
+SpkDebuggerFrameDescriptionServiceServer >> tool [
+	^tool
+]

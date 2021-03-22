@@ -101,6 +101,11 @@ SpkDebuggerServiceServer >> serviceForTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
-	tool terminate.
-	self refreshFromTool
+	| resultTool |
+	resultTool := tool terminate.
+	^ resultTool == tool
+		ifTrue: [ 
+			self refreshFromTool.
+			self ]
+		ifFalse: [ self serviceForTool: resultTool ]
 ]

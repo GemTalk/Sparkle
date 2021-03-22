@@ -158,3 +158,8 @@ SpkProcessManager >> taskspaceTool: anObject [
 
 	taskspaceTool := anObject
 ]
+
+{ #category : 'as yet unclassified' }
+SpkProcessManager >> terminateProcess [
+	[ process terminateTimeoutMs: 30000 ] forkAt: process priority
+]

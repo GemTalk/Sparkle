@@ -32,7 +32,6 @@ SpkProcessLauncherAndManager >> explorerTool: anExplorerTool [
 
 { #category : 'initialization' }
 SpkProcessLauncherAndManager >> initialize [
-
 	super initialize.
 	resultReady := Semaphore new
 ]
@@ -84,8 +83,16 @@ SpkProcessLauncherAndManager >> runProcess [
 ]
 
 { #category : 'as yet unclassified' }
-SpkProcessLauncherAndManager >> waitForResult [
+SpkProcessLauncherAndManager >> terminateProcess [
+	"Evaluation process waits for termination to be complete and returns the tool.
+	processBody must send me #returnValue: on completion of termination or this will hang."
 
+	super terminateProcess.
+	^ self waitForResult
+]
+
+{ #category : 'as yet unclassified' }
+SpkProcessLauncherAndManager >> waitForResult [
 	"Result may be a debugger"
 
 	resultReady wait.

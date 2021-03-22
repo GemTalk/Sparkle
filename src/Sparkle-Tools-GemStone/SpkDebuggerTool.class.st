@@ -188,10 +188,14 @@ SpkDebuggerTool >> refreshFromProcess [
 
 { #category : 'actions' }
 SpkDebuggerTool >> terminate [
+	"May wait for an answer, depending on whether the process is an evaluation process"
+
+	| resultTool |
 	exception := nil.	"If we hit another exception, we want the exception to be updated."
-	process terminate.
+	resultTool := processManager terminateProcess.
 	updatedInspectors := Set new.
-	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors
+	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	^ resultTool
 ]
 
 { #category : 'accessing' }

@@ -94,7 +94,7 @@ SpkTraditionalDebuggerPresenter >> doIt [
 		           SpkConnectionProfile defaultConnection.
 	^ (service
 		   doit: sourceCode selectedText
-		   inContext: frameList selection selectedItem frameOop) doitResult
+		   inContext: frameList selection selectedItem value frameOop) doitResult
 ]
 
 { #category : 'constants' }
@@ -131,13 +131,19 @@ SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 			 help: 'Step Over';
 			 action: [ self stepOver ];
 			 yourself).
-		toolbar addItem: (SpToolbarButtonPresenter new
+	toolbar addItem: (SpToolbarButtonPresenter new  
+			 label: 'Step Through';
+			 icon: (self iconNamed: #glamorousRightSide);
+			 help: 'Step Over';
+			 action: [ self stepOver ];
+			 yourself).
+	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Step Into';
 			 icon: (self iconNamed: #glamorousInto);
 			 help: 'Step Into';
 			 action: [ self stepInto ];
 			 yourself).
-		toolbar addItem: (SpToolbarButtonPresenter new
+	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Restart';
 			 icon: (self iconNamed: #glamorousRestart);
 			 help: 'Restart';
@@ -391,6 +397,12 @@ SpkTraditionalDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
 		              (array first - offset) abs with: (methodService stepPoints indexOf: array). 
 			             ]) asSortedCollection: [:x :y | x first <= y first].
 	^ distances first last
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> stepThrough [
+
+	debuggerService stepThroughFromLevel: frameList selection selectedIndex. 
 ]
 
 { #category : 'actions' }

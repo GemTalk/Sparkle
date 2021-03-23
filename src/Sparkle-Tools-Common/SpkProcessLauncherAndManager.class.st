@@ -12,7 +12,7 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkProcessLauncherAndManager >> debuggerMustInitiate [
 
 	^ false
@@ -36,7 +36,7 @@ SpkProcessLauncherAndManager >> initialize [
 	resultReady := Semaphore new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> proceedProcess [
 	"Evaluation process waits for an answer and returns it"
 
@@ -44,7 +44,7 @@ SpkProcessLauncherAndManager >> proceedProcess [
 	^ self waitForResult
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkProcessLauncherAndManager >> processBody: aBlock [
 	process := [ self returnValue: aBlock value ] newProcess
 ]
@@ -66,13 +66,13 @@ SpkProcessLauncherAndManager >> processPriority: aPriority [
 	processPriority := aPriority
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> returnValue: anObject [
 	result := anObject.
 	resultReady signal
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> runProcess [
 
 	process
@@ -82,7 +82,7 @@ SpkProcessLauncherAndManager >> runProcess [
 	self resumeProcess
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> terminateProcess [
 	"Evaluation process waits for termination to be complete and returns the tool.
 	processBody must send me #returnValue: on completion of termination or this will hang."
@@ -91,7 +91,7 @@ SpkProcessLauncherAndManager >> terminateProcess [
 	^ self waitForResult
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> waitForResult [
 	"Result may be a debugger"
 

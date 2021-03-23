@@ -80,7 +80,7 @@ SpkDebuggerToolTest >> testFrameDescription [
 	debugger := evaluatorTool evaluateCode.
 
 	frame := self executedCodeFrameInDebugger: debugger.
-	self assert: frame index equals: 7
+	self assert: frame index equals: 11
 ]
 
 { #category : 'tests' }
@@ -155,4 +155,32 @@ SpkDebuggerToolTest >> testTerminate [
 	self deny: process _isTerminated.
 	debugger terminate.
 	self assert: process _isTerminated
+]
+
+{ #category : 'other' }
+SpkDebuggerToolTest >> testTerminate01 [
+	"Get a debugger, terminate, get the same debugger with the 
+	same executedCode frame, proceed, get inspector"
+
+	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
+	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	bottomFrame := debugger1 frames at: 1.
+	topFrame := debugger1 frames at: debugger1 frames size.
+	execCodeFrame := self executedCodeFrameInDebugger: debugger1.
+	"Should be on ifCurtailed:"
+	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+	debugger2 := debugger1 terminate.
+	self
+		assert: debugger1 == debugger2;
+		assert: bottomFrame == (debugger2 frames at: 1);
+		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
+		deny: topFrame == (debugger2 frames at: debugger2 frames size);
+		"Should still be on ifCurtailed:"
+		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+	inspector := debugger2 proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: nil
 ]

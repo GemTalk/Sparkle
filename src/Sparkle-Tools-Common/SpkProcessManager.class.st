@@ -16,7 +16,7 @@ SpkProcessManager >> debugAction [
 	^ [:ex | self debugException: ex. nil]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> debugException: anException [
 
 	| processToDebug |
@@ -28,7 +28,7 @@ SpkProcessManager >> debugException: anException [
 		self debugForeignProcess: processToDebug withException: anException ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> debugForeignProcess: processToDebug withException: anException [
 
 	"This process is not my problem, create another manager for it
@@ -49,13 +49,13 @@ SpkProcessManager >> debuggerDebugAction: aBlock [
 	debuggerDebugAction := aBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkProcessManager >> debuggerMustInitiate [
 
 	^ true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> debuggerProcessForException: anException [
 	"Answer a new debugger process for a new or existing debugger,
 	debugging process. Start by suspending the process."
@@ -69,7 +69,7 @@ SpkProcessManager >> debuggerProcessForException: anException [
 		debug ] newProcess
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> debugMyProcessWithException: anException [
 
 	"process is the active process on empty. Set up a new higher-priority Process to debug it."
@@ -110,7 +110,7 @@ SpkProcessManager >> initializeDebuggerTool [
 		yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessManager >> proceedProcess [
 	"Non-evaluation process does not wait for an answer."
 
@@ -123,7 +123,7 @@ SpkProcessManager >> process: anObject [
 	process := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> resumeProcess [
 
 	"Debug action might be right already, but simpler to always set it"
@@ -138,7 +138,7 @@ SpkProcessManager >> setDebugAction [
 	process debugActionBlock: self debugAction
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkProcessManager >> setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug [
 	"In order to reliably suspend the debugged process, the debugger must run at a higher priority.
 	Normally, just run the debugger one higher, but if that's impossible lower the debugged process priority.
@@ -159,7 +159,8 @@ SpkProcessManager >> taskspaceTool: anObject [
 	taskspaceTool := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessManager >> terminateProcess [
-	[ process terminateTimeoutMs: 30000 ] forkAt: process priority
+	[ process terminateTimeoutMs: SmallInteger maximumValue ]
+		forkAt: (process priority - 1 max: 1)
 ]

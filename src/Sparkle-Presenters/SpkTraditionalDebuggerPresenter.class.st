@@ -135,7 +135,7 @@ SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 			 label: 'Step Through';
 			 icon: (self iconNamed: #glamorousRightSide);
 			 help: 'Step Over';
-			 action: [ self stepOver ];
+			 action: [ self stepThrough ];
 			 yourself).
 	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Step Into';

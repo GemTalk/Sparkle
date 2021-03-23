@@ -2007,6 +2007,7 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 
 	<example>
 	| client debuggerClient sem expressionResult x |
+	Transcript clear. 
 	client := SpkScaffoldingServiceClient new registerWith:
 		          self connection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new
@@ -2014,19 +2015,21 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 		                  synchronize.
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	sem := Semaphore new.
-	debuggerClient
+	"debuggerClient
 		setBreakpointForClass: 'Play'
 		meta: true
 		selector: #putABreakInHere
-		atStepPoint: 2.
+		atStepPoint: 2."
 		
 	(client
 		 gsDebugger_07: '| array |
 		Play putABreakInHere. 
 		array := Array new. 
-		array add: 1. self halt. 
-		[ array add: 3 ] value. 
+		array add: 1. 
 		array add: 2. 
+		array add: 3.
+		self halt. 
+		array do:[:each | each size + each size]. 
 		^(array at: 1) + 3'
 		 usingDebugger: debuggerClient)
 		when: [ :result | 

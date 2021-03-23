@@ -88,14 +88,14 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> doItIn: pane [
+SpkTraditionalDebuggerPresenter >> doItIn: pane context: context [
 
 	| service |
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
 	^ (service
 		   doit: pane selectedText
-		   inContext: frameList selection selectedItem value frameOop)
+		   inContext: context)
 		  doitResult
 ]
 
@@ -218,7 +218,7 @@ SpkTraditionalDebuggerPresenter >> initializeStackLabel [
 SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 
 	| verticalBox |
-	verticalBox := SpkBoxLayout newVertical.
+	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
 	verticalBox
 		add: (self newLabel label: 'Variables')
 		withConstraints: [ :constraints | constraints height: 25 ].
@@ -254,7 +254,7 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
 
 	| verticalBox |
-	verticalBox := SpkBoxLayout newVertical.
+	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
 	verticalBox
 		add: (self newLabel label: 'Workspace')
 		withConstraints: [ :constraints | constraints height: 25 ].
@@ -425,14 +425,16 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> sourceCodeDoIt [
 
-	^ self doItIn: sourceCode 
+	^ self
+		  doItIn: sourceCode
+		  context: frameList selection selectedItem value frameOop
 ]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> sourceCodePrintIt [
 
 	| result |
-	result := self doItIn: sourceCode.
+	result := self sourceCodeDoIt.
 	self printIt: result in: sourceCode
 ]
 
@@ -475,13 +477,13 @@ SpkTraditionalDebuggerPresenter >> terminate [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> workspaceDoIt [
 
-	^ self doItIn: workspace 
+	^ self doItIn: workspace context: 20 "nil"
 ]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> workspacePrintIt [
 
 	| result |
-	result := self doItIn: workspace.
+	result := self workspaceDoIt.
 	self printIt: result in: workspace
 ]

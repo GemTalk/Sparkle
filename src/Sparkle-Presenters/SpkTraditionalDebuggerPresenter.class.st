@@ -7,7 +7,8 @@ Class {
 		'sourceCode',
 		'debuggerService',
 		'toolbar',
-		'variableList'
+		'variableList',
+		'workspace'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -87,14 +88,15 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> doIt [
+SpkTraditionalDebuggerPresenter >> doItIn: pane [
 
 	| service |
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
 	^ (service
-		   doit: sourceCode selectedText
-		   inContext: frameList selection selectedItem value frameOop) doitResult
+		   doit: pane selectedText
+		   inContext: frameList selection selectedItem value frameOop)
+		  doitResult
 ]
 
 { #category : 'constants' }
@@ -183,21 +185,24 @@ SpkTraditionalDebuggerPresenter >> initializeFrameListLayout [
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializePresenters [
 
+	| bottomPaneBox |
 	super initializePresenters.
 	self initializeStackLabel.
 	self initializeFrameListLayout.
-	self initializeDebuggerToolbar. 
+	self initializeDebuggerToolbar.
 	self initializeSourceCodeLayout.
-	self initializeVariablePaneLabel. 
-	self initializeVariablePane.
-	self layout color: Color purple muchLighter.
+	bottomPaneBox := SpkBoxLayout newHorizontal.
+	self initializeVariablePaneLabel.
+	self initializeVariablePaneIn: bottomPaneBox.
+	self layout add: bottomPaneBox.
+	self layout color: Color purple muchLighter
 ]
 
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeSourceCodeLayout [
 
 	self layout add: (sourceCode := self newCode).
-	self overrideContextMenu
+	self overrideSourceCodeMenu
 ]
 
 { #category : 'initialization' }
@@ -209,9 +214,9 @@ SpkTraditionalDebuggerPresenter >> initializeStackLabel [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeVariablePane [
+SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 
-	self layout add: (variableList := self newTable beSingleSelection
+	box add: (variableList := self newTable beSingleSelection
 			                 addColumn: (SpImageTableColumn new
 					                  width: 150;
 					                  title: 'Name';
@@ -224,7 +229,8 @@ SpkTraditionalDebuggerPresenter >> initializeVariablePane [
 						                  varArray second asString ]);
 			                 addColumn: (SpImageTableColumn new
 					                  title: 'Value';
-					                  evaluated: [ :varArray | varArray last ]))
+					                  evaluated: [ :varArray | varArray last ])).
+		box add: (workspace := self newCode).
 ]
 
 { #category : 'initialization' }
@@ -253,7 +259,7 @@ SpkTraditionalDebuggerPresenter >> newLayout [
 ]
 
 { #category : 'menus' }
-SpkTraditionalDebuggerPresenter >> overrideContextMenu [
+SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 
 	| menu |
 	sourceCode overridingContextMenu contextMenu:
@@ -277,13 +283,30 @@ SpkTraditionalDebuggerPresenter >> overrideContextMenu [
 		group addItem: [ :item | 
 			item
 				name: 'Do It';
-				action: [ self doIt ];
-				shortcut: PharoShortcuts current doItShortcut  ].
+				action: [ self sourceCodeDoIt ];
+				shortcut: PharoShortcuts current doItShortcut ].
 		group addItem: [ :item | 
 			item
 				name: 'Print It';
-				action: [ self printIt ];
-				shortcut: PharoShortcuts current printItShortcut  ] ]
+				action: [ self sourceCodePrintIt ];
+				shortcut: PharoShortcuts current printItShortcut ] ]
+]
+
+{ #category : 'menus' }
+SpkTraditionalDebuggerPresenter >> overrideWorkspaceMenu [
+
+	workspace overridingContextMenu contextMenu:
+		(SpMenuPresenter new addGroup: [ :group | 
+			 group addItem: [ :item | 
+				 item
+					 name: 'Do It';
+					 action: [ self workspaceDoIt ];
+					 shortcut: PharoShortcuts current doItShortcut ].
+			 group addItem: [ :item | 
+				 item
+					 name: 'Print It';
+					 action: [ self workspacePrintIt ];
+					 shortcut: PharoShortcuts current printItShortcut ] ])
 ]
 
 { #category : 'actions' }
@@ -377,6 +400,22 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 ]
 
 { #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> sourceCodeDoIt [
+
+	^ self doItIn: sourceCode 
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> sourceCodePrintIt [
+
+	| result |
+	result := self doItIn: sourceCode. 
+	sourceCode
+		insert: result printString
+		at: sourceCode cursorPositionIndex + 1
+]
+
+{ #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> stepInto [
 
 	debuggerService stepIntoFromLevel: frameList selection selectedIndex. 
@@ -410,4 +449,20 @@ SpkTraditionalDebuggerPresenter >> terminate [
 
 	self ifConnectedDo: #terminate.
 	self closeWindow
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> workSpaceDoIt [
+
+	^ self doItIn: workspace 
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> workspacePrintIt [
+
+	| result |
+	result := self doItIn: workspace.
+	workspace
+		insert: result printString
+		at: workspace cursorPositionIndex + 1
 ]

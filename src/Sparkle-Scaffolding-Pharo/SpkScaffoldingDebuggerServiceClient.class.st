@@ -15,8 +15,8 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 	Transcript
 		cr;
 		show:
-			'simulate opening debugger on process ('
-			, processService printString , ') ... with stack: '.
+			'show stacks on process ('
+			, processService printString , ') ... stack: '.
 	stack := processService rowanFrameServices.
 	debugger ifNil:[debugger := 
 	(SparkleTraditionalDebugger on: self) start].

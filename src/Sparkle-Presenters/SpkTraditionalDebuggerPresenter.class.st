@@ -192,9 +192,10 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	self initializeDebuggerToolbar.
 	self initializeSourceCodeLayout.
 	bottomPaneBox := SpkBoxLayout newHorizontal.
-	self initializeVariablePaneLabel.
 	self initializeVariablePaneIn: bottomPaneBox.
+	self initializeWorkspacePaneIn: bottomPaneBox. 
 	self layout add: bottomPaneBox.
+	self overrideWorkspaceMenu.
 	self layout color: Color purple muchLighter
 ]
 
@@ -216,7 +217,12 @@ SpkTraditionalDebuggerPresenter >> initializeStackLabel [
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 
-	box add: (variableList := self newTable beSingleSelection
+	| verticalBox |
+	verticalBox := SpkBoxLayout newVertical.
+	verticalBox
+		add: (self newLabel label: 'Variables')
+		withConstraints: [ :constraints | constraints height: 25 ].
+	verticalBox add: (variableList := self newTable beSingleSelection
 			                 addColumn: (SpImageTableColumn new
 					                  width: 150;
 					                  title: 'Name';
@@ -230,15 +236,7 @@ SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 			                 addColumn: (SpImageTableColumn new
 					                  title: 'Value';
 					                  evaluated: [ :varArray | varArray last ])).
-		box add: (workspace := self newCode).
-]
-
-{ #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeVariablePaneLabel [
-
-	self layout
-		add: (self newLabel label: 'Variables')
-		withConstraints: [ :constraints | constraints height: 25 ]
+	box add: verticalBox
 ]
 
 { #category : 'initialization' }
@@ -250,6 +248,18 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		borderWidth: 3; 'no longer works not sure why'"
 		initialExtent: 750 @ 1000;
 		whenClosedDo: [ self terminate ].
+]
+
+{ #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
+
+	| verticalBox |
+	verticalBox := SpkBoxLayout newVertical.
+	verticalBox
+		add: (self newLabel label: 'Workspace')
+		withConstraints: [ :constraints | constraints height: 25 ].
+	verticalBox add: (workspace := self newCode withoutLineNumbers).
+	box add: verticalBox
 ]
 
 { #category : 'accessing' }
@@ -315,6 +325,19 @@ SpkTraditionalDebuggerPresenter >> printIt [
 	| result |
 	result := self doIt. 
 	sourceCode insert: result printString at: sourceCode cursorPositionIndex + 3 
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> printIt: result in: pane [
+
+	| interval insertionOffset resultString |
+	resultString := result asString. 
+	interval := pane selectionInterval.
+	insertionOffset := interval isEmpty
+		                  ifTrue: [ pane cursorPositionIndex ]
+		                  ifFalse: [ interval last ].
+	pane insert: resultString printString at: insertionOffset + 1.
+	pane selectionInterval: (insertionOffset + 1 to: insertionOffset + resultString size + 2)
 ]
 
 { #category : 'actions' }
@@ -409,10 +432,8 @@ SpkTraditionalDebuggerPresenter >> sourceCodeDoIt [
 SpkTraditionalDebuggerPresenter >> sourceCodePrintIt [
 
 	| result |
-	result := self doItIn: sourceCode. 
-	sourceCode
-		insert: result printString
-		at: sourceCode cursorPositionIndex + 1
+	result := self doItIn: sourceCode.
+	self printIt: result in: sourceCode
 ]
 
 { #category : 'actions' }
@@ -452,7 +473,7 @@ SpkTraditionalDebuggerPresenter >> terminate [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> workSpaceDoIt [
+SpkTraditionalDebuggerPresenter >> workspaceDoIt [
 
 	^ self doItIn: workspace 
 ]
@@ -462,7 +483,5 @@ SpkTraditionalDebuggerPresenter >> workspacePrintIt [
 
 	| result |
 	result := self doItIn: workspace.
-	workspace
-		insert: result printString
-		at: workspace cursorPositionIndex + 1
+	self printIt: result in: workspace
 ]

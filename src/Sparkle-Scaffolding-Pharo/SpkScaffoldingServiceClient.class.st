@@ -2020,9 +2020,9 @@ SpkScaffoldingServiceClient class >> debugger_stepOver [
 		 gsDebugger_07: '| array |
 		Play putABreakInHere. 
 		array := Array new. 
-		array add: 1. 
-		array add: 2. 
-		array add: 3.
+		array add: (OrderedCollection with: $1). 
+		array add: #theSecondThing. 
+		array add: ''the third thing''.
 		self halt. 
 		array do:[:each | each size + each size]. 
 		^(array at: 1) + 3'

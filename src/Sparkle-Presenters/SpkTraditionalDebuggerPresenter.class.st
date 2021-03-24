@@ -220,7 +220,7 @@ SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 	| verticalBox |
 	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
 	verticalBox
-		add: (self newLabel label: 'Variables')
+		add: (self newLabel label: 'Variables') 
 		withConstraints: [ :constraints | constraints height: 25 ].
 	verticalBox add: (variableList := self newTable beSingleSelection
 			                 addColumn: (SpImageTableColumn new
@@ -256,7 +256,7 @@ SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
 	| verticalBox |
 	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
 	verticalBox
-		add: (self newLabel label: 'Workspace')
+		add: (self newLabel label: 'Variable Workspace (selected variable is context)')
 		withConstraints: [ :constraints | constraints height: 25 ].
 	verticalBox add: (workspace := self newCode withoutLineNumbers).
 	box add: verticalBox
@@ -477,7 +477,9 @@ SpkTraditionalDebuggerPresenter >> terminate [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> workspaceDoIt [
 
-	^ self doItIn: workspace context: 20 "nil"
+	| oop |
+	oop := variableList selectedItem ifNil: [ 20 "nil" ] ifNotNil: [:oc | oc at: 2].
+	^ self doItIn: workspace context: oop
 ]
 
 { #category : 'actions' }

@@ -54,6 +54,30 @@ SpkScaffoldingServiceServer >> clearAllBreaks [
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> debugProcessOop: processOop usingDebugger: debuggerService [
+	"copied from gsDebugger_07:usingDebugger:procName"
+
+	"
+		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
+			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
+	"
+
+	| theDebugProcess |
+	theDebugProcess := Object _objectForOop: processOop.
+	theDebugProcess suspend.
+	[ 
+	| res |
+	GsProcess _current
+		breakpointLevel: 0;
+		debugActionBlock: nil.	"any errors at this point should go straight to GCI"
+	theDebugProcess suspend.
+	res := debuggerService
+		openDebuggerOnClientForProcess: theDebugProcess
+		exception: Error new.	"needed?"
+	res ] forkAt: Processor userInterruptPriority
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> debugService [
 	^ debugService
 		ifNil: [ 

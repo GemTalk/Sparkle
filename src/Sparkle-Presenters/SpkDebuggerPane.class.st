@@ -171,10 +171,9 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
 ]
 
-{ #category : 'private' }
-SpkDebuggerPane >> listLabelString [
-
-	self subclassResponsibility
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> linkedFramePanes [
+	^ listModel linkedPanes
 ]
 
 { #category : 'menu' }
@@ -207,21 +206,22 @@ SpkDebuggerPane >> updateFrameList [
 	self
 		deselectInvalidFrames;
 		refreshListModel;
-		refreshList;
-		refreshCachedFrames
+		refreshList
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> updateFromModel [
 
 	"Must be sent in the UI thread"
-	
+
 	"We've been told that execution has happened,
 	but we're still in the debugger. Update to show the new state."
 
 	self
 		updateDescription;
-		updateFrameList
+		updateFrameList;
+		updateLinkedFramePanes;
+		reEnableAll
 ]
 
 { #category : 'private' }
@@ -230,4 +230,10 @@ SpkDebuggerPane >> updateInspectors [
 	"Can be sent in any thread."
 
 	model updateInspectors
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> updateLinkedFramePanes [
+
+	self linkedFramePanes do: [ :pane | pane updateFromModel ]
 ]

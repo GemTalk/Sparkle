@@ -11,6 +11,7 @@ SpMorphicSpkTableAdapter >> buildWidget [
 		          hResizing: #spaceFill;
 		          vResizing: #spaceFill;
 		          intercellSpacing: self class intercellSpacing;
+		          selectionColor: self model selectionColor;
 		          setMultipleSelection: self model isMultipleSelection;
 		          yourself.
 

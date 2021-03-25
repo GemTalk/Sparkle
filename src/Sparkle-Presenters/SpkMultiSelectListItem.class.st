@@ -31,14 +31,6 @@ Class {
 	#category : 'Sparkle-Presenters-Support'
 }
 
-{ #category : 'instance creation' }
-SpkMultiSelectListItem class >> for: aModel [
-self halt.
-	^ self new
-		  model: aModel;
-		  yourself 
-]
-
 { #category : 'events' }
 SpkMultiSelectListItem >> closingLinkedPane: aPane [
 
@@ -103,4 +95,12 @@ SpkMultiSelectListItem >> model: aService [
 { #category : 'accessing' }
 SpkMultiSelectListItem >> name [
 	^ model name
+]
+
+{ #category : 'printing' }
+SpkMultiSelectListItem >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream space.
+	model printOn: aStream
 ]

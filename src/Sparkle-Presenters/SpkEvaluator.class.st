@@ -183,5 +183,7 @@ SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnounceme
 { #category : 'as yet unclassified' }
 SpkEvaluator >> updateInspectors [
 
+	"Can be sent in any thread."
+
 	model updateInspectors
 ]

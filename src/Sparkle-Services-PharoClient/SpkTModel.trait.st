@@ -29,6 +29,14 @@ SpkTModel >> announceNewService: newService forRequest: requestId [
 	self announce: announcement
 ]
 
+{ #category : 'as yet unclassified' }
+SpkTModel >> announceUpdate [
+
+	"Announce a generic update announcement"
+
+	self announce: SpkUpdateAnnouncement new
+]
+
 { #category : 'accessing' }
 SpkTModel >> announcer [
 

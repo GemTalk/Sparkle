@@ -29,16 +29,6 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	self layout add: evaluator before: addEvaluatorButton
 ]
 
-{ #category : 'initialization' }
-SpkInspectorPane >> connectPresenters [
-
-	super connectPresenters.
-	model
-		when: SpkUpdateAnnouncement
-		send: #updateFromModel
-		to: self
-]
-
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> deselectChangedFields [
 
@@ -66,7 +56,7 @@ SpkInspectorPane >> deselectOffTheEndFields [
 
 	| newNumberOfFields |
 	newNumberOfFields := model fields size.
-	listModel deselectItemsBeyond: newNumberOfFields
+	listModel deselectItemsBeyondIndex: newNumberOfFields
 ]
 
 { #category : 'initialization' }
@@ -238,6 +228,8 @@ SpkInspectorPane >> updateFieldList [
 { #category : 'initialization' }
 SpkInspectorPane >> updateFromModel [
 
+	"Must be sent in the UI thread."
+
 	header classMembershipDescription: model classMembershipDescription.
 	self updateSelfDescription.
 	self updateFieldList
@@ -245,6 +237,8 @@ SpkInspectorPane >> updateFromModel [
 
 { #category : 'accessing' }
 SpkInspectorPane >> updateInspectors [
+
+	"Can be sent in any thread."
 
 	self evaluators do: [ :each | each updateInspectors ]
 ]

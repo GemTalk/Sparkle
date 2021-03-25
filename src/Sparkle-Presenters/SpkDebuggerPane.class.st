@@ -30,6 +30,57 @@ SpkDebuggerPane >> connectPresenters [
 		to: self
 ]
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> deselectExitedFrames [
+
+	"Deselect any selected frames that are no longer on the stack.
+	We know which these are by identity of the FrameDescriptionService."
+
+	| oldFrameItems newFrames |
+	oldFrameItems := listModel items reverse. "Compare from the bottom of the stack."
+	newFrames := model frames.
+	1 to: (newFrames size min: oldFrameItems size) do: [ :index | 
+		| oldFrameItem oldFrame newFrame |
+		oldFrameItem := oldFrameItems at: index.
+		oldFrame := oldFrameItem model.
+		newFrame := newFrames at: index.
+		oldFrame == newFrame ifFalse: [ 
+			listModel deselectItem: oldFrameItem ] ]
+]
+
+{ #category : 'private' }
+SpkDebuggerPane >> deselectInvalidFrames [
+
+	"I have frames, which are ListItems.
+	Each has a model which is a DebuggerFrameDescriptionService.
+	
+	My model is a DebuggerService.
+	It has frames which are also debuggerFrameServiceDescriptionServices
+	
+	The lists are in the reverse order from each other -- match from bottom of the stack upward.
+	
+	The FrameServiceDescriptionServices that do not match (by identity) are not valid.
+	
+	Some of my DebuggerFrameDescriptionServices will have linkedServices.
+	I think I can ignore this... they should have all been updated by RSR from the server.
+	
+	Some of my ListItems may have a linkedPane. Those for invalid frames should be told to close.
+	Those for valid frames should be told to update from model.
+	 "
+
+	self
+		deselectOffTheTopFrames;
+		deselectExitedFrames
+]
+
+{ #category : 'private' }
+SpkDebuggerPane >> deselectOffTheTopFrames [
+
+	| newNumberOfFrames |
+	newNumberOfFrames := model frames size.
+	listModel deselectItemsThroughIndex: listModel size - newNumberOfFrames
+]
+
 { #category : 'accessing' }
 SpkDebuggerPane >> headerClass [
 
@@ -120,7 +171,7 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkDebuggerPane >> listLabelString [
 
 	self subclassResponsibility
@@ -136,12 +187,13 @@ SpkDebuggerPane >> proceed [
 { #category : 'initialization' }
 SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 
-	self defer: [ 
-		self close.
-		self updateInspectors ]
+	self flag:
+		'Make sure this announcement only happens after termination is complete'.
+	self defer: [ self close ].
+	self updateInspectors
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkDebuggerPane >> updateDescription [
 
 	description
@@ -149,8 +201,33 @@ SpkDebuggerPane >> updateDescription [
 		bodyString: model exceptionDescription
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
+SpkDebuggerPane >> updateFrameList [
+
+	self
+		deselectInvalidFrames;
+		refreshListModel;
+		refreshList;
+		refreshCachedFrames
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> updateFromModel [
+
+	"Must be sent in the UI thread"
+	
+	"We've been told that execution has happened,
+	but we're still in the debugger. Update to show the new state."
+
+	self
+		updateDescription;
+		updateFrameList
+]
+
+{ #category : 'private' }
 SpkDebuggerPane >> updateInspectors [
+
+	"Can be sent in any thread."
 
 	model updateInspectors
 ]

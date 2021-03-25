@@ -15,3 +15,8 @@ SpkMultipleSelectionTablePresenter >> initialize [
 	super initialize.
 	self beMultipleSelection
 ]
+
+{ #category : 'accessing' }
+SpkMultipleSelectionTablePresenter >> selectionColor [ 
+	^ Color h: 220 s: 0.5 v: 0.5
+]

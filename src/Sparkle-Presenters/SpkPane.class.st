@@ -44,6 +44,16 @@ SpkPane >> column [
 	^ owner
 ]
 
+{ #category : 'initialization' }
+SpkPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkUpdateAnnouncement
+		send: #receiveUpdateAnnouncement
+		to: self
+]
+
 { #category : 'accessing' }
 SpkPane >> coordinate [
 	^ coordinate
@@ -178,8 +188,14 @@ SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 	self defer: [ 
 		self
 			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId.
-		self updateInspectors ]
+			linkedTo: anAnnouncement requestId ].
+	self updateInspectors
+]
+
+{ #category : 'initialization' }
+SpkPane >> receiveUpdateAnnouncement [ 
+	
+	self defer: [ self updateFromModel ]
 ]
 
 { #category : 'menu messages' }
@@ -201,8 +217,16 @@ SpkPane >> undo [
 	^ model undo
 ]
 
+{ #category : 'initialization' }
+SpkPane >> updateFromModel [
+	"Must be sent only in the UI thread."
+	"Subclasses should override if they can receive update announcements"
+]
+
 { #category : 'as yet unclassified' }
 SpkPane >> updateInspectors [
+
+	"Can be sent in any thread."
 
 	" default does nothing "
 

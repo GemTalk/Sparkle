@@ -19,8 +19,8 @@ SpkPaneWithList >> connectPresenters [
 { #category : 'initialization' }
 SpkPaneWithList >> initializeList [
 
-	self initializeListModel.
 	list := self newTable.
+	self initializeListModel.
 	list
 		whenSelectionChangedDo: [ :selectionMode | 
 			listModel selectedIndexes: selectionMode selectedIndexes ];
@@ -113,9 +113,8 @@ SpkPaneWithList >> refreshList [
 { #category : 'initialization' }
 SpkPaneWithList >> refreshListModel [
 
-	listModel
-		updateItemQuantity: model listItems size;
-		refreshFromServices: model listItems
+	listModel refreshFromServices: model listItems.
+	self updateSelection
 ]
 
 { #category : 'updating' }

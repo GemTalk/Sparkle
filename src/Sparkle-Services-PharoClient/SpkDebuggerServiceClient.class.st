@@ -25,8 +25,14 @@ SpkDebuggerServiceClient >> proceedFor: requestId [
 	promise := remoteSelf proceed.
 	promise
 		when: [ :newService | 
-			self announceNewService: newService forRequest: requestId.
-			self flag: 'handle identical debugger return' ]
+			"If the result is me, we hit another error/breakpoint, 
+			so just update myself.
+			Otherwise, the answer is an inspector service for the result
+			of the computation."
+			newService == self
+				ifTrue: [ self announceUpdate ]
+				ifFalse: [ 
+				self announceNewService: newService forRequest: requestId ] ]
 		catch: self defaultCatchBlock
 ]
 
@@ -42,6 +48,8 @@ SpkDebuggerServiceClient >> terminate [
 
 { #category : 'accessing' }
 SpkDebuggerServiceClient >> updateInspectors [
+
+	"Can be sent in any thread."
 
 	updatedInspectors do: [ :each | each announceUpdate ].
 	updatedInspectors := Set new

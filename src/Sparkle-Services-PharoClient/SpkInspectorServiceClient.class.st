@@ -20,12 +20,6 @@ SpkInspectorServiceClient >> addEvaluator [
 	^ newEvaluator
 ]
 
-{ #category : 'as yet unclassified' }
-SpkInspectorServiceClient >> announceUpdate [
-
-	self announce: SpkUpdateAnnouncement new
-]
-
 { #category : 'api' }
 SpkInspectorServiceClient >> listItems [
 

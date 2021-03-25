@@ -2003,6 +2003,41 @@ Transcript		cr;
 ]
 
 { #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_connectToProcess [
+
+	<example>
+	| client debuggerClient sem expressionResult |
+	Transcript clear. 
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		                  registerWith: self connection;
+		                  synchronize.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+		
+	(client
+		 debugProcessOop: 140308737
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			expressionResult := result doitResult.
+
+			sem signal ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait "wait for stack to print"
+]
+
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_stepOver [
 
 	<example>
@@ -2111,6 +2146,14 @@ SpkScaffoldingServiceClient class >> resetConnection_01 [
 
 	<example>
 	Connection := nil.
+]
+
+{ #category : 'new debugger' }
+SpkScaffoldingServiceClient >> debugProcessOop: processOop usingDebugger: debuggerService [
+
+	^ remoteSelf
+		  debugProcessOop: processOop
+		  usingDebugger: debuggerService
 ]
 
 { #category : 'debugger' }

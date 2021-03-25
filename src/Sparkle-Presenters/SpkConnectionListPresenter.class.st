@@ -199,6 +199,14 @@ SpkConnectionListPresenter >> initializeToolbar [
 				                              help: 'Open a Sparkle Explorer';
 				                              action: [ self openExplorer ];
 				                              yourself);
+		           addItem: (explorerButton := SpToolbarButtonPresenter new
+				                              label: 'Processes';
+				                              icon:
+					                              (self iconNamed:
+							                               #processBrowser);
+				                              help: 'Open a Sparkle Process Browser';
+				                              action: [ self openProcessBrowser ];
+				                              yourself);
 		           yourself.
 	connectionsBox
 		add: #toolbar
@@ -272,6 +280,12 @@ SpkConnectionListPresenter >> openExplorer [
 	taskspace
 		connection: connection;
 		openNewDefaultTaskspace
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> openProcessBrowser [
+
+	SparkleProcessBrowser example
 ]
 
 { #category : 'events' }

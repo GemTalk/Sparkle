@@ -90,13 +90,27 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> doItIn: pane context: context [
 
-	| service |
+	| service debuggerClient promise |
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
-	^ (service
-		   doit: pane selectedText
-		   inContext: context)
-		  doitResult
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		                  registerWith:
+			                  SpkConnectionProfile defaultConnection;
+		                  synchronize.
+	promise := service
+		           gsDebugger_07: pane selectedText
+		           usingDebugger: debuggerClient.
+	promise when: [ :result | ^ result doitResult ] catch: [ :reason | 
+		Transcript
+			cr;
+			show: '=========';
+			cr;
+			show: 'UNEXPECTED CATCH: ' , reason printString;
+			cr;
+			show: DateAndTime now printString;
+			cr;
+			show: '=========';
+			yourself ]
 ]
 
 { #category : 'constants' }

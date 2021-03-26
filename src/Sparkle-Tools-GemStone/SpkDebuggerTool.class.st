@@ -8,6 +8,7 @@ Class {
 		'exception',
 		'frames',
 		'mustInitiate',
+		'updatedServices',
 		'updatedInspectors'
 	],
 	#category : 'Sparkle-Tools-GemStone'
@@ -73,7 +74,7 @@ SpkDebuggerTool >> frames [
 { #category : 'initialization' }
 SpkDebuggerTool >> initialize [
 	super initialize.
-	updatedInspectors := Set new.
+	updatedServices := Set new.
 	frames := #()
 ]
 
@@ -100,8 +101,8 @@ SpkDebuggerTool >> proceed [
 	| resultTool | 
 	exception := nil. "If we hit another exception, we want the exception to be updated."
 	resultTool := processManager proceedProcess.
-	updatedInspectors := Set new.
-	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	updatedServices := Set new.
+	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
 	^resultTool
 ]
 
@@ -193,14 +194,12 @@ SpkDebuggerTool >> terminate [
 	| resultTool |
 	exception := nil.	"If we hit another exception, we want the exception to be updated."
 	resultTool := processManager terminateProcess.
-	updatedInspectors := Set new.
-	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
+	updatedServices := Set new.
+	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
 	^ resultTool
 ]
 
-{ #category : 'accessing' }
-SpkDebuggerTool >> updatedInspectors [
-	"The set of updated Inspector Services that have changed."
-
-	^updatedInspectors
+{ #category : 'other' }
+SpkDebuggerTool >> updatedServices [
+	^ updatedServices
 ]

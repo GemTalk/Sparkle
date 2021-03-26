@@ -43,7 +43,7 @@ SpkInspectorServiceServer >> initializeFromTool: aTool [
 SpkInspectorServiceServer >> receiveExecutionAnnouncement: announcement [
 
 	self refreshFromTool ifTrue: [ 
-		announcement updatedInspectors add: self ]
+		announcement updatedServices add: self ]
 ]
 
 { #category : 'initialization' }

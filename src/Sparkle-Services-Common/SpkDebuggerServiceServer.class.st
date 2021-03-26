@@ -86,7 +86,7 @@ SpkDebuggerServiceServer >> refreshFromTool [
 	processName := tool processName.
 	processIdentifier := tool processIdentifier.
 	processPriority := tool processPriority.
-	updatedInspectors := tool updatedInspectors.
+	updatedInspectors := tool updatedServices.
 	self refreshFramesFromTool
 ]
 

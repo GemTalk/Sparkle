@@ -109,6 +109,28 @@ SpkDebuggerToolTest >> testNumberOfFrames [
 ]
 
 { #category : 'tests' }
+SpkDebuggerToolTest >> testProceedChangedDepth [
+	"Get a debugger, proceed, get the same debugger with different stack depth."
+
+	| debugger1 debugger2 frame depth1 depth2 index1 index2 |
+	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	depth1 := debugger1 frames size.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	index1 := frame index.
+	self assert: frame currentSourceInterval equals: (3 to: 7).
+	debugger2 := debugger1 proceed.
+	self assert: debugger1 == debugger2.
+	depth2 := debugger2 frames size.
+	self assert: depth1 < depth2.
+	self assert: frame == (self executedCodeFrameInDebugger: debugger1).
+	index2 := frame index.
+	self assert: index1 equals: index2.
+	self assert: frame currentSourceInterval equals: (13 to: 13)
+]
+
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testProceedOnce [
 	"Get a debugger, proceed, get an inspector"
 

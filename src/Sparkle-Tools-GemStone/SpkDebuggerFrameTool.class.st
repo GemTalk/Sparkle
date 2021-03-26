@@ -12,7 +12,8 @@ Class {
 		'process',
 		'currentState',
 		'previousState',
-		'index'
+		'index',
+		'isValid'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -54,6 +55,14 @@ SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
 		referencedObject: self receiver
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> announceUpdate: anAnnouncement [
+	"I should have already been updated by the time I receive this announcement."
+
+	isValid
+		ifTrue: [ self announce: anAnnouncement ]
+]
+
 { #category : 'private' }
 SpkDebuggerFrameTool >> argAndTempNames [
 	^ currentState argAndTempNames
@@ -62,6 +71,12 @@ SpkDebuggerFrameTool >> argAndTempNames [
 { #category : 'private' }
 SpkDebuggerFrameTool >> argAndTempValues [
 	^ currentState argAndTempValues
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> beInvalid [
+	isValid := false.
+	taskspaceTool ifNotNil: [ taskspaceTool unsubscribe: self ]
 ]
 
 { #category : 'accessing' }
@@ -107,6 +122,12 @@ SpkDebuggerFrameTool >> index [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> index: object [
 	index := object
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> initialize [
+	super initialize.
+	isValid := true
 ]
 
 { #category : 'accessing' }
@@ -209,4 +230,14 @@ SpkDebuggerFrameTool >> stepPointHasChanged [
 	"Only valid after first initialization and at least one refresh."
 
 	^ currentState stepPoint ~~ previousState stepPoint
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> taskspaceTool: aTool [
+
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #announceUpdate: 
+		to: self
 ]

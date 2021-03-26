@@ -17,8 +17,11 @@ SpkDebuggerFrameServiceServer class >> forTool: aTool [
 
 { #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
-
 	tool := aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
 	self refreshFromTool
 ]
 

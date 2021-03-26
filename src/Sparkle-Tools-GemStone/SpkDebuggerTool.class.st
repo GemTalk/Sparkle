@@ -78,6 +78,15 @@ SpkDebuggerTool >> initialize [
 	frames := #()
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
+	"Some existing frames (the bottom of the stack) are still valid.
+	Let the frame tools that are no longer on the stack know they are 
+	no longer valid."
+
+	numberOfValidFrames + 1 to: frames size do: [ :index | (frames at: index) beInvalid ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerTool >> mustInitiate: object [
 	mustInitiate := object
@@ -169,6 +178,7 @@ SpkDebuggerTool >> refreshFromProcess [
 
 	| numberOfValidFrames newStackDepth newFrames |
 	numberOfValidFrames := self refreshExistingFrames.
+	self invalidateFramesAfter: numberOfValidFrames.
 	newStackDepth := process stackDepth.
 	newFrames := Array new: newStackDepth.
 	newFrames

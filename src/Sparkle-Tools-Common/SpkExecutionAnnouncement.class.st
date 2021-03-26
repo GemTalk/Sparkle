@@ -11,6 +11,11 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkExecutionAnnouncement >> addUpdatedService: aService [
+	updatedServices add: aService
+]
+
+{ #category : 'accessing' }
 SpkExecutionAnnouncement >> updatedServices [
 	^updatedServices
 ]

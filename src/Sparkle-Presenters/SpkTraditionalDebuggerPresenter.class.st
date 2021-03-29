@@ -88,9 +88,9 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> doItIn: pane context: context [
+SpkTraditionalDebuggerPresenter >> doItIn: pane context: contextOop [
 
-	| service debuggerClient promise doItResult |
+	| service debuggerClient promise doItResult semaphore |
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new
@@ -99,9 +99,15 @@ SpkTraditionalDebuggerPresenter >> doItIn: pane context: context [
 		                  synchronize.
 	promise := service
 		           gsDebugger_07: pane selectedText
-		           usingDebugger: debuggerClient.
+		           usingDebugger: debuggerClient
+		           contextOop: contextOop.
+	semaphore := Smalltalk
+		             at: #SPARKLE_DEBUGGER_SEMAPHORE
+		             put: Semaphore new.
 	promise
-		when: [ :result | doItResult := result doitResult ]
+		when: [ :result | 
+			doItResult := result doitResult.
+			semaphore signal ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -112,7 +118,9 @@ SpkTraditionalDebuggerPresenter >> doItIn: pane context: context [
 				show: DateAndTime now printString;
 				cr;
 				show: '=========';
-				yourself ].
+				yourself.
+			semaphore signal ].
+	semaphore wait.
 	^ doItResult
 ]
 
@@ -353,7 +361,7 @@ SpkTraditionalDebuggerPresenter >> printIt: result in: pane [
 	insertionOffset := interval isEmpty
 		                  ifTrue: [ pane cursorPositionIndex ]
 		                  ifFalse: [ interval last ].
-	pane insert: resultString printString at: insertionOffset + 1.
+	pane insert: resultString at: insertionOffset + 1.
 	pane selectionInterval: (insertionOffset + 1 to: insertionOffset + resultString size + 2)
 ]
 

@@ -2222,6 +2222,11 @@ SpkScaffoldingServiceClient >> gsDebugger_07: aString usingDebugger: debuggerSer
 	^ remoteSelf gsDebugger_07: aString usingDebugger: debuggerService
 ]
 
+{ #category : 'new debugger' }
+SpkScaffoldingServiceClient >> gsDebugger_07: aString usingDebugger: debuggerService contextOop: contextOop [ 
+	^ remoteSelf gsDebugger_07: aString usingDebugger: debuggerService contextOop: contextOop 
+]
+
 { #category : 'debugger' }
 SpkScaffoldingServiceClient >> openDebuggerOnClient [
 

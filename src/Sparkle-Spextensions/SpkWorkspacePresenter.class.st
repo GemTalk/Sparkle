@@ -63,6 +63,18 @@ SpkWorkspacePresenter >> initialize [
 	self overrideTheContextMenu. 
 ]
 
+{ #category : 'initialization' }
+SpkWorkspacePresenter >> initializeWindow: aWindowPresenter [
+
+	aWindowPresenter
+		title: 'Sparkle Workspace';
+		borderColor: Color purple;
+		borderWidth: 3;
+		initialExtent: 400 @ 250;
+		whenClosedDo: [ 
+			SpkConnectionProfile profileAnnouncer unsubscribe: self ]
+]
+
 { #category : 'menus' }
 SpkWorkspacePresenter >> overrideTheContextMenu [
 	Transcript show: 'overrideTheContextMenu'.

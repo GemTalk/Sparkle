@@ -2038,6 +2038,49 @@ SpkScaffoldingServiceClient class >> debugger_connectToProcess [
 ]
 
 { #category : 'new examples' }
+SpkScaffoldingServiceClient class >> debugger_demo [
+
+	<example>
+	| client debuggerClient sem expressionResult |
+	Transcript clear. 
+	client := SpkScaffoldingServiceClient new registerWith:
+		          self connection.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		                  registerWith: self connection;
+		                  synchronize.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
+	sem := Semaphore new.
+		
+	(client
+		 gsDebugger_07: '| array |
+		Play putABreakInHere. 
+		array := Array new. 
+		array add: (OrderedCollection with: $1). 
+		array add: #theSecondThing. 
+		array add: ''the third thing''.
+		self halt. 
+		array do:[:each | each size + each size]. 
+		^(array at: 1) + 3'
+		 usingDebugger: debuggerClient)
+		when: [ :result | 
+			expressionResult := result doitResult.
+
+			sem signal ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ].
+	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) wait "wait for stack to print"
+]
+
+{ #category : 'new examples' }
 SpkScaffoldingServiceClient class >> debugger_stepOver [
 
 	<example>

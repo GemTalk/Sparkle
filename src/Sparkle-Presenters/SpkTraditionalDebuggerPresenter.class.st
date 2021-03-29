@@ -31,7 +31,13 @@ SpkTraditionalDebuggerPresenter >> closeWindow [
 SpkTraditionalDebuggerPresenter >> connectPresenters [
 
 	super connectPresenters.
-	frameList whenSelectionChangedDo: [ :selection | self displayFrameDetails ].
+	frameList whenSelectionChangedDo: [ :selection | 
+		self displayFrameDetails ].
+
+	variableList whenSelectionChangedDo: [ :selection | 
+		selection ifNotNil: [ :sel | 
+			sel selectedItem ifNotNil: [ :item | 
+				workspace contextOop: (item at: 2) ] ] ]
 ]
 
 { #category : 'accessing' }
@@ -220,7 +226,7 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	self initializeVariablePaneIn: bottomPaneBox.
 	self initializeWorkspacePaneIn: bottomPaneBox. 
 	self layout add: bottomPaneBox.
-	self overrideWorkspaceMenu.
+	"self overrideWorkspaceMenu."
 	self layout color: Color purple muchLighter
 ]
 
@@ -281,9 +287,12 @@ SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
 	| verticalBox |
 	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
 	verticalBox
-		add: (self newLabel label: 'Variable Workspace (selected variable is context)')
+		add: (self newLabel label:
+				 'Variable Workspace (selected variable is context)')
 		withConstraints: [ :constraints | constraints height: 25 ].
-	verticalBox add: (workspace := self newCode withoutLineNumbers).
+	verticalBox add:
+		(workspace := (self instantiate: SpkWorkspacePresenter)
+			              withoutLineNumbers).
 	box add: verticalBox
 ]
 
@@ -325,31 +334,6 @@ SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 				name: 'Print It';
 				action: [ self sourceCodePrintIt ];
 				shortcut: PharoShortcuts current printItShortcut ] ]
-]
-
-{ #category : 'menus' }
-SpkTraditionalDebuggerPresenter >> overrideWorkspaceMenu [
-
-	workspace overridingContextMenu contextMenu:
-		(SpMenuPresenter new addGroup: [ :group | 
-			 group addItem: [ :item | 
-				 item
-					 name: 'Do It';
-					 action: [ self workspaceDoIt ];
-					 shortcut: PharoShortcuts current doItShortcut ].
-			 group addItem: [ :item | 
-				 item
-					 name: 'Print It';
-					 action: [ self workspacePrintIt ];
-					 shortcut: PharoShortcuts current printItShortcut ] ])
-]
-
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> printIt [
-
-	| result |
-	result := self doIt. 
-	sourceCode insert: result printString at: sourceCode cursorPositionIndex + 3 
 ]
 
 { #category : 'actions' }
@@ -497,20 +481,4 @@ SpkTraditionalDebuggerPresenter >> terminate [
 
 	self ifConnectedDo: #terminate.
 	self closeWindow
-]
-
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> workspaceDoIt [
-
-	| oop |
-	oop := variableList selectedItem ifNil: [ 20 "nil" ] ifNotNil: [:oc | oc at: 2].
-	^ self doItIn: workspace context: oop
-]
-
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> workspacePrintIt [
-
-	| result |
-	result := self workspaceDoIt.
-	self printIt: result in: workspace
 ]

@@ -54,7 +54,7 @@ SpkEvaluatorServiceServer >> refreshFromTool [
 
 	oldSourceCode := tool oldSourceCode.
 	newSourceCode := tool newSourceCode.
-	updatedInspectors := tool updatedServices
+	updatedServices := tool updatedServices
 ]
 
 { #category : 'accessing' }

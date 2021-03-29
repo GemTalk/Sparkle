@@ -252,7 +252,25 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService contextOop: contextOop [
+	^ self
+		gsDebugger_07: aString
+		usingDebugger: debuggerService
+		procName: 'SpkScaffoldingServiceServer>>gsDebugger_07:usingDebugger:contextOop:'
+		contextOop: contextOop
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService procName: procName [
+	self
+		gsDebugger_07: aString
+		usingDebugger: debuggerService
+		procName: procName
+		contextOop: nil asOop
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerService procName: procName contextOop: contextOop [
 	"
 		Used for debugging forked thread, since we are opening the debugger without using SpkScaffoldingAbstractService >> debug:raisedDuring:answerUsing:, 
 			using our own debugActionBlock and SpkScaffoldingAbstractService >> debug: instead ...
@@ -284,7 +302,9 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 							^ RsrNonresumableError
 								signal: 'cannot resume from a not-resumable Exception' ].
 					debuggerService resumptionValue	"necessary" ].
-	doitResult := aString evaluate
+	doitResult := aString
+		evaluateInContext: (Object _objectForOop: contextOop)
+		symbolList: Rowan image symbolList
 ]
 
 { #category : 'debugger' }

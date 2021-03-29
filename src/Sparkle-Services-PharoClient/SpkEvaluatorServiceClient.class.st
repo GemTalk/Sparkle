@@ -113,6 +113,6 @@ SpkEvaluatorServiceClient >> updateServices [
 
 	"Can be sent in any thread."
 
-	updatedInspectors do: [ :each | each announceUpdate ].
-	updatedInspectors := Set new
+	updatedServices do: [ :each | each announceUpdate ].
+	updatedServices := Set new
 ]

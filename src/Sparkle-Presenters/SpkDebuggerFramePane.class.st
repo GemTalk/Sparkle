@@ -66,7 +66,7 @@ SpkDebuggerFramePane >> initializePresenters [
 		initializeLocalVariableList;
 		initializeSourcePane;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
-			self addSourcePositionDecoration ]
+			self updateFromModel ]
 ]
 
 { #category : 'initialization' }
@@ -74,7 +74,6 @@ SpkDebuggerFramePane >> initializeSourcePane [
 
 	sourcePresenter := self newCode
 		                   beNotEditable;
-		                   text: self sourceText;
 		                   yourself.
 	self layout add: sourcePresenter
 ]
@@ -100,8 +99,23 @@ SpkDebuggerFramePane >> listLabelString [
 	^ self listItemServices size printString , ' local variables'
 ]
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerFramePane >> refreshSourcePane [
+
+	sourcePresenter text: self sourceText.
+	self addSourcePositionDecoration
+]
+
 { #category : 'printing' }
 SpkDebuggerFramePane >> sourceText [
 
 	^ model source
+]
+
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> updateFromModel [
+
+	self
+		refreshTwizzledList;
+		refreshSourcePane
 ]

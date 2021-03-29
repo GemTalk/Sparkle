@@ -128,7 +128,8 @@ SpkInspectorPane >> initializePresenters [
 	self
 		initializeFieldList;
 		initializeAddEvaluatorButton;
-		initializeEvaluators
+		initializeEvaluators;
+		updateFromModel
 ]
 
 { #category : 'initialization' }
@@ -221,8 +222,7 @@ SpkInspectorPane >> updateFieldList [
 
 	self
 		deselectChangedFields;
-		refreshListModel;
-		refreshList
+		refreshTwizzledList
 ]
 
 { #category : 'initialization' }

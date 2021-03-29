@@ -13,13 +13,20 @@ SpkPaneWithTwizzledList >> initializeTwizzledList [
 	self initializeList.
 	twizzledList := self instantiate: SpkTwizzledPresenter.
 	twizzledList
-		labelString: self listLabelString;
 		subPresenter: list;
-		showSubPresenter: true
+		showSubPresenter: true.
+	self refreshTwizzledList
 ]
 
 { #category : 'as yet unclassified' }
 SpkPaneWithTwizzledList >> listLabelString [
 
 	self subclassResponsibility
+]
+
+{ #category : 'initialization' }
+SpkPaneWithTwizzledList >> refreshTwizzledList [
+
+	self refreshList.
+	twizzledList labelString: self listLabelString
 ]

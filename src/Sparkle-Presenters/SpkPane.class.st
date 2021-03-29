@@ -189,7 +189,7 @@ SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 		self
 			newPaneForService: anAnnouncement service
 			linkedTo: anAnnouncement requestId ].
-	self updateInspectors
+	self updateServices
 ]
 
 { #category : 'initialization' }
@@ -224,7 +224,7 @@ SpkPane >> updateFromModel [
 ]
 
 { #category : 'as yet unclassified' }
-SpkPane >> updateInspectors [
+SpkPane >> updateServices [
 
 	"Can be sent in any thread."
 

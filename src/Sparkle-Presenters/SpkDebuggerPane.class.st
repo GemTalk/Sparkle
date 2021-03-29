@@ -189,7 +189,7 @@ SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 	self flag:
 		'Make sure this announcement only happens after termination is complete'.
 	self defer: [ self close ].
-	self updateInspectors
+	self updateServices
 ]
 
 { #category : 'private' }
@@ -224,16 +224,16 @@ SpkDebuggerPane >> updateFromModel [
 		reEnableAll
 ]
 
-{ #category : 'private' }
-SpkDebuggerPane >> updateInspectors [
-
-	"Can be sent in any thread."
-
-	model updateInspectors
-]
-
 { #category : 'as yet unclassified' }
 SpkDebuggerPane >> updateLinkedFramePanes [
 
 	self linkedFramePanes do: [ :pane | pane updateFromModel ]
+]
+
+{ #category : 'private' }
+SpkDebuggerPane >> updateServices [
+
+	"Can be sent in any thread."
+
+	model updateServices
 ]

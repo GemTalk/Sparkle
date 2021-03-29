@@ -235,18 +235,18 @@ SpkInspectorPane >> updateFromModel [
 	self updateFieldList
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPane >> updateInspectors [
-
-	"Can be sent in any thread."
-
-	self evaluators do: [ :each | each updateInspectors ]
-]
-
 { #category : 'initialization' }
 SpkInspectorPane >> updateSelfDescription [
 
 	selfDescription
 		labelString: model selfDescription;
 		bodyString: model selfDescription
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> updateServices [
+
+	"Can be sent in any thread."
+
+	self evaluators do: [ :each | each updateServices ]
 ]

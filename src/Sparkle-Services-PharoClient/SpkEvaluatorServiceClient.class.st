@@ -109,7 +109,7 @@ SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 ]
 
 { #category : 'as yet unclassified' }
-SpkEvaluatorServiceClient >> updateInspectors [
+SpkEvaluatorServiceClient >> updateServices [
 
 	"Can be sent in any thread."
 

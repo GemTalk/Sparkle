@@ -226,7 +226,6 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	self initializeVariablePaneIn: bottomPaneBox.
 	self initializeWorkspacePaneIn: bottomPaneBox. 
 	self layout add: bottomPaneBox.
-	"self overrideWorkspaceMenu."
 	self layout color: Color purple muchLighter
 ]
 

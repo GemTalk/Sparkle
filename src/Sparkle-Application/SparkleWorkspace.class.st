@@ -12,5 +12,5 @@ SparkleWorkspace class >> example [
 
 { #category : 'running' }
 SparkleWorkspace >> start [
-	(self new: SpkWorkspacePresenter) openWithSpec
+	(self new: SpkStandAloneWorkspacePresenter) openWithSpec
 ]

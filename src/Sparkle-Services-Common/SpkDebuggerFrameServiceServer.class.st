@@ -66,7 +66,7 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 				parentService: self;
 				initializeFromTool: fieldTool;
 				yourself ].
-	self flag: 'HACK!'.
+	SpkObject new flag: 'HACK!'.
 	^ true
 ]
 

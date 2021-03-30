@@ -134,6 +134,25 @@ removeallmethods AnnouncerSubscriberMockB
 removeallclassmethods AnnouncerSubscriberMockB
 
 doit
+(Object
+	subclass: 'SpkTestClassForDebugging'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Various methods for breakpointing, stepping, and the like by the debugger tool.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkTestClassForDebugging
+removeallclassmethods SpkTestClassForDebugging
+
+doit
 (RsrChannel
 	subclass: 'RsrNullChannel'
 	instVarNames: #( lastCommand )
@@ -1846,6 +1865,16 @@ category: 'events'
 method: AnnouncerSubscriberMockA
 registerEvents
 	self announcer when: AnnouncementMockA do: [ :evt | " something" ] for: self "GemStone can't identiy this block's receiver".
+%
+
+! Class implementation for 'SpkTestClassForDebugging'
+
+!		Instance methods for 'SpkTestClassForDebugging'
+
+category: 'breakpointing'
+method: SpkTestClassForDebugging
+twelve
+	^ 3 + 4 + 5
 %
 
 ! Class implementation for 'RsrNullChannel'
@@ -7965,6 +7994,21 @@ executedCodeFrameInDebugger: debugger
 			frame description = 'Executed Code ' ].
 	self assert: doitFrames size equals: 1.
 	^ doitFrames first
+%
+
+category: 'other'
+method: SpkDebuggerToolTest
+testBreakpoint01
+	| method debugger |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	method setBreakAtStepPoint: 3 breakpointLevel: 1.
+	self deny: GsProcess usingNativeCode.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	self halt ]
+		ensure: [ method clearAllBreaks ]
 %
 
 category: 'tests'

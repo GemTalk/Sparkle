@@ -9,7 +9,8 @@ Class {
 		'filterInput',
 		'insecureConnectionPresenter',
 		'connectionsNotebook',
-		'gciConnectionPresenter'
+		'gciConnectionPresenter',
+		'explorerButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -25,6 +26,7 @@ SpkConnectionListPresenter >> connectPresenters [
 
 	super connectPresenters.
 	connectionList whenSelectionChangedDo: [ :selection | 
+		"explorerButton enabled: self isConnectedProfileSelected." "button enablement is broken in 1214"
 		selection selectedItems size > 1
 			ifTrue: [ self initializeConnectionProfileTabs ]
 			ifFalse: [ 
@@ -69,11 +71,11 @@ SpkConnectionListPresenter >> initialize [
 		to: self.
 	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileConnectedAnnouncement
-		send: #update
+		send: #updateGUI
 		to: self.
 	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
-		send: #update
+		send: #updateGUI
 		to: self
 ]
 
@@ -169,7 +171,8 @@ SpkConnectionListPresenter >> initializePresenters [
 	self initializeConnectionList.
 	self initializeGroupFilter.
 	self initializeConnectionPresenterTabs.
-	self initializeUnselectedProfile
+	self initializeUnselectedProfile.
+	self layout color: Color purple muchLighter.
 ]
 
 { #category : 'initialization' }
@@ -188,8 +191,20 @@ SpkConnectionListPresenter >> initializeToolbar [
 				            help: 'Restore profiles from a file';
 				            action: [ self loadFromFile ];
 				            yourself);
+		           addItem: (explorerButton := SpToolbarButtonPresenter new
+				                              label: 'Explorer';
+				                              icon:
+					                              (self iconNamed:
+							                               #smallSystemBrowser);
+				                              help: 'Open a Sparkle Explorer';
+				                              action: [ self openExplorer ];
+				                              yourself);
 		           yourself.
-	connectionsBox add: #toolbar expand: false fill: false padding: 0
+	connectionsBox
+		add: #toolbar
+		expand: false
+		fill: false
+		padding: 0
 ]
 
 { #category : 'initialization' }
@@ -211,6 +226,13 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 800 @ 450;
 		whenClosedDo: [ 
 			SpkConnectionProfile profileAnnouncer unsubscribe: self ]
+]
+
+{ #category : 'testing' }
+SpkConnectionListPresenter >> isConnectedProfileSelected [
+
+	connectionList selectedItem ifNil: [ ^ false ].
+	^ connectionList selectedItem isConnected
 ]
 
 { #category : 'actions' }
@@ -239,9 +261,13 @@ SpkConnectionListPresenter >> newLayout [
 ]
 
 { #category : 'actions' }
-SpkConnectionListPresenter >> openExplorer: connection [
+SpkConnectionListPresenter >> openExplorer [
 
-	| taskspace |
+	| taskspace connection selection |
+	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
+	selection := connectionList selectedItem. 
+	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
+	connection := selection connection. 
 	taskspace := SparkleTaskspace new.
 	taskspace
 		connection: connection;
@@ -263,12 +289,6 @@ SpkConnectionListPresenter >> profileAdded: announcement [
 { #category : 'events' }
 SpkConnectionListPresenter >> profileChanged: announcement [
 
-	"| profile |
-	profile := announcement profiles first.
-	connectionList selection selectedItem ifNotNil: [ :item | 
-		connectionList items: (connectionList items copyWithout: item).
-		connectionList items: connectionList items, (Array with: profile).
-		connectionList selectItem: profile ]."
 	self update. 
 ]
 
@@ -318,4 +338,11 @@ SpkConnectionListPresenter >> showConnectionIndicatorFor: profile [
 	^ profile connection
 		  ifNil: [  ]
 		  ifNotNil: [ self iconNamed: #smallOk ]
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> updateGUI [
+
+	self update.
+	"explorerButton enabled: self isConnectedProfileSelected." "button enablement is broken in 1214"
 ]

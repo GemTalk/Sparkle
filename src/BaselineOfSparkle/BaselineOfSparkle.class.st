@@ -92,7 +92,10 @@ BaselineOfSparkle >> baselineWithScaffolding: spec [
 			package: 'Sparkle-Spextensions'.
 		spec
 			baseline: 'RemoteServiceReplication'
-			with: [ spec repository: self rsrUrl ] ]
+			with: [ spec repository: self rsrUrl ].
+		spec
+			baseline: 'SparkleFFI'
+			with: [ spec repository: self sparkleFFIUrl ] ]
 ]
 
 { #category : 'actions' }
@@ -114,4 +117,13 @@ BaselineOfSparkle >> rsrUrl [
 		at: 'ROWAN_PROJECTS_HOME'
 		ifAbsent: [ self error: '$ROWAN_PROJECTS_HOME not defined' ].
 	^ 'gitlocal://' , projectsHome , '/RemoteServiceReplication/src'
+]
+
+{ #category : 'baselines' }
+BaselineOfSparkle >> sparkleFFIUrl [
+	| projectsHome |
+	projectsHome := OSEnvironment current
+		at: 'ROWAN_PROJECTS_HOME'
+		ifAbsent: [ self error: '$ROWAN_PROJECTS_HOME not defined' ].
+	^ 'gitlocal://' , projectsHome , '/SparkleFFI/src'
 ]

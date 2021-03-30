@@ -45,7 +45,10 @@ BaselineOfSparkle >> baselineNoScaffolding: spec [
 			package: 'Sparkle-Spextensions'.
 		spec
 			baseline: 'RemoteServiceReplication'
-			with: [ spec repository: self rsrUrl ] ]
+			with: [ spec repository: self rsrUrl ].
+		spec
+			baseline: 'SparkleFFI'
+			with: [ spec repository: self sparkleFFIUrl ]  ]
 ]
 
 { #category : 'baselines' }

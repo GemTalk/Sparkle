@@ -178,7 +178,8 @@ SpkDebuggerToolTest >> testStepOver01 [
 	debugger := evaluatorTool evaluateCode.
 	frames := debugger frames.
 	frame := frames
-		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"Have we properly omitted the glue frames following a breakpoint?"
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
+	"Have we properly omitted the glue frames following a breakpoint?"
 	self assert: frame equals: frames last.
 	self assert: (frame description includesString: 'twelve').
 	self assert: frame stepPoint equals: 1.

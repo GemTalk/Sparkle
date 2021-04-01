@@ -99,6 +99,18 @@ SpkDebuggerServiceServer >> serviceForTool: aTool [
 	^ serviceClass forTool: aTool
 ]
 
+{ #category : 'stepping' }
+SpkDebuggerServiceServer >> stepOverIn: aFrameService [
+
+	| resultTool |
+	resultTool := aFrameService tool stepOver.
+	^resultTool == tool
+		ifTrue:
+			[self refreshFromTool.
+			self]
+		ifFalse: [self serviceForTool: resultTool]
+]
+
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
 	| resultTool |

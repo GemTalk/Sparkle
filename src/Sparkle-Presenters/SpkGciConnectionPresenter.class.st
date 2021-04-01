@@ -174,7 +174,7 @@ SpkGciConnectionPresenter >> setPath [
 	path ifNil: [ ^ self ].
 	connectionProfile path: path fullName.
 	SpkGCIConnectionProfile defaultPath: connectionProfile path.
-	self updateGUI
+	pathText text: connectionProfile path. 
 ]
 
 { #category : 'accessing' }

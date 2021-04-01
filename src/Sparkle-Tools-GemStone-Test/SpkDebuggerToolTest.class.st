@@ -167,6 +167,44 @@ SpkDebuggerToolTest >> testProceedTwice [
 		assert: inspector inspectedObject equals: 12
 ]
 
+{ #category : 'other' }
+SpkDebuggerToolTest >> testStepOver01 [
+	| method debugger debugger2 frames frame localVariables variable inspector |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	method setBreakAtStepPoint: 1 breakpointLevel: 1.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	frames := debugger frames.
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"Have we properly omitted the glue frames following a breakpoint?"
+	self assert: frame equals: frames last.
+	self assert: (frame description includesString: 'twelve').
+	self assert: frame stepPoint equals: 1.
+	localVariables := frame localVariables.
+	self assert: localVariables size equals: 1.
+	variable := localVariables at: 1.
+	self
+		assert: (variable columnAt: 1) equals: 'receiver';
+		assert: frame currentSourceInterval equals: (1 to: 6).
+	debugger2 := frame stepOver.
+	self
+		assert: debugger2 == debugger;
+		assert: frame == frames last;
+		assert: frame currentSourceInterval equals: (13 to: 13).
+	frame stepOver.
+	self assert: frame currentSourceInterval equals: (17 to: 17).
+	frame stepOver.
+	self assert: frame currentSourceInterval equals: (9 to: 9).
+	frame stepOver.
+	self assert: debugger frames size equals: frames size - 1.
+	inspector := debugger proceed.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ]
+]
+
 { #category : 'tests' }
 SpkDebuggerToolTest >> testTerminate [
 	"Get a debugger, terminate, verify termination"

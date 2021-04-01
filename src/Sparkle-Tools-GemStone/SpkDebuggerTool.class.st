@@ -194,6 +194,7 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 	^SpkDebuggerFrameTool new
 		taskspaceTool: taskspaceTool;
 		explorerTool: explorerTool;
+		debuggerTool: self;
 		process: process;
 		yourself
 ]
@@ -202,12 +203,8 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 SpkDebuggerTool >> proceed [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	| resultTool | 
-	exceptionOfRecord := nil. "If we hit another exception, we want the exception to be updated."
-	resultTool := processManager proceedProcess.
-	updatedServices := Set new.
-	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
-	^resultTool
+	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	^ self resume
 ]
 
 { #category : 'accessing' }
@@ -292,6 +289,17 @@ SpkDebuggerTool >> refreshFromProcess [
 	frames := newFrames.
 	self discardGlueFrames.
 	^ frames
+]
+
+{ #category : 'actions' }
+SpkDebuggerTool >> resume [
+	"Used for both stepping and proceed."
+
+	| resultTool | 
+	resultTool := processManager proceedProcess.
+	updatedServices := Set new.
+	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
+	^resultTool
 ]
 
 { #category : 'actions' }

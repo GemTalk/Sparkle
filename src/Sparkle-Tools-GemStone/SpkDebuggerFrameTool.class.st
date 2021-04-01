@@ -9,6 +9,7 @@ Class {
 	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
+		'debuggerTool',
 		'process',
 		'currentState',
 		'previousState',
@@ -83,6 +84,11 @@ SpkDebuggerFrameTool >> beInvalid [
 SpkDebuggerFrameTool >> currentSourceInterval [
 
 	^ currentState sourceInterval
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> debuggerTool: object [
+	debuggerTool := object
 ]
 
 { #category : 'accessing' }
@@ -218,6 +224,14 @@ SpkDebuggerFrameTool >> source [
 	If there is no method, empty string."
 
 	^ currentState source
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> stepOver [
+	| level |
+	level := currentState level.
+	process stepOverFromLevel: level.
+	^ debuggerTool resume
 ]
 
 { #category : 'accessing' }

@@ -111,6 +111,11 @@ SpkProcessFrameInfo >> lastKeywordCharacterIn: source startingAt: startPos [
 ]
 
 { #category : 'accessing' }
+SpkProcessFrameInfo >> level [
+	^ level
+]
+
+{ #category : 'accessing' }
 SpkProcessFrameInfo >> method [
 	^ frameContents at: 1
 ]

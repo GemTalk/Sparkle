@@ -19,14 +19,17 @@ SpkDebuggerToolTest >> executedCodeFrameInDebugger: debugger [
 
 { #category : 'other' }
 SpkDebuggerToolTest >> testBreakpoint01 [
-	| method debugger frame localVariables variable inspector |
+	| method debugger frames frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
 	self assert: method class equals: GsNMethod.
 	[ 
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
-	frame := debugger frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
+	frames := debugger frames.
+	frame := frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
+	"Have we properly omitted the glue frames following a breakpoint?"
+	self assert: frame equals: frames last.
 	self assert: (frame description includesString: 'twelve').
 	self
 		assert: frame stepPoint

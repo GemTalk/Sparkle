@@ -52,7 +52,7 @@ SpkDebuggerServiceTest >> testProcessFrameQuantity [
 	frames := debuggerService frames.
 	self
 		assert: (frames isKindOf: SequenceableCollection);
-		assert: (frames size between: 15 and: 25)
+		assert: (frames size between: 10 and: 15)
 ]
 
 { #category : 'tests' }

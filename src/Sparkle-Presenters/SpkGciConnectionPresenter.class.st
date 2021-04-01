@@ -60,6 +60,7 @@ SpkGciConnectionPresenter >> initializePresenters [
 	self initializeVersionStoneNetldiPresenters.
 	self initializeUserPasswordPresenter.
 	self initializePathPresenter.
+	self addVerticalSpaceTo: self layout height: 1. 
 	self initializeButtons. 
 	self setFocusOrder
 	
@@ -85,6 +86,7 @@ SpkGciConnectionPresenter >> initializeUserPasswordPresenter [
 	labelBox
 		add: (self newLabel label: 'User:')
 		withConstraints: [ :constraints | constraints height: 20 ].
+	self addHorizontalSpaceTo: labelBox. 
 	labelBox
 		add: (self newLabel label: 'Password:')
 		withConstraints: [ :constraints | constraints height: 20 ].
@@ -94,6 +96,7 @@ SpkGciConnectionPresenter >> initializeUserPasswordPresenter [
 	inputBox
 		add: userText
 		withConstraints: [ :constraints | constraints height: 30 ].
+	self addHorizontalSpaceTo: inputBox. 
 	passwordText := self newTextInput bePassword.
 	inputBox
 		add: passwordText
@@ -106,26 +109,30 @@ SpkGciConnectionPresenter >> initializeVersionStoneNetldiPresenters [
 
 	| labelBox inputBox |
 	labelBox := SpkBoxLayout newHorizontal.
-	labelBox 
+	labelBox
 		add: (self newLabel label: 'Version:')
 		withConstraints: [ :constraints | constraints height: 20 ].
+	self addHorizontalSpaceTo: labelBox.
 	labelBox
 		add: (self newLabel label: 'Stone:')
 		withConstraints: [ :constraints | constraints height: 20 ].
+	self addHorizontalSpaceTo: labelBox.
 	labelBox
 		add: (self newLabel label: 'Netldi:')
 		withConstraints: [ :constraints | constraints height: 20 ].
-	
+
 	self layout add: labelBox.
 	inputBox := SpkBoxLayout newHorizontal.
 	versionText := self newTextInput.
-	inputBox 
+	inputBox
 		add: versionText
 		withConstraints: [ :constraints | constraints height: 30 ].
+	self addHorizontalSpaceTo: inputBox.
 	stoneText := self newTextInput.
 	inputBox
 		add: stoneText
 		withConstraints: [ :constraints | constraints height: 30 ].
+	self addHorizontalSpaceTo: inputBox.
 	netldiText := self newTextInput.
 	inputBox
 		add: netldiText

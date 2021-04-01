@@ -33,6 +33,30 @@ SpkConnectionPresenter >> add [
 	self class connectionProfileClass addProfile: connectionProfile
 ]
 
+{ #category : 'private' }
+SpkConnectionPresenter >> addHorizontalSpaceTo: box [
+
+	self
+		addHorizontalSpaceTo: box
+		width: self defaultHorizontalSpaceWidth
+]
+
+{ #category : 'private' }
+SpkConnectionPresenter >> addHorizontalSpaceTo: box width: width [
+
+	"dumb way to do put space between widgets. no obvious alternatives."
+
+	box add: (self newLabel label: ' ') width: width
+]
+
+{ #category : 'private' }
+SpkConnectionPresenter >> addVerticalSpaceTo: box height: height [
+
+	"dumb way to do put space between widgets. no obvious alternatives."
+
+	box add: (self newLabel label: ' ') height: height
+]
+
 { #category : 'actions' }
 SpkConnectionPresenter >> cancel [
 
@@ -79,6 +103,12 @@ SpkConnectionPresenter >> connectionProfile: anObject [
 	connectionProfile := anObject
 ]
 
+{ #category : 'constants' }
+SpkConnectionPresenter >> defaultHorizontalSpaceWidth [
+
+	^10
+]
+
 { #category : 'actions' }
 SpkConnectionPresenter >> disableButtons [
 
@@ -122,17 +152,21 @@ SpkConnectionPresenter >> initializeButtons [
 	addButton := self newButton
 		             label: 'Add';
 		             icon: (self iconNamed: #add);
+		             color: SpkConnectionListPresenter defaultColor;
 		             action: [ self add ].
 	removeButton := self newButton
 		                label: 'Remove';
 		                icon: (self iconNamed: #smallDelete);
+		                color: SpkConnectionListPresenter defaultColor;
 		                action: [ self remove ].
 	saveButton := self newButton
 		              label: 'Change';
+		              color: SpkConnectionListPresenter defaultColor;
 		              action: [ self save ].
 	cancelButton := self newButton
 		                label: 'Cancel';
 		                icon: (self iconNamed: #delete);
+		                color: SpkConnectionListPresenter defaultColor;
 		                action: [ self cancel ].
 	connectButton := self newButton
 		                 label: 'Connect';
@@ -141,21 +175,17 @@ SpkConnectionPresenter >> initializeButtons [
 		                    label: 'Disconnect';
 		                    action: [ self disconnect ].
 	self layout add: (SpkBoxLayout newHorizontal
-			 add: addButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: removeButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: saveButton
-			 withConstraints: [ :constraints | constraints height: 30 ];
-			 add: cancelButton
-			 withConstraints: [ :constraints | constraints height: 30 ]).
+			 add: addButton height: 30;
+			 add: removeButton height: 30;
+			 add: saveButton height: 30;
+			 add: cancelButton height: 30).
 
 	self layout
 		add: (SpkBoxLayout newHorizontal
 				 add: connectButton
-				 withConstraints: [ :constraints | constraints height: 30 ];
+				 height: 30;
 				 add: disconnectButton
-				 withConstraints: [ :constraints | constraints height: 30 ])
+				 height: 30)
 		withConstraints: [ :constraints | constraints height: 40 ].
 	self enableButtons
 ]
@@ -183,32 +213,28 @@ SpkConnectionPresenter >> initializeGroupPresenter [
 { #category : 'initialization' }
 SpkConnectionPresenter >> initializeHostAndPortPresenter [
 
-	| labelBox inputBox |
+	| labelBox inputBox inputAndLabelBox |
+	inputAndLabelBox := SpkBoxLayout newVertical.
 	labelBox := SpkBoxLayout newHorizontal.
-	labelBox
-		add: (self newLabel label: 'Host:')
-		withConstraints: [ :constraints | constraints height: 20 ].
-	labelBox
-		add: (self newLabel label: 'Port:')
-		withConstraints: [ :constraints | constraints height: 20 ].
-	self layout add: labelBox.
+	labelBox add: (self newLabel label: 'Host:') height: 20.
+	self addHorizontalSpaceTo: labelBox.
+	labelBox add: (self newLabel label: 'Port:') height: 20.
+	inputAndLabelBox add: labelBox.
 	inputBox := SpkBoxLayout newHorizontal.
 	hostText := self newTextInput.
-	inputBox
-		add: hostText
-		withConstraints: [ :constraints | constraints height: 30 ].
+	inputBox add: hostText height: 30.
+	self addHorizontalSpaceTo: inputBox.
 	portText := self newTextInput.
-	inputBox
-		add: portText
-		withConstraints: [ :constraints | constraints height: 30 ].
-	self layout add: inputBox
+	inputBox add: portText height: 30.
+	inputAndLabelBox add: inputBox.
+	self layout add: inputAndLabelBox height: 50
 ]
 
 { #category : 'initialization' }
 SpkConnectionPresenter >> initializeNamePresenter [
 
 	self layout
-		add: (self newLabel label: 'Name:')
+		add: (self newLabel label: 'Connection Name:')
 		withConstraints: [ :constraints | constraints height: 20 ].
 	nameText := self newTextInput.
 	self layout

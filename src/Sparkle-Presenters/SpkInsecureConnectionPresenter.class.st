@@ -46,6 +46,7 @@ SpkInsecureConnectionPresenter >> initializePresenters [
 
 	super initializePresenters.
 	self initializeInMemoryCheckbox.
+	self addVerticalSpaceTo: self layout height: 145. 
 	self initializeButtons.
 ]
 

@@ -16,6 +16,14 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkConnectionListPresenter class >> defaultColor [
+
+	^ UITheme current class == PharoDarkTheme
+		  ifTrue: [ Color purple muchDarker ]
+		  ifFalse: [ Color purple muchLighter ]
+]
+
+{ #category : 'accessing' }
 SpkConnectionListPresenter >> activeConnectionPage [
 
 	^ connectionsNotebook selectedPage activePresenter
@@ -167,12 +175,12 @@ SpkConnectionListPresenter >> initializePresenters [
 	bigBox
 		add: connectionsBox
 		withConstraints: [ :constraints | constraints width: 500 ].
-	self initializeToolbar. 
+	self initializeToolbar.
 	self initializeConnectionList.
 	self initializeGroupFilter.
 	self initializeConnectionPresenterTabs.
 	self initializeUnselectedProfile.
-	self layout color: Color purple muchLighter.
+	self layout color: self class defaultColor
 ]
 
 { #category : 'initialization' }

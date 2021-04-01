@@ -125,8 +125,7 @@ SpkConnectionListPresenter >> initializeConnectionPresenterTabs [
 
 	connectionsNotebook := self newNotebook.
 	bigBox
-		add: connectionsNotebook
-		"withConstraints: [ :constraints | constraints width: 225 ]".
+		add: connectionsNotebook.
 	gciConnectionPresenter := self instantiate: SpkGciConnectionPresenter.
 	connectionsNotebook addPage: (SpNotebookPage
 			 title: 'GCI'

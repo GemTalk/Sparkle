@@ -1,7 +1,19 @@
+"
+A pane that displays one frame of a debugger stack. 
+Features
+- Inspection of local variables (parameters, temporaries, evaluation stack)
+- Source code with current position highlighted
+- Controls for stepping relative to this frame
+"
 Class {
 	#name : 'SpkDebuggerFramePane',
 	#superclass : 'SpkPaneWithTwizzledList',
 	#instVars : [
+		'sourceLayout',
+		'controlsLayout',
+		'stepOverButton',
+		'stepThroughButton',
+		'stepIntoButton',
 		'sourcePresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
@@ -27,6 +39,33 @@ SpkDebuggerFramePane >> headerClass [
 ]
 
 { #category : 'initialization' }
+SpkDebuggerFramePane >> initializeControlsLayout [
+
+	controlsLayout := SpkBoxLayout newVertical
+		                  color: (Color gray: 0.18);
+		                  yourself.
+
+	sourceLayout
+		add: controlsLayout
+		withConstraints: [ :c | c width: 35 ].
+
+	stepOverButton := self newIconButton
+		                  color: Color transparent;
+		                  icon: (self iconNamed: #proceed28);
+		                  help: 'Step over';
+		                  action: [ self stepOver ];
+		                  yourself.
+
+	controlsLayout
+		add: SpkBoxLayout newHorizontal
+		withConstraints: [ :c | c height: 8 ];
+		add: stepOverButton withConstraints: [ :c | 
+			c
+				height: 28;
+				width: 28 ]
+]
+
+{ #category : 'initialization' }
 SpkDebuggerFramePane >> initializeListColumns [
 
 	list
@@ -49,19 +88,30 @@ SpkDebuggerFramePane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeLocalVariableList;
-		initializeSourcePane;
+		initializeSourceLayout;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
 			self updateFromModel ]
 ]
 
 { #category : 'initialization' }
-SpkDebuggerFramePane >> initializeSourcePane [
+SpkDebuggerFramePane >> initializeSourceLayout [
+
+	sourceLayout := SpkBoxLayout newHorizontal.
+	self layout add: sourceLayout.
+
+	self
+		initializeControlsLayout;
+		initializeSourcePresenter
+]
+
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> initializeSourcePresenter [
 
 	sourcePresenter := self newCode
 		                   beNotEditable;
 		                   withoutLineNumbers;
 		                   yourself.
-	self layout add: sourcePresenter
+	sourceLayout add: sourcePresenter
 ]
 
 { #category : 'actions' }

@@ -2053,7 +2053,7 @@ SpkScaffoldingServiceClient class >> debugger_demo [
 		
 	(client
 		 gsDebugger_07: '| array |
-		Play putABreakInHere. 
+		"Play putABreakInHere. "
 		array := Array new. 
 		array add: (OrderedCollection with: $1). 
 		array add: #theSecondThing. 

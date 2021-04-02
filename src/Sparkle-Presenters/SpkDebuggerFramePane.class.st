@@ -74,6 +74,7 @@ SpkDebuggerFramePane >> initializeSourcePane [
 
 	sourcePresenter := self newCode
 		                   beNotEditable;
+		                   withoutLineNumbers;
 		                   yourself.
 	self layout add: sourcePresenter
 ]

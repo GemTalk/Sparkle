@@ -50,8 +50,8 @@ SpkBoxConstraints >> padding [
 ]
 
 { #category : 'accessing' }
-SpkBoxConstraints >> padding: anObject [
-	padding := anObject
+SpkBoxConstraints >> padding: aNumber [
+	padding := aNumber
 ]
 
 { #category : 'accessing' }

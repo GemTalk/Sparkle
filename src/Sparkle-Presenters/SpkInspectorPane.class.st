@@ -1,14 +1,11 @@
 Class {
 	#name : 'SpkInspectorPane',
-	#superclass : 'SpkPaneWithList',
+	#superclass : 'SpkPaneWithTwizzledList',
 	#instVars : [
-		'topLayout',
-		'twizzle',
-		'description',
-		'fieldListIsShown',
 		'addEvaluatorButton',
 		'evaluators',
-		'nextEvaluatorIndex'
+		'nextEvaluatorIndex',
+		'selfDescription'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -30,16 +27,6 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	nextEvaluatorIndex := self nextEvaluatorIndex + 1.
 	self evaluators add: evaluator.
 	self layout add: evaluator before: addEvaluatorButton
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> connectPresenters [
-
-	super connectPresenters.
-	model
-		when: SpkUpdateAnnouncement
-		send: #updateFromModel
-		to: self
 ]
 
 { #category : 'as yet unclassified' }
@@ -69,13 +56,19 @@ SpkInspectorPane >> deselectOffTheEndFields [
 
 	| newNumberOfFields |
 	newNumberOfFields := model fields size.
-	listModel deselectItemsBeyond: newNumberOfFields
+	listModel deselectItemsBeyondIndex: newNumberOfFields
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
+]
+
+{ #category : 'private-traversing' }
+SpkInspectorPane >> extraPresenters [
+
+	^ super extraPresenters , self evaluators
 ]
 
 { #category : 'initialization' }
@@ -102,25 +95,6 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 				width: 26 ]
 ]
 
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeBody [
-
-	fieldListIsShown := true.
-	self
-		initializeTop;
-		initializeList;
-		updateFieldListVisibility
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeDescription [
-
-	description := self newLabel
-		               label: model selfDescription;
-		               yourself.
-	topLayout add: description withConstraints: [ :c | c fill: false ]
-]
-
 { #category : 'adding' }
 SpkInspectorPane >> initializeEvaluators [
 
@@ -129,9 +103,18 @@ SpkInspectorPane >> initializeEvaluators [
 ]
 
 { #category : 'initialization' }
+SpkInspectorPane >> initializeFieldList [
+
+	self
+		initializeSelfDescription;
+		initializeTwizzledList.
+	twizzledList twizzleHelp: 'Show or hide the field list'
+]
+
+{ #category : 'initialization' }
 SpkInspectorPane >> initializeListColumns [
 
-	self list
+	list
 		addColumn:
 			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
 		addColumn:
@@ -143,34 +126,18 @@ SpkInspectorPane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializeBody;
+		initializeFieldList;
 		initializeAddEvaluatorButton;
-		initializeEvaluators
+		initializeEvaluators;
+		updateFromModel
 ]
 
 { #category : 'initialization' }
-SpkInspectorPane >> initializeTop [
+SpkInspectorPane >> initializeSelfDescription [
 
-	topLayout := SpkBoxLayout newHorizontal.
-	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
-	self
-		initializeTwizzle;
-		initializeDescription
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeTwizzle [
-
-	twizzle := self newIconButton
-		           icon: self twizzleIcon;
-		           help: 'Show or hide the field list';
-		           action: [ self toggleFieldList ];
-		           yourself.
-	topLayout add: twizzle withConstraints: [ :c | 
-		c
-			fill: false;
-			width: 20;
-			height: 20 ]
+	selfDescription := self instantiate: SpkTwizzledString.
+	selfDescription twizzleHelp: 'Show or hide the full printString'.
+	self updateSelfDescription
 ]
 
 { #category : 'actions' }
@@ -192,6 +159,12 @@ SpkInspectorPane >> itemSelected: anAnnouncement [
 SpkInspectorPane >> linkedPanes [
 
 	^ super linkedPanes , self panesLinkedToEvaluators
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> listLabelString [
+
+	^ self listItemServices size printString , ' fields'
 ]
 
 { #category : 'accessing' }
@@ -244,56 +217,36 @@ SpkInspectorPane >> removeEvaluator: anEvaluator [
 	evaluators remove: anEvaluator
 ]
 
-{ #category : 'actions' }
-SpkInspectorPane >> toggleFieldList [
-
-	fieldListIsShown := fieldListIsShown not.
-	self
-		updateTwizzleIcon;
-		updateFieldListVisibility
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> twizzleIcon [
-
-	^ fieldListIsShown
-		  ifTrue: [ self iconNamed: #treeExpanded ]
-		  ifFalse: [ self iconNamed: #treeUnexpanded ]
-]
-
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> updateFieldList [
 
 	self
 		deselectChangedFields;
-		refreshListModel;
-		refreshList
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> updateFieldListVisibility [
-
-	fieldListIsShown
-		ifTrue: [ self layout add: self list after: topLayout ]
-		ifFalse: [ self layout remove: self list ]
+		refreshTwizzledList
 ]
 
 { #category : 'initialization' }
 SpkInspectorPane >> updateFromModel [
 
-	description label: model selfDescription.
+	"Must be sent in the UI thread."
+
 	header classMembershipDescription: model classMembershipDescription.
+	self updateSelfDescription.
 	self updateFieldList
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPane >> updateInspectors [
+{ #category : 'initialization' }
+SpkInspectorPane >> updateSelfDescription [
 
-	self evaluators do: [ :each | each updateInspectors ]
+	selfDescription
+		labelString: model selfDescription;
+		bodyString: model selfDescription
 ]
 
-{ #category : 'actions' }
-SpkInspectorPane >> updateTwizzleIcon [
+{ #category : 'accessing' }
+SpkInspectorPane >> updateServices [
 
-	twizzle icon: self twizzleIcon
+	"Can be sent in any thread."
+
+	self evaluators do: [ :each | each updateServices ]
 ]

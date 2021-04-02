@@ -22,12 +22,6 @@ Class {
 { #category : 'actions' }
 SpkEvaluator >> accept [
 
-	"Ignore ctrl-s if no unsaved changes"
-
-	self flag:
-		'The command itself and menu item should be disabled instead of this test.'.
-	model hasUnsavedChanges ifFalse: [ ^ self ].
-
 	pane disableAll.
 	model acceptFor: self
 ]
@@ -57,6 +51,14 @@ SpkEvaluator >> closingLinkedPane: aPane [
 	self linkedPane == aPane ifFalse: [ 
 		self error: 'Only my linked pane should notify me when closing.' ].
 	self clearLinkedPane
+]
+
+{ #category : 'accessing' }
+SpkEvaluator >> column [
+
+	"What column am I in? The same column as the pane I'm part of."
+
+	^ pane column
 ]
 
 { #category : 'initialization' }
@@ -152,9 +154,9 @@ SpkEvaluator >> newLayout [
 { #category : 'accessing' }
 SpkEvaluator >> nonChildSlotNames [
 
-	"This slot is defined in the SpkLinkedPane trait"
+	"linkedPane slot is defined in the SpkLinkedPane trait"
 
-	^ super nonChildSlotNames , #( #linkedPane )
+	^ super nonChildSlotNames , #( #pane #linkedPane )
 ]
 
 { #category : 'accessing' }
@@ -179,7 +181,9 @@ SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnounceme
 ]
 
 { #category : 'as yet unclassified' }
-SpkEvaluator >> updateInspectors [
+SpkEvaluator >> updateServices [
 
-	model updateInspectors
+	"Can be sent in any thread."
+
+	model updateServices
 ]

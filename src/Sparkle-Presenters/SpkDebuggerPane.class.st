@@ -2,14 +2,84 @@ Class {
 	#name : 'SpkDebuggerPane',
 	#superclass : 'SpkPaneWithList',
 	#instVars : [
-		'topLayout',
-		'twizzle',
 		'description',
-		'fullDescriptionIsShown',
-		'fullDescription'
+		'processControlLayout',
+		'proceedButton',
+		'terminateButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'events' }
+SpkDebuggerPane >> closeRequestedLocally [
+
+	"Terminate process then close UI.
+	Pane presenter close comes via announcement once the server gets done terminating."
+
+	self disableAll.
+	model terminate
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkTermination
+		send: #receiveTerminationAnnouncement:
+		to: self
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> deselectExitedFrames [
+
+	"Deselect any selected frames that are no longer on the stack.
+	We know which these are by identity of the FrameDescriptionService."
+
+	| oldFrameItems newFrames |
+	oldFrameItems := listModel items reverse. "Compare from the bottom of the stack."
+	newFrames := model frames.
+	1 to: (newFrames size min: oldFrameItems size) do: [ :index | 
+		| oldFrameItem oldFrame newFrame |
+		oldFrameItem := oldFrameItems at: index.
+		oldFrame := oldFrameItem model.
+		newFrame := newFrames at: index.
+		oldFrame == newFrame ifFalse: [ 
+			listModel deselectItem: oldFrameItem ] ]
+]
+
+{ #category : 'private' }
+SpkDebuggerPane >> deselectInvalidFrames [
+
+	"I have frames, which are ListItems.
+	Each has a model which is a DebuggerFrameDescriptionService.
+	
+	My model is a DebuggerService.
+	It has frames which are also debuggerFrameServiceDescriptionServices
+	
+	The lists are in the reverse order from each other -- match from bottom of the stack upward.
+	
+	The FrameServiceDescriptionServices that do not match (by identity) are not valid.
+	
+	Some of my DebuggerFrameDescriptionServices will have linkedServices.
+	I think I can ignore this... they should have all been updated by RSR from the server.
+	
+	Some of my ListItems may have a linkedPane. Those for invalid frames should be told to close.
+	Those for valid frames should be told to update from model.
+	 "
+
+	self
+		deselectOffTheTopFrames;
+		deselectExitedFrames
+]
+
+{ #category : 'private' }
+SpkDebuggerPane >> deselectOffTheTopFrames [
+
+	| newNumberOfFrames |
+	newNumberOfFrames := model frames size.
+	listModel deselectItemsThroughIndex: listModel size - newNumberOfFrames
+]
 
 { #category : 'accessing' }
 SpkDebuggerPane >> headerClass [
@@ -20,43 +90,23 @@ SpkDebuggerPane >> headerClass [
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeDescription [
 
-	description := self newLabel
-		               label: model exceptionDescription;
-		               yourself.
-	topLayout add: description withConstraints: [ :c | c fill: false ]
-]
-
-{ #category : 'initialization' }
-SpkDebuggerPane >> initializeExceptionDescription [
-
-	fullDescriptionIsShown := false.
-	self
-		initializeTop;
-		initializeFullDescription
+	description := self instantiate: SpkTwizzledString.
+	description twizzleHelp:
+		'Show or hide the full description of the exception'.
+	self updateDescription
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeFrameList [
 
 	self initializeList.
-	self layout add: self list
-]
-
-{ #category : 'initialization' }
-SpkDebuggerPane >> initializeFullDescription [
-
-	"Dynamically added to or removed from my layout upon twizzle click."
-
-	fullDescription := self newText.
-	fullDescription
-		beNotEditable;
-		text: model exceptionDescription
+	self layout add: list
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeListColumns [
 
-	self list addColumn: (SpStringTableColumn evaluated: #description)
+	list addColumn: (SpStringTableColumn evaluated: #description)
 ]
 
 { #category : 'initialization' }
@@ -64,33 +114,46 @@ SpkDebuggerPane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializeExceptionDescription;
+		initializeDescription;
+		initializeProcessControls;
 		initializeFrameList
 ]
 
 { #category : 'initialization' }
-SpkDebuggerPane >> initializeTop [
+SpkDebuggerPane >> initializeProcessControls [
 
-	topLayout := SpkBoxLayout newHorizontal.
-	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
-	self
-		initializeTwizzle;
-		initializeDescription
-]
+	processControlLayout := SpkBoxLayout newHorizontal
+		                        placeWidgetsAtCenter;
+		                        color: Color veryVeryDarkGray;
+		                        yourself.
+	self layout
+		add: processControlLayout
+		withConstraints: [ :c | c height: 35 ].
 
-{ #category : 'initialization' }
-SpkDebuggerPane >> initializeTwizzle [
+	proceedButton := self newIconButton
+		                 color: Color transparent;
+		                 icon: (self iconNamed: #proceed28);
+		                 help: 'Proceed';
+		                 action: [ self proceed ];
+		                 yourself.
 
-	twizzle := self newIconButton
-		           icon: self twizzleIcon;
-		           help: 'Show or hide the full exception description';
-		           action: [ self toggleExceptionDescription ];
-		           yourself.
-	topLayout add: twizzle withConstraints: [ :c | 
+	terminateButton := self newIconButton
+		                   color: Color transparent;
+		                   icon: (self iconNamed: #terminate28);
+		                   help: 'Terminate';
+		                   action: [ self closeRequestedLocally ];
+		                   yourself.
+
+	processControlLayout
+		add: proceedButton withConstraints: [ :c | 
+			c
+				height: 28;
+				width: 28 ];
+		add: SpkBoxLayout newVertical withConstraints: [ :c | c width: 25 ];
+		add: terminateButton withConstraints: [ :c | 
 		c
-			fill: false;
-			width: 20;
-			height: 20 ]
+			height: 28;
+			width: 28 ]
 ]
 
 { #category : 'actions' }
@@ -108,33 +171,69 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
 ]
 
-{ #category : 'actions' }
-SpkDebuggerPane >> toggleExceptionDescription [
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> linkedFramePanes [
+	^ listModel linkedPanes
+]
 
-	fullDescriptionIsShown := fullDescriptionIsShown not.
-	self
-		updateTwizzleIcon;
-		updateExceptionDescriptionVisibility
+{ #category : 'menu' }
+SpkDebuggerPane >> proceed [
+
+	self disableAll.
+	model proceedFor: linkedFrom
 ]
 
 { #category : 'initialization' }
-SpkDebuggerPane >> twizzleIcon [
+SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 
-	^ fullDescriptionIsShown
-		  ifTrue: [ self iconNamed: #treeExpanded ]
-		  ifFalse: [ self iconNamed: #treeUnexpanded ]
+	self flag:
+		'Make sure this announcement only happens after termination is complete'.
+	self defer: [ self close ].
+	self updateServices
 ]
 
-{ #category : 'actions' }
-SpkDebuggerPane >> updateExceptionDescriptionVisibility [
+{ #category : 'private' }
+SpkDebuggerPane >> updateDescription [
 
-	fullDescriptionIsShown
-		ifTrue: [ self layout add: fullDescription after: topLayout ]
-		ifFalse: [ self layout remove: fullDescription ]
+	description
+		labelString: model exceptionDescription;
+		bodyString: model exceptionDescription
 ]
 
-{ #category : 'actions' }
-SpkDebuggerPane >> updateTwizzleIcon [
+{ #category : 'private' }
+SpkDebuggerPane >> updateFrameList [
 
-	twizzle icon: self twizzleIcon
+	self
+		deselectInvalidFrames;
+		refreshListModel;
+		refreshList
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> updateFromModel [
+
+	"Must be sent in the UI thread"
+
+	"We've been told that execution has happened,
+	but we're still in the debugger. Update to show the new state."
+
+	self
+		updateDescription;
+		updateFrameList;
+		updateLinkedFramePanes;
+		reEnableAll
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> updateLinkedFramePanes [
+
+	self linkedFramePanes do: [ :pane | pane updateFromModel ]
+]
+
+{ #category : 'private' }
+SpkDebuggerPane >> updateServices [
+
+	"Can be sent in any thread."
+
+	model updateServices
 ]

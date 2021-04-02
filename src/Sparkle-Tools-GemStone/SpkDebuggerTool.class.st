@@ -8,24 +8,16 @@ Class {
 		'exception',
 		'frames',
 		'mustInitiate',
+		'updatedServices',
 		'updatedInspectors'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'other' }
-SpkDebuggerTool >> continue [
-	"May wait for an answer, depending on whether the process is an evaluation process"
-
-	| resultTool | 
-	resultTool := processManager continueProcess.
-	updatedInspectors := Set new.
-	taskspaceTool announceExecutionWithUpdatedInspectors: updatedInspectors.
-	^resultTool
-]
-
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerTool >> currentException: anException [
+	"Stepping does not update the exception. 
+	Proceed and terminate set to nil, so we will re-initialize."
 	exception ifNil: [ exception := anException ]
 ]
 
@@ -34,13 +26,6 @@ SpkDebuggerTool >> debug [
 	mustInitiate
 		ifFalse: [ processManager returnValue: self ]
 		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> exception: anException [
-	"The exception that caused me to be invoked."
-
-	exception := anException
 ]
 
 { #category : 'accessing' }
@@ -83,23 +68,23 @@ SpkDebuggerTool >> frameAt: anInteger [
 
 { #category : 'accessing' }
 SpkDebuggerTool >> frames [
-	^ frames ifNil: [ self initializeFramesFromProcess ]
+	^ frames
 ]
 
 { #category : 'initialization' }
-SpkDebuggerTool >> initializeFramesFromProcess [
-	| stackDepth |
-	stackDepth := process stackDepth.
-	frames := Array new: process stackDepth.
-	1 to: stackDepth do: [:level | 
-		| frame index |
-		index := stackDepth - level + 1.
-		frame := self newDebuggerFrameTool.
-		frame
-			level: level;
-			index: index.
-		frames at: index put: frame].
-	^ frames
+SpkDebuggerTool >> initialize [
+	super initialize.
+	updatedServices := Set new.
+	frames := #()
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
+	"Some existing frames (the bottom of the stack) are still valid.
+	Let the frame tools that are no longer on the stack know they are 
+	no longer valid."
+
+	numberOfValidFrames + 1 to: frames size do: [ :index | (frames at: index) beInvalid ]
 ]
 
 { #category : 'accessing' }
@@ -112,9 +97,28 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 	"Create and initialize a new DebuggerFrameTool instance."
 
 	^SpkDebuggerFrameTool new
+		taskspaceTool: taskspaceTool;
 		explorerTool: explorerTool;
 		process: process;
 		yourself
+]
+
+{ #category : 'actions' }
+SpkDebuggerTool >> proceed [
+	"May wait for an answer, depending on whether the process is an evaluation process"
+
+	| resultTool | 
+	exception := nil. "If we hit another exception, we want the exception to be updated."
+	resultTool := processManager proceedProcess.
+	updatedServices := Set new.
+	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
+	^resultTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> process [
+
+	^ process
 ]
 
 { #category : 'accessing' }
@@ -144,9 +148,68 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
-{ #category : 'accessing' }
-SpkDebuggerTool >> updatedInspectors [
-	"The set of updated Inspector Services that have changed."
+{ #category : 'initialization' }
+SpkDebuggerTool >> refreshExistingFrames [
+	"Update any frames at the bottom of the stack that still
+	represent the same frame. Answerthe number of frames
+	that are still valid.
+	For a new debugger, frames size is 0."
 
-	^updatedInspectors
+	| numberOfValidFrames newStackDepth |
+	numberOfValidFrames := 0.
+	newStackDepth := process stackDepth.
+	1 to: (frames size min: newStackDepth) do: [ :index | 
+		| level frame |
+		level := newStackDepth - index + 1.
+		frame := frames at: index.
+		frame refreshAtLevel: level.
+		(frame methodHasChanged or: [ frame receiverHasChanged ])
+			ifTrue: [ ^ numberOfValidFrames ].
+		numberOfValidFrames := numberOfValidFrames + 1.
+		frame stepPointHasChanged
+			ifTrue: [ ^ numberOfValidFrames ] ].
+	^ numberOfValidFrames
+]
+
+{ #category : 'initialization' }
+SpkDebuggerTool >> refreshFromProcess [
+	"Keep the FrameTools for any still-valid bottom portion of the stack.
+	The service layer uses identity of frame tools to determine what needs refreshing."
+
+	| numberOfValidFrames newStackDepth newFrames |
+	numberOfValidFrames := self refreshExistingFrames.
+	self invalidateFramesAfter: numberOfValidFrames.
+	newStackDepth := process stackDepth.
+	newFrames := Array new: newStackDepth.
+	newFrames
+		replaceFrom: 1
+		to: numberOfValidFrames
+		with: frames
+		startingAt: 1.
+	numberOfValidFrames + 1 to: newStackDepth do: [ :index | 
+		| frame level |
+		level := newStackDepth - index + 1.
+		frame := self newDebuggerFrameTool.
+		frame
+			index: index;
+			refreshAtLevel: level.
+		newFrames at: index put: frame ].
+	^ frames := newFrames
+]
+
+{ #category : 'actions' }
+SpkDebuggerTool >> terminate [
+	"May wait for an answer, depending on whether the process is an evaluation process"
+
+	| resultTool |
+	exception := nil.	"If we hit another exception, we want the exception to be updated."
+	resultTool := processManager terminateProcess.
+	updatedServices := Set new.
+	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
+	^ resultTool
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> updatedServices [
+	^ updatedServices
 ]

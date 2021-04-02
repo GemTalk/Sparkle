@@ -37,6 +37,24 @@ SpkPane >> closeRequestedLocally [
 ]
 
 { #category : 'accessing' }
+SpkPane >> column [
+
+	"What column am I in?"
+
+	^ owner
+]
+
+{ #category : 'initialization' }
+SpkPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkUpdateAnnouncement
+		send: #receiveUpdateAnnouncement
+		to: self
+]
+
+{ #category : 'accessing' }
 SpkPane >> coordinate [
 	^ coordinate
 ]
@@ -78,6 +96,12 @@ SpkPane >> initializeHeader [
 		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
+{ #category : 'testing' }
+SpkPane >> isPane [
+
+	^ true
+]
+
 { #category : 'accessing' }
 SpkPane >> linkedFrom [
 
@@ -108,6 +132,9 @@ SpkPane >> menuActions [
 SpkPane >> newLayout [
 
 	^ SpkAccordianLayout newVertical
+		  color: Color veryVeryDarkGray;
+			borderWidth: 3;
+		  yourself
 ]
 
 { #category : 'instance creation' }
@@ -132,7 +159,7 @@ SpkPane >> openLinkedPane: aPaneService forItem: item [
 	Generic part is here, see subclasses for detailed use."
 
 	| nextRightColumn newPane |
-	nextRightColumn := owner nextRightColumn.
+	nextRightColumn := item column nextRightColumn.
 	"Ask the column, since it must own the new pane."
 	newPane := nextRightColumn presenterForService: aPaneService.
 	newPane coordinate: (item coordinateRelativeTo: coordinate).
@@ -161,8 +188,14 @@ SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 	self defer: [ 
 		self
 			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId.
-		self updateInspectors ]
+			linkedTo: anAnnouncement requestId ].
+	self updateServices
+]
+
+{ #category : 'initialization' }
+SpkPane >> receiveUpdateAnnouncement [ 
+	
+	self defer: [ self updateFromModel ]
 ]
 
 { #category : 'menu messages' }
@@ -184,8 +217,16 @@ SpkPane >> undo [
 	^ model undo
 ]
 
+{ #category : 'initialization' }
+SpkPane >> updateFromModel [
+	"Must be sent only in the UI thread."
+	"Subclasses should override if they can receive update announcements"
+]
+
 { #category : 'as yet unclassified' }
-SpkPane >> updateInspectors [
+SpkPane >> updateServices [
+
+	"Can be sent in any thread."
 
 	" default does nothing "
 

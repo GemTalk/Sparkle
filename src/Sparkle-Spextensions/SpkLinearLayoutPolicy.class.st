@@ -23,7 +23,7 @@ SpkLinearLayoutPolicy >> layout: aMorph in: box [
 
 	| layout |
 	properties := aMorph assureLayoutProperties.
-	layout := properties primaryAlignmentClass new.
+	layout := properties layoutClass new.
 	layout
 		policy: self;
 		coordinateTransform: properties coordinateTransform;

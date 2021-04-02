@@ -109,8 +109,10 @@ SpkEvaluatorServiceClient >> updateHasUnsavedChanges [
 ]
 
 { #category : 'as yet unclassified' }
-SpkEvaluatorServiceClient >> updateInspectors [
+SpkEvaluatorServiceClient >> updateServices [
 
-	updatedInspectors do: [ :each | each announceUpdate ].
-	updatedInspectors := Set new
+	"Can be sent in any thread."
+
+	updatedServices do: [ :each | each announceUpdate ].
+	updatedServices := Set new
 ]

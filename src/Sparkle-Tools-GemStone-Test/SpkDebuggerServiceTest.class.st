@@ -7,6 +7,14 @@ Class {
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
+{ #category : 'support' }
+SpkDebuggerServiceTest >> divideByZeroAfterProceed [
+	| debuggerTool |
+	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
+	debuggerTool := evaluatorTool evaluateCode.
+	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+]
+
 { #category : 'tests' }
 SpkDebuggerServiceTest >> testCurrentSourceIntervalForPrimitive [
 	| frames frameDesc frame |
@@ -44,7 +52,7 @@ SpkDebuggerServiceTest >> testProcessFrameQuantity [
 	frames := debuggerService frames.
 	self
 		assert: (frames isKindOf: SequenceableCollection);
-		assert: (frames size between: 10 and: 20)
+		assert: (frames size between: 15 and: 25)
 ]
 
 { #category : 'tests' }
@@ -73,6 +81,28 @@ SpkDebuggerServiceTest >> testProcessPriority [
 	self
 		assert: prio class equals: SmallInteger;
 		assert: prio equals: 15
+]
+
+{ #category : 'tests' }
+SpkDebuggerServiceTest >> testUpdateAfterExecution [
+
+	| frames matchingFrames executedCodeFrameDescription frameService newDebuggerService |
+	self divideByZeroAfterProceed.
+	"Should now be stopped on the pause."
+	frames := debuggerService frames.
+	matchingFrames := frames select: [:each | each description = 'Executed Code '].
+	self assert: matchingFrames size equals: 1.
+	executedCodeFrameDescription := matchingFrames first.
+	self assert: executedCodeFrameDescription class equals: SpkDebuggerFrameDescriptionServiceServer.
+	frameService := executedCodeFrameDescription createFrameService.
+	self assert: frameService class equals: SpkDebuggerFrameServiceServer;
+	assert: frameService currentStartPosition equals: 3;
+	assert: frameService currentEndPosition equals: 7.
+	newDebuggerService := debuggerService proceed.
+	"Should no be stopped on the division by zero, and the frame service should have updated itself."
+	self assert: newDebuggerService == debuggerService;
+	assert: frameService currentStartPosition equals: 13;
+	assert: frameService currentEndPosition equals: 13.
 ]
 
 { #category : 'support' }

@@ -19,8 +19,8 @@ SpkPaneWithList >> connectPresenters [
 { #category : 'initialization' }
 SpkPaneWithList >> initializeList [
 
-	self initializeListModel.
 	list := self newTable.
+	self initializeListModel.
 	list
 		whenSelectionChangedDo: [ :selectionMode | 
 			listModel selectedIndexes: selectionMode selectedIndexes ];
@@ -43,12 +43,13 @@ SpkPaneWithList >> initializeListColumns [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : 'actions' }
 SpkPaneWithList >> initializeListModel [
 
 	listModel := SpkMultiSelectList new.
 	self refreshListModel.
 	listModel
+		pane: self;
 		when: SpkItemSelected send: #itemSelected: to: self;
 		when: SpkItemDeselected send: #itemDeselected: to: self
 ]
@@ -82,10 +83,10 @@ SpkPaneWithList >> linkedPanes [
 	^ self panesLinkedToListItems
 ]
 
-{ #category : 'accessing' }
-SpkPaneWithList >> list [
+{ #category : 'api' }
+SpkPaneWithList >> listItemServices [
 
-	^ list
+	^ model listItems
 ]
 
 { #category : 'actions' }
@@ -97,7 +98,7 @@ SpkPaneWithList >> openLinkedPane: aPaneService forItem: item [
 	self refreshList "Change linking arrow."
 ]
 
-{ #category : 'private' }
+{ #category : 'as yet unclassified' }
 SpkPaneWithList >> panesLinkedToListItems [
 
 	^ listModel linkedPanes
@@ -112,9 +113,8 @@ SpkPaneWithList >> refreshList [
 { #category : 'initialization' }
 SpkPaneWithList >> refreshListModel [
 
-	listModel
-		updateItemQuantity: model listItems size;
-		refreshFrom: model listItems
+	listModel refreshFromServices: model listItems.
+	self updateSelection
 ]
 
 { #category : 'updating' }

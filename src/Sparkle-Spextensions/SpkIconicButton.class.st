@@ -15,3 +15,9 @@ SpkIconicButton >> doButtonAction [
 	self enabled ifFalse: [ ^ self ].
 	super doButtonAction
 ]
+
+{ #category : 'accessing' }
+SpkIconicButton >> extraBorder [
+
+	^ 0
+]

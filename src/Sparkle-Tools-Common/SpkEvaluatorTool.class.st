@@ -6,7 +6,7 @@ Class {
 		'inspectorTool',
 		'oldSourceCode',
 		'newSourceCode',
-		'updatedInspectors'
+		'updatedServices'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -42,9 +42,9 @@ SpkEvaluatorTool >> evaluateCode [
 
 
 	resultTool := self evaluateMethod: method inContext: context.
-	updatedInspectors := Set new.
-	taskspaceTool announceExecutionWithUpdatedInspectors:
-		updatedInspectors.
+	updatedServices := Set new.
+	taskspaceTool announceExecutionWithUpdatedServices:
+		updatedServices.
 	^ resultTool
 ]
 
@@ -56,10 +56,8 @@ SpkEvaluatorTool >> explorerTool: anObject [
 
 { #category : 'initialization' }
 SpkEvaluatorTool >> initialize [
-
 	super initialize.
-
-	updatedInspectors := Set new.
+	updatedServices := Set new.
 	newSourceCode := oldSourceCode := ''
 ]
 
@@ -72,13 +70,14 @@ SpkEvaluatorTool >> inspectorTool: anObject [
 { #category : 'accessing' }
 SpkEvaluatorTool >> newProcessLauncherAndManager [
 
-	^SpkProcessLauncherAndManager new
-		taskspaceTool: taskspaceTool;
-		debuggerDebugAction: Processor activeProcess debugActionBlock;
-		processName: 'Evaluation';
-		processPriority: self evaluationPriority;
-		explorerTool: explorerTool;
-		yourself.
+	^ SpkProcessLauncherAndManager new
+		  taskspaceTool: taskspaceTool;
+		  debuggerDebugAction: Processor activeProcess debugActionBlock;
+		  processName: 'Evaluation';
+		  processPriority: self evaluationPriority;
+		  processBreakpointLevel: 1;
+		  explorerTool: explorerTool;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -113,14 +112,7 @@ SpkEvaluatorTool >> toolForCompilationError: aCompilationException [
 		  yourself
 ]
 
-{ #category : 'accessing' }
-SpkEvaluatorTool >> updatedInspectors [
-
-	^ updatedInspectors
-]
-
-{ #category : 'accessing' }
-SpkEvaluatorTool >> updatedInspectors: anObject [
-
-	updatedInspectors := anObject
+{ #category : 'other' }
+SpkEvaluatorTool >> updatedServices [
+	^ updatedServices
 ]

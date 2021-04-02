@@ -30,8 +30,8 @@ Class {
 	#superclass : 'LayoutProperties',
 	#instVars : [
 		'coordinateTransform',
-		'primaryAlignmentClass',
-		'cellPositioning'
+		'cellPositioning',
+		'layoutClass'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
@@ -61,16 +61,16 @@ SpkLinearLayoutProperties >> coordinateTransform: anObject [
 SpkLinearLayoutProperties >> initialize [
 
 	super initialize.
-	primaryAlignmentClass := SpkLinearLayoutAlignStart.
+	layoutClass := SpkLinearLayoutPlaceAtStart.
 	cellPositioning := #center
 ]
 
 { #category : 'accessing' }
-SpkLinearLayoutProperties >> primaryAlignmentClass [
-	^ primaryAlignmentClass
+SpkLinearLayoutProperties >> layoutClass [
+	^ layoutClass
 ]
 
 { #category : 'accessing' }
-SpkLinearLayoutProperties >> primaryAlignmentClass: anObject [
-	primaryAlignmentClass := anObject
+SpkLinearLayoutProperties >> layoutClass: anObject [
+	layoutClass := anObject
 ]

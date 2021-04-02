@@ -19,49 +19,39 @@ SpkDebuggerToolTest >> executedCodeFrameInDebugger: debugger [
 
 { #category : 'other' }
 SpkDebuggerToolTest >> testBreakpoint01 [
-	| method debugger |
+	| method debugger frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
 	self assert: method class equals: GsNMethod.
 	[ 
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
-	self deny: GsProcess usingNativeCode.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
-	self halt ]
-		ensure: [ method clearAllBreaks ]
-]
-
-{ #category : 'tests' }
-SpkDebuggerToolTest >> testContinueOnce [
-	"Get a debugger, continue, get an inspector"
-
-	| debugger inspector |
-	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	inspector := debugger continue.
+	frame := debugger frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
+	self assert: (frame description includesString: 'twelve').
 	self
-		assert: inspector class equals: SpkInspectorTool;
-		assert: inspector inspectedObject equals: 7
-]
-
-{ #category : 'tests' }
-SpkDebuggerToolTest >> testContinueTwice [
-	"Get a debugger, continue, get the same debugger, continue, get inspector"
-
-	| debugger1 debugger2 inspector frame |
-	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
-	debugger1 := evaluatorTool evaluateCode.
-	self assert: debugger1 class equals: SpkDebuggerTool.
-	frame := self executedCodeFrameInDebugger: debugger1.
-	self assert: frame currentSourceInterval equals: (4 to: 8).
-	debugger2 := debugger1 continue.
-	self assert: debugger1 == debugger2.
-	self assert: frame currentSourceInterval equals: (15 to: 19).
-	inspector := debugger2 continue.
+		assert: frame stepPoint
+		equals: 3.
+	localVariables := frame localVariables.
+	variable := localVariables at: 1.
 	self
-		assert: inspector class equals: SpkInspectorTool;
-		assert: inspector inspectedObject equals: 12
+		assert: (variable columnAt: 1)
+		equals: 'receiver'.
+	variable := localVariables at: 2.
+	self
+		assert: (variable columnAt: 2)
+		equals: '7'.
+	variable := localVariables at: 3.
+	self
+		assert: (variable columnAt: 2)
+		equals: '5'.
+	inspector := debugger proceed.
+	self
+		assert: inspector class
+		equals: SpkInspectorTool.
+	self
+		assert: inspector inspectedObject
+		equals: 12
+	] ensure: [ method clearAllBreaks ]
 ]
 
 { #category : 'tests' }
@@ -90,7 +80,7 @@ SpkDebuggerToolTest >> testFrameDescription [
 	debugger := evaluatorTool evaluateCode.
 
 	frame := self executedCodeFrameInDebugger: debugger.
-	self assert: frame index equals: 7
+	self assert: frame index equals: 11
 ]
 
 { #category : 'tests' }
@@ -116,4 +106,103 @@ SpkDebuggerToolTest >> testNumberOfFrames [
 	debugger := evaluatorTool evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	self assert: debugger frames size > 6
+]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testProceedChangedDepth [
+	"Get a debugger, proceed, get the same debugger with different stack depth."
+
+	| debugger1 debugger2 frame depth1 depth2 index1 index2 |
+	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	depth1 := debugger1 frames size.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	index1 := frame index.
+	self assert: frame currentSourceInterval equals: (3 to: 7).
+	debugger2 := debugger1 proceed.
+	self assert: debugger1 == debugger2.
+	depth2 := debugger2 frames size.
+	self assert: depth1 < depth2.
+	self assert: frame == (self executedCodeFrameInDebugger: debugger1).
+	index2 := frame index.
+	self assert: index1 equals: index2.
+	self assert: frame currentSourceInterval equals: (13 to: 13)
+]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testProceedOnce [
+	"Get a debugger, proceed, get an inspector"
+
+	| debugger inspector |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 7
+]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testProceedTwice [
+	"Get a debugger, proceed, get the same debugger, proceed, get inspector"
+
+	| debugger1 debugger2 inspector frame |
+	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	self assert: frame currentSourceInterval equals: (4 to: 8).
+	debugger2 := debugger1 proceed.
+	self assert: debugger1 == debugger2.
+	self assert: (frame == (self executedCodeFrameInDebugger: debugger1)).
+	self assert: frame currentSourceInterval equals: (15 to: 19).
+	inspector := debugger2 proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 12
+]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testTerminate [
+	"Get a debugger, terminate, verify termination"
+
+	| debugger process |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	process := debugger process.
+
+	self deny: process _isTerminated.
+	debugger terminate.
+	self assert: process _isTerminated
+]
+
+{ #category : 'other' }
+SpkDebuggerToolTest >> testTerminate01 [
+	"Get a debugger, terminate, get the same debugger with the 
+	same executedCode frame, proceed, get inspector"
+
+	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
+	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	bottomFrame := debugger1 frames at: 1.
+	topFrame := debugger1 frames at: debugger1 frames size.
+	execCodeFrame := self executedCodeFrameInDebugger: debugger1.
+	"Should be on ifCurtailed:"
+	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+	debugger2 := debugger1 terminate.
+	self
+		assert: debugger1 == debugger2;
+		assert: bottomFrame == (debugger2 frames at: 1);
+		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
+		deny: topFrame == (debugger2 frames at: debugger2 frames size);
+		"Should still be on ifCurtailed:"
+		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+	inspector := debugger2 proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: nil
 ]

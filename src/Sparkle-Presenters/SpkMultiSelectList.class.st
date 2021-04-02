@@ -10,7 +10,8 @@ Class {
 	#classTraits : 'SpkTModel classTrait',
 	#instVars : [
 		'items',
-		'selectedItems'
+		'selectedItems',
+		'pane'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -44,6 +45,12 @@ SpkMultiSelectList >> at: anIndex ifAbsent: aBlock [
 	^ items at: anIndex ifAbsent: aBlock
 ]
 
+{ #category : 'accessing' }
+SpkMultiSelectList >> column [
+
+	^ pane column
+]
+
 { #category : 'selection' }
 SpkMultiSelectList >> deselectItem: anItem [
 
@@ -55,12 +62,26 @@ SpkMultiSelectList >> deselectItem: anItem [
 ]
 
 { #category : 'as yet unclassified' }
-SpkMultiSelectList >> deselectItemsBeyond: lastIndex [
+SpkMultiSelectList >> deselectItemsBeyondIndex: lastIndexToKeep [
 
-	lastIndex + 1 to: items size do: [ :i | 
+	self deselectItemsFrom: lastIndexToKeep + 1 to: items size
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> deselectItemsFrom: startIndex to: lastIndex [
+	"It is acceptable for either or both given indices to
+	be out of normal range. Negative integers are also OK."
+
+	(startIndex max: 1) to: (lastIndex min: items size) do: [ :i | 
 		| item |
 		item := items at: i.
 		(selectedItems includes: item) ifTrue: [ self deselectItem: item ] ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> deselectItemsThroughIndex: lastIndexToDeselect [
+
+	self deselectItemsFrom: 1 to: lastIndexToDeselect
 ]
 
 { #category : 'initialization' }
@@ -96,12 +117,44 @@ SpkMultiSelectList >> linkedPanes [
 		  thenSelect: [ :pane | pane notNil ]
 ]
 
-{ #category : 'as yet unclassified' }
-SpkMultiSelectList >> refreshFrom: fieldServices [
+{ #category : 'accessing' }
+SpkMultiSelectList >> pane: anObject [
 
-	items
-		with: fieldServices
-		do: [ :item :fieldService | item model: fieldService ]
+	pane := anObject
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> refreshFromServices: services [
+
+	"Build a new list of items, keeping by identity any items for the identical model."
+
+	| newItems |
+	newItems := OrderedCollection new.
+	services do: [ :aService | 
+		| existingItems |
+		existingItems := items select: [ :item | item model == aService ].
+		existingItems size > 1 ifTrue: [ 
+			self error:
+				'Internal error: there should not be more than one item with the same model.' ].
+		existingItems size = 1
+			ifTrue: [ 
+				| item |
+				item := existingItems first.
+				newItems add: item.
+				item index: newItems size ]
+			ifFalse: [ 
+				| item |
+				item := SpkMultiSelectListItem new.
+				newItems add: item.
+				item
+					index: newItems size;
+					list: self;
+					model: aService ] ].
+	"If there are any selected items that are no longer in the list, deselect them."
+	selectedItems copy do: [ :item | 
+		(newItems identityIncludes: item) ifFalse: [ 
+			self deselectItem: item ] ].
+	items := newItems
 ]
 
 { #category : 'selection' }
@@ -151,19 +204,4 @@ SpkMultiSelectList >> selectedItems [
 SpkMultiSelectList >> size [
 
 	^ items size
-]
-
-{ #category : 'as yet unclassified' }
-SpkMultiSelectList >> updateItemQuantity: newQuantity [
-
-	items size < newQuantity ifTrue: [ 
-		items size + 1 to: newQuantity do: [ :i | 
-			items add: (SpkMultiSelectListItem new
-					 index: i;
-					 list: self;
-					 yourself) ] ].
-
-	"Excess items have already been deselected."
-	items size > newQuantity ifTrue: [ 
-		items removeLast: items size - newQuantity ]
 ]

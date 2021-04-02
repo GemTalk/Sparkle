@@ -15,17 +15,6 @@ SpkDebuggerServiceServer class >> forTool: aTool [
 		  yourself
 ]
 
-{ #category : 'actions' }
-SpkDebuggerServiceServer >> continue [
-
-	| resultTool |
-	resultTool := tool continue.
-	self refreshFromTool.
-	^resultTool == tool
-		ifTrue: [self]
-		ifFalse: [self serviceForTool: resultTool]
-]
-
 { #category : 'other' }
 SpkDebuggerServiceServer >> initializeFramesFromTool [
 
@@ -44,14 +33,61 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 ]
 
 { #category : 'other' }
+SpkDebuggerServiceServer >> proceed [
+	| resultTool |
+	resultTool := tool proceed.
+	^ resultTool == tool
+		ifTrue: [ 
+			self refreshFromTool.
+			self ]
+		ifFalse: [ self serviceForTool: resultTool ]
+]
+
+{ #category : 'other' }
+SpkDebuggerServiceServer >> refreshExistingFrames [
+	| numberOfValidFrames frameTools |
+	numberOfValidFrames := 0.
+	frameTools := tool frames.
+	1 to: (frames size min: frameTools size) do: [ :index | 
+		(frames at: index) tool == (frameTools at: index)
+			ifFalse: [ ^ numberOfValidFrames ].
+		numberOfValidFrames := numberOfValidFrames + 1 ].
+	^ numberOfValidFrames
+]
+
+{ #category : 'other' }
+SpkDebuggerServiceServer >> refreshFramesFromTool [
+	| numberOfValidFrames newStackDepth frameTools newFrames |
+	numberOfValidFrames := self refreshExistingFrames.
+	frameTools := tool frames.
+	newStackDepth := frameTools size.
+	newFrames := Array new: newStackDepth.
+	newFrames
+		replaceFrom: 1
+		to: numberOfValidFrames
+		with: frames
+		startingAt: 1.
+	numberOfValidFrames + 1 to: newStackDepth do: [ :index | 
+		| frameTool |
+		frameTool := frameTools at: index.
+		newFrames
+			at: index
+			put:
+				((SpkDebuggerFrameDescriptionServiceServer forTool: frameTool)
+					parentService: self;
+					yourself) ].
+	^ frames := newFrames
+]
+
+{ #category : 'other' }
 SpkDebuggerServiceServer >> refreshFromTool [
 
 	exceptionDescription := tool exceptionDescription.
 	processName := tool processName.
 	processIdentifier := tool processIdentifier.
 	processPriority := tool processPriority.
-	updatedInspectors := tool updatedInspectors.
-	self initializeFramesFromTool
+	updatedServices := tool updatedServices.
+	self refreshFramesFromTool
 ]
 
 { #category : 'accessing' }
@@ -61,4 +97,15 @@ SpkDebuggerServiceServer >> serviceForTool: aTool [
 	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
 		                aTool class.
 	^ serviceClass forTool: aTool
+]
+
+{ #category : 'other' }
+SpkDebuggerServiceServer >> terminate [
+	| resultTool |
+	resultTool := tool terminate.
+	^ resultTool == tool
+		ifTrue: [ 
+			self refreshFromTool.
+			self ]
+		ifFalse: [ self serviceForTool: resultTool ]
 ]

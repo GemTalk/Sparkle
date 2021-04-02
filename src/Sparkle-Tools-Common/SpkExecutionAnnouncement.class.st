@@ -5,19 +5,22 @@ Class {
 	#name : 'SpkExecutionAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
-		'updatedInspectors'
+		'updatedServices'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
 
 { #category : 'accessing' }
-SpkExecutionAnnouncement >> updatedInspectors [
-
-	^ updatedInspectors
+SpkExecutionAnnouncement >> addUpdatedService: aService [
+	updatedServices add: aService
 ]
 
 { #category : 'accessing' }
-SpkExecutionAnnouncement >> updatedInspectors: anObject [
+SpkExecutionAnnouncement >> updatedServices [
+	^updatedServices
+]
 
-	updatedInspectors := anObject
+{ #category : 'accessing' }
+SpkExecutionAnnouncement >> updatedServices: object [
+	updatedServices := object
 ]

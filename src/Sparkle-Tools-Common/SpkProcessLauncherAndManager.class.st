@@ -5,21 +5,14 @@ Class {
 		'explorerTool',
 		'processPriority',
 		'processName',
+		'processBreakpointLevel',
 		'result',
 		'resultReady'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
-SpkProcessLauncherAndManager >> continueProcess [
-	"Evaluation process waits for an answer and returns it"
-
-	super continueProcess.
-	^ self waitForResult
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkProcessLauncherAndManager >> debuggerMustInitiate [
 
 	^ false
@@ -39,21 +32,27 @@ SpkProcessLauncherAndManager >> explorerTool: anExplorerTool [
 
 { #category : 'initialization' }
 SpkProcessLauncherAndManager >> initialize [
-
 	super initialize.
 	resultReady := Semaphore new
 ]
 
-{ #category : 'initialization' }
-SpkProcessLauncherAndManager >> initializeDebuggerTool [
+{ #category : 'actions' }
+SpkProcessLauncherAndManager >> proceedProcess [
+	"Evaluation process waits for an answer and returns it"
 
-	super initializeDebuggerTool.
-	debuggerTool explorerTool: explorerTool
+	super proceedProcess.
+	^ self waitForResult
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkProcessLauncherAndManager >> processBody: aBlock [
 	process := [ self returnValue: aBlock value ] newProcess
+]
+
+{ #category : 'accessing' }
+SpkProcessLauncherAndManager >> processBreakpointLevel: anObject [
+
+	processBreakpointLevel := anObject
 ]
 
 { #category : 'accessing' }
@@ -67,23 +66,33 @@ SpkProcessLauncherAndManager >> processPriority: aPriority [
 	processPriority := aPriority
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> returnValue: anObject [
 	result := anObject.
 	resultReady signal
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkProcessLauncherAndManager >> runProcess [
+
 	process
 		name: processName;
-		priority: processPriority.
+		priority: processPriority;
+		breakpointLevel: processBreakpointLevel.
 	self resumeProcess
 ]
 
-{ #category : 'as yet unclassified' }
-SpkProcessLauncherAndManager >> waitForResult [
+{ #category : 'actions' }
+SpkProcessLauncherAndManager >> terminateProcess [
+	"Evaluation process waits for termination to be complete and returns the tool.
+	processBody must send me #returnValue: on completion of termination or this will hang."
 
+	super terminateProcess.
+	^ self waitForResult
+]
+
+{ #category : 'actions' }
+SpkProcessLauncherAndManager >> waitForResult [
 	"Result may be a debugger"
 
 	resultReady wait.

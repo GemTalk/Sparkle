@@ -35,9 +35,27 @@ SpkPresenter class >> notYetImplemented: aString [
 	self inform: aString , ' not yet implemented (shucks)'
 ]
 
+{ #category : 'as yet unclassified' }
+SpkPresenter >> extraPresenters [
+
+	"Answer a collection of presenters that are logically my children but answer false 
+	to isKindOf: SpAbstractPresenter. For instance, children held in a collection, rather
+	than directly in slots."
+
+	^ OrderedCollection new
+]
+
 { #category : 'accessing' }
 SpkPresenter >> iconNamed: aSymbol [
 	^ self application iconNamed: aSymbol
+]
+
+{ #category : 'testing' }
+SpkPresenter >> isPane [
+
+	"Pane classes answer true, others false"
+
+	^ false
 ]
 
 { #category : 'accessing' }
@@ -87,8 +105,8 @@ SpkPresenter >> newTable [
 { #category : 'accessing' }
 SpkPresenter >> nonChildSlotNames [
 
-	"Answer a collection of the names of slots that, though they might refer to presenters, those presenters
-	are not my children."
+	"Answer a collection of the names of slots that, though they might 
+	refer to presenters, those presenters are not my children."
 
 	^ #( #owner )
 ]
@@ -97,6 +115,14 @@ SpkPresenter >> nonChildSlotNames [
 SpkPresenter >> notYetImplemented: aString [
 
 	self class notYetImplemented: aString
+]
+
+{ #category : 'accessing' }
+SpkPresenter >> pane [
+
+	^ self isPane
+		  ifTrue: [ self ]
+		  ifFalse: [ owner pane ]
 ]
 
 { #category : 'private' }
@@ -121,5 +147,6 @@ SpkPresenter >> presentersDo: aBlock [
 		thenDo: [ :each | 
 			| var |
 			var := self readSlot: each.
-			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ]
+			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ].
+	self extraPresenters do: aBlock
 ]

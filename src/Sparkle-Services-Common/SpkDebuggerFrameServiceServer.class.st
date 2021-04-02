@@ -17,20 +17,45 @@ SpkDebuggerFrameServiceServer class >> forTool: aTool [
 
 { #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
-
 	tool := aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
 	self refreshFromTool
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameServiceServer >> receiveExecutionAnnouncement: announcement [
+
+	self refreshFromTool ifTrue: [ 
+		announcement updatedServices add: self ]
 ]
 
 { #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> refreshFromTool [
-	| currentSourceInterval |
+	| changed oldValue currentSourceInterval  |
+	changed := false.
+
+	oldValue := description.
 	description := tool description.
+	changed := changed | (description ~= oldValue).
+
+	oldValue := source.
 	source := tool source.
+	changed := changed | (source ~= oldValue).
+
 	currentSourceInterval := tool currentSourceInterval.
+
+	oldValue := currentStartPosition.
 	currentStartPosition := currentSourceInterval first.
+	changed := changed | (currentStartPosition ~= oldValue).
+
+	oldValue := currentEndPosition.
 	currentEndPosition := currentSourceInterval last.
-	self refreshLocalVariablesFromTool
+	changed := changed | (currentEndPosition ~= oldValue).
+
+	^ changed | self refreshLocalVariablesFromTool
 ]
 
 { #category : 'initialization' }
@@ -40,7 +65,9 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 			SpkInspectorFieldServiceServer new
 				parentService: self;
 				initializeFromTool: fieldTool;
-				yourself ]
+				yourself ].
+	SpkObject new flag: 'HACK!'.
+	^ true
 ]
 
 { #category : 'other' }

@@ -42,12 +42,11 @@ SpkTaskspaceTool >> addExplorer: anExplorerTool [
 ]
 
 { #category : 'accessing' }
-SpkTaskspaceTool >> announceExecutionWithUpdatedInspectors: aSet [
-
+SpkTaskspaceTool >> announceExecutionWithUpdatedServices: aSet [
 	| announcement |
 	announcement := SpkExecutionAnnouncement new.
-	announcement updatedInspectors: aSet.
-	self announcer announce: announcement
+	announcement updatedServices: aSet.
+	self announce: announcement
 ]
 
 { #category : 'announcing' }

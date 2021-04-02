@@ -10,20 +10,13 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
-SpkProcessManager >> continueProcess [
-	"Non-evaluation process does not wait for an answer."
-
-	self resumeProcess
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
 
-	^ [ :ex | self debugException: ex ]
+	^ [:ex | self debugException: ex. nil]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> debugException: anException [
 
 	| processToDebug |
@@ -35,7 +28,7 @@ SpkProcessManager >> debugException: anException [
 		self debugForeignProcess: processToDebug withException: anException ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> debugForeignProcess: processToDebug withException: anException [
 
 	"This process is not my problem, create another manager for it
@@ -46,7 +39,37 @@ SpkProcessManager >> debugForeignProcess: processToDebug withException: anExcept
 		debugException: anException
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
+SpkProcessManager >> debuggerDebugAction: aBlock [
+
+	"This is the debug action block that should handle any errors in the debugger process
+	(which should generally not invoke the same debugger). A typical block is the one
+	that RSR sets to just break the promise with the stack as the reason."
+
+	debuggerDebugAction := aBlock
+]
+
+{ #category : 'accessing' }
+SpkProcessManager >> debuggerMustInitiate [
+
+	^ true
+]
+
+{ #category : 'private' }
+SpkProcessManager >> debuggerProcessForException: anException [
+	"Answer a new debugger process for a new or existing debugger,
+	debugging process. Start by suspending the process."
+
+	^ [ 
+	process suspend.
+	debuggerTool ifNil: [ self initializeDebuggerTool ].
+	debuggerTool
+		currentException: anException;
+		refreshFromProcess;
+		debug ] newProcess
+]
+
+{ #category : 'private' }
 SpkProcessManager >> debugMyProcessWithException: anException [
 
 	"process is the active process on empty. Set up a new higher-priority Process to debug it."
@@ -68,44 +91,30 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 	process priority: originalPriority
 ]
 
-{ #category : 'accessing' }
-SpkProcessManager >> debuggerDebugAction: aBlock [
-
-	"This is the debug action block that should handle any errors in the debugger process
-	(which should generally not invoke the same debugger). A typical block is the one
-	that RSR sets to just break the promise with the stack as the reason."
-
-	debuggerDebugAction := aBlock
-]
-
-{ #category : 'as yet unclassified' }
-SpkProcessManager >> debuggerMustInitiate [
-
-	^ true
-]
-
-{ #category : 'as yet unclassified' }
-SpkProcessManager >> debuggerProcessForException: anException [
-	"Answer a new debugger process for a new or existing debugger,
-	debugging process. Start by suspending the process."
-
-	^ [ 
-	process suspend.
-	debuggerTool ifNil: [ self initializeDebuggerTool ].
-	debuggerTool
-		currentException: anException;
-		debug ] newProcess
+{ #category : 'initialization' }
+SpkProcessManager >> explorerTool [
+	self flag: 'Need to implement'.
+	self
+		halt:
+			'Debugging forked processes with no explorer tool is not yet implemented.'
 ]
 
 { #category : 'initialization' }
 SpkProcessManager >> initializeDebuggerTool [
-
 	debuggerTool := SpkDebuggerTool new
-		                taskspaceTool: taskspaceTool;
-		                process: process;
-		                processManager: self;
-		                mustInitiate: self debuggerMustInitiate;
-		                yourself
+		taskspaceTool: taskspaceTool;
+		explorerTool: self explorerTool;
+		process: process;
+		processManager: self;
+		mustInitiate: self debuggerMustInitiate;
+		yourself
+]
+
+{ #category : 'actions' }
+SpkProcessManager >> proceedProcess [
+	"Non-evaluation process does not wait for an answer."
+
+	self resumeProcess
 ]
 
 { #category : 'accessing' }
@@ -114,7 +123,7 @@ SpkProcessManager >> process: anObject [
 	process := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkProcessManager >> resumeProcess [
 
 	"Debug action might be right already, but simpler to always set it"
@@ -129,7 +138,7 @@ SpkProcessManager >> setDebugAction [
 	process debugActionBlock: self debugAction
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkProcessManager >> setPrioritiesOfDebugger: debuggerProcess relativeToDebugged: processToDebug [
 	"In order to reliably suspend the debugged process, the debugger must run at a higher priority.
 	Normally, just run the debugger one higher, but if that's impossible lower the debugged process priority.
@@ -148,4 +157,10 @@ SpkProcessManager >> setPrioritiesOfDebugger: debuggerProcess relativeToDebugged
 SpkProcessManager >> taskspaceTool: anObject [
 
 	taskspaceTool := anObject
+]
+
+{ #category : 'actions' }
+SpkProcessManager >> terminateProcess [
+	[ process terminateTimeoutMs: SmallInteger maximumValue ]
+		forkAt: (process priority - 1 max: 1)
 ]

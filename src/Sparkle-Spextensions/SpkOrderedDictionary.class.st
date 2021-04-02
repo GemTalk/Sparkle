@@ -43,12 +43,23 @@ SpkOrderedDictionary >> add: anAssociation beforeIndex: anIndex [
 ]
 
 { #category : 'accessing' }
+SpkOrderedDictionary >> associationAt: aPresenter [
+
+	^ self
+		  associationAt: aPresenter
+		  ifAbsent: [ self error: 'Presenter not found' ]
+]
+
+{ #category : 'accessing' }
+SpkOrderedDictionary >> associationAt: aPresenter ifAbsent: aBlock [
+
+	^ elements detect: [ :each | each key == aPresenter ] ifNone: aBlock
+]
+
+{ #category : 'accessing' }
 SpkOrderedDictionary >> at: aPresenter [
-	| association |
-	association := elements
-		               detect: [ :each | each key == aPresenter ]
-		               ifNone: [ ^ self error: 'Presenter not found' ].
-	^ association value
+
+	^ (self associationAt: aPresenter) value
 ]
 
 { #category : 'accessing' }
@@ -58,10 +69,9 @@ SpkOrderedDictionary >> at: aKey put: aValue [
 	If aKey is new, append it."
 
 	| association |
-	association := elements at:
-		               (self identityIndexOfKey: aKey ifAbsent: [ 
-			                elements add: aKey -> aValue.
-			                ^ aValue ]).
+	association := self associationAt: aKey ifAbsent: [ 
+		               elements add: aKey -> aValue.
+		               ^ aValue ].
 	association value: aValue.
 	^ aValue
 ]
@@ -71,6 +81,12 @@ SpkOrderedDictionary >> do: aBlock [
 	"Evaluate aBlock with each of the receiver's elements as the argument."
 
 	elements do: [ :each | each value ]
+]
+
+{ #category : 'private' }
+SpkOrderedDictionary >> errorKeyNotFound: aKey [
+
+	KeyNotFound signalFor: aKey
 ]
 
 { #category : 'accessing' }
@@ -84,9 +100,7 @@ SpkOrderedDictionary >> identityIndexOfKey: aKey ifAbsent: absentBlock [
 { #category : 'testing' }
 SpkOrderedDictionary >> includesKey: aPresenter [
 
-	elements
-		detect: [ :association | association key == aPresenter ]
-		ifNone: [ ^ false ].
+	self associationAt: aPresenter ifAbsent: [ ^ false ].
 	^ true
 ]
 

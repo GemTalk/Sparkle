@@ -107,3 +107,13 @@ SpkPaneCoordinate >> postCopy [
 
 	vector := vector copy
 ]
+
+{ #category : 'printing' }
+SpkPaneCoordinate >> printOn: aStream [
+
+	aStream
+		<< self class name;
+		<< '('.
+	vector do: [ :each | each printOn: aStream ].
+	aStream << ')'
+]

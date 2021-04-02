@@ -35,3 +35,9 @@ SpkDebuggerFrameDescriptionService >> index [
 SpkDebuggerFrameDescriptionService >> index: object [
 	index := object
 ]
+
+{ #category : 'printing' }
+SpkDebuggerFrameDescriptionService >> printOn: aStream [
+	aStream nextPutAll: 'FrameDescriptionService '.
+	description printOn: aStream
+]

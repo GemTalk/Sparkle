@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkDebuggerFramePane',
-	#superclass : 'SpkPaneWithList',
+	#superclass : 'SpkPaneWithTwizzledList',
 	#instVars : [
 		'sourcePresenter',
 		'topLayout',
@@ -44,9 +44,18 @@ SpkDebuggerFramePane >> initializeDescription [
 { #category : 'initialization' }
 SpkDebuggerFramePane >> initializeListColumns [
 
-	self list
+	list
 		addColumn: (SpStringTableColumn evaluated: #name);
 		addColumn: (SpStringTableColumn evaluated: #description)
+]
+
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> initializeLocalVariableList [
+
+	self initializeTwizzledList.
+	twizzledList
+		showSubPresenter: false;
+		twizzleHelp: 'Show or hide the local variable list'
 ]
 
 { #category : 'initialization' }
@@ -54,10 +63,10 @@ SpkDebuggerFramePane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializeTop;
+		initializeLocalVariableList;
 		initializeSourcePane;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
-			self addSourcePositionDecoration ]
+			self updateFromModel ]
 ]
 
 { #category : 'initialization' }
@@ -65,37 +74,8 @@ SpkDebuggerFramePane >> initializeSourcePane [
 
 	sourcePresenter := self newCode
 		                   beNotEditable;
-		                   text: self sourceText;
 		                   yourself.
 	self layout add: sourcePresenter
-]
-
-{ #category : 'initialization' }
-SpkDebuggerFramePane >> initializeTop [
-
-	listIsShown := false.
-	topLayout := SpkBoxLayout newHorizontal.
-	self layout add: topLayout withConstraints: [ :c | c height: 25 ].
-	self
-		initializeTwizzle;
-		initializeDescription;
-		initializeList;
-		updateListVisibility
-]
-
-{ #category : 'initialization' }
-SpkDebuggerFramePane >> initializeTwizzle [
-
-	twizzle := self newIconButton
-		           icon: self twizzleIcon;
-		           help: 'Show or hide the local variable list';
-		           action: [ self toggleList ];
-		           yourself.
-	topLayout add: twizzle withConstraints: [ :c | 
-		c
-			fill: false;
-			width: 20;
-			height: 20 ]
 ]
 
 { #category : 'actions' }
@@ -113,42 +93,29 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerFramePane >> listLabelString [
+
+	^ self listItemServices size printString , ' local variables'
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerFramePane >> refreshSourcePane [
+
+	sourcePresenter text: self sourceText.
+	self addSourcePositionDecoration
+]
+
 { #category : 'printing' }
 SpkDebuggerFramePane >> sourceText [
 
 	^ model source
 ]
 
-{ #category : 'as yet unclassified' }
-SpkDebuggerFramePane >> toggleList [
-
-	listIsShown := listIsShown  not.
-	self
-		updateTwizzleIcon;
-		updateListVisibility
-]
-
 { #category : 'initialization' }
-SpkDebuggerFramePane >> twizzleIcon [
+SpkDebuggerFramePane >> updateFromModel [
 
-	^ listIsShown
-		  ifTrue: [ self iconNamed: #treeExpanded ]
-		  ifFalse: [ self iconNamed: #treeUnexpanded ]
-]
-
-{ #category : 'as yet unclassified' }
-SpkDebuggerFramePane >> updateListVisibility [
-
-	listIsShown
-		ifTrue: [ self layout add: self list after: topLayout ]
-		ifFalse: [ 
-			self layout
-				remove: self list
-				ifAbsent: [ "Won't be there during initialization" ] ]
-]
-
-{ #category : 'actions' }
-SpkDebuggerFramePane >> updateTwizzleIcon [
-
-	twizzle icon: self twizzleIcon
+	self
+		refreshTwizzledList;
+		refreshSourcePane
 ]

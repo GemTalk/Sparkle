@@ -2,11 +2,7 @@ Class {
 	#name : 'SpkDebuggerFramePane',
 	#superclass : 'SpkPaneWithTwizzledList',
 	#instVars : [
-		'sourcePresenter',
-		'topLayout',
-		'twizzle',
-		'listIsShown',
-		'description'
+		'sourcePresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -28,17 +24,6 @@ SpkDebuggerFramePane >> addSourcePositionDecoration [
 SpkDebuggerFramePane >> headerClass [
 
 	^ SpkDebuggerFramePaneHeader
-]
-
-{ #category : 'initialization' }
-SpkDebuggerFramePane >> initializeDescription [
-
-	description := self newLabel
-		               label:
-			               model localVariables size printString
-			               , ' local variables';
-		               yourself.
-	topLayout add: description withConstraints: [ :c | c fill: false ]
 ]
 
 { #category : 'initialization' }

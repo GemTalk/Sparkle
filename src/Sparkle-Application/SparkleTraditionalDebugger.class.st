@@ -31,6 +31,16 @@ SparkleTraditionalDebugger >> debuggerService: anObject [
 	debuggerService := anObject
 ]
 
+{ #category : 'initialization' }
+SparkleTraditionalDebugger >> initialize [
+
+	super initialize.
+	SpkConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileDisconnectedAnnouncement
+		send: #close
+		to: self
+]
+
 { #category : 'running' }
 SparkleTraditionalDebugger >> start [
 

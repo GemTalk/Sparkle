@@ -69,7 +69,7 @@ SpkScaffoldingDebugFrameServiceServer >> setCurrentPosition: theProcess level: l
 	frameTool := SpkDebuggerFrameTool new.
 	frameTool
 		process: theProcess;
-		level: level.
+		refreshAtLevel: level.
 	[ currentSourceInterval := frameTool currentSourceInterval ]
 		on: Error
 		do: [ :ex | 

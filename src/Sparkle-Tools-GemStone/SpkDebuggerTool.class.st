@@ -10,7 +10,8 @@ Class {
 		'frames',
 		'mustInitiate',
 		'updatedServices',
-		'updatedInspectors'
+		'updatedInspectors',
+		'isValid'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -170,7 +171,8 @@ SpkDebuggerTool >> indexOfFrameInLast: limit suchThat: aBlock [
 SpkDebuggerTool >> initialize [
 	super initialize.
 	updatedServices := Set new.
-	frames := #()
+	frames := #().
+	isValid := true "true until I'm no longer needed"
 ]
 
 { #category : 'other' }
@@ -240,6 +242,18 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
+	"Execution has happened; if we are still debugging update my
+	own state then let others (like my service) know."
+
+	isValid
+		ifTrue: [ 
+			self
+				refreshFromProcess;
+				announce: anAnnouncement ]
+]
+
 { #category : 'initialization' }
 SpkDebuggerTool >> refreshExistingFrames [
 	"Update any frames at the bottom of the stack that still
@@ -297,9 +311,19 @@ SpkDebuggerTool >> resume [
 
 	| resultTool | 
 	resultTool := processManager proceedProcess.
+	isValid := resultTool == self.
 	updatedServices := Set new.
 	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
 	^resultTool
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> taskspaceTool: aTool [
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self
 ]
 
 { #category : 'actions' }

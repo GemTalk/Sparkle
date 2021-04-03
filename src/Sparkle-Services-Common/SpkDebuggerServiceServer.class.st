@@ -29,6 +29,10 @@ SpkDebuggerServiceServer >> initializeFramesFromTool [
 SpkDebuggerServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
 	self refreshFromTool
 ]
 
@@ -38,9 +42,15 @@ SpkDebuggerServiceServer >> proceed [
 	resultTool := tool proceed.
 	^ resultTool == tool
 		ifTrue: [ 
-			self refreshFromTool.
 			self ]
 		ifFalse: [ self serviceForTool: resultTool ]
+]
+
+{ #category : 'other' }
+SpkDebuggerServiceServer >> receiveExecutionAnnouncement: announcement [
+
+	self refreshFromTool ifTrue: [ 
+		announcement updatedServices add: self ]
 ]
 
 { #category : 'other' }
@@ -57,16 +67,22 @@ SpkDebuggerServiceServer >> refreshExistingFrames [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> refreshFramesFromTool [
-	| numberOfValidFrames newStackDepth frameTools newFrames |
+	| changed numberOfValidFrames newStackDepth frameTools newFrames |
+	changed := false.
 	numberOfValidFrames := self refreshExistingFrames.
+	changed := changed | (numberOfValidFrames ~= frames size).
+
 	frameTools := tool frames.
 	newStackDepth := frameTools size.
 	newFrames := Array new: newStackDepth.
+	changed := changed | (frames size ~= newStackDepth).
+
 	newFrames
 		replaceFrom: 1
 		to: numberOfValidFrames
 		with: frames
 		startingAt: 1.
+
 	numberOfValidFrames + 1 to: newStackDepth do: [ :index | 
 		| frameTool |
 		frameTool := frameTools at: index.
@@ -76,18 +92,36 @@ SpkDebuggerServiceServer >> refreshFramesFromTool [
 				((SpkDebuggerFrameDescriptionServiceServer forTool: frameTool)
 					parentService: self;
 					yourself) ].
-	^ frames := newFrames
+	frames := newFrames.
+	^ changed
 ]
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> refreshFromTool [
+	| changed oldValue |
+	changed := false.
 
+	oldValue := exceptionDescription.
 	exceptionDescription := tool exceptionDescription.
+	changed := changed | (exceptionDescription ~= oldValue).
+
+	oldValue := processName.
 	processName := tool processName.
+	changed := changed | (processName ~= oldValue).
+
+	oldValue := processIdentifier.
 	processIdentifier := tool processIdentifier.
+	changed := changed | (processIdentifier ~= oldValue).
+
+	oldValue := processPriority.
 	processPriority := tool processPriority.
+	changed := changed | (processPriority ~= oldValue).
+
+	oldValue := updatedServices.
 	updatedServices := tool updatedServices.
-	self refreshFramesFromTool
+	changed := changed | (updatedServices ~= oldValue).
+
+	^ changed | self refreshFramesFromTool
 ]
 
 { #category : 'accessing' }

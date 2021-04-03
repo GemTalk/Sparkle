@@ -333,6 +333,7 @@ SpkDebuggerTool >> terminate [
 	| resultTool |
 	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
 	resultTool := processManager terminateProcess.
+	isValid := resultTool == self.
 	updatedServices := Set new.
 	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
 	^ resultTool

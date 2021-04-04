@@ -148,6 +148,13 @@ SpkDebuggerFramePane >> sourceText [
 	^ model source
 ]
 
+{ #category : 'actions' }
+SpkDebuggerFramePane >> stepOver [ 
+		self disableAll.
+		self flag: 'This requestId may be incorrect or unused'.
+		model stepOverFor: linkedFrom
+]
+
 { #category : 'initialization' }
 SpkDebuggerFramePane >> updateFromModel [
 

@@ -14,7 +14,8 @@ Class {
 		'currentState',
 		'previousState',
 		'index',
-		'isValid'
+		'isValid',
+		'updatedServices'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -54,14 +55,6 @@ SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
 		columnAt: 1 put: 'receiver';
 		columnAt: 2 put: (tool selfDescriptionOf: self receiver);
 		referencedObject: self receiver
-]
-
-{ #category : 'other' }
-SpkDebuggerFrameTool >> announceUpdate: anAnnouncement [
-	"I should have already been updated by the time I receive this announcement."
-
-	isValid
-		ifTrue: [ self announce: anAnnouncement ]
 ]
 
 { #category : 'private' }
@@ -196,6 +189,14 @@ SpkDebuggerFrameTool >> process: aProcess [
 	process := aProcess
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> receiveExecutionAnnouncement: anAnnouncement [
+	"I should have already been updated by the time I receive this announcement."
+
+	isValid
+		ifTrue: [ self announce: anAnnouncement ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> receiver [
 	^ currentState receiver
@@ -252,6 +253,6 @@ SpkDebuggerFrameTool >> taskspaceTool: aTool [
 	super taskspaceTool: aTool.
 	taskspaceTool
 		when: SpkExecutionAnnouncement
-		send: #announceUpdate: 
+		send: #receiveExecutionAnnouncement: 
 		to: self
 ]

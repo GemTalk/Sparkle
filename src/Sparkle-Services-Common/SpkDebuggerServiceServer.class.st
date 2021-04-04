@@ -98,6 +98,16 @@ SpkDebuggerServiceServer >> refreshFramesFromTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> refreshFromTool [
+	tool replacementTool == tool
+		ifTrue: [ ^ self refreshTopLevelInfoFromTool | self refreshFramesFromTool ].	"
+	The debugger is being replaced by something else. 
+	Pass that something else on."
+	replacementService := self serviceForTool: tool replacementTool.
+	^ true
+]
+
+{ #category : 'other' }
+SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	| changed oldValue |
 	changed := false.
 
@@ -121,7 +131,7 @@ SpkDebuggerServiceServer >> refreshFromTool [
 	updatedServices := tool updatedServices.
 	changed := changed | (updatedServices ~= oldValue).
 
-	^ changed | self refreshFramesFromTool
+	^ changed
 ]
 
 { #category : 'accessing' }
@@ -131,18 +141,6 @@ SpkDebuggerServiceServer >> serviceForTool: aTool [
 	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
 		                aTool class.
 	^ serviceClass forTool: aTool
-]
-
-{ #category : 'stepping' }
-SpkDebuggerServiceServer >> stepOverIn: aFrameService [
-
-	| resultTool |
-	resultTool := aFrameService tool stepOver.
-	^resultTool == tool
-		ifTrue:
-			[self refreshFromTool.
-			self]
-		ifFalse: [self serviceForTool: resultTool]
 ]
 
 { #category : 'other' }

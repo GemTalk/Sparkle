@@ -7,7 +7,8 @@ Class {
 		'processPriority',
 		'exceptionDescription',
 		'frames',
-		'updatedServices'
+		'updatedServices',
+		'replacementService'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -35,7 +36,8 @@ SpkDebuggerService >> initialize [
 
 	super initialize.
 	updatedServices := Set new.
-	frames := #()
+	frames := #().
+	replacementService := self
 ]
 
 { #category : 'accessing' }

@@ -11,7 +11,7 @@ Class {
 		'mustInitiate',
 		'updatedServices',
 		'updatedInspectors',
-		'isValid'
+		'replacementTool'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -172,7 +172,7 @@ SpkDebuggerTool >> initialize [
 	super initialize.
 	updatedServices := Set new.
 	frames := #().
-	isValid := true "true until I'm no longer needed"
+	replacementTool := self
 ]
 
 { #category : 'other' }
@@ -182,6 +182,11 @@ SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 	no longer valid."
 
 	numberOfValidFrames + 1 to: frames size do: [ :index | (frames at: index) beInvalid ]
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> isValid [
+	^ self == replacementTool
 ]
 
 { #category : 'accessing' }
@@ -247,11 +252,9 @@ SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
 
-	isValid
-		ifTrue: [ 
-			self
-				refreshFromProcess;
-				announce: anAnnouncement ]
+	self isValid
+		ifTrue: [ self refreshFromProcess ].
+	self announce: anAnnouncement
 ]
 
 { #category : 'initialization' }
@@ -306,15 +309,18 @@ SpkDebuggerTool >> refreshFromProcess [
 ]
 
 { #category : 'actions' }
+SpkDebuggerTool >> replacementTool [
+	^ replacementTool
+]
+
+{ #category : 'actions' }
 SpkDebuggerTool >> resume [
 	"Used for both stepping and proceed."
 
-	| resultTool | 
-	resultTool := processManager proceedProcess.
-	isValid := resultTool == self.
+	replacementTool := processManager proceedProcess.
 	updatedServices := Set new.
 	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
-	^resultTool
+	^ replacementTool
 ]
 
 { #category : 'other' }
@@ -330,13 +336,12 @@ SpkDebuggerTool >> taskspaceTool: aTool [
 SpkDebuggerTool >> terminate [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	| resultTool |
+	
 	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
-	resultTool := processManager terminateProcess.
-	isValid := resultTool == self.
+	replacementTool := processManager terminateProcess.
 	updatedServices := Set new.
 	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
-	^ resultTool
+	^ replacementTool
 ]
 
 { #category : 'other' }

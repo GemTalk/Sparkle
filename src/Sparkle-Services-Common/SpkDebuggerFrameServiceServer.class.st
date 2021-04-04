@@ -72,11 +72,7 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepOver [
-	| resultTool |
-	resultTool := tool stepOver.
-	^ resultTool == tool
-		ifTrue: [ self ]
-		ifFalse: [ self serviceForTool: resultTool ]
+	tool stepOver
 ]
 
 { #category : 'other' }

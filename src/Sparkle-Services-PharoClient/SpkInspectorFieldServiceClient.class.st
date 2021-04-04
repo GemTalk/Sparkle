@@ -33,7 +33,7 @@ SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 		when: [ :inspector | 
 			self linkedService: inspector.
 			parentService announceNewService: inspector forRequest: aRequestId ]
-		catch: [ :reason | self signalPromiseBrokenBecause: reason ].
+		catch: self defaultCatchBlock.
 	^ nil
 ]
 

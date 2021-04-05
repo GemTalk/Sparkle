@@ -87,7 +87,8 @@ SpkProcessFrameInfo >> lastBinaryCharacterIn: source startingAt: startPos [
 
 	startPos to: source size do: [ :testPos | 
 		(self isBinaryCharacter: (source at: testPos))
-			ifFalse: [ ^ testPos - 1 ] ]
+			ifFalse: [ ^ testPos - 1 ] ].
+	^ source size
 ]
 
 { #category : 'private' }
@@ -96,7 +97,8 @@ SpkProcessFrameInfo >> lastDecimalDigitCharacterIn: source startingAt: startPos 
 
 	startPos to: source size do: [ :testPos | 
 		(self isDecimalDigitCharacter: (source at: testPos))
-			ifFalse: [ ^ testPos - 1 ] ]
+			ifFalse: [ ^ testPos - 1 ] ].
+	^ source size
 ]
 
 { #category : 'private' }

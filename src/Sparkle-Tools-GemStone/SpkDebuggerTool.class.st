@@ -104,7 +104,7 @@ SpkDebuggerTool >> discardGlueFramesForHalt [
 		suchThat: [ :frame | 
 			| method |
 			method := frame method.
-			method class == Object
+			method inClass == Object
 				and: [ method selector == #'halt' or: [ method selector == #'pause' ] ] ].
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]

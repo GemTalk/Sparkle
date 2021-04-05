@@ -17,7 +17,7 @@ SpkDebuggerToolTest >> executedCodeFrameInDebugger: debugger [
 	^ doitFrames first
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testBreakpoint01 [
 	| method debugger frames frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
@@ -101,6 +101,20 @@ SpkDebuggerToolTest >> testFrameIndex [
 ]
 
 { #category : 'tests' }
+SpkDebuggerToolTest >> testHaltGlueTrimming [
+	"A halt should trim all top glue down through Object>>halt."
+
+	| debugger numberOfFrames execCodeFrame topFrame |
+	evaluatorTool newSourceCode: '3 halt + 4'.
+	debugger := evaluatorTool evaluateCode.
+	numberOfFrames := debugger frames size.
+	topFrame := debugger frames at: numberOfFrames.
+	self assert: topFrame index equals: numberOfFrames.
+	execCodeFrame := self executedCodeFrameInDebugger: debugger.
+	self assert: execCodeFrame index equals: numberOfFrames.
+]
+
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testNumberOfFrames [
 	"Can the debugger get frames from the process?"
 
@@ -167,7 +181,7 @@ SpkDebuggerToolTest >> testProceedTwice [
 		assert: inspector inspectedObject equals: 12
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testStepOver01 [
 	| method debugger debugger2 frames frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
@@ -221,7 +235,7 @@ SpkDebuggerToolTest >> testTerminate [
 	self assert: process _isTerminated
 ]
 
-{ #category : 'other' }
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testTerminate01 [
 	"Get a debugger, terminate, get the same debugger with the 
 	same executedCode frame, proceed, get inspector"

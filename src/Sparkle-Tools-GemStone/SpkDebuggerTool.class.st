@@ -256,7 +256,7 @@ SpkDebuggerTool >> processPriority [
 SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
-GsFile gciLogServer: 'SpkDebuggerTool>>receiveExecutionAnnouncement'.
+
 	self isValid
 		ifTrue: [ self refreshFromProcess ].
 	self announce: anAnnouncement

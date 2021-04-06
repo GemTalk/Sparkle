@@ -36,21 +36,6 @@ SpkDebuggerServiceClient >> proceedFor: requestId [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'stepping' }
-SpkDebuggerServiceClient >> stepOverIn: aFrameService
-for: requestId [
-
-	| promise |
-	promise := remoteSelf stepOverIn: aFrameService.
-	promise
-		when:
-			[:service |
-			service == self
-				ifTrue: [self announceUpdate]
-				ifFalse: [self announceNewService: service forRequest: requestId]]
-		catch: self defaultCatchBlock
-]
-
 { #category : 'as yet unclassified' }
 SpkDebuggerServiceClient >> terminate [
 
@@ -59,13 +44,4 @@ SpkDebuggerServiceClient >> terminate [
 	promise
 		when: [ :unused | self announceTermination ]
 		catch: self defaultCatchBlock
-]
-
-{ #category : 'accessing' }
-SpkDebuggerServiceClient >> updateServices [
-
-	"Can be sent in any thread."
-
-	updatedServices do: [ :each | each announceUpdate ].
-	updatedServices := Set new
 ]

@@ -55,6 +55,10 @@ SpkDebuggerFrameServiceServer >> refreshFromTool [
 	currentEndPosition := currentSourceInterval last.
 	changed := changed | (currentEndPosition ~= oldValue).
 
+	oldValue := updatedServices.
+	updatedServices := tool updatedServices.
+	changed := changed | (updatedServices ~= oldValue).
+
 	^ changed | self refreshLocalVariablesFromTool
 ]
 

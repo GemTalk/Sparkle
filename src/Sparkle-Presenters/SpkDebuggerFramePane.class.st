@@ -48,10 +48,25 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 	sourceLayout
 		add: controlsLayout
 		withConstraints: [ :c | c width: 35 ].
+		
+	stepIntoButton := self newIconButton
+		                  color: Color transparent;
+		                  icon: (self iconNamed: #stepInto28);
+		                  help: 'Step into';
+		                  action: [ self stepInto ];
+		                  yourself.
+
+	stepThroughButton := self newIconButton
+		                  color: Color transparent;
+		                  icon: (self iconNamed: #stepThrough28);
+		                  help: 'Step through blocks';
+		                  action: [ self stepThrough ];
+		                  yourself.
+
 
 	stepOverButton := self newIconButton
 		                  color: Color transparent;
-		                  icon: (self iconNamed: #proceed28);
+		                  icon: (self iconNamed: #stepOver28);
 		                  help: 'Step over';
 		                  action: [ self stepOver ];
 		                  yourself.
@@ -59,10 +74,19 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 	controlsLayout
 		add: SpkBoxLayout newHorizontal
 		withConstraints: [ :c | c height: 8 ];
+		add: stepIntoButton withConstraints: [ :c | 
+			c
+				height: 35;
+				width: 28 ];
+		add: stepThroughButton withConstraints: [ :c | 
+			c
+				height: 35;
+				width: 28 ];
 		add: stepOverButton withConstraints: [ :c | 
 			c
-				height: 28;
+				height: 35;
 				width: 28 ]
+
 ]
 
 { #category : 'initialization' }
@@ -149,10 +173,24 @@ SpkDebuggerFramePane >> sourceText [
 ]
 
 { #category : 'actions' }
+SpkDebuggerFramePane >> stepInto [
+		self disableAll.
+		self flag: 'This requestId may be incorrect or unused'.
+		model stepIntoFor: linkedFrom
+]
+
+{ #category : 'actions' }
 SpkDebuggerFramePane >> stepOver [ 
 		self disableAll.
 		self flag: 'This requestId may be incorrect or unused'.
 		model stepOverFor: linkedFrom
+]
+
+{ #category : 'actions' }
+SpkDebuggerFramePane >> stepThrough [
+		self disableAll.
+		self flag: 'This requestId may be incorrect or unused'.
+		model stepThroughFor: linkedFrom
 ]
 
 { #category : 'initialization' }

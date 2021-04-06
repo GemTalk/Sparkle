@@ -13,10 +13,30 @@ SpkDebuggerFrameServiceClient >> listItems [
 ]
 
 { #category : 'as yet unclassified' }
+SpkDebuggerFrameServiceClient >> stepIntoFor: requestId [
+
+	| promise |
+	promise := remoteSelf stepInto.
+	promise
+		when: [ :ignored | self updateServices ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'as yet unclassified' }
 SpkDebuggerFrameServiceClient >> stepOverFor: requestId [
 
 	| promise |
 	promise := remoteSelf stepOver.
+	promise
+		when: [ :ignored | self updateServices ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerFrameServiceClient >> stepThroughFor: requestId [
+
+	| promise |
+	promise := remoteSelf stepThrough.
 	promise
 		when: [ :ignored | self updateServices ]
 		catch: self defaultCatchBlock

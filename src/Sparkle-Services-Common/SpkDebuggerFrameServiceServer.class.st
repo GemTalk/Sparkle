@@ -34,7 +34,7 @@ SpkDebuggerFrameServiceServer >> receiveExecutionAnnouncement: announcement [
 
 { #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> refreshFromTool [
-	| changed oldValue currentSourceInterval  |
+	| changed oldValue currentSourceInterval |
 	changed := false.
 
 	oldValue := description.
@@ -55,10 +55,6 @@ SpkDebuggerFrameServiceServer >> refreshFromTool [
 	currentEndPosition := currentSourceInterval last.
 	changed := changed | (currentEndPosition ~= oldValue).
 
-	oldValue := updatedServices.
-	updatedServices := tool updatedServices.
-	changed := changed | (updatedServices ~= oldValue).
-
 	^ changed | self refreshLocalVariablesFromTool
 ]
 
@@ -76,17 +72,32 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepInto [
-	tool stepInto
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool stepIntoAnnouncing: announcement
 ]
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepOver [
-	tool stepOver
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool stepOverAnnouncing: announcement
 ]
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepThrough [
-	tool stepThrough
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool stepThroughAnnouncing: announcement
 ]
 
 { #category : 'other' }

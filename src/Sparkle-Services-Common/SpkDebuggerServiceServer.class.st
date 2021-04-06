@@ -38,11 +38,14 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> proceed [
-	| resultTool |
-	resultTool := tool proceed.
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	resultTool := tool proceedAnnouncing: announcement.
 	^ resultTool == tool
-		ifTrue: [ 
-			self ]
+		ifTrue: [ self ]
 		ifFalse: [ self serviceForTool: resultTool ]
 ]
 
@@ -127,10 +130,6 @@ SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	processPriority := tool processPriority.
 	changed := changed | (processPriority ~= oldValue).
 
-	oldValue := updatedServices.
-	updatedServices := tool updatedServices.
-	changed := changed | (updatedServices ~= oldValue).
-
 	^ changed
 ]
 
@@ -145,11 +144,13 @@ SpkDebuggerServiceServer >> serviceForTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
-	| resultTool |
-	resultTool := tool terminate.
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	resultTool := tool terminateAnnouncing: announcement.
 	^ resultTool == tool
-		ifTrue: [ 
-			self refreshFromTool.
-			self ]
+		ifTrue: [ self ]
 		ifFalse: [ self serviceForTool: resultTool ]
 ]

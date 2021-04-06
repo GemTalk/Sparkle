@@ -9,8 +9,6 @@ Class {
 		'currentException',
 		'frames',
 		'mustInitiate',
-		'updatedServices',
-		'updatedInspectors',
 		'replacementTool'
 	],
 	#category : 'Sparkle-Tools-GemStone'
@@ -170,7 +168,6 @@ SpkDebuggerTool >> indexOfFrameInLast: limit suchThat: aBlock [
 { #category : 'initialization' }
 SpkDebuggerTool >> initialize [
 	super initialize.
-	updatedServices := Set new.
 	frames := #().
 	replacementTool := self
 ]
@@ -209,10 +206,17 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 { #category : 'actions' }
 SpkDebuggerTool >> proceed [
 	"May wait for an answer, depending on whether the process is an evaluation process"
+	self flag: 'Now used only by tests, which should be updated.'.
+	^ self proceedAnnouncing: SpkExecutionAnnouncement new.
+]
+
+{ #category : 'actions' }
+SpkDebuggerTool >> proceedAnnouncing: anAnnouncement [
+	"May wait for an answer, depending on whether the process is an evaluation process.
+	Announce the announcement when done."
 
 	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
-	updatedServices := Set new.
-	^ self resumeWithUpdatedServices: updatedServices
+	^ self resumeAnnouncing: anAnnouncement
 ]
 
 { #category : 'accessing' }
@@ -252,7 +256,7 @@ SpkDebuggerTool >> processPriority [
 SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
-
+GsFile gciLogServer: 'SpkDebuggerTool>>receiveExecutionAnnouncement'.
 	self isValid
 		ifTrue: [ self refreshFromProcess ].
 	self announce: anAnnouncement
@@ -315,6 +319,15 @@ SpkDebuggerTool >> replacementTool [
 ]
 
 { #category : 'actions' }
+SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
+	"Used for both stepping and proceed."
+
+	replacementTool := processManager proceedProcess.
+	taskspaceTool announce: anAnnouncement.
+	^ replacementTool
+]
+
+{ #category : 'actions' }
 SpkDebuggerTool >> resumeWithUpdatedServices: aSet [
 	"Used for both stepping and proceed."
 
@@ -333,18 +346,11 @@ SpkDebuggerTool >> taskspaceTool: aTool [
 ]
 
 { #category : 'actions' }
-SpkDebuggerTool >> terminate [
+SpkDebuggerTool >> terminateAnnouncing: anAnnouncement [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	
 	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
 	replacementTool := processManager terminateProcess.
-	updatedServices := Set new.
-	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
+	taskspaceTool announce: anAnnouncement.
 	^ replacementTool
-]
-
-{ #category : 'other' }
-SpkDebuggerTool >> updatedServices [
-	^ updatedServices
 ]

@@ -203,16 +203,16 @@ SpkDebuggerToolTest >> testStepOver01 [
 	self
 		assert: (variable columnAt: 1) equals: 'receiver';
 		assert: frame currentSourceInterval equals: (1 to: 6).
-	debugger2 := frame stepOver.
+	debugger2 := frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self
 		assert: debugger2 == debugger;
 		assert: frame == frames last;
 		assert: frame currentSourceInterval equals: (13 to: 13).
-	frame stepOver.
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: frame currentSourceInterval equals: (17 to: 17).
-	frame stepOver.
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: frame currentSourceInterval equals: (9 to: 9).
-	frame stepOver.
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: debugger frames size equals: frames size - 1.
 	inspector := debugger proceed.
 	self assert: inspector class equals: SpkInspectorTool.
@@ -231,7 +231,7 @@ SpkDebuggerToolTest >> testTerminate [
 	process := debugger process.
 
 	self deny: process _isTerminated.
-	debugger terminate.
+	debugger terminateAnnouncing: SpkExecutionAnnouncement new.
 	self assert: process _isTerminated
 ]
 
@@ -246,17 +246,15 @@ SpkDebuggerToolTest >> testTerminate01 [
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	bottomFrame := debugger1 frames at: 1.
 	topFrame := debugger1 frames at: debugger1 frames size.
-	execCodeFrame := self executedCodeFrameInDebugger: debugger1.
-	"Should be on ifCurtailed:"
+	execCodeFrame := self executedCodeFrameInDebugger: debugger1.	"Should be on ifCurtailed:"
 	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
-	debugger2 := debugger1 terminate.
+	debugger2 := debugger1 terminateAnnouncing: SpkExecutionAnnouncement new.
 	self
 		assert: debugger1 == debugger2;
 		assert: bottomFrame == (debugger2 frames at: 1);
 		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
 		deny: topFrame == (debugger2 frames at: debugger2 frames size);
-		"Should still be on ifCurtailed:"
-		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
 	inspector := debugger2 proceed.
 	self
 		assert: inspector class equals: SpkInspectorTool;

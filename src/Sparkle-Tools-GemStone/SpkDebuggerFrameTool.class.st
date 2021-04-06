@@ -14,8 +14,7 @@ Class {
 		'currentState',
 		'previousState',
 		'index',
-		'isValid',
-		'updatedServices'
+		'isValid'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -126,8 +125,7 @@ SpkDebuggerFrameTool >> index: object [
 { #category : 'other' }
 SpkDebuggerFrameTool >> initialize [
 	super initialize.
-	isValid := true.
-	updatedServices := Set new
+	isValid := true
 ]
 
 { #category : 'accessing' }
@@ -229,21 +227,19 @@ SpkDebuggerFrameTool >> source [
 ]
 
 { #category : 'other' }
-SpkDebuggerFrameTool >> stepInto [
+SpkDebuggerFrameTool >> stepIntoAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
 	process stepIntoFromLevel: level.
-	updatedServices := Set new.
-	^ debuggerTool resumeWithUpdatedServices: updatedServices
+	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]
 
 { #category : 'other' }
-SpkDebuggerFrameTool >> stepOver [
+SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
 	process stepOverFromLevel: level.
-	updatedServices := Set new.
-	^ debuggerTool resumeWithUpdatedServices: updatedServices
+	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]
 
 { #category : 'accessing' }
@@ -259,12 +255,11 @@ SpkDebuggerFrameTool >> stepPointHasChanged [
 ]
 
 { #category : 'other' }
-SpkDebuggerFrameTool >> stepThrough [
+SpkDebuggerFrameTool >> stepThroughAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
 	process stepThroughFromLevel: level.
-	updatedServices := Set new.
-	^ debuggerTool resumeWithUpdatedServices: updatedServices
+	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]
 
 { #category : 'other' }
@@ -275,10 +270,4 @@ SpkDebuggerFrameTool >> taskspaceTool: aTool [
 		when: SpkExecutionAnnouncement
 		send: #receiveExecutionAnnouncement: 
 		to: self
-]
-
-{ #category : 'other' }
-SpkDebuggerFrameTool >> updatedServices [
-	
-	^ updatedServices
 ]

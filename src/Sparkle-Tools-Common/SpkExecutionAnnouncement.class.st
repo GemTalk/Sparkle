@@ -15,6 +15,12 @@ SpkExecutionAnnouncement >> addUpdatedService: aService [
 	updatedServices add: aService
 ]
 
+{ #category : 'initialization' }
+SpkExecutionAnnouncement >> initialize [
+	super initialize.
+	updatedServices := Set new.
+]
+
 { #category : 'accessing' }
 SpkExecutionAnnouncement >> updatedServices [
 	^updatedServices

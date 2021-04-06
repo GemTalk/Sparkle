@@ -14,7 +14,8 @@ Class {
 		'currentState',
 		'previousState',
 		'index',
-		'isValid'
+		'isValid',
+		'updatedServices'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -125,7 +126,8 @@ SpkDebuggerFrameTool >> index: object [
 { #category : 'other' }
 SpkDebuggerFrameTool >> initialize [
 	super initialize.
-	isValid := true
+	isValid := true.
+	updatedServices := Set new
 ]
 
 { #category : 'accessing' }
@@ -192,8 +194,8 @@ SpkDebuggerFrameTool >> process: aProcess [
 SpkDebuggerFrameTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"I should have already been updated by the time I receive this announcement."
 
-	isValid
-		ifTrue: [ self announce: anAnnouncement ]
+	"isValid
+		ifTrue: [" self announce: anAnnouncement "]"
 ]
 
 { #category : 'accessing' }
@@ -231,7 +233,8 @@ SpkDebuggerFrameTool >> stepOver [
 	| level |
 	level := currentState level.
 	process stepOverFromLevel: level.
-	^ debuggerTool resume
+	updatedServices := Set new.
+	^ debuggerTool resumeWithUpdatedServices: updatedServices
 ]
 
 { #category : 'accessing' }
@@ -258,8 +261,6 @@ SpkDebuggerFrameTool >> taskspaceTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerFrameTool >> updatedServices [
-	"Because we rely on our debuggerTool to resume the process after a step,
-	we don't keep our own set of updatedServices."
-
-	^ debuggerTool updatedServices
+	
+	^ updatedServices
 ]

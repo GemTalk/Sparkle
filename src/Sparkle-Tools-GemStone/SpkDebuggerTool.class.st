@@ -211,7 +211,8 @@ SpkDebuggerTool >> proceed [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
 	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
-	^ self resume
+	updatedServices := Set new.
+	^ self resumeWithUpdatedServices: updatedServices
 ]
 
 { #category : 'accessing' }
@@ -314,12 +315,11 @@ SpkDebuggerTool >> replacementTool [
 ]
 
 { #category : 'actions' }
-SpkDebuggerTool >> resume [
+SpkDebuggerTool >> resumeWithUpdatedServices: aSet [
 	"Used for both stepping and proceed."
 
 	replacementTool := processManager proceedProcess.
-	updatedServices := Set new.
-	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
+	taskspaceTool announceExecutionWithUpdatedServices: aSet.
 	^ replacementTool
 ]
 

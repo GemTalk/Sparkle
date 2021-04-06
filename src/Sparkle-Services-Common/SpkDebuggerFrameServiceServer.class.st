@@ -75,8 +75,18 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 ]
 
 { #category : 'other' }
+SpkDebuggerFrameServiceServer >> stepInto [
+	tool stepInto
+]
+
+{ #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepOver [
 	tool stepOver
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameServiceServer >> stepThrough [
+	tool stepThrough
 ]
 
 { #category : 'other' }

@@ -229,6 +229,15 @@ SpkDebuggerFrameTool >> source [
 ]
 
 { #category : 'other' }
+SpkDebuggerFrameTool >> stepInto [
+	| level |
+	level := currentState level.
+	process stepIntoFromLevel: level.
+	updatedServices := Set new.
+	^ debuggerTool resumeWithUpdatedServices: updatedServices
+]
+
+{ #category : 'other' }
 SpkDebuggerFrameTool >> stepOver [
 	| level |
 	level := currentState level.
@@ -247,6 +256,15 @@ SpkDebuggerFrameTool >> stepPointHasChanged [
 	"Only valid after first initialization and at least one refresh."
 
 	^ currentState stepPoint ~~ previousState stepPoint
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> stepThrough [
+	| level |
+	level := currentState level.
+	process stepThroughFromLevel: level.
+	updatedServices := Set new.
+	^ debuggerTool resumeWithUpdatedServices: updatedServices
 ]
 
 { #category : 'other' }

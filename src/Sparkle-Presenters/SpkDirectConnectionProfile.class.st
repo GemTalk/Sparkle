@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkDirectConnectionProfile',
 	#superclass : 'SpkConnectionProfile',
 	#instVars : [
+		'port',
 		'inMemory'
 	],
 	#category : 'Sparkle-Presenters-Support'
@@ -22,6 +23,12 @@ SpkDirectConnectionProfile >> connect [
 		(SpkConnectionProfileConnectedAnnouncement new profiles:
 			 (Array with: self)).
 	^ connection
+]
+
+{ #category : 'constants' }
+SpkDirectConnectionProfile >> defaultPort [
+
+	^ '29299'
 ]
 
 { #category : 'displaying' }
@@ -56,6 +63,7 @@ SpkDirectConnectionProfile >> inMemory: anObject [
 SpkDirectConnectionProfile >> initialize [
 
 	super initialize.
+	port := self defaultPort.
 	inMemory := false
 ]
 
@@ -63,6 +71,18 @@ SpkDirectConnectionProfile >> initialize [
 SpkDirectConnectionProfile >> isInsecureProfile [
 
 	^true
+]
+
+{ #category : 'accessing' }
+SpkDirectConnectionProfile >> port [
+
+	^ port
+]
+
+{ #category : 'accessing' }
+SpkDirectConnectionProfile >> port: anObject [
+
+	port := anObject
 ]
 
 { #category : 'accessing' }

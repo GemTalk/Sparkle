@@ -12,7 +12,6 @@ Class {
 		'cancelButton',
 		'connectButton',
 		'disconnectButton',
-		'portText',
 		'setPathButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
@@ -211,26 +210,6 @@ SpkConnectionPresenter >> initializeGroupPresenter [
 ]
 
 { #category : 'initialization' }
-SpkConnectionPresenter >> initializeHostAndPortPresenter [
-
-	| labelBox inputBox inputAndLabelBox |
-	inputAndLabelBox := SpkBoxLayout newVertical.
-	labelBox := SpkBoxLayout newHorizontal.
-	labelBox add: (self newLabel label: 'Host:') height: 20.
-	self addHorizontalSpaceTo: labelBox.
-	labelBox add: (self newLabel label: 'Port:') height: 20.
-	inputAndLabelBox add: labelBox.
-	inputBox := SpkBoxLayout newHorizontal.
-	hostText := self newTextInput.
-	inputBox add: hostText height: 30.
-	self addHorizontalSpaceTo: inputBox.
-	portText := self newTextInput.
-	inputBox add: portText height: 30.
-	inputAndLabelBox add: inputBox.
-	self layout add: inputAndLabelBox height: 50
-]
-
-{ #category : 'initialization' }
 SpkConnectionPresenter >> initializeNamePresenter [
 
 	self layout
@@ -248,7 +227,6 @@ SpkConnectionPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeNamePresenter. 
 	self initializeGroupPresenter.
-	self initializeHostAndPortPresenter.
 ]
 
 { #category : 'initialization' }
@@ -311,8 +289,7 @@ SpkConnectionPresenter >> updateConnectionProfile [
 	connectionProfile
 		name: nameText text;
 		host: hostText text;
-		group: groupText text;
-		port: portText text
+		group: groupText text
 ]
 
 { #category : 'actions' }
@@ -321,5 +298,4 @@ SpkConnectionPresenter >> updateGUI [
 	nameText text: connectionProfile name.
 	hostText text: connectionProfile host.
 	groupText text: connectionProfile group.
-	portText text: connectionProfile port.
 ]

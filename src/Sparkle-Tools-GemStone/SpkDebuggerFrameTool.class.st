@@ -14,8 +14,7 @@ Class {
 		'currentState',
 		'previousState',
 		'index',
-		'isValid',
-		'updatedServices'
+		'isValid'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -255,4 +254,12 @@ SpkDebuggerFrameTool >> taskspaceTool: aTool [
 		when: SpkExecutionAnnouncement
 		send: #receiveExecutionAnnouncement: 
 		to: self
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> updatedServices [
+	"Because we rely on our debuggerTool to resume the process after a step,
+	we don't keep our own set of updatedServices."
+
+	^ debuggerTool updatedServices
 ]

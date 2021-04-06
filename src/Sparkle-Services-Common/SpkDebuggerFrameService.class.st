@@ -76,3 +76,13 @@ SpkDebuggerFrameService >> source: anObject [
 
 	source := anObject
 ]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> updatedServices [
+	^updatedServices
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> updatedServices: object [
+	updatedServices := object
+]

@@ -54,3 +54,15 @@ SpkDebuggerService >> processName [
 SpkDebuggerService >> processPriority [
 	^ processPriority
 ]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> updatedServices [
+
+	^ updatedServices
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> updatedServices: anObject [
+
+	updatedServices := anObject
+]

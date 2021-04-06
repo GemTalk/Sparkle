@@ -46,3 +46,9 @@ SpkEvaluatorService >> updatedServices [
 
 	^ updatedServices
 ]
+
+{ #category : 'accessing' }
+SpkEvaluatorService >> updatedServices: anObject [
+
+	updatedServices := anObject
+]

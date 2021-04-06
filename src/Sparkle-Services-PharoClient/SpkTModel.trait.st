@@ -55,6 +55,15 @@ SpkTModel >> unsubscribe: anObject [
 	self announcer unsubscribe: anObject
 ]
 
+{ #category : 'as yet unclassified' }
+SpkTModel >> updateServices [
+
+	"Can be sent in any thread."
+
+	self updatedServices do: [ :each | each announceUpdate ].
+	self updatedServices: Set new
+]
+
 { #category : 'announcing' }
 SpkTModel >> when: anAnnouncementClass send: aSelector to: anObject [
 

@@ -18,13 +18,6 @@ SpkDebuggerFrameServiceClient >> stepOverFor: requestId [
 	| promise |
 	promise := remoteSelf stepOver.
 	promise
-		when: [ :newService | "If the result is me, we hit another error/breakpoint, 
-			so just update myself.
-			Otherwise, the answer is an inspector service for the result
-			of the computation."
-			newService == self
-				ifTrue: [ self announceUpdate ]
-				ifFalse: [ 
-				self announceNewService: newService forRequest: requestId ] ]
+		when: [ :ignored | self updateServices ]
 		catch: self defaultCatchBlock
 ]

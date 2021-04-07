@@ -2053,14 +2053,15 @@ SpkScaffoldingServiceClient class >> debugger_demo [
 		
 	(client
 		 gsDebugger_07: '| array |
-		"Play putABreakInHere. "
+		self halt. 
+		RowanBrowserService new abortTransaction. 
 		array := Array new. 
 		array add: (OrderedCollection with: $1). 
 		array add: #theSecondThing. 
 		array add: ''the third thing''.
 		self halt. 
 		array do:[:each | each size + each size]. 
-		^(array at: 1) + 3'
+		^(array at: 1), #(3)'
 		 usingDebugger: debuggerClient)
 		when: [ :result | 
 			expressionResult := result doitResult.

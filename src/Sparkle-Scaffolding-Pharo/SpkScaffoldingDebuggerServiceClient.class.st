@@ -8,18 +8,23 @@ Class {
 }
 
 { #category : 'debugger' }
+SpkScaffoldingDebuggerServiceClient >> clearDebugger [
+
+	debugger := nil
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 
 	| stack stackLimit |
 	stackLimit := 50.
 	Transcript
 		cr;
-		show:
-			'show stacks on process ('
-			, processService printString , ') ... stack: '.
+		show: 'show stacks on process (' , processService printString
+			, ') ... stack: '.
 	stack := processService rowanFrameServices.
-	debugger ifNil:[debugger := 
-	(SparkleTraditionalDebugger on: self) start].
+	debugger ifNil: [ 
+	debugger := (SparkleTraditionalDebugger on: self) start].
 	debugger initializeFrameList.
 	1 to: (stack size min: stackLimit) do: [ :index | 
 		| frame |

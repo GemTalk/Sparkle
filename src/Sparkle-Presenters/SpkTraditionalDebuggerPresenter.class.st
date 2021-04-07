@@ -24,7 +24,9 @@ SpkTraditionalDebuggerPresenter >> clearAllBreaks [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> closeWindow [
 
-	self window close
+	debuggerService clearDebugger.
+	self window close.
+	
 ]
 
 { #category : 'initialization' }
@@ -73,7 +75,7 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
 
 	sourceCode removeAllTextSegmentDecorations.
-	self update. 
+	sourceCode update. 
 	frame ifNotNil: [ 
 		self showSourcePositionIn: frame.
 		self showBreakPoints ]
@@ -134,12 +136,6 @@ SpkTraditionalDebuggerPresenter >> doItIn: pane context: contextOop [
 SpkTraditionalDebuggerPresenter >> glueSelectors [
 	"when showing a stack, select the frame just above these methods"
 	^#(#halt #_signalAsync #_doesNotUnderstand:args:envId:reason:) 
-]
-
-{ #category : 'private' }
-SpkTraditionalDebuggerPresenter >> ifConnectedDo: symbol [
-
-	debuggerService connection isOpen ifTrue: [ debuggerService perform: symbol ].
 ]
 
 { #category : 'initialization' }
@@ -276,8 +272,11 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Traditional Debugger';
 		"borderColor: Color purple;
 		borderWidth: 3; 'no longer works not sure why'"
-		initialExtent: 750 @ 1000;
-		whenClosedDo: [ self terminate ].
+		initialExtent: 750 @ 1000
+		
+		
+		";
+		whenClosedDo: [ self terminate ]."
 ]
 
 { #category : 'initialization' }
@@ -357,7 +356,7 @@ SpkTraditionalDebuggerPresenter >> restart [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> resume [
 
-	self ifConnectedDo: #resume. 
+	self debuggerService resume. 
 	self closeWindow
 ]
 
@@ -478,6 +477,6 @@ SpkTraditionalDebuggerPresenter >> stepThrough [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> terminate [
 
-	self ifConnectedDo: #terminate.
+	debuggerService terminate.
 	self closeWindow
 ]

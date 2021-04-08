@@ -72,6 +72,17 @@ SpkDebuggerFrameTool >> beInvalid [
 	taskspaceTool ifNotNil: [ taskspaceTool unsubscribe: self ]
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> canStep [
+	"In the very bottom frames of a GsProcess, stepping will get you into trouble.
+	The trouble spots *seem* to be the always-present three frames:
+	1. GsNMethod class >> _gsReturnToC
+	2. GsProcess >> _start
+	3. ExecBlock >> valueWithArguments: "
+
+	^ index > 3
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
 
@@ -236,10 +247,14 @@ SpkDebuggerFrameTool >> stepIntoAnnouncing: anAnnouncement [
 
 { #category : 'other' }
 SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
-	| level |
-	level := currentState level.
-	process stepOverFromLevel: level.
-	^ debuggerTool resumeAnnouncing: anAnnouncement
+	^ self canStep
+		ifTrue: [ 
+			| level |
+			level := currentState level.
+			process
+				stepOverFromLevel: level debuggerTool
+				resumeAnnouncing: anAnnouncement ]
+		ifFalse: [ debuggerTool proceedAnnouncing: anAnnouncement ]
 ]
 
 { #category : 'accessing' }

@@ -18,8 +18,8 @@ Class {
 SpkDebuggerTool >> currentException: anException [
 	"Stepping does not update the exceptionOfRecord, but
 	must update currentException so that glue frame discarding will be accurate."
-	currentException := anException.
 
+	currentException := anException.	
 	"Proceed and terminate set to nil, so we will re-initialize."
 	exceptionOfRecord ifNil: [ exceptionOfRecord := anException ]
 ]
@@ -113,9 +113,12 @@ SpkDebuggerTool >> discardGlueFramesForHalt [
 SpkDebuggerTool >> exceptionDescription [
 	| string |
 	string := String new.
-	string
-		add: exceptionOfRecord class name;
-		add: self exceptionSpecificMessage.
+	exceptionOfRecord
+		ifNil: [ string add: 'Unknown' ]
+		ifNotNil: [ 
+			string
+				add: exceptionOfRecord class name;
+				add: self exceptionSpecificMessage ].
 	^ string
 ]
 
@@ -320,6 +323,7 @@ SpkDebuggerTool >> replacementTool [
 
 { #category : 'actions' }
 SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
+	"Resume the process, then make the announcement"
 	"Used for both stepping and proceed."
 
 	replacementTool := processManager proceedProcess.

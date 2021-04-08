@@ -294,6 +294,13 @@ SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
 	box add: verticalBox
 ]
 
+{ #category : 'testing' }
+SpkTraditionalDebuggerPresenter >> isExecutedCodeFrame [
+
+	^ '*Executed Code*' match:
+		  frameList selection selectedItem value printString
+]
+
 { #category : 'accessing' }
 SpkTraditionalDebuggerPresenter >> newLayout [
 
@@ -310,16 +317,19 @@ SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 				         item
 					         name: 'Add Breakpoint';
 					         icon: (self iconNamed: #stop);
-					         action: [ self setBreakpoint ] ].
+					         action: [ self setBreakpoint ];
+					         enabled: [ self isExecutedCodeFrame not ] ].
 			         group addItem: [ :item | 
 				         item
 					         name: 'Clear All Breakpoints';
-					         action: [ self clearAllBreaks ] ] ]).
+					         action: [ self clearAllBreaks ];
+					         enabled: [ self isExecutedCodeFrame not ] ] ]).
 	menu addGroup: [ :group | 
 		group addItem: [ :item | 
 			item
 				name: 'Save';
 				action: [ self save ];
+				enabled: [ self isExecutedCodeFrame not ];
 				shortcut: PharoShortcuts current acceptShortcut ] ].
 	menu addGroup: [ :group | 
 		group addItem: [ :item | 

@@ -24,15 +24,16 @@ SpkDebuggerServiceClient >> proceedFor: requestId [
 	| promise |
 	promise := remoteSelf proceed.
 	promise
-		when: [ :newService | 
-			"If the result is me, we hit another error/breakpoint, 
+		when: [ :ignored | 
+			"If the replacementService is me, we hit another error/breakpoint, 
 			so just update myself.
-			Otherwise, the answer is an inspector service for the result
-			of the computation."
-			newService == self
+			Otherwise, the service is something else --
+			an inspector service for the result of the computation,
+			or a process terminated service."
+			replacementService == self
 				ifTrue: [ self announceUpdate ]
 				ifFalse: [ 
-				self announceNewService: newService forRequest: requestId ] ]
+				self announceNewService: replacementService forRequest: requestId ] ]
 		catch: self defaultCatchBlock
 ]
 
@@ -40,8 +41,14 @@ SpkDebuggerServiceClient >> proceedFor: requestId [
 SpkDebuggerServiceClient >> terminate [
 
 	| promise |
+	self flag: 'This method assumes that the only possible replacementServices 
+	are self and something else indicating that termination has completed. 
+	Should probably use the process terminated service explicitly.'.
 	promise := remoteSelf terminate.
 	promise
-		when: [ :unused | self announceTermination ]
+		when: [ :ignored | 
+			replacementService == self
+				ifTrue: [ self announceUpdate ]
+				ifFalse: [ self announceTermination ] ]
 		catch: self defaultCatchBlock
 ]

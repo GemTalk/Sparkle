@@ -186,8 +186,6 @@ SpkDebuggerPane >> proceed [
 { #category : 'initialization' }
 SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 
-	self flag:
-		'Make sure this announcement only happens after termination is complete'.
 	self defer: [ self close ].
 	self updateServices
 ]

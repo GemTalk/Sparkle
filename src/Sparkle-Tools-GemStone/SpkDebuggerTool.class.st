@@ -331,15 +331,6 @@ SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
 	^ replacementTool
 ]
 
-{ #category : 'actions' }
-SpkDebuggerTool >> resumeWithUpdatedServices: aSet [
-	"Used for both stepping and proceed."
-
-	replacementTool := processManager proceedProcess.
-	taskspaceTool announceExecutionWithUpdatedServices: aSet.
-	^ replacementTool
-]
-
 { #category : 'other' }
 SpkDebuggerTool >> taskspaceTool: aTool [
 	super taskspaceTool: aTool.

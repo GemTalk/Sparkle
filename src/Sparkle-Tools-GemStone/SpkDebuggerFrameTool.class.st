@@ -251,9 +251,8 @@ SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
 		ifTrue: [ 
 			| level |
 			level := currentState level.
-			process
-				stepOverFromLevel: level debuggerTool
-				resumeAnnouncing: anAnnouncement ]
+			process stepOverFromLevel: level.
+			debuggerTool resumeAnnouncing: anAnnouncement ]
 		ifFalse: [ debuggerTool proceedAnnouncing: anAnnouncement ]
 ]
 

@@ -12,9 +12,13 @@ SpkEvaluatorServiceServer >> accept [
 
 	"Evaluate my newSourceCode, answer a new service for the result."
 
-	| resultTool resultService |
+	| resultTool resultService announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
 	self tool newSourceCode: newSourceCode.
-	resultTool := self tool accept.
+	resultTool := self tool acceptAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := self serviceForTool: resultTool.

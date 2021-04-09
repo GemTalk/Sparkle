@@ -41,14 +41,6 @@ SpkTaskspaceTool >> addExplorer: anExplorerTool [
 	self announceNewExplorer: anExplorerTool
 ]
 
-{ #category : 'accessing' }
-SpkTaskspaceTool >> announceExecutionWithUpdatedServices: aSet [
-	| announcement |
-	announcement := SpkExecutionAnnouncement new.
-	announcement updatedServices: aSet.
-	self announce: announcement
-]
-
 { #category : 'announcing' }
 SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
 

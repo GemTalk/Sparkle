@@ -324,10 +324,12 @@ SpkDebuggerTool >> replacementTool [
 { #category : 'actions' }
 SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
 	"Resume the process, then make the announcement"
+
 	"Used for both stepping and proceed."
 
 	replacementTool := processManager proceedProcess.
 	taskspaceTool announce: anAnnouncement.
+	self flag: 'Return value only used only by tests, which should be updated.'.
 	^ replacementTool
 ]
 

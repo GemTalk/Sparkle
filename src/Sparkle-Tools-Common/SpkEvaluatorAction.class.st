@@ -14,10 +14,21 @@ Class {
 	#superclass : 'SpkAction',
 	#instVars : [
 		'newSourceCode',
-		'oldSourceCode'
+		'oldSourceCode',
+		'announcement'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
+
+{ #category : 'accessing' }
+SpkEvaluatorAction >> announcement [
+	^announcement
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorAction >> announcement: object [
+	announcement := object
+]
 
 { #category : 'accessing' }
 SpkEvaluatorAction >> newSourceCode: anObject [

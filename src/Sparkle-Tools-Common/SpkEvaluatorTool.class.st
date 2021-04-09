@@ -12,23 +12,28 @@ Class {
 }
 
 { #category : 'public' }
-SpkEvaluatorTool >> accept [
-
+SpkEvaluatorTool >> acceptAnnouncing: anAnnouncement [
 	"Evaluate newSourceCode through an undoable action. Answer a new Tool for the result."
 
 	| action resultTool |
 	action := SpkEvaluatorAcceptAction new
-		          target: self;
-		          oldSourceCode: oldSourceCode;
-		          newSourceCode: newSourceCode;
-		          yourself.
+		target: self;
+		oldSourceCode: oldSourceCode;
+		newSourceCode: newSourceCode;
+		announcement: anAnnouncement;
+		yourself.
 	resultTool := explorerTool performAction: action.
 	^ resultTool
 ]
 
 { #category : 'accessing' }
 SpkEvaluatorTool >> evaluateCode [
+	self flag: 'Now used only by tests, which should be updated.'.
+	^ self evaluateCodeAnnouncing: SpkExecutionAnnouncement new
+]
 
+{ #category : 'accessing' }
+SpkEvaluatorTool >> evaluateCodeAnnouncing: anAnnouncement [
 	"Evaluate the newSource and answer an appropriate tool for 
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
@@ -40,11 +45,9 @@ SpkEvaluatorTool >> evaluateCode [
 		on: self compilationExceptionClass
 		do: [ :ex | ^ self toolForCompilationError: ex ].
 
-
 	resultTool := self evaluateMethod: method inContext: context.
-	updatedServices := Set new.
-	taskspaceTool announceExecutionWithUpdatedServices:
-		updatedServices.
+
+	taskspaceTool announce: anAnnouncement.
 	^ resultTool
 ]
 

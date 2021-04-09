@@ -13,7 +13,7 @@ SpkDebuggerFrameServiceClient >> listItems [
 ]
 
 { #category : 'as yet unclassified' }
-SpkDebuggerFrameServiceClient >> stepIntoFor: requestId [
+SpkDebuggerFrameServiceClient >> stepInto [
 
 	| promise |
 	promise := remoteSelf stepInto.
@@ -23,7 +23,7 @@ SpkDebuggerFrameServiceClient >> stepIntoFor: requestId [
 ]
 
 { #category : 'as yet unclassified' }
-SpkDebuggerFrameServiceClient >> stepOverFor: requestId [
+SpkDebuggerFrameServiceClient >> stepOver [
 
 	| promise |
 	promise := remoteSelf stepOver.
@@ -33,7 +33,7 @@ SpkDebuggerFrameServiceClient >> stepOverFor: requestId [
 ]
 
 { #category : 'as yet unclassified' }
-SpkDebuggerFrameServiceClient >> stepThroughFor: requestId [
+SpkDebuggerFrameServiceClient >> stepThrough [
 
 	| promise |
 	promise := remoteSelf stepThrough.

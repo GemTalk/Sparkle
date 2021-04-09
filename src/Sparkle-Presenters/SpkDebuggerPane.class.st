@@ -20,16 +20,6 @@ SpkDebuggerPane >> closeRequestedLocally [
 	model terminate
 ]
 
-{ #category : 'initialization' }
-SpkDebuggerPane >> connectPresenters [
-
-	super connectPresenters.
-	model
-		when: SpkTermination
-		send: #receiveTerminationAnnouncement:
-		to: self
-]
-
 { #category : 'as yet unclassified' }
 SpkDebuggerPane >> deselectExitedFrames [
 
@@ -180,7 +170,7 @@ SpkDebuggerPane >> linkedFramePanes [
 SpkDebuggerPane >> proceed [
 
 	self disableAll.
-	model proceedFor: linkedFrom
+	model proceed
 ]
 
 { #category : 'initialization' }
@@ -188,6 +178,33 @@ SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
 
 	self defer: [ self close ].
 	self updateServices
+]
+
+{ #category : 'action' }
+SpkDebuggerPane >> replace [
+
+	"I'm done being a debugger, usually because my process has completed or been terminated.
+	Replace myself with a new pane."
+
+	linkedFrom ifNil: [ 
+		self flag:
+			'Should replace self with new independent pane with my coordinate.'.
+		^ self error: 'Independent debugger panes not yet fully supported.' ].
+	self openLinkedPane: model replacementService forItem: linkedFrom
+]
+
+{ #category : 'initialization' }
+SpkDebuggerPane >> updateDebuggerFromModel [
+
+	"Must be sent in the UI thread"
+
+	"We've been told that execution has happened,
+	but we're still in the debugger. Update to show the new state."
+
+	self
+		updateDescription;
+		updateFrameList;
+		reEnableAll
 ]
 
 { #category : 'private' }
@@ -213,13 +230,11 @@ SpkDebuggerPane >> updateFromModel [
 	"Must be sent in the UI thread"
 
 	"We've been told that execution has happened,
-	but we're still in the debugger. Update to show the new state."
+	and we don't know whether we're still in the debugger."
 
-	self
-		updateDescription;
-		updateFrameList;
-		updateLinkedFramePanes;
-		reEnableAll
+	model isValid
+		ifTrue: [ self updateDebuggerFromModel ]
+		ifFalse: [ self replace ]
 ]
 
 { #category : 'as yet unclassified' }

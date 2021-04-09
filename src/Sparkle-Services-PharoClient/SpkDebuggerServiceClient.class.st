@@ -7,9 +7,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SpkDebuggerServiceClient >> announceTermination [
+SpkDebuggerServiceClient >> isValid [
 
-	self announce: SpkTermination new
+	"Does the debugger I represent still have a process to debug?
+	If not, I will be replaced by another service."
+
+	^ replacementService == self
 ]
 
 { #category : 'api' }
@@ -19,21 +22,12 @@ SpkDebuggerServiceClient >> listItems [
 ]
 
 { #category : 'as yet unclassified' }
-SpkDebuggerServiceClient >> proceedFor: requestId [
+SpkDebuggerServiceClient >> proceed [
 
 	| promise |
 	promise := remoteSelf proceed.
 	promise
-		when: [ :ignored | 
-			"If the replacementService is me, we hit another error/breakpoint, 
-			so just update myself.
-			Otherwise, the service is something else --
-			an inspector service for the result of the computation,
-			or a process terminated service."
-			replacementService == self
-				ifTrue: [ self announceUpdate ]
-				ifFalse: [ 
-				self announceNewService: replacementService forRequest: requestId ] ]
+		when: [ :ignored | self announceUpdate ]
 		catch: self defaultCatchBlock
 ]
 
@@ -41,14 +35,8 @@ SpkDebuggerServiceClient >> proceedFor: requestId [
 SpkDebuggerServiceClient >> terminate [
 
 	| promise |
-	self flag: 'This method assumes that the only possible replacementServices 
-	are self and something else indicating that termination has completed. 
-	Should probably use the process terminated service explicitly.'.
 	promise := remoteSelf terminate.
 	promise
-		when: [ :ignored | 
-			replacementService == self
-				ifTrue: [ self announceUpdate ]
-				ifFalse: [ self announceTermination ] ]
+		when: [ :ignored | self announceUpdate ]
 		catch: self defaultCatchBlock
 ]

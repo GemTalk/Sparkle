@@ -174,23 +174,23 @@ SpkDebuggerFramePane >> sourceText [
 
 { #category : 'actions' }
 SpkDebuggerFramePane >> stepInto [
-		self disableAll.
-		self flag: 'This requestId may be incorrect or unused'.
-		model stepIntoFor: linkedFrom
+
+	self disableAll.
+	model stepInto
 ]
 
 { #category : 'actions' }
-SpkDebuggerFramePane >> stepOver [ 
-		self disableAll.
-		self flag: 'This requestId may be incorrect or unused'.
-		model stepOverFor: linkedFrom
+SpkDebuggerFramePane >> stepOver [
+
+	self disableAll.
+	model stepOver
 ]
 
 { #category : 'actions' }
 SpkDebuggerFramePane >> stepThrough [
-		self disableAll.
-		self flag: 'This requestId may be incorrect or unused'.
-		model stepThroughFor: linkedFrom
+
+	self disableAll.
+	model stepThrough
 ]
 
 { #category : 'initialization' }

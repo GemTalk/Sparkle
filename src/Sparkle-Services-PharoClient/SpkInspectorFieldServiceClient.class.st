@@ -6,15 +6,6 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'inspecting' }
-SpkInspectorFieldServiceClient >> createInspectorService [
-
-	"Ask the server for an inspector for the object referred to by this field. 
-	Answer a promise for the result."
-
-	^ remoteSelf createInspectorService
-]
-
 { #category : 'accessing' }
 SpkInspectorFieldServiceClient >> description [
 
@@ -28,7 +19,7 @@ SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 	"I might already have the necessary service cached."
 	self linkedService ifNotNil: [ :service | ^ service ].
 	"Create and announce a new inspectorService for the object I reference."
-	promise := self createInspectorService.
+	promise := remoteSelf createInspectorService.
 	promise
 		when: [ :inspector | 
 			self linkedService: inspector.

@@ -56,6 +56,18 @@ SpkDebuggerService >> processPriority [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerService >> replacementService [
+
+	^ replacementService
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> replacementService: anObject [
+
+	replacementService := anObject
+]
+
+{ #category : 'accessing' }
 SpkDebuggerService >> updatedServices [
 
 	^ updatedServices

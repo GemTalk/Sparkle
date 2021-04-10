@@ -151,23 +151,27 @@ SpkGCIConnectionProfile >> path: anObject [
 { #category : 'actions' }
 SpkGCIConnectionProfile >> setupRSRConnection [
 
-	| initiator |
-	session
+	| detailBytes initiator thePort |
+	detailBytes := session
 		executeStringAndFetchResultByteArray:
-		'| acceptor |
-		acceptor := RsrAcceptConnection port: ', port, '.
+		'| acceptor port detailBytes |
+		acceptor := RsrAcceptConnection port: RsrAcceptConnection wildcardPort.
 		acceptor ensureListening.
 		SessionTemps current
 			at: #PendingConnectionAcceptor
 			put: acceptor.
-		ByteArray new: 80'
+		port := acceptor listeningPort.
+		detailBytes := ByteArray new: 18.
+		detailBytes unsigned16At: 1 put: port.
+		detailBytes'
 		maxResultSize: 1024.
 	session executeStringNb:
 		'| connection |
 		connection := (SessionTemps current at: #PendingConnectionAcceptor) waitForConnection.
 		SessionTemps current removeKey: #PendingConnectionAcceptor.
 		connection waitUntilClose.'.
-	initiator := RsrInitiateConnection host: host port: port asInteger.
+	thePort := detailBytes unsignedShortAt: 1 bigEndian: true.
+	initiator := RsrInitiateConnection host: host port: thePort.
 	connection := initiator connect
 ]
 

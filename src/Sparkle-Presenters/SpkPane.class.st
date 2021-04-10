@@ -188,8 +188,7 @@ SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 	self defer: [ 
 		self
 			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId ].
-	self updateServices
+			linkedTo: anAnnouncement requestId ]
 ]
 
 { #category : 'initialization' }

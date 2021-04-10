@@ -173,13 +173,6 @@ SpkDebuggerPane >> proceed [
 	model proceed
 ]
 
-{ #category : 'initialization' }
-SpkDebuggerPane >> receiveTerminationAnnouncement: anAnnouncement [
-
-	self defer: [ self close ].
-	self updateServices
-]
-
 { #category : 'action' }
 SpkDebuggerPane >> replace [
 

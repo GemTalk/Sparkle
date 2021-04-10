@@ -16,7 +16,7 @@ Class {
 		'name',
 		'host',
 		'group',
-		'connection'
+		'taskspace'
 	],
 	#classVars : [
 		'ProfileAnnouncer',
@@ -95,21 +95,15 @@ SpkConnectionProfile >> = connectionProfile [
 { #category : 'accessing' }
 SpkConnectionProfile >> connection [
 
-	^ connection
-]
-
-{ #category : 'accessing' }
-SpkConnectionProfile >> connection: anObject [
-
-	connection := anObject
+	^ taskspace ifNotNil: [ taskspace connection ] ifNil: [ nil ]
 ]
 
 { #category : 'actions' }
 SpkConnectionProfile >> disconnect [
 
-	connection ifNotNil: [ :conn | 
+	self connection ifNotNil: [ :conn | 
 		conn close.
-		connection := nil.
+		taskspace := nil.
 		ProfileAnnouncer announce:
 			(SpkConnectionProfileDisconnectedAnnouncement new profiles:
 				 (Array with: self)) ]
@@ -166,8 +160,9 @@ SpkConnectionProfile >> initialize [
 ]
 
 { #category : 'testing' }
-SpkConnectionProfile >> isConnected [ 
-	^connection isNotNil 
+SpkConnectionProfile >> isConnected [
+
+	^ self connection isNotNil
 ]
 
 { #category : 'testing' }
@@ -192,6 +187,24 @@ SpkConnectionProfile >> name [
 SpkConnectionProfile >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : 'actions' }
+SpkConnectionProfile >> openExplorer [
+
+	taskspace openNewDefaultTaskspace
+]
+
+{ #category : 'copying' }
+SpkConnectionProfile >> postCopy [
+
+	taskspace := nil
+]
+
+{ #category : 'accessing' }
+SpkConnectionProfile >> taskspace [
+
+	^ taskspace
 ]
 
 { #category : 'accessing' }

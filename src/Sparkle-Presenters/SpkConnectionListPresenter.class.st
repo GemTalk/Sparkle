@@ -270,15 +270,11 @@ SpkConnectionListPresenter >> newLayout [
 { #category : 'actions' }
 SpkConnectionListPresenter >> openExplorer [
 
-	| taskspace connection selection |
+	| selection |
 	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
-	connection := selection connection. 
-	taskspace := SparkleTaskspace new.
-	taskspace
-		connection: connection;
-		openNewDefaultTaskspace
+	selection openExplorer
 ]
 
 { #category : 'events' }

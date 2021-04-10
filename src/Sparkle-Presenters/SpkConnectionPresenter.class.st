@@ -27,7 +27,6 @@ SpkConnectionPresenter class >> connectionProfileClass [
 SpkConnectionPresenter >> add [
 
 	connectionProfile := connectionProfile copy. 
-	connectionProfile connection: nil. 
 	self updateConnectionProfile.
 	self class connectionProfileClass addProfile: connectionProfile
 ]
@@ -78,7 +77,7 @@ SpkConnectionPresenter >> closeConnectionWindows [
 SpkConnectionPresenter >> connect [
 
 	connectionProfile connect.
-	self openExplorer: connectionProfile connection.
+	self openExplorer: connectionProfile taskspace.
 ]
 
 { #category : 'initialization' }
@@ -250,13 +249,9 @@ SpkConnectionPresenter >> newLayout [
 ]
 
 { #category : 'actions' }
-SpkConnectionPresenter >> openExplorer: connection [
+SpkConnectionPresenter >> openExplorer: aTaskspace [
 
-	| taskspace |
-	taskspace := SparkleTaskspace new.
-	taskspace
-		connection: connection;
-		openNewDefaultTaskspace
+	aTaskspace openNewDefaultTaskspace
 ]
 
 { #category : 'actions' }

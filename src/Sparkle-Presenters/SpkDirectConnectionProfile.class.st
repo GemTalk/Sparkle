@@ -11,18 +11,20 @@ Class {
 { #category : 'actions' }
 SpkDirectConnectionProfile >> connect [
 
-	| connectionThing |
-	connectionThing := inMemory
-		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
-		                   ifFalse: [ 
-		                   RsrInitiateConnection
-			                   host: host
-			                   port: port asInteger ].
-	connection := connectionThing connect.
+	| connectionSpec connection |
+	connectionSpec := inMemory
+		                  ifTrue: [ RsrInMemoryConnectionSpecification new ]
+		                  ifFalse: [ 
+		                  RsrInitiateConnection
+			                  host: host
+			                  port: port asInteger ].
+	connection := connectionSpec connect.
+	taskspace := SparkleTaskspace new
+		             connection: connection;
+		             yourself.
 	ProfileAnnouncer announce:
 		(SpkConnectionProfileConnectedAnnouncement new profiles:
-			 (Array with: self)).
-	^ connection
+			 (Array with: self))
 ]
 
 { #category : 'constants' }

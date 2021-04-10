@@ -15,13 +15,13 @@ SpkEvaluatorServiceServer >> accept [
 	| resultTool resultService announcement |
 	updatedServices := Set new.
 	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
+		                updatedServices: updatedServices;
+		                yourself.
 	self tool newSourceCode: newSourceCode.
 	resultTool := self tool acceptAnnouncing: announcement.
 
 	self refreshFromTool.
-	resultService := self serviceForTool: resultTool.
+	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
 ]
 
@@ -57,15 +57,6 @@ SpkEvaluatorServiceServer >> initializeTool [
 SpkEvaluatorServiceServer >> refreshFromTool [
 	oldSourceCode := tool oldSourceCode.
 	newSourceCode := tool newSourceCode
-]
-
-{ #category : 'accessing' }
-SpkEvaluatorServiceServer >> serviceForTool: aTool [
-
-	| serviceClass |
-	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
-		                aTool class.
-	^ serviceClass forTool: aTool
 ]
 
 { #category : 'initialization' }

@@ -192,7 +192,7 @@ SpkConnectionProfile >> name: anObject [
 { #category : 'actions' }
 SpkConnectionProfile >> openExplorer [
 
-	taskspace openNewDefaultTaskspace
+	taskspace addDefaultExplorer
 ]
 
 { #category : 'copying' }

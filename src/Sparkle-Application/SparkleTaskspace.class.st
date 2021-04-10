@@ -33,6 +33,12 @@ SparkleTaskspace class >> applicationName [
 	^ 'Sparkle Taskspace'
 ]
 
+{ #category : 'initialization' }
+SparkleTaskspace >> addDefaultExplorer [
+
+	taskspaceService addDefaultExplorer
+]
+
 { #category : 'accessing' }
 SparkleTaskspace >> connection [
 	^ connection

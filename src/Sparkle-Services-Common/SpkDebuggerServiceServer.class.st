@@ -46,7 +46,7 @@ SpkDebuggerServiceServer >> proceed [
 	resultTool := tool proceedAnnouncing: announcement.
 	^ resultTool == tool
 		ifTrue: [ self ]
-		ifFalse: [ self serviceForTool: resultTool ]
+		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
 ]
 
 { #category : 'other' }
@@ -105,7 +105,7 @@ SpkDebuggerServiceServer >> refreshFromTool [
 		ifTrue: [ ^ self refreshTopLevelInfoFromTool | self refreshFramesFromTool ].	"
 	The debugger is being replaced by something else. 
 	Pass that something else on."
-	replacementService := self serviceForTool: tool replacementTool.
+	replacementService := SpkServiceFactory serviceForTool: tool replacementTool.
 	^ true
 ]
 
@@ -133,15 +133,6 @@ SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	^ changed
 ]
 
-{ #category : 'accessing' }
-SpkDebuggerServiceServer >> serviceForTool: aTool [
-
-	| serviceClass |
-	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
-		                aTool class.
-	^ serviceClass forTool: aTool
-]
-
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
 	| resultTool announcement |
@@ -152,5 +143,5 @@ SpkDebuggerServiceServer >> terminate [
 	resultTool := tool terminateAnnouncing: announcement.
 	^ resultTool == tool
 		ifTrue: [ self ]
-		ifFalse: [ self serviceForTool: resultTool ]
+		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
 ]

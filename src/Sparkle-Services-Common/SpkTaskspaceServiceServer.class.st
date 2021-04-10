@@ -15,6 +15,16 @@ SpkTaskspaceServiceServer class >> forTool: aTaskspaceTool [
 		  yourself
 ]
 
+{ #category : 'adding' }
+SpkTaskspaceServiceServer >> addDefaultExplorer [
+
+	"Answer a new explorer service"
+
+	| newExplorerTool |
+	newExplorerTool := tool addDefaultExplorer.
+	^ SpkServiceFactory serviceForTool: newExplorerTool
+]
+
 { #category : 'initialization' }
 SpkTaskspaceServiceServer >> tool: aTaskspaceTool [
 

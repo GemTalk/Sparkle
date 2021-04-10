@@ -15,16 +15,21 @@ SpkServiceFactory class >> initialize [
 	self initializeServiceClassesForToolTypes
 ]
 
-{ #category : 'initialization' }
+{ #category : 'class initialization' }
 SpkServiceFactory class >> initializeServiceClassesForToolTypes [
-
 	serviceClassesForToolTypes := IdentityDictionary new.
 	^ serviceClassesForToolTypes
-		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
-		  at: SpkDebuggerTool put: SpkDebuggerServiceServer;
-		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
-		  at: SpkInspectorTool put: SpkInspectorServiceServer;
-		  yourself
+		at: SpkColumnLayoutTool put: SpkColumnLayoutServiceServer;
+		at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
+		at: SpkDebuggerTool put: SpkDebuggerServiceServer;
+		at: SpkExplorerLayoutTool put: SpkExplorerLayoutServiceServer;
+		at: SpkExplorerTool put: SpkExplorerServiceServer;
+		at: SpkInspectorTool put: SpkInspectorServiceServer;
+		at: SpkPaneLayoutTool put: SpkPaneLayoutServiceServer;
+		at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
+		at: SpkTaskspaceLayoutTool put: SpkTaskspaceLayoutServiceServer;
+		at: SpkTaskspaceTool put: SpkTaskspaceServiceServer;
+		yourself
 ]
 
 { #category : 'accessing' }
@@ -37,9 +42,9 @@ SpkServiceFactory class >> serviceClassForToolClass: aToolClass [
 
 { #category : 'accessing' }
 SpkServiceFactory class >> serviceForTool: aTool [
-
 	| serviceClass |
-	serviceClass := self serviceClassForToolClass:
-		                aTool class.
-	^ serviceClass forTool: aTool
+	serviceClass := self serviceClassForToolClass: aTool class.
+	^ serviceClass new
+		initializeFromTool: aTool;
+		yourself
 ]

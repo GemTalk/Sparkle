@@ -4,14 +4,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkRuntimeErrorServiceServer class >> forTool: aColumnLayoutTool [
-
-	^ self new
-		  initializeFromTool: aColumnLayoutTool;
-		  yourself
-]
-
 { #category : 'initialization' }
 SpkRuntimeErrorServiceServer >> initializeFromTool: aTool [
 

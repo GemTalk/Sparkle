@@ -7,14 +7,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkTaskspaceLayoutServiceServer class >> forTool: aTaskspaceLayoutTool [
-
-	^ self new
-		  initializeFromTool: aTaskspaceLayoutTool;
-		  yourself
-]
-
 { #category : 'initialization' }
 SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
 
@@ -23,8 +15,8 @@ SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
 	explorerLayoutServices := Set new.
 	tool explorerLayouts do: [ :xlTool | 
 		| xlServ xServ |
-		xlServ := SpkExplorerLayoutServiceServer forTool: xlTool.
-		xServ := SpkExplorerServiceServer forTool: xlTool explorerTool.
+		xlServ := SpkServiceFactory serviceForTool: xlTool.
+		xServ := SpkServiceFactory serviceForTool: xlTool explorerTool.
 		xlServ explorerService: xServ.
 
 		explorerLayoutServices add: xlServ.
@@ -35,11 +27,9 @@ SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
 
 { #category : 'initialization' }
 SpkTaskspaceLayoutServiceServer >> initializeFromTool: aTaskspaceLayoutTool [
-
 	"We're creating new server services (by definition transient) for tools (which might be persistent)."
 
 	tool := aTaskspaceLayoutTool.
-	taskspaceService := SpkTaskspaceServiceServer forTool:
-		                    tool taskspaceTool.
+	taskspaceService := SpkServiceFactory serviceForTool: tool taskspaceTool.
 	self initializeExplorerServices
 ]

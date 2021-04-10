@@ -8,14 +8,6 @@ Class {
 }
 
 { #category : 'other' }
-SpkDebuggerServiceServer class >> forTool: aTool [
-
-	^ self new
-		  initializeFromTool: aTool;
-		  yourself
-]
-
-{ #category : 'other' }
 SpkDebuggerServiceServer >> initializeFramesFromTool [
 
 	frames := tool frames collect: [ :frameTool | 

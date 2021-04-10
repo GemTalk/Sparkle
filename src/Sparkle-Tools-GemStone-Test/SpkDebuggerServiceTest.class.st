@@ -12,7 +12,7 @@ SpkDebuggerServiceTest >> divideByZeroAfterProceed [
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
 	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 ]
 
 { #category : 'tests' }
@@ -110,5 +110,5 @@ SpkDebuggerServiceTest >> zork3 [
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 zork'.
 	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 ]

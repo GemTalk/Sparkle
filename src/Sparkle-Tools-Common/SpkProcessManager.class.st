@@ -39,28 +39,6 @@ SpkProcessManager >> debugForeignProcess: processToDebug withException: anExcept
 		debugException: anException
 ]
 
-{ #category : 'private' }
-SpkProcessManager >> debugMyProcessWithException: anException [
-
-	"process is the active process on empty. Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess originalPriority |
-	originalPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessForException: anException.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts processToDebug, and the debuggerProcess takes over."
-			resume.
-	" If I get here, the debugger has decided to proceed my process.
-	Its priority will have been changed if it was running at max priority, set it back before continuing."
-	process priority: originalPriority
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> debuggerDebugAction: aBlock [
 
@@ -91,6 +69,28 @@ SpkProcessManager >> debuggerProcessForException: anException [
 		debug ] newProcess
 ]
 
+{ #category : 'private' }
+SpkProcessManager >> debugMyProcessWithException: anException [
+
+	"process is the active process on empty. Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess originalPriority |
+	originalPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessForException: anException.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts processToDebug, and the debuggerProcess takes over."
+			resume.
+	" If I get here, the debugger has decided to proceed my process.
+	Its priority will have been changed if it was running at max priority, set it back before continuing."
+	process priority: originalPriority
+]
+
 { #category : 'initialization' }
 SpkProcessManager >> explorerTool [
 	self flag: 'Need to implement'.
@@ -110,6 +110,11 @@ SpkProcessManager >> initializeDebuggerTool [
 		yourself
 ]
 
+{ #category : 'private' }
+SpkProcessManager >> newTerminatedTool [
+	^ SpkProcessTerminatedTool forProcess: process
+]
+
 { #category : 'actions' }
 SpkProcessManager >> proceedProcess [
 	"Non-evaluation process does not wait for an answer."
@@ -125,9 +130,10 @@ SpkProcessManager >> process: anObject [
 
 { #category : 'private' }
 SpkProcessManager >> resumeProcess [
+	process _isTerminated
+		ifTrue: [ ^ self newTerminatedTool ].	"
 
-	"Debug action might be right already, but simpler to always set it"
-
+	Debug action might be right already, but simpler to always set it"
 	self setDebugAction.
 	process resume
 ]
@@ -161,6 +167,8 @@ SpkProcessManager >> taskspaceTool: anObject [
 
 { #category : 'actions' }
 SpkProcessManager >> terminateProcess [
+	process _isTerminated
+		ifTrue: [ ^ self newTerminatedTool ].
 	[ process terminateTimeoutMs: SmallInteger maximumValue ]
 		forkAt: (process priority - 1 max: 1)
 ]

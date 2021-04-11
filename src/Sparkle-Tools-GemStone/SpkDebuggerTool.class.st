@@ -187,6 +187,13 @@ SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 { #category : 'other' }
 SpkDebuggerTool >> isValid [
 	^ self == replacementTool
+		ifFalse: [ false ]
+		ifTrue: [ 
+			process _isTerminated
+				ifFalse: [ true ]
+				ifTrue: [ 
+					replacementTool := SpkProcessTerminatedTool forProcess: process.
+					false ] ]
 ]
 
 { #category : 'accessing' }

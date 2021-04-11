@@ -241,7 +241,9 @@ SpkDebuggerFrameTool >> source [
 SpkDebuggerFrameTool >> stepIntoAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
-	process stepIntoFromLevel: level.
+	process _isTerminated
+		ifFalse: [ process stepIntoFromLevel: level ].
+	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]
 
@@ -251,7 +253,9 @@ SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
 		ifTrue: [ 
 			| level |
 			level := currentState level.
-			process stepOverFromLevel: level.
+			process _isTerminated
+				ifFalse: [ process stepOverFromLevel: level ].
+			"Resume is required whether process is terminated or not."
 			debuggerTool resumeAnnouncing: anAnnouncement ]
 		ifFalse: [ debuggerTool proceedAnnouncing: anAnnouncement ]
 ]
@@ -272,7 +276,9 @@ SpkDebuggerFrameTool >> stepPointHasChanged [
 SpkDebuggerFrameTool >> stepThroughAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
-	process stepThroughFromLevel: level.
+	process _isTerminated
+		ifFalse: [ process stepThroughFromLevel: level ].
+	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]
 

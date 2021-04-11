@@ -49,7 +49,12 @@ SpkExplorerServiceServer >> defaultLayout [
 
 { #category : 'accessing' }
 SpkExplorerServiceServer >> initializeFromTool: aTool [
-	tool := aTool
+	tool := aTool.
+	self refreshFromTool
+]
+
+{ #category : 'accessing' }
+SpkExplorerServiceServer >> refreshFromTool [
 ]
 
 { #category : 'accessing' }

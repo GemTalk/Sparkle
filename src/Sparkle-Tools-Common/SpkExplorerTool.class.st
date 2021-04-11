@@ -20,6 +20,20 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'other' }
+SpkExplorerTool class >> defaultInTaskspace: aTaskspaceTool [
+	^ (self newInTaskspace: aTaskspaceTool)
+		initializeForDefault;
+		yourself
+]
+
+{ #category : 'other' }
+SpkExplorerTool class >> newInTaskspace: aTaskspaceTool [
+	^ self new
+		taskspaceTool: aTaskspaceTool;
+		yourself
+]
+
 { #category : 'adding' }
 SpkExplorerTool >> addPane: aPaneTool [
 

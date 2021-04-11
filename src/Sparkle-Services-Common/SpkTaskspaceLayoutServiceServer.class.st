@@ -8,21 +8,27 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
+SpkTaskspaceLayoutServiceServer >> addDefaultExplorer [ 
+	| xlTool xlServ |
+	xlTool := SpkExplorerLayoutTool defaultInTaskspace: tool taskspaceTool.
+	xlServ := SpkServiceFactory serviceForTool: xlTool.
+	self addExplorerLayoutService: xlServ.
+	^ xlServ
+]
 
+{ #category : 'initialization' }
+SpkTaskspaceLayoutServiceServer >> addExplorerLayoutService: xlServ [
+	explorerLayoutServices add: xlServ.
+	taskspaceService addExplorer: xlServ explorerService
+]
+
+{ #category : 'initialization' }
+SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
 	"Create the ExplorerLayoutServices and ExplorerServices."
 
 	explorerLayoutServices := Set new.
-	tool explorerLayouts do: [ :xlTool | 
-		| xlServ xServ |
-		xlServ := SpkServiceFactory serviceForTool: xlTool.
-		xServ := SpkServiceFactory serviceForTool: xlTool explorerTool.
-		xlServ explorerService: xServ.
-
-		explorerLayoutServices add: xlServ.
-		taskspaceService addExplorer: xServ.
-
-		xlServ initializeColumns ]
+	tool explorerLayouts
+		do: [ :xlTool | self addExplorerLayoutService: (SpkServiceFactory serviceForTool: xlTool) ]
 ]
 
 { #category : 'initialization' }

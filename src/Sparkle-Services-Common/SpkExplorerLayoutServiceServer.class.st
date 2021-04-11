@@ -25,7 +25,9 @@ SpkExplorerLayoutServiceServer >> initializeFromTool: explorerLayoutTool [
 
 	tool := explorerLayoutTool.
 	height := tool height.
-	width := tool width
+	width := tool width.
+	explorerService := SpkServiceFactory serviceForTool: tool explorerTool.
+	self initializeColumns
 ]
 
 { #category : 'accessing' }

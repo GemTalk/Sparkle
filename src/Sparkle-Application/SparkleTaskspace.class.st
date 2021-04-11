@@ -36,7 +36,7 @@ SparkleTaskspace class >> applicationName [
 { #category : 'initialization' }
 SparkleTaskspace >> addDefaultExplorer [
 
-	taskspaceService addDefaultExplorer
+	layoutService addDefaultExplorer
 ]
 
 { #category : 'accessing' }
@@ -87,15 +87,7 @@ SparkleTaskspace >> openAllWindows [
 	"Open and initialize windows from my service"
 
 	layoutService explorerLayoutServices do: [ :xlServ | 
-		| explorer |
-		explorer := SpkExplorerWindow
-			            newApplication: self
-			            model: xlServ explorerService.
-		explorer
-			openWithSpec;
-			initializeFromLayoutService: xlServ.
-		self announce:
-			(SpkExplorerOpenedAnnouncement new explorer: explorer) ]
+		self openWindowForService: xlServ ]
 ]
 
 { #category : 'initialization' }
@@ -105,11 +97,31 @@ SparkleTaskspace >> openNewDefaultTaskspace [
 	"Reply via TaskspaceLayoutAnnouncment"
 ]
 
+{ #category : 'running' }
+SparkleTaskspace >> openWindowForService: anExplorerLayoutService [
+
+	| explorer |
+	explorer := SpkExplorerWindow
+		            newApplication: self
+		            model: anExplorerLayoutService explorerService.
+	explorer
+		openWithSpec;
+		initializeFromLayoutService: anExplorerLayoutService.
+	self announce: (SpkExplorerOpenedAnnouncement new explorer: explorer)
+]
+
 { #category : 'initialization' }
 SparkleTaskspace >> presenterClassesForServiceTypes [
 
 	^ presenterClassesForServiceTypes ifNil: [ 
 		  self initializePresenterClassesForServiceTypes ]
+]
+
+{ #category : 'as yet unclassified' }
+SparkleTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
+
+	self defer: [ 
+		self openWindowForService: announcement explorerLayoutService ]
 ]
 
 { #category : 'initialization' }
@@ -133,6 +145,10 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 
 	layoutService := aLayoutService.
 	taskspaceService := layoutService taskspaceService.
+	layoutService
+		when: SpkExplorerToOpenAnnouncement
+		send: #receiveExplorerToOpenAnnouncement:
+		to: self.
 	self openAllWindows
 ]
 

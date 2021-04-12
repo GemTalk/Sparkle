@@ -15,7 +15,8 @@ Class {
 	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'coordinate',
-		'linkedFrom'
+		'linkedFrom',
+		'isOpen'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -27,6 +28,7 @@ SpkPane >> close [
 	model unsubscribe: self.
 	"A pane's owner is the column it's in."
 	owner remove: self.
+	isOpen := false.
 	linkedFrom ifNotNil: [ linkedFrom closingLinkedPane: self ]
 ]
 
@@ -84,7 +86,8 @@ SpkPane >> headerClass [
 SpkPane >> initialize [
 
 	super initialize.
-	coordinate := SpkPaneCoordinate new
+	coordinate := SpkPaneCoordinate new.
+	isOpen := true
 ]
 
 { #category : 'initialization' }
@@ -139,8 +142,11 @@ SpkPane >> newLayout [
 
 { #category : 'instance creation' }
 SpkPane >> newPaneForService: newService linkedTo: item [
-	"Item is an InspectorField or an evaluator"
+	"Item is anything that can have a linked pane.
+	Usually a list item or an evaluator"
 
+	"If I have been closed before the new pane announcement reaches me, ignore it."
+	isOpen ifFalse: [ ^self ].
 	self openLinkedPane: newService forItem: item.
 	"This announcement came from the server, so all of my widgets are disabled."
 	self reEnableAll

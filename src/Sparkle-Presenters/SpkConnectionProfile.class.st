@@ -159,6 +159,17 @@ SpkConnectionProfile >> initialize [
 	group := String new.
 ]
 
+{ #category : 'accessing' }
+SpkConnectionProfile >> initializeTaskspaceForConnection: anRSRConnection [
+
+	taskspace := SparkleTaskspace new
+		             connection: anRSRConnection;
+		             yourself.
+	ProfileAnnouncer announce:
+		(SpkConnectionProfileConnectedAnnouncement new profiles:
+			 (Array with: self))
+]
+
 { #category : 'testing' }
 SpkConnectionProfile >> isConnected [
 

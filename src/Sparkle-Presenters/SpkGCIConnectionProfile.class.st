@@ -50,21 +50,19 @@ SpkGCIConnectionProfile class >> initialize [
 { #category : 'actions' }
 SpkGCIConnectionProfile >> connect [
 
+	| connection |
 	"initialize gci library"
-
 	GciInterface libraryDirectoryIsSet ifFalse: [ 
 		GciInterface libraryDirectory: path ].
 	session := GsSession
-		        newForGsVersion: version
-		        threadSafe: true
-		        stone: stone
-		        host: host
-		        netldi: netldi.
-	session loginWithGsUser: user password: password . "need to analyze result b4 proceeding"
-	ProfileAnnouncer announce:
-		(SpkConnectionProfileConnectedAnnouncement new profiles:
-			 (Array with: self)).
-	self setupRSRConnection. 
+		           newForGsVersion: version
+		           threadSafe: true
+		           stone: stone
+		           host: host
+		           netldi: netldi.
+	session loginWithGsUser: user password: password. "need to analyze result b4 proceeding"
+	connection := self setupRSRConnection.
+	self initializeTaskspaceForConnection: connection
 ]
 
 { #category : 'actions' }
@@ -151,10 +149,12 @@ SpkGCIConnectionProfile >> path: anObject [
 { #category : 'actions' }
 SpkGCIConnectionProfile >> setupRSRConnection [
 
+	"Make and answer an RSR connection"
+
 	| detailBytes initiator thePort |
 	detailBytes := session
-		executeStringAndFetchResultByteArray:
-		'| acceptor port detailBytes |
+		               executeStringAndFetchResultByteArray:
+			               '| acceptor port detailBytes |
 		acceptor := RsrAcceptConnection port: RsrAcceptConnection wildcardPort.
 		acceptor ensureListening.
 		SessionTemps current
@@ -164,15 +164,14 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 		detailBytes := ByteArray new: 18.
 		detailBytes unsigned16At: 1 put: port.
 		detailBytes'
-		maxResultSize: 1024.
-	session executeStringNb:
-		'| connection |
+		               maxResultSize: 1024.
+	session executeStringNb: '| connection |
 		connection := (SessionTemps current at: #PendingConnectionAcceptor) waitForConnection.
 		SessionTemps current removeKey: #PendingConnectionAcceptor.
 		connection waitUntilClose.'.
 	thePort := detailBytes unsignedShortAt: 1 bigEndian: true.
 	initiator := RsrInitiateConnection host: host port: thePort.
-	connection := initiator connect
+	^ initiator connect
 ]
 
 { #category : 'accessing' }

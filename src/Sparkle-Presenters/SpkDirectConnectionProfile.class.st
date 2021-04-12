@@ -19,12 +19,7 @@ SpkDirectConnectionProfile >> connect [
 			                  host: host
 			                  port: port asInteger ].
 	connection := connectionSpec connect.
-	taskspace := SparkleTaskspace new
-		             connection: connection;
-		             yourself.
-	ProfileAnnouncer announce:
-		(SpkConnectionProfileConnectedAnnouncement new profiles:
-			 (Array with: self))
+	self initializeTaskspaceForConnection: connection
 ]
 
 { #category : 'constants' }

@@ -21,11 +21,9 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 
 	| evaluator |
 	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
-	evaluator
-		pane: self;
-		index: self nextEvaluatorIndex.
-	nextEvaluatorIndex := self nextEvaluatorIndex + 1.
+	evaluator pane: self.
 	self evaluators add: evaluator.
+	self updateEvaluatorIndices.
 	self layout add: evaluator before: addEvaluatorButton
 ]
 
@@ -63,6 +61,12 @@ SpkInspectorPane >> deselectOffTheEndFields [
 SpkInspectorPane >> evaluators [
 
 	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> evaluatorsWithLinkedPanes [
+
+	^ self evaluators select: [ :each | each linkedPane notNil ]
 ]
 
 { #category : 'private-traversing' }
@@ -156,6 +160,15 @@ SpkInspectorPane >> itemSelected: anAnnouncement [
 ]
 
 { #category : 'accessing' }
+SpkInspectorPane >> itemsWithLinkedPanes [
+
+	"In addition to linked panes in the list, the inspector's 
+	evaluators may also have linked panes."
+
+	^super itemsWithLinkedPanes
+]
+
+{ #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
 	^ super linkedPanes , self panesLinkedToEvaluators
@@ -214,7 +227,20 @@ SpkInspectorPane >> removeEvaluator: anEvaluator [
 
 	model removeEvaluator: anEvaluator model.
 	layout remove: anEvaluator.
-	evaluators remove: anEvaluator
+	evaluators remove: anEvaluator.
+	self updateEvaluatorIndices.
+]
+
+{ #category : 'updating' }
+SpkInspectorPane >> updateEvaluatorIndices [
+
+	"Update the assigned indices for each evaluator
+	because the list of evaluators has or may have changed
+	or because the numbers of fields has changes."
+
+	| listSize |
+	listSize := listModel size.
+	self evaluators withIndexDo: [ :each :index | each index: listSize + index ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -222,7 +248,7 @@ SpkInspectorPane >> updateFieldList [
 
 	self
 		deselectChangedFields;
-		refreshTwizzledList
+		refreshTwizzledList.
 ]
 
 { #category : 'initialization' }
@@ -231,8 +257,9 @@ SpkInspectorPane >> updateFromModel [
 	"Must be sent in the UI thread."
 
 	header classMembershipDescription: model classMembershipDescription.
-	self updateSelfDescription.
-	self updateFieldList
+	self
+		updateSelfDescription;
+		updateFieldList
 ]
 
 { #category : 'initialization' }

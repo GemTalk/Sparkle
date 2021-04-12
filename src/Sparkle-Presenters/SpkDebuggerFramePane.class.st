@@ -199,6 +199,7 @@ SpkDebuggerFramePane >> updateFromModel [
 	self
 		refreshTwizzledList;
 		refreshSourcePane;
+		updateLinkedPaneCoordinates;
 		reEnableAll
 ]
 

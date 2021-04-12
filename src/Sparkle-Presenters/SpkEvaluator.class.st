@@ -110,9 +110,12 @@ SpkEvaluator >> index [
 ]
 
 { #category : 'accessing' }
-SpkEvaluator >> index: anObject [
+SpkEvaluator >> index: anIndex [
 
-	index := anObject
+	index = anIndex
+		ifTrue: [ ^self ].
+	index := anIndex.
+	self linkedPane ifNotNil: [:lp | lp coordinate: (self coordinateRelativeTo: owner coordinate)]
 ]
 
 { #category : 'initialization' }

@@ -197,6 +197,7 @@ SpkDebuggerPane >> updateDebuggerFromModel [
 	self
 		updateDescription;
 		updateFrameList;
+		updateLinkedPaneCoordinates;
 		reEnableAll
 ]
 
@@ -211,10 +212,14 @@ SpkDebuggerPane >> updateDescription [
 { #category : 'private' }
 SpkDebuggerPane >> updateFrameList [
 
+	| listCount |
+	listCount := listModel size.
 	self
 		deselectInvalidFrames;
 		refreshListModel;
-		refreshList
+		refreshList.
+	listCount ~= listModel size
+		ifTrue: [ self updateLinkedPaneCoordinates ]
 ]
 
 { #category : 'initialization' }

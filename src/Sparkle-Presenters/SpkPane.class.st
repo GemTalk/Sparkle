@@ -62,8 +62,9 @@ SpkPane >> coordinate [
 ]
 
 { #category : 'accessing' }
-SpkPane >> coordinate: anObject [
-	coordinate := anObject
+SpkPane >> coordinate: aCoordinate [
+
+	coordinate := aCoordinate
 ]
 
 { #category : 'actions' }

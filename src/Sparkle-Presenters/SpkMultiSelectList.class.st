@@ -110,6 +110,12 @@ SpkMultiSelectList >> items [
 ]
 
 { #category : 'accessing' }
+SpkMultiSelectList >> itemsWithLinkedPanes [
+
+	^items select: [:item | item linkedPane notNil]
+]
+
+{ #category : 'accessing' }
 SpkMultiSelectList >> linkedPanes [
 
 	^ items

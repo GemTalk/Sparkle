@@ -169,6 +169,9 @@ SpkProcessManager >> taskspaceTool: anObject [
 SpkProcessManager >> terminateProcess [
 	process _isTerminated
 		ifTrue: [ ^ self newTerminatedTool ].
+	"If the process has started terminating, don't terminate again,
+	just proceed to let the unwind blocks run."
+	process _terminationStarted ifTrue: [^ self resumeProcess ].
 	[ process terminateTimeoutMs: SmallInteger maximumValue ]
 		forkAt: (process priority - 1 max: 1)
 ]

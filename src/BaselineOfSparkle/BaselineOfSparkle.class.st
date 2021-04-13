@@ -101,6 +101,12 @@ BaselineOfSparkle >> baselineWithScaffolding: spec [
 			with: [ spec repository: self sparkleFFIUrl ] ]
 ]
 
+{ #category : 'baselines' }
+BaselineOfSparkle >> githubUrlForGemTalkProject: projectName [
+
+	^ 'https://github.com/GemTalk/' , projectName , '.git'
+]
+
 { #category : 'actions' }
 BaselineOfSparkle >> postload: loader package: packageSpec [
 	| repositoriesSpec map urlString |
@@ -115,18 +121,26 @@ BaselineOfSparkle >> postload: loader package: packageSpec [
 
 { #category : 'baselines' }
 BaselineOfSparkle >> rsrUrl [
-	| projectsHome |
-	projectsHome := OSEnvironment current
-		at: 'ROWAN_PROJECTS_HOME'
-		ifAbsent: [ self error: '$ROWAN_PROJECTS_HOME not defined' ].
-	^ 'gitlocal://' , projectsHome , '/RemoteServiceReplication/src'
+
+	^ self urlForProject: 'RemoteServiceReplication'
 ]
 
 { #category : 'baselines' }
 BaselineOfSparkle >> sparkleFFIUrl [
-	| projectsHome |
+
+	^ self urlForProject: 'SparkleFFI'
+]
+
+{ #category : 'baselines' }
+BaselineOfSparkle >> urlForProject: projectName [
+
+	| projectsHome path |
 	projectsHome := OSEnvironment current
-		at: 'ROWAN_PROJECTS_HOME'
-		ifAbsent: [ self error: '$ROWAN_PROJECTS_HOME not defined' ].
-	^ 'gitlocal://' , projectsHome , '/SparkleFFI/src'
+		                at: 'ROWAN_PROJECTS_HOME'
+		                ifAbsent: [ 
+		                ^ self githubUrlForGemTalkProject: projectName ].
+	path := Path / projectsHome / projectName / 'src'.
+	path asFileReference exists
+		ifFalse: [ self githubUrlForGemTalkProject: projectName ]
+		ifTrue: [ 'gitlocal://' , path pathString ]
 ]

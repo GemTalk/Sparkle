@@ -165,7 +165,7 @@ SpkInspectorPane >> itemsWithLinkedPanes [
 	"In addition to linked panes in the list, the inspector's 
 	evaluators may also have linked panes."
 
-	^super itemsWithLinkedPanes
+	^ super itemsWithLinkedPanes , self evaluatorsWithLinkedPanes
 ]
 
 { #category : 'accessing' }
@@ -240,7 +240,7 @@ SpkInspectorPane >> updateEvaluatorIndices [
 
 	| listSize |
 	listSize := listModel size.
-	self evaluators withIndexDo: [ :each :index | each index: listSize + index ]
+	self evaluators withIndexDo: [ :each :evaluatorIndex | each index: listSize + evaluatorIndex ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -260,6 +260,16 @@ SpkInspectorPane >> updateFromModel [
 	self
 		updateSelfDescription;
 		updateFieldList
+]
+
+{ #category : 'updating' }
+SpkInspectorPane >> updateLinkedPaneCoordinates [
+
+	"Update the list."
+
+	super updateLinkedPaneCoordinates.
+	"Then, update the evaluators in case the list size has changed."
+	self updateEvaluatorIndices
 ]
 
 { #category : 'initialization' }

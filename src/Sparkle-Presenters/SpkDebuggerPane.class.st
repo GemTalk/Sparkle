@@ -197,7 +197,6 @@ SpkDebuggerPane >> updateDebuggerFromModel [
 	self
 		updateDescription;
 		updateFrameList;
-		updateLinkedPaneCoordinates;
 		reEnableAll
 ]
 

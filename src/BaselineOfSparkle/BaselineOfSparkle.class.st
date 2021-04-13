@@ -104,7 +104,7 @@ BaselineOfSparkle >> baselineWithScaffolding: spec [
 { #category : 'baselines' }
 BaselineOfSparkle >> githubUrlForGemTalkProject: projectName [
 
-	^ 'https://github.com/GemTalk/' , projectName , '.git'
+	^ 'github://GemTalk/' , projectName
 ]
 
 { #category : 'actions' }

@@ -186,6 +186,15 @@ SpkDebuggerPane >> replace [
 	self openLinkedPane: model replacementService forItem: linkedFrom
 ]
 
+{ #category : 'as yet unclassified' }
+SpkDebuggerPane >> selectTopFrame [
+
+	"If the top frame is not selected, select it."
+
+	listModel ensureFirstItemSelected.
+	self updateSelection
+]
+
 { #category : 'initialization' }
 SpkDebuggerPane >> updateDebuggerFromModel [
 
@@ -216,7 +225,8 @@ SpkDebuggerPane >> updateFrameList [
 	self
 		deselectInvalidFrames;
 		refreshListModel;
-		refreshList.
+		refreshList;
+		selectTopFrame.
 	listCount ~= listModel size
 		ifTrue: [ self updateLinkedPaneCoordinates ]
 ]

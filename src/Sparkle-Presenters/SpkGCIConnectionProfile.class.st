@@ -150,7 +150,7 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 
 	"Make and answer an RSR connection"
 
-	| detailBytes initiator thePort |
+	| detailBytes initiator thePort token |
 	detailBytes := session
 		               executeStringAndFetchResultByteArray:
 			               '| acceptor port detailBytes |
@@ -162,6 +162,10 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 		port := acceptor listeningPort.
 		detailBytes := ByteArray new: 18.
 		detailBytes unsigned16At: 1 put: port.
+		detailBytes
+			replaceFrom: 3
+			to: 18
+			with: acceptor token bytes.
 		detailBytes'
 		               maxResultSize: 1024.
 	session executeStringNb: '| connection |
@@ -169,7 +173,8 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 		SessionTemps current removeKey: #PendingConnectionAcceptor.
 		connection waitUntilClose.'.
 	thePort := detailBytes unsignedShortAt: 1 bigEndian: true.
-	initiator := RsrInitiateConnection host: host port: thePort.
+	token := RsrToken bytes: (detailBytes copyFrom: 3 to: 18).
+	initiator := RsrInitiateConnection host: host port: thePort token: token.
 	^ initiator connect
 ]
 

@@ -1,9 +1,10 @@
 #! /bin/bash
 ### Install RSR and Sparkle from .gs files into a non-Rowan stone
 
-spkHome=${ROWAN_PROJECTS_HOME}/Sparkle
-## Topaz refuses to exit from script if input is stdin, so redirect from /dev/zero
-topaz -l -I ${spkHome}/src-gs/loginSystemUser.topaz  -S ${spkHome}/src-gs/bootstrapSparkle.topaz < /dev/zero
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+topaz -l -I ${SCRIPT_DIR}/loginSystemUser.topaz \
+    -S ${SCRIPT_DIR}/bootstrapSparkle.topaz
 if [ $? = 0 ]
     then
         exit 0

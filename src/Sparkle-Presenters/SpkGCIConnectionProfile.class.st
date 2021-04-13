@@ -52,8 +52,7 @@ SpkGCIConnectionProfile >> connect [
 
 	| connection |
 	"initialize gci library"
-	GciInterface libraryDirectoryIsSet ifFalse: [ 
-		GciInterface libraryDirectory: path ].
+	GciInterface libraryDirectory: path.
 	session := GsSession
 		           newForGsVersion: version
 		           threadSafe: true

@@ -7,9 +7,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SpkDebuggerServiceClient >> announceTermination [
+SpkDebuggerServiceClient >> isValid [
 
-	self announce: SpkTermination new
+	"Does the debugger I represent still have a process to debug?
+	If not, I will be replaced by another service."
+
+	^ replacementService == self
 ]
 
 { #category : 'api' }
@@ -19,20 +22,12 @@ SpkDebuggerServiceClient >> listItems [
 ]
 
 { #category : 'as yet unclassified' }
-SpkDebuggerServiceClient >> proceedFor: requestId [
+SpkDebuggerServiceClient >> proceed [
 
 	| promise |
 	promise := remoteSelf proceed.
 	promise
-		when: [ :newService | 
-			"If the result is me, we hit another error/breakpoint, 
-			so just update myself.
-			Otherwise, the answer is an inspector service for the result
-			of the computation."
-			newService == self
-				ifTrue: [ self announceUpdate ]
-				ifFalse: [ 
-				self announceNewService: newService forRequest: requestId ] ]
+		when: [ :ignored | self updateServices ]
 		catch: self defaultCatchBlock
 ]
 
@@ -42,15 +37,6 @@ SpkDebuggerServiceClient >> terminate [
 	| promise |
 	promise := remoteSelf terminate.
 	promise
-		when: [ :unused | self announceTermination ]
+		when: [ :ignored | self updateServices ]
 		catch: self defaultCatchBlock
-]
-
-{ #category : 'accessing' }
-SpkDebuggerServiceClient >> updateServices [
-
-	"Can be sent in any thread."
-
-	updatedServices do: [ :each | each announceUpdate ].
-	updatedServices := Set new
 ]

@@ -34,7 +34,7 @@ SpkDebuggerFrameServiceServer >> receiveExecutionAnnouncement: announcement [
 
 { #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> refreshFromTool [
-	| changed oldValue currentSourceInterval  |
+	| changed oldValue currentSourceInterval |
 	changed := false.
 
 	oldValue := description.
@@ -68,6 +68,36 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 				yourself ].
 	SpkObject new flag: 'HACK!'.
 	^ true
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameServiceServer >> stepInto [
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool stepIntoAnnouncing: announcement
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameServiceServer >> stepOver [
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool stepOverAnnouncing: announcement
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameServiceServer >> stepThrough [
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool stepThroughAnnouncing: announcement
 ]
 
 { #category : 'other' }

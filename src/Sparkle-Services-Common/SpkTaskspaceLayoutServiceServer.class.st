@@ -7,39 +7,35 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkTaskspaceLayoutServiceServer class >> forTool: aTaskspaceLayoutTool [
+{ #category : 'initialization' }
+SpkTaskspaceLayoutServiceServer >> addDefaultExplorer [ 
+	| xlTool xlServ |
+	xlTool := SpkExplorerLayoutTool defaultInTaskspace: tool taskspaceTool.
+	xlServ := SpkServiceFactory serviceForTool: xlTool.
+	self addExplorerLayoutService: xlServ.
+	^ xlServ
+]
 
-	^ self new
-		  initializeFromTool: aTaskspaceLayoutTool;
-		  yourself
+{ #category : 'initialization' }
+SpkTaskspaceLayoutServiceServer >> addExplorerLayoutService: xlServ [
+	explorerLayoutServices add: xlServ.
+	taskspaceService addExplorer: xlServ explorerService
 ]
 
 { #category : 'initialization' }
 SpkTaskspaceLayoutServiceServer >> initializeExplorerServices [
-
 	"Create the ExplorerLayoutServices and ExplorerServices."
 
 	explorerLayoutServices := Set new.
-	tool explorerLayouts do: [ :xlTool | 
-		| xlServ xServ |
-		xlServ := SpkExplorerLayoutServiceServer forTool: xlTool.
-		xServ := SpkExplorerServiceServer forTool: xlTool explorerTool.
-		xlServ explorerService: xServ.
-
-		explorerLayoutServices add: xlServ.
-		taskspaceService addExplorer: xServ.
-
-		xlServ initializeColumns ]
+	tool explorerLayouts
+		do: [ :xlTool | self addExplorerLayoutService: (SpkServiceFactory serviceForTool: xlTool) ]
 ]
 
 { #category : 'initialization' }
 SpkTaskspaceLayoutServiceServer >> initializeFromTool: aTaskspaceLayoutTool [
-
 	"We're creating new server services (by definition transient) for tools (which might be persistent)."
 
 	tool := aTaskspaceLayoutTool.
-	taskspaceService := SpkTaskspaceServiceServer forTool:
-		                    tool taskspaceTool.
+	taskspaceService := SpkServiceFactory serviceForTool: tool taskspaceTool.
 	self initializeExplorerServices
 ]

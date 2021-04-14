@@ -19,6 +19,18 @@ SpkGciConnectionPresenter class >> connectionProfileClass [
 ]
 
 { #category : 'initialization' }
+SpkGciConnectionPresenter >> initializeHostPresenter [
+
+	self layout
+		add: (self newLabel label: 'Host:')
+		withConstraints: [ :constraints | constraints height: 20 ].
+	hostText := self newTextInput.
+	self layout
+		add: hostText
+		withConstraints: [ :constraints | constraints height: 30 ]
+]
+
+{ #category : 'initialization' }
 SpkGciConnectionPresenter >> initializeNetldiPresenter [
 
 	self layout
@@ -57,6 +69,7 @@ SpkGciConnectionPresenter >> initializePathPresenter [
 SpkGciConnectionPresenter >> initializePresenters [
 
 	super initializePresenters.
+	self initializeHostPresenter.
 	self initializeVersionStoneNetldiPresenters.
 	self initializeUserPasswordPresenter.
 	self initializePathPresenter.
@@ -160,7 +173,6 @@ SpkGciConnectionPresenter >> setFocusOrder [
 		add: nameText;
 		add: groupText;
 		add: hostText;
-		add: portText; 
 		add: versionText;
 		add: stoneText;
 		add: netldiText;

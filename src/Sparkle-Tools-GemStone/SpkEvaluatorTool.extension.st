@@ -19,7 +19,9 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 	processBody := [ 
 	| resultObject |
 	resultObject := [ method _executeInContext: context ]
-		ifCurtailed: [ processManager returnValue: (explorerTool newInspectorToolOn: nil) ].
+		ifCurtailed: [ 
+			processManager
+				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
 	explorerTool newInspectorToolOn: resultObject ].
 
 	^ processManager

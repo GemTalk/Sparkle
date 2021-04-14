@@ -84,11 +84,41 @@ SpkMultiSelectList >> deselectItemsThroughIndex: lastIndexToDeselect [
 	self deselectItemsFrom: 1 to: lastIndexToDeselect
 ]
 
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> ensureFirstItemSelected [
+
+	"If the first item is not selected, select it."
+
+	| anItem |
+	self isEmpty ifTrue: [ ^ self ].
+	anItem := self firstItem.
+	(self itemIsSelected: anItem) ifFalse: [ self selectItem: anItem ]
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectList >> firstItem [
+
+	"Sender must ensure that list is not empty"
+
+	^ items first
+]
+
 { #category : 'initialization' }
 SpkMultiSelectList >> initialize [
 
 	items := OrderedCollection new.
 	selectedItems := Set new
+]
+
+{ #category : 'testing' }
+SpkMultiSelectList >> isEmpty [ 
+	^ items isEmpty
+]
+
+{ #category : 'as yet unclassified' }
+SpkMultiSelectList >> itemIsSelected: anItem [
+
+	^ selectedItems includes: anItem
 ]
 
 { #category : 'accessing' }
@@ -107,6 +137,12 @@ SpkMultiSelectList >> itemWithModel: modelObject [
 { #category : 'accessing' }
 SpkMultiSelectList >> items [
 	^ items
+]
+
+{ #category : 'accessing' }
+SpkMultiSelectList >> itemsWithLinkedPanes [
+
+	^items select: [:item | item linkedPane notNil]
 ]
 
 { #category : 'accessing' }
@@ -169,7 +205,7 @@ SpkMultiSelectList >> selectItem: anItem [
 { #category : 'api-selection' }
 SpkMultiSelectList >> selectedIndexes [
 
-	"Answer collection of all selected items"
+	"Answer collection the indexes of all selected items"
 
 	| indexes |
 	indexes := OrderedCollection new.

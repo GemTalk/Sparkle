@@ -2,6 +2,7 @@ Class {
 	#name : 'SpkDirectConnectionProfile',
 	#superclass : 'SpkConnectionProfile',
 	#instVars : [
+		'port',
 		'inMemory'
 	],
 	#category : 'Sparkle-Presenters-Support'
@@ -10,18 +11,21 @@ Class {
 { #category : 'actions' }
 SpkDirectConnectionProfile >> connect [
 
-	| connectionThing |
-	connectionThing := inMemory
-		                   ifTrue: [ RsrInMemoryConnectionSpecification new ]
-		                   ifFalse: [ 
-		                   RsrInitiateConnection
-			                   host: host
-			                   port: port asInteger ].
-	connection := connectionThing connect.
-	ProfileAnnouncer announce:
-		(SpkConnectionProfileConnectedAnnouncement new profiles:
-			 (Array with: self)).
-	^ connection
+	| connectionSpec connection |
+	connectionSpec := inMemory
+		                  ifTrue: [ RsrInMemoryConnectionSpecification new ]
+		                  ifFalse: [ 
+		                  RsrInitiateConnection
+			                  host: host
+			                  port: port asInteger ].
+	connection := connectionSpec connect.
+	self initializeTaskspaceForConnection: connection
+]
+
+{ #category : 'constants' }
+SpkDirectConnectionProfile >> defaultPort [
+
+	^ '29299'
 ]
 
 { #category : 'displaying' }
@@ -56,6 +60,7 @@ SpkDirectConnectionProfile >> inMemory: anObject [
 SpkDirectConnectionProfile >> initialize [
 
 	super initialize.
+	port := self defaultPort.
 	inMemory := false
 ]
 
@@ -63,6 +68,18 @@ SpkDirectConnectionProfile >> initialize [
 SpkDirectConnectionProfile >> isInsecureProfile [
 
 	^true
+]
+
+{ #category : 'accessing' }
+SpkDirectConnectionProfile >> port [
+
+	^ port
+]
+
+{ #category : 'accessing' }
+SpkDirectConnectionProfile >> port: anObject [
+
+	port := anObject
 ]
 
 { #category : 'accessing' }

@@ -7,12 +7,19 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkTaskspaceServiceServer class >> forTool: aTaskspaceTool [
+{ #category : 'adding' }
+SpkTaskspaceServiceServer >> addDefaultExplorer [
 
-	^ self new
-		  tool: aTaskspaceTool;
-		  yourself
+	"Answer a new explorer service"
+
+	| newExplorerTool |
+	newExplorerTool := tool addDefaultExplorer.
+	^ SpkServiceFactory serviceForTool: newExplorerTool
+]
+
+{ #category : 'other' }
+SpkTaskspaceServiceServer >> initializeFromTool: aTool [
+	tool := aTool
 ]
 
 { #category : 'initialization' }

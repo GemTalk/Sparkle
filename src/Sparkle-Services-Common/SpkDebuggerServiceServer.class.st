@@ -8,14 +8,6 @@ Class {
 }
 
 { #category : 'other' }
-SpkDebuggerServiceServer class >> forTool: aTool [
-
-	^ self new
-		  initializeFromTool: aTool;
-		  yourself
-]
-
-{ #category : 'other' }
 SpkDebuggerServiceServer >> initializeFramesFromTool [
 
 	frames := tool frames collect: [ :frameTool | 
@@ -29,18 +21,31 @@ SpkDebuggerServiceServer >> initializeFramesFromTool [
 SpkDebuggerServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
 	self refreshFromTool
 ]
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> proceed [
-	| resultTool |
-	resultTool := tool proceed.
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	resultTool := tool proceedAnnouncing: announcement.
 	^ resultTool == tool
-		ifTrue: [ 
-			self refreshFromTool.
-			self ]
-		ifFalse: [ self serviceForTool: resultTool ]
+		ifTrue: [ self ]
+		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
+]
+
+{ #category : 'other' }
+SpkDebuggerServiceServer >> receiveExecutionAnnouncement: announcement [
+
+	self refreshFromTool ifTrue: [ 
+		announcement updatedServices add: self ]
 ]
 
 { #category : 'other' }
@@ -57,16 +62,22 @@ SpkDebuggerServiceServer >> refreshExistingFrames [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> refreshFramesFromTool [
-	| numberOfValidFrames newStackDepth frameTools newFrames |
+	| changed numberOfValidFrames newStackDepth frameTools newFrames |
+	changed := false.
 	numberOfValidFrames := self refreshExistingFrames.
+	changed := changed | (numberOfValidFrames ~= frames size).
+
 	frameTools := tool frames.
 	newStackDepth := frameTools size.
 	newFrames := Array new: newStackDepth.
+	changed := changed | (frames size ~= newStackDepth).
+
 	newFrames
 		replaceFrom: 1
 		to: numberOfValidFrames
 		with: frames
 		startingAt: 1.
+
 	numberOfValidFrames + 1 to: newStackDepth do: [ :index | 
 		| frameTool |
 		frameTool := frameTools at: index.
@@ -76,36 +87,53 @@ SpkDebuggerServiceServer >> refreshFramesFromTool [
 				((SpkDebuggerFrameDescriptionServiceServer forTool: frameTool)
 					parentService: self;
 					yourself) ].
-	^ frames := newFrames
+	frames := newFrames.
+	^ changed
 ]
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> refreshFromTool [
-
-	exceptionDescription := tool exceptionDescription.
-	processName := tool processName.
-	processIdentifier := tool processIdentifier.
-	processPriority := tool processPriority.
-	updatedServices := tool updatedServices.
-	self refreshFramesFromTool
+	tool replacementTool == tool
+		ifTrue: [ ^ self refreshTopLevelInfoFromTool | self refreshFramesFromTool ].	"
+	The debugger is being replaced by something else. 
+	Pass that something else on."
+	replacementService := SpkServiceFactory serviceForTool: tool replacementTool.
+	^ true
 ]
 
-{ #category : 'accessing' }
-SpkDebuggerServiceServer >> serviceForTool: aTool [
+{ #category : 'other' }
+SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
+	| changed oldValue |
+	changed := false.
 
-	| serviceClass |
-	serviceClass := SpkExplorerServiceServer serviceClassForToolClass:
-		                aTool class.
-	^ serviceClass forTool: aTool
+	oldValue := exceptionDescription.
+	exceptionDescription := tool exceptionDescription.
+	changed := changed | (exceptionDescription ~= oldValue).
+
+	oldValue := processName.
+	processName := tool processName.
+	changed := changed | (processName ~= oldValue).
+
+	oldValue := processIdentifier.
+	processIdentifier := tool processIdentifier.
+	changed := changed | (processIdentifier ~= oldValue).
+
+	oldValue := processPriority.
+	processPriority := tool processPriority.
+	changed := changed | (processPriority ~= oldValue).
+
+	^ changed
 ]
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
-	| resultTool |
-	resultTool := tool terminate.
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	resultTool := tool terminateAnnouncing: announcement.
 	^ resultTool == tool
-		ifTrue: [ 
-			self refreshFromTool.
-			self ]
-		ifFalse: [ self serviceForTool: resultTool ]
+		ifTrue: [ self ]
+		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
 ]

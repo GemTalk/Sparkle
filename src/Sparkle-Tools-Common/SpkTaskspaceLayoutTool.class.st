@@ -37,7 +37,6 @@ SpkTaskspaceLayoutTool >> initialize [
 { #category : 'initialization' }
 SpkTaskspaceLayoutTool >> initializeForDefault [
 
-"	| taskspaceTool | -- see https://github.com/GemTalk/Sparkle/issues/9"
 	taskspaceTool := SpkTaskspaceTool newDefault.
 	self initializeForTool: taskspaceTool
 ]

@@ -24,22 +24,24 @@ SpkColumnLayoutTool >> initialize [
 
 { #category : 'initialization' }
 SpkColumnLayoutTool >> initializeFromTool: anExplorerTool [
-
 	"Put all of the tool's panes into my column, evenly distributed"
 
 	| panes coordinateInterval thisCoord |
+	taskspaceTool := anExplorerTool taskspaceTool.
 	panes := anExplorerTool panes.
-	coordinateInterval := 1.0 / (panes size + 1). "Distance between coordinates"
+	coordinateInterval := 1.0 / (panes size + 1).	"Distance between coordinates"
 	thisCoord := 0.0.
-	panes do: [ :pane | 
-		| paneLayout |
-		thisCoord := thisCoord + coordinateInterval.
-		paneLayout := SpkPaneLayoutTool new
-			              paneTool: pane;
-			              relativeHeight: 1;
-			              paneCoordinate: { thisCoord };
-			              yourself.
-		self addPaneLayout: paneLayout ]
+	panes
+		do: [ :pane | 
+			| paneLayout |
+			thisCoord := thisCoord + coordinateInterval.
+			paneLayout := SpkPaneLayoutTool new
+				taskspaceTool: taskspaceTool;
+				paneTool: pane;
+				relativeHeight: 1;
+				paneCoordinate: {thisCoord};
+				yourself.
+			self addPaneLayout: paneLayout ]
 ]
 
 { #category : 'accessing' }

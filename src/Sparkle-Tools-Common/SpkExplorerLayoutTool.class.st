@@ -10,6 +10,20 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'other' }
+SpkExplorerLayoutTool class >> defaultInTaskspace: aTaskspaceTool [
+	^ (self newInTaskspace: aTaskspaceTool)
+		initializeForDefault;
+		yourself
+]
+
+{ #category : 'other' }
+SpkExplorerLayoutTool class >> newInTaskspace: aTaskspaceTool [
+	^ self new
+		taskspaceTool: aTaskspaceTool;
+		yourself
+]
+
 { #category : 'adding' }
 SpkExplorerLayoutTool >> addColumnLayout: aColumnLayoutTool [
 
@@ -52,6 +66,12 @@ SpkExplorerLayoutTool >> initialize [
 	super initialize.
 	columnLayouts := OrderedCollection new.
 	height := width := 900
+]
+
+{ #category : 'initialization' }
+SpkExplorerLayoutTool >> initializeForDefault [
+	explorerTool := SpkExplorerTool defaultInTaskspace: taskspaceTool.
+	self initializeForTool: explorerTool
 ]
 
 { #category : 'initialization' }

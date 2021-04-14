@@ -10,14 +10,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkExplorerServiceServer class >> forTool: anExplorerTool [
-
-	^ self new
-		  tool: anExplorerTool;
-		  yourself
-]
-
 { #category : 'class initialization' }
 SpkExplorerServiceServer class >> initialize [
 	self initializeServiceClassesForToolTypes
@@ -36,17 +28,17 @@ SpkExplorerServiceServer class >> initializeServiceClassesForToolTypes [
 ]
 
 { #category : 'accessing' }
+SpkExplorerServiceServer class >> serviceClassesForToolTypes [
+
+	^ serviceClassesForToolTypes
+]
+
+{ #category : 'accessing' }
 SpkExplorerServiceServer class >> serviceClassForToolClass: aToolClass [
 
 	^ self serviceClassesForToolTypes
 		  at: aToolClass
 		  ifAbsent: [ self error: 'Unrecognized tool class ' , aToolClass name ]
-]
-
-{ #category : 'accessing' }
-SpkExplorerServiceServer class >> serviceClassesForToolTypes [
-
-	^ serviceClassesForToolTypes
 ]
 
 { #category : 'initialization' }
@@ -56,21 +48,17 @@ SpkExplorerServiceServer >> defaultLayout [
 ]
 
 { #category : 'accessing' }
-SpkExplorerServiceServer >> paneServiceForTool: aPaneTool [
+SpkExplorerServiceServer >> initializeFromTool: aTool [
+	tool := aTool.
+	self refreshFromTool
+]
 
-	| serviceClass |
-	serviceClass := self class serviceClassForToolClass: aPaneTool class.
-	^ serviceClass forTool: aPaneTool
+{ #category : 'accessing' }
+SpkExplorerServiceServer >> refreshFromTool [
 ]
 
 { #category : 'accessing' }
 SpkExplorerServiceServer >> tool [
 
 	^ tool
-]
-
-{ #category : 'accessing' }
-SpkExplorerServiceServer >> tool: anObject [
-
-	tool := anObject
 ]

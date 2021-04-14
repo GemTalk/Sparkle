@@ -11,5 +11,5 @@ SpkTaskspaceRegistryServiceServer >> newDefaultTaskspaceLayout [
 
 	| tool |
 	tool := SpkTaskspaceLayoutTool newDefault.
-	^ SpkTaskspaceLayoutServiceServer forTool: tool
+	^ SpkServiceFactory serviceForTool: tool
 ]

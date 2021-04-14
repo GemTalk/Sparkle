@@ -16,8 +16,7 @@ Class {
 		'name',
 		'host',
 		'group',
-		'connection',
-		'port'
+		'taskspace'
 	],
 	#classVars : [
 		'ProfileAnnouncer',
@@ -110,27 +109,15 @@ SpkConnectionProfile >> = connectionProfile [
 { #category : 'accessing' }
 SpkConnectionProfile >> connection [
 
-	^ connection
-]
-
-{ #category : 'accessing' }
-SpkConnectionProfile >> connection: anObject [
-
-	connection := anObject
-]
-
-{ #category : 'constants' }
-SpkConnectionProfile >> defaultPort [
-
-	^ '29299'
+	^ taskspace ifNotNil: [ taskspace connection ] ifNil: [ nil ]
 ]
 
 { #category : 'actions' }
 SpkConnectionProfile >> disconnect [
 
-	connection ifNotNil: [ :conn | 
+	self connection ifNotNil: [ :conn | 
 		conn close.
-		connection := nil.
+		taskspace := nil.
 		ProfileAnnouncer announce:
 			(SpkConnectionProfileDisconnectedAnnouncement new profiles:
 				 (Array with: self)) ]
@@ -184,13 +171,23 @@ SpkConnectionProfile >> initialize [
 	name := String new.
 	host := String new.
 	group := String new.
-	port := self defaultPort.
-	
+]
+
+{ #category : 'accessing' }
+SpkConnectionProfile >> initializeTaskspaceForConnection: anRSRConnection [
+
+	taskspace := SparkleTaskspace new
+		             connection: anRSRConnection;
+		             yourself.
+	ProfileAnnouncer announce:
+		(SpkConnectionProfileConnectedAnnouncement new profiles:
+			 (Array with: self))
 ]
 
 { #category : 'testing' }
-SpkConnectionProfile >> isConnected [ 
-	^connection isNotNil 
+SpkConnectionProfile >> isConnected [
+
+	^ self connection isNotNil
 ]
 
 { #category : 'testing' }
@@ -217,16 +214,22 @@ SpkConnectionProfile >> name: anObject [
 	name := anObject
 ]
 
-{ #category : 'accessing' }
-SpkConnectionProfile >> port [
+{ #category : 'actions' }
+SpkConnectionProfile >> openExplorer [
 
-	^ port
+	taskspace addDefaultExplorer
+]
+
+{ #category : 'copying' }
+SpkConnectionProfile >> postCopy [
+
+	taskspace := nil
 ]
 
 { #category : 'accessing' }
-SpkConnectionProfile >> port: anObject [
+SpkConnectionProfile >> taskspace [
 
-	port := anObject
+	^ taskspace
 ]
 
 { #category : 'accessing' }

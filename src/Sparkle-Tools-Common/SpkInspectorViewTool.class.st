@@ -60,17 +60,17 @@ SpkInspectorViewTool >> refreshFieldToolContents [
 
 { #category : 'accessing' }
 SpkInspectorViewTool >> refreshFieldToolQuantity [
-
 	| numberOfFieldsInObject numberOfFieldsInView |
-	"Smalltalk garbageCollect."
 	numberOfFieldsInObject := self numberOfFields.
 	numberOfFieldsInView := fieldTools size.
-	numberOfFieldsInObject > numberOfFieldsInView ifTrue: [ 
-		numberOfFieldsInObject - numberOfFieldsInView timesRepeat: [ 
-			fieldTools add: self newFieldTool ] ].
-	numberOfFieldsInObject < numberOfFieldsInView ifTrue: [ 
-		numberOfFieldsInView - numberOfFieldsInObject timesRepeat: [ 
-			fieldTools removeLast ] ]
+	numberOfFieldsInObject > numberOfFieldsInView
+		ifTrue: [ 
+			numberOfFieldsInObject - numberOfFieldsInView
+				timesRepeat: [ fieldTools add: self newFieldTool ] ].
+	numberOfFieldsInObject < numberOfFieldsInView
+		ifTrue: [ 
+			numberOfFieldsInView - numberOfFieldsInObject
+				timesRepeat: [ fieldTools removeLast ] ]
 ]
 
 { #category : 'as yet unclassified' }

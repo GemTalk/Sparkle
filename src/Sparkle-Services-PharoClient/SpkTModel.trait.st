@@ -29,7 +29,7 @@ SpkTModel >> announceNewService: newService forRequest: requestId [
 	self announce: announcement
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'announcing' }
 SpkTModel >> announceUpdate [
 
 	"Announce a generic update announcement"
@@ -53,6 +53,15 @@ SpkTModel >> notYetImplemented: aString [
 SpkTModel >> unsubscribe: anObject [
 
 	self announcer unsubscribe: anObject
+]
+
+{ #category : 'announcing' }
+SpkTModel >> updateServices [
+
+	"Can be sent in any thread."
+
+	self updatedServices do: [ :each | each announceUpdate ].
+	self updatedServices: Set new
 ]
 
 { #category : 'announcing' }

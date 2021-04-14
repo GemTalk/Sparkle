@@ -15,7 +15,7 @@ SpkEvaluatorAcceptAction >> performAction [
 	"Accepting makes the tool's oldSourceCode and newSourceCode the same."
 
 	target oldSourceCode: newSourceCode.
-	^ target evaluateCode
+	^ target evaluateCodeAnnouncing: announcement
 ]
 
 { #category : 'public' }

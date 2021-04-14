@@ -1,4 +1,4 @@
-input $ROWAN_PROJECTS_HOME/Sparkle/src-gs/bootstrapSparkle.gs
+input $SCRIPT_DIR/bootstrapSparkle.gs
 
 commit
 

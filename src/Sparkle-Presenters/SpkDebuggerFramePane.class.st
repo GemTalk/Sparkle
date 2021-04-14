@@ -1,12 +1,20 @@
+"
+A pane that displays one frame of a debugger stack. 
+Features
+- Inspection of local variables (parameters, temporaries, evaluation stack)
+- Source code with current position highlighted
+- Controls for stepping relative to this frame
+"
 Class {
 	#name : 'SpkDebuggerFramePane',
 	#superclass : 'SpkPaneWithTwizzledList',
 	#instVars : [
-		'sourcePresenter',
-		'topLayout',
-		'twizzle',
-		'listIsShown',
-		'description'
+		'sourceLayout',
+		'controlsLayout',
+		'stepOverButton',
+		'stepThroughButton',
+		'stepIntoButton',
+		'sourcePresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -31,14 +39,54 @@ SpkDebuggerFramePane >> headerClass [
 ]
 
 { #category : 'initialization' }
-SpkDebuggerFramePane >> initializeDescription [
+SpkDebuggerFramePane >> initializeControlsLayout [
 
-	description := self newLabel
-		               label:
-			               model localVariables size printString
-			               , ' local variables';
-		               yourself.
-	topLayout add: description withConstraints: [ :c | c fill: false ]
+	controlsLayout := SpkBoxLayout newVertical
+		                  color: (Color gray: 0.18);
+		                  yourself.
+
+	sourceLayout
+		add: controlsLayout
+		withConstraints: [ :c | c width: 35 ].
+		
+	stepIntoButton := self newIconButton
+		                  color: Color transparent;
+		                  icon: (self iconNamed: #stepInto28);
+		                  help: 'Step into';
+		                  action: [ self stepInto ];
+		                  yourself.
+
+	stepThroughButton := self newIconButton
+		                  color: Color transparent;
+		                  icon: (self iconNamed: #stepThrough28);
+		                  help: 'Step through blocks';
+		                  action: [ self stepThrough ];
+		                  yourself.
+
+
+	stepOverButton := self newIconButton
+		                  color: Color transparent;
+		                  icon: (self iconNamed: #stepOver28);
+		                  help: 'Step over';
+		                  action: [ self stepOver ];
+		                  yourself.
+
+	controlsLayout
+		add: SpkBoxLayout newHorizontal
+		withConstraints: [ :c | c height: 8 ];
+		add: stepIntoButton withConstraints: [ :c | 
+			c
+				height: 35;
+				width: 28 ];
+		add: stepThroughButton withConstraints: [ :c | 
+			c
+				height: 35;
+				width: 28 ];
+		add: stepOverButton withConstraints: [ :c | 
+			c
+				height: 35;
+				width: 28 ]
+
 ]
 
 { #category : 'initialization' }
@@ -64,18 +112,30 @@ SpkDebuggerFramePane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeLocalVariableList;
-		initializeSourcePane;
+		initializeSourceLayout;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
 			self updateFromModel ]
 ]
 
 { #category : 'initialization' }
-SpkDebuggerFramePane >> initializeSourcePane [
+SpkDebuggerFramePane >> initializeSourceLayout [
+
+	sourceLayout := SpkBoxLayout newHorizontal.
+	self layout add: sourceLayout.
+
+	self
+		initializeControlsLayout;
+		initializeSourcePresenter
+]
+
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> initializeSourcePresenter [
 
 	sourcePresenter := self newCode
 		                   beNotEditable;
+		                   withoutLineNumbers;
 		                   yourself.
-	self layout add: sourcePresenter
+	sourceLayout add: sourcePresenter
 ]
 
 { #category : 'actions' }
@@ -112,10 +172,40 @@ SpkDebuggerFramePane >> sourceText [
 	^ model source
 ]
 
+{ #category : 'actions' }
+SpkDebuggerFramePane >> stepInto [
+
+	self disableAll.
+	model stepInto
+]
+
+{ #category : 'actions' }
+SpkDebuggerFramePane >> stepOver [
+
+	self disableAll.
+	model stepOver
+]
+
+{ #category : 'actions' }
+SpkDebuggerFramePane >> stepThrough [
+
+	self disableAll.
+	model stepThrough
+]
+
 { #category : 'initialization' }
 SpkDebuggerFramePane >> updateFromModel [
 
 	self
 		refreshTwizzledList;
-		refreshSourcePane
+		refreshSourcePane;
+		reEnableAll
+]
+
+{ #category : 'as yet unclassified' }
+SpkDebuggerFramePane >> updateServices [
+
+	"Can be sent in any thread."
+
+	model updateServices
 ]

@@ -26,8 +26,12 @@ SpkPaneWithTwizzledList >> listLabelString [
 { #category : 'initialization' }
 SpkPaneWithTwizzledList >> refreshTwizzledList [
 
+	| listCount |
+	listCount := listModel size.
 	self
 		refreshListModel;
 		refreshList.
-	twizzledList labelString: self listLabelString
+	listCount ~= listModel size
+		ifTrue: [ self updateLinkedPaneCoordinates ].
+	twizzledList labelString: self listLabelString.
 ]

@@ -16,6 +16,15 @@ SpkPaneWithList >> connectPresenters [
 	model when: SpkNewPaneService send: #receiveLinkedPaneAnnouncement: to: self
 ]
 
+{ #category : 'accessing' }
+SpkPaneWithList >> coordinate: aCoordinate [
+
+	coordinate = aCoordinate
+		ifTrue: [^self].
+	super coordinate: aCoordinate.
+	self updateLinkedPaneCoordinates
+]
+
 { #category : 'initialization' }
 SpkPaneWithList >> initializeList [
 
@@ -78,6 +87,15 @@ SpkPaneWithList >> itemSelected: anAnnouncement [
 ]
 
 { #category : 'accessing' }
+SpkPaneWithList >> itemsWithLinkedPanes [
+
+	"Returns all list items with linked panes. May be overridden if additional
+	items exist outside of the list."
+
+	^listModel itemsWithLinkedPanes
+]
+
+{ #category : 'accessing' }
 SpkPaneWithList >> linkedPanes [
 
 	^ self panesLinkedToListItems
@@ -115,6 +133,16 @@ SpkPaneWithList >> refreshListModel [
 
 	listModel refreshFromServices: model listItems.
 	self updateSelection
+]
+
+{ #category : 'updating' }
+SpkPaneWithList >> updateLinkedPaneCoordinates [
+
+	"Recalculate the coordinates for all linked panes affected by
+	an updates which affect the coordinates for the receiver or
+	subpanes."
+
+	self itemsWithLinkedPanes do: [:item | item linkedPane coordinate: (item coordinateRelativeTo: coordinate)].
 ]
 
 { #category : 'updating' }

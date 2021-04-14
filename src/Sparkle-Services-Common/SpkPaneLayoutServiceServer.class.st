@@ -7,14 +7,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkPaneLayoutServiceServer class >> forTool: aPaneLayoutTool [
-
-	^ self new
-		  initializeFromTool: aPaneLayoutTool;
-		  yourself
-]
-
 { #category : 'initialization' }
 SpkPaneLayoutServiceServer >> initializeFromTool: paneLayoutTool [
 

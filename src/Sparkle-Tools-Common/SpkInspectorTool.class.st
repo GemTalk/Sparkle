@@ -35,13 +35,6 @@ SpkInspectorTool >> addEvaluator [
 			   yourself)
 ]
 
-{ #category : 'accessing' }
-SpkInspectorTool >> announceUpdate: anAnnouncement [
-
-	self refreshFieldTools.
-	self announce: anAnnouncement
-]
-
 { #category : 'adding' }
 SpkInspectorTool >> classMembershipDescription [
 	"Answer a string description of the object as an instance of its class"
@@ -155,6 +148,13 @@ SpkInspectorTool >> oop [
 ]
 
 { #category : 'accessing' }
+SpkInspectorTool >> receiveExecutionAnnouncement: anAnnouncement [
+
+	self refreshFieldTools.
+	self announce: anAnnouncement
+]
+
+{ #category : 'accessing' }
 SpkInspectorTool >> refreshFieldTools [
 
 	currentView refreshFieldTools
@@ -177,6 +177,6 @@ SpkInspectorTool >> taskspaceTool: aTool [
 	super taskspaceTool: aTool.
 	taskspaceTool
 		when: SpkExecutionAnnouncement
-		send: #announceUpdate: 
+		send: #receiveExecutionAnnouncement: 
 		to: self
 ]

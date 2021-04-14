@@ -2084,7 +2084,7 @@ category: 'accessing'
 method: RsrTestingProcessModel
 protect: aBlock
 
-	^[aBlock on: Error do: [:ex | forkedException := ex copy. ex return]]
+	^[aBlock on: self class unhandledExceptionClass do: [:ue | forkedException := ue exception copy. ue return]]
 %
 
 ! Class implementation for 'RsrConcurrentTestService'
@@ -4441,6 +4441,31 @@ testAcceptOnLocalhost
 	initiator := RsrInitiateConnection
 		host: self localhost
 		port: self port.
+	semaphore := Semaphore new.
+	RsrProcessModel
+		fork: [[connectionA := acceptor waitForConnection] ensure: [semaphore signal]] named: 'Pending AcceptConnection';
+		fork: [[connectionB := initiator connect] ensure: [semaphore signal]] named: 'Pending InitiateConnection'.
+	semaphore wait; wait.
+	self
+		assert: connectionA isOpen;
+		assert: connectionB isOpen.
+	connectionA close.
+	connectionB close
+%
+
+category: 'running'
+method: RsrConnectionSpecificationTestCase
+testBindToWildcardPort
+
+	| acceptor initiator semaphore connectionA connectionB |
+	acceptor := RsrAcceptConnection
+		host: self localhost
+		port: RsrAcceptConnection wildcardPort.
+	acceptor ensureListening.
+	self assert: acceptor listeningPort > 0.
+	initiator := RsrInitiateConnection
+		host: self localhost
+		port: acceptor listeningPort.
 	semaphore := Semaphore new.
 	RsrProcessModel
 		fork: [[connectionA := acceptor waitForConnection] ensure: [semaphore signal]] named: 'Pending AcceptConnection';
@@ -7900,7 +7925,7 @@ divideByZeroAfterProceed
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
 	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 %
 
 category: 'tests'
@@ -7944,7 +7969,7 @@ testProcessFrameQuantity
 	frames := debuggerService frames.
 	self
 		assert: (frames isKindOf: SequenceableCollection);
-		assert: (frames size between: 15 and: 25)
+		assert: (frames size between: 10 and: 15)
 %
 
 category: 'tests'
@@ -8007,7 +8032,7 @@ zork3
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 zork'.
 	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkDebuggerServiceServer forTool: debuggerTool
+	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 %
 
 ! Class implementation for 'SpkDebuggerToolTest'
@@ -8028,17 +8053,20 @@ executedCodeFrameInDebugger: debugger
 	^ doitFrames first
 %
 
-category: 'other'
+category: 'tests'
 method: SpkDebuggerToolTest
 testBreakpoint01
-	| method debugger frame localVariables variable inspector |
+	| method debugger frames frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
 	self assert: method class equals: GsNMethod.
 	[ 
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
-	frame := debugger frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
+	frames := debugger frames.
+	frame := frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
+	"Have we properly omitted the glue frames following a breakpoint?"
+	self assert: frame equals: frames last.
 	self assert: (frame description includesString: 'twelve').
 	self
 		assert: frame stepPoint
@@ -8114,6 +8142,21 @@ testFrameIndex
 
 category: 'tests'
 method: SpkDebuggerToolTest
+testHaltGlueTrimming
+	"A halt should trim all top glue down through Object>>halt."
+
+	| debugger numberOfFrames execCodeFrame topFrame |
+	evaluatorTool newSourceCode: '3 halt + 4'.
+	debugger := evaluatorTool evaluateCode.
+	numberOfFrames := debugger frames size.
+	topFrame := debugger frames at: numberOfFrames.
+	self assert: topFrame index equals: numberOfFrames.
+	execCodeFrame := self executedCodeFrameInDebugger: debugger.
+	self assert: execCodeFrame index equals: numberOfFrames.
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
 testNumberOfFrames
 	"Can the debugger get frames from the process?"
 
@@ -8185,6 +8228,46 @@ testProceedTwice
 
 category: 'tests'
 method: SpkDebuggerToolTest
+testStepOver01
+	| method debugger debugger2 frames frame localVariables variable inspector |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	method setBreakAtStepPoint: 1 breakpointLevel: 1.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	frames := debugger frames.
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
+	"Have we properly omitted the glue frames following a breakpoint?"
+	self assert: frame equals: frames last.
+	self assert: (frame description includesString: 'twelve').
+	self assert: frame stepPoint equals: 1.
+	localVariables := frame localVariables.
+	self assert: localVariables size equals: 1.
+	variable := localVariables at: 1.
+	self
+		assert: (variable columnAt: 1) equals: 'receiver';
+		assert: frame currentSourceInterval equals: (1 to: 6).
+	debugger2 := frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self
+		assert: debugger2 == debugger;
+		assert: frame == frames last;
+		assert: frame currentSourceInterval equals: (13 to: 13).
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self assert: frame currentSourceInterval equals: (17 to: 17).
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self assert: frame currentSourceInterval equals: (9 to: 9).
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self assert: debugger frames size equals: frames size - 1.
+	inspector := debugger proceed.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ]
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
 testTerminate
 	"Get a debugger, terminate, verify termination"
 
@@ -8195,11 +8278,11 @@ testTerminate
 	process := debugger process.
 
 	self deny: process _isTerminated.
-	debugger terminate.
+	debugger terminateAnnouncing: SpkExecutionAnnouncement new.
 	self assert: process _isTerminated
 %
 
-category: 'other'
+category: 'tests'
 method: SpkDebuggerToolTest
 testTerminate01
 	"Get a debugger, terminate, get the same debugger with the 
@@ -8211,17 +8294,15 @@ testTerminate01
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	bottomFrame := debugger1 frames at: 1.
 	topFrame := debugger1 frames at: debugger1 frames size.
-	execCodeFrame := self executedCodeFrameInDebugger: debugger1.
-	"Should be on ifCurtailed:"
+	execCodeFrame := self executedCodeFrameInDebugger: debugger1.	"Should be on ifCurtailed:"
 	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
-	debugger2 := debugger1 terminate.
+	debugger2 := debugger1 terminateAnnouncing: SpkExecutionAnnouncement new.
 	self
 		assert: debugger1 == debugger2;
 		assert: bottomFrame == (debugger2 frames at: 1);
 		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
 		deny: topFrame == (debugger2 frames at: debugger2 frames size);
-		"Should still be on ifCurtailed:"
-		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
 	inspector := debugger2 proceed.
 	self
 		assert: inspector class equals: SpkInspectorTool;

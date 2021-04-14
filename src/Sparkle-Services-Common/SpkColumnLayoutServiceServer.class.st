@@ -7,14 +7,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkColumnLayoutServiceServer class >> forTool: aColumnLayoutTool [
-
-	^ self new
-		  initializeFromTool: aColumnLayoutTool;
-		  yourself
-]
-
 { #category : 'initialization' }
 SpkColumnLayoutServiceServer >> initializeFromTool: aColumnLayoutTool [
 
@@ -28,8 +20,8 @@ SpkColumnLayoutServiceServer >> initializePanesForExplorer: xServ [
 	paneLayouts := OrderedCollection new.
 	tool paneLayouts do: [ :plTool | 
 		| plServ pServ |
-		plServ := SpkPaneLayoutServiceServer forTool: plTool.
-		pServ := xServ paneServiceForTool: plTool paneTool.
+		plServ := SpkServiceFactory serviceForTool: plTool.
+		pServ := SpkServiceFactory serviceForTool: plTool paneTool.
 		plServ paneService: pServ.
 
 		paneLayouts add: plServ.

@@ -110,6 +110,11 @@ SpkProcessManager >> initializeDebuggerTool [
 		yourself
 ]
 
+{ #category : 'private' }
+SpkProcessManager >> newTerminatedTool [
+	^ SpkProcessTerminatedTool forProcess: process
+]
+
 { #category : 'actions' }
 SpkProcessManager >> proceedProcess [
 	"Non-evaluation process does not wait for an answer."
@@ -125,9 +130,10 @@ SpkProcessManager >> process: anObject [
 
 { #category : 'private' }
 SpkProcessManager >> resumeProcess [
+	process _isTerminated
+		ifTrue: [ ^ self newTerminatedTool ].	"
 
-	"Debug action might be right already, but simpler to always set it"
-
+	Debug action might be right already, but simpler to always set it"
 	self setDebugAction.
 	process resume
 ]
@@ -161,6 +167,11 @@ SpkProcessManager >> taskspaceTool: anObject [
 
 { #category : 'actions' }
 SpkProcessManager >> terminateProcess [
+	process _isTerminated
+		ifTrue: [ ^ self newTerminatedTool ].
+	"If the process has started terminating, don't terminate again,
+	just proceed to let the unwind blocks run."
+	process _terminationStarted ifTrue: [^ self resumeProcess ].
 	[ process terminateTimeoutMs: SmallInteger maximumValue ]
 		forkAt: (process priority - 1 max: 1)
 ]

@@ -7,14 +7,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkInspectorServiceServer class >> forTool: aTool [
-
-	^ self new
-		  initializeFromTool: aTool;
-		  yourself
-]
-
 { #category : 'initialization' }
 SpkInspectorServiceServer >> initializeEvaluatorsFromTool [
 

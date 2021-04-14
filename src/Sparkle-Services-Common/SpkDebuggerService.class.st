@@ -7,7 +7,8 @@ Class {
 		'processPriority',
 		'exceptionDescription',
 		'frames',
-		'updatedServices'
+		'updatedServices',
+		'replacementService'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -35,7 +36,8 @@ SpkDebuggerService >> initialize [
 
 	super initialize.
 	updatedServices := Set new.
-	frames := #()
+	frames := #().
+	replacementService := self
 ]
 
 { #category : 'accessing' }
@@ -51,4 +53,28 @@ SpkDebuggerService >> processName [
 { #category : 'accessing' }
 SpkDebuggerService >> processPriority [
 	^ processPriority
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> replacementService [
+
+	^ replacementService
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> replacementService: anObject [
+
+	replacementService := anObject
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> updatedServices [
+
+	^ updatedServices
+]
+
+{ #category : 'accessing' }
+SpkDebuggerService >> updatedServices: anObject [
+
+	updatedServices := anObject
 ]

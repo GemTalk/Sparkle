@@ -15,7 +15,7 @@ SpkInspectorFieldServiceServer >> createInspectorService [
 	newTool := parentService tool newInspectorToolOn:
 		           tool referencedObject.
 
-	^ SpkInspectorServiceServer forTool: newTool
+	^ SpkServiceFactory serviceForTool: newTool
 ]
 
 { #category : 'initialization' }

@@ -5,20 +5,23 @@ Class {
 		'explorerTool',
 		'processManager',
 		'process',
-		'exception',
+		'exceptionOfRecord',
+		'currentException',
 		'frames',
 		'mustInitiate',
-		'updatedServices',
-		'updatedInspectors'
+		'replacementTool'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
 
 { #category : 'accessing' }
 SpkDebuggerTool >> currentException: anException [
-	"Stepping does not update the exception. 
-	Proceed and terminate set to nil, so we will re-initialize."
-	exception ifNil: [ exception := anException ]
+	"Stepping does not update the exceptionOfRecord, but
+	must update currentException so that glue frame discarding will be accurate."
+
+	currentException := anException.	
+	"Proceed and terminate set to nil, so we will re-initialize."
+	exceptionOfRecord ifNil: [ exceptionOfRecord := anException ]
 ]
 
 { #category : 'private' }
@@ -28,20 +31,101 @@ SpkDebuggerTool >> debug [
 		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> discardGlueFrames [
+	"At the end of frames (top frames of the stack) are some frameTools that
+	are internal and not desirable for interaction in a debugger.
+	Identify those and reduce the size of frames to discard them."
+
+	| exceptionClass |
+	exceptionClass := currentException class.
+	exceptionClass == Breakpoint
+		ifTrue: [ ^ self discardGlueFramesForBreakpoint ].
+	exceptionClass == Halt
+		ifTrue: [ ^ self discardGlueFramesForHalt ].
+	self discardGlueFramesForGenericException
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> discardGlueFramesForBreakpoint [
+	| indexOfFirstDiscardedFrame |
+	indexOfFirstDiscardedFrame := self
+		indexOfFrameInLast: 20
+		suchThat: [ :frame | 
+			frame receiver == currentException
+				and: [ frame method selector == #'_signalAsync' ] ].
+	indexOfFirstDiscardedFrame
+		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]
+		ifNil: [ self discardGlueFramesForGenericException ]
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> discardGlueFramesForGenericException [
+	"Search for, in order of preference, this exception being sent #signal, being sent #_signalToDebugger,
+	and if still not found, fall back to the process manager debugAction block. If *still* not found,
+	this process is not under management and will not have any frames discarded."
+
+	| indexOfFirstDiscardedFrame |
+	indexOfFirstDiscardedFrame := self
+		indexOfFrameInLast: 20
+		suchThat: [ :frame | frame receiver == currentException and: [ frame method selector == #'signal' ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					frame receiver == currentException
+						and: [ frame method selector == #'_signalToDebugger' ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					| homeMethod |
+					homeMethod := frame method homeMethod.
+					frame method ~~ homeMethod
+						and: [ 
+							homeMethod inClass == SpkProcessManager
+								and: [ homeMethod selector == #'debugAction' ] ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> discardGlueFramesForHalt [
+	| indexOfFirstDiscardedFrame |
+	indexOfFirstDiscardedFrame := self
+		indexOfFrameInLast: 20
+		suchThat: [ :frame | 
+			| method |
+			method := frame method.
+			method inClass == Object
+				and: [ method selector == #'halt' or: [ method selector == #'pause' ] ] ].
+	indexOfFirstDiscardedFrame
+		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]
+		ifNil: [ self discardGlueFramesForGenericException ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerTool >> exceptionDescription [
 	| string |
 	string := String new.
-	string
-		add: exception class name;
-		add: self exceptionSpecificMessage.
+	exceptionOfRecord
+		ifNil: [ string add: 'Unknown' ]
+		ifNotNil: [ 
+			string
+				add: exceptionOfRecord class name;
+				add: self exceptionSpecificMessage ].
 	^ string
 ]
 
 { #category : 'private' }
 SpkDebuggerTool >> exceptionSpecificMessage [
 	| fullMessage commaIndex latterPart |
-	fullMessage := exception buildMessageText.
+	fullMessage := exceptionOfRecord buildMessageText.
 	fullMessage ifNil: [ ^ '' ].
 	commaIndex := fullMessage indexOf: $,.
 	latterPart := commaIndex = 0
@@ -71,11 +155,24 @@ SpkDebuggerTool >> frames [
 	^ frames
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> indexOfFrameInLast: limit suchThat: aBlock [
+	"Search up to limit frames, starting at the end of my frames,
+	and answer the index of the first to satisfy aBlock, or nil if none."
+
+	frames size to: frames size - limit + 1 by: -1 do: [ :index | 
+		| frame |
+		frame := frames at: index.
+		(aBlock value: frame)
+			ifTrue: [ ^ index ] ].
+	^ nil
+]
+
 { #category : 'initialization' }
 SpkDebuggerTool >> initialize [
 	super initialize.
-	updatedServices := Set new.
-	frames := #()
+	frames := #().
+	replacementTool := self
 ]
 
 { #category : 'other' }
@@ -85,6 +182,18 @@ SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 	no longer valid."
 
 	numberOfValidFrames + 1 to: frames size do: [ :index | (frames at: index) beInvalid ]
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> isValid [
+	^ self == replacementTool
+		ifFalse: [ false ]
+		ifTrue: [ 
+			process _isTerminated
+				ifFalse: [ true ]
+				ifTrue: [ 
+					replacementTool := SpkProcessTerminatedTool forProcess: process.
+					false ] ]
 ]
 
 { #category : 'accessing' }
@@ -99,6 +208,7 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 	^SpkDebuggerFrameTool new
 		taskspaceTool: taskspaceTool;
 		explorerTool: explorerTool;
+		debuggerTool: self;
 		process: process;
 		yourself
 ]
@@ -106,13 +216,17 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 { #category : 'actions' }
 SpkDebuggerTool >> proceed [
 	"May wait for an answer, depending on whether the process is an evaluation process"
+	self flag: 'Now used only by tests, which should be updated.'.
+	^ self proceedAnnouncing: SpkExecutionAnnouncement new.
+]
 
-	| resultTool | 
-	exception := nil. "If we hit another exception, we want the exception to be updated."
-	resultTool := processManager proceedProcess.
-	updatedServices := Set new.
-	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
-	^resultTool
+{ #category : 'actions' }
+SpkDebuggerTool >> proceedAnnouncing: anAnnouncement [
+	"May wait for an answer, depending on whether the process is an evaluation process.
+	Announce the announcement when done."
+
+	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	^ self resumeAnnouncing: anAnnouncement
 ]
 
 { #category : 'accessing' }
@@ -148,6 +262,16 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
+{ #category : 'other' }
+SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
+	"Execution has happened; if we are still debugging update my
+	own state then let others (like my service) know."
+
+	self isValid
+		ifTrue: [ self refreshFromProcess ].
+	self announce: anAnnouncement
+]
+
 { #category : 'initialization' }
 SpkDebuggerTool >> refreshExistingFrames [
 	"Update any frames at the bottom of the stack that still
@@ -180,7 +304,7 @@ SpkDebuggerTool >> refreshFromProcess [
 	numberOfValidFrames := self refreshExistingFrames.
 	self invalidateFramesAfter: numberOfValidFrames.
 	newStackDepth := process stackDepth.
-	newFrames := Array new: newStackDepth.
+	newFrames := OrderedCollection new: newStackDepth.
 	newFrames
 		replaceFrom: 1
 		to: numberOfValidFrames
@@ -194,22 +318,43 @@ SpkDebuggerTool >> refreshFromProcess [
 			index: index;
 			refreshAtLevel: level.
 		newFrames at: index put: frame ].
-	^ frames := newFrames
+	frames := newFrames.
+	self discardGlueFrames.
+	^ frames
 ]
 
 { #category : 'actions' }
-SpkDebuggerTool >> terminate [
-	"May wait for an answer, depending on whether the process is an evaluation process"
+SpkDebuggerTool >> replacementTool [
+	^ replacementTool
+]
 
-	| resultTool |
-	exception := nil.	"If we hit another exception, we want the exception to be updated."
-	resultTool := processManager terminateProcess.
-	updatedServices := Set new.
-	taskspaceTool announceExecutionWithUpdatedServices: updatedServices.
-	^ resultTool
+{ #category : 'actions' }
+SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
+	"Resume the process, then make the announcement"
+
+	"Used for both stepping and proceed."
+
+	replacementTool := processManager proceedProcess.
+	taskspaceTool announce: anAnnouncement.
+	self flag: 'Return value only used only by tests, which should be updated.'.
+	^ replacementTool
 ]
 
 { #category : 'other' }
-SpkDebuggerTool >> updatedServices [
-	^ updatedServices
+SpkDebuggerTool >> taskspaceTool: aTool [
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self
+]
+
+{ #category : 'actions' }
+SpkDebuggerTool >> terminateAnnouncing: anAnnouncement [
+	"May wait for an answer, depending on whether the process is an evaluation process"
+
+	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	replacementTool := processManager terminateProcess.
+	taskspaceTool announce: anAnnouncement.
+	^ replacementTool
 ]

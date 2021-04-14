@@ -6,7 +6,8 @@ Class {
 		'source',
 		'currentStartPosition',
 		'currentEndPosition',
-		'localVariables'
+		'localVariables',
+		'updatedServices'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -52,6 +53,12 @@ SpkDebuggerFrameService >> description: anObject [
 	description := anObject
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameService >> initialize [
+	super initialize.
+	updatedServices := Set new
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameService >> localVariables [
 
@@ -68,4 +75,14 @@ SpkDebuggerFrameService >> source [
 SpkDebuggerFrameService >> source: anObject [
 
 	source := anObject
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> updatedServices [
+	^updatedServices
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> updatedServices: object [
+	updatedServices := object
 ]

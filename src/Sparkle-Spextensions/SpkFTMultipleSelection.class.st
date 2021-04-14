@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkFTMultipleSelection',
-	#superclass : 'FTMultipleSelection',
+	#superclass : 'FTMultipleSelectionStrategy',
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 

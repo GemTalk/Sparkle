@@ -9,6 +9,7 @@ Class {
 	#superclass : 'SpkTool',
 	#instVars : [
 		'explorerTool',
+		'debuggerTool',
 		'process',
 		'currentState',
 		'previousState',
@@ -55,14 +56,6 @@ SpkDebuggerFrameTool >> addReceiverToolTo: aCollection [
 		referencedObject: self receiver
 ]
 
-{ #category : 'other' }
-SpkDebuggerFrameTool >> announceUpdate: anAnnouncement [
-	"I should have already been updated by the time I receive this announcement."
-
-	isValid
-		ifTrue: [ self announce: anAnnouncement ]
-]
-
 { #category : 'private' }
 SpkDebuggerFrameTool >> argAndTempNames [
 	^ currentState argAndTempNames
@@ -79,10 +72,26 @@ SpkDebuggerFrameTool >> beInvalid [
 	taskspaceTool ifNotNil: [ taskspaceTool unsubscribe: self ]
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> canStep [
+	"In the very bottom frames of a GsProcess, stepping will get you into trouble.
+	The trouble spots *seem* to be the always-present three frames:
+	1. GsNMethod class >> _gsReturnToC
+	2. GsProcess >> _start
+	3. ExecBlock >> valueWithArguments: "
+
+	^ index > 3
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> currentSourceInterval [
 
 	^ currentState sourceInterval
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> debuggerTool: object [
+	debuggerTool := object
 ]
 
 { #category : 'accessing' }
@@ -190,6 +199,14 @@ SpkDebuggerFrameTool >> process: aProcess [
 	process := aProcess
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> receiveExecutionAnnouncement: anAnnouncement [
+	"I should have already been updated by the time I receive this announcement."
+
+	"isValid
+		ifTrue: [" self announce: anAnnouncement "]"
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> receiver [
 	^ currentState receiver
@@ -220,6 +237,29 @@ SpkDebuggerFrameTool >> source [
 	^ currentState source
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> stepIntoAnnouncing: anAnnouncement [
+	| level |
+	level := currentState level.
+	process _isTerminated
+		ifFalse: [ process stepIntoFromLevel: level ].
+	"Resume is required whether process is terminated or not."
+	^ debuggerTool resumeAnnouncing: anAnnouncement
+]
+
+{ #category : 'other' }
+SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
+	^ self canStep
+		ifTrue: [ 
+			| level |
+			level := currentState level.
+			process _isTerminated
+				ifFalse: [ process stepOverFromLevel: level ].
+			"Resume is required whether process is terminated or not."
+			debuggerTool resumeAnnouncing: anAnnouncement ]
+		ifFalse: [ debuggerTool proceedAnnouncing: anAnnouncement ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> stepPoint [
 	^ currentState stepPoint
@@ -233,11 +273,21 @@ SpkDebuggerFrameTool >> stepPointHasChanged [
 ]
 
 { #category : 'other' }
+SpkDebuggerFrameTool >> stepThroughAnnouncing: anAnnouncement [
+	| level |
+	level := currentState level.
+	process _isTerminated
+		ifFalse: [ process stepThroughFromLevel: level ].
+	"Resume is required whether process is terminated or not."
+	^ debuggerTool resumeAnnouncing: anAnnouncement
+]
+
+{ #category : 'other' }
 SpkDebuggerFrameTool >> taskspaceTool: aTool [
 
 	super taskspaceTool: aTool.
 	taskspaceTool
 		when: SpkExecutionAnnouncement
-		send: #announceUpdate: 
+		send: #receiveExecutionAnnouncement: 
 		to: self
 ]

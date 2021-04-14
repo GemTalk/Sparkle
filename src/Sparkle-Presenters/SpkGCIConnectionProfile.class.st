@@ -154,7 +154,7 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 	detailBytes := session
 		               executeStringAndFetchResultByteArray:
 			               '| acceptor port detailBytes |
-		acceptor := RsrAcceptConnection port: RsrAcceptConnection wildcardPort.
+		acceptor := RsrGciAcceptConnection port: RsrAcceptConnection wildcardPort.
 		acceptor ensureListening.
 		SessionTemps current
 			at: #PendingConnectionAcceptor
@@ -174,7 +174,7 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 		connection waitUntilClose.'.
 	thePort := detailBytes unsignedShortAt: 1 bigEndian: true.
 	token := RsrToken bytes: (detailBytes copyFrom: 3 to: 18).
-	initiator := RsrInitiateConnection host: host port: thePort token: token.
+	initiator := RsrGciInitiateConnection host: host port: thePort token: token.
 	^ initiator connect
 ]
 

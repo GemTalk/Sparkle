@@ -381,6 +381,27 @@ removeallmethods RsrWaitForConnectionCancelled
 removeallclassmethods RsrWaitForConnectionCancelled
 
 doit
+(Exception
+	subclass: 'RsrUnhandledException'
+	instVarNames: #( exception )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Base';
+		comment: 'This class is used in GemStone and Dolphin to help process unhandled exceptions. Pharo will used the native UnhandledError class.
+
+This should not be signaled outside of the framework.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrUnhandledException
+removeallclassmethods RsrUnhandledException
+
+doit
 (nil
 	subclass: 'RsrProtoObject'
 	instVarNames: #(  )
@@ -2015,7 +2036,7 @@ removeallclassmethods RsrInternalSocketConnectionSpecification
 doit
 (RsrConnectionSpecification
 	subclass: 'RsrSocketConnectionSpecification'
-	instVarNames: #( host port )
+	instVarNames: #( host port token )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4477,6 +4498,38 @@ object: anObject
 	object := anObject
 %
 
+! Class implementation for 'RsrUnhandledException'
+
+!		Class methods for 'RsrUnhandledException'
+
+category: 'signaling'
+classmethod: RsrUnhandledException
+signal: anException
+	"Signal the exception in reference to the provided exception."
+
+	^self new
+		exception: anException;
+		signal
+%
+
+!		Instance methods for 'RsrUnhandledException'
+
+category: 'acccessing'
+method: RsrUnhandledException
+exception
+	"The exception that was unhandled."
+
+	^exception
+%
+
+category: 'acccessing'
+method: RsrUnhandledException
+exception: anException
+	"The exception that was unhandled."
+
+	exception := anException
+%
+
 ! Class implementation for 'Announcement'
 
 !		Class methods for 'Announcement'
@@ -5519,7 +5572,6 @@ configureProcess
 	#preUpdate and #postUpdate run in a configuration manner prescribed by the framework."
 
 	Processor activeProcess
-		"breakpointLevel: 1;"
 		priority: self serviceSchedulingPriority
 %
 
@@ -8668,13 +8720,11 @@ executeFor: aConnection
 	| resolver servicesStrongly receiver selector arguments messageSend |
 	resolver := RsrRemotePromiseResolver for: self over: aConnection.
 	"Must keep a strong reference to each service until the roots are referenced."
-	[ 
-	[ 
+	[[RsrProcessModel configureUnhandleExceptionProtection.
 	servicesStrongly := self reifyAllIn: aConnection.
 	receiver := self receiverReference resolve: aConnection.
 	selector := self selectorReference resolve: aConnection.
-	arguments := self argumentReferences collect: [ :each | 
-		             each resolve: aConnection ].
+	arguments := self argumentReferences collect: [:each | each resolve: aConnection].
 	RsrProcessModel renameProcess: '', receiver class name, '>>', selector.
 	"receiver and arguments should now be the roots of the service graph, discard strong references."
 	servicesStrongly := nil.
@@ -8683,13 +8733,14 @@ executeFor: aConnection
 		               receiver: receiver
 		               selector: selector
 		               arguments: arguments.
-	self perform: messageSend answerUsing: resolver ]
+	self perform: messageSend answerUsing: resolver]
 		on: self unhandledExceptionClass
-		do: [ :ex | 
-			resolver break: (RsrRemoteException from: ex).
-			ex return ] ] ensure: [ 
-		resolver hasResolved ifFalse: [ 
-			resolver break: 'Message send terminated without a result' ] ]
+		do: [:ex | 
+			resolver break: (RsrRemoteException from: ex exception).
+			ex return]]
+		ensure:
+			[resolver hasResolved
+				ifFalse: [resolver break: 'Message send terminated without a result']]
 %
 
 category: 'reporting'
@@ -8724,23 +8775,23 @@ answerUsing: aResolver
 		do:
 			[:ex | | debugResult |
 			debugResult := [aMessageSend receiver
-									debug: ex
+									debug: ex exception
 									raisedDuring: aMessageSend
 									answerUsing: aResolver]
 									on: self unhandledExceptionClass
 									do:
 										[:debugEx |
 										RsrProcessModel configureFrameworkProcess.
-										aResolver break: (RsrRemoteException from: debugEx).
+										aResolver break: (RsrRemoteException from: debugEx exception).
 										ex return].
 			RsrProcessModel configureFrameworkProcess.
 			aResolver hasResolved
 				ifTrue: [ex return]
 				ifFalse:
-					[ex isResumable
+					[ex exception isResumable
 						ifTrue: [[ex resume: debugResult] ensure: [aMessageSend receiver configureProcess]] "This needs to be a protected call."
 						ifFalse:
-							[aResolver break: (RsrRemoteException from: ex).
+							[aResolver break: (RsrRemoteException from: ex exception).
 							ex return]]]
 %
 
@@ -8782,9 +8833,9 @@ selectorReference: aSymbolReference
 category: 'accessing'
 method: RsrSendMessage
 unhandledExceptionClass
-	"Temporarily, use Error until we have appropriate GemStone hooks."
+	"The class which signals that an unhandled execption has been signaled."
 
-	^Error
+	^RsrProcessModel unhandledExceptionClass
 %
 
 ! Class implementation for 'RsrReleaseServices'
@@ -9307,9 +9358,14 @@ method: RsrInternalSocketConnectionSpecification
 connect
 	"Establish an internal Connection pair via socket."
 
-	RsrProcessModel fork: [connectionA := (RsrAcceptConnection port: self defaultPort) waitForConnection] named: 'Pending AcceptConnection'.
+	| acceptor initiator |
+	acceptor := RsrAcceptConnection port: self defaultPort.
+	initiator := RsrInitiateConnection host: '127.0.0.1' port: self defaultPort token: acceptor token.
+	RsrProcessModel
+		fork: [connectionA := acceptor waitForConnection]
+		named: 'Pending AcceptConnection'.
 	self minimalWait. "Allow other process to schedule."
-	connectionB := (RsrInitiateConnection host: '127.0.0.1' port: self defaultPort) connect.
+	connectionB := initiator connect.
 	self minimalWait. "Allow other process to schedule."
 	self assertOpen.
 	connectionA specification: self.
@@ -9337,6 +9393,19 @@ port: port
 	^self new
 		host: hostnameOrAddress;
 		port: port;
+		yourself
+%
+
+category: 'instance creation'
+classmethod: RsrSocketConnectionSpecification
+host: hostnameOrAddress
+port: port
+token: aToken
+
+	^self new
+		host: hostnameOrAddress;
+		port: port;
+		token: aToken;
 		yourself
 %
 
@@ -9380,6 +9449,22 @@ socketClass
 	"Return the class that should be used for creating Socket instances."
 
 	^RsrSocket
+%
+
+category: 'accessing'
+method: RsrSocketConnectionSpecification
+token
+	"Returns the token used during handshake."
+
+	^token
+%
+
+category: 'accessing'
+method: RsrSocketConnectionSpecification
+token: aToken
+	"Stores the token used during handshake."
+
+	token := aToken
 %
 
 ! Class implementation for 'RsrAcceptConnection'
@@ -9430,14 +9515,15 @@ ensureListening
 	isListening := true
 %
 
-category: 'initializing'
+category: 'other'
 method: RsrAcceptConnection
 initialize
 
 	super initialize.
 	listener := self socketClass new.
 	isWaitingForConnection := false.
-	isListening := false
+	isListening := false.
+	token := RsrToken newRandom
 %
 
 category: 'testing'
@@ -9475,7 +9561,7 @@ waitForConnection
 	stream := RsrSocketStream on: socket.
 	steps := Array
 		with: RsrProtocolVersionNegotiationServer new
-		with: (RsrTokenReceiver token: (RsrToken bytes: (ByteArray new: 16))).
+		with: (RsrTokenReceiver token: self token).
 	handshake := RsrHandshake
 		steps: steps
 		stream: stream.
@@ -9507,7 +9593,7 @@ connect
 	stream := RsrSocketStream on: socket.
 	steps := Array
 		with: RsrProtocolVersionNegotiationClient new
-		with: (RsrTokenSender token: (RsrToken bytes: (ByteArray new: 16))).
+		with: (RsrTokenSender token: self token).
 	handshake := RsrHandshake
 		steps: steps
 		stream: stream.
@@ -11634,7 +11720,7 @@ resolution: result
 					[:ex | | answer |
 					answer := Array
 						with: #break
-						with: (RsrRemoteException from: ex).
+						with: (RsrRemoteException from: ex exception).
 					self
 						sendResult: answer
 						closureRoots: answer.
@@ -12815,6 +12901,21 @@ bytes: aByteArray
 		yourself
 %
 
+category: 'instance creation'
+classmethod: RsrToken
+newRandom
+	"Create a new Token with random bytes."
+
+	| random bytes |
+	random := HostRandom new.
+	bytes := ByteArray new: 16.
+	bytes unsigned32At: 1 put: random integer.
+	bytes unsigned32At: 5 put: random integer.
+	bytes unsigned32At: 9 put: random integer.
+	bytes unsigned32At: 13 put: random integer.
+	^self bytes: bytes
+%
+
 !		Instance methods for 'RsrToken'
 
 category: 'comparing'
@@ -12898,6 +12999,14 @@ configureFrameworkProcess
 	^self current configureFrameworkProcess
 %
 
+category: 'configuring'
+classmethod: RsrProcessModel
+configureUnhandleExceptionProtection
+	"Configure the process to ensure we are able to trap any unhandled exceptions."
+
+	^self current configureUnhandleExceptionProtection
+%
+
 category: 'managing-concurrency'
 classmethod: RsrProcessModel
 currentStackDump
@@ -12949,7 +13058,6 @@ configureCommunicationsProcess
 	"Apply framework configuration to the currently running communications process."
 
 	Processor activeProcess
-		"breakpointLevel: 0;"
 		priority: self communicationsSchedulePriority
 %
 
@@ -12959,7 +13067,6 @@ configureFrameworkProcess
 	"Apply framework configuration to the currently running process."
 
 	Processor activeProcess
-		"breakpointLevel: 0;"
 		priority: self frameworkSchedulingPriority
 %
 
@@ -12969,7 +13076,7 @@ fork: aBlock
 at: aPriority
 named: aString
 
-	[self renameProcess: aString.
+	^[self renameProcess: aString.
 	aBlock value] forkAt: aPriority
 %
 
@@ -12978,7 +13085,7 @@ method: RsrProcessModel
 fork: aBlock
 named: aString
 
-	[self renameProcess: aString.
+	^[self renameProcess: aString.
 	aBlock value] fork
 %
 
@@ -16262,7 +16369,28 @@ resetCurrent
 	^ self current: self new
 %
 
+category: '*remoteservicereplication-gemstone'
+classmethod: RsrProcessModel
+unhandledExceptionClass
+	"Return the class which signals that an unhandled exception has been signaled."
+
+	^RsrUnhandledException
+%
+
 !		Instance methods for 'RsrProcessModel'
+
+category: '*remoteservicereplication-gemstone'
+method: RsrProcessModel
+configureUnhandleExceptionProtection
+
+	Processor activeProcess
+		breakpointLevel: 1;
+		debugActionBlock:
+			[:ex |
+			({ClientForwarderSend. Halt. RsrUnhandledException.} includes: ex class)
+				ifTrue: [ex _signalGciError]
+				ifFalse: [RsrUnhandledException signal: ex]].
+%
 
 category: '*remoteservicereplication-gemstone'
 method: RsrProcessModel

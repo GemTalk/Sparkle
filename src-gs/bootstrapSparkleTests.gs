@@ -2084,7 +2084,7 @@ category: 'accessing'
 method: RsrTestingProcessModel
 protect: aBlock
 
-	^[aBlock on: Error do: [:ex | forkedException := ex copy. ex return]]
+	^[aBlock on: self class unhandledExceptionClass do: [:ue | forkedException := ue exception copy. ue return]]
 %
 
 ! Class implementation for 'RsrConcurrentTestService'
@@ -4440,7 +4440,8 @@ testAcceptOnLocalhost
 		port: self port.
 	initiator := RsrInitiateConnection
 		host: self localhost
-		port: self port.
+		port: self port
+		token: acceptor token.
 	semaphore := Semaphore new.
 	RsrProcessModel
 		fork: [[connectionA := acceptor waitForConnection] ensure: [semaphore signal]] named: 'Pending AcceptConnection';
@@ -4465,7 +4466,8 @@ testBindToWildcardPort
 	self assert: acceptor listeningPort > 0.
 	initiator := RsrInitiateConnection
 		host: self localhost
-		port: acceptor listeningPort.
+		port: acceptor listeningPort
+		token: acceptor token.
 	semaphore := Semaphore new.
 	RsrProcessModel
 		fork: [[connectionA := acceptor waitForConnection] ensure: [semaphore signal]] named: 'Pending AcceptConnection';
@@ -4500,7 +4502,8 @@ testEstablishConnection
 	acceptor := RsrAcceptConnection port: self port.
 	initiator := RsrInitiateConnection
 		host: self localhost
-		port: self port.
+		port: self port
+		token: acceptor token.
 	semaphore := Semaphore new.
 	RsrProcessModel
 		fork: [[connectionA := acceptor waitForConnection] ensure: [semaphore signal]] named: 'Pending AcceptConnection';
@@ -4523,7 +4526,8 @@ testFailedAcceptOnAlternativeLocalhost
 		port: self port.
 	initiator := RsrInitiateConnection
 		host: self localhost
-		port: self port.
+		port: self port
+		token: acceptor token.
 	semaphore := Semaphore new.
 	RsrProcessModel
 		fork: [[semaphore signal. acceptor waitForConnection] on: RsrWaitForConnectionCancelled do: [:ex | ex return]]
@@ -4562,7 +4566,8 @@ testListenThenLaterAccept
 		port: self port.
 	initiator := RsrInitiateConnection
 		host: self localhost
-		port: self port.
+		port: self port
+		token: acceptor token.
 	semaphore := Semaphore new.
 	acceptor ensureListening.
 	RsrProcessModel

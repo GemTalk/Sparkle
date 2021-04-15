@@ -140,7 +140,7 @@ BaselineOfSparkle >> urlForProject: projectName [
 		                ifAbsent: [ 
 		                ^ self githubUrlForGemTalkProject: projectName ].
 	path := Path / projectsHome / projectName / 'src'.
-	path asFileReference exists
+	^ path asFileReference exists
 		ifFalse: [ self githubUrlForGemTalkProject: projectName ]
 		ifTrue: [ 'gitlocal://' , path pathString ]
 ]

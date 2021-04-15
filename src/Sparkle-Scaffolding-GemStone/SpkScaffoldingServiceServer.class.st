@@ -50,7 +50,7 @@ SpkScaffoldingServiceServer class >> scaffoldingConnectionServiceLoop: listenFor
 SpkScaffoldingServiceServer >> clearAllBreaks [
 	"clear all breakpoints set in image"
 
-	GsNMethod clearAllBreaks
+	GsNMethod _setBreakAtIp: -1 operation: 2 frame: nil process: nil breakpointLevel: 1
 ]
 
 { #category : 'debugger' }

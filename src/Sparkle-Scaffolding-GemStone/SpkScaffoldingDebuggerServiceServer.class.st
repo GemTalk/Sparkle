@@ -11,7 +11,7 @@ Class {
 SpkScaffoldingDebuggerServiceServer >> clearAllBreaks [
 	"clear all breakpoints set in image"
 
-	GsNMethod clearAllBreaks.
+	GsNMethod _setBreakAtIp: -1 operation: 2 frame: nil process: nil breakpointLevel: 1.
 	methodService
 		ifNotNil: [ 
 			methodService rowanMethodService update.
@@ -52,8 +52,7 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				onSuspendedProcess: aSuspendedGsProcess)
 				doitException: ex;
 				debuggerService: self;
-				yourself);
-		synchronize.
+				yourself).
 	res := remoteSelf openDebuggerOnClient wait.
 	^ res
 ]

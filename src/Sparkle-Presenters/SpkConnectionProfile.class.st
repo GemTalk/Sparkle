@@ -100,6 +100,12 @@ SpkConnectionProfile class >> removeProfiles: connectionProfiles [
 			 connectionProfiles)
 ]
 
+{ #category : 'ston' }
+SpkConnectionProfile class >> stonAllInstVarNames [
+
+	^#(name host group)
+]
+
 { #category : 'comparing' }
 SpkConnectionProfile >> = connectionProfile [
 

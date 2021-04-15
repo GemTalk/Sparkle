@@ -52,8 +52,7 @@ SpkScaffoldingDebuggerServiceServer >> openDebuggerOnClientForProcess: aSuspende
 				onSuspendedProcess: aSuspendedGsProcess)
 				doitException: ex;
 				debuggerService: self;
-				yourself);
-		synchronize.
+				yourself).
 	res := remoteSelf openDebuggerOnClient wait.
 	^ res
 ]

@@ -103,7 +103,7 @@ SpkConnectionProfile class >> removeProfiles: connectionProfiles [
 { #category : 'ston' }
 SpkConnectionProfile class >> stonAllInstVarNames [
 
-	^#(name host group)
+	^ self allInstVarNames copyWithout: #taskspace
 ]
 
 { #category : 'comparing' }

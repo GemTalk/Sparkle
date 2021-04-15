@@ -53,8 +53,10 @@ SpkDebuggerToolTest >> testBreakpoint01 [
 		equals: SpkInspectorTool.
 	self
 		assert: inspector inspectedObject
-		equals: 12
-	] ensure: [ method clearAllBreaks ]
+		equals: 12.
+	self assert: method _allBreakpoints size equals: 4
+	] ensure: [ method clearAllBreaks ].
+	self assert: method _allBreakpoints size equals: 0
 ]
 
 { #category : 'tests' }

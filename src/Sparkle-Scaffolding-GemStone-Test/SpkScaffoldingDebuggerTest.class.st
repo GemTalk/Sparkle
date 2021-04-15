@@ -763,6 +763,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 	GsFile gciLogServer: 'testDebugger_07m - stack overflow'.
 	GsFile gciLogServer: '========='.
 
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** ERROR instead of test failure'.
+^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1068,6 +1072,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07r [
 	GsFile gciLogServer: 'testDebugger_07r - trigger a halt in SpkScaffoldingMockObject, then list method source for frame 13; debugger resume'.
 	GsFile gciLogServer: '========='.
 
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** HANG instead of test failure'.
+^self assert: false].
+
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1149,6 +1157,10 @@ SpkScaffoldingDebuggerTest >> testDebugger_07s [
 		gciLogServer:
 			'testDebugger_07s - trigger a halt in SpkScaffoldingMockObject, then list frame inspector for frame 13; debugger resume'.
 	GsFile gciLogServer: '========='.
+
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** HANG instead of test failure'.
+^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;

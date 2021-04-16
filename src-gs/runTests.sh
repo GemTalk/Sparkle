@@ -1,9 +1,9 @@
 #! /bin/bash
 ### Run Sparkle tests in a Rowan-enabled stone
 
-spkHome=${ROWAN_PROJECTS_HOME}/Sparkle
-## Topaz refuses to exit from script if input is stdin, so redirect from /dev/zero
-topaz -l -I ${spkHome}/src-gs/login.topaz  -S ${spkHome}/src-gs/runTests.topaz < /dev/zero
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+topaz -l -I ${SCRIPT_DIR}/login.topaz  -S ${SCRIPT_DIR}/runTests.topaz 
 if [ $? = 0 ]
     then
         exit 0

@@ -1,3 +1,6 @@
 #!/bin/bash
 
-topaz -l -I login.topaz  -S ${ROWAN_PROJECTS_HOME}/Sparkle/src-gs/runServerLoop.topaz
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+topaz -l -I ${SCRIPT_DIR}/login.topaz  \
+    -S ${SCRIPT_DIR}/runServerLoop.topaz

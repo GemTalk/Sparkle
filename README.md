@@ -9,7 +9,7 @@ Pharo's symbol is the lighthouse. Considerations of what might result from inter
 Sparkle is at present very much a work in progress, and is undergoing quite active development.
 
 ## Installation
-There are installation instructions in the Documentation directory of the repository: [SparkleInstallGuide-1.0a1-v2.pdf](https://github.com/GemTalk/Sparkle/blob/development/Documentation/SparkleInstallGuide-1.0a1-v4.pdf)
+There are installation instructions in the Documentation directory of the repository: [SparkleInstallGuide.pdf](https://github.com/GemTalk/Sparkle/blob/development/Documentation/SparkleInstallGuide-1.0a1-v4.pdf)
 
 ## Use
 A short video demonstrating a _very_ early version of Sparkle can be seen [here](https://vimeo.com/495380967). Since improvements to Sparkle are ongoing, this video is quite out of date.

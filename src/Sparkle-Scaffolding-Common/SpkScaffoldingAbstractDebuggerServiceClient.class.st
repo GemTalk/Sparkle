@@ -22,7 +22,10 @@ SpkScaffoldingAbstractDebuggerServiceClient >> executeDebuggerAction: aBlock [
 
 	[ aBlock value ]
 		on: RsrBrokenPromise
-		do: [ :ex | self inform: ex reason messageText ]
+		do: [ :ex | 
+			UIManager default
+				alert: ex reason messageText
+				title: 'Sparkle Failure' ]
 ]
 
 { #category : 'debbuger process control' }
@@ -66,7 +69,9 @@ SpkScaffoldingAbstractDebuggerServiceClient >> setBreakpointForClass: className 
 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> stepIntoFromLevel: aLevel [
-	^ (remoteSelf stepIntoFromLevel: aLevel) wait
+
+	self executeDebuggerAction: [ 
+		(remoteSelf stepIntoFromLevel: aLevel) wait ]
 ]
 
 { #category : 'debbuger process control' }
@@ -78,11 +83,14 @@ SpkScaffoldingAbstractDebuggerServiceClient >> stepOverFromLevel: aLevel [
 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> stepThroughFromLevel: aLevel [
-	^ (remoteSelf stepThroughFromLevel: aLevel) wait
+
+	self executeDebuggerAction: [ 
+		(remoteSelf stepThroughFromLevel: aLevel) wait ]
 ]
 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> trimStackToLevel: aLevel [
-	(remoteSelf trimStackToLevel: aLevel) wait.
-	self openDebuggerOnClient
+
+	self executeDebuggerAction: [ 
+		(remoteSelf trimStackToLevel: aLevel) wait ]
 ]

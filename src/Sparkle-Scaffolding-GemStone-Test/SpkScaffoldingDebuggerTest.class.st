@@ -675,15 +675,27 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
 	GsProcess _current name: self printString , ' doit process'.
 	promise := client
 		gsDebugger_07:
-			'SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal. [true] whileTrue: []'
+			'
+| once |
+once := true.
+GsFile gciLogServer: ''before hot loop ['', GsProcess _current asOop printString, '']''.
+[true] 
+	whileTrue: [
+		once ifTrue: [
+			GsFile gciLogServer: ''before sig''. 
+			SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
+			GsFile gciLogServer: ''after sig''. 
+			once := false ]]'
 		usingDebugger: debuggerClient
 		procName: 'HOT proc'.
 	result := (self expectWhen: promise) doitResult.
 	self assert: false description: 'should never reach here' ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
+GsFile gciLogServer: 'BEFORE wait; (priority = ', GsProcess _current priority printString, ')'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait."wait for hot loop to start"
 
+GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priority printString, ')'.
 	softBreakClient softBreak.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait. "wait for debugger to open"
 
@@ -700,18 +712,19 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07l [
 	"
-		Almost out of memory
+		Almost out of memory - NOTE this test should have 50Meg of TOC to run in a reasonable amount of time
 	"
 
-	| client server debuggerClient sem softBreakClient |
+	| client server debuggerClient sem softBreakClient toc |
 	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** ERROR instead of test failure'.
-^self assert: false].
+	(toc := System gemConfigurationAt: #'GEM_TEMPOBJ_CACHE_SIZE') > 128000000
+		ifTrue: [
+			GsFile gciLogServer: '***** TOC (', toc printString , ') is too big to run in a reasonable amount of time should be less than 100M'.
+			^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -757,11 +770,16 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 		Stack overflow - NOTE this test requires 1G of TOC to run sucessfully
 	"
 
-	| client server debuggerClient sem softBreakClient |
+	| client server debuggerClient sem softBreakClient toc |
 	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07m - stack overflow'.
 	GsFile gciLogServer: '========='.
+
+	(toc := System gemConfigurationAt: #'GEM_TEMPOBJ_CACHE_SIZE') < 128000000
+		ifTrue: [
+			GsFile gciLogServer: '***** TOC (', toc printString , ') is too small to successfully run, should be greater than 500M'.
+			^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -863,7 +881,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 
 	self
 		assert: debuggerClient rowanFrameServices size
-		equals:22.
+		equals:23.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.

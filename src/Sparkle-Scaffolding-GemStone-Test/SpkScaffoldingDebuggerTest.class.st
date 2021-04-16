@@ -675,15 +675,27 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
 	GsProcess _current name: self printString , ' doit process'.
 	promise := client
 		gsDebugger_07:
-			'SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal. [true] whileTrue: []'
+			'
+| once |
+once := true.
+GsFile gciLogServer: ''before hot loop ['', GsProcess _current asOop printString, '']''.
+[true] 
+	whileTrue: [
+		once ifTrue: [
+			GsFile gciLogServer: ''before sig''. 
+			SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
+			GsFile gciLogServer: ''after sig''. 
+			once := false ]]'
 		usingDebugger: debuggerClient
 		procName: 'HOT proc'.
 	result := (self expectWhen: promise) doitResult.
 	self assert: false description: 'should never reach here' ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
+GsFile gciLogServer: 'BEFORE wait; (priority = ', GsProcess _current priority printString, ')'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait."wait for hot loop to start"
 
+GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priority printString, ')'.
 	softBreakClient softBreak.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait. "wait for debugger to open"
 

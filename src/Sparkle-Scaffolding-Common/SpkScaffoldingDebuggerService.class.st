@@ -35,3 +35,9 @@ SpkScaffoldingDebuggerService >> processService [
 SpkScaffoldingDebuggerService >> processService: object [
 	processService := object
 ]
+
+{ #category : 'public-events' }
+SpkScaffoldingDebuggerService >> serviceSchedulingPriority [
+
+	^Processor userInterruptPriority
+]

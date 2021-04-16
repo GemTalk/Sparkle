@@ -18,6 +18,17 @@ SpkScaffoldingAbstractDebuggerServiceClient >> compileMethodSource: sourceString
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> executeDebuggerAction: aBlock [
+
+	[ ^ aBlock value ]
+		on: RsrBrokenPromise
+		do: [ :ex | 
+			self halt.
+			self inform: ex printString.
+			(Delay forSeconds: 5) wait ]
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> frameAt: aLevel [
 	^ (remoteSelf frameAt: aLevel) wait
 ]
@@ -63,7 +74,10 @@ SpkScaffoldingAbstractDebuggerServiceClient >> stepIntoFromLevel: aLevel [
 
 { #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> stepOverFromLevel: aLevel [
-	^ (remoteSelf stepOverFromLevel: aLevel) wait
+
+	[ (remoteSelf stepOverFromLevel: aLevel) wait ]
+		on: RsrBrokenPromise
+		do: [ :ex | self inform: ex messageText ]
 ]
 
 { #category : 'debbuger process control' }

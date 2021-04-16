@@ -712,18 +712,19 @@ GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priori
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07l [
 	"
-		Almost out of memory
+		Almost out of memory - NOTE this test should have 50Meg of TOC to run in a reasonable amount of time
 	"
 
-	| client server debuggerClient sem softBreakClient |
+	| client server debuggerClient sem softBreakClient toc |
 	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07l - almost out of memory'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** ERROR instead of test failure'.
-^self assert: false].
+	(toc := System gemConfigurationAt: #'GEM_TEMPOBJ_CACHE_SIZE') > 128000000
+		ifTrue: [
+			GsFile gciLogServer: '***** TOC (', toc printString , ') is too big to run in a reasonable amount of time should be less than 100M'.
+			^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -769,11 +770,16 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 		Stack overflow - NOTE this test requires 1G of TOC to run sucessfully
 	"
 
-	| client server debuggerClient sem softBreakClient |
+	| client server debuggerClient sem softBreakClient toc |
 	sem := Semaphore new.	"pause the test to allow for process debugging"
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07m - stack overflow'.
 	GsFile gciLogServer: '========='.
+
+	(toc := System gemConfigurationAt: #'GEM_TEMPOBJ_CACHE_SIZE') < 128000000
+		ifTrue: [
+			GsFile gciLogServer: '***** TOC (', toc printString , ') is too small to successfully run, should be greater than 500M'.
+			^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
@@ -875,7 +881,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07n [
 
 	self
 		assert: debuggerClient rowanFrameServices size
-		equals:22.
+		equals:23.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.

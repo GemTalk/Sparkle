@@ -132,6 +132,17 @@ SpkTraditionalDebuggerPresenter >> doItIn: pane context: contextOop [
 	^ doItResult
 ]
 
+{ #category : 'private - actions' }
+SpkTraditionalDebuggerPresenter >> executeDebuggerAction: aBlock [
+
+	[ aBlock value ]
+		on: RsrBrokenPromise
+		do: [ :ex | 
+			UIManager default
+				alert: ex reason messageText
+				title: 'Sparkle Failure' ]
+]
+
 { #category : 'constants' }
 SpkTraditionalDebuggerPresenter >> glueSelectors [
 	"when showing a stack, select the frame just above these methods"
@@ -360,14 +371,16 @@ SpkTraditionalDebuggerPresenter >> printIt: result in: pane [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> restart [
 
-	debuggerService trimStackToLevel: frameList selection selectedIndex. 
+	self executeDebuggerAction: [ 
+		debuggerService trimStackToLevel: frameList selection selectedIndex ]
 ]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> resume [
 
-	self debuggerService resume. 
-	self closeWindow
+	self executeDebuggerAction: [ 
+		self debuggerService resume.
+		self closeWindow ]
 ]
 
 { #category : 'actions' }
@@ -458,13 +471,15 @@ SpkTraditionalDebuggerPresenter >> sourceCodePrintIt [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> stepInto [
 
-	debuggerService stepIntoFromLevel: frameList selection selectedIndex. 
+	self executeDebuggerAction: [ 
+		debuggerService stepIntoFromLevel: frameList selection selectedIndex ]
 ]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> stepOver [
 
-	debuggerService stepOverFromLevel: frameList selection selectedIndex. 
+	self executeDebuggerAction: [ 
+		debuggerService stepOverFromLevel: frameList selection selectedIndex ]
 ]
 
 { #category : 'private' }
@@ -481,7 +496,9 @@ SpkTraditionalDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> stepThrough [
 
-	debuggerService stepThroughFromLevel: frameList selection selectedIndex. 
+	self executeDebuggerAction: [ 
+		debuggerService stepThroughFromLevel:
+			frameList selection selectedIndex ]
 ]
 
 { #category : 'actions' }

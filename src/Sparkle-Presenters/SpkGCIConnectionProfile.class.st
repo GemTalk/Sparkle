@@ -171,7 +171,7 @@ SpkGCIConnectionProfile >> setupRSRConnection [
 	session executeStringNb: '| connection |
 		connection := (SessionTemps current at: #PendingConnectionAcceptor) waitForConnection.
 		SessionTemps current removeKey: #PendingConnectionAcceptor.
-		connection waitUntilClose.'.
+		connection waitUntilClose.' ; startWaitForResultThread .
 	thePort := detailBytes unsignedShortAt: 1 bigEndian: true.
 	token := RsrToken bytes: (detailBytes copyFrom: 3 to: 18).
 	initiator := RsrGciInitiateConnection host: host port: thePort token: token.

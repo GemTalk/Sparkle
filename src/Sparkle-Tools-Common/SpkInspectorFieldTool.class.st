@@ -9,6 +9,18 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkInspectorFieldTool >> _columns [
+	"Private"
+	^ columns
+]
+
+{ #category : 'comparing' }
+SpkInspectorFieldTool >> = anObject [
+	^ (super = anObject and: [ referencedObject == anObject referencedObject ])
+		and: [ columns = anObject _columns ]
+]
+
+{ #category : 'accessing' }
 SpkInspectorFieldTool >> columnAt: anInteger [
 
 	^ columns at: anInteger
@@ -18,6 +30,11 @@ SpkInspectorFieldTool >> columnAt: anInteger [
 SpkInspectorFieldTool >> columnAt: anInteger put: aString [
 
 	columns at: anInteger put: aString
+]
+
+{ #category : 'comparing' }
+SpkInspectorFieldTool >> hash [
+	^ (super hash bitXor: referencedObject identityHash) bitXor: columns hash
 ]
 
 { #category : 'accessing' }

@@ -60,14 +60,41 @@ SpkDebuggerFrameServiceServer >> refreshFromTool [
 
 { #category : 'initialization' }
 SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
-	localVariables := tool localVariables
-		collect: [ :fieldTool | 
-			SpkInspectorFieldServiceServer new
-				parentService: self;
-				initializeFromTool: fieldTool;
-				yourself ].
-	SpkObject new flag: 'HACK!'.
-	^ true
+	| changed fieldTools numberOfServices numberOfTools |
+	changed := false.
+	fieldTools := tool localVariables.	"all of these field tools are newly-created from the process state."
+	numberOfServices := localVariables size.
+	numberOfTools := fieldTools size.
+	numberOfServices < numberOfTools
+		ifTrue: [ 
+			changed := true.
+			numberOfServices + 1 to: numberOfTools do: [ :i | 
+				localVariables
+					add:
+						(SpkInspectorFieldServiceServer new
+							parentService: self;
+							tool: (fieldTools at: i);
+							yourself) ] ].
+	numberOfServices > numberOfTools
+		ifTrue: [ 
+			changed := true.
+			localVariables size: numberOfTools ].
+	1 to: numberOfTools do: [ :i | 
+		| fieldTool fieldService newFieldService |
+		fieldTool := fieldTools at: i.
+		fieldService := localVariables at: i.	"
+		Since fieldTool is newly-created, it will never be identical. Use equality comparison."
+		fieldTool = fieldService tool
+			ifFalse: [ 
+				changed := true.
+				newFieldService := SpkInspectorFieldServiceServer new
+					parentService: self;
+					tool: fieldTool;
+					yourself.
+				localVariables at: i put: newFieldService.
+				fieldService := newFieldService ].
+		changed := changed | fieldService refreshFromTool ].
+	^ changed
 ]
 
 { #category : 'other' }

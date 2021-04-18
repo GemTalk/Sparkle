@@ -13,6 +13,15 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'comparing' }
+SpkTool >> = anObject [
+	"Announcers are expected to be different for each instance, 
+	so do not influence equality."
+
+	^ self species == anObject species
+		and: [ taskspaceTool == anObject taskspaceTool ]
+]
+
 { #category : 'accessing' }
 SpkTool >> announce: anAnnouncement [
 
@@ -23,6 +32,11 @@ SpkTool >> announce: anAnnouncement [
 SpkTool >> announcer [
 
 	^ announcer 
+]
+
+{ #category : 'comparing' }
+SpkTool >> hash [
+	^ taskspaceTool identityHash
 ]
 
 { #category : 'initialization' }

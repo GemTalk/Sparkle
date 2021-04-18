@@ -53,10 +53,10 @@ SpkDebuggerFrameService >> description: anObject [
 	description := anObject
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerFrameService >> initialize [
 	super initialize.
-	updatedServices := Set new
+	localVariables := OrderedCollection new
 ]
 
 { #category : 'accessing' }

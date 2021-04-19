@@ -48,25 +48,30 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 	sourceLayout
 		add: controlsLayout
 		withConstraints: [ :c | c width: 35 ].
-		
+
 	stepIntoButton := self newIconButton
 		                  color: Color transparent;
 		                  icon: (self iconNamed: #stepInto28);
+		                  disabledIcon:
+			                  (self iconNamed: #stepIntoDisabled28);
 		                  help: 'Step into';
 		                  action: [ self stepInto ];
 		                  yourself.
 
 	stepThroughButton := self newIconButton
-		                  color: Color transparent;
-		                  icon: (self iconNamed: #stepThrough28);
-		                  help: 'Step through blocks';
-		                  action: [ self stepThrough ];
-		                  yourself.
-
+		                     color: Color transparent;
+		                     icon: (self iconNamed: #stepThrough28);
+		                     disabledIcon:
+			                     (self iconNamed: #stepThroughDisabled28);
+		                     help: 'Step through blocks';
+		                     action: [ self stepThrough ];
+		                     yourself.
 
 	stepOverButton := self newIconButton
 		                  color: Color transparent;
 		                  icon: (self iconNamed: #stepOver28);
+		                  disabledIcon:
+			                  (self iconNamed: #stepOverDisabled28);
 		                  help: 'Step over';
 		                  action: [ self stepOver ];
 		                  yourself.
@@ -79,14 +84,13 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 				height: 35;
 				width: 28 ];
 		add: stepThroughButton withConstraints: [ :c | 
-			c
-				height: 35;
-				width: 28 ];
+		c
+			height: 35;
+			width: 28 ];
 		add: stepOverButton withConstraints: [ :c | 
-			c
-				height: 35;
-				width: 28 ]
-
+		c
+			height: 35;
+			width: 28 ]
 ]
 
 { #category : 'initialization' }

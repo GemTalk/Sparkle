@@ -7,7 +7,8 @@ Class {
 		'meta',
 		'className',
 		'stepPoints',
-		'breakPoints'
+		'breakPoints',
+		'homeMethodSelector'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
@@ -26,6 +27,12 @@ SpkScaffoldingDebugMethodService >> breakPoints [
 { #category : 'other' }
 SpkScaffoldingDebugMethodService >> className [
 	^ className
+]
+
+{ #category : 'other' }
+SpkScaffoldingDebugMethodService >> homeMethodSelector [
+
+	^homeMethodSelector
 ]
 
 { #category : 'other' }

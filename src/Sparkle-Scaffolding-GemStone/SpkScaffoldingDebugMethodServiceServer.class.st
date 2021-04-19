@@ -26,7 +26,8 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 	className := rowanMethodService className.
 	stepPoints := rowanMethodService stepPoints
 		collect: [ :assoc | Array with: assoc key with: assoc value ].
-	breakPoints := rowanMethodService breakPoints
+	breakPoints := rowanMethodService breakPoints.
+	homeMethodSelector := rowanMethodService gsNMethod homeMethod selector.
 ]
 
 { #category : 'debugging' }

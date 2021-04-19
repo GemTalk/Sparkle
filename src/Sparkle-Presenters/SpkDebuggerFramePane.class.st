@@ -56,6 +56,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 			                  (self iconNamed: #stepIntoDisabled28);
 		                  help: 'Step into';
 		                  action: [ self stepInto ];
+								enablementCondition: [:aBoolean | model canStep & aBoolean];
 		                  yourself.
 
 	stepThroughButton := self newIconButton
@@ -65,6 +66,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 			                     (self iconNamed: #stepThroughDisabled28);
 		                     help: 'Step through blocks';
 		                     action: [ self stepThrough ];
+								enablementCondition: [:aBoolean | model canStep & aBoolean];
 		                     yourself.
 
 	stepOverButton := self newIconButton
@@ -74,6 +76,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 			                  (self iconNamed: #stepOverDisabled28);
 		                  help: 'Step over';
 		                  action: [ self stepOver ];
+								enablementCondition: [:aBoolean | model canStep & aBoolean];
 		                  yourself.
 
 	controlsLayout

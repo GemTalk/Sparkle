@@ -5,7 +5,8 @@ Class {
 	#name : 'SpkIconButtonPresenter',
 	#superclass : 'SpkButtonPresenter',
 	#instVars : [
-		'disabledIcon'
+		'disabledIcon',
+		'enablementCondition'
 	],
 	#category : 'Sparkle-Spextensions-Presenters'
 }
@@ -31,8 +32,26 @@ SpkIconButtonPresenter >> disabledIcon: anObject [
 { #category : 'api' }
 SpkIconButtonPresenter >> enabled: aBoolean [
 
-	super enabled: aBoolean.
+	enabled := self enablementCondition value: aBoolean.
 	self updateIcon
+]
+
+{ #category : 'accessing' }
+SpkIconButtonPresenter >> enablementCondition [
+	"This enablement condition allows the button to
+	reflect on whether its model wishes it to be
+	enabled as well as transitory GUI actions."
+
+	^enablementCondition ifNil: [[:aBoolean | aBoolean]]
+]
+
+{ #category : 'accessing' }
+SpkIconButtonPresenter >> enablementCondition: aBlock [
+	"This enablement condition allows the button to
+	reflect on whether its model wishes it to be
+	enabled as well as transitory GUI actions."
+
+	enablementCondition := aBlock
 ]
 
 { #category : 'api' }

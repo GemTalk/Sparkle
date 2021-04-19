@@ -1232,3 +1232,61 @@ SpkScaffoldingDebuggerTest >> testDebugger_07s [
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07t [
+	"
+		trigger MNU during doit, select frame 1 and then step over ... should get a broken promise in client and the stack 
+		should not advance!
+	"
+
+	| client server sem debuggerClient expressionResult |
+	GsFile gciLogServer: '========='.
+	GsFile
+		gciLogServer:
+			'testDebugger_07t - trigger MNU during doit, select frame 1 and then step over'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new.
+	sem := Semaphore new.
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: '1 foo. self halt.'
+		usingDebugger: debuggerClient.
+	expressionResult := (self expectWhen: promise) doitResult.
+	sem signal ]
+		ensure: [ debuggerClient terminate ] ]
+		forkAt: Processor userSchedulingPriority.
+	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+	self
+		assert: (debuggerClient rowanFrameServices at: 1) label
+		equals: 'ProcessorScheduler >> _switchFrom:to: @2 line 8'.
+	self
+		assert: (debuggerClient rowanFrameServices at: 13) label
+		equals: 'Executed Code  @2 line 1'.	"step point of Executed Code prior to step"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'STEP OVER'.
+	GsFile gciLogServer: '========='.
+	[ debuggerClient stepOverFromLevel: 1 ]
+		on: RsrBrokenPromise
+		do: [ :brokenPromise | 
+			| errorMessage |
+			errorMessage := brokenPromise reason messageText.	"cannot set breakpoint error"
+			SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.	"refresh stack from GsProcess complete"
+			self
+				assert: (debuggerClient rowanFrameServices at: 13) label
+				equals: 'Executed Code  @2 line 1'	"we are not expecting the step point to move - should be same as line 38" ].
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]

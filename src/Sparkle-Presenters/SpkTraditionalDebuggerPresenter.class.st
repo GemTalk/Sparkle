@@ -414,10 +414,14 @@ SpkTraditionalDebuggerPresenter >> setBreakpoint [
 	frameList selection selectedItem ifNotNil: [ :frame | 
 		| methodService |
 		methodService := frame value methodService.
+		methodService className ifNil: [ 
+			^ UIManager default
+				  alert: 'Not able to set breakpoints in anonymous method'
+				  title: 'Sparkle Failure' ].
 		debuggerService
-			setBreakpointForClass: methodService className
+			setBreakpointForClass: methodService className asString
 			meta: methodService meta
-			selector: methodService selector asSymbol
+			selector: methodService homeMethodSelector asSymbol
 			atStepPoint: (self
 					 stepPoint: methodService
 					 fromOffset: sourceCode cursorPositionIndex).

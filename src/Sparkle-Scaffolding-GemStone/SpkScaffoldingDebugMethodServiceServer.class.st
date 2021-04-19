@@ -19,15 +19,23 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService [
 
 { #category : 'accessing' }
 SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
-	rowanMethodService := object.
+	| homeMethod |
+	rowanMethodService := RowanMethodService
+		forGsNMethod: (Object _objectForOop: object oop)
+		organizer: ClassOrganizer new.	"make sure values are flushed out"
+	homeMethod := (Object _objectForOop: rowanMethodService oop) homeMethod.
+	homeMethodSelector := homeMethod selector.	
+	"className := rowanMethodService className.
+	meta := rowanMethodService meta."
+	homeMethod inClass
+		ifNotNil: [ 
+			className := homeMethod inClass name copyUpTo: Character space.
+			meta := homeMethod inClass isMeta ].
 	selector := rowanMethodService selector.
 	source := rowanMethodService source.
-	meta := rowanMethodService meta.
-	className := rowanMethodService className.
 	stepPoints := rowanMethodService stepPoints
 		collect: [ :assoc | Array with: assoc key with: assoc value ].
-	breakPoints := rowanMethodService breakPoints.
-	homeMethodSelector := (Object _objectForOop: rowanMethodService oop) homeMethod selector.
+	breakPoints := rowanMethodService breakPoints
 ]
 
 { #category : 'debugging' }

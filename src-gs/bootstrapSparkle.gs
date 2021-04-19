@@ -6042,11 +6042,11 @@ description: anObject
 	description := anObject
 %
 
-category: 'other'
+category: 'accessing'
 method: SpkDebuggerFrameService
 initialize
 	super initialize.
-	updatedServices := Set new
+	localVariables := OrderedCollection new
 %
 
 category: 'accessing'
@@ -6146,14 +6146,41 @@ refreshFromTool
 category: 'initialization'
 method: SpkDebuggerFrameServiceServer
 refreshLocalVariablesFromTool
-	localVariables := tool localVariables
-		collect: [ :fieldTool | 
-			SpkInspectorFieldServiceServer new
-				parentService: self;
-				initializeFromTool: fieldTool;
-				yourself ].
-	SpkObject new flag: 'HACK!'.
-	^ true
+	| changed fieldTools numberOfServices numberOfTools |
+	changed := false.
+	fieldTools := tool localVariables.	"all of these field tools are newly-created from the process state."
+	numberOfServices := localVariables size.
+	numberOfTools := fieldTools size.
+	numberOfServices < numberOfTools
+		ifTrue: [ 
+			changed := true.
+			numberOfServices + 1 to: numberOfTools do: [ :i | 
+				localVariables
+					add:
+						(SpkInspectorFieldServiceServer new
+							parentService: self;
+							tool: (fieldTools at: i);
+							yourself) ] ].
+	numberOfServices > numberOfTools
+		ifTrue: [ 
+			changed := true.
+			localVariables size: numberOfTools ].
+	1 to: numberOfTools do: [ :i | 
+		| fieldTool fieldService newFieldService |
+		fieldTool := fieldTools at: i.
+		fieldService := localVariables at: i.	"
+		Since fieldTool is newly-created, it will never be identical. Use equality comparison."
+		fieldTool = fieldService tool
+			ifFalse: [ 
+				changed := true.
+				newFieldService := SpkInspectorFieldServiceServer new
+					parentService: self;
+					tool: fieldTool;
+					yourself.
+				localVariables at: i put: newFieldService.
+				fieldService := newFieldService ].
+		changed := changed | fieldService refreshFromTool ].
+	^ changed
 %
 
 category: 'other'
@@ -8954,7 +8981,7 @@ new
 	Instead use ConnectionSpecification.
 	See SystemTestCase>>#setUp for an example."
 
-	self shouldNotImplement: #new
+	self shouldNotImplement
 %
 
 category: 'instance creation'
@@ -13941,6 +13968,16 @@ push: anObject
 
 !		Instance methods for 'SpkTool'
 
+category: 'comparing'
+method: SpkTool
+= anObject
+	"Announcers are expected to be different for each instance, 
+	so do not influence equality."
+
+	^ self species == anObject species
+		and: [ taskspaceTool == anObject taskspaceTool ]
+%
+
 category: 'accessing'
 method: SpkTool
 announce: anAnnouncement
@@ -13953,6 +13990,12 @@ method: SpkTool
 announcer
 
 	^ announcer 
+%
+
+category: 'comparing'
+method: SpkTool
+hash
+	^ taskspaceTool identityHash
 %
 
 category: 'initialization'
@@ -14311,8 +14354,7 @@ method: SpkDebuggerFrameTool
 receiveExecutionAnnouncement: anAnnouncement
 	"I should have already been updated by the time I receive this announcement."
 
-	"isValid
-		ifTrue: [" self announce: anAnnouncement "]"
+	 self announce: anAnnouncement
 %
 
 category: 'accessing'
@@ -14397,17 +14439,6 @@ stepThroughAnnouncing: anAnnouncement
 		ifFalse: [ process stepThroughFromLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
-%
-
-category: 'other'
-method: SpkDebuggerFrameTool
-taskspaceTool: aTool
-
-	super taskspaceTool: aTool.
-	taskspaceTool
-		when: SpkExecutionAnnouncement
-		send: #receiveExecutionAnnouncement: 
-		to: self
 %
 
 ! Class implementation for 'SpkDebuggerTool'
@@ -14695,7 +14726,9 @@ receiveExecutionAnnouncement: anAnnouncement
 	own state then let others (like my service) know."
 
 	self isValid
-		ifTrue: [ self refreshFromProcess ].
+		ifTrue: [ 
+			self refreshFromProcess.
+			frames do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
 	self announce: anAnnouncement
 %
 
@@ -15034,6 +15067,12 @@ width: anObject
 
 !		Instance methods for 'SpkInspectionTool'
 
+category: 'comparing'
+method: SpkInspectionTool
+= anObject
+	^ super = anObject and: [ explorerTool == anObject explorerTool ]
+%
+
 category: 'accessing'
 method: SpkInspectionTool
 explorerTool
@@ -15046,7 +15085,13 @@ explorerTool: object
 	explorerTool := object
 %
 
-category: 'other'
+category: 'comparing'
+method: SpkInspectionTool
+hash
+	^ super hash bitXor: explorerTool identityHash
+%
+
+category: 'accessing'
 method: SpkInspectionTool
 selfDescriptionOf: anObject
 
@@ -15072,6 +15117,13 @@ selfDescriptionOf: anObject
 
 !		Instance methods for 'SpkInspectorFieldTool'
 
+category: 'comparing'
+method: SpkInspectorFieldTool
+= anObject
+	^ (super = anObject and: [ referencedObject == anObject referencedObject ])
+		and: [ columns = anObject _columns ]
+%
+
 category: 'accessing'
 method: SpkInspectorFieldTool
 columnAt: anInteger
@@ -15084,6 +15136,12 @@ method: SpkInspectorFieldTool
 columnAt: anInteger put: aString
 
 	columns at: anInteger put: aString
+%
+
+category: 'comparing'
+method: SpkInspectorFieldTool
+hash
+	^ (super hash bitXor: referencedObject identityHash) bitXor: columns hash
 %
 
 category: 'accessing'
@@ -15112,6 +15170,13 @@ method: SpkInspectorFieldTool
 referencedObject: anObject
 
 	referencedObject := anObject
+%
+
+category: 'accessing'
+method: SpkInspectorFieldTool
+_columns
+	"Private"
+	^ columns
 %
 
 ! Class implementation for 'SpkInspectorTool'

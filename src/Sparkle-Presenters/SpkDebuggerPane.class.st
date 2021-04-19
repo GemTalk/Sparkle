@@ -90,7 +90,8 @@ SpkDebuggerPane >> initializeDescription [
 SpkDebuggerPane >> initializeFrameList [
 
 	self initializeList.
-	self layout add: list
+	self layout add: list.
+	self selectTopFrame
 ]
 
 { #category : 'initialization' }

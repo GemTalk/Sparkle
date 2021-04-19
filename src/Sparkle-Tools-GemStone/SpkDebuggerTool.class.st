@@ -268,7 +268,9 @@ SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	own state then let others (like my service) know."
 
 	self isValid
-		ifTrue: [ self refreshFromProcess ].
+		ifTrue: [ 
+			self refreshFromProcess.
+			frames do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
 	self announce: anAnnouncement
 ]
 

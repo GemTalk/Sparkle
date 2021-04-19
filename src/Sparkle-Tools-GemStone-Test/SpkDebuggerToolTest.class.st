@@ -27,34 +27,52 @@ SpkDebuggerToolTest >> testBreakpoint01 [
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
 	frames := debugger frames.
-	frame := frames detect: [:each | each description includesString: 'SpkTestClassForDebugging'].
-	"Have we properly omitted the glue frames following a breakpoint?"
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"
+	Have we properly omitted the glue frames following a breakpoint?"
 	self assert: frame equals: frames last.
 	self assert: (frame description includesString: 'twelve').
-	self
-		assert: frame stepPoint
-		equals: 3.
+	self assert: frame stepPoint equals: 3.
 	localVariables := frame localVariables.
 	variable := localVariables at: 1.
-	self
-		assert: (variable columnAt: 1)
-		equals: 'receiver'.
+	self assert: (variable columnAt: 1) equals: 'receiver'.
 	variable := localVariables at: 2.
-	self
-		assert: (variable columnAt: 2)
-		equals: '7'.
+	self assert: (variable columnAt: 2) equals: '7'.
 	variable := localVariables at: 3.
-	self
-		assert: (variable columnAt: 2)
-		equals: '5'.
+	self assert: (variable columnAt: 2) equals: '5'.
 	inspector := debugger proceed.
-	self
-		assert: inspector class
-		equals: SpkInspectorTool.
-	self
-		assert: inspector inspectedObject
-		equals: 12
-	] ensure: [ method clearAllBreaks ]
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ]
+]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testClearAllBreaks [
+	| method debugger frames frame inspector |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	self assert: method _allBreakpoints size equals: 0.
+	method setBreakAtStepPoint: 3 breakpointLevel: 1.
+	self assert: method _allBreakpoints size equals: 4.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	frames := debugger frames.
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].
+	self assert: frame stepPoint equals: 3.
+	inspector := debugger proceed.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12.
+	self assert: method _allBreakpoints size equals: 4.
+	method clearAllBreaks.
+	self assert: method _allBreakpoints size equals: 0.
+	inspector := evaluatorTool evaluateCode.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ].
+	self assert: method _allBreakpoints size equals: 0
 ]
 
 { #category : 'tests' }
@@ -256,7 +274,5 @@ SpkDebuggerToolTest >> testTerminate01 [
 		deny: topFrame == (debugger2 frames at: debugger2 frames size);
 		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
 	inspector := debugger2 proceed.
-	self
-		assert: inspector class equals: SpkInspectorTool;
-		assert: inspector inspectedObject equals: nil
+	self assert: inspector class equals: SpkProcessTerminatedTool
 ]

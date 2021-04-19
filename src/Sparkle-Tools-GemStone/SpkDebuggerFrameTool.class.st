@@ -203,8 +203,7 @@ SpkDebuggerFrameTool >> process: aProcess [
 SpkDebuggerFrameTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"I should have already been updated by the time I receive this announcement."
 
-	"isValid
-		ifTrue: [" self announce: anAnnouncement "]"
+	 self announce: anAnnouncement
 ]
 
 { #category : 'accessing' }
@@ -280,14 +279,4 @@ SpkDebuggerFrameTool >> stepThroughAnnouncing: anAnnouncement [
 		ifFalse: [ process stepThroughFromLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
-]
-
-{ #category : 'other' }
-SpkDebuggerFrameTool >> taskspaceTool: aTool [
-
-	super taskspaceTool: aTool.
-	taskspaceTool
-		when: SpkExecutionAnnouncement
-		send: #receiveExecutionAnnouncement: 
-		to: self
 ]

@@ -33,7 +33,7 @@ SpkIconButtonPresenter >> disabledIcon: anObject [
 SpkIconButtonPresenter >> enabled: aBoolean [
 
 	enabled := self enablementCondition value: aBoolean.
-	self updateIcon
+	self updateAdapter
 ]
 
 { #category : 'accessing' }
@@ -63,7 +63,10 @@ SpkIconButtonPresenter >> icon [
 ]
 
 { #category : 'api' }
-SpkIconButtonPresenter >> updateIcon [
+SpkIconButtonPresenter >> updateAdapter [
 
-	self withAdapterDo: [ :a | a icon: self icon ]
+	self withAdapterDo: [ :a | 
+		a
+			enabled: self isEnabled;
+			icon: self icon ]
 ]

@@ -611,7 +611,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	self
 		assert: (debuggerClient rowanFrameServices at: 7) label
 		equals:
-			'RsrNonresumableError (AbstractException) >> _signalToDebugger @7 line 4'.
+			'RsrNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
 
 	count := 1.
 	GsFile gciLogServer: '========='.
@@ -629,7 +629,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 			self
 				assert: (debuggerClient rowanFrameServices at: 7) label
 				equals:
-					'RsrNonresumableError (AbstractException) >> _signalToDebugger @7 line 4'.
+					'RsrNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
 
 			count := count + 1.
 			GsFile gciLogServer: '========='.
@@ -1281,7 +1281,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07t [
 		do: [ :brokenPromise | 
 			| errorMessage |
 			errorMessage := brokenPromise reason messageText.	"cannot set breakpoint error"
-			SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.	"refresh stack from GsProcess complete"
 			self
 				assert: (debuggerClient rowanFrameServices at: 13) label
 				equals: 'Executed Code  @2 line 1'	"we are not expecting the step point to move - should be same as line 38" ].

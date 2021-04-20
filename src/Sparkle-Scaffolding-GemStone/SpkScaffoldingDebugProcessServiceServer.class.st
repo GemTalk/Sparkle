@@ -123,22 +123,22 @@ SpkScaffoldingDebugProcessServiceServer >> rowanProcessService: object [
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepIntoFromLevel: aLevel [
-	self suspendedProcess _activate.
 	self suspendedProcess stepIntoFromLevel: aLevel.
+	self suspendedProcess _activate.
 	Processor yield
 ]
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
-	self suspendedProcess _activate.
 	self suspendedProcess stepOverFromLevel: aLevel.
+	self suspendedProcess _activate.
 	Processor yield
 ]
 
 { #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepThroughFromLevel: aLevel [
-	self suspendedProcess _activate.
 	self suspendedProcess stepThroughFromLevel: aLevel.
+	self suspendedProcess _activate.
 	Processor yield
 ]
 

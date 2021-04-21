@@ -20,26 +20,29 @@ SpkWorkspacePresenter >> contextOop: anObject [
 ]
 
 { #category : 'actions' }
+SpkWorkspacePresenter >> debuggerClosed [
+]
+
+{ #category : 'actions' }
 SpkWorkspacePresenter >> doIt [
 
-	| service debuggerClient promise doItResult semaphore |
+	| service debuggerClient promise announcement |
+	announcement := self initializeResultReadyAnnouncement.
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
 	debuggerClient := SpkScaffoldingDebuggerServiceClient new
-		                  registerWith: 
+		                  registerWith:
 			                  SpkConnectionProfile defaultConnection;
 		                  synchronize.
 	promise := service
 		           gsDebugger_07: self selectedText
 		           usingDebugger: debuggerClient
 		           contextOop: contextOop.
-	semaphore := Smalltalk
-		             at: #SPARKLE_DEBUGGER_SEMAPHORE
-		             put: Semaphore new.
+	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	promise
 		when: [ :result | 
-			doItResult := result doitResult.
-			semaphore signal ]
+			SpkTraditionalDebuggerPresenter debuggerAnnouncer announce:
+				(announcement result: result doitResult) ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -50,10 +53,7 @@ SpkWorkspacePresenter >> doIt [
 				show: DateAndTime now printString;
 				cr;
 				show: '=========';
-				yourself.
-			semaphore signal ].
-	semaphore wait.
-	^ doItResult
+				yourself ]
 ]
 
 { #category : 'initialization' }
@@ -61,6 +61,19 @@ SpkWorkspacePresenter >> initialize [
 	super initialize.
 	contextOop := 20. 
 	self overrideTheContextMenu. 
+]
+
+{ #category : 'private' }
+SpkWorkspacePresenter >> initializeResultReadyAnnouncement [
+
+	| announcement interval insertionOffset |
+	announcement := SpkDebuggerResultReadyAnnouncement new.
+	interval := self selectionInterval.
+	insertionOffset := interval isEmpty
+		                   ifTrue: [ self cursorPositionIndex ]
+		                   ifFalse: [ interval last ].
+	announcement cursorPosition: insertionOffset.
+	^ announcement
 ]
 
 { #category : 'initialization' }
@@ -95,20 +108,22 @@ SpkWorkspacePresenter >> overrideTheContextMenu [
 { #category : 'actions' }
 SpkWorkspacePresenter >> printIt [
 
-	| result |
-	result := self doIt.
-	self printIt: result
+	SpkTraditionalDebuggerPresenter debuggerAnnouncer
+		when: SpkDebuggerResultReadyAnnouncement
+		send: #printIt:
+		to: self.
+	self doIt
 ]
 
 { #category : 'actions' }
-SpkWorkspacePresenter >> printIt: result [
+SpkWorkspacePresenter >> printIt: announcement [
 
-	| interval insertionOffset resultString |
-	resultString := result asString. 
-	interval := self selectionInterval.
-	insertionOffset := interval isEmpty
-		                  ifTrue: [ self cursorPositionIndex ]
-		                  ifFalse: [ interval last ].
+	| result insertionOffset resultString |
+	result := announcement result.
+	resultString := result asString.
+	insertionOffset := announcement cursorPosition.
 	self insert: resultString at: insertionOffset + 1.
-	self selectionInterval: (insertionOffset + 1 to: insertionOffset + resultString size + 2)
+	self selectionInterval:
+		(insertionOffset + 1 to: insertionOffset + resultString size + 2).
+	SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self
 ]

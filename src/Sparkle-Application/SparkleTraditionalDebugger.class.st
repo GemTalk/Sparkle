@@ -38,7 +38,7 @@ SparkleTraditionalDebugger >> initialize [
 	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
 		send: #close
-		to: self
+		to: self.
 ]
 
 { #category : 'running' }

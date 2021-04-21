@@ -10,8 +10,17 @@ Class {
 		'variableList',
 		'workspace'
 	],
+	#classVars : [
+		'DebuggerAnnouncer'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'accessing' }
+SpkTraditionalDebuggerPresenter class >> debuggerAnnouncer [
+
+	^ DebuggerAnnouncer ifNil: [ DebuggerAnnouncer := Announcer new ]
+]
 
 { #category : 'actions' }
 SpkTraditionalDebuggerPresenter >> clearAllBreaks [

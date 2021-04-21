@@ -18,26 +18,26 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 
 	| stack stackLimit |
 	stackLimit := 50.
-	Transcript
+	"Transcript
 		cr;
 		show: 'show stacks on process (' , processService printString
-			, ') ... stack: '.
+			, ') ... stack: '."
 	stack := processService rowanFrameServices.
 	debugger ifNil: [ 
 	debugger := (SparkleTraditionalDebugger on: self) start].
 	debugger initializeFrameList.
-	1 to: (stack size min: stackLimit) do: [ :index | 
+	"1 to: (stack size min: stackLimit) do: [ :index | 
 		| frame |
 		frame := stack at: index.
 		Transcript
 			cr;
-			show: '  ' , index printString , '. ' , frame label ].
-	stack size > stackLimit ifTrue: [ 
+			show: '  ' , index printString , '. ' , frame label ]."
+	"stack size > stackLimit ifTrue: [ 
 		Transcript
 			cr;
 			show:
 				'... skipping remaining ' , (stack size - stackLimit) printString
-				, ' frames' ].
+				, ' frames' ]."
 	(Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE) signal
 ]
 

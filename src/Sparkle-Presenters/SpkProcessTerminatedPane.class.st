@@ -13,5 +13,5 @@ SpkProcessTerminatedPane >> errorText [
 { #category : 'accessing' }
 SpkProcessTerminatedPane >> labelString [
 
-	^ 'Process 16r' , model oop hex
+	^ 'Process ' , model oop hex
 ]

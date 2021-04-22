@@ -90,7 +90,6 @@ SpkWorkspacePresenter >> initializeWindow: aWindowPresenter [
 
 { #category : 'menus' }
 SpkWorkspacePresenter >> overrideTheContextMenu [
-	Transcript show: 'overrideTheContextMenu'.
 	self overridingContextMenu.
 	self contextMenu: (SpMenuPresenter new addGroup: [ :group | 
 			 group addItem: [ :item | 

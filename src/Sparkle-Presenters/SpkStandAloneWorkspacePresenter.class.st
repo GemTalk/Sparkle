@@ -20,7 +20,7 @@ SpkStandAloneWorkspacePresenter >> initializePresenters [
 	super initializePresenters. 
 	self initializeToolbar.  
 	self layout add: (workspace := self instantiate: SpkWorkspacePresenter).
-	self layout color: Color purple muchLighter
+	self layout color: SpkConnectionListPresenter defaultColor
 	
 ]
 

@@ -240,9 +240,9 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 	self initializeSourceCodeLayout.
 	bottomPaneBox := SpkBoxLayout newHorizontal.
 	self initializeVariablePaneIn: bottomPaneBox.
-	self initializeWorkspacePaneIn: bottomPaneBox. 
+	self initializeWorkspacePaneIn: bottomPaneBox.
 	self layout add: bottomPaneBox.
-	self layout color: Color purple muchLighter
+	self layout color: SpkConnectionListPresenter defaultColor
 ]
 
 { #category : 'initialization' }
@@ -448,7 +448,7 @@ SpkTraditionalDebuggerPresenter >> showBreakPoints [
 		                     methodService stepPoints at: bp ].
 	bpSourcePositions do: [ :posAndSource | 
 		sourceCode addTextSegmentDecoration: (SpTextPresenterDecorator new
-				 highlightColor: Color purple muchLighter;
+				 highlightColor: SpkConnectionListPresenter defaultColor;
 				 interval:
 					 (posAndSource first to:
 						  posAndSource first + posAndSource last size);

@@ -50,7 +50,7 @@ SpkProcessesPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeToolbar.
 	self initializeProcessList.
-	self layout color: Color purple muchLighter.
+	self layout color: SpkConnectionListPresenter defaultColor
 ]
 
 { #category : 'initialization' }

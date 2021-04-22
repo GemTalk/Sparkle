@@ -60,13 +60,16 @@ SpkProcessManager >> debuggerProcessForException: anException [
 	"Answer a new debugger process for a new or existing debugger,
 	debugging process. Start by suspending the process."
 
-	^ [ 
+	| debuggerProcess |
+	debuggerProcess := [ 
 	process suspend.
 	debuggerTool ifNil: [ self initializeDebuggerTool ].
 	debuggerTool
 		currentException: anException;
 		refreshFromProcess;
-		debug ] newProcess
+		debug ] newProcess.
+	debuggerProcess name: 'Debugger for ' , process asOop printString.
+	^ debuggerProcess
 ]
 
 { #category : 'private' }

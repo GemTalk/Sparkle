@@ -18,12 +18,6 @@ SpkGciConnectionPresenter class >> connectionProfileClass [
 	^ SpkGCIConnectionProfile
 ]
 
-{ #category : 'ston' }
-SpkGciConnectionPresenter class >> stonAllInstVarNames [
-
-	^ super stonAllInstVarNames copyWithout: #session
-]
-
 { #category : 'initialization' }
 SpkGciConnectionPresenter >> initializeHostPresenter [
 

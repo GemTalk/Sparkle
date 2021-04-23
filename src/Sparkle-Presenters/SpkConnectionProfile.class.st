@@ -86,6 +86,12 @@ SpkConnectionProfile class >> removeProfiles: connectionProfiles [
 			 connectionProfiles)
 ]
 
+{ #category : 'ston' }
+SpkConnectionProfile class >> stonAllInstVarNames [
+
+	^ self allInstVarNames copyWithout: #taskspace
+]
+
 { #category : 'comparing' }
 SpkConnectionProfile >> = connectionProfile [
 

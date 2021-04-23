@@ -118,13 +118,6 @@ SpkProcessManager >> newTerminatedTool [
 	^ SpkProcessTerminatedTool forProcess: process
 ]
 
-{ #category : 'actions' }
-SpkProcessManager >> proceedProcess [
-	"Non-evaluation process does not wait for an answer."
-
-	self resumeProcess
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> process: anObject [
 

@@ -19,6 +19,15 @@ SpkTModel >> announce: anAnnouncement [
 ]
 
 { #category : 'announcing' }
+SpkTModel >> announceActionComplete [
+
+	"Announce that an action has completed.
+	This can happen in any thread"
+
+	self announce: SpkActionCompleteAnnouncement new
+]
+
+{ #category : 'announcing' }
 SpkTModel >> announceNewService: newService forRequest: requestId [
 
 	| announcement |

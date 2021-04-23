@@ -21,6 +21,14 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'initialization' }
+SpkPane >> actionComplete [
+
+	"Must be sent only in the UI thread."
+
+	self reEnableAll
+]
+
 { #category : 'initialize-release' }
 SpkPane >> close [
 
@@ -53,6 +61,9 @@ SpkPane >> connectPresenters [
 	model
 		when: SpkUpdateAnnouncement
 		send: #receiveUpdateAnnouncement
+		to: self;
+		when: SpkActionCompleteAnnouncement
+		send: #receiveActionCompleteAnnouncement
 		to: self
 ]
 
@@ -143,14 +154,14 @@ SpkPane >> newLayout [
 
 { #category : 'instance creation' }
 SpkPane >> newPaneForService: newService linkedTo: item [
+
 	"Item is anything that can have a linked pane.
 	Usually a list item or an evaluator"
 
 	"If I have been closed before the new pane announcement reaches me, ignore it."
-	isOpen ifFalse: [ ^self ].
-	self openLinkedPane: newService forItem: item.
-	"This announcement came from the server, so all of my widgets are disabled."
-	self reEnableAll
+
+	isOpen ifFalse: [ ^ self ].
+	self openLinkedPane: newService forItem: item
 ]
 
 { #category : 'accessing' }
@@ -187,6 +198,12 @@ an item really should be enabled."
 
 	self enabled: true.
 	self layout enabled: true
+]
+
+{ #category : 'initialization' }
+SpkPane >> receiveActionCompleteAnnouncement [ 
+	
+	self defer: [ self actionComplete ]
 ]
 
 { #category : 'announcements' }

@@ -206,8 +206,7 @@ SpkDebuggerPane >> updateDebuggerFromModel [
 
 	self
 		updateDescription;
-		updateFrameList;
-		reEnableAll
+		updateFrameList
 ]
 
 { #category : 'private' }

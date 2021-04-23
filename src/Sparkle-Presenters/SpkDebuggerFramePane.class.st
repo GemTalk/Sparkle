@@ -205,6 +205,5 @@ SpkDebuggerFramePane >> updateFromModel [
 
 	self
 		refreshTwizzledList;
-		refreshSourcePane;
-		reEnableAll
+		refreshSourcePane
 ]

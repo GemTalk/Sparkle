@@ -27,7 +27,10 @@ SpkDebuggerServiceClient >> proceed [
 	| promise |
 	promise := remoteSelf proceed.
 	promise
-		when: [ :ignored | self updateServices ]
+		when: [ :ignored | 
+			self
+				updateServices;
+				announceActionComplete ]
 		catch: self defaultCatchBlock
 ]
 
@@ -37,6 +40,9 @@ SpkDebuggerServiceClient >> terminate [
 	| promise |
 	promise := remoteSelf terminate.
 	promise
-		when: [ :ignored | self updateServices ]
+		when: [ :ignored | 
+			self
+				updateServices;
+				announceActionComplete ]
 		catch: self defaultCatchBlock
 ]

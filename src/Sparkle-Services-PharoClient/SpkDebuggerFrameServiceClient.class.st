@@ -18,7 +18,10 @@ SpkDebuggerFrameServiceClient >> stepInto [
 	| promise |
 	promise := remoteSelf stepInto.
 	promise
-		when: [ :ignored | self updateServices ]
+		when: [ :ignored | 
+			self
+				updateServices;
+				announceActionComplete ]
 		catch: self defaultCatchBlock
 ]
 
@@ -28,7 +31,10 @@ SpkDebuggerFrameServiceClient >> stepOver [
 	| promise |
 	promise := remoteSelf stepOver.
 	promise
-		when: [ :ignored | self updateServices ]
+		when: [ :ignored | 
+			self
+				updateServices;
+				announceActionComplete ]
 		catch: self defaultCatchBlock
 ]
 
@@ -38,6 +44,9 @@ SpkDebuggerFrameServiceClient >> stepThrough [
 	| promise |
 	promise := remoteSelf stepThrough.
 	promise
-		when: [ :ignored | self updateServices ]
+		when: [ :ignored | 
+			self
+				updateServices;
+				announceActionComplete ]
 		catch: self defaultCatchBlock
 ]

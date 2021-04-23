@@ -279,11 +279,3 @@ SpkInspectorPane >> updateSelfDescription [
 		labelString: model selfDescription;
 		bodyString: model selfDescription
 ]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> updateServices [
-
-	"Can be sent in any thread."
-
-	self evaluators do: [ :each | each updateServices ]
-]

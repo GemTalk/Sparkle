@@ -228,13 +228,3 @@ SpkPane >> updateFromModel [
 	"Must be sent only in the UI thread."
 	"Subclasses should override if they can receive update announcements"
 ]
-
-{ #category : 'as yet unclassified' }
-SpkPane >> updateServices [
-
-	"Can be sent in any thread."
-
-	" default does nothing "
-
-	
-]

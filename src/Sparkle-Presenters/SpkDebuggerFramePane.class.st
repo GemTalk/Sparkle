@@ -208,11 +208,3 @@ SpkDebuggerFramePane >> updateFromModel [
 		refreshSourcePane;
 		reEnableAll
 ]
-
-{ #category : 'as yet unclassified' }
-SpkDebuggerFramePane >> updateServices [
-
-	"Can be sent in any thread."
-
-	model updateServices
-]

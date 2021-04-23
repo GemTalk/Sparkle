@@ -250,11 +250,3 @@ SpkDebuggerPane >> updateLinkedFramePanes [
 
 	self linkedFramePanes do: [ :pane | pane updateFromModel ]
 ]
-
-{ #category : 'private' }
-SpkDebuggerPane >> updateServices [
-
-	"Can be sent in any thread."
-
-	model updateServices
-]

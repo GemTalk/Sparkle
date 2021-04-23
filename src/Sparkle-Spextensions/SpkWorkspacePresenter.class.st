@@ -121,8 +121,9 @@ SpkWorkspacePresenter >> printIt: announcement [
 	result := announcement result.
 	resultString := result asString.
 	insertionOffset := announcement cursorPosition.
-	self insert: resultString at: insertionOffset + 1.
+	  insertionOffset > self text size ifTrue: [ self text: self text, (String new: resultString size + 1) ]. 
+ 	self insert: resultString at: insertionOffset.
 	self selectionInterval:
-		(insertionOffset + 1 to: insertionOffset + resultString size + 2).
+		(insertionOffset + 1 to: insertionOffset + resultString size).
 	SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self
 ]

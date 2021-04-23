@@ -155,7 +155,7 @@ SpkTraditionalDebuggerPresenter >> executeDebuggerAction: aBlock [
 { #category : 'constants' }
 SpkTraditionalDebuggerPresenter >> glueSelectors [
 	"when showing a stack, select the frame just above these methods"
-	^#(#halt #_signalAsync #_doesNotUnderstand:args:envId:reason:) 
+	^#(#halt #_signalAsync #_doesNotUnderstand:args:envId:reason: #_signalFromPrimitive:) 
 ]
 
 { #category : 'initialization' }

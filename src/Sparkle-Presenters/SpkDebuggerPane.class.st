@@ -72,6 +72,16 @@ SpkDebuggerPane >> deselectOffTheTopFrames [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerPane >> enabled: aBoolean [
+
+	"Description is not a presenter, so does not get
+	taken care of automatically."
+
+	super enabled: aBoolean.
+	description ifNotNil: [ :d | d enabled: aBoolean ]
+]
+
+{ #category : 'accessing' }
 SpkDebuggerPane >> headerClass [
 
 	^ SpkDebuggerPaneHeader

@@ -57,6 +57,16 @@ SpkInspectorPane >> deselectOffTheEndFields [
 	listModel deselectItemsBeyondIndex: newNumberOfFields
 ]
 
+{ #category : 'accessing' }
+SpkInspectorPane >> enabled: aBoolean [
+
+	"selfDescription is not a presenter, so does not get
+	taken care of automatically."
+
+	super enabled: aBoolean.
+	selfDescription ifNotNil: [ :sd | sd enabled: aBoolean ]
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 

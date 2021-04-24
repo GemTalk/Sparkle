@@ -5,6 +5,7 @@ Class {
 	#name : 'SpkIconButtonPresenter',
 	#superclass : 'SpkButtonPresenter',
 	#instVars : [
+		'enabledIcon',
 		'disabledIcon',
 		'enablementCondition'
 	],
@@ -20,7 +21,7 @@ SpkIconButtonPresenter class >> adapterName [
 { #category : 'accessing' }
 SpkIconButtonPresenter >> disabledIcon [
 
-	^ disabledIcon ifNil: [ icon ]
+	^ disabledIcon
 ]
 
 { #category : 'accessing' }
@@ -32,8 +33,22 @@ SpkIconButtonPresenter >> disabledIcon: anObject [
 { #category : 'api' }
 SpkIconButtonPresenter >> enabled: aBoolean [
 
+	"enabled is an ObservableSlot"
+
 	enabled := self enablementCondition value: aBoolean.
-	self updateAdapter
+	self updateIcon
+]
+
+{ #category : 'accessing' }
+SpkIconButtonPresenter >> enabledIcon [
+
+	^ enabledIcon
+]
+
+{ #category : 'accessing' }
+SpkIconButtonPresenter >> enabledIcon: anObject [
+
+	enabledIcon := anObject
 ]
 
 { #category : 'accessing' }
@@ -57,16 +72,26 @@ SpkIconButtonPresenter >> enablementCondition: aBlock [
 { #category : 'api' }
 SpkIconButtonPresenter >> icon [
 
-	^ self isEnabled
-		  ifTrue: [ icon ]
-		  ifFalse: [ self disabledIcon ]
+	^ icon ifNil: [ self updateIcon ]
 ]
 
 { #category : 'api' }
-SpkIconButtonPresenter >> updateAdapter [
+SpkIconButtonPresenter >> icon: aForm [
 
-	self withAdapterDo: [ :a | 
-		a
-			enabled: self isEnabled;
-			icon: self icon ]
+	"This message should only be sent if the same icon 
+	is used for enabled and disabled states."
+
+	icon := enabledIcon := disabledIcon := aForm
+]
+
+{ #category : 'updating' }
+SpkIconButtonPresenter >> updateIcon [
+
+	"icon is an ObservableSlot, can't 
+	answer the value of the assignment."
+
+	icon := enabled
+		        ifTrue: [ enabledIcon ]
+		        ifFalse: [ disabledIcon ].
+	^ icon
 ]

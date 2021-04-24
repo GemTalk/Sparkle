@@ -51,7 +51,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 
 	stepIntoButton := self newIconButton
 		                  color: Color transparent;
-		                  icon: (self iconNamed: #stepInto28);
+		                  enabledIcon: (self iconNamed: #stepInto28);
 		                  disabledIcon:
 			                  (self iconNamed: #stepIntoDisabled28);
 		                  help: 'Step into';
@@ -61,7 +61,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 
 	stepThroughButton := self newIconButton
 		                     color: Color transparent;
-		                     icon: (self iconNamed: #stepThrough28);
+		                     enabledIcon: (self iconNamed: #stepThrough28);
 		                     disabledIcon:
 			                     (self iconNamed: #stepThroughDisabled28);
 		                     help: 'Step through blocks';
@@ -71,7 +71,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 
 	stepOverButton := self newIconButton
 		                  color: Color transparent;
-		                  icon: (self iconNamed: #stepOver28);
+		                  enabledIcon: (self iconNamed: #stepOver28);
 		                  disabledIcon:
 			                  (self iconNamed: #stepOverDisabled28);
 		                  help: 'Step over';

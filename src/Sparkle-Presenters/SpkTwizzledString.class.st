@@ -1,3 +1,7 @@
+"
+Not a presenter, but control display of a couple of presenters.
+It would be better to be a presenter, but in order for the twizzle to stop taking space when collapsed I need to put stuff in my owner's layout, not have a layout of my own.
+"
 Class {
 	#name : 'SpkTwizzledString',
 	#superclass : 'Object',
@@ -22,6 +26,15 @@ SpkTwizzledString class >> owner: aPresenter [
 SpkTwizzledString >> bodyString: aString [
 
 	textPresenter text: aString
+]
+
+{ #category : 'accessing' }
+SpkTwizzledString >> enabled: aBoolean [
+
+	"I'm not a presenter, so I don't inherit this."
+
+	textPresenter ifNotNil: [ :tp | tp enabled: aBoolean ].
+	twizzledPresenter ifNotNil: [ :twp | twp enabled: aBoolean ]
 ]
 
 { #category : 'initialization' }

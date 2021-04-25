@@ -26,7 +26,7 @@ SpkPane >> actionComplete [
 
 	"Must be sent only in the UI thread."
 
-	self reEnableAll
+	self enableAll
 ]
 
 { #category : 'initialize-release' }
@@ -85,6 +85,17 @@ SpkPane >> disableAll [
 	awaiting an answer from the server."
 
 	self enabled: false
+]
+
+{ #category : 'actions' }
+SpkPane >> enableAll [
+
+	"Enable widgets in this pane after receiving a reply from the server.
+At the moment, this does enable all widgets in the pane.
+At some point, we will need to do something more sophisticated to determine whether
+an item really should be enabled."
+
+	self enabled: true
 ]
 
 { #category : 'tests - header' }
@@ -185,17 +196,6 @@ SpkPane >> openLinkedPane: aPaneService forItem: item [
 	item
 		closeLinkedPane;
 		linkedPane: newPane
-]
-
-{ #category : 'actions' }
-SpkPane >> reEnableAll [
-
-	"Enable widgets in this pane after receiving a reply from the server.
-At the moment, this does enable all widgets in the pane.
-At some point, we will need to do something more sophisticated to determine whether
-an item really should be enabled."
-
-	self enabled: true
 ]
 
 { #category : 'initialization' }

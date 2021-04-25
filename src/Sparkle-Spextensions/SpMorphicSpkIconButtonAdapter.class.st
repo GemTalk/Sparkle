@@ -19,9 +19,10 @@ SpMorphicSpkIconButtonAdapter >> buildWidget [
 		borderWidth: 0;
 		labelGraphic: self presenter icon.
 
-
 	self color ifNotNil: [ :c | button color: c ].
-
+	
+	self presenter whenIconChangedDo: [ self updateIcon ].
+	
 	button bindKeyCombination: Character space toAction: [ self action ].
 
 	^ button
@@ -30,7 +31,7 @@ SpMorphicSpkIconButtonAdapter >> buildWidget [
 { #category : 'accessing' }
 SpMorphicSpkIconButtonAdapter >> icon: aForm [
 
-	widget ifNotNil: [ :w | w labelGraphic: aForm ]
+	self widgetDo: [ :w | w labelGraphic: aForm ]
 ]
 
 { #category : 'factory' }
@@ -40,4 +41,10 @@ SpMorphicSpkIconButtonAdapter >> newButton [
 		  target: self;
 		  actionSelector: #action;
 		  yourself
+]
+
+{ #category : 'updating' }
+SpMorphicSpkIconButtonAdapter >> updateIcon [
+
+	self widgetDo: [ :w | w labelGraphic: self presenter icon ]
 ]

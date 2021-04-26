@@ -35,7 +35,8 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 	source := rowanMethodService source.
 	stepPoints := rowanMethodService stepPoints
 		collect: [ :assoc | Array with: assoc key with: assoc value ].
-	breakPoints := rowanMethodService breakPoints
+	breakPoints := rowanMethodService breakPoints.
+	rowanMethodService organizer: nil.
 ]
 
 { #category : 'debugging' }

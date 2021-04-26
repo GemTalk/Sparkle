@@ -767,7 +767,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07m [
 	"
-		Stack overflow - NOTE this test requires 1G of TOC to run sucessfully
+		Stack overflow - NOTE this test requires 125M of TOC to run sucessfully
 	"
 
 	| client server debuggerClient sem softBreakClient toc |
@@ -778,7 +778,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 
 	(toc := System gemConfigurationAt: #'GEM_TEMPOBJ_CACHE_SIZE') < 128000000
 		ifTrue: [
-			GsFile gciLogServer: '***** TOC (', toc printString , ') is too small to successfully run, should be greater than 500M'.
+			GsFile gciLogServer: '***** TOC (', toc printString , ') is too small to successfully run, should be greater than 125M'.
 			^self assert: false].
 
 	client := SpkScaffoldingServiceClient new

@@ -1289,3 +1289,87 @@ SpkScaffoldingDebuggerTest >> testDebugger_07t [
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07u [
+  "
+    Trigger a breakpoint in SpkScaffoldingMockObject>>method1:  
+      1. stepOutFromLevel:; to confirm we've stepped out of the block ... and then done
+  "
+
+  | client server sem debuggerClient expressionResult |
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'testDebugger_07u - Set 3 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test; stepThroughFromLevel:; resume to hit second breakpoint; stepOverFromLevel: to confirm we''ve returned to calling method ... and then done'.
+  GsFile gciLogServer: '========='.
+
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** HANGS instead of test failure'.
+^self assert: false].
+
+  client := SpkScaffoldingServiceClient new
+    registerWith: connectionA;
+    synchronize.
+  server := connectionB serviceAt: client _id.
+  debuggerClient := SpkScaffoldingDebuggerServiceClient new
+    registerWith: connectionA;
+    synchronize.
+  sem := Semaphore new.
+
+  debuggerClient
+    setBreakpointForClass: 'SpkScaffoldingMockObject'
+      meta: false
+      selector: #'method1:'
+      atStepPoint: 7.
+
+  doitProcess := [ 
+  [ 
+  | promise |
+  GsProcess _current name: self printString , ' doit proc'.
+  promise := client
+    gsDebugger_07: 'SpkScaffoldingMockObject example1'
+    usingDebugger: debuggerClient.
+  expressionResult := (self expectWhen: promise) doitResult.
+  sem signal ]
+    ensure: [ debuggerClient terminate ] ]
+    forkAt: Processor userSchedulingPriority.
+  SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+  self
+    assert: debuggerClient messageText
+    equals: 'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+  self
+    assert: (debuggerClient rowanFrameServices at: 14) label
+    equals: '[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
+
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'STEP OUT'.
+  GsFile gciLogServer: '========='.
+  debuggerClient stepOutFromLevel: 14.
+  SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+  self
+    assert: debuggerClient messageText
+    equals:
+      'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
+  self
+    assert: (debuggerClient rowanFrameServices at: 14) label
+    equals: 'SpkScaffoldingMockObject >> method1: @4 line 12'.
+
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.
+  GsFile gciLogServer: '========='.
+  debuggerClient
+    clearAllBreaks;
+    resume.
+
+  sem wait.  "run assertion"
+  self
+    assert: expressionResult
+    equals:
+      {'symbol'.
+      '1'.
+      '2.0'}.
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'SUCCESS'.
+  GsFile gciLogServer: '========='
+]

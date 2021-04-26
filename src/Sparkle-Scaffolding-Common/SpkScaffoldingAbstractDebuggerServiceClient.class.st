@@ -62,6 +62,11 @@ SpkScaffoldingAbstractDebuggerServiceClient >> stepIntoFromLevel: aLevel [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingAbstractDebuggerServiceClient >> stepOutFromLevel: aLevel [
+	^ (remoteSelf stepOutFromLevel: aLevel) wait
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingAbstractDebuggerServiceClient >> stepOverFromLevel: aLevel [
 	^ (remoteSelf stepOverFromLevel: aLevel) wait
 ]

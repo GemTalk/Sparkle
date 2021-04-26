@@ -129,6 +129,20 @@ SpkScaffoldingDebugProcessServiceServer >> stepIntoFromLevel: aLevel [
 ]
 
 { #category : 'debugging' }
+SpkScaffoldingDebugProcessServiceServer >> stepOutFromLevel: aLevel [
+	aLevel < 1
+		ifTrue: [ ArgumentError signal: 'level argument must be >= 1' ].
+	self suspendedProcess
+		_stepOverInFrame: aLevel - 1
+		mode: true
+		replace: false
+		tos: nil
+		breakpointLevel: 1.
+	self suspendedProcess _activate.
+	Processor yield
+]
+
+{ #category : 'debugging' }
 SpkScaffoldingDebugProcessServiceServer >> stepOverFromLevel: aLevel [
 	self suspendedProcess stepOverFromLevel: aLevel.
 	self suspendedProcess _activate.

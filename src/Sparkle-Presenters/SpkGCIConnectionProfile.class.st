@@ -47,6 +47,12 @@ SpkGCIConnectionProfile class >> initialize [
 	DefaultPath := String new
 ]
 
+{ #category : 'ston' }
+SpkGCIConnectionProfile class >> stonAllInstVarNames [
+
+	^ super stonAllInstVarNames copyWithout: #session
+]
+
 { #category : 'actions' }
 SpkGCIConnectionProfile >> connect [
 

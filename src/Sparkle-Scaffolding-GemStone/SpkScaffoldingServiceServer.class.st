@@ -286,6 +286,10 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 		debugActionBlock: [ :ex | 
 					| mon theDebugProcess |
 					theDebugProcess := GsProcess _current.
+					(ex isKindOf: RsrError)
+						ifTrue: [ 
+							theDebugProcess debugActionBlock: debugActionBlock.
+							^ ex signaltoGci ].
 					mon := [ 
 					| res |
 					GsProcess _current

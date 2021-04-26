@@ -1373,3 +1373,45 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
   GsFile gciLogServer: 'SUCCESS'.
   GsFile gciLogServer: '========='
 ]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07v [
+  "
+    reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception
+  "
+
+  | client server sem debuggerClient expressionResult |
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'testDebugger_07v - reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception'.
+  GsFile gciLogServer: '========='.
+
+  client := SpkScaffoldingServiceClient new
+    registerWith: connectionA;
+    synchronize.
+  server := connectionB serviceAt: client _id.
+  debuggerClient := SpkScaffoldingDebuggerServiceClient new
+    registerWith: connectionA;
+    synchronize.
+  sem := Semaphore new.
+
+  doitProcess := [ 
+  [ 
+  | promise |
+  GsProcess _current name: self printString , ' doit proc'.
+  promise := client
+    gsDebugger_07: 'SmallTime fromMilliseconds: 52756739'
+    usingDebugger: debuggerClient.
+  expressionResult := (self expectWhen: promise) doitResult.
+  sem signal ]
+    ensure: [ debuggerClient terminate ] ]
+    forkAt: Processor userSchedulingPriority.
+
+  sem wait.  "run assertion"
+  self
+    assert: expressionResult
+    equals: (SmallTime fromMilliseconds: 52756739). "Actually we expect an RsrUnsupportedObject error"
+
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'SUCCESS'.
+  GsFile gciLogServer: '========='
+]

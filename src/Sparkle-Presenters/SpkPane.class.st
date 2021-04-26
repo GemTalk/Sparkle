@@ -64,7 +64,13 @@ SpkPane >> connectPresenters [
 		to: self;
 		when: SpkActionCompleteAnnouncement
 		send: #receiveActionCompleteAnnouncement
-		to: self
+		to: self.
+	"enableAll, paradoxically, has the action of disabling 
+	buttons that should be disabled when the pane first opens.
+	Otherwise, all widgets start enabled.
+	Enabling doesn't do all it needs to do if the subscriptions
+	are not in place yet, so defer."
+	self defer: [self enableAll].
 ]
 
 { #category : 'accessing' }

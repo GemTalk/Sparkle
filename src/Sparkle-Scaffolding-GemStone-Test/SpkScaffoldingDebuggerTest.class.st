@@ -654,7 +654,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
-true ifTrue: [ 
+false ifTrue: [ 
 (UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
 GsFile gciLogServer: '***** HANGS instead of test failure'.
 ^self assert: false].

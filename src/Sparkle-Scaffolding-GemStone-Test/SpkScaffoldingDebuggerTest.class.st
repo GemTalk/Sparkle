@@ -52,8 +52,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07a [
 
 	self assert: result equals: 7.
 
-	client terminate.
-
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='.
@@ -656,7 +654,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
-
+true ifTrue: [ 
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** HANGS instead of test failure'.
+^self assert: false].
+].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -1373,42 +1375,43 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
 
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07v [
-  "
+	"
     reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception
-  "
+	"
 
-  | client server sem debuggerClient expressionResult |
-  GsFile gciLogServer: '========='.
-  GsFile gciLogServer: 'testDebugger_07v - reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception'.
-  GsFile gciLogServer: '========='.
+	| client server sem debuggerClient reason |
+	GsFile gciLogServer: '========='.
+	GsFile
+		gciLogServer:
+			'testDebugger_07v - reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception'.
+	GsFile gciLogServer: '========='.
 
-  client := SpkScaffoldingServiceClient new
-    registerWith: connectionA;
-    synchronize.
-  server := connectionB serviceAt: client _id.
-  debuggerClient := SpkScaffoldingDebuggerServiceClient new
-    registerWith: connectionA;
-    synchronize.
-  sem := Semaphore new.
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	sem := Semaphore new.
 
-  doitProcess := [ 
-  [ 
-  | promise |
-  GsProcess _current name: self printString , ' doit proc'.
-  promise := client
-    gsDebugger_07: 'SmallTime fromMilliseconds: 52756739'
-    usingDebugger: debuggerClient.
-  expressionResult := (self expectWhen: promise) doitResult.
-  sem signal ]
-    ensure: [ debuggerClient terminate ] ]
-    forkAt: Processor userSchedulingPriority.
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SmallTime fromMilliseconds: 52756739'
+		usingDebugger: debuggerClient.
+	reason := self expectCatch: promise.
+	sem signal ]
+		ensure: [  ] ] forkAt: Processor userSchedulingPriority.
 
-  sem wait.  "run assertion"
-  self
-    assert: expressionResult
-    equals: (SmallTime fromMilliseconds: 52756739). "Actually we expect an RsrUnsupportedObject error"
+	sem wait.	"run assertion"
 
-  GsFile gciLogServer: '========='.
-  GsFile gciLogServer: 'SUCCESS'.
-  GsFile gciLogServer: '========='
+GsFile gciLogServer: 'This assertion passes (reason class EQUALS RsrRemoteExceptionServer), but it does not make sense to me'.
+	self assert: reason class equals: RsrRemoteExceptionServer.	"this is not a broken promise, as I expected"
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
 ]

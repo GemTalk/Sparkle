@@ -289,7 +289,7 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					(ex isKindOf: RsrError)
 						ifTrue: [ 
 							theDebugProcess debugActionBlock: debugActionBlock.
-							^ ex signaltoGci ].
+							^ Error signal: 'Unhandled RsrError: ', ex description ].
 					mon := [ 
 					| res |
 					GsProcess _current

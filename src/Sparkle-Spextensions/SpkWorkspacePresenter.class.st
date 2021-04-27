@@ -44,16 +44,7 @@ SpkWorkspacePresenter >> doIt [
 			SpkTraditionalDebuggerPresenter debuggerAnnouncer announce:
 				(announcement result: result doitResult) ]
 		catch: [ :reason | 
-			Transcript
-				cr;
-				show: '=========';
-				cr;
-				show: 'UNEXPECTED CATCH: ' , reason printString;
-				cr;
-				show: DateAndTime now printString;
-				cr;
-				show: '=========';
-				yourself ]
+			SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'initialization' }
@@ -122,6 +113,7 @@ SpkWorkspacePresenter >> printIt: announcement [
 	resultString := result asString.
 	insertionOffset := announcement cursorPosition.
 	  insertionOffset > self text size ifTrue: [ self text: self text, (String new: resultString size + 1) ]. 
+		Transcript cr; show: resultString; flush. 
  	self insert: resultString at: insertionOffset.
 	self selectionInterval:
 		(insertionOffset + 1 to: insertionOffset + resultString size).

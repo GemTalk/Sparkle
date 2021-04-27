@@ -8,7 +8,8 @@ Class {
 		'debuggerService',
 		'toolbar',
 		'variableList',
-		'workspace'
+		'workspace',
+		'shouldTerminate'
 	],
 	#classVars : [
 		'DebuggerAnnouncer'
@@ -159,6 +160,13 @@ SpkTraditionalDebuggerPresenter >> glueSelectors [
 ]
 
 { #category : 'initialization' }
+SpkTraditionalDebuggerPresenter >> initialize [
+
+	super initialize. 
+	shouldTerminate := true
+]
+
+{ #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 
 	toolbar := self newToolbar.
@@ -292,11 +300,8 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Traditional Debugger';
 		"borderColor: Color purple;
 		borderWidth: 3; 'no longer works not sure why'"
-		initialExtent: 750 @ 1000
-		
-		
-		";
-		whenClosedDo: [ self terminate ]."
+		initialExtent: 750 @ 1000;
+		whenClosedDo: [ shouldTerminate ifTrue: [ self terminate ] ]
 ]
 
 { #category : 'initialization' }
@@ -388,6 +393,7 @@ SpkTraditionalDebuggerPresenter >> restart [
 SpkTraditionalDebuggerPresenter >> resume [
 
 	self executeDebuggerAction: [ 
+		shouldTerminate := false.
 		self debuggerService resume.
 		self closeWindow ]
 ]

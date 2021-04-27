@@ -303,8 +303,8 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					ex isResumable
 						ifFalse: [ 
 							"cannot resume from a not-resumable Exception."
-							^ RsrNonresumableError
-								signal: 'cannot resume from a not-resumable Exception' ].
+							^ Error
+								signal: 'cannot resume from a non-resumable Exception' ].
 					debuggerService resumptionValue	"necessary" ].
 	doitResult := aString
 		evaluateInContext: (Object _objectForOop: contextOop)

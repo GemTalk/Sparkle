@@ -52,6 +52,8 @@ SpkScaffoldingDebuggerTest >> testDebugger_07a [
 
 	self assert: result equals: 7.
 
+	client terminate.
+
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
 	GsFile gciLogServer: '========='.
@@ -77,7 +79,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 	doitProcess := [ 
 	[ 
 	| promise |
-	GsProcess _current name: self printString , ' doit proc'.
+	GsProcess _current name: self printString , ' doit proc (_07b)'.
 	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
 	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
@@ -114,7 +116,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c_01 [
 	doitProcess := [ 
 	[ 
 	| promise |
-	GsProcess _current name: self printString , ' doit proc'.
+	GsProcess _current name: self printString , ' doit proc (_07c_01)'.
 	promise := client gsDebugger_07: '7 foo' usingDebugger: debuggerClient.
 	self expectCatch: promise.
 	sem signal ]
@@ -155,7 +157,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c_02 [
 	doitProcess := [ 
 	[ 
 	| promise |
-	GsProcess _current name: self printString , ' doit proc'.
+	GsProcess _current name: self printString , ' doit proc (_07c_02)'.
 	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
 	self expectCatch: promise.
 	sem signal ]
@@ -600,7 +602,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsProcess _current name: self printString , ' doit proc'.
 	[ 
 	(client
-		gsDebugger_07: 'RsrNonresumableError signal: ''oh oh'''
+		gsDebugger_07: 'SpkScaffoldingNonresumableError signal: ''oh oh'''
 		usingDebugger: debuggerClient) wait ]
 		ensure: [debuggerClient terminate].
 	self assert: false description: 'should not get here' ]
@@ -611,7 +613,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	self
 		assert: (debuggerClient rowanFrameServices at: 7) label
 		equals:
-			'RsrNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
+			'SpkScaffoldingNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
 
 	count := 1.
 	GsFile gciLogServer: '========='.
@@ -625,11 +627,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 			"infinite loop"
 			self
 				assert: debuggerClient messageText
-				equals: 'cannot resume from a not-resumable Exception'.
+				equals: 'cannot resume from a non-resumable Exception'.
 			self
 				assert: (debuggerClient rowanFrameServices at: 7) label
 				equals:
-					'RsrNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
+					'Error (AbstractException) >> _signalToDebugger @8 line 5'.
 
 			count := count + 1.
 			GsFile gciLogServer: '========='.
@@ -655,10 +657,6 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
 
-(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
-GsFile gciLogServer: '***** HANGS instead of test failure'.
-^self assert: false].
-
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -675,16 +673,11 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
 	GsProcess _current name: self printString , ' doit process'.
 	promise := client
 		gsDebugger_07:
-			'
-| once |
-once := true.
-GsFile gciLogServer: ''before hot loop ['', GsProcess _current asOop printString, '']''.
-[true] 
-	whileTrue: [
+			'| once |
+	once := true.
+	[true] whileTrue: [
 		once ifTrue: [
-			GsFile gciLogServer: ''before sig''. 
 			SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
-			GsFile gciLogServer: ''after sig''. 
 			once := false ]]'
 		usingDebugger: debuggerClient
 		procName: 'HOT proc'.
@@ -692,10 +685,8 @@ GsFile gciLogServer: ''before hot loop ['', GsProcess _current asOop printString
 	self assert: false description: 'should never reach here' ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
-GsFile gciLogServer: 'BEFORE wait; (priority = ', GsProcess _current priority printString, ')'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait."wait for hot loop to start"
 
-GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priority printString, ')'.
 	softBreakClient softBreak.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait. "wait for debugger to open"
 
@@ -703,6 +694,12 @@ GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priori
 	self
 		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'Break (AbstractException) >> _signalAsync @6 line 21'.
+
+	self
+		assert: (debuggerClient rowanFrameServices at: 16) label
+		equals: 'ControlInterrupt (AbstractException) >> _signalTimeout @3 line 15'.
+
+	debuggerClient terminate.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

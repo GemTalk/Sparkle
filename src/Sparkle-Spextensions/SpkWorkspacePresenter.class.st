@@ -34,6 +34,7 @@ SpkWorkspacePresenter >> doIt [
 		                  registerWith:
 			                  SpkConnectionProfile defaultConnection;
 		                  synchronize.
+	self selectedText isEmpty ifTrue: [ self selectLine ].
 	promise := service
 		           gsDebugger_07: self selectedText
 		           usingDebugger: debuggerClient
@@ -113,7 +114,6 @@ SpkWorkspacePresenter >> printIt: announcement [
 	resultString := result asString.
 	insertionOffset := announcement cursorPosition.
 	  insertionOffset > self text size ifTrue: [ self text: self text, (String new: resultString size + 1) ]. 
-		Transcript cr; show: resultString; flush. 
  	self insert: resultString at: insertionOffset.
 	self selectionInterval:
 		(insertionOffset + 1 to: insertionOffset + resultString size).

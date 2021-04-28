@@ -26,7 +26,13 @@ SpkWorkspacePresenter >> debuggerClosed [
 { #category : 'actions' }
 SpkWorkspacePresenter >> doIt [
 
-	| service debuggerClient promise announcement |
+	self doItShouldPrint: false
+]
+
+{ #category : 'actions' }
+SpkWorkspacePresenter >> doItShouldPrint: shouldPrint [
+
+	| debuggerClient announcement promise service |
 	announcement := self initializeResultReadyAnnouncement.
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
@@ -36,9 +42,11 @@ SpkWorkspacePresenter >> doIt [
 		                  synchronize.
 	self selectedText isEmpty ifTrue: [ self selectLine ].
 	promise := service
-		           gsDebugger_07: self selectedText
+		           doIt: self selectedText
 		           usingDebugger: debuggerClient
-		           contextOop: contextOop.
+		           contextOop: contextOop
+		           shouldPrint: shouldPrint.
+
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	promise
 		when: [ :result | 

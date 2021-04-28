@@ -2201,6 +2201,22 @@ SpkScaffoldingServiceClient >> debugProcessOop: processOop usingDebugger: debugg
 ]
 
 { #category : 'debugger' }
+SpkScaffoldingServiceClient >> doIt: aString usingDebugger: debuggerService contextOop: contextOop shouldPrint: shouldPrintResult [
+
+	^ shouldPrintResult
+		  ifTrue: [ 
+			  remoteSelf
+				  printIt: aString
+				  usingDebugger: debuggerService
+				  contextOop: contextOop ]
+		  ifFalse: [ 
+			  remoteSelf
+				  doIt: aString
+				  usingDebugger: debuggerService
+				  contextOop: contextOop ]
+]
+
+{ #category : 'debugger' }
 SpkScaffoldingServiceClient >> doit: aString inContext: oop [
 
 	^ (remoteSelf doit: aString contextOop: oop) wait

@@ -103,6 +103,15 @@ SpkScaffoldingServiceServer >> doit: aString contextOop: oop [
 		symbolList: GsSession currentSession symbolList
 ]
 
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> doIt: aString usingDebugger: debuggerService contextOop: contextOop [
+	self
+		gsDebugger_07: aString
+		usingDebugger: debuggerService
+		procName: 'SpkScaffoldingServiceServer>>printIt:usingDebugger:contextOop:'
+		contextOop: contextOop
+]
+
 { #category : 'accessing' }
 SpkScaffoldingServiceServer >> doitException [
 	^doitException
@@ -346,6 +355,17 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 		doitException: ex;
 		yourself.
 	^ svce openInspectorOnClient wait
+]
+
+{ #category : 'debugger' }
+SpkScaffoldingServiceServer >> printIt: aString usingDebugger: debuggerService contextOop: contextOop [
+	| result |
+	result := self
+		gsDebugger_07: aString
+		usingDebugger: debuggerService
+		procName: 'SpkScaffoldingServiceServer>>printIt:usingDebugger:contextOop:'
+		contextOop: contextOop.
+	^result printString
 ]
 
 { #category : 'process list' }

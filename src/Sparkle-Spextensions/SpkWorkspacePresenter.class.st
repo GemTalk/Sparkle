@@ -111,18 +111,18 @@ SpkWorkspacePresenter >> printIt [
 		when: SpkDebuggerResultReadyAnnouncement
 		send: #printIt:
 		to: self.
-	self doIt
+	self doItShouldPrint: true
 ]
 
 { #category : 'actions' }
 SpkWorkspacePresenter >> printIt: announcement [
 
-	| result insertionOffset resultString |
-	result := announcement result.
-	resultString := result asString.
+	| insertionOffset resultString |
+	resultString := announcement result.
 	insertionOffset := announcement cursorPosition.
-	  insertionOffset > self text size ifTrue: [ self text: self text, (String new: resultString size + 1) ]. 
- 	self insert: resultString at: insertionOffset.
+	insertionOffset > self text size ifTrue: [ 
+		self text: self text , (String new: resultString size + 1) ].
+	self insert: resultString at: insertionOffset.
 	self selectionInterval:
 		(insertionOffset + 1 to: insertionOffset + resultString size).
 	SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self

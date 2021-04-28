@@ -109,7 +109,8 @@ SpkScaffoldingServiceServer >> doIt: aString usingDebugger: debuggerService cont
 		gsDebugger_07: aString
 		usingDebugger: debuggerService
 		procName: 'SpkScaffoldingServiceServer>>printIt:usingDebugger:contextOop:'
-		contextOop: contextOop
+		contextOop: contextOop.
+	doitResult := nil	"don't return result"
 ]
 
 { #category : 'accessing' }
@@ -359,13 +360,12 @@ SpkScaffoldingServiceServer >> openInspectorOnClient: ex [
 
 { #category : 'debugger' }
 SpkScaffoldingServiceServer >> printIt: aString usingDebugger: debuggerService contextOop: contextOop [
-	| result |
-	result := self
+	self
 		gsDebugger_07: aString
 		usingDebugger: debuggerService
 		procName: 'SpkScaffoldingServiceServer>>printIt:usingDebugger:contextOop:'
 		contextOop: contextOop.
-	^result printString
+	doitResult := doitResult printString
 ]
 
 { #category : 'process list' }

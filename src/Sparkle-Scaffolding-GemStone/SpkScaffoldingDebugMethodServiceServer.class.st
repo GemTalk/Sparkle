@@ -25,8 +25,6 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 		organizer: ClassOrganizer new.	"make sure values are flushed out"
 	homeMethod := (Object _objectForOop: rowanMethodService oop) homeMethod.
 	homeMethodSelector := homeMethod selector.	
-	"className := rowanMethodService className.
-	meta := rowanMethodService meta."
 	homeMethod inClass
 		ifNotNil: [ 
 			className := homeMethod inClass name copyUpTo: Character space.
@@ -37,6 +35,7 @@ SpkScaffoldingDebugMethodServiceServer >> rowanMethodService: object [
 		collect: [ :assoc | Array with: assoc key with: assoc value ].
 	breakPoints := rowanMethodService breakPoints.
 	rowanMethodService organizer: nil.
+	RowanCommandResult initializeResults. "housekeeping to avoid hanging onto rowan services"
 ]
 
 { #category : 'debugging' }

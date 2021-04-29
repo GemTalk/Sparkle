@@ -256,7 +256,7 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 { #category : 'initialization' }
 SpkTraditionalDebuggerPresenter >> initializeSourceCodeLayout [
 
-	self layout add: (sourceCode := self newCode).
+	self layout add: (sourceCode := self instantiate: SpkWorkspacePresenter).
 	self overrideSourceCodeMenu
 ]
 
@@ -360,26 +360,13 @@ SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 		group addItem: [ :item | 
 			item
 				name: 'Do It';
-				action: [ self sourceCodeDoIt ];
+				action: [ sourceCode doIt ];
 				shortcut: PharoShortcuts current doItShortcut ].
 		group addItem: [ :item | 
 			item
 				name: 'Print It';
-				action: [ self sourceCodePrintIt ];
+				action: [ sourceCode printIt ];
 				shortcut: PharoShortcuts current printItShortcut ] ]
-]
-
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> printIt: result in: pane [
-
-	| interval insertionOffset resultString |
-	resultString := result asString. 
-	interval := pane selectionInterval.
-	insertionOffset := interval isEmpty
-		                  ifTrue: [ pane cursorPositionIndex ]
-		                  ifFalse: [ interval last ].
-	pane insert: resultString at: insertionOffset + 1.
-	pane selectionInterval: (insertionOffset + 1 to: insertionOffset + resultString size + 2)
 ]
 
 { #category : 'actions' }
@@ -469,22 +456,6 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 			   underlineColor: Color transparent;
 			   interval: (frame value startPos to: frame value stopPos + 1);
 			   yourself)
-]
-
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> sourceCodeDoIt [
-
-	^ self
-		  doItIn: sourceCode
-		  context: frameList selection selectedItem value frameOop
-]
-
-{ #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> sourceCodePrintIt [
-
-	| result |
-	result := self sourceCodeDoIt.
-	self printIt: result in: sourceCode
 ]
 
 { #category : 'actions' }

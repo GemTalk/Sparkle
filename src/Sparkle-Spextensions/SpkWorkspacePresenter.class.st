@@ -26,7 +26,13 @@ SpkWorkspacePresenter >> debuggerClosed [
 { #category : 'actions' }
 SpkWorkspacePresenter >> doIt [
 
-	| service debuggerClient promise announcement |
+	self doItShouldPrint: false
+]
+
+{ #category : 'actions' }
+SpkWorkspacePresenter >> doItShouldPrint: shouldPrint [
+
+	| debuggerClient announcement promise service |
 	announcement := self initializeResultReadyAnnouncement.
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
@@ -34,26 +40,20 @@ SpkWorkspacePresenter >> doIt [
 		                  registerWith:
 			                  SpkConnectionProfile defaultConnection;
 		                  synchronize.
+	self selectedText isEmpty ifTrue: [ self selectLine ].
 	promise := service
-		           gsDebugger_07: self selectedText
+		           doIt: self selectedText
 		           usingDebugger: debuggerClient
-		           contextOop: contextOop.
+		           contextOop: contextOop
+		           shouldPrint: shouldPrint.
+
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	promise
 		when: [ :result | 
 			SpkTraditionalDebuggerPresenter debuggerAnnouncer announce:
 				(announcement result: result doitResult) ]
 		catch: [ :reason | 
-			Transcript
-				cr;
-				show: '=========';
-				cr;
-				show: 'UNEXPECTED CATCH: ' , reason printString;
-				cr;
-				show: DateAndTime now printString;
-				cr;
-				show: '=========';
-				yourself ]
+			SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'initialization' }
@@ -111,18 +111,18 @@ SpkWorkspacePresenter >> printIt [
 		when: SpkDebuggerResultReadyAnnouncement
 		send: #printIt:
 		to: self.
-	self doIt
+	self doItShouldPrint: true
 ]
 
 { #category : 'actions' }
 SpkWorkspacePresenter >> printIt: announcement [
 
-	| result insertionOffset resultString |
-	result := announcement result.
-	resultString := result asString.
+	| insertionOffset resultString |
+	resultString := announcement result.
 	insertionOffset := announcement cursorPosition.
-	  insertionOffset > self text size ifTrue: [ self text: self text, (String new: resultString size + 1) ]. 
- 	self insert: resultString at: insertionOffset.
+	insertionOffset > self text size ifTrue: [ 
+		self text: self text , (String new: resultString size + 1) ].
+	self insert: resultString at: insertionOffset.
 	self selectionInterval:
 		(insertionOffset + 1 to: insertionOffset + resultString size).
 	SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self

@@ -4,13 +4,8 @@ Class {
 	#instVars : [
 		'rowanInspectorService'
 	],
-	#category : 'Sparkle-Scaffolding-GemStone'
+	#category : 'Sparkle-Scaffolding-Common'
 }
-
-{ #category : 'client' }
-SpkScaffoldingInspectorService >> inspect: anOop [
-	rowanInspectorService := RowanInspectorService new inspect: anOop
-]
 
 { #category : 'accessing' }
 SpkScaffoldingInspectorService >> rowanInspectorService [

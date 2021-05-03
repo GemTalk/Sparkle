@@ -15,5 +15,15 @@ SpkScaffoldingInspectorServiceServer >> inspect: anOop [
 			add:
 				(Array
 					with: (instVarNames at: index)
-					with: (serverInspectorService instVarAt: index)) ]
+					with:
+						(self prepareObjectForReplication: (serverInspectorService instVarAt: index))) ]
+]
+
+{ #category : 'client actions' }
+SpkScaffoldingInspectorServiceServer >> prepareObjectForReplication: object [
+	"RSR Doesn't support Associations"
+
+	^ (object isKindOf: Association)
+		ifTrue: [ Array with: object key with: object value ]
+		ifFalse: [ object ]
 ]

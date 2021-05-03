@@ -10,7 +10,7 @@ Class {
 { #category : 'accessing' }
 SpkScaffoldingInspectorService class >> templateClassName [
 
-	^ self name
+	^#SpkScaffoldingInspectorService
 ]
 
 { #category : 'accessing' }

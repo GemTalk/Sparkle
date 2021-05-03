@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkScaffoldingInspectorService class >> templateClassName [
+
+	^ self name
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingInspectorService >> rowanInspectorService [
 	^rowanInspectorService
 ]

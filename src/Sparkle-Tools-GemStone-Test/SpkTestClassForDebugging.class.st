@@ -14,14 +14,20 @@ SpkTestClassForDebugging >> factorialOf: anInteger [
 ]
 
 { #category : 'other' }
-SpkTestClassForDebugging >> runHotForSeconds: anInteger shouldHalt: shouldHalt [
+SpkTestClassForDebugging >> runHotForSeconds: anInteger
+shouldHalt: shouldHalt
+counter: counter [
+
 	| endTime |
 	endTime := DateAndTime now + (Duration seconds: anInteger).
 	[ DateAndTime now < endTime ]
 		whileTrue: [ 
 			shouldHalt
 				ifTrue: [ self halt ].
-			3 + 4 ]
+			Processor yield.
+			counter
+				at: 1
+				put: (counter first + 1)]
 ]
 
 { #category : 'breakpointing' }

@@ -96,3 +96,73 @@ SpkBreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 			[haltingProcess terminate.
 			independentProcess terminate]
 ]
+
+{ #category : 'running' }
+SpkBreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcessV2 [
+	"This test ensures that when you have a debugger on a process and #step, the step action applies
+	to the specific process. The step shouldn't apply to other processes executing the same method."
+
+	| utility haltingProcess independentProcess trace priority level haltingMethod haltingCounter independentCounter independentCounterCache |
+	utility := SpkTestClassForDebugging new.
+	trace := SharedQueue new.
+	priority := Processor activePriority - 1.
+	haltingCounter := {0}.
+	independentCounter := {0}.
+	haltingProcess := [ 
+	[ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
+		on: Breakpoint , Halt
+		do: [ :ex | 
+			trace nextPut: #'HaltingProcess'.
+			trace nextPut: ex.
+			haltingProcess suspend.
+			ex resume ] ] newProcess.
+	independentProcess := [ 
+	[ utility runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
+		on: Breakpoint , Halt
+		do: [ :ex | 
+			trace nextPut: #'RunningProcess'.
+			trace nextPut: ex.
+			independentProcess suspend.
+			ex resume ] ] newProcess.
+	haltingProcess
+		priority: priority;
+		breakpointLevel: 1.
+	independentProcess
+		priority: priority;
+		breakpointLevel: 1.
+	[ 
+	haltingProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: haltingProcess.
+	independentCounterCache := independentCounter first.
+	level := 10.
+	haltingMethod := (haltingProcess _frameContentsAt: level) first.
+	self
+		assert: haltingMethod selector
+		equals: #'runHotForSeconds:shouldHalt:counter:'.
+	self assert: trace size equals: 2.
+	self assert: trace next equals: #'HaltingProcess'.
+	self assert: trace next class equals: Halt.
+
+	independentProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	haltingProcess stepOverFromLevel: level.
+	(Delay forMilliseconds: 100) wait.
+
+	self assertSuspended: haltingProcess.
+	self denySuspended: independentProcess.
+	self assert: trace size equals: 0.
+	self assert: independentCounter first > independentCounterCache.
+	independentProcess terminate.
+	self assert: independentProcess _isTerminated.
+
+	haltingProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: haltingProcess.
+	self assert: trace size equals: 2.
+	self assert: trace next equals: #'HaltingProcess'.
+	self assert: trace next class equals: Breakpoint ]
+		ensure: [ 
+			haltingProcess terminate.
+			independentProcess terminate ]
+]

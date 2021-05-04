@@ -24,7 +24,7 @@ counter: counter [
 		whileTrue: [ 
 			shouldHalt
 				ifTrue: [ self halt ].
-			Processor yield.
+			"Processor yield."
 			counter
 				at: 1
 				put: (counter first + 1)]

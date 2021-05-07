@@ -112,6 +112,7 @@ SpkBreakpointHandlingTest >> testStepOverInRecursion [
 	the step stops in the level of the step, not the topmost occuurrence of the method."
 
 	| utility process trace priority result factorialLevels numberOfLevels |
+	GsNMethod clearAllBreaks.
 	utility := SpkTestClassForDebugging new.
 	trace := SharedQueue new.
 	priority := Processor activePriority - 1.

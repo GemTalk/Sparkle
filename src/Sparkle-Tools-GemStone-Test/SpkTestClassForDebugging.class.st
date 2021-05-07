@@ -14,6 +14,15 @@ SpkTestClassForDebugging >> factorialOf: anInteger [
 ]
 
 { #category : 'other' }
+SpkTestClassForDebugging >> factorialOf: factInt stopAt: stopInt [
+	factInt = stopInt
+		ifTrue: [ self halt ].
+	factInt = 1
+		ifTrue: [ ^ 1 ].
+	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
+]
+
+{ #category : 'other' }
 SpkTestClassForDebugging >> runHotForSeconds: anInteger
 shouldHalt: shouldHalt
 counter: counter [

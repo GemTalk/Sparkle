@@ -7,7 +7,7 @@ Class {
 { #category : 'client actions' }
 SpkScaffoldingInspectorServiceServer >> inspect: anOop [
 	| serverInspectorService instVarNames |
-	serverInspectorService := RowanInspectorService new inspect: anOop.
+	serverInspectorService := RowanInspectorService new inspectOop: anOop.
 	rowanInspectorService := Array new.
 	instVarNames := serverInspectorService class allInstVarNames.
 	1 to: instVarNames size do: [ :index | 

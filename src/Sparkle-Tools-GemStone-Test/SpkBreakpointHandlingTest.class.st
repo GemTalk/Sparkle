@@ -118,15 +118,15 @@ SpkBreakpointHandlingTest >> testStepOverInRecursion [
 	priority := Processor activePriority - 1.
 	process := [ 
 	[ result := utility factorialOf: 10 stopAt: 5 ]
-		on: Breakpoint , Halt
+		on: ControlInterrupt
 		do: [ :ex | 
 			trace nextPut: ex.
 			process suspend.
-			ex resume] ] newProcess.
+			ex resume ] ] newProcess.
 	process
 		priority: priority;
 		breakpointLevel: 1;
-		resume. "advance to halt in the middle of recursion"
+		resume.	"advance to halt in the middle of recursion"
 	[ 
 	(Delay forMilliseconds: 100) wait.
 	self assertSuspended: process.
@@ -140,7 +140,7 @@ SpkBreakpointHandlingTest >> testStepOverInRecursion [
 	self assert: numberOfLevels equals: 6.
 	process
 		stepOverFromLevel: (factorialLevels at: 5);
-		resume. "advance to step break"
+		resume.	"advance to step break"
 	(Delay forMilliseconds: 100) wait.
 	self assertSuspended: process.
 	self assert: trace size equals: 1.
@@ -150,12 +150,14 @@ SpkBreakpointHandlingTest >> testStepOverInRecursion [
 		inProcess: process.
 	numberOfLevels := factorialLevels size.
 	self assert: numberOfLevels equals: 2.
-	process resume. "run rest of process"
+	process resume.	"run rest of process"
 	(Delay forMilliseconds: 100) wait.
 	self denySuspended: process.
 	self
 		assert: process _isTerminated;
 		assert: trace size equals: 0;
 		assert: result equals: 10 factorial ]
-		ensure: [ process terminate ]
+		ensure: [ 
+			GsNMethod clearAllBreaks.
+			process terminate ]
 ]

@@ -1,29 +1,29 @@
 Class {
-	#name : 'SpkBreakpointHandlingTest',
+	#name : 'BreakpointHandlingTest',
 	#superclass : 'TestCase',
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
 { #category : 'asserting' }
-SpkBreakpointHandlingTest >> assertSuspended: aProcess [
+BreakpointHandlingTest >> assertSuspended: aProcess [
 
 	self assert: (self isSuspended: aProcess)
 ]
 
 { #category : 'asserting' }
-SpkBreakpointHandlingTest >> denySuspended: aProcess [
+BreakpointHandlingTest >> denySuspended: aProcess [
 
 	self deny: (self isSuspended: aProcess)
 ]
 
 { #category : 'asserting' }
-SpkBreakpointHandlingTest >> isSuspended: aProcess [
+BreakpointHandlingTest >> isSuspended: aProcess [
 
 	^ProcessorScheduler scheduler _isSuspended: aProcess
 ]
 
 { #category : 'running' }
-SpkBreakpointHandlingTest >> levelsWithSelector: selector inProcess: process [
+BreakpointHandlingTest >> levelsWithSelector: selector inProcess: process [
 	| result |
 	result := {}.
 
@@ -34,12 +34,12 @@ SpkBreakpointHandlingTest >> levelsWithSelector: selector inProcess: process [
 ]
 
 { #category : 'running' }
-SpkBreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
+BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	"This test ensures that when you have a debugger on a process and #step, the step action applies
 	to the specific process. The step shouldn't apply to other processes executing the same method."
 
 	| utility haltingProcess independentProcess trace priority level haltingMethod haltingCounter independentCounter independentCounterCache |
-	utility := SpkTestClassForDebugging new.
+	utility := BreakpointHandling new.
 	trace := SharedQueue new.
 	priority := Processor activePriority - 1.
 	haltingCounter := {0}.
@@ -107,13 +107,13 @@ SpkBreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 ]
 
 { #category : 'running' }
-SpkBreakpointHandlingTest >> testStepOverInRecursion [
+BreakpointHandlingTest >> testStepOverInRecursion [
 	"This test ensures that when you step over in a method that is on the stack multiple times (recursion)
 	the step stops in the level of the step, not the topmost occuurrence of the method."
 
 	| utility process trace priority result factorialLevels numberOfLevels |
 	GsNMethod clearAllBreaks.
-	utility := SpkTestClassForDebugging new.
+	utility := BreakpointHandling new.
 	trace := SharedQueue new.
 	priority := Processor activePriority - 1.
 	process := [ 

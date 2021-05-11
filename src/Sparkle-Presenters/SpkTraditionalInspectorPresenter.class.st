@@ -14,10 +14,16 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> connectPresenters [ 
+SpkTraditionalInspectorPresenter >> connectPresenters [
+
+	"the value of the item is assumed to be a string or oop"
 
 	super connectPresenters.
-	
+	variableList whenSelectionChangedDo: [ :selection | 
+		selection selectedItem ifNotNil: [ :item | 
+			item value isString
+				ifTrue: [ variablePane text: item value ]
+				ifFalse: [ variablePane text: (self printOop: item value) ] ] ]
 ]
 
 { #category : 'actions' }
@@ -29,8 +35,8 @@ SpkTraditionalInspectorPresenter >> fillUpInspector [
 	theOop := inspectorArray detect: [ :array | array first = #oop ].
 	objects := inspectorArray detect: [ :array | array first = #objects ].
 	items := OrderedCollection new.
-	items add: 'self' -> myself last.
-	items add: '-.asOop' -> theOop last.
+	items add: 'self' -> myself last last.
+	items add: '-.asOop' -> theOop last printString.
 	items addAll:
 		(objects value last collect: [ :array | array first -> array last ]).
 	variableList items: items
@@ -68,11 +74,11 @@ SpkTraditionalInspectorPresenter >> initializePresenters [
 { #category : 'initialization' }
 SpkTraditionalInspectorPresenter >> initializeVariableList: box [
 
-	box add: (variableList := self newTable beSingleSelection addColumn:
-			                 (SpImageTableColumn new
-				                  width: 150;
-				                  title: 'Stuff';
-				                  evaluated: [ :assoc | assoc key ]))
+	box add:
+		(variableList := self newTable beSingleSelection hideColumnHeaders 
+			                 addColumn: (SpImageTableColumn new
+					                  width: 150;
+					                  evaluated: [ :assoc | assoc key ]))
 ]
 
 { #category : 'initialization' }
@@ -122,4 +128,25 @@ SpkTraditionalInspectorPresenter >> oop [
 SpkTraditionalInspectorPresenter >> oop: anObject [
 
 	oop := anObject
+]
+
+{ #category : 'actions' }
+SpkTraditionalInspectorPresenter >> printOop: theOop [
+
+	| inspectorService promise printString sem |
+	inspectorService := SpkScaffoldingInspectorServiceClient new 
+		                    registerWith:
+		                    SpkConnectionProfile defaultConnection.
+	promise := inspectorService printOop: theOop.
+	sem := Semaphore new.
+	promise
+		when: [ :result | 
+			printString := result.
+			sem signal ]
+		catch: [ :reason | 
+			printString := 'Unexpected Error getting printString '
+			               , reason printString.
+			sem signal ].
+	sem wait.
+	^ printString
 ]

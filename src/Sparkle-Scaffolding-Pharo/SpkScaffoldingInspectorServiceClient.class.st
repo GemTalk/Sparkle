@@ -9,3 +9,9 @@ SpkScaffoldingInspectorServiceClient >> inspect: anOop [
 
 	^ remoteSelf inspect: anOop
 ]
+
+{ #category : 'actions' }
+SpkScaffoldingInspectorServiceClient >> printOop: anOop [
+
+	^ remoteSelf printOop: anOop
+]

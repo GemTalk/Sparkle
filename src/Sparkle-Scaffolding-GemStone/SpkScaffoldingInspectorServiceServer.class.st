@@ -36,3 +36,8 @@ SpkScaffoldingInspectorServiceServer >> prepareObjectForReplication: object [
 		ifTrue: [ Array with: object key with: object value ]
 		ifFalse: [ object ]
 ]
+
+{ #category : 'client actions' }
+SpkScaffoldingInspectorServiceServer >> printOop: anOop [
+	^ (Object _objectForOop: anOop) printString
+]

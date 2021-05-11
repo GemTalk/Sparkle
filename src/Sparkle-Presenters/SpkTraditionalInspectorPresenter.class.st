@@ -74,17 +74,23 @@ SpkTraditionalInspectorPresenter >> initializePresenters [
 { #category : 'initialization' }
 SpkTraditionalInspectorPresenter >> initializeVariableList: box [
 
-	box add:
-		(variableList := self newTable beSingleSelection hideColumnHeaders 
-			                 addColumn: (SpImageTableColumn new
-					                  width: 150;
-					                  evaluated: [ :assoc | assoc key ]))
+	box add: (variableList := self newTable beSingleSelection addColumn:
+			                 (SpImageTableColumn new evaluated: [ :assoc | 
+				                  assoc key ]))
 ]
 
 { #category : 'initialization' }
 SpkTraditionalInspectorPresenter >> initializeVariablePane: box [
 
 	box add: (variablePane := self newText)
+]
+
+{ #category : 'initialization' }
+SpkTraditionalInspectorPresenter >> initializeWindow: aWindowPresenter [
+
+	aWindowPresenter
+		title: 'Sparkle Inspector';
+		initialExtent: 500 @ 	500
 ]
 
 { #category : 'actions' }

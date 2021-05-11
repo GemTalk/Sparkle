@@ -290,7 +290,8 @@ SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 			                 addColumn: (SpImageTableColumn new
 					                  title: 'Value';
 					                  evaluated: [ :varArray | varArray last ])).
-	box add: verticalBox
+	box add: verticalBox.
+	self overrideVariableListMenu
 ]
 
 { #category : 'initialization' }
@@ -317,6 +318,12 @@ SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
 		(workspace := (self instantiate: SpkWorkspacePresenter)
 			              withoutLineNumbers).
 	box add: verticalBox
+]
+
+{ #category : 'actions' }
+SpkTraditionalDebuggerPresenter >> inspectVariable [
+
+	SparkleTraditionalInspector on: (variableList selectedItem at: 2)
 ]
 
 { #category : 'testing' }
@@ -367,6 +374,19 @@ SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 				name: 'Print It';
 				action: [ sourceCode printIt ];
 				shortcut: PharoShortcuts current printItShortcut ] ]
+]
+
+{ #category : 'menus' }
+SpkTraditionalDebuggerPresenter >> overrideVariableListMenu [
+
+	| menu |
+	variableList contextMenu:
+		(menu := SpMenuPresenter new addGroup: [ :group | 
+			         group addItem: [ :item | 
+				         item
+					         name: 'Inspect';
+					         icon: (self iconNamed: #glamorousInspect);
+					         action: [ self inspectVariable ] ] ])
 ]
 
 { #category : 'actions' }

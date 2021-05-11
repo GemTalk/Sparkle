@@ -10,6 +10,15 @@ SparkleTraditionalInspector class >> example [
 	self new start
 ]
 
+{ #category : 'instance creation' }
+SparkleTraditionalInspector class >> on: anOop [
+
+	| inst | 
+	inst := self new start. 
+	inst oop: anOop. 
+	^inst inspectOop
+]
+
 { #category : 'running' }
 SparkleTraditionalInspector >> start [
 

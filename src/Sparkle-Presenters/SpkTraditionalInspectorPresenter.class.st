@@ -53,8 +53,20 @@ SpkTraditionalInspectorPresenter >> initialize [
 { #category : 'initialization' }
 SpkTraditionalInspectorPresenter >> initializePresenters [
 
-	| toolbar box |
+	| box |
 	super initializePresenters.
+	"self initializeToolbar."
+	box := SpkBoxLayout newLeftToRight.
+	self initializeVariableList: box.
+	self initializeVariablePane: box.
+	self layout add: box.
+	self layout color: SpkConnectionListPresenter defaultColor
+]
+
+{ #category : 'initialization' }
+SpkTraditionalInspectorPresenter >> initializeToolbar [
+
+	| toolbar |
 	toolbar := self newToolbar.
 	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Inspect';
@@ -64,12 +76,7 @@ SpkTraditionalInspectorPresenter >> initializePresenters [
 			 yourself).
 	self layout
 		add: toolbar
-		withConstraints: [ :constraints | constraints height: 30 ].
-	box := SpkBoxLayout newLeftToRight. 
-	self initializeVariableList: box. 
-	self initializeVariablePane: box.
-	self layout add: box.
-	self layout color: SpkConnectionListPresenter defaultColor
+		withConstraints: [ :constraints | constraints height: 30 ]
 ]
 
 { #category : 'initialization' }

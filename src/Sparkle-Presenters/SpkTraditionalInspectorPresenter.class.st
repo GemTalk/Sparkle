@@ -68,7 +68,8 @@ SpkTraditionalInspectorPresenter >> initializePresenters [
 	box := SpkBoxLayout newLeftToRight. 
 	self initializeVariableList: box. 
 	self initializeVariablePane: box.
-	self layout add: box
+	self layout add: box.
+	self layout color: SpkConnectionListPresenter defaultColor
 ]
 
 { #category : 'initialization' }

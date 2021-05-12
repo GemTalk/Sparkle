@@ -142,8 +142,7 @@ SpkInspectorPane >> initializePresenters [
 	self
 		initializeFieldList;
 		initializeAddEvaluatorButton;
-		initializeEvaluators;
-		updateFromModel
+		initializeEvaluators
 ]
 
 { #category : 'initialization' }

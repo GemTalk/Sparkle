@@ -21,18 +21,12 @@ SpkIconLibrary class >> current [
 ]
 
 { #category : 'initialization' }
-SpkIconLibrary class >> loadFromLocalSrcUrlString: urlString [
-	"Blow away any current library and re-load from a local filesystem path.
-	urlString is of the form 'gitlocal://<path>/src'
-	We just want the path"
+SpkIconLibrary class >> loadFromPath: aPath [
 
-	| startIndex endIndex pathString |
-	startIndex := (urlString indexOfSubCollection: '//' startingAt: 1)
-	              + 2.
-	endIndex := urlString size - 4.
-	pathString := urlString copyFrom: startIndex to: endIndex.
+	"Blow away any current library and re-load from a local filesystem path."
+
 	Current := self new.
-	Current initializeFromDirectory: pathString
+	Current initializeFromPath: aPath
 ]
 
 { #category : 'accessing' }
@@ -45,9 +39,10 @@ SpkIconLibrary >> iconNamed: aSymbol [
 ]
 
 { #category : 'initialization' }
-SpkIconLibrary >> initializeFromDirectory: pathString [
+SpkIconLibrary >> initializeFromPath: repoPath [
+
 	| path directory files |
-	path := (Path from: pathString) / 'icons/png/'.
+	path := repoPath / 'icons/png/'.
 	directory := path asFileReference.
 	files := directory allChildrenMatching: '*.png'.
 	icons := Dictionary new.

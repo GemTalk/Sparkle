@@ -109,14 +109,13 @@ BaselineOfSparkle >> githubUrlForGemTalkProject: projectName [
 
 { #category : 'actions' }
 BaselineOfSparkle >> postload: loader package: packageSpec [
-	| repositoriesSpec map urlString |
-	repositoriesSpec := packageSpec repositories.
-	map := repositoriesSpec map.
-	map size = 1 ifFalse: [ 
-		self error:
-			'Expected Sparkle baseline load to come from exactly one repository' ].
-	urlString := map keys first.
-	SpkIconLibrary loadFromLocalSrcUrlString: urlString
+
+	| lp package repo repositoryPath |
+	lp := loader loaderPolicy.
+	package := (lp cacheRepository dictionary keys detect: [:each | each name beginsWith: 'Sparkle-' ]) package.
+	repo := package repository.
+	repositoryPath := repo location asPath.
+	SpkIconLibrary loadFromPath: repositoryPath
 ]
 
 { #category : 'baselines' }

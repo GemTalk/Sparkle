@@ -49,7 +49,8 @@ SpkTraditionalDebuggerPresenter >> connectPresenters [
 	variableList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :item | 
-				workspace contextOop: (item at: 2) ] ] ]
+				workspace contextOop: (item at: 2).
+				workspace text: (item at: 3) ] ] ]
 ]
 
 { #category : 'accessing' }

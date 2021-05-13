@@ -77,7 +77,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07b [
 	doitProcess := [ 
 	[ 
 	| promise |
-	GsProcess _current name: self printString , ' doit proc'.
+	GsProcess _current name: self printString , ' doit proc (_07b)'.
 	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
 	expressionResult := (self expectWhen: promise) doitResult.
 	sem signal ]
@@ -114,7 +114,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c_01 [
 	doitProcess := [ 
 	[ 
 	| promise |
-	GsProcess _current name: self printString , ' doit proc'.
+	GsProcess _current name: self printString , ' doit proc (_07c_01)'.
 	promise := client gsDebugger_07: '7 foo' usingDebugger: debuggerClient.
 	self expectCatch: promise.
 	sem signal ]
@@ -155,7 +155,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07c_02 [
 	doitProcess := [ 
 	[ 
 	| promise |
-	GsProcess _current name: self printString , ' doit proc'.
+	GsProcess _current name: self printString , ' doit proc (_07c_02)'.
 	promise := client gsDebugger_07: '7 halt' usingDebugger: debuggerClient.
 	self expectCatch: promise.
 	sem signal ]
@@ -600,7 +600,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	GsProcess _current name: self printString , ' doit proc'.
 	[ 
 	(client
-		gsDebugger_07: 'RsrNonresumableError signal: ''oh oh'''
+		gsDebugger_07: 'SpkScaffoldingNonresumableError signal: ''oh oh'''
 		usingDebugger: debuggerClient) wait ]
 		ensure: [debuggerClient terminate].
 	self assert: false description: 'should not get here' ]
@@ -611,7 +611,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 	self
 		assert: (debuggerClient rowanFrameServices at: 7) label
 		equals:
-			'RsrNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
+			'SpkScaffoldingNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
 
 	count := 1.
 	GsFile gciLogServer: '========='.
@@ -625,11 +625,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07j [
 			"infinite loop"
 			self
 				assert: debuggerClient messageText
-				equals: 'cannot resume from a not-resumable Exception'.
+				equals: 'cannot resume from a non-resumable Exception'.
 			self
 				assert: (debuggerClient rowanFrameServices at: 7) label
 				equals:
-					'RsrNonresumableError (AbstractException) >> _signalToDebugger @8 line 5'.
+					'Error (AbstractException) >> _signalToDebugger @8 line 5'.
 
 			count := count + 1.
 			GsFile gciLogServer: '========='.
@@ -654,11 +654,11 @@ SpkScaffoldingDebuggerTest >> testDebugger_07k [
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'testDebugger_07k - launch a hot running doit ... interrupt ala soft break'.
 	GsFile gciLogServer: '========='.
-
+false ifTrue: [ 
 (UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
 GsFile gciLogServer: '***** HANGS instead of test failure'.
 ^self assert: false].
-
+].
 	client := SpkScaffoldingServiceClient new
 		registerWith: connectionA;
 		synchronize.
@@ -675,16 +675,11 @@ GsFile gciLogServer: '***** HANGS instead of test failure'.
 	GsProcess _current name: self printString , ' doit process'.
 	promise := client
 		gsDebugger_07:
-			'
-| once |
-once := true.
-GsFile gciLogServer: ''before hot loop ['', GsProcess _current asOop printString, '']''.
-[true] 
-	whileTrue: [
+			'| once |
+	once := true.
+	[true] whileTrue: [
 		once ifTrue: [
-			GsFile gciLogServer: ''before sig''. 
 			SpkScaffoldingDebuggerServiceClient debuggerSemaphore signal.
-			GsFile gciLogServer: ''after sig''. 
 			once := false ]]'
 		usingDebugger: debuggerClient
 		procName: 'HOT proc'.
@@ -692,10 +687,8 @@ GsFile gciLogServer: ''before hot loop ['', GsProcess _current asOop printString
 	self assert: false description: 'should never reach here' ]
 		ensure: [ debuggerClient terminate ] ]
 		forkAt: Processor userSchedulingPriority.
-GsFile gciLogServer: 'BEFORE wait; (priority = ', GsProcess _current priority printString, ')'.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait."wait for hot loop to start"
 
-GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priority printString, ')'.
 	softBreakClient softBreak.
 	SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait. "wait for debugger to open"
 
@@ -703,6 +696,12 @@ GsFile gciLogServer: 'BEFORE softBreak; (priority = ', GsProcess _current priori
 	self
 		assert: (debuggerClient rowanFrameServices at: 13) label
 		equals: 'Break (AbstractException) >> _signalAsync @6 line 21'.
+
+	self
+		assert: (debuggerClient rowanFrameServices at: 16) label
+		equals: 'ControlInterrupt (AbstractException) >> _signalTimeout @3 line 15'.
+
+	debuggerClient terminate.
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.
@@ -767,7 +766,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07l [
 { #category : 'tests' }
 SpkScaffoldingDebuggerTest >> testDebugger_07m [
 	"
-		Stack overflow - NOTE this test requires 1G of TOC to run sucessfully
+		Stack overflow - NOTE this test requires 125M of TOC to run sucessfully
 	"
 
 	| client server debuggerClient sem softBreakClient toc |
@@ -778,7 +777,7 @@ SpkScaffoldingDebuggerTest >> testDebugger_07m [
 
 	(toc := System gemConfigurationAt: #'GEM_TEMPOBJ_CACHE_SIZE') < 128000000
 		ifTrue: [
-			GsFile gciLogServer: '***** TOC (', toc printString , ') is too small to successfully run, should be greater than 500M'.
+			GsFile gciLogServer: '***** TOC (', toc printString , ') is too small to successfully run, should be greater than 125M'.
 			^self assert: false].
 
 	client := SpkScaffoldingServiceClient new
@@ -1284,6 +1283,133 @@ SpkScaffoldingDebuggerTest >> testDebugger_07t [
 			self
 				assert: (debuggerClient rowanFrameServices at: 13) label
 				equals: 'Executed Code  @2 line 1'	"we are not expecting the step point to move - should be same as line 38" ].
+
+	GsFile gciLogServer: '========='.
+	GsFile gciLogServer: 'SUCCESS'.
+	GsFile gciLogServer: '========='
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07u [
+  "
+    Trigger a breakpoint in SpkScaffoldingMockObject>>method1:  
+      1. stepOutFromLevel:; to confirm we've stepped out of the block ... and then done
+  "
+
+  | client server sem debuggerClient expressionResult |
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'testDebugger_07u - Set 3 breakpoints in SpkScaffoldingMockObject ... first breakpoint will allow us to test; stepThroughFromLevel:; resume to hit second breakpoint; stepOverFromLevel: to confirm we''ve returned to calling method ... and then done'.
+  GsFile gciLogServer: '========='.
+
+(UserGlobals at: #Scaffolding_SKIP_during_TestSuite ifAbsent: [false]) ifTrue: [ 
+GsFile gciLogServer: '***** HANGS instead of test failure'.
+^self assert: false].
+
+  client := SpkScaffoldingServiceClient new
+    registerWith: connectionA;
+    synchronize.
+  server := connectionB serviceAt: client _id.
+  debuggerClient := SpkScaffoldingDebuggerServiceClient new
+    registerWith: connectionA;
+    synchronize.
+  sem := Semaphore new.
+
+  debuggerClient
+    setBreakpointForClass: 'SpkScaffoldingMockObject'
+      meta: false
+      selector: #'method1:'
+      atStepPoint: 7.
+
+  doitProcess := [ 
+  [ 
+  | promise |
+  GsProcess _current name: self printString , ' doit proc'.
+  promise := client
+    gsDebugger_07: 'SpkScaffoldingMockObject example1'
+    usingDebugger: debuggerClient.
+  expressionResult := (self expectWhen: promise) doitResult.
+  sem signal ]
+    ensure: [ debuggerClient terminate ] ]
+    forkAt: Processor userSchedulingPriority.
+  SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+  self
+    assert: debuggerClient messageText
+    equals: 'a Breakpoint occurred (error 6024), Method breakpoint encountered.'.
+  self
+    assert: (debuggerClient rowanFrameServices at: 14) label
+    equals: '[] in SpkScaffoldingMockObject >> method1: @7 line 10'.
+
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'STEP OUT'.
+  GsFile gciLogServer: '========='.
+  debuggerClient stepOutFromLevel: 14.
+  SpkScaffoldingDebuggerServiceClient debuggerSemaphore wait.
+
+  self
+    assert: debuggerClient messageText
+    equals:
+      'a Breakpoint occurred (error 6023), Single-step breakpoint encountered.'.
+  self
+    assert: (debuggerClient rowanFrameServices at: 14) label
+    equals: 'SpkScaffoldingMockObject >> method1: @4 line 12'.
+
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'CLEAR BREAKPOINTS & RESUME'.
+  GsFile gciLogServer: '========='.
+  debuggerClient
+    clearAllBreaks;
+    resume.
+
+  sem wait.  "run assertion"
+  self
+    assert: expressionResult
+    equals:
+      {'symbol'.
+      '1'.
+      '2.0'}.
+  GsFile gciLogServer: '========='.
+  GsFile gciLogServer: 'SUCCESS'.
+  GsFile gciLogServer: '========='
+]
+
+{ #category : 'tests' }
+SpkScaffoldingDebuggerTest >> testDebugger_07v [
+	"
+    reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception
+	"
+
+	| client server sem debuggerClient reason |
+	GsFile gciLogServer: '========='.
+	GsFile
+		gciLogServer:
+			'testDebugger_07v - reproduce inifinite loop bug running `Time now` that produces an RsrUnsupportedObject exception'.
+	GsFile gciLogServer: '========='.
+
+	client := SpkScaffoldingServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	server := connectionB serviceAt: client _id.
+	debuggerClient := SpkScaffoldingDebuggerServiceClient new
+		registerWith: connectionA;
+		synchronize.
+	sem := Semaphore new.
+
+	doitProcess := [ 
+	[ 
+	| promise |
+	GsProcess _current name: self printString , ' doit proc'.
+	promise := client
+		gsDebugger_07: 'SmallTime fromMilliseconds: 52756739'
+		usingDebugger: debuggerClient.
+	reason := self expectCatch: promise.
+	sem signal ]
+		ensure: [  ] ] forkAt: Processor userSchedulingPriority.
+
+	sem wait.	"run assertion"
+
+GsFile gciLogServer: 'This assertion passes (reason class EQUALS RsrRemoteExceptionServer), but it does not make sense to me'.
+	self assert: reason class equals: RsrRemoteExceptionServer.	"this is not a broken promise, as I expected"
 
 	GsFile gciLogServer: '========='.
 	GsFile gciLogServer: 'SUCCESS'.

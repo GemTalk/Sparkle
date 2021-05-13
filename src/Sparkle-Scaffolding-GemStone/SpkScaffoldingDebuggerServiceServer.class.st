@@ -121,6 +121,11 @@ SpkScaffoldingDebuggerServiceServer >> stepIntoFromLevel: aLevel [
 ]
 
 { #category : 'debbuger process control' }
+SpkScaffoldingDebuggerServiceServer >> stepOutFromLevel: aLevel [
+	^ self processService stepOutFromLevel: aLevel
+]
+
+{ #category : 'debbuger process control' }
 SpkScaffoldingDebuggerServiceServer >> stepOverFromLevel: aLevel [
 	^ self processService stepOverFromLevel: aLevel
 ]

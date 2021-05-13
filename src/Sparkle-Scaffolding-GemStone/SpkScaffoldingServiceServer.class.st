@@ -296,6 +296,10 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 		debugActionBlock: [ :ex | 
 					| mon theDebugProcess |
 					theDebugProcess := GsProcess _current.
+					(ex isKindOf: RsrError)
+						ifTrue: [ 
+							theDebugProcess debugActionBlock: debugActionBlock.
+							^ Error signal: 'Unhandled RsrError: ', ex description ].
 					mon := [ 
 					| res |
 					GsProcess _current
@@ -309,8 +313,8 @@ SpkScaffoldingServiceServer >> gsDebugger_07: aString usingDebugger: debuggerSer
 					ex isResumable
 						ifFalse: [ 
 							"cannot resume from a not-resumable Exception."
-							^ RsrNonresumableError
-								signal: 'cannot resume from a not-resumable Exception' ].
+							^ Error
+								signal: 'cannot resume from a non-resumable Exception' ].
 					debuggerService resumptionValue	"necessary" ].
 	doitResult := aString
 		evaluateInContext: (Object _objectForOop: contextOop)

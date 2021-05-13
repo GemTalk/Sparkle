@@ -374,7 +374,12 @@ SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 			item
 				name: 'Print It';
 				action: [ sourceCode printIt ];
-				shortcut: PharoShortcuts current printItShortcut ] ]
+				shortcut: PharoShortcuts current printItShortcut ].
+		group addItem: [ :item | 
+			item
+				name: 'Debug It';
+				action: [ sourceCode debugIt ];
+				shortcut: PharoShortcuts current debugItShortcut ] ]
 ]
 
 { #category : 'menus' }

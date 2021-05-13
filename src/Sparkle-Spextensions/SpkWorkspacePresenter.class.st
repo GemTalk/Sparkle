@@ -20,19 +20,25 @@ SpkWorkspacePresenter >> contextOop: anObject [
 ]
 
 { #category : 'actions' }
+SpkWorkspacePresenter >> debugIt [
+
+	self doItShouldPrint: false shouldDebug: true
+]
+
+{ #category : 'actions' }
 SpkWorkspacePresenter >> debuggerClosed [
 ]
 
 { #category : 'actions' }
 SpkWorkspacePresenter >> doIt [
 
-	self doItShouldPrint: false
+	self doItShouldPrint: false shouldDebug: false
 ]
 
 { #category : 'actions' }
-SpkWorkspacePresenter >> doItShouldPrint: shouldPrint [
+SpkWorkspacePresenter >> doItShouldPrint: shouldPrint shouldDebug: shouldDebug [
 
-	| debuggerClient announcement promise service |
+	| debuggerClient announcement promise service doItText |
 	announcement := self initializeResultReadyAnnouncement.
 	service := SpkScaffoldingServiceClient new registerWith:
 		           SpkConnectionProfile defaultConnection.
@@ -41,8 +47,10 @@ SpkWorkspacePresenter >> doItShouldPrint: shouldPrint [
 			                  SpkConnectionProfile defaultConnection;
 		                  synchronize.
 	self selectedText isEmpty ifTrue: [ self selectLine ].
+	doItText := (self selectedText copyWithout: Character null) trimmed.
+	shouldDebug ifTrue: [ doItText := 'self halt. ' , doItText ].
 	promise := service
-		           doIt: (self selectedText copyWithout: Character null) trimmed
+		           doIt: doItText
 		           usingDebugger: debuggerClient
 		           contextOop: contextOop
 		           shouldPrint: shouldPrint.
@@ -90,6 +98,7 @@ SpkWorkspacePresenter >> initializeWindow: aWindowPresenter [
 
 { #category : 'menus' }
 SpkWorkspacePresenter >> overrideTheContextMenu [
+
 	self overridingContextMenu.
 	self contextMenu: (SpMenuPresenter new addGroup: [ :group | 
 			 group addItem: [ :item | 
@@ -101,7 +110,12 @@ SpkWorkspacePresenter >> overrideTheContextMenu [
 				 item
 					 name: 'Print It';
 					 action: [ self printIt ];
-					 shortcut: PharoShortcuts current printItShortcut ] ])
+					 shortcut: PharoShortcuts current printItShortcut ].
+			 group addItem: [ :item | 
+				 item
+					 name: 'Debug It';
+					 action: [ self debugIt ];
+					 shortcut: PharoShortcuts current debugItShortcut ] ])
 ]
 
 { #category : 'actions' }
@@ -111,7 +125,7 @@ SpkWorkspacePresenter >> printIt [
 		when: SpkDebuggerResultReadyAnnouncement
 		send: #printIt:
 		to: self.
-	self doItShouldPrint: true
+	self doItShouldPrint: true shouldDebug: false
 ]
 
 { #category : 'actions' }

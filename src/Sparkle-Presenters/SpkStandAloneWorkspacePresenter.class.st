@@ -9,6 +9,13 @@ Class {
 }
 
 { #category : 'actions' }
+SpkStandAloneWorkspacePresenter >> debugIt [ 
+
+	workspace debugIt
+	
+]
+
+{ #category : 'actions' }
 SpkStandAloneWorkspacePresenter >> doIt [ 
 
 	workspace doIt
@@ -30,17 +37,22 @@ SpkStandAloneWorkspacePresenter >> initializeToolbar [
 	toolbar := self newToolbar.
 	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Do It';
-			 icon: (self iconNamed: #smallForward);
+			 icon: (self iconNamed: #smallDoIt);
 			 action: [ self doIt ];
 			 yourself).
 	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Print It';
-			 icon: (self iconNamed: #smallCancel);
+			 icon: (self iconNamed: #smallPrintIt);
 			 action: [ self printIt ];
+			 yourself).
+		toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Debug It';
+			 icon: (self iconNamed: #smallDebug);
+			 action: [ self debugIt ];
 			 yourself).
 	self layout
 		add: toolbar
-		withConstraints: [ :constraints | constraints height: 25 ]
+		withConstraints: [ :constraints | constraints height: 30 ]
 ]
 
 { #category : 'initialization' }

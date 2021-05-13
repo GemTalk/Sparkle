@@ -42,7 +42,7 @@ SpkWorkspacePresenter >> doItShouldPrint: shouldPrint [
 		                  synchronize.
 	self selectedText isEmpty ifTrue: [ self selectLine ].
 	promise := service
-		           doIt: self selectedText
+		           doIt: (self selectedText copyWithout: Character null) trimmed
 		           usingDebugger: debuggerClient
 		           contextOop: contextOop
 		           shouldPrint: shouldPrint.

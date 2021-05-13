@@ -104,11 +104,17 @@ SpkTraditionalInspectorPresenter >> initializeWindow: aWindowPresenter [
 { #category : 'actions' }
 SpkTraditionalInspectorPresenter >> inspectOop [
 
+	self inspectOop: oop
+]
+
+{ #category : 'actions' }
+SpkTraditionalInspectorPresenter >> inspectOop: anOop [
+
 	| inspectorService promise |
 	inspectorService := SpkScaffoldingInspectorServiceClient new 
 		                    registerWith:
 		                    SpkConnectionProfile defaultConnection.
-	promise := inspectorService inspect: oop.
+	promise := inspectorService inspect: anOop.
 	promise
 		when: [ :result | 
 			objectDetails := result.

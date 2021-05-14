@@ -66,6 +66,6 @@ SpkTool >> unsubscribe: anObject [
 
 { #category : 'accessing' }
 SpkTool >> when: anAnnouncementClass send: aSelector to: anObject [
-
-	self announcer when: anAnnouncementClass send: aSelector to: anObject
+	(self announcer when: anAnnouncementClass send: aSelector to: anObject)
+		makeWeak
 ]

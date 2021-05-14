@@ -48,7 +48,7 @@ SpkWorkspacePresenter >> doItShouldPrint: shouldPrint shouldDebug: shouldDebug [
 		                  synchronize.
 	self selectedText isEmpty ifTrue: [ self selectLine ].
 	doItText := (self selectedText copyWithout: Character null) trimmed.
-	shouldDebug ifTrue: [ doItText := 'self halt. ' , doItText ].
+	shouldDebug ifTrue: [ doItText := self insertSelfHaltIn: doItText ].
 	promise := service
 		           doIt: doItText
 		           usingDebugger: debuggerClient
@@ -94,6 +94,20 @@ SpkWorkspacePresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 400 @ 250;
 		whenClosedDo: [ 
 			SpkConnectionProfile profileAnnouncer unsubscribe: self ]
+]
+
+{ #category : 'private' }
+SpkWorkspacePresenter >> insertSelfHaltIn: doItText [
+
+	| ast selfHalt statements |
+	ast := RBParser parseExpression: doItText.
+	ast children isEmpty ifTrue: [ ^ 'self halt. ' , ast newSource ].
+	selfHalt := RBParser parseExpression: 'self halt'.
+	statements := ast statements asOrderedCollection.
+	statements addFirst: selfHalt.
+	ast statements: statements.
+	selfHalt parent: ast.
+	^ ast newSource
 ]
 
 { #category : 'menus' }

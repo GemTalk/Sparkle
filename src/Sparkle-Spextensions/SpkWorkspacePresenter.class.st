@@ -105,7 +105,11 @@ SpkWorkspacePresenter >> insertSelfHaltIn: doItText [
 	selfHalt := RBParser parseExpression: 'self halt'.
 	statements := ast statements asOrderedCollection.
 	statements addFirst: selfHalt.
-	ast statements: statements.
+	(ast class canUnderstand: #statements:)
+		ifTrue: [ ast statements: statements ]
+		ifFalse: [ 
+			ast := RBSequenceNode statements:
+				       (OrderedCollection with: selfHalt with: ast) ]. "little hacky for now"
 	selfHalt parent: ast.
 	^ ast newSource
 ]

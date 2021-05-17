@@ -21,6 +21,15 @@ SpkIconLibrary class >> current [
 ]
 
 { #category : 'initialization' }
+SpkIconLibrary class >> loadFromGitClone [
+
+	| repository repositoryPath  |
+	repository := IceRepository registeredRepositoryIncludingPackage: self class package.
+	repositoryPath := repository location asPath.
+	self loadFromPath: repositoryPath
+]
+
+{ #category : 'initialization' }
 SpkIconLibrary class >> loadFromPath: aPath [
 
 	"Blow away any current library and re-load from a local filesystem path."

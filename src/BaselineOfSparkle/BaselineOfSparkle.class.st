@@ -110,19 +110,7 @@ BaselineOfSparkle >> githubUrlForGemTalkProject: projectName [
 { #category : 'actions' }
 BaselineOfSparkle >> postload: loader package: packageSpec [
 
-	| lp adapter repo repositoryPath |
-	lp := loader loaderPolicy.
-
-	adapter := (lp repositoryMap associations
-		            detect: [ :each | each key beginsWith: 'Sparkle-' ]
-		            ifNone: [ 
-			            ^ self
-			            "If no Sparkle packages are being loaded, icons are 
-							either already initialized or not needed." ])
-		           value.
-	repo := adapter repository.
-	repositoryPath := repo location asPath.
-	SpkIconLibrary loadFromPath: repositoryPath
+	SpkIconLibrary loadFromGitClone
 ]
 
 { #category : 'baselines' }

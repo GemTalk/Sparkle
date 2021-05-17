@@ -135,6 +135,25 @@ removeallclassmethods AnnouncerSubscriberMockB
 
 doit
 (Object
+	subclass: 'BreakpointHandling'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Used by BreakpointHandlingTest';
+		immediateInvariant.
+true.
+%
+
+removeallmethods BreakpointHandling
+removeallclassmethods BreakpointHandling
+
+doit
+(Object
 	subclass: 'SpkTestClassForDebugging'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -925,6 +944,43 @@ removeallmethods AnnouncerTest
 removeallclassmethods AnnouncerTest
 
 doit
+(AnnouncerTest
+	subclass: 'WeakAnnouncerTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Announcements-Core-GemStone-Test';
+		comment: 'SUnit tests for weak announcements';
+		immediateInvariant.
+true.
+%
+
+removeallmethods WeakAnnouncerTest
+removeallclassmethods WeakAnnouncerTest
+
+doit
+(TestCase
+	subclass: 'BreakpointHandlingTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods BreakpointHandlingTest
+removeallclassmethods BreakpointHandlingTest
+
+doit
 (TestCase
 	subclass: 'RsrTestCase'
 	instVarNames: #(  )
@@ -942,6 +998,24 @@ true.
 
 removeallmethods RsrTestCase
 removeallclassmethods RsrTestCase
+
+doit
+(RsrTestCase
+	subclass: 'RsrAsyncMournHandlerTestCase'
+	instVarNames: #( handler )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrAsyncMournHandlerTestCase
+removeallclassmethods RsrAsyncMournHandlerTestCase
 
 doit
 (RsrTestCase
@@ -1289,6 +1363,24 @@ true.
 
 removeallmethods RsrSocketConnectionTestCase
 removeallclassmethods RsrSocketConnectionTestCase
+
+doit
+(RsrSystemTestCase
+	subclass: 'RsrEphemeronMourningDeadlock'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrEphemeronMourningDeadlock
+removeallclassmethods RsrEphemeronMourningDeadlock
 
 doit
 (RsrSystemTestCase
@@ -1867,9 +1959,76 @@ registerEvents
 	self announcer when: AnnouncementMockA do: [ :evt | " something" ] for: self "GemStone can't identiy this block's receiver".
 %
 
+! Class implementation for 'BreakpointHandling'
+
+!		Instance methods for 'BreakpointHandling'
+
+category: 'other'
+method: BreakpointHandling
+factorialOf: factInt stopAt: stopInt
+	factInt = stopInt
+		ifTrue: [ self halt ].
+	factInt = 1
+		ifTrue: [ ^ 1 ].
+	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
+%
+
+category: 'other'
+method: BreakpointHandling
+runHotForSeconds: anInteger
+shouldHalt: shouldHalt
+counter: counter
+
+	| endTime |
+	endTime := DateAndTime now + (Duration seconds: anInteger).
+	[ DateAndTime now < endTime ]
+		whileTrue: [ 
+			shouldHalt
+				ifTrue: [ self halt ].
+			"Processor yield."
+			counter
+				at: 1
+				put: (counter first + 1)]
+%
+
 ! Class implementation for 'SpkTestClassForDebugging'
 
 !		Instance methods for 'SpkTestClassForDebugging'
+
+category: 'other'
+method: SpkTestClassForDebugging
+factorialOf: anInteger
+	anInteger = 1 ifTrue: [^ 1].
+	^ anInteger * (self factorialOf: anInteger - 1)
+%
+
+category: 'other'
+method: SpkTestClassForDebugging
+factorialOf: factInt stopAt: stopInt
+	factInt = stopInt
+		ifTrue: [ self halt ].
+	factInt = 1
+		ifTrue: [ ^ 1 ].
+	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
+%
+
+category: 'other'
+method: SpkTestClassForDebugging
+runHotForSeconds: anInteger
+shouldHalt: shouldHalt
+counter: counter
+
+	| endTime |
+	endTime := DateAndTime now + (Duration seconds: anInteger).
+	[ DateAndTime now < endTime ]
+		whileTrue: [ 
+			shouldHalt
+				ifTrue: [ self halt ].
+			"Processor yield."
+			counter
+				at: 1
+				put: (counter first + 1)]
+%
 
 category: 'breakpointing'
 method: SpkTestClassForDebugging
@@ -3302,6 +3461,322 @@ testUnsubscribeSet
 	self assert: announcement isNil
 %
 
+! Class implementation for 'WeakAnnouncerTest'
+
+!		Instance methods for 'WeakAnnouncerTest'
+
+category: 'asserting'
+method: WeakAnnouncerTest
+assert: anObject
+identicalTo: bObject
+
+	^self assert: anObject == bObject
+%
+
+category: 'utilities'
+method: WeakAnnouncerTest
+maximumReclamation
+
+	System _generationScavenge_vmMarkSweep.
+	System _generationScavenge_vmMarkSweep.
+	(Delay forMilliseconds: 10) wait.
+%
+
+category: 'tests'
+method: WeakAnnouncerTest
+testMakeStrong
+
+	| counter collector forwarder subscription |
+	counter := 0.
+	collector := [ counter := counter + 1 ].
+	forwarder := MessageSend receiver: collector selector: #value.
+	subscription := announcer weak when: AnnouncementMockA send: #value to: forwarder.
+	
+	" shouldn't go away, we are still holding a reference to 'forwarder': "
+	self maximumReclamation.
+	announcer announce: AnnouncementMockA.
+	self assert: counter equals: 1.
+	
+	"Shouldn't go away since we converted to a strong sub"
+	subscription := subscription makeStrong.
+	forwarder := nil.
+	self maximumReclamation.
+	announcer announce: AnnouncementMockA.
+	self assert: counter equals: 2
+%
+
+category: 'tests'
+method: WeakAnnouncerTest
+testNoDeadWeakSubscriptions
+
+	self maximumReclamation.
+	self assert: (WeakAnnouncementSubscription allInstancesInMemory select: [ :sub | sub subscriber isNil ]) isEmpty.
+	self assert: (WeakAnnouncementSubscription allInstancesInMemory select: [ :sub | sub subscriber isNil ]) isEmpty
+%
+
+category: 'tests'
+method: WeakAnnouncerTest
+testWeakBlockUnsupported
+	"We support weak blocks though they aren't all that useful."
+
+	| counter |
+	counter := 0.
+	self
+		should: [announcer weak when: AnnouncementMockA send: #value to: []]
+		raise: WeakBlockUnsupported.
+	self
+		should: [(announcer when: AnnouncementMockA do: [ :ann | counter := counter + 1 ] for: self) makeWeak]
+		raise: WeakBlockUnsupported
+%
+
+category: 'tests'
+method: WeakAnnouncerTest
+testWeakDoubleAnnouncer
+
+	| a1 a2 o |
+	a1 := Announcer new.
+	a2 := Announcer new.
+	o := Object new.
+	self 
+		assert: a1 subscriptions numberOfSubscriptions
+		equals: 0.
+	self
+		assert: a2 subscriptions numberOfSubscriptions
+		equals: 0.
+	
+	a1 weak
+		when: Announcement
+		send: #abcdef
+		to: o.
+	a2 weak
+		when: Announcement
+		send: #abcdef
+		to: o.	
+	self 
+		assert: a1 subscriptions numberOfSubscriptions
+		equals: 1.
+	self
+		assert: a2 subscriptions numberOfSubscriptions
+		equals: 1.
+	
+	self maximumReclamation.
+	self 
+		assert: a1 subscriptions numberOfSubscriptions
+		equals: 1.
+	self
+		assert: a2 subscriptions numberOfSubscriptions
+		equals: 1.	
+
+	o := nil.
+	self maximumReclamation.
+	self 
+		assert: a1 subscriptions numberOfSubscriptions
+		equals: 0.
+	self
+		assert: a2 subscriptions numberOfSubscriptions
+		equals: 0.
+%
+
+category: 'tests'
+method: WeakAnnouncerTest
+testWeakObject
+
+	| counter collector forwarder |
+	counter := 0.
+	collector := [ counter := counter + 1 ].
+	forwarder := MessageSend receiver: collector selector: #value.
+	(announcer when: AnnouncementMockA send: #value to: forwarder) makeWeak.
+	
+	" shouldn't go away, we are still holding a reference to 'forwarder': "
+	self maximumReclamation.
+	announcer announce: AnnouncementMockA.
+	self assert: counter equals: 1.
+	
+	" should go away as we let the only reference to 'forwarder' go: "
+	forwarder := nil.
+	self maximumReclamation.
+	announcer announce: AnnouncementMockA.
+	self assert: counter equals: 1
+%
+
+category: 'tests'
+method: WeakAnnouncerTest
+testWeakSubscription
+
+	| obj subscription |
+	obj := Object new.
+	subscription := (announcer when: AnnouncementMockA send: #value to: obj) makeWeak.
+	self assert: obj identicalTo: subscription subscriber
+%
+
+! Class implementation for 'BreakpointHandlingTest'
+
+!		Instance methods for 'BreakpointHandlingTest'
+
+category: 'asserting'
+method: BreakpointHandlingTest
+assertSuspended: aProcess
+
+	self assert: (self isSuspended: aProcess)
+%
+
+category: 'asserting'
+method: BreakpointHandlingTest
+denySuspended: aProcess
+
+	self deny: (self isSuspended: aProcess)
+%
+
+category: 'asserting'
+method: BreakpointHandlingTest
+isSuspended: aProcess
+
+	^ProcessorScheduler scheduler _isSuspended: aProcess
+%
+
+category: 'running'
+method: BreakpointHandlingTest
+levelsWithSelector: selector inProcess: process
+	| result |
+	result := {}.
+
+	1 to: process stackDepth do: [ :level | 
+		(process _frameContentsAt: level) first selector == selector
+			ifTrue: [ result add: level ] ].
+	^ result
+%
+
+category: 'running'
+method: BreakpointHandlingTest
+testMethodSteppingIsLocalToOneProcess
+	"This test ensures that when you have a debugger on a process and #step, the step action applies
+	to the specific process. The step shouldn't apply to other processes executing the same method."
+
+	| utility haltingProcess independentProcess trace priority level haltingMethod haltingCounter independentCounter independentCounterCache |
+	utility := BreakpointHandling new.
+	trace := SharedQueue new.
+	priority := Processor activePriority - 1.
+	haltingCounter := {0}.
+	independentCounter := {0}.
+	haltingProcess := [ 
+	[ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
+		on: Breakpoint , Halt
+		do: [ :ex | 
+			trace nextPut: #'HaltingProcess'.
+			trace nextPut: ex.
+			haltingProcess suspend.
+			ex resume ] ] newProcess.
+	independentProcess := [ 
+	[ utility runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
+		on: Breakpoint , Halt
+		do: [ :ex | 
+			trace nextPut: #'RunningProcess'.
+			trace nextPut: ex.
+			independentProcess suspend.
+			ex resume ] ] newProcess.
+	haltingProcess
+		priority: priority;
+		breakpointLevel: 1.
+	independentProcess
+		priority: priority;
+		breakpointLevel: 1;
+		convertToPortableStack.
+	[ 
+	haltingProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: haltingProcess.
+	independentCounterCache := independentCounter first.
+	level := 10.
+	haltingMethod := (haltingProcess _frameContentsAt: level) first.
+	self
+		assert: haltingMethod selector
+		equals: #'runHotForSeconds:shouldHalt:counter:'.
+	self assert: trace size equals: 2.
+	self assert: trace next equals: #'HaltingProcess'.
+	self assert: trace next class equals: Halt.
+
+	independentProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	independentProcess convertToPortableStack.
+
+	haltingProcess stepOverFromLevel: level.
+	(Delay forMilliseconds: 100) wait.
+
+	self assertSuspended: haltingProcess.
+	self denySuspended: independentProcess.
+	self assert: trace size equals: 0.
+	self assert: independentCounter first > independentCounterCache.
+	independentProcess terminate.
+	self assert: independentProcess _isTerminated.
+
+	haltingProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: haltingProcess.
+	self assert: trace size equals: 2.
+	self assert: trace next equals: #'HaltingProcess'.
+	self assert: trace next class equals: Breakpoint ]
+		ensure: [ 
+			haltingProcess terminate.
+			independentProcess terminate ]
+%
+
+category: 'running'
+method: BreakpointHandlingTest
+testStepOverInRecursion
+	"This test ensures that when you step over in a method that is on the stack multiple times (recursion)
+	the step stops in the level of the step, not the topmost occuurrence of the method."
+
+	| utility process trace priority result factorialLevels numberOfLevels |
+	GsNMethod clearAllBreaks.
+	utility := BreakpointHandling new.
+	trace := SharedQueue new.
+	priority := Processor activePriority - 1.
+	process := [ 
+	[ result := utility factorialOf: 10 stopAt: 5 ]
+		on: ControlInterrupt
+		do: [ :ex | 
+			trace nextPut: ex.
+			process suspend.
+			ex resume ] ] newProcess.
+	process
+		priority: priority;
+		breakpointLevel: 1;
+		resume.	"advance to halt in the middle of recursion"
+	[ 
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: process.
+	self
+		assert: trace size equals: 1;
+		assert: trace next class equals: Halt.
+	factorialLevels := self
+		levelsWithSelector: #'factorialOf:stopAt:'
+		inProcess: process.
+	numberOfLevels := factorialLevels size.
+	self assert: numberOfLevels equals: 6.
+	process
+		stepOverFromLevel: (factorialLevels at: 5);
+		resume.	"advance to step break"
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: process.
+	self assert: trace size equals: 1.
+	self assert: trace next class equals: Breakpoint.
+	factorialLevels := self
+		levelsWithSelector: #'factorialOf:stopAt:'
+		inProcess: process.
+	numberOfLevels := factorialLevels size.
+	self assert: numberOfLevels equals: 2.
+	process resume.	"run rest of process"
+	(Delay forMilliseconds: 100) wait.
+	self denySuspended: process.
+	self
+		assert: process _isTerminated;
+		assert: trace size equals: 0;
+		assert: result equals: 10 factorial ]
+		ensure: [ 
+			GsNMethod clearAllBreaks.
+			process terminate ]
+%
+
 ! Class implementation for 'RsrTestCase'
 
 !		Class methods for 'RsrTestCase'
@@ -3377,6 +3852,133 @@ method: RsrTestCase
 shortWait
 
 	(Delay forMilliseconds: 100) wait
+%
+
+! Class implementation for 'RsrAsyncMournHandlerTestCase'
+
+!		Instance methods for 'RsrAsyncMournHandlerTestCase'
+
+category: 'utilities'
+method: RsrAsyncMournHandlerTestCase
+finalizationProcess
+
+	| proc |
+	self finalizeEphemeronWithAction: [proc := Processor activeProcess].
+	^proc
+%
+
+category: 'utilities'
+method: RsrAsyncMournHandlerTestCase
+finalizeEphemeronWithAction: aBlock
+
+	| semaphore ephemeron |
+	semaphore := Semaphore new.
+	ephemeron := RsrEphemeron
+		on: Object new
+		mournAction:
+			[aBlock value.
+			semaphore signal].
+	RsrGarbageCollector maximumReclamation.
+	self assert: (semaphore waitForSeconds: 1)
+%
+
+category: 'initializing'
+method: RsrAsyncMournHandlerTestCase
+setUp
+
+	super setUp.
+	handler := RsrAsyncMournHandler current.
+	handler start
+%
+
+category: 'initializing'
+method: RsrAsyncMournHandlerTestCase
+tearDown
+
+	handler stop.
+	super tearDown
+%
+
+category: 'running'
+method: RsrAsyncMournHandlerTestCase
+testAnotherAsyncHandlerExists
+
+	| notifier |
+	handler stop.
+	[notifier := GsSignalingSocket newForAsyncExceptions: {GcFinalizeNotification }.
+	self
+		should: [handler start]
+		raise: RsrNotification] ensure: [GsSignalingSocket disableAsyncExceptions].
+	self
+		shouldnt: [handler start]
+		raise: RsrNotification
+%
+
+category: 'running'
+method: RsrAsyncMournHandlerTestCase
+testEnsureSingletonWhileActive
+
+	| duplicateHandler |
+	duplicateHandler := RsrAsyncMournHandler current.
+	self
+		assert: duplicateHandler
+		identicalTo: handler
+%
+
+category: 'running'
+method: RsrAsyncMournHandlerTestCase
+testEnsureStarted
+
+	| nonHandlerFinalizeProcess handlerFinalizeProcess1 handlerFinalizeProcess2 |
+	handler stop.
+	nonHandlerFinalizeProcess := self finalizationProcess.
+	self deny: handler isActive.
+	handler ensureStarted.
+	self assert: handler isActive.
+	handlerFinalizeProcess1 := self finalizationProcess.
+	handler ensureStarted.
+	self assert: handler isActive.
+	handlerFinalizeProcess2 := self finalizationProcess.
+	self
+		deny: nonHandlerFinalizeProcess
+		identicalTo: handlerFinalizeProcess1.
+	self
+		assert: handlerFinalizeProcess1
+		identicalTo: handlerFinalizeProcess2
+%
+
+category: 'running'
+method: RsrAsyncMournHandlerTestCase
+testHandlerStops
+
+	| handlerProcess mournProcess |
+	handlerProcess := handler process.
+	handler stop.
+	mournProcess := self finalizationProcess.
+	self
+		deny: mournProcess
+		equals: handlerProcess.
+	self deny: handlerProcess isNil
+%
+
+category: 'running'
+method: RsrAsyncMournHandlerTestCase
+testMournEphemeron
+
+	| mournProcess |
+	mournProcess := self finalizationProcess.
+	self
+		assert: mournProcess
+		equals: handler process
+%
+
+category: 'running'
+method: RsrAsyncMournHandlerTestCase
+testNewRaisesError
+
+	self
+		should: [RsrAsyncMournHandler new]
+		raise: RsrError
 %
 
 ! Class implementation for 'RsrClassResolverTestCase'
@@ -5310,7 +5912,7 @@ category: 'cleanup'
 method: RsrSocketTestCase
 deferClose: aSocket
 
-	sockets add: aSocket.
+	sockets nextPut: aSocket.
 	^aSocket
 %
 
@@ -5326,14 +5928,15 @@ method: RsrSocketTestCase
 setUp
 
 	super setUp.
-	sockets := OrderedCollection new
+	sockets := SharedQueue new.
 %
 
 category: 'running'
 method: RsrSocketTestCase
 tearDown
 
-	sockets do: [:each | each close].
+	[sockets isEmpty]
+		whileFalse: [sockets next close].
 	super tearDown
 %
 
@@ -5758,6 +6361,56 @@ setUp
 
 	super setUp.
 	self initializeSocketConnections
+%
+
+! Class implementation for 'RsrEphemeronMourningDeadlock'
+
+!		Instance methods for 'RsrEphemeronMourningDeadlock'
+
+category: 'running'
+method: RsrEphemeronMourningDeadlock
+setUp
+
+	super setUp.
+	self initializeSocketConnections
+%
+
+category: 'running'
+method: RsrEphemeronMourningDeadlock
+testEphemeronMourningDoesNotDeadlock
+	"The RsrRegistry protects its backing datastructure using a mutex.
+	When returning a large number of new Services, the data structure
+	can grow triggering a garbage collection. Any services which are 
+	collected need to be removed from the registry.
+	The ephemeron mourning by default happens on the currently active
+	thread. This can result in attempting to access the critical section in
+	the registry twice. It isn't safe to use a recursive lock.
+	This test is intended to recreate this case ensuring that RSR properly
+	activates a background mourning process preventing the deadlock.
+
+	We lock the registry by waiting in a critical section. Then, we mourn an ephemeron.
+	This should force the mourning process to wait until the test exits the critical section."
+
+	| service semaphore isRunning |
+	"Ensure we are processing #mourn async"
+	self assert: RsrAsyncMournHandler current isActive.
+	"We now have an ephemeron setup for this service."
+	service := RsrClientNoInstVars new
+		registerWith: connectionA;
+		yourself.
+	semaphore := Semaphore new.
+	isRunning := true.
+	RsrProcessModel
+		fork:
+			[connectionA _privateRegistryOnlyForTests critical: [semaphore signal; wait]]
+		named: 'Lock registry'.
+	[semaphore wait.
+	service := nil.
+	RsrGarbageCollector maximumReclamation.
+	self
+		assert: RsrAsyncMournHandler current process waitingOn class
+		equals: Semaphore]
+		ensure: [semaphore signal]
 %
 
 ! Class implementation for 'RsrLifetimeTest'
@@ -8675,5 +9328,16 @@ testUndoUnderflow
 
 	self deny: manager hasUndoableAction.
 	self should: [ manager undo ] raise: Error
+%
+
+! Class extensions for 'RsrConnection'
+
+!		Instance methods for 'RsrConnection'
+
+category: '*remoteservicereplication-gemstone-test'
+method: RsrConnection
+_privateRegistryOnlyForTests
+
+	^registry
 %
 

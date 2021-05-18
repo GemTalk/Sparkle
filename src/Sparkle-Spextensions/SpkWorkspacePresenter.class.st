@@ -109,7 +109,7 @@ SpkWorkspacePresenter >> insertSelfHaltIn: doItText [
 		ifTrue: [ ast statements: statements ]
 		ifFalse: [ 
 			ast := RBSequenceNode statements:
-				       (OrderedCollection with: selfHalt with: ast) ]. "little hacky for now"
+				       (OrderedCollection with: selfHalt with: ast) ].
 	selfHalt parent: ast.
 	^ ast newSource
 ]

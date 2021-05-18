@@ -105,7 +105,7 @@ SpkWorkspacePresenter >> insertSelfHaltIn: doItText [
 	selfHalt := RBParser parseExpression: 'self halt'.
 	statements := ast statements asOrderedCollection.
 	statements addFirst: selfHalt.
-	ast isSequence
+	(ast isSequence or:[ast isDynamicArray])
 		ifTrue: [ ast statements: statements ]
 		ifFalse: [ 
 			ast := RBSequenceNode statements:

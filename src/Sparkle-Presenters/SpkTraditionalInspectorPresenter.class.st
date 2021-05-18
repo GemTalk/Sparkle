@@ -55,7 +55,7 @@ SpkTraditionalInspectorPresenter >> initializePresenters [
 
 	| box |
 	super initializePresenters.
-	"self initializeToolbar."
+	self initializeToolbar.
 	box := SpkBoxLayout newLeftToRight.
 	self initializeVariableList: box.
 	self initializeVariablePane: box.
@@ -72,7 +72,7 @@ SpkTraditionalInspectorPresenter >> initializeToolbar [
 			 label: 'Inspect';
 			 icon: (self iconNamed: #smallInspectIt);
 			 help: 'Inspect nil for now';
-			 action: [ self inspect ];
+			 action: [ self inspectVariableOop];
 			 yourself).
 	self layout
 		add: toolbar
@@ -84,7 +84,8 @@ SpkTraditionalInspectorPresenter >> initializeVariableList: box [
 
 	box add: (variableList := self newTable beSingleSelection addColumn:
 			                 (SpImageTableColumn new evaluated: [ :assoc | 
-				                  assoc key ]))
+				                  assoc key ])).
+	self overrideVariableListMenu
 ]
 
 { #category : 'initialization' }
@@ -98,7 +99,7 @@ SpkTraditionalInspectorPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Inspector';
-		initialExtent: 500 @ 	500
+		initialExtent: 500 @ 500
 ]
 
 { #category : 'actions' }
@@ -118,7 +119,8 @@ SpkTraditionalInspectorPresenter >> inspectOop: anOop [
 	promise
 		when: [ :result | 
 			objectDetails := result.
-			self fillUpInspector ]
+			self fillUpInspector.
+			variableList selectIndex: 1 ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -130,6 +132,13 @@ SpkTraditionalInspectorPresenter >> inspectOop: anOop [
 				cr;
 				show: '=========';
 				yourself ]
+]
+
+{ #category : 'actions' }
+SpkTraditionalInspectorPresenter >> inspectVariableOop [
+
+	variableList selection selectedItem ifNotNil: [ :item | 
+		item value isString ifFalse: [ SparkleTraditionalInspector on: item value ] ]
 ]
 
 { #category : 'accessing' }
@@ -148,6 +157,19 @@ SpkTraditionalInspectorPresenter >> oop [
 SpkTraditionalInspectorPresenter >> oop: anObject [
 
 	oop := anObject
+]
+
+{ #category : 'initialization' }
+SpkTraditionalInspectorPresenter >> overrideVariableListMenu [
+
+	| menu |
+	variableList contextMenu:
+		(menu := SpMenuPresenter new addGroup: [ :group | 
+			         group addItem: [ :item | 
+				         item
+					         name: 'Inspect';
+					         icon: (self iconNamed: #glamorousInspect);
+					         action: [ self inspectVariableOop ] ] ])
 ]
 
 { #category : 'actions' }

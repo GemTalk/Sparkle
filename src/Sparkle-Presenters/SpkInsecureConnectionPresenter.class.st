@@ -87,10 +87,14 @@ SpkInsecureConnectionPresenter >> portText: anObject [
 { #category : 'actions' }
 SpkInsecureConnectionPresenter >> updateConnectionProfile [
 
+	| trimmedPort |
 	super updateConnectionProfile.
+	trimmedPort := portText text trimBoth.
 	connectionProfile
-		port: portText text;
-		inMemory: inMemoryCheckbox state
+		port: trimmedPort;
+		inMemory: inMemoryCheckbox state.
+	"give visible feedback of trimmed text"
+	portText text: trimmedPort
 ]
 
 { #category : 'actions' }

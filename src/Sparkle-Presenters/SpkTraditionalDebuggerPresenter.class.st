@@ -424,16 +424,16 @@ SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
 
 	"try to set the selection without touching the rsr object inappropriately"
 
-	| glueFrame |
+	| glueIndex |
 	frameList items do: [ :assoc | 
 		| frame index |
-		glueFrame ifNil: [ 
+		glueIndex ifNil: [ 
 			index := assoc key.
 			frame := assoc value.
 			(self glueSelectors includes: frame methodService selector) 
-				ifTrue: [ glueFrame := frameList items at: index + 1 ] ] ].
-	glueFrame ifNil: [ glueFrame := frameList items at: 1 ].
-	frameList selectItem: glueFrame
+				ifTrue: [ glueIndex := index + 1 ] ] ].
+	glueIndex ifNil: [ glueIndex := 1 ].
+	frameList selectIndex: glueIndex scrollToSelection: true
 ]
 
 { #category : 'actions' }

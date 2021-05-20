@@ -52,7 +52,8 @@ SparkleWorkspace class >> versionSoup [
 
 	<example>
 	| inst writeStream |
-	SpkConnectionProfile defaultConnection ifNil:[^self notify: 'Not Connected']. 
+	SpkConnectionProfile defaultConnection ifNil: [ 
+		^ self notify: 'Not Connected' ].
 	inst := self new start.
 	writeStream := WriteStream on: String new.
 	writeStream
@@ -69,10 +70,14 @@ SparkleWorkspace class >> versionSoup [
 			nextPutAll: repository name;
 			tab;
 			space;
-			nextPutAll: repository branch name;
+			nextPutAll: ([ repository branch name ]
+					 on: Error
+					 do: [ :ex | 'no branch' ]);
 			tab;
 			space;
-			nextPutAll: repository branch commit shortId ].
+			nextPutAll: ([ repository branch commit shortId ]
+					 on: Error
+					 do: [ :ex | 'no sha' ]) ].
 	writeStream nextPutAll: self printServerLoadedVersions.
 	inst text: writeStream contents
 ]

@@ -59,7 +59,7 @@ SpkStandAloneWorkspacePresenter >> initializeToolbar [
 SpkStandAloneWorkspacePresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparkle Workspace';
+		title: 'Sparky Workspace';
 		initialExtent: 400 @ 300.
 ]
 

@@ -11,6 +11,27 @@ SparkleWorkspace class >> example [
 ]
 
 { #category : 'examples' }
+SparkleWorkspace class >> printServerLoadedVersions [ 
+
+	| inspectorService promise printString sem |
+	inspectorService := SpkScaffoldingInspectorServiceClient new 
+		                    registerWith:
+		                    SpkConnectionProfile defaultConnection.
+	promise := inspectorService printLoadedVersions.
+	sem := Semaphore new.
+	promise
+		when: [ :result | 
+			printString := result.
+			sem signal ]
+		catch: [ :reason | 
+			printString := 'Unexpected Error getting printString '
+			               , reason printString.
+			sem signal ].
+	sem wait.
+	^ printString
+]
+
+{ #category : 'examples' }
 SparkleWorkspace class >> versionSoup [
 
 	"What the heck do I have loaded?"
@@ -21,11 +42,11 @@ SparkleWorkspace class >> versionSoup [
 	writeStream := WriteStream on: String new.
 	writeStream
 		cr;
-		nextPutAll: 'Pharo ' , WelcomeHelp pharoVersionString;
-		flush.
-	writeStream
+		nextPutAll: 'Client:';
 		cr;
-		nextPutAll: 'Loaded repositories:'.
+		tab;
+		nextPutAll: 'Pharo ' , WelcomeHelp pharoVersionString.
+
 	IceRepository registry do: [ :repository | 
 		writeStream
 			cr;
@@ -37,6 +58,7 @@ SparkleWorkspace class >> versionSoup [
 			tab;
 			space;
 			nextPutAll: repository branch commit shortId ].
+	writeStream nextPutAll: self printServerLoadedVersions.
 	inst text: writeStream contents
 ]
 

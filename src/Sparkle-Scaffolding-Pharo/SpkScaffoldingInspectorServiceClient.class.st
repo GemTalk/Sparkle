@@ -11,6 +11,12 @@ SpkScaffoldingInspectorServiceClient >> inspect: anOop [
 ]
 
 { #category : 'actions' }
+SpkScaffoldingInspectorServiceClient >> printLoadedVersions [
+
+	^ remoteSelf printLoadedVersions
+]
+
+{ #category : 'actions' }
 SpkScaffoldingInspectorServiceClient >> printOop: anOop [
 
 	^ remoteSelf printOop: anOop

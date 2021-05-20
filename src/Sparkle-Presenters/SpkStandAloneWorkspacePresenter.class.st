@@ -75,3 +75,9 @@ SpkStandAloneWorkspacePresenter >> printIt [
 	workspace printIt
 	
 ]
+
+{ #category : 'accessing' }
+SpkStandAloneWorkspacePresenter >> text: aString [ 
+
+	workspace text: aString
+]

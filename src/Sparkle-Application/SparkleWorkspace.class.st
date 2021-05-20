@@ -11,6 +11,20 @@ SparkleWorkspace class >> example [
 ]
 
 { #category : 'examples' }
+SparkleWorkspace class >> menuCommandOn: aBuilder [ 
+	"Add a custom menu item to the world menu"	
+	<worldMenu> 
+	
+	(aBuilder item: #'Sparky Versions')
+		order: 0.95; 
+		icon: nil;  
+		parent: #'Tools'; "This appears as the Library menu option for whatever reason"
+		keyText: 'L'; "hot key doesn't work yet" 
+		help: 'Sparkle versions on client & server';
+		action: [ self versionSoup ]
+]
+
+{ #category : 'examples' }
 SparkleWorkspace class >> printServerLoadedVersions [ 
 
 	| inspectorService promise printString sem |
@@ -38,6 +52,7 @@ SparkleWorkspace class >> versionSoup [
 
 	<example>
 	| inst writeStream |
+	SpkConnectionProfile defaultConnection ifNil:[^self notify: 'Not Connected']. 
 	inst := self new start.
 	writeStream := WriteStream on: String new.
 	writeStream

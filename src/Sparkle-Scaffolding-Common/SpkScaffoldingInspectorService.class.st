@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingInspectorService',
-	#superclass : 'SpkScaffoldingAbstractService',
+	#superclass : 'SpkScaffoldingRowanService',
 	#instVars : [
 		'rowanInspectorService'
 	],

@@ -1,11 +1,17 @@
 Class {
 	#name : 'SpkScaffoldingProjectService',
-	#superclass : 'SpkScaffoldingAbstractService',
+	#superclass : 'SpkScaffoldingRowanService',
 	#instVars : [
 		'rowanProjectService'
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
+
+{ #category : 'accessing' }
+SpkScaffoldingProjectService class >> templateClassName [
+
+	^#SpkScaffoldingProjectService
+]
 
 { #category : 'accessing' }
 SpkScaffoldingProjectService >> rowanProjectService [

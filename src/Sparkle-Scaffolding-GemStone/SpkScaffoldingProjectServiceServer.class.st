@@ -6,5 +6,5 @@ Class {
 
 { #category : 'updating' }
 SpkScaffoldingProjectServiceServer >> projectServiceNamed: projectName [
-	rowanProjectService := (RowanProjectService newNamed: projectName) asRSR
+	rowanService := (RowanProjectService newNamed: projectName) asRSR
 ]

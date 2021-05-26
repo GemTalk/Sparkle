@@ -1,3 +1,6 @@
+"
+A button marked only by an icon (no text label), and whose icon can dynamically be changed.
+"
 Class {
 	#name : 'SpMorphicSpkIconButtonAdapter',
 	#superclass : 'SpMorphicSpkButtonAdapter',
@@ -26,6 +29,14 @@ SpMorphicSpkIconButtonAdapter >> buildWidget [
 	button bindKeyCombination: Character space toAction: [ self action ].
 
 	^ button
+]
+
+{ #category : 'accessing' }
+SpMorphicSpkIconButtonAdapter >> enabled: aBoolean [
+
+	"Do not try to update the non-existent label"
+
+	self widgetDo: [ :w | w enabled: aBoolean ]
 ]
 
 { #category : 'accessing' }

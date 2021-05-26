@@ -2,13 +2,13 @@
 Style class that knows how to search for its styles by name.
 "
 Class {
-	#name : 'SpkStyleClass',
-	#superclass : 'SpStyleClass',
+	#name : 'SpkClassStyle',
+	#superclass : 'SpClassStyle',
 	#category : 'Sparkle-Spextensions-StyleSheet'
 }
 
 { #category : 'searching' }
-SpkStyleClass >> styleClassNamed: desiredName [
+SpkClassStyle >> styleClassNamed: desiredName [
 
 	"Answer a StyleClass that is my subclass with the given name. There must be exactly one."
 

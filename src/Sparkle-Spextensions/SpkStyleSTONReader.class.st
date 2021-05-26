@@ -10,5 +10,5 @@ Class {
 { #category : 'private' }
 SpkStyleSTONReader >> styleClass [
 
-	^ SpkStyleClass
+	^ SpkClassStyle
 ]

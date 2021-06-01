@@ -30,7 +30,7 @@ SpkTraditionalInspectorPresenter >> connectPresenters [
 SpkTraditionalInspectorPresenter >> fillUpInspector [
 
 	| myself theOop objects items inspectorArray |
-	inspectorArray := objectDetails rowanInspectorService. 
+	inspectorArray := objectDetails rowanService. 
 	myself := inspectorArray detect: [ :array | array first = #myself ].
 	theOop := inspectorArray detect: [ :array | array first = #oop ].
 	objects := inspectorArray detect: [ :array | array first = #objects ].

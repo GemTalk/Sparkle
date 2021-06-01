@@ -5,7 +5,8 @@ Class {
 		'oop',
 		'variableList',
 		'variablePane',
-		'objectDetails'
+		'objectDetails',
+		'inspectorService'
 	],
 	#classVars : [
 		'DebuggerAnnouncer'
@@ -111,11 +112,8 @@ SpkTraditionalInspectorPresenter >> inspectOop [
 { #category : 'actions' }
 SpkTraditionalInspectorPresenter >> inspectOop: anOop [
 
-	| inspectorService promise |
-	inspectorService := SpkScaffoldingInspectorServiceClient new 
-		                    registerWith:
-		                    SpkConnectionProfile defaultConnection.
-	promise := inspectorService inspect: anOop.
+	| promise |
+	promise := self inspectorService inspect: anOop.
 	promise
 		when: [ :result | 
 			objectDetails := result.
@@ -139,6 +137,16 @@ SpkTraditionalInspectorPresenter >> inspectVariableOop [
 
 	variableList selection selectedItem ifNotNil: [ :item | 
 		item value isString ifFalse: [ SparkleTraditionalInspector on: item value ] ]
+]
+
+{ #category : 'accessing' }
+SpkTraditionalInspectorPresenter >> inspectorService [
+
+	inspectorService ifNil: [ 
+		inspectorService := SpkScaffoldingInspectorServiceClient new 
+			                    registerWith:
+			                    SpkConnectionProfile defaultConnection ].
+	^ inspectorService
 ]
 
 { #category : 'accessing' }
@@ -175,11 +183,8 @@ SpkTraditionalInspectorPresenter >> overrideVariableListMenu [
 { #category : 'actions' }
 SpkTraditionalInspectorPresenter >> printOop: theOop [
 
-	| inspectorService promise printString sem |
-	inspectorService := SpkScaffoldingInspectorServiceClient new 
-		                    registerWith:
-		                    SpkConnectionProfile defaultConnection.
-	promise := inspectorService printOop: theOop.
+	| promise printString sem |
+	promise := self inspectorService printOop: theOop.
 	sem := Semaphore new.
 	promise
 		when: [ :result | 

@@ -7,18 +7,17 @@ Class {
 	#category : 'Sparkle-Scaffolding-Common'
 }
 
-{ #category : 'rsr workarounds' }
-SpkScaffoldingRowanService >> prepareObjectForReplication: object [
-	"RSR Doesn't support Associations"
+{ #category : 'public-events' }
+SpkScaffoldingRowanService >> postUpdate [
 
-	^ (object isKindOf: Association)
-		ifTrue: [ Array with: object key with: object value ]
-		ifFalse: [ object ]
+	super postUpdate. 
+	self rowanService asRSR. 
+	RowanCommandResult clearResults
 ]
 
 { #category : 'accessing' }
 SpkScaffoldingRowanService >> rowanService [
-	^rowanService
+	^ rowanService ifNil: [ rowanService := self new ]
 ]
 
 { #category : 'accessing' }

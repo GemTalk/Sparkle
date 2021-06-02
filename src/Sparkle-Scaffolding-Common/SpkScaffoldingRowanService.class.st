@@ -17,7 +17,7 @@ SpkScaffoldingRowanService >> postUpdate [
 
 { #category : 'accessing' }
 SpkScaffoldingRowanService >> rowanService [
-	^ rowanService ifNil: [ rowanService := self new ]
+	^ rowanService ifNil: [ rowanService := self class new ]
 ]
 
 { #category : 'accessing' }

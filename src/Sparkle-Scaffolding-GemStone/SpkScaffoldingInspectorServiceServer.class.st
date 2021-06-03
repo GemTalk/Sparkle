@@ -9,6 +9,12 @@ SpkScaffoldingInspectorServiceServer >> inspect: anOop [
 	rowanService := (RowanInspectorService new inspectOop: anOop) asRSR.
 ]
 
+{ #category : 'accessing' }
+SpkScaffoldingInspectorServiceServer >> newRowanService [
+
+	^RowanInspectorService new
+]
+
 { #category : 'client actions' }
 SpkScaffoldingInspectorServiceServer >> printLoadedVersions [
 	| writeStream sortedProjects projectServices |

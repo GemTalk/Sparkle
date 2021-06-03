@@ -4,6 +4,12 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
 
+{ #category : 'accessing' }
+SpkScaffoldingBrowserServiceServer >> newRowanService [
+
+	^RowanBrowserService new
+]
+
 { #category : 'updating' }
 SpkScaffoldingBrowserServiceServer >> updateProjects [
 

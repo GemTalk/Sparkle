@@ -7,14 +7,6 @@ Class {
 	#category : 'Sparkle-Scaffolding-Common'
 }
 
-{ #category : 'public-events' }
-SpkScaffoldingRowanService >> postUpdate [
-
-	super postUpdate. 
-	self rowanService asRSR. 
-	RowanCommandResult clearResults
-]
-
 { #category : 'accessing' }
 SpkScaffoldingRowanService >> rowanService [
 	^ rowanService ifNil: [ rowanService := self class new ]

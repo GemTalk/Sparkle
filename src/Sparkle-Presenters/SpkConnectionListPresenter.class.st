@@ -302,7 +302,7 @@ SpkConnectionListPresenter >> openProcessBrowser [
 { #category : 'actions' }
 SpkConnectionListPresenter >> openWorkspace [
 
-	SparkleWorkspace example
+	SparkyWorkspace example
 ]
 
 { #category : 'events' }

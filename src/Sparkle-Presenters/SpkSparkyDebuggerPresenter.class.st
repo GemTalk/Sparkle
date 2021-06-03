@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkTraditionalDebuggerPresenter',
+	#name : 'SpkSparkyDebuggerPresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'frameList',
@@ -18,13 +18,13 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkTraditionalDebuggerPresenter class >> debuggerAnnouncer [
+SpkSparkyDebuggerPresenter class >> debuggerAnnouncer [
 
 	^ DebuggerAnnouncer ifNil: [ DebuggerAnnouncer := Announcer new ]
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> clearAllBreaks [
+SpkSparkyDebuggerPresenter >> clearAllBreaks [
 
 	debuggerService clearAllBreaks.
 	self displayTextAnnotationsIn: frameList selection selectedItem.
@@ -32,7 +32,7 @@ SpkTraditionalDebuggerPresenter >> clearAllBreaks [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> closeWindow [
+SpkSparkyDebuggerPresenter >> closeWindow [
 
 	debuggerService clearDebugger.
 	self window close.
@@ -40,7 +40,7 @@ SpkTraditionalDebuggerPresenter >> closeWindow [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> connectPresenters [
+SpkSparkyDebuggerPresenter >> connectPresenters [
 
 	super connectPresenters.
 	frameList whenSelectionChangedDo: [ :selection | 
@@ -54,19 +54,19 @@ SpkTraditionalDebuggerPresenter >> connectPresenters [
 ]
 
 { #category : 'accessing' }
-SpkTraditionalDebuggerPresenter >> debuggerService [
+SpkSparkyDebuggerPresenter >> debuggerService [
 
 	^ debuggerService
 ]
 
 { #category : 'accessing' }
-SpkTraditionalDebuggerPresenter >> debuggerService: anObject [
+SpkSparkyDebuggerPresenter >> debuggerService: anObject [
 
 	debuggerService := anObject
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> displayFrameDetails [
+SpkSparkyDebuggerPresenter >> displayFrameDetails [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
 		debuggerService methodService: frame value methodService ].
@@ -75,7 +75,7 @@ SpkTraditionalDebuggerPresenter >> displayFrameDetails [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> displaySource [
+SpkSparkyDebuggerPresenter >> displaySource [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
 		sourceCode text: frame value methodService source.
@@ -83,7 +83,7 @@ SpkTraditionalDebuggerPresenter >> displaySource [
 ]
 
 { #category : 'private' }
-SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
+SpkSparkyDebuggerPresenter >> displayTextAnnotationsIn: frame [
 
 	sourceCode removeAllTextSegmentDecorations.
 	sourceCode update. 
@@ -93,7 +93,7 @@ SpkTraditionalDebuggerPresenter >> displayTextAnnotationsIn: frame [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> displayVariables [
+SpkSparkyDebuggerPresenter >> displayVariables [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
 		| varArray |
@@ -107,7 +107,7 @@ SpkTraditionalDebuggerPresenter >> displayVariables [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> doItIn: pane context: contextOop [
+SpkSparkyDebuggerPresenter >> doItIn: pane context: contextOop [
 
 	| service debuggerClient promise doItResult semaphore |
 	service := SpkScaffoldingServiceClient new registerWith:
@@ -144,7 +144,7 @@ SpkTraditionalDebuggerPresenter >> doItIn: pane context: contextOop [
 ]
 
 { #category : 'private - actions' }
-SpkTraditionalDebuggerPresenter >> executeDebuggerAction: aBlock [
+SpkSparkyDebuggerPresenter >> executeDebuggerAction: aBlock [
 
 	[ aBlock value ]
 		on: RsrBrokenPromise
@@ -155,20 +155,20 @@ SpkTraditionalDebuggerPresenter >> executeDebuggerAction: aBlock [
 ]
 
 { #category : 'constants' }
-SpkTraditionalDebuggerPresenter >> glueSelectors [
+SpkSparkyDebuggerPresenter >> glueSelectors [
 	"when showing a stack, select the frame just above these methods"
 	^#(#halt #_signalAsync #_doesNotUnderstand:args:envId:reason: #_signalFromPrimitive:) 
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initialize [
+SpkSparkyDebuggerPresenter >> initialize [
 
 	super initialize. 
 	shouldTerminate := true
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
+SpkSparkyDebuggerPresenter >> initializeDebuggerToolbar [
 
 	toolbar := self newToolbar.
 	toolbar addItem: (SpToolbarButtonPresenter new
@@ -214,7 +214,7 @@ SpkTraditionalDebuggerPresenter >> initializeDebuggerToolbar [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> initializeFrameList [
+SpkSparkyDebuggerPresenter >> initializeFrameList [
 
 	| frames |
 	processService := debuggerService processService.
@@ -226,7 +226,7 @@ SpkTraditionalDebuggerPresenter >> initializeFrameList [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeFrameListLayout [
+SpkSparkyDebuggerPresenter >> initializeFrameListLayout [
 
 	self layout add:
 		(frameList := self newTable beSingleSelection beResizable hideColumnHeaders
@@ -239,7 +239,7 @@ SpkTraditionalDebuggerPresenter >> initializeFrameListLayout [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializePresenters [
+SpkSparkyDebuggerPresenter >> initializePresenters [
 
 	| bottomPaneBox |
 	super initializePresenters.
@@ -255,14 +255,14 @@ SpkTraditionalDebuggerPresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeSourceCodeLayout [
+SpkSparkyDebuggerPresenter >> initializeSourceCodeLayout [
 
 	self layout add: (sourceCode := self instantiate: SpkWorkspacePresenter).
 	self overrideSourceCodeMenu
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeStackLabel [
+SpkSparkyDebuggerPresenter >> initializeStackLabel [
 
 	self layout
 		add: (self newLabel label: 'Stack')
@@ -270,7 +270,7 @@ SpkTraditionalDebuggerPresenter >> initializeStackLabel [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
+SpkSparkyDebuggerPresenter >> initializeVariablePaneIn: box [
 
 	| verticalBox |
 	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
@@ -296,7 +296,7 @@ SpkTraditionalDebuggerPresenter >> initializeVariablePaneIn: box [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
+SpkSparkyDebuggerPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Traditional Debugger';
@@ -307,7 +307,7 @@ SpkTraditionalDebuggerPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
+SpkSparkyDebuggerPresenter >> initializeWorkspacePaneIn: box [
 
 	| verticalBox |
 	verticalBox := SpkBoxLayout newVertical borderWidth: 3.
@@ -322,26 +322,26 @@ SpkTraditionalDebuggerPresenter >> initializeWorkspacePaneIn: box [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> inspectVariable [
+SpkSparkyDebuggerPresenter >> inspectVariable [
 
-	SparkleTraditionalInspector on: (variableList selectedItem at: 2)
+	SparkyInspector on: (variableList selectedItem at: 2)
 ]
 
 { #category : 'testing' }
-SpkTraditionalDebuggerPresenter >> isExecutedCodeFrame [
+SpkSparkyDebuggerPresenter >> isExecutedCodeFrame [
 
 	^ '*Executed Code*' match:
 		  frameList selection selectedItem value printString
 ]
 
 { #category : 'accessing' }
-SpkTraditionalDebuggerPresenter >> newLayout [
+SpkSparkyDebuggerPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'menus' }
-SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
+SpkSparkyDebuggerPresenter >> overrideSourceCodeMenu [
 
 	| menu |
 	sourceCode overridingContextMenu contextMenu:
@@ -383,7 +383,7 @@ SpkTraditionalDebuggerPresenter >> overrideSourceCodeMenu [
 ]
 
 { #category : 'menus' }
-SpkTraditionalDebuggerPresenter >> overrideVariableListMenu [
+SpkSparkyDebuggerPresenter >> overrideVariableListMenu [
 
 	| menu |
 	variableList contextMenu:
@@ -396,14 +396,14 @@ SpkTraditionalDebuggerPresenter >> overrideVariableListMenu [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> restart [
+SpkSparkyDebuggerPresenter >> restart [
 
 	self executeDebuggerAction: [ 
 		debuggerService trimStackToLevel: frameList selection selectedIndex ]
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> resume [
+SpkSparkyDebuggerPresenter >> resume [
 
 	self executeDebuggerAction: [ 
 		shouldTerminate := false.
@@ -412,7 +412,7 @@ SpkTraditionalDebuggerPresenter >> resume [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> save [
+SpkSparkyDebuggerPresenter >> save [
 
 	debuggerService
 		compileMethodSource: sourceCode text asString
@@ -420,7 +420,7 @@ SpkTraditionalDebuggerPresenter >> save [
 ]
 
 { #category : 'private' }
-SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
+SpkSparkyDebuggerPresenter >> selectAppropriateFrame [
 
 	"try to set the selection without touching the rsr object inappropriately"
 
@@ -437,7 +437,7 @@ SpkTraditionalDebuggerPresenter >> selectAppropriateFrame [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> setBreakpoint [
+SpkSparkyDebuggerPresenter >> setBreakpoint [
 
 	frameList selection selectedItem ifNotNil: [ :frame | 
 		| methodService |
@@ -457,7 +457,7 @@ SpkTraditionalDebuggerPresenter >> setBreakpoint [
 ]
 
 { #category : 'private' }
-SpkTraditionalDebuggerPresenter >> showBreakPoints [
+SpkSparkyDebuggerPresenter >> showBreakPoints [
 
 	| bpSourcePositions methodService |
 	debuggerService ifNil: [ ^ self ].
@@ -475,7 +475,7 @@ SpkTraditionalDebuggerPresenter >> showBreakPoints [
 ]
 
 { #category : 'private' }
-SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
+SpkSparkyDebuggerPresenter >> showSourcePositionIn: frame [
 
 	^ sourceCode addTextSegmentDecoration: (SpTextPresenterDecorator new
 			   highlightColor: (Color orange alpha: 0.5);
@@ -485,21 +485,21 @@ SpkTraditionalDebuggerPresenter >> showSourcePositionIn: frame [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> stepInto [
+SpkSparkyDebuggerPresenter >> stepInto [
 
 	self executeDebuggerAction: [ 
 		debuggerService stepIntoFromLevel: frameList selection selectedIndex ]
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> stepOver [
+SpkSparkyDebuggerPresenter >> stepOver [
 
 	self executeDebuggerAction: [ 
 		debuggerService stepOverFromLevel: frameList selection selectedIndex ]
 ]
 
 { #category : 'private' }
-SpkTraditionalDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
+SpkSparkyDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
 
 	| distances |
 	distances := (methodService stepPoints collect: [ :array | 
@@ -510,7 +510,7 @@ SpkTraditionalDebuggerPresenter >> stepPoint: methodService fromOffset: offset [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> stepThrough [
+SpkSparkyDebuggerPresenter >> stepThrough [
 
 	self executeDebuggerAction: [ 
 		debuggerService stepThroughFromLevel:
@@ -518,7 +518,7 @@ SpkTraditionalDebuggerPresenter >> stepThrough [
 ]
 
 { #category : 'actions' }
-SpkTraditionalDebuggerPresenter >> terminate [
+SpkSparkyDebuggerPresenter >> terminate [
 
 	debuggerService terminate.
 	self closeWindow

@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkTraditionalInspectorPresenter',
+	#name : 'SpkSparkyInspectorPresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'oop',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> connectPresenters [
+SpkSparkyInspectorPresenter >> connectPresenters [
 
 	"the value of the item is assumed to be a string or oop"
 
@@ -28,7 +28,7 @@ SpkTraditionalInspectorPresenter >> connectPresenters [
 ]
 
 { #category : 'actions' }
-SpkTraditionalInspectorPresenter >> fillUpInspector [
+SpkSparkyInspectorPresenter >> fillUpInspector [
 
 	| myself theOop objects items inspectorArray |
 	inspectorArray := objectDetails rowanService. 
@@ -44,7 +44,7 @@ SpkTraditionalInspectorPresenter >> fillUpInspector [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> initialize [
+SpkSparkyInspectorPresenter >> initialize [
 
 	super initialize.
 	oop := 20. 
@@ -52,7 +52,7 @@ SpkTraditionalInspectorPresenter >> initialize [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> initializePresenters [
+SpkSparkyInspectorPresenter >> initializePresenters [
 
 	| box |
 	super initializePresenters.
@@ -65,7 +65,7 @@ SpkTraditionalInspectorPresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> initializeToolbar [
+SpkSparkyInspectorPresenter >> initializeToolbar [
 
 	| toolbar |
 	toolbar := self newToolbar.
@@ -81,7 +81,7 @@ SpkTraditionalInspectorPresenter >> initializeToolbar [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> initializeVariableList: box [
+SpkSparkyInspectorPresenter >> initializeVariableList: box [
 
 	box add: (variableList := self newTable beSingleSelection addColumn:
 			                 (SpImageTableColumn new evaluated: [ :assoc | 
@@ -90,13 +90,13 @@ SpkTraditionalInspectorPresenter >> initializeVariableList: box [
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> initializeVariablePane: box [
+SpkSparkyInspectorPresenter >> initializeVariablePane: box [
 
 	box add: (variablePane := self newText)
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> initializeWindow: aWindowPresenter [
+SpkSparkyInspectorPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Inspector';
@@ -104,13 +104,13 @@ SpkTraditionalInspectorPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'actions' }
-SpkTraditionalInspectorPresenter >> inspectOop [
+SpkSparkyInspectorPresenter >> inspectOop [
 
 	self inspectOop: oop
 ]
 
 { #category : 'actions' }
-SpkTraditionalInspectorPresenter >> inspectOop: anOop [
+SpkSparkyInspectorPresenter >> inspectOop: anOop [
 
 	| promise |
 	promise := self inspectorService inspect: anOop.
@@ -133,14 +133,14 @@ SpkTraditionalInspectorPresenter >> inspectOop: anOop [
 ]
 
 { #category : 'actions' }
-SpkTraditionalInspectorPresenter >> inspectVariableOop [
+SpkSparkyInspectorPresenter >> inspectVariableOop [
 
 	variableList selection selectedItem ifNotNil: [ :item | 
-		item value isString ifFalse: [ SparkleTraditionalInspector on: item value ] ]
+		item value isString ifFalse: [ SparkyInspector on: item value ] ]
 ]
 
 { #category : 'accessing' }
-SpkTraditionalInspectorPresenter >> inspectorService [
+SpkSparkyInspectorPresenter >> inspectorService [
 
 	inspectorService ifNil: [ 
 		inspectorService := SpkScaffoldingInspectorServiceClient new 
@@ -150,25 +150,25 @@ SpkTraditionalInspectorPresenter >> inspectorService [
 ]
 
 { #category : 'accessing' }
-SpkTraditionalInspectorPresenter >> newLayout [
+SpkSparkyInspectorPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'accessing' }
-SpkTraditionalInspectorPresenter >> oop [
+SpkSparkyInspectorPresenter >> oop [
 
 	^ oop
 ]
 
 { #category : 'accessing' }
-SpkTraditionalInspectorPresenter >> oop: anObject [
+SpkSparkyInspectorPresenter >> oop: anObject [
 
 	oop := anObject
 ]
 
 { #category : 'initialization' }
-SpkTraditionalInspectorPresenter >> overrideVariableListMenu [
+SpkSparkyInspectorPresenter >> overrideVariableListMenu [
 
 	| menu |
 	variableList contextMenu:
@@ -181,7 +181,7 @@ SpkTraditionalInspectorPresenter >> overrideVariableListMenu [
 ]
 
 { #category : 'actions' }
-SpkTraditionalInspectorPresenter >> printOop: theOop [
+SpkSparkyInspectorPresenter >> printOop: theOop [
 
 	| promise printString sem |
 	promise := self inspectorService printOop: theOop.

@@ -1,5 +1,5 @@
 Class {
-	#name : 'SparkleTraditionalDebugger',
+	#name : 'SparkyDebugger',
 	#superclass : 'SpkApplication',
 	#instVars : [
 		'debuggerService'
@@ -8,31 +8,31 @@ Class {
 }
 
 { #category : 'examples' }
-SparkleTraditionalDebugger class >> example [ 
+SparkyDebugger class >> example [ 
 	<example>
 	self new start
 ]
 
 { #category : 'instance creation' }
-SparkleTraditionalDebugger class >> on: debuggerService [
+SparkyDebugger class >> on: debuggerService [
 
 	^self new debuggerService: debuggerService 
 ]
 
 { #category : 'accessing' }
-SparkleTraditionalDebugger >> debuggerService [
+SparkyDebugger >> debuggerService [
 
 	^ debuggerService
 ]
 
 { #category : 'accessing' }
-SparkleTraditionalDebugger >> debuggerService: anObject [
+SparkyDebugger >> debuggerService: anObject [
 
 	debuggerService := anObject
 ]
 
 { #category : 'initialization' }
-SparkleTraditionalDebugger >> initialize [
+SparkyDebugger >> initialize [
 
 	super initialize.
 	SpkConnectionProfile profileAnnouncer
@@ -42,10 +42,10 @@ SparkleTraditionalDebugger >> initialize [
 ]
 
 { #category : 'running' }
-SparkleTraditionalDebugger >> start [
+SparkyDebugger >> start [
 
 	| presenter |
-	(presenter := self new: SpkTraditionalDebuggerPresenter) 
+	(presenter := self new: SpkSparkyDebuggerPresenter) 
 		debuggerService: debuggerService.
 	presenter openWithSpec.
 	^ presenter

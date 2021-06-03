@@ -58,10 +58,10 @@ SpkWorkspacePresenter >> doItShouldPrint: shouldPrint shouldDebug: shouldDebug [
 	Smalltalk at: #SPARKLE_DEBUGGER_SEMAPHORE put: Semaphore new.
 	promise
 		when: [ :result | 
-			SpkTraditionalDebuggerPresenter debuggerAnnouncer announce:
+			SpkSparkyDebuggerPresenter debuggerAnnouncer announce:
 				(announcement result: result doitResult) ]
 		catch: [ :reason | 
-			SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self ]
+			SpkSparkyDebuggerPresenter debuggerAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'initialization' }
@@ -139,7 +139,7 @@ SpkWorkspacePresenter >> overrideTheContextMenu [
 { #category : 'actions' }
 SpkWorkspacePresenter >> printIt [
 
-	SpkTraditionalDebuggerPresenter debuggerAnnouncer
+	SpkSparkyDebuggerPresenter debuggerAnnouncer
 		when: SpkDebuggerResultReadyAnnouncement
 		send: #printIt:
 		to: self.
@@ -157,5 +157,5 @@ SpkWorkspacePresenter >> printIt: announcement [
 	self insert: resultString at: insertionOffset.
 	self selectionInterval:
 		(insertionOffset + 1 to: insertionOffset + resultString size).
-	SpkTraditionalDebuggerPresenter debuggerAnnouncer unsubscribe: self
+	SpkSparkyDebuggerPresenter debuggerAnnouncer unsubscribe: self
 ]

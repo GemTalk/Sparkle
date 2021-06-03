@@ -1,17 +1,17 @@
 Class {
-	#name : 'SparkleTraditionalInspector',
+	#name : 'SparkyInspector',
 	#superclass : 'SpkApplication',
 	#category : 'Sparkle-Application'
 }
 
 { #category : 'examples' }
-SparkleTraditionalInspector class >> example [ 
+SparkyInspector class >> example [ 
 	<example>
 	self new start
 ]
 
 { #category : 'instance creation' }
-SparkleTraditionalInspector class >> on: anOop [
+SparkyInspector class >> on: anOop [
 
 	| inst | 
 	inst := self new start. 
@@ -20,10 +20,10 @@ SparkleTraditionalInspector class >> on: anOop [
 ]
 
 { #category : 'running' }
-SparkleTraditionalInspector >> start [
+SparkyInspector >> start [
 
 	| presenter |
-	presenter := self new: SpkTraditionalInspectorPresenter.
+	presenter := self new: SpkSparkyInspectorPresenter.
 	presenter openWithSpec.
 	^ presenter
 ]

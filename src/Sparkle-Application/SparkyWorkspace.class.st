@@ -1,17 +1,17 @@
 Class {
-	#name : 'SparkleWorkspace',
+	#name : 'SparkyWorkspace',
 	#superclass : 'SpkApplication',
 	#category : 'Sparkle-Application'
 }
 
 { #category : 'examples' }
-SparkleWorkspace class >> example [ 
+SparkyWorkspace class >> example [ 
 	<example>
 	self new start
 ]
 
 { #category : 'examples' }
-SparkleWorkspace class >> menuCommandOn: aBuilder [ 
+SparkyWorkspace class >> menuCommandOn: aBuilder [ 
 	"Add a custom menu item to the world menu"	
 	<worldMenu> 
 	
@@ -25,7 +25,7 @@ SparkleWorkspace class >> menuCommandOn: aBuilder [
 ]
 
 { #category : 'examples' }
-SparkleWorkspace class >> printServerLoadedVersions [ 
+SparkyWorkspace class >> printServerLoadedVersions [ 
 
 	| inspectorService promise printString sem |
 	inspectorService := SpkScaffoldingInspectorServiceClient new 
@@ -46,7 +46,7 @@ SparkleWorkspace class >> printServerLoadedVersions [
 ]
 
 { #category : 'examples' }
-SparkleWorkspace class >> versionSoup [
+SparkyWorkspace class >> versionSoup [
 
 	"What the heck do I have loaded?"
 
@@ -83,9 +83,9 @@ SparkleWorkspace class >> versionSoup [
 ]
 
 { #category : 'running' }
-SparkleWorkspace >> start [
+SparkyWorkspace >> start [
 
 	| presenter |
-	(presenter := self new: SpkStandAloneWorkspacePresenter) openWithSpec.
+	(presenter := self new: SpkSparkyWorkspacePresenter) openWithSpec.
 	^ presenter
 ]

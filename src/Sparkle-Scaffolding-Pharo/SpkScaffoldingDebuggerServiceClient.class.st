@@ -24,7 +24,7 @@ SpkScaffoldingDebuggerServiceClient >> openDebuggerOnClient [
 			, ') ... stack: '."
 	stack := processService rowanFrameServices.
 	debugger ifNil: [ 
-	debugger := (SparkleTraditionalDebugger on: self) start].
+	debugger := (SparkyDebugger on: self) start].
 	debugger initializeFrameList.
 	"1 to: (stack size min: stackLimit) do: [ :index | 
 		| frame |

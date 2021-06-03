@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkStandAloneWorkspacePresenter',
+	#name : 'SpkSparkyWorkspacePresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'toolbar',
@@ -9,21 +9,21 @@ Class {
 }
 
 { #category : 'actions' }
-SpkStandAloneWorkspacePresenter >> debugIt [ 
+SpkSparkyWorkspacePresenter >> debugIt [ 
 
 	workspace debugIt
 	
 ]
 
 { #category : 'actions' }
-SpkStandAloneWorkspacePresenter >> doIt [ 
+SpkSparkyWorkspacePresenter >> doIt [ 
 
 	workspace doIt
 	
 ]
 
 { #category : 'initialization' }
-SpkStandAloneWorkspacePresenter >> initializePresenters [ 
+SpkSparkyWorkspacePresenter >> initializePresenters [ 
 	super initializePresenters. 
 	self initializeToolbar.  
 	self layout add: (workspace := self instantiate: SpkWorkspacePresenter).
@@ -32,7 +32,7 @@ SpkStandAloneWorkspacePresenter >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkStandAloneWorkspacePresenter >> initializeToolbar [
+SpkSparkyWorkspacePresenter >> initializeToolbar [
 
 	toolbar := self newToolbar.
 	toolbar addItem: (SpToolbarButtonPresenter new
@@ -56,7 +56,7 @@ SpkStandAloneWorkspacePresenter >> initializeToolbar [
 ]
 
 { #category : 'initialization' }
-SpkStandAloneWorkspacePresenter >> initializeWindow: aWindowPresenter [
+SpkSparkyWorkspacePresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparky Workspace';
@@ -64,20 +64,20 @@ SpkStandAloneWorkspacePresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : 'accessing' }
-SpkStandAloneWorkspacePresenter >> newLayout [
+SpkSparkyWorkspacePresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'actions' }
-SpkStandAloneWorkspacePresenter >> printIt [ 
+SpkSparkyWorkspacePresenter >> printIt [ 
 
 	workspace printIt
 	
 ]
 
 { #category : 'accessing' }
-SpkStandAloneWorkspacePresenter >> text: aString [ 
+SpkSparkyWorkspacePresenter >> text: aString [ 
 
 	workspace text: aString
 ]

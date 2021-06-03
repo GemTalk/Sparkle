@@ -6,7 +6,7 @@ Class {
 
 { #category : 'other' }
 SpkScaffoldingInspectorServiceServer >> inspect: anOop [
-	rowanService := (RowanInspectorService new inspectOop: anOop) asRSR.
+	self rowanService: (RowanInspectorService new inspectOop: anOop)
 ]
 
 { #category : 'accessing' }

@@ -4,7 +4,7 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
 
-{ #category : 'updating' }
+{ #category : 'other' }
 SpkScaffoldingProjectServiceServer >> projectServiceNamed: projectName [
-	rowanService := (RowanProjectService newNamed: projectName) asRSR
+	self rowanService: (RowanProjectService newNamed: projectName)
 ]

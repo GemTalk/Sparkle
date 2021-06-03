@@ -12,3 +12,14 @@ SpkScaffoldingRowanService >> postUpdate [
 	rsrRowanService := self rowanService asRSR. 
 	RowanCommandResult clearResults
 ]
+
+{ #category : '*sparkle-scaffolding-gemstone' }
+SpkScaffoldingRowanService >> rowanService [
+	^ (self dynamicInstVarAt: #'rowanService')
+		ifNil: [ self rowanService: self newRowanService ]
+]
+
+{ #category : '*sparkle-scaffolding-gemstone' }
+SpkScaffoldingRowanService >> rowanService: anObject [
+	^ self dynamicInstVarAt: #'rowanService' put: anObject
+]

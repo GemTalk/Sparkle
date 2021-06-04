@@ -25,7 +25,7 @@ SpkTestClassForDebugging >> factorialOf: factInt stopAt: stopInt [
 { #category : 'other' }
 SpkTestClassForDebugging >> runHotForSeconds: anInteger
 shouldHalt: shouldHalt
-counter: counter [
+counter: aCounter [
 
 	| endTime |
 	endTime := DateAndTime now + (Duration seconds: anInteger).
@@ -34,9 +34,7 @@ counter: counter [
 			shouldHalt
 				ifTrue: [ self halt ].
 			"Processor yield."
-			counter
-				at: 1
-				put: (counter first + 1)]
+			aCounter increment]
 ]
 
 { #category : 'breakpointing' }

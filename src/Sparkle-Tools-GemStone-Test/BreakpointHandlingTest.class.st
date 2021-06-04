@@ -147,12 +147,9 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	"This test ensures that when you have a debugger on a process and #step, the step action applies
 	to the specific process. The step shouldn't apply to other processes executing the same method."
 
-	|  haltingProcess independentProcess   level haltingMethod haltingCounter independentCounter independentCounterCache |
-	utility := BreakpointHandling new.
-	trace := SharedQueue new.
-	priority := Processor activePriority - 1.
-	haltingCounter := {0}.
-	independentCounter := {0}.
+	| haltingProcess independentProcess level haltingMethod haltingCounter independentCounter independentCounterCache |
+	haltingCounter := GsCounter new.
+	independentCounter := GsCounter new.
 	haltingProcess := [ 
 	[ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
 		on: Breakpoint , Halt
@@ -180,7 +177,7 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	haltingProcess resume.
 	(Delay forMilliseconds: 100) wait.
 	self assertSuspended: haltingProcess.
-	independentCounterCache := independentCounter first.
+	independentCounterCache := independentCounter current.
 	level := 10.
 	haltingMethod := (haltingProcess _frameContentsAt: level) first.
 	self
@@ -200,7 +197,7 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	self assertSuspended: haltingProcess.
 	self denySuspended: independentProcess.
 	self assert: trace size equals: 0.
-	self assert: independentCounter first > independentCounterCache.
+	self assert: independentCounter current > independentCounterCache.
 	independentProcess terminate.
 	self assert: independentProcess _isTerminated.
 

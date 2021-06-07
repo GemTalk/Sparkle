@@ -7,37 +7,13 @@ Class {
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
-{ #category : 'other' }
-SpkTestClassForDebugging >> factorialOf: anInteger [
-	anInteger = 1 ifTrue: [^ 1].
-	^ anInteger * (self factorialOf: anInteger - 1)
-]
-
-{ #category : 'other' }
-SpkTestClassForDebugging >> factorialOf: factInt stopAt: stopInt [
-	factInt = stopInt
-		ifTrue: [ self halt ].
-	factInt = 1
-		ifTrue: [ ^ 1 ].
-	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
-]
-
-{ #category : 'other' }
-SpkTestClassForDebugging >> runHotForSeconds: anInteger
-shouldHalt: shouldHalt
-counter: aCounter [
-
-	| endTime |
-	endTime := DateAndTime now + (Duration seconds: anInteger).
-	[ DateAndTime now < endTime ]
-		whileTrue: [ 
-			shouldHalt
-				ifTrue: [ self halt ].
-			"Processor yield."
-			aCounter increment]
-]
-
 { #category : 'breakpointing' }
 SpkTestClassForDebugging >> twelve [
 	^ 3 + 4 + 5
+
+	"Despite having no obvious senders, this method is
+	 referenced both in an explicit method lookup
+	 and in evaluated strings.
+	 Note that tests check for source intervals while stepping
+	 so this comment follows the code."
 ]

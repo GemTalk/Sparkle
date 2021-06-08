@@ -6,7 +6,7 @@ Class {
 
 { #category : 'client actions' }
 SpkScaffoldingInspectorServiceServer >> inspect: anOop [
-	self rowanService: (RowanInspectorService new inspectOop: anOop).
+	self rowanService: (self rowanService inspectOop: anOop).
 ]
 
 { #category : 'accessing' }

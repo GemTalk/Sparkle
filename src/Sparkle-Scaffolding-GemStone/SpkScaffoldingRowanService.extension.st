@@ -21,5 +21,6 @@ SpkScaffoldingRowanService >> rowanService: anObject [
 
 	self dynamicInstVarAt: #'rowanService' put: anObject.
 	rsrRowanService := self rowanService asRSR.
-	RowanCommandResult clearResults
+	RowanCommandResult clearResults.
+	^anObject "not a true accessor. we return the argument"
 ]

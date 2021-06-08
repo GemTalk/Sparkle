@@ -4,9 +4,9 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
 
-{ #category : 'other' }
+{ #category : 'client actions' }
 SpkScaffoldingInspectorServiceServer >> inspect: anOop [
-	self rowanService: (RowanInspectorService new inspectOop: anOop)
+	self rowanService: (RowanInspectorService new inspectOop: anOop).
 ]
 
 { #category : 'accessing' }

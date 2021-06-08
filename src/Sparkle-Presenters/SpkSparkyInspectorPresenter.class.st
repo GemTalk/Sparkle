@@ -30,16 +30,15 @@ SpkSparkyInspectorPresenter >> connectPresenters [
 { #category : 'actions' }
 SpkSparkyInspectorPresenter >> fillUpInspector [
 
-	| myself theOop objects items inspectorArray |
+	| theOop objects items inspectorArray |
 	inspectorArray := objectDetails rowanService. 
-	myself := inspectorArray detect: [ :array | array first = #myself ].
 	theOop := inspectorArray detect: [ :array | array first = #oop ].
 	objects := inspectorArray detect: [ :array | array first = #objects ].
 	items := OrderedCollection new.
-	items add: 'self' -> myself last last.
+	items add: 'self' -> theOop last.
 	items add: '-.asOop' -> theOop last printString.
 	items addAll:
-		(objects value last collect: [ :array | array first -> array last ]).
+		(objects last collect: [ :array | array first -> array last ]).
 	variableList items: items
 ]
 

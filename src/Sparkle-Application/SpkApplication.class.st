@@ -23,7 +23,7 @@ SpkApplication >> initializeSylesheet [
 	sheet := SpkStyleSTONReader fromString: SpStyle defaultStyleSheetData.
 	superclass := sheet styleClassNamed: 'label'.
 	superclass
-		addPropertyGeometryWith: [ :g | g height: SpStyleVariableReset new ];
+		addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ];
 		addClass: 'paneHeader' with: [ :c | 
 			c
 				addPropertyFontWith: [ :f | 
@@ -31,7 +31,7 @@ SpkApplication >> initializeSylesheet [
 						size: 12;
 						bold: true ];
 				addPropertyGeometryWith: [ :g | 
-				g height: SpStyleVariableReset new ] ].
+				g height: SpStyleResetVariable new ] ].
 	self styleSheet: sheet
 ]
 

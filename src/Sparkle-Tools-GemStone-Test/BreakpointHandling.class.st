@@ -17,6 +17,28 @@ BreakpointHandling >> factorialOf: factInt stopAt: stopInt [
 ]
 
 { #category : 'other' }
+BreakpointHandling >> nlr1 [
+
+| dict |
+self halt.
+dict := KeyValueDictionary new.
+dict
+     at: #notPresent
+     ifAbsent: [3 + 4. 
+	^self].
+^75
+]
+
+{ #category : 'other' }
+BreakpointHandling >> nlr2 [
+	| block |
+	block := [ ^ 42 ].
+	self halt.
+	block value.
+	^ 42 printString
+]
+
+{ #category : 'other' }
 BreakpointHandling >> runHotForSeconds: anInteger
 shouldHalt: shouldHalt
 counter: counter [

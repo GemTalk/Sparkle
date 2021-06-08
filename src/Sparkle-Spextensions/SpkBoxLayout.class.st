@@ -122,7 +122,7 @@ SpkBoxLayout >> announceChildRemoved: aNameOrPresenter atIndex: anInteger [
 { #category : 'initialization' }
 SpkBoxLayout >> beHorizontal [
 
-	direction := SpkLayoutDirectionHorizontal uniqueInstance
+	direction := SpkHorizontalLayoutDirection uniqueInstance
 ]
 
 { #category : 'initialization' }
@@ -141,7 +141,7 @@ SpkBoxLayout >> beTopToBottom [
 { #category : 'initialization' }
 SpkBoxLayout >> beVertical [
 
-	direction := SpkLayoutDirectionVertical uniqueInstance
+	direction := SpkVerticalLayoutDirection uniqueInstance
 ]
 
 { #category : 'accessing' }
@@ -230,14 +230,14 @@ SpkBoxLayout >> initialize [
 SpkBoxLayout >> isHorizontal [ 
 	"Answer true if the layout direction is horizontal"
 
-	^ direction = SpkLayoutDirectionHorizontal uniqueInstance
+	^ direction = SpkHorizontalLayoutDirection uniqueInstance
 ]
 
 { #category : 'initialization' }
 SpkBoxLayout >> isVertical [ 
 	"Answer true if the layout direction is vertical"
 
-	^ self direction = SpkLayoutDirectionVertical uniqueInstance
+	^ self direction = SpkVerticalLayoutDirection uniqueInstance
 ]
 
 { #category : 'placement rules' }

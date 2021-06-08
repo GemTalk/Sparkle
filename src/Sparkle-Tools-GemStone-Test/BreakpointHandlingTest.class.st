@@ -1,55 +1,132 @@
 "
 These tests are actually independent of Sparkle, and test base debugging functionality.
 They are (with minor exceptions) replicared in ernie0.
+
+Most tests require only a single process. These tests can use the 'default process' API which is simpler and more readable. 
+Use #processBlock: to establish a default process for the test.
+
+When tests require multiple processes, each process needs to be identified. These tests use the 'specific process' API.
+Use #processBlock:forID: to establish each such processes.
+
+The 'IDed process' API is expected to go away as unnecessary.
+
+The processes created using #processBlock: and #processBlock:forID: record a trace of ControlInterrupts encountered during execution.
+Each trace entry is an association of the process' ID with the exception encountered. These trace entries can be examined during the test.
 "
 Class {
 	#name : 'BreakpointHandlingTest',
 	#superclass : 'TestCase',
 	#instVars : [
 		'utility',
-		'process',
+		'defaultProcess',
+		'processes',
 		'trace',
 		'priority'
 	],
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
-{ #category : 'support' }
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> advanceToBreakpoint [
-	self
-		advanceToControlInterrupt;
-		assert: trace size equals: 1;
-		assert: trace next class equals: Breakpoint
+	self advanceToBreakpointIn: defaultProcess
 ]
 
-{ #category : 'support' }
+{ #category : 'support - specific process' }
+BreakpointHandlingTest >> advanceToBreakpointIn: aProcess [
+	self
+		advanceToControlInterruptIn: aProcess;
+		assertOneTraceEntry;
+		assertNextTraceValueClass: Breakpoint
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> advanceToBreakpointInProcessID: anID [
+	self advanceToBreakpointIn: (self processWithID: anID)
+]
+
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> advanceToControlInterrupt [
-	process resume.
-	(Delay forMilliseconds: 100) wait.
-	self assertSuspended
+	self advanceToControlInterruptIn: defaultProcess
 ]
 
-{ #category : 'support' }
+{ #category : 'support - specific process' }
+BreakpointHandlingTest >> advanceToControlInterruptIn: aProcess [
+	aProcess resume.
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended: aProcess
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> advanceToControlInterruptInProcessNamed: aName [
+	self advanceToControlInterruptIn: (self processNamed: aName)
+]
+
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> advanceToEnd [
-	process resume.
-	(Delay forMilliseconds: 100) wait.
-	self
-		denySuspended;
-		assert: process _isTerminated;
-		assert: trace size equals: 0
+	self advanceToEndIn: defaultProcess
 ]
 
-{ #category : 'support' }
-BreakpointHandlingTest >> advanceToHalt [
+{ #category : 'support - specific process' }
+BreakpointHandlingTest >> advanceToEndIn: aProcess [
+	aProcess resume.
+	(Delay forMilliseconds: 100) wait.
 	self
-		advanceToControlInterrupt;
-		assert: trace size equals: 1;
-		assert: trace next class equals: Halt
+		denySuspended: aProcess;
+		assert: aProcess _isTerminated;
+		assertNoTraceEntries
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> advanceToEndInProcessID: anID [
+	self advanceToEndIn: (self processWithID: anID)
+]
+
+{ #category : 'support - default process' }
+BreakpointHandlingTest >> advanceToHalt [
+	self advanceToHaltIn: defaultProcess
+]
+
+{ #category : 'support - specific process' }
+BreakpointHandlingTest >> advanceToHaltIn: aProcess [
+	self
+		advanceToControlInterruptIn: aProcess;
+		assertOneTraceEntry;
+		assertNextTraceValueClass: Halt
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> advanceToHaltInProcessID: anID [
+	self advanceToHaltIn: (self processWithID: anID)
 ]
 
 { #category : 'asserting' }
+BreakpointHandlingTest >> assertNextTraceKey: anID valueClass: aBehavior [
+	| nextTrace |
+	nextTrace := trace next.
+	self assert: nextTrace key equals: #'HaltingProcess'.
+	self assert: nextTrace value class equals: aBehavior
+]
+
+{ #category : 'asserting' }
+BreakpointHandlingTest >> assertNextTraceValueClass: aBehavior [
+	| nextTrace |
+	nextTrace := trace next.
+	self assert: nextTrace value class equals: aBehavior
+]
+
+{ #category : 'asserting' }
+BreakpointHandlingTest >> assertNoTraceEntries [
+	self assert: trace size equals: 0
+]
+
+{ #category : 'asserting' }
+BreakpointHandlingTest >> assertOneTraceEntry [
+	self assert: trace size equals: 1
+]
+
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> assertSuspended [
-	self assertSuspended: process
+	self assertSuspended: defaultProcess
 ]
 
 { #category : 'asserting' }
@@ -58,9 +135,14 @@ BreakpointHandlingTest >> assertSuspended: aProcess [
 	self assert: (self isSuspended: aProcess)
 ]
 
-{ #category : 'asserting' }
+{ #category : 'support' }
+BreakpointHandlingTest >> defaultProcessID [
+	^#DefaultProcess
+]
+
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> denySuspended [
-	self denySuspended: process
+	self denySuspended: defaultProcess
 ]
 
 { #category : 'asserting' }
@@ -69,13 +151,21 @@ BreakpointHandlingTest >> denySuspended: aProcess [
 	self deny: (self isSuspended: aProcess)
 ]
 
-{ #category : 'support' }
+{ #category : 'support - specific process' }
 BreakpointHandlingTest >> isSuspended: aProcess [
 
 	^ProcessorScheduler scheduler _isSuspended: aProcess
 ]
 
-{ #category : 'support' }
+{ #category : 'support - default process' }
+BreakpointHandlingTest >> levelsSelect: aBlock [
+	"Answer an array of levels for which the block answers true.
+	The argument to the block is the frame contents array."
+
+	^ self levelsSelect: aBlock inProcess: defaultProcess
+]
+
+{ #category : 'support - specific process' }
 BreakpointHandlingTest >> levelsSelect: aBlock inProcess: aProcess [
 	"Answer an array of levels for which the block answers true.
 	The argument to the block is the frame contents array."
@@ -89,30 +179,47 @@ BreakpointHandlingTest >> levelsSelect: aBlock inProcess: aProcess [
 	^ result
 ]
 
-{ #category : 'support' }
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> levelsWithSelector: selector [
-	^ self levelsWithSelector: selector inProcess: process
+	^ self levelsWithSelector: selector inProcess: defaultProcess
 ]
 
-{ #category : 'support' }
+{ #category : 'support - specific process' }
 BreakpointHandlingTest >> levelsWithSelector: selector inProcess: aProcess [
 	^ self
 		levelsSelect: [ :fc | fc first selector == selector ]
 		inProcess: aProcess
 ]
 
-{ #category : 'support' }
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> processBlock: aBlock [
-	process := [ 
+	defaultProcess := self processBlock: aBlock forID: self defaultProcessID
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> processBlock: aBlock forID: anID [
+	| thisProcess |
+	(processes includesKey: anID)
+		ifTrue: [ self error: 'Process with ID ' , anID printString , ' already exists' ].
+	thisProcess := [ 
 	aBlock
 		on: ControlInterrupt
 		do: [ :ex | 
-			trace nextPut: ex.
-			process suspend.
+			self traceID: anID value: ex.
+			thisProcess suspend.
 			ex resume ] ] newProcess.
-	process
+	thisProcess
 		priority: priority;
 		breakpointLevel: 1.
+	processes at: anID put: thisProcess.
+	^ thisProcess
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> processWithID: anID [
+	processes
+		at: anID
+		ifAbsent: [ self error: 'No process found for id ' , anID printString ]
 ]
 
 { #category : 'support' }
@@ -122,24 +229,34 @@ BreakpointHandlingTest >> setUp [
 	GsNMethod clearAllBreaks.
 	utility := BreakpointHandling new.
 	trace := SharedQueue new.
-	priority := Processor activePriority - 1
+	priority := Processor activePriority - 1.
+	processes := Dictionary new.
 ]
 
-{ #category : 'support' }
+{ #category : 'support - default process' }
 BreakpointHandlingTest >> stepOverInLevel: aLevel [
+	self stepOverInLevel: aLevel inProcess: defaultProcess
+]
 
-	process
-		stepOverFromLevel: aLevel.
-	self advanceToBreakpoint
+{ #category : 'support - specific process' }
+BreakpointHandlingTest >> stepOverInLevel: aLevel inProcess: aProcess [
+	aProcess stepOverFromLevel: aLevel.
+	self advanceToBreakpointIn: aProcess
+]
+
+{ #category : 'support - IDed process' }
+BreakpointHandlingTest >> stepOverInLevel: aLevel inProcessID: anID [
+	self stepOverInLevel: aLevel inProcess: (self processWithID: anID)
 ]
 
 { #category : 'support' }
 BreakpointHandlingTest >> tearDown [
 	GsNMethod clearAllBreaks.
-	process
-		ifNotNil: [ 
-			process terminate.
-			process := nil ]
+	defaultProcess := nil.
+	processes copy
+		keysAndValuesDo: [ :eachName :eachProcess | 
+			eachProcess terminate.
+			processes removeKey: eachName ]
 ]
 
 { #category : 'tests' }
@@ -150,42 +267,24 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	| haltingProcess independentProcess level haltingMethod haltingCounter independentCounter independentCounterCache |
 	haltingCounter := GsCounter new.
 	independentCounter := GsCounter new.
-	haltingProcess := [ 
-	[ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
-		on: Breakpoint , Halt
-		do: [ :ex | 
-			trace nextPut: #'HaltingProcess'.
-			trace nextPut: ex.
-			haltingProcess suspend.
-			ex resume ] ] newProcess.
-	independentProcess := [ 
-	[ utility runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
-		on: Breakpoint , Halt
-		do: [ :ex | 
-			trace nextPut: #'RunningProcess'.
-			trace nextPut: ex.
-			independentProcess suspend.
-			ex resume ] ] newProcess.
-	haltingProcess
-		priority: priority;
-		breakpointLevel: 1.
+	haltingProcess := self
+		processBlock: [ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
+		forID: #'HaltingProcess'.
+	independentProcess := self
+		processBlock: [ utility runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
+		forID: #'RunningProcess'.
 	independentProcess
-		priority: priority;
-		breakpointLevel: 1;
 		convertToPortableStack.
 	[ 
-	haltingProcess resume.
-	(Delay forMilliseconds: 100) wait.
-	self assertSuspended: haltingProcess.
+	self advanceToControlInterruptIn: haltingProcess.
 	independentCounterCache := independentCounter current.
 	level := 10.
 	haltingMethod := (haltingProcess _frameContentsAt: level) first.
 	self
 		assert: haltingMethod selector
 		equals: #'runHotForSeconds:shouldHalt:counter:'.
-	self assert: trace size equals: 2.
-	self assert: trace next equals: #'HaltingProcess'.
-	self assert: trace next class equals: Halt.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Halt.
 
 	independentProcess resume.
 	(Delay forMilliseconds: 100) wait.
@@ -196,17 +295,14 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 
 	self assertSuspended: haltingProcess.
 	self denySuspended: independentProcess.
-	self assert: trace size equals: 0.
+	self assertNoTraceEntries.
 	self assert: independentCounter current > independentCounterCache.
 	independentProcess terminate.
 	self assert: independentProcess _isTerminated.
 
-	haltingProcess resume.
-	(Delay forMilliseconds: 100) wait.
-	self assertSuspended: haltingProcess.
-	self assert: trace size equals: 2.
-	self assert: trace next equals: #'HaltingProcess'.
-	self assert: trace next class equals: Breakpoint ]
+	self advanceToControlInterruptIn: haltingProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint ]
 		ensure: [ 
 			haltingProcess terminate.
 			independentProcess terminate ]
@@ -234,8 +330,7 @@ BreakpointHandlingTest >> testStepNonLocalReturn [
 		levelsSelect: [ :fc | 
 			| method |
 			method := fc first.
-			method isMethodForBlock and: [ method homeMethod selector == #'nlr2' ] ]
-		inProcess: process.
+			method isMethodForBlock and: [ method homeMethod selector == #'nlr2' ] ].
 	numberOfLevels := levels size.
 	self assert: numberOfLevels equals: 1.
 	self stepOverInLevel: levels first.	"Step over non-local return"
@@ -263,4 +358,9 @@ BreakpointHandlingTest >> testStepOverInRecursion [
 	self assert: numberOfLevels equals: 2.
 	self advanceToEnd.
 	self assert: result equals: 10 factorial
+]
+
+{ #category : 'support' }
+BreakpointHandlingTest >> traceID: anID value: anObject [
+	trace nextPut: anID -> anObject
 ]

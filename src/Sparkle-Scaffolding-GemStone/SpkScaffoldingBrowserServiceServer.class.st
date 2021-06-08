@@ -13,5 +13,5 @@ SpkScaffoldingBrowserServiceServer >> newRowanService [
 { #category : 'updating' }
 SpkScaffoldingBrowserServiceServer >> updateProjects [
 
-	self rowanService updateProjects
+	self rowanService: self rowanService updateProjects
 ]

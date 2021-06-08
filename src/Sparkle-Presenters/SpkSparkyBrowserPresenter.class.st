@@ -19,7 +19,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	promise := self browserService updateProjects.
 	promise
 		when: [ :result | 
-			projects := result.
+			projects := (result rowanService detect:[:arrays | arrays first = #projects]) last.
 			projectList items: projects ]
 		catch: [ :reason | 
 			Transcript
@@ -51,17 +51,28 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 	super initializePresenters.
 	topBox := SpkBoxLayout newTopToBottom.
 	self initializeProjectList: topBox. 
+	self layout add: topBox.
+	self layout color: SpkConnectionListPresenter defaultColor
 ]
 
 { #category : 'initialization' }
 SpkSparkyBrowserPresenter >> initializeProjectList: box [
 
-	box add:
-		(projectList := self newTable addColumn: (SpImageTableColumn new
+	box add: (projectList := self newTable beSingleSelection addColumn:
+			                (SpImageTableColumn new
 				                 title: 'Projects';
 				                 evaluated: [ :projectService | 
-					                 projectService detect: [ :ea | ea first = #name ] ]))
+					                 (projectService detect: [ :ea | 
+							                  ea first = #name ]) last ]))
 	"width: 150;"
+]
+
+{ #category : 'initialization' }
+SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
+
+	aWindowPresenter
+		title: 'Sparky Browser'";
+		initialExtent: 500 @ 500"
 ]
 
 { #category : 'initialization' }

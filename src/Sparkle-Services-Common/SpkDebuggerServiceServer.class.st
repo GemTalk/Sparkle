@@ -52,7 +52,7 @@ SpkDebuggerServiceServer >> receiveExecutionAnnouncement: announcement [
 SpkDebuggerServiceServer >> refreshExistingFrames [
 	| numberOfValidFrames frameTools |
 	numberOfValidFrames := 0.
-	frameTools := tool frames.
+	frameTools := tool nonGlueFrames.
 	1 to: (frames size min: frameTools size) do: [ :index | 
 		(frames at: index) tool == (frameTools at: index)
 			ifFalse: [ ^ numberOfValidFrames ].
@@ -67,7 +67,7 @@ SpkDebuggerServiceServer >> refreshFramesFromTool [
 	numberOfValidFrames := self refreshExistingFrames.
 	changed := changed | (numberOfValidFrames ~= frames size).
 
-	frameTools := tool frames.
+	frameTools := tool nonGlueFrames.
 	newStackDepth := frameTools size.
 	newFrames := Array new: newStackDepth.
 	changed := changed | (frames size ~= newStackDepth).

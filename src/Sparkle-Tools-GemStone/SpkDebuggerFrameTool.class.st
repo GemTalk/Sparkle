@@ -14,7 +14,8 @@ Class {
 		'currentState',
 		'previousState',
 		'index',
-		'isValid'
+		'isValid',
+		'isGlue'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -134,7 +135,21 @@ SpkDebuggerFrameTool >> index: object [
 { #category : 'other' }
 SpkDebuggerFrameTool >> initialize [
 	super initialize.
-	isValid := true
+	isValid := true.
+	isGlue := false
+]
+
+{ #category : 'testing' }
+SpkDebuggerFrameTool >> isBlockFrame [
+	"Determines if the current frame is a BlockClosure rather than a method or other activation type."
+
+	^self method isMethodForBlock
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameTool >> isGlue [
+
+	^isGlue
 ]
 
 { #category : 'accessing' }
@@ -155,6 +170,12 @@ SpkDebuggerFrameTool >> localVariables [
 		addArgAndTempToolsTo: tools.
 
 	^ tools
+]
+
+{ #category : 'private' }
+SpkDebuggerFrameTool >> markGlue [
+
+	isGlue := true
 ]
 
 { #category : 'accessing' }

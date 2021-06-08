@@ -211,14 +211,26 @@ SpkGciConnectionPresenter >> stoneText: anObject [
 { #category : 'actions' }
 SpkGciConnectionPresenter >> updateConnectionProfile [
 
+	| trimmedVersion trimmedStone trimmedNetldi trimmedPath trimmedUser |
 	super updateConnectionProfile.
+	trimmedVersion := versionText text trimBoth.
+	trimmedStone := stoneText text trimBoth.
+	trimmedNetldi := netldiText text trimBoth.
+	trimmedPath := pathText text trimBoth.
+	trimmedUser := userText text trimBoth.
 	connectionProfile
-		version: versionText text;
-		stone: stoneText text;
-		netldi: netldiText text;
-		path: pathText text;
-		user: userText text;
-		password: passwordText text
+		version: trimmedVersion;
+		stone: trimmedStone;
+		netldi: trimmedNetldi;
+		path: trimmedPath;
+		user: trimmedUser;
+		password: passwordText text.
+	"give visible feedback of trimmed text"
+	versionText text: trimmedVersion.
+	stoneText text: trimmedStone.
+	netldiText text: trimmedNetldi.
+	pathText text: trimmedPath.
+	userText text: trimmedUser
 ]
 
 { #category : 'actions' }

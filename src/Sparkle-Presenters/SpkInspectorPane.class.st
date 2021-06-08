@@ -57,6 +57,16 @@ SpkInspectorPane >> deselectOffTheEndFields [
 	listModel deselectItemsBeyondIndex: newNumberOfFields
 ]
 
+{ #category : 'accessing' }
+SpkInspectorPane >> enabled: aBoolean [
+
+	"selfDescription is not a presenter, so does not get
+	taken care of automatically."
+
+	super enabled: aBoolean.
+	selfDescription ifNotNil: [ :sd | sd enabled: aBoolean ]
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
@@ -132,8 +142,7 @@ SpkInspectorPane >> initializePresenters [
 	self
 		initializeFieldList;
 		initializeAddEvaluatorButton;
-		initializeEvaluators;
-		updateFromModel
+		initializeEvaluators
 ]
 
 { #category : 'initialization' }
@@ -278,12 +287,4 @@ SpkInspectorPane >> updateSelfDescription [
 	selfDescription
 		labelString: model selfDescription;
 		bodyString: model selfDescription
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> updateServices [
-
-	"Can be sent in any thread."
-
-	self evaluators do: [ :each | each updateServices ]
 ]

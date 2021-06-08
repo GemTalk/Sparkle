@@ -23,7 +23,7 @@
    inkscape:export-ydpi="96"><metadata
    id="metadata82"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
    id="defs80">
 	
 	
@@ -61,15 +61,15 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1889"
-   inkscape:window-height="1674"
+   inkscape:window-width="1885"
+   inkscape:window-height="1668"
    id="namedview78"
    showgrid="false"
    inkscape:zoom="1"
-   inkscape:cx="13.591258"
-   inkscape:cy="14.993286"
-   inkscape:window-x="1384"
-   inkscape:window-y="315"
+   inkscape:cx="9.5115369"
+   inkscape:cy="9.762457"
+   inkscape:window-x="833"
+   inkscape:window-y="353"
    inkscape:window-maximized="0"
    inkscape:current-layer="svg76"
    fit-margin-top="0"
@@ -170,7 +170,7 @@
    cy="14"
    cx="14"
    id="path851"
-   style="opacity:0.9;fill:none;stroke:#c9c9c9;stroke-width:1.764;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   style="opacity:1;fill:none;stroke:#c9c9c9;stroke-width:1.764;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    r="12.368002" /><path
    style="fill:#2dc4ee;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
    d="m 4.4344567,12.913644 16.1434093,-2e-6 -1.558787,-4.2793884 5.583185,5.3718194 -5.548896,5.359673 1.524498,-4.330062 -16.1434091,1e-6"

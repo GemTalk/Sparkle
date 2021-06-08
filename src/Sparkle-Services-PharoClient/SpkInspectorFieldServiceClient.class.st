@@ -23,7 +23,9 @@ SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
 	promise
 		when: [ :inspector | 
 			self linkedService: inspector.
-			parentService announceNewService: inspector forRequest: aRequestId ]
+			parentService
+				announceNewService: inspector forRequest: aRequestId;
+				announceActionComplete ]
 		catch: self defaultCatchBlock.
 	^ nil
 ]

@@ -19,6 +19,15 @@ SpkTModel >> announce: anAnnouncement [
 ]
 
 { #category : 'announcing' }
+SpkTModel >> announceActionComplete [
+
+	"Announce that an action has completed.
+	This can happen in any thread"
+
+	self announce: SpkActionCompleteAnnouncement new
+]
+
+{ #category : 'announcing' }
 SpkTModel >> announceNewService: newService forRequest: requestId [
 
 	| announcement |
@@ -67,5 +76,8 @@ SpkTModel >> updateServices [
 { #category : 'announcing' }
 SpkTModel >> when: anAnnouncementClass send: aSelector to: anObject [
 
-	self announcer when: anAnnouncementClass send: aSelector to: anObject
+	(self announcer
+		 when: anAnnouncementClass
+		 send: aSelector
+		 to: anObject) makeWeak
 ]

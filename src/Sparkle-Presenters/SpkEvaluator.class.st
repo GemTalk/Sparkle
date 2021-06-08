@@ -182,11 +182,3 @@ SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnounceme
 		self hasUnsavedChanges:
 			anSpkUnsavedChangesAnnouncement hasUnsavedChanges ]
 ]
-
-{ #category : 'as yet unclassified' }
-SpkEvaluator >> updateServices [
-
-	"Can be sent in any thread."
-
-	model updateServices
-]

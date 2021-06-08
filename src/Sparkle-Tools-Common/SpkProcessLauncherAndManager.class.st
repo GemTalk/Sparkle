@@ -36,14 +36,6 @@ SpkProcessLauncherAndManager >> initialize [
 	resultReady := Semaphore new
 ]
 
-{ #category : 'actions' }
-SpkProcessLauncherAndManager >> proceedProcess [
-	"Evaluation process waits for an answer and returns it"
-
-	super proceedProcess.
-	^ self waitForResult
-]
-
 { #category : 'accessing' }
 SpkProcessLauncherAndManager >> processBody: aBlock [
 	process := [ self returnValue: aBlock value ] newProcess
@@ -64,6 +56,14 @@ SpkProcessLauncherAndManager >> processName: object [
 SpkProcessLauncherAndManager >> processPriority: aPriority [
 
 	processPriority := aPriority
+]
+
+{ #category : 'actions' }
+SpkProcessLauncherAndManager >> resumeProcessAndWait [
+	"Evaluation process waits for an answer and returns it"
+
+	self resumeProcess.
+	^ self waitForResult
 ]
 
 { #category : 'actions' }

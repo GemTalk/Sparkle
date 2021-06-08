@@ -12,4 +12,4 @@ Sparkle is at present very much a work in progress, and is undergoing quite acti
 There are installation instructions in the Documentation directory of the repository: [SparkleInstallGuide.pdf](https://github.com/GemTalk/Sparkle/blob/development/Documentation/SparkleInstallGuide-1.0a1-v4.pdf)
 
 ## Use
-A short video demonstrating a _very_ early version of Sparkle can be seen [here](https://vimeo.com/495380967). Since improvements to Sparkle are ongoing, this video is quite out of date.
+There are two short videos demonstrating Sparkle as of April 2021: [Part 1](https://vimeo.com/539470570) and [Part 2](https://vimeo.com/539492134). Since improvements to Sparkle are ongoing, these videos will be out of date soon.

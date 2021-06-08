@@ -72,6 +72,16 @@ SpkDebuggerPane >> deselectOffTheTopFrames [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerPane >> enabled: aBoolean [
+
+	"Description is not a presenter, so does not get
+	taken care of automatically."
+
+	super enabled: aBoolean.
+	description ifNotNil: [ :d | d enabled: aBoolean ]
+]
+
+{ #category : 'accessing' }
 SpkDebuggerPane >> headerClass [
 
 	^ SpkDebuggerPaneHeader
@@ -206,8 +216,7 @@ SpkDebuggerPane >> updateDebuggerFromModel [
 
 	self
 		updateDescription;
-		updateFrameList;
-		reEnableAll
+		updateFrameList
 ]
 
 { #category : 'private' }
@@ -249,12 +258,4 @@ SpkDebuggerPane >> updateFromModel [
 SpkDebuggerPane >> updateLinkedFramePanes [
 
 	self linkedFramePanes do: [ :pane | pane updateFromModel ]
-]
-
-{ #category : 'private' }
-SpkDebuggerPane >> updateServices [
-
-	"Can be sent in any thread."
-
-	model updateServices
 ]

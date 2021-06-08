@@ -281,10 +281,19 @@ SpkConnectionPresenter >> setConnectionProfile: aConnectionProfile [
 
 { #category : 'actions' }
 SpkConnectionPresenter >> updateConnectionProfile [
+
+	| trimmedName trimmedHost trimmedGroup |
+	trimmedName := nameText text trimBoth.
+	trimmedHost := hostText text trimBoth.
+	trimmedGroup := groupText text trimBoth.
 	connectionProfile
-		name: nameText text;
-		host: hostText text;
-		group: groupText text
+		name: trimmedName;
+		host: trimmedHost;
+		group: trimmedGroup.
+	"give visible feedback of trimmed text"
+	nameText text: trimmedName.
+	hostText text: trimmedHost.
+	groupText text: trimmedGroup
 ]
 
 { #category : 'actions' }
@@ -292,5 +301,5 @@ SpkConnectionPresenter >> updateGUI [
 
 	nameText text: connectionProfile name.
 	hostText text: connectionProfile host.
-	groupText text: connectionProfile group.
+	groupText text: connectionProfile group
 ]

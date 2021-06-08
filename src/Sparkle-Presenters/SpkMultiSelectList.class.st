@@ -164,22 +164,22 @@ SpkMultiSelectList >> refreshFromServices: services [
 
 	"Build a new list of items, keeping by identity any items for the identical model."
 
-	| newItems |
+	| newItems itemsDictionary |
 	newItems := OrderedCollection new.
+	itemsDictionary := IdentityDictionary new: items size.
+	items do: [:each |
+		itemsDictionary
+			at: each model
+			ifPresent: [self error: 'Internal error: there should not be more than one item with the same model.']
+			ifAbsentPut: [each]].
 	services do: [ :aService | 
-		| existingItems |
-		existingItems := items select: [ :item | item model == aService ].
-		existingItems size > 1 ifTrue: [ 
-			self error:
-				'Internal error: there should not be more than one item with the same model.' ].
-		existingItems size = 1
-			ifTrue: [ 
-				| item |
-				item := existingItems first.
+		| item |
+		item := itemsDictionary at: aService ifAbsent: [nil].
+		item == nil
+			ifFalse: [
 				newItems add: item.
 				item index: newItems size ]
-			ifFalse: [ 
-				| item |
+			ifTrue: [ 
 				item := SpkMultiSelectListItem new.
 				newItems add: item.
 				item

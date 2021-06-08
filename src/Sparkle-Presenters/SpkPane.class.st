@@ -21,6 +21,14 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'initialization' }
+SpkPane >> actionComplete [
+
+	"Must be sent only in the UI thread."
+
+	self enableAll
+]
+
 { #category : 'initialize-release' }
 SpkPane >> close [
 
@@ -53,7 +61,16 @@ SpkPane >> connectPresenters [
 	model
 		when: SpkUpdateAnnouncement
 		send: #receiveUpdateAnnouncement
-		to: self
+		to: self;
+		when: SpkActionCompleteAnnouncement
+		send: #receiveActionCompleteAnnouncement
+		to: self.
+	"enableAll, paradoxically, has the action of disabling 
+	buttons that should be disabled when the pane first opens.
+	Otherwise, all widgets start enabled.
+	Enabling doesn't do all it needs to do if the subscriptions
+	are not in place yet, so defer."
+	self defer: [self enableAll].
 ]
 
 { #category : 'accessing' }
@@ -73,8 +90,18 @@ SpkPane >> disableAll [
 	"Disable all widgets in this pane so that we cannot get any GUI events while
 	awaiting an answer from the server."
 
-	self enabled: false.
-	self layout enabled: false
+	self enabled: false
+]
+
+{ #category : 'actions' }
+SpkPane >> enableAll [
+
+	"Enable widgets in this pane after receiving a reply from the server.
+At the moment, this does enable all widgets in the pane.
+At some point, we will need to do something more sophisticated to determine whether
+an item really should be enabled."
+
+	self enabled: true
 ]
 
 { #category : 'tests - header' }
@@ -143,14 +170,14 @@ SpkPane >> newLayout [
 
 { #category : 'instance creation' }
 SpkPane >> newPaneForService: newService linkedTo: item [
+
 	"Item is anything that can have a linked pane.
 	Usually a list item or an evaluator"
 
 	"If I have been closed before the new pane announcement reaches me, ignore it."
-	isOpen ifFalse: [ ^self ].
-	self openLinkedPane: newService forItem: item.
-	"This announcement came from the server, so all of my widgets are disabled."
-	self reEnableAll
+
+	isOpen ifFalse: [ ^ self ].
+	self openLinkedPane: newService forItem: item
 ]
 
 { #category : 'accessing' }
@@ -177,16 +204,10 @@ SpkPane >> openLinkedPane: aPaneService forItem: item [
 		linkedPane: newPane
 ]
 
-{ #category : 'actions' }
-SpkPane >> reEnableAll [
-
-	"Enable widgets in this pane after receiving a reply from the server.
-At the moment, this does enable all widgets in the pane.
-At some point, we will need to do something more sophisticated to determine whether
-an item really should be enabled."
-
-	self enabled: true.
-	self layout enabled: true
+{ #category : 'initialization' }
+SpkPane >> receiveActionCompleteAnnouncement [ 
+	
+	self defer: [ self actionComplete ]
 ]
 
 { #category : 'announcements' }
@@ -227,14 +248,4 @@ SpkPane >> undo [
 SpkPane >> updateFromModel [
 	"Must be sent only in the UI thread."
 	"Subclasses should override if they can receive update announcements"
-]
-
-{ #category : 'as yet unclassified' }
-SpkPane >> updateServices [
-
-	"Can be sent in any thread."
-
-	" default does nothing "
-
-	
 ]

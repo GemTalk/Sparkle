@@ -183,12 +183,6 @@ SpkBoxLayout >> direction [
 	^ direction
 ]
 
-{ #category : 'accessing' }
-SpkBoxLayout >> enabled: aBoolean [
-
-	self withAdapterDo: [ :dapt | dapt enabled: aBoolean ]
-]
-
 { #category : 'widget alignment' }
 SpkBoxLayout >> hAlignWidgetsAtCenter [
 

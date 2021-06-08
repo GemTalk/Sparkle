@@ -48,27 +48,35 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 	sourceLayout
 		add: controlsLayout
 		withConstraints: [ :c | c width: 35 ].
-		
+
 	stepIntoButton := self newIconButton
 		                  color: Color transparent;
-		                  icon: (self iconNamed: #stepInto28);
+		                  enabledIcon: (self iconNamed: #stepInto28);
+		                  disabledIcon:
+			                  (self iconNamed: #stepIntoDisabled28);
 		                  help: 'Step into';
 		                  action: [ self stepInto ];
+								enablementCondition: [:aBoolean | model canStep & aBoolean];
 		                  yourself.
 
 	stepThroughButton := self newIconButton
-		                  color: Color transparent;
-		                  icon: (self iconNamed: #stepThrough28);
-		                  help: 'Step through blocks';
-		                  action: [ self stepThrough ];
-		                  yourself.
-
+		                     color: Color transparent;
+		                     enabledIcon: (self iconNamed: #stepThrough28);
+		                     disabledIcon:
+			                     (self iconNamed: #stepThroughDisabled28);
+		                     help: 'Step through blocks';
+		                     action: [ self stepThrough ];
+								enablementCondition: [:aBoolean | model canStep & aBoolean];
+		                     yourself.
 
 	stepOverButton := self newIconButton
 		                  color: Color transparent;
-		                  icon: (self iconNamed: #stepOver28);
+		                  enabledIcon: (self iconNamed: #stepOver28);
+		                  disabledIcon:
+			                  (self iconNamed: #stepOverDisabled28);
 		                  help: 'Step over';
 		                  action: [ self stepOver ];
+								enablementCondition: [:aBoolean | model canStep & aBoolean];
 		                  yourself.
 
 	controlsLayout
@@ -79,14 +87,13 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 				height: 35;
 				width: 28 ];
 		add: stepThroughButton withConstraints: [ :c | 
-			c
-				height: 35;
-				width: 28 ];
+		c
+			height: 35;
+			width: 28 ];
 		add: stepOverButton withConstraints: [ :c | 
-			c
-				height: 35;
-				width: 28 ]
-
+		c
+			height: 35;
+			width: 28 ]
 ]
 
 { #category : 'initialization' }
@@ -198,14 +205,5 @@ SpkDebuggerFramePane >> updateFromModel [
 
 	self
 		refreshTwizzledList;
-		refreshSourcePane;
-		reEnableAll
-]
-
-{ #category : 'as yet unclassified' }
-SpkDebuggerFramePane >> updateServices [
-
-	"Can be sent in any thread."
-
-	model updateServices
+		refreshSourcePane
 ]

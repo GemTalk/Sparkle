@@ -7,7 +7,8 @@ Class {
 		'currentStartPosition',
 		'currentEndPosition',
 		'localVariables',
-		'updatedServices'
+		'updatedServices',
+		'canStep'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -15,6 +16,18 @@ Class {
 { #category : 'other' }
 SpkDebuggerFrameService class >> templateClassName [
 	^ #'SpkDebuggerFrameService'
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> canStep [
+
+	^canStep
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFrameService >> canStep: aBoolean [
+
+	canStep := aBoolean
 ]
 
 { #category : 'accessing' }

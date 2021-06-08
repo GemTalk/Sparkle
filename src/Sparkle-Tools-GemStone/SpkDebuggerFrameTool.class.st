@@ -74,13 +74,11 @@ SpkDebuggerFrameTool >> beInvalid [
 
 { #category : 'other' }
 SpkDebuggerFrameTool >> canStep [
-	"In the very bottom frames of a GsProcess, stepping will get you into trouble.
-	The trouble spots *seem* to be the always-present three frames:
-	1. GsNMethod class >> _gsReturnToC
-	2. GsProcess >> _start
-	3. ExecBlock >> valueWithArguments: "
+	"The ProcessorScheduler keeps a list of criticals methods which
+	cannot be stepped through. We should prevent stepping to avoid
+	an error."
 
-	^ index > 3
+	^(ProcessorScheduler scheduler _criticalMethods includes: currentState method) not
 ]
 
 { #category : 'accessing' }
@@ -248,15 +246,13 @@ SpkDebuggerFrameTool >> stepIntoAnnouncing: anAnnouncement [
 
 { #category : 'other' }
 SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
-	^ self canStep
-		ifTrue: [ 
-			| level |
-			level := currentState level.
-			process _isTerminated
-				ifFalse: [ process stepOverFromLevel: level ].
-			"Resume is required whether process is terminated or not."
-			debuggerTool resumeAnnouncing: anAnnouncement ]
-		ifFalse: [ debuggerTool proceedAnnouncing: anAnnouncement ]
+
+	| level |
+	level := currentState level.
+	process _isTerminated
+		ifFalse: [ process stepOverFromLevel: level ].
+	"Resume is required whether process is terminated or not."
+	^debuggerTool resumeAnnouncing: anAnnouncement
 ]
 
 { #category : 'accessing' }

@@ -313,6 +313,16 @@ SpkDebuggerTool >> proceedAnnouncing: anAnnouncement [
 	^ self resumeAnnouncing: anAnnouncement
 ]
 
+{ #category : 'actions' }
+SpkDebuggerTool >> proceedIfInGlueAnnouncing: anAnnouncement [
+	"If we have stepped off the end of 'user' code, proceed the process to let it run through the bottom glue.
+In case this execution changes any inspected objects (for instance, the process itself) go through
+another round of announcing, with the same announcement since it's still the same client request."
+
+	(self isValid and: [ self nonGlueFrames isEmpty ])
+		ifTrue: [ self proceedAnnouncing: anAnnouncement ]
+]
+
 { #category : 'accessing' }
 SpkDebuggerTool >> process [
 
@@ -354,8 +364,10 @@ SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	self isValid
 		ifTrue: [ 
 			self refreshFromProcess.
-			frames do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
-	self announce: anAnnouncement
+			self nonGlueFrames
+				do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
+	self announce: anAnnouncement.
+	self proceedIfInGlueAnnouncing: anAnnouncement
 ]
 
 { #category : 'initialization' }

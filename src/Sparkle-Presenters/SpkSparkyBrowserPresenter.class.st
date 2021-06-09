@@ -25,8 +25,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	promise := self browserService updateProjects.
 	promise
 		when: [ :result | 
-			projects := (result rowanService detect: [ :arrays | 
-				             arrays first = #projects ]) last.
+			self extractProjectServicesFrom: result.
 			self class browserAnnouncer announce:
 				(SpkBrowserProjectsAnnouncement new projects: projects) ]
 		catch: [ :reason | 
@@ -50,6 +49,16 @@ SpkSparkyBrowserPresenter >> browserService [
 			                    registerWith:
 			                    SpkConnectionProfile defaultConnection ].
 	^ browserService
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> extractProjectServicesFrom: result [
+
+	| projectArrays |
+	projectArrays := (result rowanService detect: [ :arrays | 
+		                  arrays first = #projects ]) last.
+	projects := SpkSparkyRowanProjectService servicesFromArrays:
+		            projectArrays
 ]
 
 { #category : 'initialization' }
@@ -80,9 +89,7 @@ SpkSparkyBrowserPresenter >> initializeProjectList: box [
 			                (SpImageTableColumn new
 				                 title: 'Projects';
 				                 evaluated: [ :projectService | 
-					                 (projectService detect: [ :ea | 
-							                  ea first = #name ]) last ]))
-	"width: 150;"
+					                 projectService name ]))
 ]
 
 { #category : 'initialization' }

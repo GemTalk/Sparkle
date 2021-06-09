@@ -189,7 +189,7 @@ SpkSparkyBrowserPresenter >> projectServiceNamed: projectName [
 	^ self projectServices at: projectName ifAbsent: [ 
 		  projectServices
 			  at: projectName
-			  put: (SpkScaffoldingBrowserServiceClient new registerWith:
+			  put: (SpkScaffoldingProjectServiceClient new registerWith:
 					   SpkConnectionProfile defaultConnection) ]
 ]
 

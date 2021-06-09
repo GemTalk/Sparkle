@@ -4,7 +4,10 @@ Class {
 	#instVars : [
 		'browserService',
 		'projects',
-		'projectList'
+		'projectList',
+		'packages',
+		'packageList',
+		'projectServices'
 	],
 	#classVars : [
 		'BrowserAnnouncer'
@@ -16,6 +19,29 @@ Class {
 SpkSparkyBrowserPresenter class >> browserAnnouncer [
 
 	^ BrowserAnnouncer ifNil: [ BrowserAnnouncer := Announcer new ]
+]
+
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
+
+	| promise |
+	promise := (self projectServiceNamed: projectName) updatePackages.
+	promise
+		when: [ :result | 
+			self extractPackageServicesFrom: result.
+			self class browserAnnouncer announce:
+				(SpkBrowserPackagesAnnouncement new packages: packages) ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ]
 ]
 
 { #category : 'actions' }
@@ -41,7 +67,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 				yourself ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 SpkSparkyBrowserPresenter >> browserService [
 
 	browserService ifNil: [ 
@@ -51,11 +77,31 @@ SpkSparkyBrowserPresenter >> browserService [
 	^ browserService
 ]
 
+{ #category : 'initialization' }
+SpkSparkyBrowserPresenter >> connectPresenters [
+
+	super connectPresenters.
+	projectList whenSelectionChangedDo: [ :selection | 
+		selection ifNotNil: [ :sel | 
+			sel selectedItem ifNotNil: [ :projectService | 
+				self browsePackagesFor: projectService name ] ] ]
+]
+
 { #category : 'private actions' }
-SpkSparkyBrowserPresenter >> extractProjectServicesFrom: result [
+SpkSparkyBrowserPresenter >> extractPackageServicesFrom: packageServiceArrays [
 
 	| projectArrays |
-	projectArrays := (result rowanService detect: [ :arrays | 
+	projectArrays := (packageServiceArrays rowanService detect: [ :arrays | 
+		                  arrays first = #packages ]) last.
+	projects := SpkSparkyRowanPackageService servicesFromArrays:
+		            projectArrays
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> extractProjectServicesFrom: projectServiceArray [
+
+	| projectArrays |
+	projectArrays := (projectServiceArray rowanService detect: [ :arrays | 
 		                  arrays first = #projects ]) last.
 	projects := SpkSparkyRowanProjectService servicesFromArrays:
 		            projectArrays
@@ -65,19 +111,42 @@ SpkSparkyBrowserPresenter >> extractProjectServicesFrom: result [
 SpkSparkyBrowserPresenter >> initialize [
 
 	super initialize.
+	self initializeAnnouncements
+]
+
+{ #category : 'initialization' }
+SpkSparkyBrowserPresenter >> initializeAnnouncements [
+
 	self class browserAnnouncer
 		when: SpkBrowserProjectsAnnouncement
 		send: #projectsUpdated:
+		to: self.
+	self class browserAnnouncer
+		when: SpkBrowserPackagesAnnouncement
+		send: #packagesUpdated:
 		to: self
+]
+
+{ #category : 'initialization' }
+SpkSparkyBrowserPresenter >> initializePackageList: box [
+
+	box add: (packageList := self newTable beSingleSelection addColumn:
+			                (SpImageTableColumn new
+				                 title: 'Packages';
+				                 evaluated: [ :packageService | 
+					                 packageService name ]))
 ]
 
 { #category : 'initialization' }
 SpkSparkyBrowserPresenter >> initializePresenters [
 
-	| topBox |
+	| topBox metaBox |
 	super initializePresenters.
 	topBox := SpkBoxLayout newTopToBottom.
-	self initializeProjectList: topBox. 
+	metaBox := SpkBoxLayout newLeftToRight.
+	self initializeProjectList: metaBox.
+	self initializePackageList: metaBox. 
+	topBox add: metaBox.
 	self layout add: topBox.
 	self layout color: SpkConnectionListPresenter defaultColor
 ]
@@ -105,6 +174,29 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 SpkSparkyBrowserPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> packagesUpdated: announcement [
+
+	packageList items = announcement packages ifFalse: [ 
+		packageList items: announcement packages ]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> projectServiceNamed: projectName [
+
+	^ self projectServices at: projectName ifAbsent: [ 
+		  projectServices
+			  at: projectName
+			  put: (SpkScaffoldingBrowserServiceClient new registerWith:
+					   SpkConnectionProfile defaultConnection) ]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> projectServices [
+
+	^ projectServices ifNil: [ Dictionary new ]
 ]
 
 { #category : 'events' }

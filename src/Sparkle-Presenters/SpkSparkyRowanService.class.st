@@ -42,7 +42,8 @@ SpkSparkyRowanService >> arrays: anObject [
 { #category : 'accessing' }
 SpkSparkyRowanService >> aspectFor: symbol [
 
-	"for now do not use the ifNone: variant. Eventually add it for a nicer error message"
+	"for now do not use the ifNone: variant.
+	In theory, we should never ask for state of an inst var not in the service"
 
 	| aspectArray |
 	aspectArray := arrays detect: [ :array | array first == symbol ].
@@ -51,6 +52,5 @@ SpkSparkyRowanService >> aspectFor: symbol [
 
 { #category : 'accessing' }
 SpkSparkyRowanService >> name [
-	"handy accessor"
 	^self aspectFor: #name
 ]

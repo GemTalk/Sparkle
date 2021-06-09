@@ -7,10 +7,16 @@ Class {
 		'projectList'
 	],
 	#classVars : [
-		'DebuggerAnnouncer'
+		'BrowserAnnouncer'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'class initialization' }
+SpkSparkyBrowserPresenter class >> browserAnnouncer [
+
+	^ BrowserAnnouncer ifNil: [ BrowserAnnouncer := Announcer new ]
+]
 
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> browseProjects [
@@ -19,8 +25,10 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	promise := self browserService updateProjects.
 	promise
 		when: [ :result | 
-			projects := (result rowanService detect:[:arrays | arrays first = #projects]) last.
-			projectList items: projects ]
+			projects := (result rowanService detect: [ :arrays | 
+				             arrays first = #projects ]) last.
+			self class browserAnnouncer announce:
+				(SpkBrowserProjectsAnnouncement new projects: projects) ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -42,6 +50,16 @@ SpkSparkyBrowserPresenter >> browserService [
 			                    registerWith:
 			                    SpkConnectionProfile defaultConnection ].
 	^ browserService
+]
+
+{ #category : 'initialization' }
+SpkSparkyBrowserPresenter >> initialize [
+
+	super initialize.
+	self class browserAnnouncer
+		when: SpkBrowserProjectsAnnouncement
+		send: #projectsUpdated:
+		to: self
 ]
 
 { #category : 'initialization' }
@@ -71,14 +89,22 @@ SpkSparkyBrowserPresenter >> initializeProjectList: box [
 SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparky Browser'";
-		initialExtent: 500 @ 500"
+		title: 'Sparky Browser';
+		whenClosedDo: [ 
+			self class browserAnnouncer unsubscribe: self ]
 ]
 
 { #category : 'initialization' }
 SpkSparkyBrowserPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> projectsUpdated: announcement [
+
+	projectList items = announcement projects ifFalse: [ 
+		projectList items: announcement projects ]
 ]
 
 { #category : 'initialization' }

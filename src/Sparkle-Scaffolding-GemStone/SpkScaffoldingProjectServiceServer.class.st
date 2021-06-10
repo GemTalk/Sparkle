@@ -18,3 +18,8 @@ SpkScaffoldingProjectServiceServer >> projectServiceNamed: projectName [
 SpkScaffoldingProjectServiceServer >> rowanServiceClass [
 	^ RowanProjectService
 ]
+
+{ #category : 'other' }
+SpkScaffoldingProjectServiceServer >> update [
+	self rowanService: self rowanService update
+]

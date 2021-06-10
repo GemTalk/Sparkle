@@ -39,7 +39,7 @@ SpkSparkyBrowserPresenter class >> projectServiceNamed: projectName [
 			  at: projectName
 			  put:
 				  ((SpkScaffoldingProjectServiceClient new name: projectName) 
-					   registerWith: SpkConnectionProfile defaultConnection) ]
+					   registerWith: SpkConnectionProfile defaultConnection) initialize]
 ]
 
 { #category : 'accessing' }

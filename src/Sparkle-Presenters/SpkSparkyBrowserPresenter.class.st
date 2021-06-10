@@ -39,7 +39,7 @@ SpkSparkyBrowserPresenter class >> projectServiceNamed: projectName [
 			  at: projectName
 			  put:
 				  ((SpkScaffoldingProjectServiceClient new name: projectName) 
-					   registerWith: SpkConnectionProfile defaultConnection) initialize]
+					   registerWith: SpkConnectionProfile defaultConnection) initializeService]
 ]
 
 { #category : 'accessing' }
@@ -61,8 +61,8 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 	| promise |
 	promise := (self projectServiceNamed: projectName) update.
 	promise
-		when: [ :result | 
-			self extractPackageServicesFrom: result.
+		when: [ :projectService | 
+			self extractPackageServicesFrom: projectService.
 			self class browserAnnouncer announce:
 				(SpkBrowserPackagesAnnouncement new packages: packages) ]
 		catch: [ :reason | 

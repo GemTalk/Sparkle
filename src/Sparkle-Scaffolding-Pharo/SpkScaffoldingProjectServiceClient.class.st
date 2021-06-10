@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : 'updating' }
-SpkScaffoldingProjectServiceClient >> initialize [
+SpkScaffoldingProjectServiceClient >> initializeService [
 
 	| promise |
-	promise := self update.
+	promise := remoteSelf initializeService.
 	promise when: [ :result | "no action needed" ] catch: [ :reason | 
 		Transcript
 			cr;

@@ -300,10 +300,10 @@ SpkSparkyDebuggerPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Traditional Debugger';
-		"borderColor: Color purple;
-		borderWidth: 3; 'no longer works not sure why'"
 		initialExtent: 750 @ 1000;
-		whenClosedDo: [ shouldTerminate ifTrue: [ self terminate ] ]
+		whenClosedDo: [ 
+			SpkConnectionProfile profileAnnouncer unsubscribe: self application.
+			shouldTerminate ifTrue: [ self terminate ] ]
 ]
 
 { #category : 'initialization' }

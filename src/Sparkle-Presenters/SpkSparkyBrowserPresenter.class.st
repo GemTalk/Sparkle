@@ -2,12 +2,10 @@ Class {
 	#name : 'SpkSparkyBrowserPresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
-		'browserService',
 		'projects',
 		'projectList',
 		'packages',
-		'packageList',
-		'projectServices'
+		'packageList'
 	],
 	#classVars : [
 		'BrowserAnnouncer',
@@ -47,6 +45,13 @@ SpkSparkyBrowserPresenter class >> projectServiceNamed: projectName [
 SpkSparkyBrowserPresenter class >> projectServices [
 
 	^ ProjectServices ifNil: [ Dictionary new ]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> releaseServices [
+
+	BrowserService := nil. 
+	ProjectServices := nil. 
 ]
 
 { #category : 'actions' }
@@ -101,7 +106,14 @@ SpkSparkyBrowserPresenter >> browserService [
 	^ self class browserService
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
+SpkSparkyBrowserPresenter >> closeAndCleanup [
+
+	self application close. 
+	self class releaseServices.
+]
+
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> connectPresenters [
 
 	super connectPresenters.
@@ -122,23 +134,23 @@ SpkSparkyBrowserPresenter >> extractPackageServicesFrom: packageServiceArrays [
 ]
 
 { #category : 'private actions' }
-SpkSparkyBrowserPresenter >> extractProjectServicesFrom: projectServiceArray [
+SpkSparkyBrowserPresenter >> extractProjectServicesFrom: scaffoldingService [
 
 	| projectArrays |
-	projectArrays := (projectServiceArray rowanService detect: [ :arrays | 
+	projectArrays := (scaffoldingService rowanService detect: [ :arrays | 
 		                  arrays first = #projects ]) last.
 	projects := SpkSparkyRowanProjectService servicesFromArrays:
 		            projectArrays
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initialize [
 
 	super initialize.
 	self initializeAnnouncements
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializeAnnouncements [
 
 	self class browserAnnouncer
@@ -148,10 +160,14 @@ SpkSparkyBrowserPresenter >> initializeAnnouncements [
 	self class browserAnnouncer
 		when: SpkBrowserPackagesAnnouncement
 		send: #packagesUpdated:
-		to: self
+		to: self.
+	SpkConnectionProfile profileAnnouncer
+		when: SpkConnectionProfileDisconnectedAnnouncement
+		send: #closeAndCleanup
+		to: self.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializePackageList: box [
 
 	box add: (packageList := self newTable beSingleSelection addColumn:
@@ -161,7 +177,7 @@ SpkSparkyBrowserPresenter >> initializePackageList: box [
 					                 packageService name ]))
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializePresenters [
 
 	| topBox metaBox |
@@ -175,7 +191,7 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 	self layout color: SpkConnectionListPresenter defaultColor
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializeProjectList: box [
 
 	box add: (projectList := self newTable beSingleSelection addColumn:
@@ -185,16 +201,17 @@ SpkSparkyBrowserPresenter >> initializeProjectList: box [
 					                 projectService name ]))
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparky Browser';
 		whenClosedDo: [ 
+			SpkConnectionProfile profileAnnouncer unsubscribe: self application.
 			self class browserAnnouncer unsubscribe: self ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
@@ -220,7 +237,7 @@ SpkSparkyBrowserPresenter >> projectsUpdated: announcement [
 		projectList items: announcement projects ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> updatePresenter [
 
 	super updatePresenter.

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : 'other' }
-SpkScaffoldingProjectServiceServer >> initialize [
+SpkScaffoldingProjectServiceServer >> initializeService [
 	self rowanService: (self rowanService name: name) update
 ]
 

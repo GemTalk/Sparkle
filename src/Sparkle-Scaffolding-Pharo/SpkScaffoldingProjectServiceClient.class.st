@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : 'updating' }
-SpkScaffoldingProjectServiceClient >> updatePackages [
+SpkScaffoldingProjectServiceClient >> update [
 
-	^remoteSelf updatePackages
+	^remoteSelf update
 ]

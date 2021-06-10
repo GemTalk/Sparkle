@@ -37,8 +37,9 @@ SpkSparkyBrowserPresenter class >> projectServiceNamed: projectName [
 	^ self projectServices at: projectName ifAbsent: [ 
 		  ProjectServices
 			  at: projectName
-			  put: (SpkScaffoldingProjectServiceClient new registerWith:
-					   SpkConnectionProfile defaultConnection) ]
+			  put:
+				  ((SpkScaffoldingProjectServiceClient new name: projectName) 
+					   registerWith: SpkConnectionProfile defaultConnection) ]
 ]
 
 { #category : 'accessing' }
@@ -58,7 +59,7 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 
 	| promise |
-	promise := (self projectServiceNamed: projectName) updatePackages.
+	promise := (self projectServiceNamed: projectName) update.
 	promise
 		when: [ :result | 
 			self extractPackageServicesFrom: result.

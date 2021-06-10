@@ -130,7 +130,7 @@ SpkSparkyBrowserPresenter >> extractPackageServicesFrom: packageServiceArrays [
 	| projectArrays |
 	projectArrays := (packageServiceArrays rowanService detect: [ :arrays | 
 		                  arrays first = #packages ]) last.
-	projects := SpkSparkyRowanPackageService servicesFromArrays:
+	packages := SpkSparkyRowanPackageService servicesFromArrays:
 		            projectArrays
 ]
 

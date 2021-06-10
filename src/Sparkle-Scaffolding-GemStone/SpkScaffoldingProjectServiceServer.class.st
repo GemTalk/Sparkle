@@ -6,5 +6,10 @@ Class {
 
 { #category : 'other' }
 SpkScaffoldingProjectServiceServer >> projectServiceNamed: projectName [
-	self rowanService: (RowanProjectService newNamed: projectName)
+	self rowanService: (self rowanService name: projectName) update
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingProjectServiceServer >> rowanServiceClass [
+	^ RowanProjectService
 ]

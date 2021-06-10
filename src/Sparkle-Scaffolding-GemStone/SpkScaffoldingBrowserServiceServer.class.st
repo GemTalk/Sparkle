@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkScaffoldingBrowserServiceServer >> newRowanService [
+SpkScaffoldingBrowserServiceServer >> rowanServiceClass [
 
-	^RowanBrowserService new
+	^RowanBrowserService
 ]
 
 { #category : 'updating' }

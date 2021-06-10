@@ -9,12 +9,6 @@ SpkScaffoldingInspectorServiceServer >> inspect: anOop [
 	self rowanService: (self rowanService inspectOop: anOop).
 ]
 
-{ #category : 'accessing' }
-SpkScaffoldingInspectorServiceServer >> newRowanService [
-
-	^RowanInspectorService new
-]
-
 { #category : 'client actions' }
 SpkScaffoldingInspectorServiceServer >> printLoadedVersions [
 	| writeStream sortedProjects projectServices |
@@ -44,4 +38,9 @@ SpkScaffoldingInspectorServiceServer >> printLoadedVersions [
 { #category : 'client actions' }
 SpkScaffoldingInspectorServiceServer >> printOop: anOop [
 	^ (Object _objectForOop: anOop) printString
+]
+
+{ #category : 'accessing' }
+SpkScaffoldingInspectorServiceServer >> rowanServiceClass [
+	^ RowanInspectorService
 ]

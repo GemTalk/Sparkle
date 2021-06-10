@@ -44,7 +44,7 @@ SpkSparkyBrowserPresenter class >> projectServiceNamed: projectName [
 { #category : 'accessing' }
 SpkSparkyBrowserPresenter class >> projectServices [
 
-	^ ProjectServices ifNil: [ Dictionary new ]
+	^ ProjectServices ifNil: [ ProjectServices := Dictionary new ]
 ]
 
 { #category : 'accessing' }

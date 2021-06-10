@@ -10,15 +10,43 @@ Class {
 		'projectServices'
 	],
 	#classVars : [
-		'BrowserAnnouncer'
+		'BrowserAnnouncer',
+		'BrowserService',
+		'ProjectServices'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'class initialization' }
+{ #category : 'accessing' }
 SpkSparkyBrowserPresenter class >> browserAnnouncer [
 
 	^ BrowserAnnouncer ifNil: [ BrowserAnnouncer := Announcer new ]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> browserService [
+
+	BrowserService ifNil: [ 
+		BrowserService := SpkScaffoldingBrowserServiceClient new 
+			                  registerWith:
+			                  SpkConnectionProfile defaultConnection ].
+	^ BrowserService
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> projectServiceNamed: projectName [
+
+	^ self projectServices at: projectName ifAbsent: [ 
+		  ProjectServices
+			  at: projectName
+			  put: (SpkScaffoldingProjectServiceClient new registerWith:
+					   SpkConnectionProfile defaultConnection) ]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> projectServices [
+
+	^ ProjectServices ifNil: [ Dictionary new ]
 ]
 
 { #category : 'actions' }
@@ -70,11 +98,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 { #category : 'accessing' }
 SpkSparkyBrowserPresenter >> browserService [
 
-	browserService ifNil: [ 
-		browserService := SpkScaffoldingBrowserServiceClient new 
-			                    registerWith:
-			                    SpkConnectionProfile defaultConnection ].
-	^ browserService
+	^ self class browserService
 ]
 
 { #category : 'initialization' }
@@ -186,17 +210,7 @@ SpkSparkyBrowserPresenter >> packagesUpdated: announcement [
 { #category : 'accessing' }
 SpkSparkyBrowserPresenter >> projectServiceNamed: projectName [
 
-	^ self projectServices at: projectName ifAbsent: [ 
-		  projectServices
-			  at: projectName
-			  put: (SpkScaffoldingProjectServiceClient new registerWith:
-					   SpkConnectionProfile defaultConnection) ]
-]
-
-{ #category : 'accessing' }
-SpkSparkyBrowserPresenter >> projectServices [
-
-	^ projectServices ifNil: [ Dictionary new ]
+	^ self class projectServiceNamed: projectName
 ]
 
 { #category : 'events' }

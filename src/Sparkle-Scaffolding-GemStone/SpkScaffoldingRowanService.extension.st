@@ -1,6 +1,11 @@
 Extension { #name : 'SpkScaffoldingRowanService' }
 
 { #category : '*sparkle-scaffolding-gemstone' }
+SpkScaffoldingRowanService >> initializeService [
+	"some services need to initialize themselves"
+]
+
+{ #category : '*sparkle-scaffolding-gemstone' }
 SpkScaffoldingRowanService >> newRowanService [
 	^ self rowanServiceClass new
 ]

@@ -38,7 +38,7 @@ SpkSparkyBrowserPresenter class >> browserService [
 SpkSparkyBrowserPresenter class >> packageServiceNamed: packageName [
 
 	^ self packageServices at: packageName ifAbsent: [ 
-		  ProjectServices
+		  PackageServices
 			  at: packageName
 			  put:
 				  ((SpkScaffoldingPackageServiceClient new name: packageName) 
@@ -73,6 +73,7 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 
 	BrowserService := nil. 
 	ProjectServices := nil. 
+	PackageServices := nil.
 ]
 
 { #category : 'actions' }
@@ -82,7 +83,7 @@ SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
 	promise := (self packageServiceNamed: packageName) update.
 	promise
 		when: [ :scaffoldingService | 
-			packages := self extractServices: #classes from: scaffoldingService.
+			classes := self extractServices: #classes from: scaffoldingService.
 			self class browserAnnouncer announce:
 				(SpkBrowserClassesAnnouncement new classes: classes) ]
 		catch: [ :reason | 

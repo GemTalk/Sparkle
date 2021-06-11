@@ -23,3 +23,9 @@ SpkScaffoldingRowanService >> rowanService [
 
 	^ rsrRowanService
 ]
+
+{ #category : '*Sparkle-Scaffolding-Pharo' }
+SpkScaffoldingRowanService >> update [
+
+	^remoteSelf update
+]

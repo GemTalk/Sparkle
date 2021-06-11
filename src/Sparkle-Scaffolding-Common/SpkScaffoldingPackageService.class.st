@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkScaffoldingPackageService class >> templateClassName [
+
+	^#SpkScaffoldingPackageService
+]
+
+{ #category : 'accessing' }
 SpkScaffoldingPackageService >> name [
 
 	^ name

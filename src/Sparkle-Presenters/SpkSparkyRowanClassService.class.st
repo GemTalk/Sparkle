@@ -1,11 +1,11 @@
 Class {
-	#name : 'SpkSparkyRowanPackageService',
+	#name : 'SpkSparkyRowanClassService',
 	#superclass : 'SpkSparkyRowanService',
 	#category : 'Sparkle-Presenters-Support'
 }
 
 { #category : 'aspects' }
-SpkSparkyRowanPackageService class >> aspect [
+SpkSparkyRowanClassService class >> aspect [
 
-	^ #packages
+	^ #classes
 ]

@@ -10,6 +10,18 @@ Class {
 	#category : 'Sparkle-Presenters-Support'
 }
 
+{ #category : 'aspects' }
+SpkSparkyRowanService class >> aspect [
+
+	self subclassResponsibility 
+]
+
+{ #category : 'aspects' }
+SpkSparkyRowanService class >> aspectFor: symbol [
+
+	^self subclasses detect:[:ea | ea aspect = symbol]
+]
+
 { #category : 'instance creation' }
 SpkSparkyRowanService class >> fromArrays: arrays [
 	"arrays is a collection of arrays representing a single service"

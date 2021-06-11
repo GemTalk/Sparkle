@@ -5,7 +5,8 @@ Class {
 		'projects',
 		'projectList',
 		'packages',
-		'packageList'
+		'packageList',
+		'classList'
 	],
 	#classVars : [
 		'BrowserAnnouncer',
@@ -61,8 +62,8 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 	| promise |
 	promise := (self projectServiceNamed: projectName) update.
 	promise
-		when: [ :projectService | 
-			self extractPackageServicesFrom: projectService.
+		when: [ :scaffoldingService | 
+			packages := self extractServices: #packages from: scaffoldingService.
 			self class browserAnnouncer announce:
 				(SpkBrowserPackagesAnnouncement new packages: packages) ]
 		catch: [ :reason | 
@@ -84,8 +85,8 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	| promise |
 	promise := self browserService updateProjects.
 	promise
-		when: [ :result | 
-			self extractProjectServicesFrom: result.
+		when: [ :scaffoldingService | 
+			projects := self extractServices: #projects from: scaffoldingService.
 			self class browserAnnouncer announce:
 				(SpkBrowserProjectsAnnouncement new projects: projects) ]
 		catch: [ :reason | 
@@ -121,27 +122,21 @@ SpkSparkyBrowserPresenter >> connectPresenters [
 	projectList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :projectService | 
-				self browsePackagesFor: projectService name ] ] ]
+				self browsePackagesFor: projectService name ] ] ].
+	packageList whenSelectionChangedDo: [ :selection | 
+		selection ifNotNil: [ :sel | 
+			sel selectedItem ifNotNil: [ :packageService | 
+				self browseClassesFor: packageService name ] ] ]
 ]
 
 { #category : 'private actions' }
-SpkSparkyBrowserPresenter >> extractPackageServicesFrom: packageServiceArrays [
+SpkSparkyBrowserPresenter >> extractServices: aspect from: scaffoldingService [
 
-	| projectArrays |
-	projectArrays := (packageServiceArrays rowanService detect: [ :arrays | 
-		                  arrays first = #packages ]) last.
-	packages := SpkSparkyRowanPackageService servicesFromArrays:
-		            projectArrays
-]
-
-{ #category : 'private actions' }
-SpkSparkyBrowserPresenter >> extractProjectServicesFrom: scaffoldingService [
-
-	| projectArrays |
-	projectArrays := (scaffoldingService rowanService detect: [ :arrays | 
-		                  arrays first = #projects ]) last.
-	projects := SpkSparkyRowanProjectService servicesFromArrays:
-		            projectArrays
+	| arrays |
+	arrays := (scaffoldingService rowanService detect: [ :subarrays | 
+		           subarrays first = aspect ]) last.
+	^ (SpkSparkyRowanService aspectFor: aspect) servicesFromArrays:
+		  arrays
 ]
 
 { #category : 'initialization-release' }
@@ -162,10 +157,23 @@ SpkSparkyBrowserPresenter >> initializeAnnouncements [
 		when: SpkBrowserPackagesAnnouncement
 		send: #packagesUpdated:
 		to: self.
+	"self class browserAnnouncer
+		when: SpkBrowserClassesAnnouncement
+		send: #classesUpdated:
+		to: self."
 	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
 		send: #closeAndCleanup
 		to: self.
+]
+
+{ #category : 'initialization-release' }
+SpkSparkyBrowserPresenter >> initializeClassList: box [
+
+	box add: (classList := self newTable beSingleSelection addColumn:
+			              (SpImageTableColumn new
+				               title: 'Classes';
+				               evaluated: [ :classService | classService name ]))
 ]
 
 { #category : 'initialization-release' }
@@ -187,6 +195,7 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 	metaBox := SpkBoxLayout newLeftToRight.
 	self initializeProjectList: metaBox.
 	self initializePackageList: metaBox. 
+	self initializeClassList: metaBox. 
 	topBox add: metaBox.
 	self layout add: topBox.
 	self layout color: SpkConnectionListPresenter defaultColor
@@ -207,6 +216,7 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparky Browser';
+		initialExtent: 750 @ 300;
 		whenClosedDo: [ 
 			SpkConnectionProfile profileAnnouncer unsubscribe: self application.
 			self class browserAnnouncer unsubscribe: self ]
@@ -216,6 +226,18 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 SpkSparkyBrowserPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> packages [
+
+	^ packages
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> packages: anObject [
+
+	packages := anObject
 ]
 
 { #category : 'events' }
@@ -229,6 +251,18 @@ SpkSparkyBrowserPresenter >> packagesUpdated: announcement [
 SpkSparkyBrowserPresenter >> projectServiceNamed: projectName [
 
 	^ self class projectServiceNamed: projectName
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> projects [
+
+	^ projects
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> projects: anObject [
+
+	projects := anObject
 ]
 
 { #category : 'events' }

@@ -6,9 +6,3 @@ Class {
 	],
 	#category : 'Sparkle-Scaffolding-Common'
 }
-
-{ #category : 'accessing' }
-SpkScaffoldingRowanService >> rowanService [
-
-	^ rsrRowanService
-]

@@ -6,11 +6,13 @@ Class {
 		'projectList',
 		'packages',
 		'packageList',
-		'classList'
+		'classList',
+		'classes'
 	],
 	#classVars : [
 		'BrowserAnnouncer',
 		'BrowserService',
+		'PackageServices',
 		'ProjectServices'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
@@ -30,6 +32,23 @@ SpkSparkyBrowserPresenter class >> browserService [
 			                  registerWith:
 			                  SpkConnectionProfile defaultConnection ].
 	^ BrowserService
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> packageServiceNamed: packageName [
+
+	^ self packageServices at: packageName ifAbsent: [ 
+		  ProjectServices
+			  at: packageName
+			  put:
+				  ((SpkScaffoldingPackageServiceClient new name: packageName) 
+					   registerWith: SpkConnectionProfile defaultConnection) initializeService]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> packageServices [
+
+	^ PackageServices ifNil: [ PackageServices := Dictionary new ]
 ]
 
 { #category : 'accessing' }
@@ -54,6 +73,29 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 
 	BrowserService := nil. 
 	ProjectServices := nil. 
+]
+
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
+
+	| promise |
+	promise := (self packageServiceNamed: packageName) update.
+	promise
+		when: [ :scaffoldingService | 
+			packages := self extractServices: #classes from: scaffoldingService.
+			self class browserAnnouncer announce:
+				(SpkBrowserClassesAnnouncement new classes: classes) ]
+		catch: [ :reason | 
+			Transcript
+				cr;
+				show: '=========';
+				cr;
+				show: 'UNEXPECTED CATCH: ' , reason printString;
+				cr;
+				show: DateAndTime now printString;
+				cr;
+				show: '=========';
+				yourself ]
 ]
 
 { #category : 'actions' }
@@ -108,6 +150,13 @@ SpkSparkyBrowserPresenter >> browserService [
 	^ self class browserService
 ]
 
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> classesUpdated: announcement [
+
+	classList items = announcement classes ifFalse: [ 
+		classList items: announcement classes ]
+]
+
 { #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> closeAndCleanup [
 
@@ -157,10 +206,10 @@ SpkSparkyBrowserPresenter >> initializeAnnouncements [
 		when: SpkBrowserPackagesAnnouncement
 		send: #packagesUpdated:
 		to: self.
-	"self class browserAnnouncer
+	self class browserAnnouncer
 		when: SpkBrowserClassesAnnouncement
 		send: #classesUpdated:
-		to: self."
+		to: self.
 	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
 		send: #closeAndCleanup
@@ -226,6 +275,12 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 SpkSparkyBrowserPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> packageServiceNamed: projectName [
+
+	^ self class packageServiceNamed: projectName
 ]
 
 { #category : 'accessing' }

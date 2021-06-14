@@ -14,6 +14,13 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
+{ #category : 'other' }
+SpkDebuggerTool >> checkForTermination [
+
+	(self isValid and: [process _isTerminated])
+		ifTrue: [replacementTool := SpkProcessTerminatedTool forProcess: process]
+]
+
 { #category : 'accessing' }
 SpkDebuggerTool >> currentException: anException [
 	"Stepping does not update the exceptionOfRecord, but
@@ -109,13 +116,6 @@ SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 { #category : 'other' }
 SpkDebuggerTool >> isValid [
 	^ self == replacementTool
-		ifFalse: [ false ]
-		ifTrue: [ 
-			process _isTerminated
-				ifFalse: [ true ]
-				ifTrue: [ 
-					replacementTool := SpkProcessTerminatedTool forProcess: process.
-					false ] ]
 ]
 
 { #category : 'other' }
@@ -319,6 +319,7 @@ SpkDebuggerTool >> proceedIfInGlueAnnouncing: anAnnouncement [
 In case this execution changes any inspected objects (for instance, the process itself) go through
 another round of announcing, with the same announcement since it's still the same client request."
 
+	self checkForTermination.
 	(self isValid and: [ self nonGlueFrames isEmpty ])
 		ifTrue: [ self proceedAnnouncing: anAnnouncement ]
 ]
@@ -361,6 +362,7 @@ SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
 
+	self checkForTermination.
 	self isValid
 		ifTrue: [ 
 			self refreshFromProcess.

@@ -40,7 +40,8 @@ SpkSparkyMergeListTool >> merge [
 		^ self ].
 	self removeDeleted.
 	self addNew.
-	self updateRemaining
+	self updateRemaining.
+	presenterList owner update
 ]
 
 { #category : 'accessing' }

@@ -36,7 +36,7 @@ SpkSparkyMergeListTool >> addNew [
 SpkSparkyMergeListTool >> merge [
 
 	presenterList items isEmpty ifTrue: [ 
-		presenterList items: updatedList.
+		presenterList items: updatedList asOrderedCollection.
 		^ self ].
 	self removeDeleted.
 	self addNew.

@@ -238,7 +238,7 @@ SpkSparkyBrowserPresenter >> initializeBrowserToolbar [
 			 yourself).
 	toolbar addItem: (SpToolbarButtonPresenter new
 			 label: 'Commit';
-			 icon: (self iconNamed: #smallCancel);
+			 icon: (self iconNamed: #smallSave);
 			 help: 'Commit the transation';
 			 action: [ self commitTransaction ];
 			 yourself).

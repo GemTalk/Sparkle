@@ -1,11 +1,17 @@
 Class {
 	#name : 'SpkBrowserPackagesAnnouncement',
-	#superclass : 'Announcement',
+	#superclass : 'SpkBrowserAnnouncement',
 	#instVars : [
 		'packages'
 	],
 	#category : 'Sparkle-Presenters-Announcements'
 }
+
+{ #category : 'testing' }
+SpkBrowserPackagesAnnouncement >> isRelevantToProject: projectName [
+
+	^self projectName = projectName 
+]
 
 { #category : 'accessing' }
 SpkBrowserPackagesAnnouncement >> packages [
@@ -17,4 +23,10 @@ SpkBrowserPackagesAnnouncement >> packages [
 SpkBrowserPackagesAnnouncement >> packages: anObject [
 
 	packages := anObject
+]
+
+{ #category : 'accessing' }
+SpkBrowserPackagesAnnouncement >> projectName [
+
+	^ name
 ]

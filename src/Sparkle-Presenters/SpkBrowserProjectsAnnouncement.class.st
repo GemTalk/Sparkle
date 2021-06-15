@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkBrowserProjectsAnnouncement',
-	#superclass : 'Announcement',
+	#superclass : 'SpkBrowserAnnouncement',
 	#instVars : [
 		'projects'
 	],

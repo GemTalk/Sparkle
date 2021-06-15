@@ -31,6 +31,15 @@ SpkSparkyRowanService class >> fromArrays: arrays [
 	^inst
 ]
 
+{ #category : 'printing' }
+SpkSparkyRowanService class >> printOn: stream [
+
+	super printOn: stream.
+	stream
+		space; 
+		nextPutAll: name 
+]
+
 { #category : 'instance creation' }
 SpkSparkyRowanService class >> servicesFromArrays: arrays [
 
@@ -62,7 +71,23 @@ SpkSparkyRowanService >> aspectFor: symbol [
 	^ aspectArray last
 ]
 
+{ #category : 'testing' }
+SpkSparkyRowanService >> isSparkyService [
+
+	^true
+]
+
 { #category : 'accessing' }
 SpkSparkyRowanService >> name [
 	^self aspectFor: #name
+]
+
+{ #category : 'updating' }
+SpkSparkyRowanService >> updateFrom: sparkyRowanService [
+
+	"I'm just a collection of static arrays with basic data types. 
+	It's ok to replace my innards as they shouldn't be elsewhere."
+
+	1 to: arrays size do: [ :index | 
+		arrays at: index put: (sparkyRowanService arrays at: index) ]
 ]

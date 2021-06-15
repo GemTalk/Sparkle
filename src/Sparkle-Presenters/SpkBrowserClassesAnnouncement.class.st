@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkBrowserClassesAnnouncement',
-	#superclass : 'Announcement',
+	#superclass : 'SpkBrowserAnnouncement',
 	#instVars : [
 		'classes'
 	],
@@ -17,4 +17,16 @@ SpkBrowserClassesAnnouncement >> classes [
 SpkBrowserClassesAnnouncement >> classes: anObject [
 
 	classes := anObject
+]
+
+{ #category : 'testing' }
+SpkBrowserClassesAnnouncement >> isRelevantToPackage: packageName [ 
+
+	^self packageName = packageName 
+]
+
+{ #category : 'accessing' }
+SpkBrowserClassesAnnouncement >> packageName [
+
+	^ name
 ]

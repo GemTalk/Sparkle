@@ -7,7 +7,8 @@ Class {
 		'packages',
 		'packageList',
 		'classList',
-		'classes'
+		'classes',
+		'toolbar'
 	],
 	#classVars : [
 		'BrowserAnnouncer',
@@ -77,15 +78,22 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 ]
 
 { #category : 'actions' }
+SpkSparkyBrowserPresenter >> abortTransaction [
+]
+
+{ #category : 'actions' }
 SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
 
 	| promise |
 	promise := (self packageServiceNamed: packageName) update.
 	promise
 		when: [ :scaffoldingService | 
+			classList items: OrderedCollection new. 
 			classes := self extractServices: #classes from: scaffoldingService.
 			self class browserAnnouncer announce:
-				(SpkBrowserClassesAnnouncement new classes: classes) ]
+				(SpkBrowserClassesAnnouncement new
+					 name: packageName;
+					 classes: classes) ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -106,9 +114,14 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 	promise := (self projectServiceNamed: projectName) update.
 	promise
 		when: [ :scaffoldingService | 
-			packages := self extractServices: #packages from: scaffoldingService.
+			packageList items: OrderedCollection new. 
+			packages := self
+				            extractServices: #packages
+				            from: scaffoldingService.
 			self class browserAnnouncer announce:
-				(SpkBrowserPackagesAnnouncement new packages: packages) ]
+				(SpkBrowserPackagesAnnouncement new
+					 name: projectName;
+					 packages: packages) ]
 		catch: [ :reason | 
 			Transcript
 				cr;
@@ -129,6 +142,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	promise := self browserService updateProjects.
 	promise
 		when: [ :scaffoldingService | 
+			projectList items: OrderedCollection new. 
 			projects := self extractServices: #projects from: scaffoldingService.
 			self class browserAnnouncer announce:
 				(SpkBrowserProjectsAnnouncement new projects: projects) ]
@@ -154,8 +168,11 @@ SpkSparkyBrowserPresenter >> browserService [
 { #category : 'events' }
 SpkSparkyBrowserPresenter >> classesUpdated: announcement [
 
-	classList items = announcement classes ifFalse: [ 
-		classList items: announcement classes ]
+	(announcement isRelevantToPackage: self selectedPackage) ifFalse: [ 
+		^ self ].
+	SpkSparkyMergeListTool
+		merge: announcement classes
+		into: classList
 ]
 
 { #category : 'initialization-release' }
@@ -163,6 +180,10 @@ SpkSparkyBrowserPresenter >> closeAndCleanup [
 
 	self application close. 
 	self class releaseServices.
+]
+
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> commitTransaction [
 ]
 
 { #category : 'initialization-release' }
@@ -218,6 +239,27 @@ SpkSparkyBrowserPresenter >> initializeAnnouncements [
 ]
 
 { #category : 'initialization-release' }
+SpkSparkyBrowserPresenter >> initializeBrowserToolbar [
+
+	toolbar := self newToolbar.
+	toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Abort';
+			 icon: (self iconNamed: #smallCancel);
+			 help: 'Abort the transaction';
+			 action: [ self abortTransaction ];
+			 yourself).
+	toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Commit';
+			 icon: (self iconNamed: #smallCancel);
+			 help: 'Commit the transation';
+			 action: [ self commitTransaction ];
+			 yourself).
+	self layout
+		add: toolbar
+		withConstraints: [ :constraints | constraints height: 30 ]
+]
+
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializeClassList: box [
 
 	box add: (classList := self newTable beSingleSelection addColumn:
@@ -241,11 +283,12 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 
 	| topBox metaBox |
 	super initializePresenters.
+	self initializeBrowserToolbar.
 	topBox := SpkBoxLayout newTopToBottom.
 	metaBox := SpkBoxLayout newLeftToRight.
 	self initializeProjectList: metaBox.
-	self initializePackageList: metaBox. 
-	self initializeClassList: metaBox. 
+	self initializePackageList: metaBox.
+	self initializeClassList: metaBox.
 	topBox add: metaBox.
 	self layout add: topBox.
 	self layout color: SpkConnectionListPresenter defaultColor
@@ -299,8 +342,11 @@ SpkSparkyBrowserPresenter >> packages: anObject [
 { #category : 'events' }
 SpkSparkyBrowserPresenter >> packagesUpdated: announcement [
 
-	packageList items = announcement packages ifFalse: [ 
-		packageList items: announcement packages ]
+	(announcement isRelevantToProject: self selectedProject) ifFalse: [ 
+		^ self ].
+	SpkSparkyMergeListTool
+		merge: announcement packages
+		into: packageList
 ]
 
 { #category : 'accessing' }
@@ -324,8 +370,21 @@ SpkSparkyBrowserPresenter >> projects: anObject [
 { #category : 'events' }
 SpkSparkyBrowserPresenter >> projectsUpdated: announcement [
 
-	projectList items = announcement projects ifFalse: [ 
-		projectList items: announcement projects ]
+	SpkSparkyMergeListTool
+		merge: announcement projects
+		into: projectList
+]
+
+{ #category : 'private accessing' }
+SpkSparkyBrowserPresenter >> selectedPackage [
+
+	^ packageList selection selectedItem ifNotNil:[:item | item name]
+]
+
+{ #category : 'private accessing' }
+SpkSparkyBrowserPresenter >> selectedProject [
+	
+	^ projectList selection selectedItem ifNotNil:[:item | item name]
 ]
 
 { #category : 'initialization-release' }

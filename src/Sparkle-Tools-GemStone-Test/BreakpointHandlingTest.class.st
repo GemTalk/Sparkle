@@ -103,7 +103,7 @@ BreakpointHandlingTest >> advanceToHaltInProcessID: anID [
 BreakpointHandlingTest >> assertNextTraceKey: anID valueClass: aBehavior [
 	| nextTrace |
 	nextTrace := trace next.
-	self assert: nextTrace key equals: #'HaltingProcess'.
+	self assert: nextTrace key equals: anID.
 	self assert: nextTrace value class equals: aBehavior
 ]
 
@@ -131,8 +131,9 @@ BreakpointHandlingTest >> assertSuspended [
 
 { #category : 'asserting' }
 BreakpointHandlingTest >> assertSuspended: aProcess [
-
-	self assert: (self isSuspended: aProcess)
+	self
+		assert: (self isSuspended: aProcess)
+		description: 'Process should have been suspended'
 ]
 
 { #category : 'support' }
@@ -147,8 +148,9 @@ BreakpointHandlingTest >> denySuspended [
 
 { #category : 'asserting' }
 BreakpointHandlingTest >> denySuspended: aProcess [
-
-	self deny: (self isSuspended: aProcess)
+	self
+		deny: (self isSuspended: aProcess)
+		description: 'Process should not have been suspended'
 ]
 
 { #category : 'support - specific process' }
@@ -222,6 +224,44 @@ BreakpointHandlingTest >> processWithID: anID [
 		ifAbsent: [ self error: 'No process found for id ' , anID printString ]
 ]
 
+{ #category : 'support - breaking' }
+BreakpointHandlingTest >> setAllStepBreaksIn: aMethod [
+	^ self setAllStepBreaksIn: aMethod forProcess: defaultProcess
+]
+
+{ #category : 'support - breaking' }
+BreakpointHandlingTest >> setAllStepBreaksIn: aMethod forProcess: aProcess [
+	aProcess convertToPortableStack.
+	^ aMethod
+		_setBreakAtIp: -1
+		operation: 1
+		frame: nil
+		process: aProcess
+		breakpointLevel: 1
+]
+
+{ #category : 'support - breaking' }
+BreakpointHandlingTest >> setStepBreakAtStepPoint: aStepPoint inMethod: aMethod [
+	^ self
+		setStepBreakAtStepPoint: aStepPoint
+		inMethod: aMethod
+		forProcess: defaultProcess
+]
+
+{ #category : 'support - breaking' }
+BreakpointHandlingTest >> setStepBreakAtStepPoint: aStepPoint inMethod: aMethod forProcess: aProcess [
+	| result |
+	aProcess convertToPortableStack.
+	result := aMethod
+		_breakOperation: 1
+		forStepPoint: aStepPoint
+		breakpointLevel: 1.
+	self
+		assert: result notNil
+		description: 'Failed to set step point at step ' , aStepPoint printString.
+	^ result
+]
+
 { #category : 'support' }
 BreakpointHandlingTest >> setUp [
 
@@ -275,7 +315,6 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 		forID: #'RunningProcess'.
 	independentProcess
 		convertToPortableStack.
-	[ 
 	self advanceToControlInterruptIn: haltingProcess.
 	independentCounterCache := independentCounter current.
 	level := 10.
@@ -302,10 +341,54 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 
 	self advanceToControlInterruptIn: haltingProcess.
 	self assertOneTraceEntry.
-	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint ]
-		ensure: [ 
-			haltingProcess terminate.
-			independentProcess terminate ]
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testMultiProcessSteppingInDifferentMethods [
+	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
+
+	| factorial factorialProcess factorialMethod fibonacci fibonacciProcess fibonacciMethod level |
+	factorialProcess := self
+		processBlock: [ factorial := utility factorialOf: 10 stopAt: 5 ]
+		forID: #'FactorialProcess'.
+	fibonacciProcess := self
+		processBlock: [ fibonacci := utility fibonacciGenerations: 10 stopAt: 4 ]
+		forID: #'FibonacciProcess'.
+
+	self advanceToControlInterruptIn: factorialProcess.
+	level := 10.
+	factorialMethod := (factorialProcess _frameContentsAt: level) first.
+	self assert: factorialMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FactorialProcess' valueClass: Halt.
+
+	self advanceToControlInterruptIn: fibonacciProcess.
+	level := 10.
+	fibonacciMethod := (fibonacciProcess _frameContentsAt: level) first.
+	self assert: fibonacciMethod selector equals: #'fibonacciGenerations:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FibonacciProcess' valueClass: Halt.
+
+"	self setAllStepBreaksIn: factorialMethod forProcess: factorialProcess.
+	self setAllStepBreaksIn: fibonacciMethod forProcess: fibonacciProcess."
+	self setStepBreakAtStepPoint: 11 inMethod: factorialMethod forProcess: factorialProcess.		"Last step point in method"
+	self setStepBreakAtStepPoint: 17 inMethod: fibonacciMethod forProcess: fibonacciProcess.	"Last step point in method"
+
+	self advanceToControlInterruptIn: factorialProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FactorialProcess' valueClass: Breakpoint.
+
+	"This next test is currently expected to fail, as the previous process cleared all step points in the gem.
+	 It would work if the step points were reset here. But we want it to fail until the server is changed."
+"	self setAllStepBreaksIn: fibonacciMethod forProcess: fibonacciProcess."
+"	self setStepBreakAtStepPoint: 17 inMethod: fibonacciMethod forProcess: fibonacciProcess."	"Last step point in method"
+	self advanceToControlInterruptIn: fibonacciProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FibonacciProcess' valueClass: Breakpoint.
+
+	self assertSuspended: factorialProcess.
+	self assertSuspended: fibonacciProcess
 ]
 
 { #category : 'tests' }

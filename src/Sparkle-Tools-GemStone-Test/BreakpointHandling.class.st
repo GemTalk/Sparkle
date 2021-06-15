@@ -17,6 +17,18 @@ BreakpointHandling >> factorialOf: factInt stopAt: stopInt [
 ]
 
 { #category : 'other' }
+BreakpointHandling >> fibonacciGenerations: genInt stopAt: stopInt [
+	| fNumbers howMany |
+	fNumbers := OrderedCollection with: 0 with: 1.
+	[ (howMany := fNumbers size) < genInt ]
+		whileTrue: [ 
+			howMany = stopInt
+				ifTrue: [ self halt ].
+			fNumbers add: (fNumbers at: howMany) + (fNumbers at: howMany - 1) ].
+	^ fNumbers at: genInt	"Can''t use #last in case genInt = 1"
+]
+
+{ #category : 'other' }
 BreakpointHandling >> nlr1 [
 
 | dict |

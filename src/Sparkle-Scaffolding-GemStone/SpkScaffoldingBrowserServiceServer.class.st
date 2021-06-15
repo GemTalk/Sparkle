@@ -4,6 +4,12 @@ Class {
 	#category : 'Sparkle-Scaffolding-GemStone'
 }
 
+{ #category : 'updating' }
+SpkScaffoldingBrowserServiceServer >> abortTransaction [
+
+	self rowanService: self rowanService abortTransaction
+]
+
 { #category : 'accessing' }
 SpkScaffoldingBrowserServiceServer >> rowanServiceClass [
 

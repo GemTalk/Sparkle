@@ -9,7 +9,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'presenterList',
-		'updatedList'
+		'updatedList',
+		'selectedItem'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -36,11 +37,14 @@ SpkSparkyMergeListTool >> addNew [
 SpkSparkyMergeListTool >> merge [
 
 	presenterList items isEmpty ifTrue: [ 
-		presenterList items: updatedList asOrderedCollection.
+		presenterList items:
+			(updatedList asSortedCollection: [ :x :y | x name < y name ]).
 		^ self ].
+	selectedItem := presenterList selection selectedItem.
 	self removeDeleted.
 	self addNew.
 	self updateRemaining.
+	self resetSelectedItem.
 	presenterList owner update
 ]
 
@@ -61,6 +65,16 @@ SpkSparkyMergeListTool >> removeDeleted [
 
 	presenterList items removeAllSuchThat: [ :each | 
 		(updatedList includes: each) not ]
+]
+
+{ #category : 'actions' }
+SpkSparkyMergeListTool >> resetSelectedItem [
+
+	"sometimes list updates require selection be made reset"
+
+	selectedItem ifNil: [ ^ self ].
+	presenterList selection selectedItem == selectedItem ifFalse: [ 
+		presenterList selectItem: selectedItem ]
 ]
 
 { #category : 'actions' }

@@ -48,6 +48,13 @@ SpkSparkyRowanService class >> servicesFromArrays: arrays [
 	^ arrays collect: [ :serviceArray | self fromArrays: serviceArray ]
 ]
 
+{ #category : 'comparing' }
+SpkSparkyRowanService >> = anObject [
+
+	anObject isSparkyService ifFalse:[^self]. 
+	^self name = anObject name
+]
+
 { #category : 'accessing' }
 SpkSparkyRowanService >> arrays [
 
@@ -69,6 +76,12 @@ SpkSparkyRowanService >> aspectFor: symbol [
 	| aspectArray |
 	aspectArray := arrays detect: [ :array | array first == symbol ].
 	^ aspectArray last
+]
+
+{ #category : 'comparing' }
+SpkSparkyRowanService >> hash [
+
+	^ self name hash
 ]
 
 { #category : 'testing' }

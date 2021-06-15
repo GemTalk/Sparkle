@@ -112,7 +112,8 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 	promise := (self projectServiceNamed: projectName) update.
 	promise
 		when: [ :scaffoldingService | 
-			packageList items: OrderedCollection new.
+			self clearPackageList.
+			self clearClassList.
 			packages := self
 				            extractServices: #packages
 				            from: scaffoldingService.
@@ -130,7 +131,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	promise := self browserService updateProjects.
 	promise
 		when: [ :scaffoldingService | 
-			projectList items: OrderedCollection new.
+			self clearLists.
 			projects := self
 				            extractServices: #projects
 				            from: scaffoldingService.
@@ -153,6 +154,32 @@ SpkSparkyBrowserPresenter >> classesUpdated: announcement [
 	SpkSparkyMergeListTool
 		merge: announcement classes
 		into: classList
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> clearClassList [
+
+	classList items: OrderedCollection new
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> clearLists [
+
+	self clearClassList.
+	self clearPackageList.
+	self clearProjectList
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> clearPackageList [
+
+	packageList items: OrderedCollection new
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> clearProjectList [
+
+	projectList items: OrderedCollection new
 ]
 
 { #category : 'initialization-release' }

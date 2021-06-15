@@ -79,6 +79,14 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> abortTransaction [
+
+	| promise |
+	promise := self browserService abortTransaction.
+	promise
+		when: [ :scaffoldingService | 
+			self class browserAnnouncer announce:
+				SpkBrowserAbortAnnouncement new ]
+		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
 { #category : 'actions' }
@@ -88,23 +96,13 @@ SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
 	promise := (self packageServiceNamed: packageName) update.
 	promise
 		when: [ :scaffoldingService | 
-			classList items: OrderedCollection new. 
+			classList items: OrderedCollection new.
 			classes := self extractServices: #classes from: scaffoldingService.
 			self class browserAnnouncer announce:
 				(SpkBrowserClassesAnnouncement new
 					 name: packageName;
 					 classes: classes) ]
-		catch: [ :reason | 
-			Transcript
-				cr;
-				show: '=========';
-				cr;
-				show: 'UNEXPECTED CATCH: ' , reason printString;
-				cr;
-				show: DateAndTime now printString;
-				cr;
-				show: '=========';
-				yourself ]
+		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
 { #category : 'actions' }
@@ -114,7 +112,7 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 	promise := (self projectServiceNamed: projectName) update.
 	promise
 		when: [ :scaffoldingService | 
-			packageList items: OrderedCollection new. 
+			packageList items: OrderedCollection new.
 			packages := self
 				            extractServices: #packages
 				            from: scaffoldingService.
@@ -122,17 +120,7 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 				(SpkBrowserPackagesAnnouncement new
 					 name: projectName;
 					 packages: packages) ]
-		catch: [ :reason | 
-			Transcript
-				cr;
-				show: '=========';
-				cr;
-				show: 'UNEXPECTED CATCH: ' , reason printString;
-				cr;
-				show: DateAndTime now printString;
-				cr;
-				show: '=========';
-				yourself ]
+		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
 { #category : 'actions' }
@@ -142,21 +130,13 @@ SpkSparkyBrowserPresenter >> browseProjects [
 	promise := self browserService updateProjects.
 	promise
 		when: [ :scaffoldingService | 
-			projectList items: OrderedCollection new. 
-			projects := self extractServices: #projects from: scaffoldingService.
+			projectList items: OrderedCollection new.
+			projects := self
+				            extractServices: #projects
+				            from: scaffoldingService.
 			self class browserAnnouncer announce:
 				(SpkBrowserProjectsAnnouncement new projects: projects) ]
-		catch: [ :reason | 
-			Transcript
-				cr;
-				show: '=========';
-				cr;
-				show: 'UNEXPECTED CATCH: ' , reason printString;
-				cr;
-				show: DateAndTime now printString;
-				cr;
-				show: '=========';
-				yourself ]
+		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
 { #category : 'accessing' }
@@ -184,6 +164,14 @@ SpkSparkyBrowserPresenter >> closeAndCleanup [
 
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> commitTransaction [
+
+	| promise |
+	promise := self browserService commitTransaction.
+	promise
+		when: [ :scaffoldingService | 
+			self class browserAnnouncer announce:
+				SpkBrowserCommitAnnouncement new ]
+		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
 { #category : 'initialization-release' }
@@ -385,6 +373,21 @@ SpkSparkyBrowserPresenter >> selectedPackage [
 SpkSparkyBrowserPresenter >> selectedProject [
 	
 	^ projectList selection selectedItem ifNotNil:[:item | item name]
+]
+
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
+
+	^ Transcript
+		  cr;
+		  show: '=========';
+		  cr;
+		  show: 'UNEXPECTED CATCH: ' , reason printString;
+		  cr;
+		  show: DateAndTime now printString;
+		  cr;
+		  show: '=========';
+		  yourself
 ]
 
 { #category : 'initialization-release' }

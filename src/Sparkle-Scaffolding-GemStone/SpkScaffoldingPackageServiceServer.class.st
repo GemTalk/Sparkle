@@ -14,7 +14,7 @@ SpkScaffoldingPackageServiceServer >> rowanServiceClass [
 	^ RowanPackageService
 ]
 
-{ #category : 'initialization' }
+{ #category : 'updating' }
 SpkScaffoldingPackageServiceServer >> update [
 	self rowanService: self rowanService update
 ]

@@ -9,3 +9,8 @@ SpkSparkyRowanClassService class >> aspect [
 
 	^ #classes
 ]
+
+{ #category : 'accessing' }
+SpkSparkyRowanClassService >> definition [
+	^self aspectFor: #definition
+]

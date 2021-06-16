@@ -27,13 +27,13 @@ SpkSparkyMergeListTool class >> merge: updated into: existing [
 	^ inst
 ]
 
-{ #category : 'actions' }
+{ #category : 'private' }
 SpkSparkyMergeListTool >> addNew [
 
 	updatedList do: [ :each | presenterList items addIfNotPresent: each ]
 ]
 
-{ #category : 'actions' }
+{ #category : 'public - actions' }
 SpkSparkyMergeListTool >> merge [
 
 	presenterList items isEmpty ifTrue: [ 
@@ -60,14 +60,14 @@ SpkSparkyMergeListTool >> presenterList: anObject [
 	presenterList := anObject
 ]
 
-{ #category : 'actions' }
+{ #category : 'private' }
 SpkSparkyMergeListTool >> removeDeleted [
 
 	presenterList items removeAllSuchThat: [ :each | 
 		(updatedList includes: each) not ]
 ]
 
-{ #category : 'actions' }
+{ #category : 'private' }
 SpkSparkyMergeListTool >> resetSelectedItem [
 
 	"sometimes list updates require selection be made reset"
@@ -77,7 +77,7 @@ SpkSparkyMergeListTool >> resetSelectedItem [
 		presenterList selectItem: selectedItem ]
 ]
 
-{ #category : 'actions' }
+{ #category : 'private' }
 SpkSparkyMergeListTool >> updateRemaining [
 
 	updatedList do:[:each | 

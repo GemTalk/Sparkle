@@ -8,7 +8,10 @@ Class {
 		'packageList',
 		'classList',
 		'classes',
-		'toolbar'
+		'toolbar',
+		'sourceCode',
+		'sourceTabs',
+		'classDefinitionPresenter'
 	],
 	#classVars : [
 		'BrowserAnnouncer',
@@ -146,6 +149,16 @@ SpkSparkyBrowserPresenter >> browserService [
 	^ self class browserService
 ]
 
+{ #category : 'tabs' }
+SpkSparkyBrowserPresenter >> classDefinitionPage [
+
+	classDefinitionPresenter := self instantiate: SpkWorkspacePresenter.
+	^ (SpNotebookPage
+		   title: 'Class Definition'
+		   icon: (self iconNamed: #class)
+		   provider: [ classDefinitionPresenter ]) yourself
+]
+
 { #category : 'events' }
 SpkSparkyBrowserPresenter >> classesUpdated: announcement [
 
@@ -154,6 +167,10 @@ SpkSparkyBrowserPresenter >> classesUpdated: announcement [
 	SpkSparkyMergeListTool
 		merge: announcement classes
 		into: classList
+]
+
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> clearAllBreaks [
 ]
 
 { #category : 'private actions' }
@@ -212,7 +229,11 @@ SpkSparkyBrowserPresenter >> connectPresenters [
 	packageList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :packageService | 
-				self browseClassesFor: packageService name ] ] ]
+				self browseClassesFor: packageService name ] ] ].
+	classList whenSelectionChangedDo: [ :selection | 
+		selection ifNotNil: [ :sel | 
+			sel selectedItem ifNotNil: [ :classService | 
+				self updateClassDefinition ] ] ].
 ]
 
 { #category : 'private actions' }
@@ -296,16 +317,18 @@ SpkSparkyBrowserPresenter >> initializePackageList: box [
 { #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializePresenters [
 
-	| topBox metaBox |
+	| bigBox metaBox |
 	super initializePresenters.
 	self initializeBrowserToolbar.
-	topBox := SpkBoxLayout newTopToBottom.
+	bigBox := SpkBoxLayout newTopToBottom.
 	metaBox := SpkBoxLayout newLeftToRight.
 	self initializeProjectList: metaBox.
 	self initializePackageList: metaBox.
 	self initializeClassList: metaBox.
-	topBox add: metaBox.
-	self layout add: topBox.
+	bigBox add: metaBox.
+	self initializeSourceTabsIn: bigBox. 
+	"self initializeSourceCodeLayoutIn: bigBox."
+	self layout add: bigBox.
 	self layout color: SpkConnectionListPresenter defaultColor
 ]
 
@@ -317,6 +340,15 @@ SpkSparkyBrowserPresenter >> initializeProjectList: box [
 				                 title: 'Projects';
 				                 evaluated: [ :projectService | 
 					                 projectService name ]))
+]
+
+{ #category : 'initialization-release' }
+SpkSparkyBrowserPresenter >> initializeSourceTabsIn: box [
+
+	sourceTabs := self newNotebook.
+	sourceTabs addPage: self classDefinitionPage.
+	sourceTabs addPage: self sourceCodePage. 
+	box add: sourceTabs.
 ]
 
 { #category : 'initialization-release' }
@@ -334,6 +366,47 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 SpkSparkyBrowserPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
+]
+
+{ #category : 'menus' }
+SpkSparkyBrowserPresenter >> overrideSourceCodeMenu [
+
+	| menu |
+	sourceCode overridingContextMenu contextMenu:
+		(menu := SpMenuPresenter new addGroup: [ :group | 
+			         group addItem: [ :item | 
+				         item
+					         name: 'Add Breakpoint';
+					         icon: (self iconNamed: #stop);
+					         action: [ self setBreakpoint ] ].
+			         group addItem: [ :item | 
+				         item
+					         name: 'Clear All Breakpoints';
+					         action: [ self clearAllBreaks ]
+					          ] ]).
+	menu addGroup: [ :group | 
+		group addItem: [ :item | 
+			item
+				name: 'Save';
+				action: [ self saveCode ];
+				enabled: [ true ];
+				shortcut: PharoShortcuts current acceptShortcut ] ].
+	menu addGroup: [ :group | 
+		group addItem: [ :item | 
+			item
+				name: 'Do It';
+				action: [ sourceCode doIt ];
+				shortcut: PharoShortcuts current doItShortcut ].
+		group addItem: [ :item | 
+			item
+				name: 'Print It';
+				action: [ sourceCode printIt ];
+				shortcut: PharoShortcuts current printItShortcut ].
+		group addItem: [ :item | 
+			item
+				name: 'Debug It';
+				action: [ sourceCode debugIt ];
+				shortcut: PharoShortcuts current debugItShortcut ] ]
 ]
 
 { #category : 'accessing' }
@@ -390,6 +463,16 @@ SpkSparkyBrowserPresenter >> projectsUpdated: announcement [
 		into: projectList
 ]
 
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> saveCode [
+]
+
+{ #category : 'private accessing' }
+SpkSparkyBrowserPresenter >> selectedClass [
+
+	^ classList selection selectedItem
+]
+
 { #category : 'private accessing' }
 SpkSparkyBrowserPresenter >> selectedPackage [
 
@@ -400,6 +483,20 @@ SpkSparkyBrowserPresenter >> selectedPackage [
 SpkSparkyBrowserPresenter >> selectedProject [
 	
 	^ projectList selection selectedItem ifNotNil:[:item | item name]
+]
+
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> setBreakpoint [
+]
+
+{ #category : 'tabs' }
+SpkSparkyBrowserPresenter >> sourceCodePage [
+
+	sourceCode := self instantiate: SpkCodePresenter.
+	^ (SpNotebookPage
+		   title: 'Method Source'
+		   icon: (self iconNamed: #class)
+		   provider: [ sourceCode ]) yourself
 ]
 
 { #category : 'events' }
@@ -415,6 +512,12 @@ SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
 		  cr;
 		  show: '=========';
 		  yourself
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> updateClassDefinition [
+
+	classDefinitionPresenter text: (self selectedClass definition ifNil:['No definition available'])
 ]
 
 { #category : 'initialization-release' }

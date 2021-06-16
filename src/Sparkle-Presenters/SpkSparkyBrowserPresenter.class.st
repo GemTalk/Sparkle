@@ -16,6 +16,7 @@ Class {
 	#classVars : [
 		'BrowserAnnouncer',
 		'BrowserService',
+		'ClassServices',
 		'PackageServices',
 		'ProjectServices'
 	],
@@ -36,6 +37,24 @@ SpkSparkyBrowserPresenter class >> browserService [
 			                  registerWith:
 			                  SpkConnectionProfile defaultConnection ].
 	^ BrowserService
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> classServiceNamed: className [
+
+	^ self classServices at: className ifAbsent: [ 
+		  ClassServices
+			  at: className
+			  put:
+				  ((SpkScaffoldingClassServiceClient new name: className) 
+					   registerWith: SpkConnectionProfile defaultConnection)
+					  initializeService ]
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> classServices [
+
+	^ ClassServices ifNil: [ ClassServices := Dictionary new ]
 ]
 
 { #category : 'accessing' }
@@ -159,6 +178,12 @@ SpkSparkyBrowserPresenter >> classDefinitionPage [
 		   provider: [ classDefinitionPresenter ]) yourself
 ]
 
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> classServiceNamed: projectName [
+
+	^ self class classServiceNamed: projectName
+]
+
 { #category : 'events' }
 SpkSparkyBrowserPresenter >> classesUpdated: announcement [
 
@@ -233,7 +258,7 @@ SpkSparkyBrowserPresenter >> connectPresenters [
 	classList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :classService | 
-				self updateClassDefinition ] ] ].
+				self updateClass ] ] ].
 ]
 
 { #category : 'private actions' }
@@ -515,9 +540,17 @@ SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
 ]
 
 { #category : 'private actions' }
-SpkSparkyBrowserPresenter >> updateClassDefinition [
+SpkSparkyBrowserPresenter >> updateClass [
 
-	classDefinitionPresenter text: (self selectedClass definition ifNil:['No definition available'])
+
+	| promise |
+	promise := (self classServiceNamed: self selectedClass name) update.
+	promise
+		when: [ :scaffoldingService | 
+				classDefinitionPresenter text: self selectedClass definition ]
+		catch: [ :reason | self unexpectedCatch: reason ]
+
+
 ]
 
 { #category : 'initialization-release' }

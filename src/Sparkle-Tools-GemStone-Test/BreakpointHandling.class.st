@@ -17,6 +17,18 @@ BreakpointHandling >> factorialOf: factInt stopAt: stopInt [
 ]
 
 { #category : 'other' }
+BreakpointHandling >> fibonacciGenerations: genInt stopAt: stopInt [
+	| fNumbers howMany |
+	fNumbers := OrderedCollection with: 0 with: 1.
+	[ (howMany := fNumbers size) < genInt ]
+		whileTrue: [ 
+			howMany = stopInt
+				ifTrue: [ self halt ].
+			fNumbers add: (fNumbers at: howMany) + (fNumbers at: howMany - 1) ].
+	^ fNumbers at: genInt	"Can''t use #last in case genInt = 1"
+]
+
+{ #category : 'other' }
 BreakpointHandling >> nlr1 [
 
 | dict |
@@ -41,7 +53,7 @@ BreakpointHandling >> nlr2 [
 { #category : 'other' }
 BreakpointHandling >> runHotForSeconds: anInteger
 shouldHalt: shouldHalt
-counter: counter [
+counter: aCounter [
 
 	| endTime |
 	endTime := DateAndTime now + (Duration seconds: anInteger).
@@ -50,7 +62,5 @@ counter: counter [
 			shouldHalt
 				ifTrue: [ self halt ].
 			"Processor yield."
-			counter
-				at: 1
-				put: (counter first + 1)]
+			aCounter increment]
 ]

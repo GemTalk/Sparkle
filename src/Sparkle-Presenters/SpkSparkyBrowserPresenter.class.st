@@ -97,6 +97,7 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 	BrowserService := nil. 
 	ProjectServices := nil. 
 	PackageServices := nil.
+	ClassServices := nil. 
 ]
 
 { #category : 'actions' }
@@ -547,7 +548,7 @@ SpkSparkyBrowserPresenter >> updateClass [
 	promise := (self classServiceNamed: self selectedClass name) update.
 	promise
 		when: [ :scaffoldingService | 
-				classDefinitionPresenter text: self selectedClass definition ]
+				classDefinitionPresenter text: self selectedClass template ]
 		catch: [ :reason | self unexpectedCatch: reason ]
 
 

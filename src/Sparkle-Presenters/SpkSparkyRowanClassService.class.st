@@ -11,6 +11,6 @@ SpkSparkyRowanClassService class >> aspect [
 ]
 
 { #category : 'accessing' }
-SpkSparkyRowanClassService >> definition [
-	^self aspectFor: #definition
+SpkSparkyRowanClassService >> template [
+	^self aspectFor: #template
 ]

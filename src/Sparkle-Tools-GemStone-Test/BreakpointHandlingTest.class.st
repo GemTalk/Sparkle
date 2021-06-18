@@ -12,6 +12,8 @@ The 'IDed process' API is expected to go away as unnecessary.
 
 The processes created using #processBlock: and #processBlock:forID: record a trace of ControlInterrupts encountered during execution.
 Each trace entry is an association of the process' ID with the exception encountered. These trace entries can be examined during the test.
+
+The logging API and instance variable can be used to record diagnostic information that would be helpful debugging tests.
 "
 Class {
 	#name : 'BreakpointHandlingTest',
@@ -21,7 +23,8 @@ Class {
 		'defaultProcess',
 		'processes',
 		'trace',
-		'priority'
+		'priority',
+		'log'
 	],
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
@@ -193,6 +196,43 @@ BreakpointHandlingTest >> levelsWithSelector: selector inProcess: aProcess [
 		inProcess: aProcess
 ]
 
+{ #category : 'support - logging' }
+BreakpointHandlingTest >> log: aString [
+	log
+		addAll: aString;
+		lf
+]
+
+{ #category : 'support - logging' }
+BreakpointHandlingTest >> log: aString processEssentials: aProcess frameLevel: levelInteger [
+	| frameAtLevel frameAtNextHigherLevel methodAtLevel ipOffsetAtLevel stepPointAtLevel |
+	frameAtLevel := aProcess _frameContentsAt: levelInteger.
+	frameAtNextHigherLevel := aProcess _frameContentsAt: levelInteger - 1.
+	methodAtLevel := frameAtLevel first.
+	ipOffsetAtLevel := frameAtLevel second.
+	stepPointAtLevel := aProcess _stepPointAt: levelInteger.
+
+	self log: aString with: aProcess.
+	self log: #level with: levelInteger.
+	self log: #'frameAtLevel' with: frameAtLevel.
+	self log: #'frameAtNextHigherLevel' with: frameAtNextHigherLevel.
+	self log: #'stepPointAtLevel' with: stepPointAtLevel.
+	self logGroupSeparator
+]
+
+{ #category : 'support - logging' }
+BreakpointHandlingTest >> log: aString with: anObject [
+
+	self log: aString, ': ', anObject printString.
+]
+
+{ #category : 'support - logging' }
+BreakpointHandlingTest >> logGroupSeparator [
+	self
+		log: '= = = = = = = = = =';
+		log: ''.
+]
+
 { #category : 'support - default process' }
 BreakpointHandlingTest >> processBlock: aBlock [
 	defaultProcess := self processBlock: aBlock forID: self defaultProcessID
@@ -271,6 +311,7 @@ BreakpointHandlingTest >> setUp [
 	trace := SharedQueue new.
 	priority := Processor activePriority - 1.
 	processes := Dictionary new.
+	log := AppendableString new.
 ]
 
 { #category : 'support - default process' }
@@ -389,6 +430,126 @@ BreakpointHandlingTest >> testMultiProcessSteppingInDifferentMethods [
 
 	self assertSuspended: factorialProcess.
 	self assertSuspended: fibonacciProcess
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testMultiProcessSteppingInSameMethod [
+	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 4 ]
+		forID: #'FirstProcess'.
+	secondProcess := self
+		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 6 ]
+		forID: #'SecondProcess'.
+
+	self advanceToControlInterruptIn: firstProcess.
+	level := 10.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self advanceToControlInterruptIn: secondProcess.
+	level := 10.
+"	self log: #secondProcess processEssentials: secondProcess frameLevel: level."
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+"Server bug: stepping off the end of a recursive method does not stop in the next lower frame."
+15 timesRepeat: [
+	self stepOverInLevel: level inProcess: firstProcess.
+	level := 11.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+].
+self halt.
+"	self setAllStepBreaksIn: firstProcessMethod forProcess: firstProcess.
+	self setAllStepBreaksIn: secondProcessMethod forProcess: secondProcess."
+	self
+		setStepBreakAtStepPoint: 11
+		inMethod: firstProcessMethod
+		forProcess: firstProcess.	"Last step point in method"
+	self
+		setStepBreakAtStepPoint: 11
+		inMethod: secondProcessMethod
+		forProcess: secondProcess.	"Last step point in method"
+
+	self advanceToControlInterruptIn: firstProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Breakpoint.
+	"This next test is currently expected to fail, as the previous process cleared all step points in the gem.
+	 It would work if the step points were reset here. But we want it to fail until the server is changed."
+"	self setAllStepBreaksIn: secondProcessMethod forProcess: secondProcess."
+"	self setStepBreakAtStepPoint: 17 inMethod: secondProcessMethod forProcess: secondProcess."	"Last step point in method"
+	self advanceToControlInterruptIn: secondProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Breakpoint.
+
+	self assertSuspended: firstProcess.
+	self assertSuspended: secondProcess
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testRecursionStepOutOfFrame [
+	"This test ensures that debugging a recursive processes will allow stepping out of a frame to the next lower one."
+
+	| result processMethod level frameAtLevel |
+	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
+
+	self advanceToControlInterrupt.
+	level := 10.
+	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
+	frameAtLevel := defaultProcess _frameContentsAt: level.
+	processMethod := frameAtLevel first.
+	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.
+
+
+"Server bug: stepping off the end of a recursive method does not stop in the next lower frame. Process will run to completion."
+7 timesRepeat: [
+	self stepOverInLevel: level.
+	level := 11.
+	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
+].
+self halt.
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testRecursionStepPointOddity [
+"An earlier version of testMultiProcessSteppingInSameMethod used the GsProcess for 'stepOver...' which
+ doesn't actually step, just sets the step breakpoint. But it also messed up how the stack frame reported
+ itself - reverted @9 line 6 to @1 line 1.
+Need to recreate that specific scenario."
+	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
+
+	| result processMethod level frameAtLevel |
+	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
+
+	self advanceToControlInterrupt.
+	level := 10.
+	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
+	frameAtLevel := defaultProcess _frameContentsAt: level.
+	processMethod := frameAtLevel first.
+	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.
+
+
+	"The ipOffset of deeper recursive frames should be the same."
+	self assert: (defaultProcess _frameContentsAt: level+1) second equals: (defaultProcess _frameContentsAt: level+2) second.
+
+	defaultProcess stepOverFromLevel: level.
+	(Delay forMilliseconds: 100) wait.
+	self assertSuspended.
+
+	"The ipOffset shouldn't change just from setting a step point."
+	self assert: (defaultProcess _frameContentsAt: level+1) second equals: (defaultProcess _frameContentsAt: level+2) second.
 ]
 
 { #category : 'tests' }

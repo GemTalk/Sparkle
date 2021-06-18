@@ -11,9 +11,11 @@ Class {
 		'toolbar',
 		'sourceCode',
 		'sourceTabs',
-		'classDefinitionPresenter'
+		'classDefinitionPresenter',
+		'menu'
 	],
 	#classVars : [
+		'AnsweringService',
 		'BrowserAnnouncer',
 		'BrowserService',
 		'ClassServices',
@@ -22,6 +24,16 @@ Class {
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter class >> answeringService [
+
+	AnsweringService ifNil: [ 
+		AnsweringService := SpkScaffoldingAnsweringServiceClient new 
+			                  registerWith:
+			                  SpkConnectionProfile defaultConnection ].
+	^ AnsweringService
+]
 
 { #category : 'accessing' }
 SpkSparkyBrowserPresenter class >> browserAnnouncer [
@@ -98,6 +110,7 @@ SpkSparkyBrowserPresenter class >> releaseServices [
 	ProjectServices := nil. 
 	PackageServices := nil.
 	ClassServices := nil. 
+	AnsweringService := nil
 ]
 
 { #category : 'actions' }
@@ -110,6 +123,22 @@ SpkSparkyBrowserPresenter >> abortTransaction [
 			self class browserAnnouncer announce:
 				SpkBrowserAbortAnnouncement new ]
 		catch: [ :reason | self unexpectedCatch: reason ]
+]
+
+{ #category : 'private accessing' }
+SpkSparkyBrowserPresenter >> allClassNames [
+
+	| promise |
+	promise := self answeringService allClassNames.
+	promise
+		when: [ :scaffoldingService | ^ scaffoldingService answer ]
+		catch: [ :reason | self unexpectedCatch: reason ]
+]
+
+{ #category : 'services' }
+SpkSparkyBrowserPresenter >> answeringService [
+
+	^ self class answeringService
 ]
 
 { #category : 'actions' }
@@ -163,7 +192,7 @@ SpkSparkyBrowserPresenter >> browseProjects [
 		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'services' }
 SpkSparkyBrowserPresenter >> browserService [
 
 	^ self class browserService
@@ -179,7 +208,7 @@ SpkSparkyBrowserPresenter >> classDefinitionPage [
 		   provider: [ classDefinitionPresenter ]) yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'services' }
 SpkSparkyBrowserPresenter >> classServiceNamed: projectName [
 
 	^ self class classServiceNamed: projectName
@@ -272,6 +301,17 @@ SpkSparkyBrowserPresenter >> extractServices: aspect from: scaffoldingService [
 		  arrays
 ]
 
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> findClass [
+
+	| findString allClassNames |
+	allClassNames := self allClassNames.
+	findString := UIManager default
+		              request: 'Enter name of class:'
+		              initialAnswer: String new
+		              title: 'Sparky Find Class Dialog'
+]
+
 { #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initialize [
 
@@ -331,6 +371,15 @@ SpkSparkyBrowserPresenter >> initializeClassList: box [
 ]
 
 { #category : 'initialization-release' }
+SpkSparkyBrowserPresenter >> initializeMainMenu [
+
+	menu := self mainMenu.
+	self layout
+		add: menu
+		withConstraints: [ :constraints | constraints height: 30 ]
+]
+
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializePackageList: box [
 
 	box add: (packageList := self newTable beSingleSelection addColumn:
@@ -345,6 +394,7 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 
 	| bigBox metaBox |
 	super initializePresenters.
+	self initializeMainMenu.
 	self initializeBrowserToolbar.
 	bigBox := SpkBoxLayout newTopToBottom.
 	metaBox := SpkBoxLayout newLeftToRight.
@@ -352,8 +402,7 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 	self initializePackageList: metaBox.
 	self initializeClassList: metaBox.
 	bigBox add: metaBox.
-	self initializeSourceTabsIn: bigBox. 
-	"self initializeSourceCodeLayoutIn: bigBox."
+	self initializeSourceTabsIn: bigBox.
 	self layout add: bigBox.
 	self layout color: SpkConnectionListPresenter defaultColor
 ]
@@ -382,10 +431,37 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparky Browser';
-		initialExtent: 750 @ 300;
+		initialExtent: 750 @ 700;
 		whenClosedDo: [ 
 			SpkConnectionProfile profileAnnouncer unsubscribe: self application.
-			self class browserAnnouncer unsubscribe: self ]
+			self class browserAnnouncer unsubscribe: self ].
+	self shortCuts keysAndValuesDo: [ :key :value | 
+		aWindowPresenter bindKeyCombination: key toAction: value ]
+]
+
+{ #category : 'menus' }
+SpkSparkyBrowserPresenter >> mainMenu [
+
+	| aMenu |
+	aMenu := self newMenuBar addGroup: [ :group | 
+		         group addItem: [ :item | 
+			         item
+				         name: 'Sparky';
+				         subMenu: self sparkyMenu ] ].
+
+	^ aMenu
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> menu [
+
+	^ menu
+]
+
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> menu: anObject [
+
+	menu := anObject
 ]
 
 { #category : 'initialization-release' }
@@ -435,7 +511,7 @@ SpkSparkyBrowserPresenter >> overrideSourceCodeMenu [
 				shortcut: PharoShortcuts current debugItShortcut ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'services' }
 SpkSparkyBrowserPresenter >> packageServiceNamed: projectName [
 
 	^ self class packageServiceNamed: projectName
@@ -463,7 +539,7 @@ SpkSparkyBrowserPresenter >> packagesUpdated: announcement [
 		into: packageList
 ]
 
-{ #category : 'accessing' }
+{ #category : 'services' }
 SpkSparkyBrowserPresenter >> projectServiceNamed: projectName [
 
 	^ self class projectServiceNamed: projectName
@@ -515,6 +591,15 @@ SpkSparkyBrowserPresenter >> selectedProject [
 SpkSparkyBrowserPresenter >> setBreakpoint [
 ]
 
+{ #category : 'accessing' }
+SpkSparkyBrowserPresenter >> shortCuts [
+
+	| shortCuts |
+	shortCuts := Dictionary new.
+	shortCuts at: $f shift meta put: [ self findClass ].
+	^ shortCuts
+]
+
 { #category : 'tabs' }
 SpkSparkyBrowserPresenter >> sourceCodePage [
 
@@ -523,6 +608,19 @@ SpkSparkyBrowserPresenter >> sourceCodePage [
 		   title: 'Method Source'
 		   icon: (self iconNamed: #class)
 		   provider: [ sourceCode ]) yourself
+]
+
+{ #category : 'menus' }
+SpkSparkyBrowserPresenter >> sparkyMenu [
+
+	| aMenu |
+	aMenu := self newMenu addGroup: [ :group | 
+		         group addItem: [ :item | 
+			         item
+				         name: 'Find Class ...';
+				         shortcut: PharoShortcuts current findShortcut shift;
+				         action: [ self findClass ] ] ].
+	^ aMenu
 ]
 
 { #category : 'events' }

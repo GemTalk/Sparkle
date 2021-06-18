@@ -6,8 +6,9 @@ Class {
 
 { #category : 'accessing' }
 SpkScaffoldingAnsweringServiceServer >> allClassNames [
-
-	^self rowanService allClassNames
+	
+	(self rowanService organizer: ClassOrganizer new) allClassNames.
+	^self rowanService answer
 ]
 
 { #category : 'initialization' }

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkScaffoldingAnsweringServiceClient',
-	#superclass : 'SpkScaffoldingBrowserService',
+	#superclass : 'SpkScaffoldingAnsweringService',
 	#category : 'Sparkle-Scaffolding-Pharo'
 }
 

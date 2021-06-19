@@ -3789,33 +3789,33 @@ testMethodSteppingIsLocalToOneProcess
 	"This test ensures that when you have a debugger on a process and #step, the step action applies
 	to the specific process. The step shouldn't apply to other processes executing the same method."
 
-	| utilityy haltingProcess independentProcess tracee priorityy level haltingMethod haltingCounter independentCounter independentCounterCache |
-	utilityy := BreakpointHandling new.
-	tracee := SharedQueue new.
-	priorityy := Processor activePriority - 1.
+	|  haltingProcess independentProcess   level haltingMethod haltingCounter independentCounter independentCounterCache |
+	utility := BreakpointHandling new.
+	trace := SharedQueue new.
+	priority := Processor activePriority - 1.
 	haltingCounter := {0}.
 	independentCounter := {0}.
 	haltingProcess := [ 
-	[ utilityy runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
+	[ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
 		on: Breakpoint , Halt
 		do: [ :ex | 
-			tracee nextPut: #'HaltingProcess'.
-			tracee nextPut: ex.
+			trace nextPut: #'HaltingProcess'.
+			trace nextPut: ex.
 			haltingProcess suspend.
 			ex resume ] ] newProcess.
 	independentProcess := [ 
-	[ utilityy runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
+	[ utility runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
 		on: Breakpoint , Halt
 		do: [ :ex | 
-			tracee nextPut: #'RunningProcess'.
-			tracee nextPut: ex.
+			trace nextPut: #'RunningProcess'.
+			trace nextPut: ex.
 			independentProcess suspend.
 			ex resume ] ] newProcess.
 	haltingProcess
-		priority: priorityy;
+		priority: priority;
 		breakpointLevel: 1.
 	independentProcess
-		priority: priorityy;
+		priority: priority;
 		breakpointLevel: 1;
 		convertToPortableStack.
 	[ 
@@ -3828,9 +3828,9 @@ testMethodSteppingIsLocalToOneProcess
 	self
 		assert: haltingMethod selector
 		equals: #'runHotForSeconds:shouldHalt:counter:'.
-	self assert: tracee size equals: 2.
-	self assert: tracee next equals: #'HaltingProcess'.
-	self assert: tracee next class equals: Halt.
+	self assert: trace size equals: 2.
+	self assert: trace next equals: #'HaltingProcess'.
+	self assert: trace next class equals: Halt.
 
 	independentProcess resume.
 	(Delay forMilliseconds: 100) wait.
@@ -3841,7 +3841,7 @@ testMethodSteppingIsLocalToOneProcess
 
 	self assertSuspended: haltingProcess.
 	self denySuspended: independentProcess.
-	self assert: tracee size equals: 0.
+	self assert: trace size equals: 0.
 	self assert: independentCounter first > independentCounterCache.
 	independentProcess terminate.
 	self assert: independentProcess _isTerminated.
@@ -3849,9 +3849,9 @@ testMethodSteppingIsLocalToOneProcess
 	haltingProcess resume.
 	(Delay forMilliseconds: 100) wait.
 	self assertSuspended: haltingProcess.
-	self assert: tracee size equals: 2.
-	self assert: tracee next equals: #'HaltingProcess'.
-	self assert: tracee next class equals: Breakpoint ]
+	self assert: trace size equals: 2.
+	self assert: trace next equals: #'HaltingProcess'.
+	self assert: trace next class equals: Breakpoint ]
 		ensure: [ 
 			haltingProcess terminate.
 			independentProcess terminate ]

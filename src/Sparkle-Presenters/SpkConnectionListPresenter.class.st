@@ -157,7 +157,7 @@ SpkConnectionListPresenter >> initializeGroupFilter [
 		               placeholder: 'Enter # to show empty group names only';
 		               yourself.
 	connectionsBox
-		add: (self instantiate: (SpLabelledPresenter
+		add: (self instantiate: (SpLabeledPresenter
 					  label: 'Group Filter:'
 					  input: filterInput
 					  description: String new))

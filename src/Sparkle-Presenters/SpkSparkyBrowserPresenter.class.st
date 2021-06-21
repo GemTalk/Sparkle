@@ -199,6 +199,12 @@ SpkSparkyBrowserPresenter >> classDefinitionPage [
 		   provider: [ classDefinitionPresenter ]) yourself
 ]
 
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> classFound: announcement [
+
+	announcement selectedItem ifNotNil: [:className | self findClassNamed: className ]
+]
+
 { #category : 'services' }
 SpkSparkyBrowserPresenter >> classServiceNamed: projectName [
 
@@ -300,7 +306,14 @@ SpkSparkyBrowserPresenter >> findClass [
 	self updateClassNames.
 	findPresenter := SparkyFind new start. 
 	findPresenter items: allClassNames.
-	findPresenter selectedItem
+	findPresenter announcer
+		when: SpkBrowserFindAnnouncement
+		send: #classFound:
+		to: self.
+]
+
+{ #category : 'actions' }
+SpkSparkyBrowserPresenter >> findClassNamed: className [
 ]
 
 { #category : 'initialization-release' }

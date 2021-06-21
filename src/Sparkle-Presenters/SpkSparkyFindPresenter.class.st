@@ -59,7 +59,10 @@ SpkSparkyFindPresenter >> initializePresenters [
 SpkSparkyFindPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparky Find'.
+		title: 'Sparky Find';
+		whenClosedDo: [ 
+			self announcer announce:
+					(SpkBrowserFindAnnouncement new selectedItem: self selectedItem) ].
 	self shortCuts keysAndValuesDo: [ :key :value | 
 		aWindowPresenter bindKeyCombination: key toAction: value ]
 ]

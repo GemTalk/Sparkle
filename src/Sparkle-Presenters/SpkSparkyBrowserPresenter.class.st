@@ -12,7 +12,8 @@ Class {
 		'sourceCode',
 		'sourceTabs',
 		'classDefinitionPresenter',
-		'menu'
+		'menu',
+		'allClassNames'
 	],
 	#classVars : [
 		'AnsweringService',
@@ -122,16 +123,6 @@ SpkSparkyBrowserPresenter >> abortTransaction [
 		when: [ :scaffoldingService | 
 			self class browserAnnouncer announce:
 				SpkBrowserAbortAnnouncement new ]
-		catch: [ :reason | self unexpectedCatch: reason ]
-]
-
-{ #category : 'private accessing' }
-SpkSparkyBrowserPresenter >> allClassNames [
-
-	| promise |
-	promise := self answeringService allClassNames.
-	promise
-		when: [ :scaffoldingService | ^ scaffoldingService answer ]
 		catch: [ :reason | self unexpectedCatch: reason ]
 ]
 
@@ -304,12 +295,13 @@ SpkSparkyBrowserPresenter >> extractServices: aspect from: scaffoldingService [
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> findClass [
 
-	| findString allClassNames |
-	allClassNames := self allClassNames.
-	findString := UIManager default
+	"| findString |"
+	self updateClassNames.
+	SparkyFind on: allClassNames.
+"	findString := UIManager default
 		              request: 'Enter name of class:'
 		              initialAnswer: String new
-		              title: 'Sparky Find Class Dialog'
+		              title: 'Sparky Find Class Dialog'"
 ]
 
 { #category : 'initialization-release' }
@@ -650,6 +642,22 @@ SpkSparkyBrowserPresenter >> updateClass [
 		catch: [ :reason | self unexpectedCatch: reason ]
 
 
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> updateClassNames [
+
+	| promise sem |
+	promise := self answeringService allClassNames.
+	sem := Semaphore new.
+	promise
+		when: [ :array | 
+			allClassNames := array.
+			sem signal ]
+		catch: [ :reason | 
+			self unexpectedCatch: reason.
+			sem signal ].
+	sem wait
 ]
 
 { #category : 'initialization-release' }

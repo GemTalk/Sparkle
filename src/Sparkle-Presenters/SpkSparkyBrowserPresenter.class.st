@@ -300,10 +300,7 @@ SpkSparkyBrowserPresenter >> findClass [
 	self updateClassNames.
 	findPresenter := SparkyFind new start. 
 	findPresenter items: allClassNames.
-	"	findString := UIManager default
-		              request: 'Enter name of class:'
-		              initialAnswer: String new
-		              title: 'Sparky Find Class Dialog'"
+	findPresenter selectedItem
 ]
 
 { #category : 'initialization-release' }

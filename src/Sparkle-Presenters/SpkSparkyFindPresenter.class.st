@@ -4,12 +4,26 @@ Class {
 	#instVars : [
 		'items',
 		'text',
-		'itemList'
+		'itemList',
+		'okButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'initialization' }
+{ #category : 'initialize - release' }
+SpkSparkyFindPresenter >> accept [
+
+	self application close
+]
+
+{ #category : 'initialize - release' }
+SpkSparkyFindPresenter >> cancel [
+
+	itemList selectItem: nil. 
+	self application close
+]
+
+{ #category : 'initialize - release' }
 SpkSparkyFindPresenter >> connectPresenters [
 
 	super connectPresenters.
@@ -18,19 +32,30 @@ SpkSparkyFindPresenter >> connectPresenters [
 			(items select: [ :item | theText , '*' match: item ]) ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialize - release' }
 SpkSparkyFindPresenter >> initializePresenters [
 
+	| topBox |
 	super initializePresenters.
 	self layout: SpkBoxLayout newTopToBottom.
+	topBox := SpkBoxLayout newLeftToRight.
 	text := self newTextInput.
-	self layout add: text.
+	topBox
+		add: text
+		withConstraints: [ :constraints | constraints height: 30 ].
+	okButton := self newButton
+		            label: 'Accept';
+		            action: [self accept].
+	topBox add: okButton withConstraints: [ :constraints | 
+		constraints
+			height: 30;
+			width: 100 ].
+	self layout add: topBox.
 	itemList := self newList.
-	self layout add: itemList.
-
+	self layout add: itemList
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initialize - release' }
 SpkSparkyFindPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
@@ -58,11 +83,34 @@ SpkSparkyFindPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'initialization' }
+{ #category : 'actions' }
+SpkSparkyFindPresenter >> selectDown [
+
+	itemList selectedItem ifNil: [ ^ itemList selectIndex: 1 ].
+	itemList selectIndex: (itemList selection selectedIndex + 1 min: itemList items size)
+]
+
+{ #category : 'actions' }
+SpkSparkyFindPresenter >> selectUp [
+
+	itemList selectedItem ifNil: [ 
+		^ itemList selectIndex: itemList items size ].
+	itemList selectIndex: (itemList selection selectedIndex - 1 max: 1)
+]
+
+{ #category : 'accessing' }
+SpkSparkyFindPresenter >> selectedItem [
+
+	^itemList selectedItem
+]
+
+{ #category : 'initialize - release' }
 SpkSparkyFindPresenter >> shortCuts [
 
 	| shortCuts |
 	shortCuts := Dictionary new.
-	shortCuts at: Character escape put: [ self application close ].
+	shortCuts at: Character escape put: [ self cancel ].
+	shortCuts at: Character arrowDown put: [ self selectDown ].
+	shortCuts at: Character arrowUp put: [ self selectUp ].
 	^ shortCuts
 ]

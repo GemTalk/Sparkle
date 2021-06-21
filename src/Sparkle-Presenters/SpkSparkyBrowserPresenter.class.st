@@ -219,13 +219,13 @@ SpkSparkyBrowserPresenter >> classesUpdated: announcement [
 SpkSparkyBrowserPresenter >> clearAllBreaks [
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> clearClassList [
 
 	classList items: OrderedCollection new
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> clearLists [
 
 	self clearClassList.
@@ -233,13 +233,13 @@ SpkSparkyBrowserPresenter >> clearLists [
 	self clearProjectList
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> clearPackageList [
 
 	packageList items: OrderedCollection new
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> clearProjectList [
 
 	projectList items: OrderedCollection new
@@ -282,7 +282,7 @@ SpkSparkyBrowserPresenter >> connectPresenters [
 				self updateClass ] ] ].
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> extractServices: aspect from: scaffoldingService [
 
 	| arrays |
@@ -295,10 +295,12 @@ SpkSparkyBrowserPresenter >> extractServices: aspect from: scaffoldingService [
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> findClass [
 
-	"| findString |"
+	| findPresenter |
+
 	self updateClassNames.
-	SparkyFind on: allClassNames.
-"	findString := UIManager default
+	findPresenter := SparkyFind new start. 
+	findPresenter items: allClassNames.
+	"	findString := UIManager default
 		              request: 'Enter name of class:'
 		              initialAnswer: String new
 		              title: 'Sparky Find Class Dialog'"
@@ -583,7 +585,7 @@ SpkSparkyBrowserPresenter >> selectedProject [
 SpkSparkyBrowserPresenter >> setBreakpoint [
 ]
 
-{ #category : 'accessing' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> shortCuts [
 
 	| shortCuts |
@@ -630,7 +632,7 @@ SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
 		  yourself
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> updateClass [
 
 
@@ -644,7 +646,7 @@ SpkSparkyBrowserPresenter >> updateClass [
 
 ]
 
-{ #category : 'private actions' }
+{ #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> updateClassNames [
 
 	| promise sem |

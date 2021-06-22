@@ -1,3 +1,5 @@
+<!--- generated based on framemaker original. Edits subject to getting lost, especially complicated ones! --->
+
 #   Sparkle Installation
 
 ## Overview

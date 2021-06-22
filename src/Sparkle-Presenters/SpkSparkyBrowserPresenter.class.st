@@ -13,7 +13,8 @@ Class {
 		'sourceTabs',
 		'classDefinitionPresenter',
 		'menu',
-		'allClassNames'
+		'allClassNames',
+		'findClassMergeQueue'
 	],
 	#classVars : [
 		'AnsweringService',
@@ -312,15 +313,34 @@ SpkSparkyBrowserPresenter >> findClass [
 		to: self.
 ]
 
-{ #category : 'actions' }
+{ #category : 'private actions' }
 SpkSparkyBrowserPresenter >> findClassNamed: className [
+
+	| promise |
+	promise := (self classServiceNamed: className) update.
+	promise
+		when: [ :scaffoldingService | 
+				| classService |
+				classService := (SpkSparkyRowanClassService fromArrays: scaffoldingService rowanService).
+				self findClassService: classService ]
+		catch: [ :reason | self unexpectedCatch: reason ]
+
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> findClassService: classService [
+
+	self selectClassProject: classService.
+	self selectClassPackage: classService.
+	self selectClassService: classService
 ]
 
 { #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initialize [
 
 	super initialize.
-	self initializeAnnouncements
+	self initializeAnnouncements.
+	findClassMergeQueue := SharedQueue new. 
 ]
 
 { #category : 'initialization-release' }
@@ -538,9 +558,9 @@ SpkSparkyBrowserPresenter >> packagesUpdated: announcement [
 
 	(announcement isRelevantToProject: self selectedProject) ifFalse: [ 
 		^ self ].
-	SpkSparkyMergeListTool
-		merge: announcement packages
-		into: packageList
+	SpkSparkyMergeListTool merge: announcement packages into: packageList.
+	self class browserAnnouncer announce:
+		SpkBrowserPackagesUpdatedAnnouncement new
 ]
 
 { #category : 'services' }
@@ -571,6 +591,32 @@ SpkSparkyBrowserPresenter >> projectsUpdated: announcement [
 
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> saveCode [
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> selectClassPackage: classService [
+
+	| packageName packageService |
+	[packageList items isEmpty] whileTrue:[(Delay forMilliseconds: 1) wait]. 
+	packageName := classService packageName.
+	packageService := packageList items detect: [ :item | 
+		                  item name = packageName ].
+	packageList selectItems: (Array with: packageService)
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> selectClassProject: classService [
+
+	| projectService |
+	projectService := projectList items detect: [ :item | 
+		                  item name = classService projectName ].
+	projectList selectItems: (Array with: projectService)
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> selectClassService: classService [
+
+	classList selectItems: (Array with: classService)
 ]
 
 { #category : 'private accessing' }
@@ -642,18 +688,15 @@ SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
 		  yourself
 ]
 
-{ #category : 'hot keys' }
+{ #category : 'private actions' }
 SpkSparkyBrowserPresenter >> updateClass [
-
 
 	| promise |
 	promise := (self classServiceNamed: self selectedClass name) update.
 	promise
 		when: [ :scaffoldingService | 
-				classDefinitionPresenter text: self selectedClass template ]
+			classDefinitionPresenter text: self selectedClass template ]
 		catch: [ :reason | self unexpectedCatch: reason ]
-
-
 ]
 
 { #category : 'hot keys' }

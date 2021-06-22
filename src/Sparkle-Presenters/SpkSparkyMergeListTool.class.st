@@ -27,6 +27,13 @@ SpkSparkyMergeListTool class >> merge: updated into: existing [
 	^ inst
 ]
 
+{ #category : 'announcer' }
+SpkSparkyMergeListTool class >> mergeListToolAnnouncer [
+
+	^ MergeListToolAnnouncer ifNil: [ 
+		  MergeListToolAnnouncer := Announcer new ]
+]
+
 { #category : 'private' }
 SpkSparkyMergeListTool >> addNew [
 

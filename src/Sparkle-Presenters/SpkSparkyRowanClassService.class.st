@@ -11,6 +11,16 @@ SpkSparkyRowanClassService class >> aspect [
 ]
 
 { #category : 'accessing' }
+SpkSparkyRowanClassService >> packageName [
+	^self aspectFor: #packageName
+]
+
+{ #category : 'accessing' }
+SpkSparkyRowanClassService >> projectName [
+	^self aspectFor: #projectName
+]
+
+{ #category : 'accessing' }
 SpkSparkyRowanClassService >> template [
 	^self aspectFor: #template
 ]

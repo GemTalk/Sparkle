@@ -55,7 +55,7 @@ BreakpointHandlingTest >> advanceToControlInterrupt [
 { #category : 'support - specific process' }
 BreakpointHandlingTest >> advanceToControlInterruptIn: aProcess [
 	aProcess resume.
-	(Delay forMilliseconds: 100) wait.
+	(self waitMS: 100).
 	self assertSuspended: aProcess
 ]
 
@@ -72,7 +72,7 @@ BreakpointHandlingTest >> advanceToEnd [
 { #category : 'support - specific process' }
 BreakpointHandlingTest >> advanceToEndIn: aProcess [
 	aProcess resume.
-	(Delay forMilliseconds: 100) wait.
+	(self waitMS: 100).
 	self
 		denySuspended: aProcess;
 		assert: aProcess _isTerminated;
@@ -156,6 +156,13 @@ BreakpointHandlingTest >> denySuspended: aProcess [
 		description: 'Process should not have been suspended'
 ]
 
+{ #category : 'support' }
+BreakpointHandlingTest >> firstFrameBelowHalt [
+	"Answer the number of the frame below a #halt, considering all the overhead of signalling the exception."
+
+	^ 10
+]
+
 { #category : 'support - specific process' }
 BreakpointHandlingTest >> isSuspended: aProcess [
 
@@ -206,17 +213,20 @@ BreakpointHandlingTest >> log: aString [
 { #category : 'support - logging' }
 BreakpointHandlingTest >> log: aString processEssentials: aProcess frameLevel: levelInteger [
 	| frameAtLevel frameAtNextHigherLevel methodAtLevel ipOffsetAtLevel stepPointAtLevel |
-	frameAtLevel := aProcess _frameContentsAt: levelInteger.
-	frameAtNextHigherLevel := aProcess _frameContentsAt: levelInteger - 1.
-	methodAtLevel := frameAtLevel first.
-	ipOffsetAtLevel := frameAtLevel second.
-	stepPointAtLevel := aProcess _stepPointAt: levelInteger.
+	aProcess _isTerminated
+		ifTrue: [ self log: aString with: aProcess ]
+		ifFalse: [ 
+			frameAtLevel := aProcess _frameContentsAt: levelInteger.
+			frameAtNextHigherLevel := aProcess _frameContentsAt: levelInteger - 1.
+			methodAtLevel := frameAtLevel first.
+			ipOffsetAtLevel := frameAtLevel second.
+			stepPointAtLevel := aProcess _stepPointAt: levelInteger.
 
-	self log: aString with: aProcess.
-	self log: #level with: levelInteger.
-	self log: #'frameAtLevel' with: frameAtLevel.
-	self log: #'frameAtNextHigherLevel' with: frameAtNextHigherLevel.
-	self log: #'stepPointAtLevel' with: stepPointAtLevel.
+			self log: aString with: aProcess.
+			self log: #'level' with: levelInteger.
+			self log: #'frameAtLevel' with: frameAtLevel.
+			self log: #'frameAtNextHigherLevel' with: frameAtNextHigherLevel.
+			self log: #'stepPointAtLevel' with: stepPointAtLevel ].
 	self logGroupSeparator
 ]
 
@@ -275,6 +285,29 @@ BreakpointHandlingTest >> setAllStepBreaksIn: aMethod forProcess: aProcess [
 	^ aMethod
 		_setBreakAtIp: -1
 		operation: 1
+		frame: nil
+		process: aProcess
+		breakpointLevel: 1
+]
+
+{ #category : 'support - breaking' }
+BreakpointHandlingTest >> setMethodBreakAtStepPoint: aStepPoint inMethod: aMethod [
+	^ self
+		setMethodBreakAtStepPoint: aStepPoint
+		inMethod: aMethod
+		forProcess: defaultProcess
+]
+
+{ #category : 'support - breaking' }
+BreakpointHandlingTest >> setMethodBreakAtStepPoint: aStepPoint inMethod: aMethod forProcess: aProcess [
+	| info |
+	aProcess convertToPortableStack.
+	info := aMethod _meth_ip_ForStepPoint: aStepPoint abs.
+	self assert: info notNil description: 'Could not find ip for step point'.
+
+	(info at: 1)
+		_setBreakAtIp: (info at: 2)
+		operation: 0
 		frame: nil
 		process: aProcess
 		breakpointLevel: 1
@@ -358,7 +391,7 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 		convertToPortableStack.
 	self advanceToControlInterruptIn: haltingProcess.
 	independentCounterCache := independentCounter current.
-	level := 10.
+	level := self firstFrameBelowHalt.
 	haltingMethod := (haltingProcess _frameContentsAt: level) first.
 	self
 		assert: haltingMethod selector
@@ -367,11 +400,11 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	self assertNextTraceKey: #'HaltingProcess' valueClass: Halt.
 
 	independentProcess resume.
-	(Delay forMilliseconds: 100) wait.
+	(self waitMS: 100).
 	independentProcess convertToPortableStack.
 
 	haltingProcess stepOverFromLevel: level.
-	(Delay forMilliseconds: 100) wait.
+	(self waitMS: 100).
 
 	self assertSuspended: haltingProcess.
 	self denySuspended: independentProcess.
@@ -383,6 +416,168 @@ BreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	self advanceToControlInterruptIn: haltingProcess.
 	self assertOneTraceEntry.
 	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testMultiProcessBreakpointHandlingInSameMethod [
+	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 6 ]
+		forID: #'FirstProcess'.
+	secondProcess := self
+		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 4 ]
+		forID: #'SecondProcess'.
+
+	"Set the breakpoint for the second process."
+	self
+		setMethodBreakAtStepPoint: 10
+		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
+		forProcess: secondProcess.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Set the breakpoint for the second process."
+"	self setMethodBreakAtStepPoint: 10 inMethod: secondProcessMethod forProcess: secondProcess."
+
+	"Finish the first process. It should not encounter the second process' breakpoint."
+	self log: 'Finish first process'.
+	self advanceToEndIn: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Run the second process to its breakpoint."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Run the second process to its breakpoint again, to ensure it sticks around."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testMultiProcessBreakpointHandlingInSameMethodAfterHalting [
+	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 6 ]
+		forID: #'FirstProcess'.
+	secondProcess := self
+		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 4 ]
+		forID: #'SecondProcess'.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Set the breakpoint for the second process."
+	self
+		setMethodBreakAtStepPoint: 10
+		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
+		forProcess: secondProcess.
+
+	"Finish the first process. It should not encounter the second process' breakpoint."
+	self log: 'Finish first process'.
+	self advanceToEndIn: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Run the second process to its breakpoint."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Run the second process to its breakpoint again, to ensure it sticks around."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+]
+
+{ #category : 'tests expected to fail for now' }
+BreakpointHandlingTest >> testMultiProcessBreakpointHandlingInSameMethodBeforeHalting [
+	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 6 ]
+		forID: #'FirstProcess'.
+	secondProcess := self
+		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 4 ]
+		forID: #'SecondProcess'.
+
+	"Set the breakpoint for the second process."
+	self
+		setMethodBreakAtStepPoint: 10
+		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
+		forProcess: secondProcess.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Finish the first process. It should not encounter the second process' breakpoint."
+	self log: 'Finish first process'.
+	self advanceToEndIn: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Run the second process to its breakpoint."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Run the second process to its breakpoint again, to ensure it sticks around."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
 ]
 
 { #category : 'tests expected to fail for now' }
@@ -398,14 +593,13 @@ BreakpointHandlingTest >> testMultiProcessSteppingInDifferentMethods [
 		forID: #'FibonacciProcess'.
 
 	self advanceToControlInterruptIn: factorialProcess.
-	level := 10.
+	level := self firstFrameBelowHalt.
 	factorialMethod := (factorialProcess _frameContentsAt: level) first.
 	self assert: factorialMethod selector equals: #'factorialOf:stopAt:'.
 	self assertOneTraceEntry.
 	self assertNextTraceKey: #'FactorialProcess' valueClass: Halt.
 
 	self advanceToControlInterruptIn: fibonacciProcess.
-	level := 10.
 	fibonacciMethod := (fibonacciProcess _frameContentsAt: level) first.
 	self assert: fibonacciMethod selector equals: #'fibonacciGenerations:stopAt:'.
 	self assertOneTraceEntry.
@@ -438,60 +632,68 @@ BreakpointHandlingTest >> testMultiProcessSteppingInSameMethod [
 
 	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
 	firstProcess := self
-		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 4 ]
+		processBlock: [ firstResult := utility factorialOf: 10 afterWaitingMS: 3000 ]
 		forID: #'FirstProcess'.
 	secondProcess := self
-		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 6 ]
+		processBlock: [ secondResult := utility factorialOf: 10 afterWaitingMS: 10 ]
 		forID: #'SecondProcess'.
 
+	self log: 'Set up first process'.
 	self advanceToControlInterruptIn: firstProcess.
-	level := 10.
+	level := self firstFrameBelowHalt + 1.
 	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
 	frameAtLevel := firstProcess _frameContentsAt: level.
 	firstProcessMethod := frameAtLevel first.
-	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assert: firstProcessMethod selector equals: #'factorialOf:afterWaitingMS:'.
 	self assertOneTraceEntry.
 	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
 
+	"Advance to the #waitMS: send."
+	self stepOverInLevel: level inProcess: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+
+	self log: 'Set up second process'.
 	self advanceToControlInterruptIn: secondProcess.
-	level := 10.
-"	self log: #secondProcess processEssentials: secondProcess frameLevel: level."
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
 	frameAtLevel := secondProcess _frameContentsAt: level.
 	secondProcessMethod := frameAtLevel first.
-	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assert: secondProcessMethod selector equals: #'factorialOf:afterWaitingMS:'.
 	self assertOneTraceEntry.
 	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
-"Server bug: stepping off the end of a recursive method does not stop in the next lower frame."
-15 timesRepeat: [
-	self stepOverInLevel: level inProcess: firstProcess.
-	level := 11.
+
+	"Advance to the #waitMS: send."
+	self stepOverInLevel: level inProcess: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Start the first process stepping over the #waitMS: send (long)."
+	self log: 'Step first process over #waitMS: send'.
+	firstProcess
+		stepOverFromLevel: level;
+		resume.
 	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-].
-self halt.
-"	self setAllStepBreaksIn: firstProcessMethod forProcess: firstProcess.
-	self setAllStepBreaksIn: secondProcessMethod forProcess: secondProcess."
-	self
-		setStepBreakAtStepPoint: 11
-		inMethod: firstProcessMethod
-		forProcess: firstProcess.	"Last step point in method"
-	self
-		setStepBreakAtStepPoint: 11
-		inMethod: secondProcessMethod
-		forProcess: secondProcess.	"Last step point in method"
 
-	self advanceToControlInterruptIn: firstProcess.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FirstProcess' valueClass: Breakpoint.
-	"This next test is currently expected to fail, as the previous process cleared all step points in the gem.
-	 It would work if the step points were reset here. But we want it to fail until the server is changed."
-"	self setAllStepBreaksIn: secondProcessMethod forProcess: secondProcess."
-"	self setStepBreakAtStepPoint: 17 inMethod: secondProcessMethod forProcess: secondProcess."	"Last step point in method"
-	self advanceToControlInterruptIn: secondProcess.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'SecondProcess' valueClass: Breakpoint.
+	"Step the second process over the #waitMS: send and the second #factorialOf:stopAt: send."
+	self log: 'Step second process over #waitMS: send'.
+	self stepOverInLevel: level inProcess: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	self log: 'Step second process over second #factorialOf:stopAt: send'.
+	self stepOverInLevel: level inProcess: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
 
+	self assert: firstResult isNil description: 'First process yielded result too soon'.
+	self assert: secondResult isNil description: 'Second process yielded result too soon'.
+	"Finish the second process"
+	self advanceToEndIn: secondProcess.
+
+	"Wait for the first process to finish the step (expected to fail currently)"
+	self log: 'Wait for first process to finish #waitMS: send'.
+	(self waitMS: 200).	"Second process used up 2x100ms waits stepping."
 	self assertSuspended: firstProcess.
-	self assertSuspended: secondProcess
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	self assert: firstResult isNil description: 'First process should not have finished to produce a result'.
+	self deny: secondResult isNil description: 'Second process failed to yield a result'.
 ]
 
 { #category : 'tests expected to fail for now' }
@@ -502,7 +704,7 @@ BreakpointHandlingTest >> testRecursionStepOutOfFrame [
 	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
 
 	self advanceToControlInterrupt.
-	level := 10.
+	level := self firstFrameBelowHalt.
 	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
 	frameAtLevel := defaultProcess _frameContentsAt: level.
 	processMethod := frameAtLevel first.
@@ -514,7 +716,7 @@ BreakpointHandlingTest >> testRecursionStepOutOfFrame [
 "Server bug: stepping off the end of a recursive method does not stop in the next lower frame. Process will run to completion."
 7 timesRepeat: [
 	self stepOverInLevel: level.
-	level := 11.
+	level := self firstFrameBelowHalt + 1.
 	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
 ].
 self halt.
@@ -532,7 +734,7 @@ Need to recreate that specific scenario."
 	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
 
 	self advanceToControlInterrupt.
-	level := 10.
+	level := self firstFrameBelowHalt.
 	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
 	frameAtLevel := defaultProcess _frameContentsAt: level.
 	processMethod := frameAtLevel first.
@@ -545,7 +747,7 @@ Need to recreate that specific scenario."
 	self assert: (defaultProcess _frameContentsAt: level+1) second equals: (defaultProcess _frameContentsAt: level+2) second.
 
 	defaultProcess stepOverFromLevel: level.
-	(Delay forMilliseconds: 100) wait.
+	(self waitMS: 100).
 	self assertSuspended.
 
 	"The ipOffset shouldn't change just from setting a step point."
@@ -607,4 +809,9 @@ BreakpointHandlingTest >> testStepOverInRecursion [
 { #category : 'support' }
 BreakpointHandlingTest >> traceID: anID value: anObject [
 	trace nextPut: anID -> anObject
+]
+
+{ #category : 'support' }
+BreakpointHandlingTest >> waitMS: milliseconds [
+	(Delay forMilliseconds: milliseconds) wait
 ]

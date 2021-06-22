@@ -8,6 +8,15 @@ Class {
 }
 
 { #category : 'other' }
+BreakpointHandling >> factorialOf: anInteger afterWaitingMS: milliseconds [
+	"First factorial is so that we get a halt before the wait."
+
+	self factorialOf: 1 stopAt: 1.
+	self waitMS: milliseconds.
+	^ self factorialOf: anInteger stopAt: 0
+]
+
+{ #category : 'other' }
 BreakpointHandling >> factorialOf: factInt stopAt: stopInt [
 	factInt = stopInt
 		ifTrue: [ self halt ].
@@ -63,4 +72,9 @@ counter: aCounter [
 				ifTrue: [ self halt ].
 			"Processor yield."
 			aCounter increment]
+]
+
+{ #category : 'other' }
+BreakpointHandling >> waitMS: milliseconds [
+	(Delay forMilliseconds: milliseconds) wait
 ]

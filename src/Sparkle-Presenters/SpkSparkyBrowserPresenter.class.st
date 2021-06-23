@@ -329,7 +329,8 @@ SpkSparkyBrowserPresenter >> findClassNamed: className [
 
 { #category : 'private actions' }
 SpkSparkyBrowserPresenter >> findClassService: classService [
-
+	classList items: Array new. 
+	packageList items: Array new. 
 	self selectClassProject: classService.
 	self selectClassPackage: classService.
 	self selectClassService: classService
@@ -596,12 +597,13 @@ SpkSparkyBrowserPresenter >> saveCode [
 { #category : 'private actions' }
 SpkSparkyBrowserPresenter >> selectClassPackage: classService [
 
-	| packageName packageService |
+	| packageName packageService index |
 	[packageList items isEmpty] whileTrue:[(Delay forMilliseconds: 1) wait]. 
 	packageName := classService packageName.
 	packageService := packageList items detect: [ :item | 
 		                  item name = packageName ].
-	packageList selectItems: (Array with: packageService)
+	index := packageList items indexOf: packageService. 
+	packageList selectIndex: index scrollToSelection: true.
 ]
 
 { #category : 'private actions' }
@@ -616,7 +618,11 @@ SpkSparkyBrowserPresenter >> selectClassProject: classService [
 { #category : 'private actions' }
 SpkSparkyBrowserPresenter >> selectClassService: classService [
 
-	classList selectItems: (Array with: classService)
+	| index |
+	[classList items isEmpty] whileTrue:[(Delay forMilliseconds: 1) wait]. 
+	index := classList items indexOf: classService.
+	Transcript cr; print: index; flush. 
+	classList selectIndex: index scrollToSelection: true
 ]
 
 { #category : 'private accessing' }

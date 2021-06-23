@@ -8,12 +8,33 @@ Class {
 }
 
 { #category : 'other' }
+BreakpointHandling >> factorialOf: anInteger afterWaitingMS: milliseconds [
+	"First factorial is so that we get a halt before the wait."
+
+	self factorialOf: 1 stopAt: 1.
+	self waitMS: milliseconds.
+	^ self factorialOf: anInteger stopAt: 0
+]
+
+{ #category : 'other' }
 BreakpointHandling >> factorialOf: factInt stopAt: stopInt [
 	factInt = stopInt
 		ifTrue: [ self halt ].
 	factInt = 1
 		ifTrue: [ ^ 1 ].
 	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
+]
+
+{ #category : 'other' }
+BreakpointHandling >> fibonacciGenerations: genInt stopAt: stopInt [
+	| fNumbers howMany |
+	fNumbers := OrderedCollection with: 0 with: 1.
+	[ (howMany := fNumbers size) < genInt ]
+		whileTrue: [ 
+			howMany = stopInt
+				ifTrue: [ self halt ].
+			fNumbers add: (fNumbers at: howMany) + (fNumbers at: howMany - 1) ].
+	^ fNumbers at: genInt	"Can''t use #last in case genInt = 1"
 ]
 
 { #category : 'other' }
@@ -41,7 +62,7 @@ BreakpointHandling >> nlr2 [
 { #category : 'other' }
 BreakpointHandling >> runHotForSeconds: anInteger
 shouldHalt: shouldHalt
-counter: counter [
+counter: aCounter [
 
 	| endTime |
 	endTime := DateAndTime now + (Duration seconds: anInteger).
@@ -50,7 +71,10 @@ counter: counter [
 			shouldHalt
 				ifTrue: [ self halt ].
 			"Processor yield."
-			counter
-				at: 1
-				put: (counter first + 1)]
+			aCounter increment]
+]
+
+{ #category : 'other' }
+BreakpointHandling >> waitMS: milliseconds [
+	(Delay forMilliseconds: milliseconds) wait
 ]

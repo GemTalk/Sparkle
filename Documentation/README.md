@@ -60,7 +60,12 @@ There are two ways to build a Sparkle-enabled Pharo image:
 
 #### Script-based installation
 Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.    
-The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see "<A HREF="1-Installation.htm#64899" CLASS="XRef">Iceberg default repository location</A>"). 
+The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location 
+
+see [Default Repository Location](#iceberg-default-repository-location)
+
+see "<A HREF="1-Installation.htm#64899" CLASS="XRef">Iceberg default repository location</A>". 
+
 1.	Launch the Pharo 9.0 build 1484 image.
 2.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 3.	Open a Pharo Playground (workspace), and execute:

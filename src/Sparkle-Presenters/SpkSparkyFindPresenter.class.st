@@ -29,7 +29,8 @@ SpkSparkyFindPresenter >> connectPresenters [
 	super connectPresenters.
 	text whenTextChangedDo: [ :theText | 
 		itemList items:
-			(items select: [ :item | theText , '*' match: item ]) ]
+			(items select: [ :item | theText , '*' match: item ]) ].
+
 ]
 
 { #category : 'initialize - release' }
@@ -64,7 +65,12 @@ SpkSparkyFindPresenter >> initializeWindow: aWindowPresenter [
 			self announcer announce:
 					(SpkBrowserFindAnnouncement new selectedItem: self selectedItem) ].
 	self shortCuts keysAndValuesDo: [ :key :value | 
-		aWindowPresenter bindKeyCombination: key toAction: value ]
+		aWindowPresenter bindKeyCombination: key toAction: value ].
+	"Apparently, the enter key is bound to the
+	individual widgets and must be overridden here to work globally"
+	aWindowPresenter bindKeyCombination: KeyboardKey  enter toAction: [ self accept ].
+	text bindKeyCombination: KeyboardKey  enter toAction: [ self accept ].
+	itemList bindKeyCombination: KeyboardKey  enter toAction: [ self accept ].
 ]
 
 { #category : 'accessing' }
@@ -107,7 +113,7 @@ SpkSparkyFindPresenter >> selectedItem [
 	^itemList selectedItem
 ]
 
-{ #category : 'initialize - release' }
+{ #category : 'accessing' }
 SpkSparkyFindPresenter >> shortCuts [
 
 	| shortCuts |

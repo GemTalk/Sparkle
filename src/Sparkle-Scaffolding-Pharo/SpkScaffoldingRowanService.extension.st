@@ -29,3 +29,9 @@ SpkScaffoldingRowanService >> update [
 
 	^remoteSelf update
 ]
+
+{ #category : '*Sparkle-Scaffolding-Pharo' }
+SpkScaffoldingRowanService >> updateSynchronously [ 
+
+	^remoteSelf update wait
+]

@@ -136,36 +136,31 @@ SpkSparkyBrowserPresenter >> answeringService [
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
 
-	| promise |
-	promise := (self packageServiceNamed: packageName) update.
-	promise
-		when: [ :scaffoldingService | 
-			classList items: OrderedCollection new.
-			classes := self extractServices: #classes from: scaffoldingService.
-			self class browserAnnouncer announce:
-				(SpkBrowserClassesAnnouncement new
-					 name: packageName;
-					 classes: classes) ]
-		catch: [ :reason | self unexpectedCatch: reason ]
+	| scaffoldingService |
+	scaffoldingService := (self packageServiceNamed: packageName)
+		                      updateSynchronously.
+
+	classList items: OrderedCollection new.
+	classes := self extractServices: #classes from: scaffoldingService.
+	self class browserAnnouncer announce:
+		(SpkBrowserClassesAnnouncement new
+			 name: packageName;
+			 classes: classes)
 ]
 
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 
-	| promise |
-	promise := (self projectServiceNamed: projectName) update.
-	promise
-		when: [ :scaffoldingService | 
-			self clearPackageList.
-			self clearClassList.
-			packages := self
-				            extractServices: #packages
-				            from: scaffoldingService.
-			self class browserAnnouncer announce:
-				(SpkBrowserPackagesAnnouncement new
-					 name: projectName;
-					 packages: packages) ]
-		catch: [ :reason | self unexpectedCatch: reason ]
+	| scaffoldingService |
+	scaffoldingService := (self projectServiceNamed: projectName)
+		                      updateSynchronously.
+	self clearPackageList.
+	self clearClassList.
+	packages := self extractServices: #packages from: scaffoldingService.
+	self class browserAnnouncer announce:
+		(SpkBrowserPackagesAnnouncement new
+			 name: projectName;
+			 packages: packages)
 ]
 
 { #category : 'actions' }
@@ -380,6 +375,12 @@ SpkSparkyBrowserPresenter >> initializeBrowserToolbar [
 			 icon: (self iconNamed: #smallSave);
 			 help: 'Commit the transation';
 			 action: [ self commitTransaction ];
+			 yourself).
+	toolbar addItem: (SpToolbarButtonPresenter new
+			 label: 'Find Class';
+			 icon: (self iconNamed: #smallFind);
+			 help: 'Find a class';
+			 action: [ self findClass ];
 			 yourself).
 	self layout
 		add: toolbar

@@ -13,7 +13,9 @@ Class {
 { #category : 'initialize - release' }
 SpkSparkyFindPresenter >> accept [
 
-	self application close
+	self application close.
+	self announcer announce:
+		(SpkBrowserFindAnnouncement new selectedItem: self selectedItem)
 ]
 
 { #category : 'initialize - release' }
@@ -59,18 +61,18 @@ SpkSparkyFindPresenter >> initializePresenters [
 { #category : 'initialize - release' }
 SpkSparkyFindPresenter >> initializeWindow: aWindowPresenter [
 
-	aWindowPresenter
-		title: 'Sparky Find';
-		whenClosedDo: [ 
-			self announcer announce:
-					(SpkBrowserFindAnnouncement new selectedItem: self selectedItem) ].
+	aWindowPresenter title: 'Sparky Find'.
 	self shortCuts keysAndValuesDo: [ :key :value | 
 		aWindowPresenter bindKeyCombination: key toAction: value ].
 	"Apparently, the enter key is bound to the
 	individual widgets and must be overridden here to work globally"
-	aWindowPresenter bindKeyCombination: KeyboardKey  enter toAction: [ self accept ].
-	text bindKeyCombination: KeyboardKey  enter toAction: [ self accept ].
-	itemList bindKeyCombination: KeyboardKey  enter toAction: [ self accept ].
+	aWindowPresenter
+		bindKeyCombination: KeyboardKey enter
+		toAction: [ self accept ].
+	text bindKeyCombination: KeyboardKey enter toAction: [ self accept ].
+	itemList
+		bindKeyCombination: KeyboardKey enter
+		toAction: [ self accept ]
 ]
 
 { #category : 'accessing' }

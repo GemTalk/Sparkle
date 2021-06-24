@@ -90,7 +90,7 @@ SpkSparkyMergeListTool >> updateRemaining [
 	updatedList do:[:each | 
 		| existing |
 		existing := presenterList items detect:[:existingItem | existingItem = each] ifNone:[].
-		existing ifNotNil: [ existing updateFrom: each ]
+		existing ifNotNil: [ existing updateFromArrays: each arrays ]
 		]
 ]
 

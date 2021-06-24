@@ -7,14 +7,14 @@ Class {
 		'packages',
 		'packageList',
 		'classList',
-		'classes',
 		'toolbar',
 		'sourceCode',
 		'sourceTabs',
 		'classDefinitionPresenter',
 		'menu',
 		'allClassNames',
-		'findClassMergeQueue'
+		'findClassMergeQueue',
+		'methodList'
 	],
 	#classVars : [
 		'AnsweringService',
@@ -136,7 +136,7 @@ SpkSparkyBrowserPresenter >> answeringService [
 { #category : 'actions' }
 SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
 
-	| scaffoldingService |
+	| scaffoldingService classes |
 	scaffoldingService := (self packageServiceNamed: packageName)
 		                      updateSynchronously.
 
@@ -156,6 +156,7 @@ SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
 		                      updateSynchronously.
 	self clearPackageList.
 	self clearClassList.
+	self clearMethodList.
 	packages := self extractServices: #packages from: scaffoldingService.
 	self class browserAnnouncer announce:
 		(SpkBrowserPackagesAnnouncement new
@@ -201,10 +202,33 @@ SpkSparkyBrowserPresenter >> classFound: announcement [
 	announcement selectedItem ifNotNil: [:className | self findClassNamed: className ]
 ]
 
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> classSelected: classService [
+
+	| scaffoldingService methods |
+	scaffoldingService := (self classServiceNamed: classService name)
+		                      updateSynchronously.
+	classService updateFromArrays: scaffoldingService rowanService.
+	methods := self extractServices: #methods from: scaffoldingService.
+	self class browserAnnouncer announce:
+		(SpkBrowserClassAnnouncement new
+			 name: classService name;
+			 methods: methods)
+]
+
 { #category : 'services' }
 SpkSparkyBrowserPresenter >> classServiceNamed: projectName [
 
 	^ self class classServiceNamed: projectName
+]
+
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> classUpdated: announcement [
+
+	(announcement isRelevantToClass: self selectedClass name) ifFalse: [ 
+		^ self ].
+	SpkSparkyMergeListTool merge: announcement methods into: methodList.
+	self updateClassDefinition: self selectedClass.
 ]
 
 { #category : 'events' }
@@ -229,10 +253,16 @@ SpkSparkyBrowserPresenter >> clearClassList [
 
 { #category : 'hot keys' }
 SpkSparkyBrowserPresenter >> clearLists [
-
+	self clearMethodList.
 	self clearClassList.
 	self clearPackageList.
 	self clearProjectList
+]
+
+{ #category : 'hot keys' }
+SpkSparkyBrowserPresenter >> clearMethodList [
+
+	methodList items: OrderedCollection new
 ]
 
 { #category : 'hot keys' }
@@ -281,7 +311,8 @@ SpkSparkyBrowserPresenter >> connectPresenters [
 	classList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :classService | 
-				self updateClass ] ] ].
+				self classSelected: classService.
+				 ] ] ].
 ]
 
 { #category : 'hot keys' }
@@ -354,6 +385,10 @@ SpkSparkyBrowserPresenter >> initializeAnnouncements [
 		when: SpkBrowserClassesAnnouncement
 		send: #classesUpdated:
 		to: self.
+	self class browserAnnouncer
+		when: SpkBrowserClassAnnouncement
+		send: #classUpdated:
+		to: self.
 	SpkConnectionProfile profileAnnouncer
 		when: SpkConnectionProfileDisconnectedAnnouncement
 		send: #closeAndCleanup
@@ -406,6 +441,15 @@ SpkSparkyBrowserPresenter >> initializeMainMenu [
 ]
 
 { #category : 'initialization-release' }
+SpkSparkyBrowserPresenter >> initializeMethodList: box [
+
+	box add: (methodList := self newTable beSingleSelection addColumn:
+			              (SpImageTableColumn new
+				               title: 'Methods';
+				               evaluated: [ :methodService | methodService name ]))
+]
+
+{ #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> initializePackageList: box [
 
 	box add: (packageList := self newTable beSingleSelection addColumn:
@@ -427,6 +471,7 @@ SpkSparkyBrowserPresenter >> initializePresenters [
 	self initializeProjectList: metaBox.
 	self initializePackageList: metaBox.
 	self initializeClassList: metaBox.
+	self initializeMethodList: metaBox. 
 	bigBox add: metaBox.
 	self initializeSourceTabsIn: bigBox.
 	self layout add: bigBox.
@@ -457,7 +502,7 @@ SpkSparkyBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparky Browser';
-		initialExtent: 750 @ 700;
+		initialExtent: 900 @ 700;
 		whenClosedDo: [ 
 			SpkConnectionProfile profileAnnouncer unsubscribe: self application.
 			self class browserAnnouncer unsubscribe: self ].
@@ -696,14 +741,9 @@ SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
 ]
 
 { #category : 'private actions' }
-SpkSparkyBrowserPresenter >> updateClass [
+SpkSparkyBrowserPresenter >> updateClassDefinition: classService [
 
-	| promise |
-	promise := (self classServiceNamed: self selectedClass name) update.
-	promise
-		when: [ :scaffoldingService | 
-			classDefinitionPresenter text: self selectedClass template ]
-		catch: [ :reason | self unexpectedCatch: reason ]
+	classDefinitionPresenter text: classService template
 ]
 
 { #category : 'hot keys' }
@@ -720,6 +760,14 @@ SpkSparkyBrowserPresenter >> updateClassNames [
 			self unexpectedCatch: reason.
 			sem signal ].
 	sem wait
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> updateMethodsFor: methods [
+
+	SpkSparkyMergeListTool
+		merge: methods
+		into: methodList
 ]
 
 { #category : 'initialization-release' }

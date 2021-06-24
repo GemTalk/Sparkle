@@ -96,11 +96,11 @@ SpkSparkyRowanService >> name [
 ]
 
 { #category : 'updating' }
-SpkSparkyRowanService >> updateFrom: sparkyRowanService [
+SpkSparkyRowanService >> updateFromArrays: theArrays [
 
 	"I'm just a collection of static arrays with basic data types. 
 	It's ok to replace my innards as they shouldn't be elsewhere."
 
 	1 to: arrays size do: [ :index | 
-		arrays at: index put: (sparkyRowanService arrays at: index) ]
+		arrays at: index put: (theArrays at: index) ]
 ]

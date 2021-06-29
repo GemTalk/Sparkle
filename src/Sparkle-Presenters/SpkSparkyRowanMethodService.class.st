@@ -14,3 +14,8 @@ SpkSparkyRowanMethodService class >> aspect [
 SpkSparkyRowanMethodService >> name [
 	^self aspectFor: #selector
 ]
+
+{ #category : 'accessing' }
+SpkSparkyRowanMethodService >> source [
+	^self aspectFor: #source
+]

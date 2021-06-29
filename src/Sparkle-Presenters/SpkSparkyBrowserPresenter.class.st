@@ -133,53 +133,6 @@ SpkSparkyBrowserPresenter >> answeringService [
 	^ self class answeringService
 ]
 
-{ #category : 'actions' }
-SpkSparkyBrowserPresenter >> browseClassesFor: packageName [
-
-	| scaffoldingService classes |
-	scaffoldingService := (self packageServiceNamed: packageName)
-		                      updateSynchronously.
-
-	classList items: OrderedCollection new.
-	classes := self extractServices: #classes from: scaffoldingService.
-	self class browserAnnouncer announce:
-		(SpkBrowserClassesAnnouncement new
-			 name: packageName;
-			 classes: classes)
-]
-
-{ #category : 'actions' }
-SpkSparkyBrowserPresenter >> browsePackagesFor: projectName [
-
-	| scaffoldingService |
-	scaffoldingService := (self projectServiceNamed: projectName)
-		                      updateSynchronously.
-	self clearPackageList.
-	self clearClassList.
-	self clearMethodList.
-	packages := self extractServices: #packages from: scaffoldingService.
-	self class browserAnnouncer announce:
-		(SpkBrowserPackagesAnnouncement new
-			 name: projectName;
-			 packages: packages)
-]
-
-{ #category : 'actions' }
-SpkSparkyBrowserPresenter >> browseProjects [
-
-	| promise |
-	promise := self browserService updateProjects.
-	promise
-		when: [ :scaffoldingService | 
-			self clearLists.
-			projects := self
-				            extractServices: #projects
-				            from: scaffoldingService.
-			self class browserAnnouncer announce:
-				(SpkBrowserProjectsAnnouncement new projects: projects) ]
-		catch: [ :reason | self unexpectedCatch: reason ]
-]
-
 { #category : 'services' }
 SpkSparkyBrowserPresenter >> browserService [
 
@@ -194,6 +147,13 @@ SpkSparkyBrowserPresenter >> classDefinitionPage [
 		   title: 'Class Definition'
 		   icon: (self iconNamed: #class)
 		   provider: [ classDefinitionPresenter ]) yourself
+]
+
+{ #category : 'constants' }
+SpkSparkyBrowserPresenter >> classDefinitionTabIndex [
+
+	"hopefully a temporary method"
+	^1
 ]
 
 { #category : 'events' }
@@ -303,15 +263,20 @@ SpkSparkyBrowserPresenter >> connectPresenters [
 	projectList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :projectService | 
-				self browsePackagesFor: projectService name ] ] ].
+				self updatePackagesFor: projectService name ] ] ].
 	packageList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :packageService | 
-				self browseClassesFor: packageService name ] ] ].
+				self updateClassesFor: packageService name ] ] ].
 	classList whenSelectionChangedDo: [ :selection | 
 		selection ifNotNil: [ :sel | 
 			sel selectedItem ifNotNil: [ :classService | 
 				self classSelected: classService.
+				 ] ] ].
+	methodList whenSelectionChangedDo: [ :selection | 
+		selection ifNotNil: [ :sel | 
+			sel selectedItem ifNotNil: [ :methodService | 
+				self methodSelected: methodService.
 				 ] ] ].
 ]
 
@@ -535,6 +500,19 @@ SpkSparkyBrowserPresenter >> menu: anObject [
 	menu := anObject
 ]
 
+{ #category : 'events' }
+SpkSparkyBrowserPresenter >> methodSelected: methodService [
+	sourceCode text: methodService source.
+	sourceTabs selectPageIndex: self methodSourceTabIndex. 
+]
+
+{ #category : 'constants' }
+SpkSparkyBrowserPresenter >> methodSourceTabIndex [
+
+	"hopefully a temporary method"
+	^2
+]
+
 { #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> newLayout [
 
@@ -743,7 +721,8 @@ SpkSparkyBrowserPresenter >> unexpectedCatch: reason [
 { #category : 'private actions' }
 SpkSparkyBrowserPresenter >> updateClassDefinition: classService [
 
-	classDefinitionPresenter text: classService template
+	classDefinitionPresenter text: classService template.
+	sourceTabs selectPageIndex: self classDefinitionTabIndex
 ]
 
 { #category : 'hot keys' }
@@ -763,6 +742,22 @@ SpkSparkyBrowserPresenter >> updateClassNames [
 ]
 
 { #category : 'private actions' }
+SpkSparkyBrowserPresenter >> updateClassesFor: packageName [
+
+	| scaffoldingService classes |
+	scaffoldingService := (self packageServiceNamed: packageName)
+		                      updateSynchronously.
+
+	self clearClassList.
+	self clearMethodList.
+	classes := self extractServices: #classes from: scaffoldingService.
+	self class browserAnnouncer announce:
+		(SpkBrowserClassesAnnouncement new
+			 name: packageName;
+			 classes: classes)
+]
+
+{ #category : 'private actions' }
 SpkSparkyBrowserPresenter >> updateMethodsFor: methods [
 
 	SpkSparkyMergeListTool
@@ -770,9 +765,41 @@ SpkSparkyBrowserPresenter >> updateMethodsFor: methods [
 		into: methodList
 ]
 
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> updatePackagesFor: projectName [
+
+	| scaffoldingService |
+	scaffoldingService := (self projectServiceNamed: projectName)
+		                      updateSynchronously.
+	self clearPackageList.
+	self clearClassList.
+	self clearMethodList.
+	packages := self extractServices: #packages from: scaffoldingService.
+	self class browserAnnouncer announce:
+		(SpkBrowserPackagesAnnouncement new
+			 name: projectName;
+			 packages: packages)
+]
+
 { #category : 'initialization-release' }
 SpkSparkyBrowserPresenter >> updatePresenter [
 
 	super updatePresenter.
-	self browseProjects
+	self updateProjects
+]
+
+{ #category : 'private actions' }
+SpkSparkyBrowserPresenter >> updateProjects [
+
+	| promise |
+	promise := self browserService updateProjects.
+	promise
+		when: [ :scaffoldingService | 
+			self clearLists.
+			projects := self
+				            extractServices: #projects
+				            from: scaffoldingService.
+			self class browserAnnouncer announce:
+				(SpkBrowserProjectsAnnouncement new projects: projects) ]
+		catch: [ :reason | self unexpectedCatch: reason ]
 ]

@@ -743,7 +743,7 @@ SpkSparkyBrowserPresenter >> updateClassNames [
 
 { #category : 'private actions' }
 SpkSparkyBrowserPresenter >> updateClassesFor: packageName [
-
+	"package was updated, get new class list"
 	| scaffoldingService classes |
 	scaffoldingService := (self packageServiceNamed: packageName)
 		                      updateSynchronously.

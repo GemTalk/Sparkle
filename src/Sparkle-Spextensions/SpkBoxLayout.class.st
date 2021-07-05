@@ -122,7 +122,7 @@ SpkBoxLayout >> announceChildRemoved: aNameOrPresenter atIndex: anInteger [
 { #category : 'initialization' }
 SpkBoxLayout >> beHorizontal [
 
-	direction := SpkLayoutDirectionHorizontal uniqueInstance
+	direction := SpkHorizontalLayoutDirection uniqueInstance
 ]
 
 { #category : 'initialization' }
@@ -230,7 +230,7 @@ SpkBoxLayout >> initialize [
 SpkBoxLayout >> isHorizontal [ 
 	"Answer true if the layout direction is horizontal"
 
-	^ direction = SpkLayoutDirectionHorizontal uniqueInstance
+	^ direction = SpkHorizontalLayoutDirection uniqueInstance
 ]
 
 { #category : 'initialization' }

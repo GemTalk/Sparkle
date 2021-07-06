@@ -27,7 +27,7 @@ SpkDebuggerFrameDescriptionServiceClient >> frameServiceForRequest: aRequestId [
 		when: [ :frame | 
 			self linkedService: frame.
 			parentService
-				announceNewService: frame forRequest: aRequestId;
+				announceService: frame forRequest: aRequestId;
 				announceActionComplete ]
 		catch: self defaultCatchBlock.
 	^ nil

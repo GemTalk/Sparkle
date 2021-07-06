@@ -28,11 +28,11 @@ SpkTModel >> announceActionComplete [
 ]
 
 { #category : 'announcing' }
-SpkTModel >> announceNewService: newService forRequest: requestId [
+SpkTModel >> announceService: service forRequest: requestId [
 
 	| announcement |
-	announcement := SpkNewPaneService new
-		                service: newService;
+	announcement := SpkPaneServiceAnnouncement new
+		                service: service;
 		                requestId: requestId;
 		                yourself.
 	self announce: announcement

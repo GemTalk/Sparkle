@@ -12,7 +12,7 @@ Internal Representation and Key Implementation Points.
 I will be announced from an RSR internal thread unrelated to any existing thread. A presenter subscribing to me must defer the message to then be handled in the UI thread.
 "
 Class {
-	#name : 'SpkNewPaneService',
+	#name : 'SpkPaneServiceAnnouncement',
 	#superclass : 'SpkIdentifiedAnnouncement',
 	#instVars : [
 		'service'
@@ -21,11 +21,11 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkNewPaneService >> service [
+SpkPaneServiceAnnouncement >> service [
 	^ service
 ]
 
 { #category : 'accessing' }
-SpkNewPaneService >> service: anObject [
+SpkPaneServiceAnnouncement >> service: anObject [
 	service := anObject
 ]

@@ -23,7 +23,7 @@ SpkEvaluatorServiceClient >> acceptFor: requestId [
 				updateHasUnsavedChanges;
 				updateServices.
 			parentService
-				announceNewService: newService forRequest: requestId;
+				announceService: newService forRequest: requestId;
 				announceActionComplete ]
 		catch: self defaultCatchBlock
 ]

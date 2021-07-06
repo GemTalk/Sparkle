@@ -213,10 +213,13 @@ SpkPane >> receiveActionCompleteAnnouncement [
 { #category : 'announcements' }
 SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
 
-	self defer: [ 
-		self
-			newPaneForService: anAnnouncement service
-			linkedTo: anAnnouncement requestId ]
+	(anAnnouncement requestId linkedPane isNil or: [ 
+		 anAnnouncement service ~~ anAnnouncement requestId linkedPane model ]) 
+		ifTrue: [ 
+			self defer: [ 
+				self
+					newPaneForService: anAnnouncement service
+					linkedTo: anAnnouncement requestId ] ]
 ]
 
 { #category : 'initialization' }

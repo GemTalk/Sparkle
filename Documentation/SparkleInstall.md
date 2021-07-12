@@ -3,6 +3,7 @@
 ## Overview
 Sparkle 1.0 Alpha is a development version of the Pharo IDE for GemStone project, which provides GemStone development tools in the Pharo client Smalltalk environment.    
 This initial version of Sparkle provides a very limited set of debugging tools:
+
 * The Sparkle Connection Launcher, allowing you to create login configuration parameters and login; you may also edit, persist, and restore the login configurations.
 * The Sparkle Object Explorer, allowing you to examine the contents of GemStone server objects.
 * a Debugger, allowing you to view the debugger call stack, examine objects, and step through GemStone server code.
@@ -28,13 +29,13 @@ This clones the **main**  branch of the Sparkle repository.
 
 ### Install into GemStone on Linux
 1.	Go to a command shell that:
-* has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and
-* has $GEMSTONE/bin on the $PATH
+    * has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and
+    * has $GEMSTONE/bin on the $PATH
 2.	Change to the Sparkle GemStone directory:
-<PRE CLASS="Code-Indented-Two">cd <i>gitRepositoryDir</i>/Sparkle/src-gs</PRE>
+    <PRE CLASS="Code-Indented-Two">cd <i>gitRepositoryDir</i>/Sparkle/src-gs</PRE>
 3.	Edit <code>loginSystemUser.topaz</code> to have the correct Stone name, and the password for SystemUser is set for your Stone.
 4.	execute the installation script:
-<PRE CLASS="Code-Indented-Two">./bootstrapSparkle.sh</PRE>
+    <PRE CLASS="Code-Indented-Two">./bootstrapSparkle.sh</PRE>
 <P CLASS="Spacer"></P>
 The result of the "errorcount" at the end of the output should be 0.   
 Sparkle is now installed in the GemStone server.
@@ -59,10 +60,11 @@ There are two ways to build a Sparkle-enabled Pharo image:
 #### Script-based installation
 Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.    
 The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see [Iceberg default repository location](iceberg-default-repository-location)). 
+
 1.	Launch the Pharo 9.0 build 1484 image.
 2.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 3.	Open a Pharo Playground (workspace), and execute:
-<PRE CLASS="Code-Indented">Metacello new
+    <PRE CLASS="Code-Indented">Metacello new
 	baseline: 'Sparkle';
 	repository: 'github://GemTalk/Sparkle:main';
 	load</PRE>
@@ -70,12 +72,13 @@ The script clones Sparkle, and the other required repositories (SparkleFFI and R
 
 #### Manual installation
 Rather than using the above script, you may manually clone the repositories, and load these into your Pharo image. This allows you complete control over specific branches from the various git repositories. 
+
 1.	On the client, create or choose a directory for git clones; this will be referred to as <i>gitRepositoryDir</i>. 
 2.	Define the environment variable ROWAN_PROJECTS_HOME to point to <i>gitRepositoryDir</i>, prior to starting the Pharo launcher.
 3.	Clone the three required repositories into <i>gitRepositoryDir.</i>Provided you have set ROWAN_PROJECTS_HOME, when you load Sparkle, it will use the existing clones of these repositories, rather than cloning them:
-	* https://github.com/GemTalk/Sparkle.git
-	* https://github.com/GemTalk/SparkleFFI.git
-	* https://github.com/GemTalk/RemoteServiceReplication.git
+	* [https://github.com/GemTalk/Sparkle.git](https://github.com/GemTalk/Sparkle.git)
+	* [https://github.com/GemTalk/SparkleFFI.git](https://github.com/GemTalk/SparkleFFI.git)
+	* [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
 4.	Launch the Pharo 9.0 build 1484 image.
 5.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg** .
@@ -84,7 +87,7 @@ Rather than using the above script, you may manually clone the repositories, and
 9.	Click the folder icon to open a file selection dialog, and navigate to <i>gitRepositoryDir</i><code>\Sparkle</code>. Click OK to select the Sparkle directory.
 10.	Click on the OK button. Sparkle should appear in the Iceberg repository list.
 11.	Right click on Sparkle, and select **Metacello > Install Baseline of Sparkle (default)** . 
-12.	Save the image. You are now ready to login; see [Login](login).
+12.	Save the image. You are now ready to login; see [Login](#login).
 
 ##### Iceberg default repository location 
 The Sparkle load clones repositories into a default location, under <i>pharoImageDir</i><code>/pharo-local/iceberg/GemTalk/</code>. This location can be configured, if you wish to keep your clones across Pharo images.    
@@ -92,6 +95,7 @@ See **Settings > Tools > Software Configuration Management > Iceberg** , and che
 
 ## Login
 There are two ways to login to the GemStone server from Sparkle. 
+
 * a Direct login creates a direct connection between a listening Gem on the server and the sparkle client. This does not require client libraries on the client.
 * a GCI login performs a login using the GCI client libraries, as with logins using topaz or GBS.
 
@@ -100,9 +104,10 @@ Direct login is a two-step process; you will launch a listening Gem on the GemSt
 
 #### On the Linux server, launch a listening gem
  _Warning: This step will launch a gem that will listen for a connection on port 29299. At present, there is no security on that port._
+
 1.	Edit <i>gitRepositoryDir</i><code>/Sparkle/src-gs/login.topaz</code> to have the correct stone name, user name, and password. You can use an unprivileged user for this, such as DataCurator. SystemUser is only required for installation.
 2.	 Execute the listening gem launch script:
-<PRE CLASS="Code-Indented-Two">./server.sh</PRE>
+    <PRE CLASS="Code-Indented-Two">./server.sh</PRE>
 <P CLASS="Spacer"></P>
 You should see a "Starting to listen" message.
 
@@ -125,6 +130,7 @@ Login using the GCI interface does not require a listening Gem on the server. Ho
 #### Install clientlibs on the client host
 In addition to the GemStone product distribution itself, GemTalk distributes clientlibs for v3.7. This directory tree packages the essential shared libraries, which are a subset of the libraries files that are included in the GemStone distribution for Linux or the GemStone Client distribution for Windows. This new packaging easily handles multiple versions of GemStone, without complicated management in the client host environment.   
 With Sparkle, you must use this <code>clientlibs</code> structure, rather than the libraries in a regular product or client distribution.
+
 1.	Copy the clientlibs directory tree from the distribution area, to a location on the client host file system.
 
 #### On the Pharo client, enter connection parameters and connect

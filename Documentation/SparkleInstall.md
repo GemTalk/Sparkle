@@ -65,10 +65,10 @@ The script clones Sparkle, and the other required repositories (SparkleFFI and R
 2.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 3.	Open a Pharo Playground (workspace), and execute:
     <PRE CLASS="Code-Indented">Metacello new
-	baseline: 'Sparkle';
-	repository: 'github://GemTalk/Sparkle:main';
-	load</PRE>
-4.	Save the image. You are now ready to login; see the directions under [Login](login).
+    	baseline: 'Sparkle';
+    	repository: 'github://GemTalk/Sparkle:main';
+    	load</PRE>
+4.	Save the image. You are now ready to login; see the directions under [Login](#login).
 
 #### Manual installation
 Rather than using the above script, you may manually clone the repositories, and load these into your Pharo image. This allows you complete control over specific branches from the various git repositories. 

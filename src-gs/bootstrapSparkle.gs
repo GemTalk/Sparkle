@@ -3976,7 +3976,7 @@ removeallclassmethods SpkCompilationErrorTool
 doit
 (SpkTool
 	subclass: 'SpkDebuggerFrameTool'
-	instVarNames: #( explorerTool debuggerTool process currentState previousState index isValid )
+	instVarNames: #( explorerTool debuggerTool process currentState previousState index isValid isGlue )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -6511,7 +6511,7 @@ method: SpkDebuggerServiceServer
 refreshExistingFrames
 	| numberOfValidFrames frameTools |
 	numberOfValidFrames := 0.
-	frameTools := tool frames.
+	frameTools := tool nonGlueFrames.
 	1 to: (frames size min: frameTools size) do: [ :index | 
 		(frames at: index) tool == (frameTools at: index)
 			ifFalse: [ ^ numberOfValidFrames ].
@@ -6527,7 +6527,7 @@ refreshFramesFromTool
 	numberOfValidFrames := self refreshExistingFrames.
 	changed := changed | (numberOfValidFrames ~= frames size).
 
-	frameTools := tool frames.
+	frameTools := tool nonGlueFrames.
 	newStackDepth := frameTools size.
 	newFrames := Array new: newStackDepth.
 	changed := changed | (frames size ~= newStackDepth).
@@ -14281,7 +14281,23 @@ category: 'other'
 method: SpkDebuggerFrameTool
 initialize
 	super initialize.
-	isValid := true
+	isValid := true.
+	isGlue := false
+%
+
+category: 'testing'
+method: SpkDebuggerFrameTool
+isBlockFrame
+	"Determines if the current frame is a BlockClosure rather than a method or other activation type."
+
+	^self method isMethodForBlock
+%
+
+category: 'accessing'
+method: SpkDebuggerFrameTool
+isGlue
+
+	^isGlue
 %
 
 category: 'accessing'
@@ -14303,6 +14319,13 @@ localVariables
 		addArgAndTempToolsTo: tools.
 
 	^ tools
+%
+
+category: 'private'
+method: SpkDebuggerFrameTool
+markGlue
+
+	isGlue := true
 %
 
 category: 'accessing'
@@ -14445,6 +14468,14 @@ stepThroughAnnouncing: anAnnouncement
 
 !		Instance methods for 'SpkDebuggerTool'
 
+category: 'other'
+method: SpkDebuggerTool
+checkForTermination
+
+	(self isValid and: [process _isTerminated])
+		ifTrue: [replacementTool := SpkProcessTerminatedTool forProcess: process]
+%
+
 category: 'accessing'
 method: SpkDebuggerTool
 currentException: anException
@@ -14462,88 +14493,6 @@ debug
 	mustInitiate
 		ifFalse: [ processManager returnValue: self ]
 		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
-%
-
-category: 'other'
-method: SpkDebuggerTool
-discardGlueFrames
-	"At the end of frames (top frames of the stack) are some frameTools that
-	are internal and not desirable for interaction in a debugger.
-	Identify those and reduce the size of frames to discard them."
-
-	| exceptionClass |
-	exceptionClass := currentException class.
-	exceptionClass == Breakpoint
-		ifTrue: [ ^ self discardGlueFramesForBreakpoint ].
-	exceptionClass == Halt
-		ifTrue: [ ^ self discardGlueFramesForHalt ].
-	self discardGlueFramesForGenericException
-%
-
-category: 'other'
-method: SpkDebuggerTool
-discardGlueFramesForBreakpoint
-	| indexOfFirstDiscardedFrame |
-	indexOfFirstDiscardedFrame := self
-		indexOfFrameInLast: 20
-		suchThat: [ :frame | 
-			frame receiver == currentException
-				and: [ frame method selector == #'_signalAsync' ] ].
-	indexOfFirstDiscardedFrame
-		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]
-		ifNil: [ self discardGlueFramesForGenericException ]
-%
-
-category: 'other'
-method: SpkDebuggerTool
-discardGlueFramesForGenericException
-	"Search for, in order of preference, this exception being sent #signal, being sent #_signalToDebugger,
-	and if still not found, fall back to the process manager debugAction block. If *still* not found,
-	this process is not under management and will not have any frames discarded."
-
-	| indexOfFirstDiscardedFrame |
-	indexOfFirstDiscardedFrame := self
-		indexOfFrameInLast: 20
-		suchThat: [ :frame | frame receiver == currentException and: [ frame method selector == #'signal' ] ].
-
-	indexOfFirstDiscardedFrame
-		ifNil: [ 
-			indexOfFirstDiscardedFrame := self
-				indexOfFrameInLast: 20
-				suchThat: [ :frame | 
-					frame receiver == currentException
-						and: [ frame method selector == #'_signalToDebugger' ] ] ].
-
-	indexOfFirstDiscardedFrame
-		ifNil: [ 
-			indexOfFirstDiscardedFrame := self
-				indexOfFrameInLast: 20
-				suchThat: [ :frame | 
-					| homeMethod |
-					homeMethod := frame method homeMethod.
-					frame method ~~ homeMethod
-						and: [ 
-							homeMethod inClass == SpkProcessManager
-								and: [ homeMethod selector == #'debugAction' ] ] ] ].
-
-	indexOfFirstDiscardedFrame
-		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]
-%
-
-category: 'other'
-method: SpkDebuggerTool
-discardGlueFramesForHalt
-	| indexOfFirstDiscardedFrame |
-	indexOfFirstDiscardedFrame := self
-		indexOfFrameInLast: 20
-		suchThat: [ :frame | 
-			| method |
-			method := frame method.
-			method inClass == Object
-				and: [ method selector == #'halt' or: [ method selector == #'pause' ] ] ].
-	indexOfFirstDiscardedFrame
-		ifNotNil: [ frames size: indexOfFirstDiscardedFrame - 1 ]
-		ifNil: [ self discardGlueFramesForGenericException ]
 %
 
 category: 'accessing'
@@ -14616,7 +14565,7 @@ category: 'initialization'
 method: SpkDebuggerTool
 initialize
 	super initialize.
-	frames := #().
+	frames := OrderedCollection new.
 	replacementTool := self
 %
 
@@ -14634,13 +14583,171 @@ category: 'other'
 method: SpkDebuggerTool
 isValid
 	^ self == replacementTool
-		ifFalse: [ false ]
-		ifTrue: [ 
-			process _isTerminated
-				ifFalse: [ true ]
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markBottomGlueFrames
+	"Some of the frames at the bottom of the stack aren't sensible
+	to display to a user in the debugger. They support the execution
+	the user's program and shouldn't be directly debugged.
+	Mark them as glue frames."
+
+	self
+		markBottomGlueFramesForForkedProcess;
+		markBottomGlueFramesForSparkleEvaluator.
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markBottomGlueFramesForForkedProcess
+	"Detect and mark the following frames when they are the first frames on the stack.
+	ExecBlock >> valueWithArguments:
+	GsProcess >> _start
+	GsNMethod class >> _gsReturnToC"
+
+	| valueFrame startFrame returnToCFrame |
+	valueFrame := frames at: 3.
+	(valueFrame receiver class == ExecBlock and: [valueFrame method selector == #'valueWithArguments:'])
+		ifFalse: [^self].
+	startFrame := frames at: 2.
+	(startFrame receiver class == GsProcess and: [startFrame method selector == #'_start'])
+		ifFalse: [^self].
+	returnToCFrame := frames at: 1.
+	(returnToCFrame receiver class == GsNMethod class and: [returnToCFrame method selector == #'_gsReturnToC'])
+		ifFalse: [^self].
+	self
+		markGlueFramesFrom: 1
+		to: 3
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markBottomGlueFramesForSparkleEvaluator
+	"Detect and mark up to and including the following frames.
+   GsNMethod >> _executeInContext:
+   [] in SpkEvaluatorTool >> evaluateMethod:inContext:"
+
+	| index |
+	index := 2.
+	[ index <= 15 and: [ index < frames size ] ]
+		whileTrue: [ 
+			| current parent |
+			current := frames at: index.
+			parent := frames at: index - 1.
+			(current receiver class == GsNMethod
+				and: [ 
+					current method selector == #'_executeInContext:'
+						and: [ 
+							parent isBlockFrame
+								and: [ 
+									parent method inClass == SpkEvaluatorTool
+										and: [ parent method homeMethod selector == #'evaluateMethod:inContext:' ] ] ] ])
 				ifTrue: [ 
-					replacementTool := SpkProcessTerminatedTool forProcess: process.
-					false ] ]
+					self markGlueFramesFrom: 1 to: index.
+					^ self ].
+			index := index + 1 ]
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markGlueFrames
+	"Identify the frames at the top and bottom of the stack which should be hidden for the purposes
+	of providing a sensible debugger view for the process."
+
+	self
+		markBottomGlueFrames;
+		markTopGlueFrames
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markGlueFramesFrom: start
+to: end
+
+	start to: end do: [:i | (frames at: i) markGlue]
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markTopGlueFrames
+	"At the end of frames (top frames of the stack) are some frameTools that
+	are internal and not desirable for interaction in a debugger.
+	Identify those and mark them as glue."
+
+	| exceptionClass |
+	exceptionClass := currentException class.
+	exceptionClass == Breakpoint
+		ifTrue: [ ^ self markTopGlueFramesForBreakpoint ].
+	exceptionClass == Halt
+		ifTrue: [ ^ self markTopGlueFramesForHalt ].
+	self markTopGlueFramesForGenericException
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markTopGlueFramesForBreakpoint
+	| indexOfFirstDiscardedFrame |
+	indexOfFirstDiscardedFrame := self
+		indexOfFrameInLast: 20
+		suchThat: [ :frame | 
+			frame receiver == currentException
+				and: [ frame method selector == #'_signalAsync' ] ].
+	indexOfFirstDiscardedFrame
+		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
+		ifNil: [ self markTopGlueFramesForGenericException ]
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markTopGlueFramesForGenericException
+	"Search for, in order of preference, this exception being sent #signal, being sent #_signalToDebugger,
+	and if still not found, fall back to the process manager debugAction block. If *still* not found,
+	this process is not under management and will not have any frames marked."
+
+	| indexOfFirstDiscardedFrame |
+	indexOfFirstDiscardedFrame := self
+		indexOfFrameInLast: 20
+		suchThat: [ :frame | frame receiver == currentException and: [ frame method selector == #'signal' ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					frame receiver == currentException
+						and: [ frame method selector == #'_signalToDebugger' ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					| homeMethod |
+					homeMethod := frame method homeMethod.
+					frame method ~~ homeMethod
+						and: [ 
+							homeMethod inClass == SpkProcessManager
+								and: [ homeMethod selector == #'debugAction' ] ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
+%
+
+category: 'other'
+method: SpkDebuggerTool
+markTopGlueFramesForHalt
+	| indexOfFirstDiscardedFrame |
+	indexOfFirstDiscardedFrame := self
+		indexOfFrameInLast: 20
+		suchThat: [ :frame | 
+			| method |
+			method := frame method.
+			method inClass == Object
+				and: [ method selector == #'halt' or: [ method selector == #'pause' ] ] ].
+	indexOfFirstDiscardedFrame
+		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
+		ifNil: [ self markTopGlueFramesForGenericException ]
 %
 
 category: 'accessing'
@@ -14662,6 +14769,13 @@ newDebuggerFrameTool
 		yourself
 %
 
+category: 'accessing'
+method: SpkDebuggerTool
+nonGlueFrames
+
+	^self frames reject: [:each | each isGlue]
+%
+
 category: 'actions'
 method: SpkDebuggerTool
 proceed
@@ -14678,6 +14792,18 @@ proceedAnnouncing: anAnnouncement
 
 	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
 	^ self resumeAnnouncing: anAnnouncement
+%
+
+category: 'actions'
+method: SpkDebuggerTool
+proceedIfInGlueAnnouncing: anAnnouncement
+	"If we have stepped off the end of 'user' code, proceed the process to let it run through the bottom glue.
+In case this execution changes any inspected objects (for instance, the process itself) go through
+another round of announcing, with the same announcement since it's still the same client request."
+
+	self checkForTermination.
+	(self isValid and: [ self nonGlueFrames isEmpty ])
+		ifTrue: [ self proceedAnnouncing: anAnnouncement ]
 %
 
 category: 'accessing'
@@ -14725,11 +14851,14 @@ receiveExecutionAnnouncement: anAnnouncement
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
 
+	self checkForTermination.
 	self isValid
 		ifTrue: [ 
 			self refreshFromProcess.
-			frames do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
-	self announce: anAnnouncement
+			self nonGlueFrames
+				do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
+	self announce: anAnnouncement.
+	self proceedIfInGlueAnnouncing: anAnnouncement
 %
 
 category: 'initialization'
@@ -14781,7 +14910,7 @@ refreshFromProcess
 			refreshAtLevel: level.
 		newFrames at: index put: frame ].
 	frames := newFrames.
-	self discardGlueFrames.
+	self markGlueFrames.
 	^ frames
 %
 

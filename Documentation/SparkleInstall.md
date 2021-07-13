@@ -14,7 +14,7 @@ See the project on github: <A HREF="https://github.com/GemTalk/Sparkle" CLASS="U
 With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of June 22, 2021 (the date of this document), but alpha builds are available.   
 You should have GemStone v3.7 installed on a supported Linux server, with a Stone running and available for use.   
 Sparkle is supported with recent builds of Pharo 9. For the Pharo client, you should have a Windows or Linux environment in which you will install Pharo.    
-Pharo 9 is under active development and changes in Pharo may require corresponding changes in Sparkle. These instructions use build number 1484; the current build in use is documented here: <A HREF="https://github.com/GemTalk/Sparkle/wiki#current-pharo-build" CLASS="URL">https://github.com/GemTalk/Sparkle/wiki#current-pharo-build</A>. 
+Pharo 9 is under active development and changes in Pharo may require corresponding changes in Sparkle. These instructions use build number 1484; the latest builds known to work are documented here: <A HREF="https://github.com/GemTalk/Sparkle/wiki#current-pharo-build" CLASS="URL">https://github.com/GemTalk/Sparkle/wiki#current-pharo-build</A>. 
 
 ## GemStone Server Installation on Linux 
 

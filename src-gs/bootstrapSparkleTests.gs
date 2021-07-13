@@ -4221,7 +4221,7 @@ testMultiProcessBreakpointHandlingInSameMethod
 	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
 %
 
-category: 'tests expected to fail for now'
+category: 'tests'
 method: BreakpointHandlingTest
 testMultiProcessBreakpointHandlingInSameMethodAfterHalting
 	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
@@ -4447,31 +4447,40 @@ testMultiProcessSteppingInSameMethod
 	self deny: secondResult isNil description: 'Second process failed to yield a result'.
 %
 
-category: 'tests expected to fail for now'
+category: 'tests'
 method: BreakpointHandlingTest
 testRecursionStepOutOfFrame
-	"This test ensures that debugging a recursive processes will allow stepping out of a frame to the next lower one."
+	"This test ensures that debugging a recursive processes will allow stepping out of a frame to the next lower one.
+	Bug 49574"
 
-	| result processMethod level frameAtLevel |
+	| result processMethod level frameAtLevel initialNumberOfRecursiveFrames finalNumberOfRecursiveFrames |
 	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
 
 	self advanceToControlInterrupt.
+	initialNumberOfRecursiveFrames := (self
+		levelsWithSelector: #'factorialOf:stopAt:') size.
 	level := self firstFrameBelowHalt.
-	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
+	self log: #'defaultProcess' processEssentials: defaultProcess frameLevel: level.
 	frameAtLevel := defaultProcess _frameContentsAt: level.
 	processMethod := frameAtLevel first.
 	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
 	self assertOneTraceEntry.
-	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.
+	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.	"Server bug: stepping off the end of a recursive method does not stop in the next lower frame. Process will run to completion."
+	7
+		timesRepeat: [ 
+			self stepOverInLevel: level.
+			level := self firstFrameBelowHalt + 1.
+			self
+				log: #'defaultProcess'
+				processEssentials: defaultProcess
+				frameLevel: level ].
 
-
-"Server bug: stepping off the end of a recursive method does not stop in the next lower frame. Process will run to completion."
-7 timesRepeat: [
-	self stepOverInLevel: level.
-	level := self firstFrameBelowHalt + 1.
-	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
-].
-self halt.
+	self assertSuspended.
+	finalNumberOfRecursiveFrames := (self
+		levelsWithSelector: #'factorialOf:stopAt:') size.
+	self
+		assert: finalNumberOfRecursiveFrames
+		equals: initialNumberOfRecursiveFrames - 1
 %
 
 category: 'tests expected to fail for now'

@@ -14,7 +14,7 @@ See the project on github: <A HREF="https://github.com/GemTalk/Sparkle" CLASS="U
 With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of June 22, 2021 (the date of this document), but alpha builds are available.   
 You should have GemStone v3.7 installed on a supported Linux server, with a Stone running and available for use.   
 Sparkle is supported with recent builds of Pharo 9. For the Pharo client, you should have a Windows or Linux environment in which you will install Pharo.    
-Pharo 9 is under active development and changes in Pharo may require corresponding changes in Sparkle. These instructions use build number <buildNumber>; the current build in use is documented here: <A HREF="https://github.com/GemTalk/Sparkle/wiki#current-pharo-build" CLASS="URL">https://github.com/GemTalk/Sparkle/wiki#current-pharo-build</A>. 
+Pharo 9 is under active development and changes in Pharo may require corresponding changes in Sparkle. These instructions use build number =buildNumber=; the current build in use is documented here: <A HREF="https://github.com/GemTalk/Sparkle/wiki#current-pharo-build" CLASS="URL">https://github.com/GemTalk/Sparkle/wiki#current-pharo-build</A>. 
 
 ## GemStone Server Installation on Linux 
 
@@ -48,7 +48,7 @@ The following instructions are for the Sparkle client, which can be run on Windo
 2.	Run PharoLauncher to open the Launcher. 
 3.	Click on <EM CLASS="Icon">✲</EM> **New** . 
 4.	In the Template Category list, select **Pharo 9.0 (development version)** . Note that the desired download is not under Official Distributions.
-5.	Select the specific build (currently <buildNumber>); this may require scrolling through more recent build numbers. Be sure you select the 64-bit image.
+5.	Select the specific build (currently =buildNumber=); this may require scrolling through more recent build numbers. Be sure you select the 64-bit image.
 6.	Select <EM CLASS="Icon">✲</EM> **Create image** . This will create a new Pharo image based on the selected template.
 7.	Use the right-click menu item &#128314; **Launch** to launch the image.
 
@@ -61,7 +61,7 @@ There are two ways to build a Sparkle-enabled Pharo image:
 Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.    
 The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see [Iceberg default repository location](iceberg-default-repository-location)). 
 
-1.	Launch the Pharo 9.0 build <buildNumber> image.
+1.	Launch the Pharo 9.0 build =buildNumber= image.
 2.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 3.	Open a Pharo Playground (workspace), and execute:
     <PRE CLASS="Code-Indented">Metacello new
@@ -79,7 +79,7 @@ Rather than using the above script, you may manually clone the repositories, and
 	* [https://github.com/GemTalk/Sparkle.git](https://github.com/GemTalk/Sparkle.git)
 	* [https://github.com/GemTalk/SparkleFFI.git](https://github.com/GemTalk/SparkleFFI.git)
 	* [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
-4.	Launch the Pharo 9.0 build <buildNumber> image.
+4.	Launch the Pharo 9.0 build =buildNumber= image.
 5.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg** .
 7.	In the Iceberg repository list window, click <EM CLASS="Icon">+</EM> **Add**  in the upper right.

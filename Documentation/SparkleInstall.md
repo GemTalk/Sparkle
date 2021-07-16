@@ -1,3 +1,4 @@
+<!-- This file was auto-generated, do not edit. Look for the source file in src-doc directory -->
 # Sparkle Installation
 
 ## Overview

@@ -147,14 +147,14 @@ SpkDebuggerToolTest >> testFrameIndex [
 SpkDebuggerToolTest >> testHaltGlueTrimming [
 	"A halt should trim all top glue down through Object>>halt."
 
-	| debugger numberOfFrames execCodeFrame topFrame |
+	| debugger frames  execCodeFrame topFrame |
 	evaluatorTool newSourceCode: '3 halt + 4'.
 	debugger := evaluatorTool evaluateCode.
-	numberOfFrames := debugger frames size.
-	topFrame := debugger frames at: numberOfFrames.
-	self assert: topFrame index equals: numberOfFrames.
+	frames := debugger nonGlueFrames.
+	topFrame := frames last.
+	self assert: topFrame index equals: 11.
 	execCodeFrame := self executedCodeFrameInDebugger: debugger.
-	self assert: execCodeFrame index equals: numberOfFrames.
+	self assert: execCodeFrame identicalTo: topFrame
 ]
 
 { #category : 'tests' }
@@ -297,7 +297,7 @@ SpkDebuggerToolTest >> testStepOver01 [
 	method setBreakAtStepPoint: 1 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
-	frames := debugger frames.
+	frames := debugger nonGlueFrames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
 	"Have we properly omitted the glue frames following a breakpoint?"
@@ -320,7 +320,7 @@ SpkDebuggerToolTest >> testStepOver01 [
 	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: frame currentSourceInterval equals: (9 to: 9).
 	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
-	self assert: debugger frames size equals: frames size - 1.
+	self assert: debugger nonGlueFrames size equals: frames size - 1.
 	inspector := debugger proceed.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]

@@ -60,6 +60,13 @@ BreakpointHandling >> nlr2 [
 ]
 
 { #category : 'other' }
+BreakpointHandling >> restartFrameTestMethod [
+
+	8 printString.
+	^(5 + 7) printString
+]
+
+{ #category : 'other' }
 BreakpointHandling >> runHotForSeconds: anInteger
 shouldHalt: shouldHalt
 counter: aCounter [

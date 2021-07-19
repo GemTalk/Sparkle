@@ -247,6 +247,17 @@ SpkDebuggerFrameTool >> refreshAtLevel: aLevel [
 	currentState := SpkProcessFrameInfo forProcess: process level: aLevel
 ]
 
+{ #category : 'other' }
+SpkDebuggerFrameTool >> restartAnnouncing: anAnnouncement [
+
+	| level |
+	level := currentState level.
+	process _isTerminated
+		ifFalse: [ process _trimStackToLevel: level ].
+	taskspaceTool announce: anAnnouncement.
+	^debuggerTool
+]
+
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> source [
 	"Return the source code of the associated method.

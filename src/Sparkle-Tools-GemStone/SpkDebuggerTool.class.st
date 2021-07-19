@@ -89,7 +89,7 @@ SpkDebuggerTool >> indexOfFrameInLast: limit suchThat: aBlock [
 	"Search up to limit frames, starting at the end of my frames,
 	and answer the index of the first to satisfy aBlock, or nil if none."
 
-	frames size to: frames size - limit + 1 by: -1 do: [ :index | 
+	frames size to: ((frames size - limit + 1) max: 1) by: -1 do: [ :index | 
 		| frame |
 		frame := frames at: index.
 		(aBlock value: frame)

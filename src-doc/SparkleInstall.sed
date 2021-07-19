@@ -1,4 +1,4 @@
 # Replace variables in Markdown file
 # Sample invocation:
 #   sed -f <thisFile> <sourceFile> > <destinationFile>
-s/=buildNumber=/1484/g
+s/=documentDate=/July 19, 2021/g

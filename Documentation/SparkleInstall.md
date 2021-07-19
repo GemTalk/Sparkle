@@ -12,10 +12,9 @@ Sparkle is under active development and information in this document is likely t
 See the project on github: <A HREF="https://github.com/GemTalk/Sparkle" CLASS="URL">https://github.com/GemTalk/Sparkle</A>
 
 ## Requirements
-With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of June 22, 2021 (the date of this document), but alpha builds are available.   
+With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of July 19, 2021 (the date of this document), but alpha builds are available.   
 You should have GemStone v3.7 installed on a supported Linux server, with a Stone running and available for use.   
-Sparkle is supported with recent builds of Pharo 9. For the Pharo client, you should have a Windows or Linux environment in which you will install Pharo.    
-Pharo 9 is under active development and changes in Pharo may require corresponding changes in Sparkle. These instructions use build number 1484; the latest builds known to work are documented here: <A HREF="https://github.com/GemTalk/Sparkle/wiki#current-pharo-build" CLASS="URL">https://github.com/GemTalk/Sparkle/wiki#current-pharo-build</A>. 
+Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows or Linux environment in which you will install Pharo.    
 
 ## GemStone Server Installation on Linux 
 
@@ -48,28 +47,29 @@ The following instructions are for the Sparkle client, which can be run on Windo
 1.	Download the launcher or launcher installer for the given platform from <A HREF="https://pharo.org/download" CLASS="URL">https://pharo.org/download</A>, and install. 
 2.	Run PharoLauncher to open the Launcher. 
 3.	Click on <EM CLASS="Icon">✲</EM> **New** . 
-4.	In the Template Category list, select **Pharo 9.0 (development version)** . Note that the desired download is not under Official Distributions.
-5.	Select the specific build (currently 1484); this may require scrolling through more recent build numbers. Be sure you select the 64-bit image.
+4.	In the Template Category list, select **Official Distributions**.
+5.	Select **Pharo 9.0 - 64bit (stable)** Be sure you select the 64-bit image.
 6.	Select <EM CLASS="Icon">✲</EM> **Create image** . This will create a new Pharo image based on the selected template.
 7.	Use the right-click menu item &#128314; **Launch** to launch the image.
 
 ### Install Sparkle
 There are two ways to build a Sparkle-enabled Pharo image:
+
 * The script-based one-step install. This clones the main branches of the required git repositories into the default location, as well as performing the load.
 * Manual installation by cloning the repository and loading via iceberg. This is useful if you wish to control the git repositories manually; that is, load branches other than the main branch; or perform other disk-based git operations.
 
 #### Script-based installation
 Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.    
-The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see [Iceberg default repository location](iceberg-default-repository-location)). 
+The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see [Iceberg default repository location](#iceberg-default-repository-location)). 
 
-1.	Launch the Pharo 9.0 build 1484 image.
-2.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
+1.	Launch the Pharo 9.0 image.
+2.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **User interface theme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 3.	Open a Pharo Playground (workspace), and execute:
     <PRE CLASS="Code-Indented">Metacello new
     	baseline: 'Sparkle';
     	repository: 'github://GemTalk/Sparkle:main';
     	load</PRE>
-4.	Save the image. You are now ready to login; see the directions under [Login](#login).
+4.	Save the image. You are now ready to log in; see the directions under [Login](#login).
 
 #### Manual installation
 Rather than using the above script, you may manually clone the repositories, and load these into your Pharo image. This allows you complete control over specific branches from the various git repositories. 
@@ -80,7 +80,7 @@ Rather than using the above script, you may manually clone the repositories, and
 	* [https://github.com/GemTalk/Sparkle.git](https://github.com/GemTalk/Sparkle.git)
 	* [https://github.com/GemTalk/SparkleFFI.git](https://github.com/GemTalk/SparkleFFI.git)
 	* [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
-4.	Launch the Pharo 9.0 build 1484 image.
+4.	Launch the Pharo 9.0 build =buildNumber= image.
 5.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg** .
 7.	In the Iceberg repository list window, click <EM CLASS="Icon">+</EM> **Add**  in the upper right.
@@ -108,7 +108,7 @@ Direct login is a two-step process; you will launch a listening Gem on the GemSt
 
 1.	Edit <i>gitRepositoryDir</i><code>/Sparkle/src-gs/login.topaz</code> to have the correct stone name, user name, and password. You can use an unprivileged user for this, such as DataCurator. SystemUser is only required for installation.
 2.	 Execute the listening gem launch script:
-    <PRE CLASS="Code-Indented-Two">./server.sh</PRE>
+    <PRE CLASS="Code-Indented-Two"><i>gitRepositoryDir</i><code>/Sparkle/src-gs/server.sh</code></PRE>
 <P CLASS="Spacer"></P>
 You should see a "Starting to listen" message.
 

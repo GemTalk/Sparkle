@@ -329,7 +329,11 @@ SpkDebuggerToolTest >> testStepOver01 [
 
 { #category : 'tests' }
 SpkDebuggerToolTest >> testTerminate [
-	"Get a debugger, terminate, verify termination"
+	"Get a debugger, terminate, verify termination.
+	As of 2021-07-19, this test is failing. 
+	Adding a brief delay before the final assertion makes the test pass,
+	but this *should* not be required. Leaving failing pending further
+	investigation."
 
 	| debugger process |
 	evaluatorTool newSourceCode: '3 pause + 4'.

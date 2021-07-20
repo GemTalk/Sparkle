@@ -16,20 +16,6 @@ SpkDebuggerServiceTest >> divideByZeroAfterProceed [
 ]
 
 { #category : 'tests' }
-SpkDebuggerServiceTest >> testCurrentSourceIntervalForPrimitive [
-	| frames frameDesc frame |
-	self zork3.
-	frames := debuggerService frames.
-	frameDesc := frames first.
-	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
-	frame := frameDesc createFrameService.
-	self
-		assert: frame class equals: SpkDebuggerFrameServiceServer;
-		assert: frame currentStartPosition > 100;
-		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
-]
-
-{ #category : 'tests' }
 SpkDebuggerServiceTest >> testExceptionDescription [
 	"Can we make a tree of services out of a DebuggerTool?"
 
@@ -39,10 +25,13 @@ SpkDebuggerServiceTest >> testExceptionDescription [
 
 { #category : 'tests' }
 SpkDebuggerServiceTest >> testProcessFrameNumbering [
+	"The bottom ten frames are glue, first 
+	visible frame should have index 11."
+
 	| frames |
 	self zork3.
 	frames := debuggerService frames.
-	self assert: frames first index equals: 1
+	self assert: frames first index equals: 11
 ]
 
 { #category : 'tests' }
@@ -52,7 +41,7 @@ SpkDebuggerServiceTest >> testProcessFrameQuantity [
 	frames := debuggerService frames.
 	self
 		assert: (frames isKindOf: SequenceableCollection);
-		assert: (frames size between: 10 and: 15)
+		assert: frames size equals: 3
 ]
 
 { #category : 'tests' }

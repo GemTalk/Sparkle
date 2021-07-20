@@ -2081,6 +2081,14 @@ nlr2
 
 category: 'other'
 method: BreakpointHandling
+restartFrameTestMethod
+
+	8 printString.
+	^(5 + 7) printString
+%
+
+category: 'other'
+method: BreakpointHandling
 runHotForSeconds: anInteger
 shouldHalt: shouldHalt
 counter: aCounter
@@ -9413,21 +9421,6 @@ divideByZeroAfterProceed
 
 category: 'tests'
 method: SpkDebuggerServiceTest
-testCurrentSourceIntervalForPrimitive
-	| frames frameDesc frame |
-	self zork3.
-	frames := debuggerService frames.
-	frameDesc := frames first.
-	self assert: frameDesc class equals: SpkDebuggerFrameDescriptionServiceServer.
-	frame := frameDesc createFrameService.
-	self
-		assert: frame class equals: SpkDebuggerFrameServiceServer;
-		assert: frame currentStartPosition > 100;
-		assert: frame currentEndPosition - frame currentStartPosition = 3	"Four characters; the primitive number"
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
 testExceptionDescription
 	"Can we make a tree of services out of a DebuggerTool?"
 
@@ -9438,10 +9431,13 @@ testExceptionDescription
 category: 'tests'
 method: SpkDebuggerServiceTest
 testProcessFrameNumbering
+	"The bottom ten frames are glue, first 
+	visible frame should have index 11."
+
 	| frames |
 	self zork3.
 	frames := debuggerService frames.
-	self assert: frames first index equals: 1
+	self assert: frames first index equals: 11
 %
 
 category: 'tests'
@@ -9452,7 +9448,7 @@ testProcessFrameQuantity
 	frames := debuggerService frames.
 	self
 		assert: (frames isKindOf: SequenceableCollection);
-		assert: (frames size between: 10 and: 15)
+		assert: frames size equals: 3
 %
 
 category: 'tests'
@@ -9534,6 +9530,35 @@ executedCodeFrameInDebugger: debugger
 			frame description = 'Executed Code ' ].
 	self assert: doitFrames size equals: 1.
 	^ doitFrames first
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+frameIn: debugger
+withDescriptionContaining: aString
+
+	^debugger frames detect: [ :each | each description includesString: aString ].
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+restartInFrame: frameTool
+
+	^frameTool restartAnnouncing: SpkExecutionAnnouncement new
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+stepIntoInFrame: frameTool
+
+	^frameTool stepIntoAnnouncing: SpkExecutionAnnouncement new
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+stepOverInFrame: frameTool
+
+	^frameTool stepOverAnnouncing: SpkExecutionAnnouncement new
 %
 
 category: 'tests'
@@ -9647,14 +9672,14 @@ method: SpkDebuggerToolTest
 testHaltGlueTrimming
 	"A halt should trim all top glue down through Object>>halt."
 
-	| debugger numberOfFrames execCodeFrame topFrame |
+	| debugger frames  execCodeFrame topFrame |
 	evaluatorTool newSourceCode: '3 halt + 4'.
 	debugger := evaluatorTool evaluateCode.
-	numberOfFrames := debugger frames size.
-	topFrame := debugger frames at: numberOfFrames.
-	self assert: topFrame index equals: numberOfFrames.
+	frames := debugger nonGlueFrames.
+	topFrame := frames last.
+	self assert: topFrame index equals: 11.
 	execCodeFrame := self executedCodeFrameInDebugger: debugger.
-	self assert: execCodeFrame index equals: numberOfFrames.
+	self assert: execCodeFrame identicalTo: topFrame
 %
 
 category: 'tests'
@@ -9730,6 +9755,71 @@ testProceedTwice
 
 category: 'tests'
 method: SpkDebuggerToolTest
+testRestartFrame
+	"Get a debugger, proceed, get an inspector"
+
+	| debugger frame restartFrame printStringFrame inspector |
+	evaluatorTool newSourceCode: 'self halt. BreakpointHandling new restartFrameTestMethod'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	frame := self executedCodeFrameInDebugger: debugger.
+	debugger := self
+		stepOverInFrame: frame;
+		stepOverInFrame: frame;
+		stepIntoInFrame: frame.
+
+	"Move execution to the start of the #printString method of SmallInteger."
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	self
+		assert: restartFrame stepPoint
+		equals: 1.
+	debugger := self
+		stepOverInFrame: restartFrame;
+		stepIntoInFrame: restartFrame.
+
+	"Ensure execution is in the correct place."
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	printStringFrame := self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString'.
+	self
+		assert: restartFrame stepPoint
+		equals: 2.
+	self
+		assert: printStringFrame stepPoint
+		equals: 1.
+
+	"Ensure restarting a frame in middle of the stack removes higher frames
+	and the step point in the frame is reset back to 1."
+	debugger := self restartInFrame: restartFrame.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	self
+		should: [self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString']
+		raise: LookupError.
+	self
+		assert: restartFrame stepPoint
+		equals: 1.
+	self
+		assert: restartFrame index
+		equals: debugger frames size.
+
+	"Ensure that restarting the 'top frame' behaves correctly"
+	debugger := self restartInFrame: restartFrame.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	self
+		assert: restartFrame stepPoint
+		equals: 1.
+	self
+		assert: restartFrame index
+		equals: debugger frames size.
+
+	"Ensure we can resume and get the correct result."
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: '12'
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
 testStepOver01
 	| method debugger debugger2 frames frame localVariables variable inspector |
 	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
@@ -9738,7 +9828,7 @@ testStepOver01
 	method setBreakAtStepPoint: 1 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
 	debugger := evaluatorTool evaluateCode.
-	frames := debugger frames.
+	frames := debugger nonGlueFrames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
 	"Have we properly omitted the glue frames following a breakpoint?"
@@ -9761,7 +9851,7 @@ testStepOver01
 	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: frame currentSourceInterval equals: (9 to: 9).
 	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
-	self assert: debugger frames size equals: frames size - 1.
+	self assert: debugger nonGlueFrames size equals: frames size - 1.
 	inspector := debugger proceed.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
@@ -9771,7 +9861,11 @@ testStepOver01
 category: 'tests'
 method: SpkDebuggerToolTest
 testTerminate
-	"Get a debugger, terminate, verify termination"
+	"Get a debugger, terminate, verify termination.
+	As of 2021-07-19, this test is failing. 
+	Adding a brief delay before the final assertion makes the test pass,
+	but this *should* not be required. Leaving failing pending further
+	investigation."
 
 	| debugger process |
 	evaluatorTool newSourceCode: '3 pause + 4'.

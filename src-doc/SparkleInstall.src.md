@@ -47,7 +47,7 @@ The following instructions are for the Sparkle client, which can be run on Windo
 2.	Run PharoLauncher to open the Launcher. 
 3.	Click on <EM CLASS="Icon">✲</EM> **New** . 
 4.	In the Template Category list, select **Official Distributions**.
-5.	Select **Pharo 9.0 - 64bit (stable)** Be sure you select the 64-bit image.
+5.	Select **Pharo 9.0 - 64bit (stable)**. Be sure you select the 64-bit image.
 6.	Select <EM CLASS="Icon">✲</EM> **Create image** . This will create a new Pharo image based on the selected template.
 7.	Use the right-click menu item &#128314; **Launch** to launch the image.
 
@@ -79,7 +79,7 @@ Rather than using the above script, you may manually clone the repositories, and
 	* [https://github.com/GemTalk/Sparkle.git](https://github.com/GemTalk/Sparkle.git)
 	* [https://github.com/GemTalk/SparkleFFI.git](https://github.com/GemTalk/SparkleFFI.git)
 	* [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
-4.	Launch the Pharo 9.0 build =buildNumber= image.
+4.	Launch the Pharo 9.0 image.
 5.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg** .
 7.	In the Iceberg repository list window, click <EM CLASS="Icon">+</EM> **Add**  in the upper right.

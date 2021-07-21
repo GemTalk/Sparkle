@@ -80,7 +80,7 @@ Rather than using the above script, you may manually clone the repositories, and
 	* [https://github.com/GemTalk/Sparkle.git](https://github.com/GemTalk/Sparkle.git)
 	* [https://github.com/GemTalk/SparkleFFI.git](https://github.com/GemTalk/SparkleFFI.git)
 	* [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
-4.	Launch the Pharo 9.0 build =buildNumber= image.
+4.	Launch the Pharo 9.0 image.
 5.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
 6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg** .
 7.	In the Iceberg repository list window, click <EM CLASS="Icon">+</EM> **Add**  in the upper right.

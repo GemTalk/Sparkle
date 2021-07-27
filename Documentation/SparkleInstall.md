@@ -48,7 +48,7 @@ The following instructions are for the Sparkle client, which can be run on Windo
 2.	Run PharoLauncher to open the Launcher. 
 3.	Click on <EM CLASS="Icon">✲</EM> **New** . 
 4.	In the Template Category list, select **Official Distributions**.
-5.	Select **Pharo 9.0 - 64bit (stable)** Be sure you select the 64-bit image.
+5.	Select **Pharo 9.0 - 64bit (stable)**. Be sure you select the 64-bit image.
 6.	Select <EM CLASS="Icon">✲</EM> **Create image** . This will create a new Pharo image based on the selected template.
 7.	Use the right-click menu item &#128314; **Launch** to launch the image.
 

@@ -102,6 +102,17 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 ]
 
 { #category : 'other' }
+SpkDebuggerFrameServiceServer >> restart [
+
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool restartAnnouncing: announcement
+]
+
+{ #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepInto [
 	| announcement |
 	updatedServices := Set new.

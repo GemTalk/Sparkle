@@ -45,10 +45,10 @@ The following instructions are for the Sparkle client, which can be run on Windo
 ### Install Pharo
 1.	Download the launcher or launcher installer for the given platform from <A HREF="https://pharo.org/download" CLASS="URL">https://pharo.org/download</A>, and install. 
 2.	Run PharoLauncher to open the Launcher. 
-3.	Click on <EM CLASS="Icon">✲</EM> **New** . 
+3.	Click on <EM CLASS="Icon">✲</EM> **New**. 
 4.	In the Template Category list, select **Official Distributions**.
 5.	Select **Pharo 9.0 - 64bit (stable)**. Be sure you select the 64-bit image.
-6.	Select <EM CLASS="Icon">✲</EM> **Create image** . This will create a new Pharo image based on the selected template.
+6.	Select <EM CLASS="Icon">✲</EM> **Create image**. This will create a new Pharo image based on the selected template.
 7.	Use the right-click menu item &#128314; **Launch** to launch the image.
 
 ### Install Sparkle
@@ -81,17 +81,17 @@ Rather than using the above script, you may manually clone the repositories, and
 	* [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
 4.	Launch the Pharo 9.0 image.
 5.	Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
-6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg** .
+6.	Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using **Browse > Iceberg**.
 7.	In the Iceberg repository list window, click <EM CLASS="Icon">+</EM> **Add**  in the upper right.
-8.	Select **Import from existing clone** .
+8.	Select **Import from existing clone**.
 9.	Click the folder icon to open a file selection dialog, and navigate to <i>gitRepositoryDir</i><code>\Sparkle</code>. Click OK to select the Sparkle directory.
 10.	Click on the OK button. Sparkle should appear in the Iceberg repository list.
-11.	Right click on Sparkle, and select **Metacello > Install Baseline of Sparkle (default)** . 
+11.	Right click on Sparkle, and select **Metacello > Install Baseline of Sparkle (default)**. 
 12.	Save the image. You are now ready to login; see [Login](#login).
 
 ##### Iceberg default repository location 
 The Sparkle load clones repositories into a default location, under <i>pharoImageDir</i><code>/pharo-local/iceberg/GemTalk/</code>. This location can be configured, if you wish to keep your clones across Pharo images.    
-See **Settings > Tools > Software Configuration Management > Iceberg** , and check **Share repositories between images** . Once this is checked, you can enter a location for shared repositories.
+See **Settings > Tools > Software Configuration Management > Iceberg** , and check **Share repositories between images**. Once this is checked, you can enter a location for shared repositories.
 
 ## Login
 There are two ways to login to the GemStone server from Sparkle. 
@@ -144,12 +144,12 @@ With Sparkle, you must use this <code>clientlibs</code> structure, rather than t
 	* **User**  -- the GemStone user name, such as DataCurator.
 	* **Password**  -- the password for the GemStone user.
 	* **Client Libraries Path**  -- the path to <code>clientlibs</code> root directory. The connection will look within this directory structure for the correct version and the 64-bit (or 32-bit) libraries. You may type this in, or use the **Set Path**  button to navigate to the directory.
-	* **Set Path**  -- a button that opens a dialog, allowing you to navigate to the <code>clientlibs</code> directory and select the value for the **Client Libraries Path** . 
+	* **Set Path**  -- a button that opens a dialog, allowing you to navigate to the <code>clientlibs</code> directory and select the value for the **Client Libraries Path**. 
 3.	Click the <EM CLASS="Icon">+ </EM> **Add**  button, to add the new profile to your list of profiles. 
 4.	Click the **Connect**  button. A Sparkle Object Explorer window will open, containing an inspector on nil.
 
 ### Logging out
-To logout, click the **Disconnect**  button in the **Sparkle Connections Launcher** .    
+To logout, click the **Disconnect**  button in the **Sparkle Connections Launcher**.    
 Unlike with a Direct login, this logs out the Gem, as well as disconnecting the client. The Sparkle Object Explorer and any other open server windows are closed.
 
 ## Operations in your Session
@@ -157,7 +157,7 @@ Unlike with a Direct login, this logs out the Gem, as well as disconnecting the 
 ### Inspecting objects
 To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.    
 Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.   
-You may open a new Sparkle Object Explorer using the Sparkle Connections Launcher toolbar item **Explorer** . 
+You may open a new Sparkle Object Explorer using the Sparkle Connections Launcher toolbar item **Explorer**. 
 
 ### Debugging
 If an error occurs in the executed code, a stack pane, with a red header, will appear, instead of an inspector. Selecting frames within this stack adds panes with frame details, including method source and variables, to the right; this is similar to how object inspection is handled.

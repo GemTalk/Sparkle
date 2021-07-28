@@ -13,6 +13,19 @@ SpkDebuggerFrameServiceClient >> listItems [
 ]
 
 { #category : 'as yet unclassified' }
+SpkDebuggerFrameServiceClient >> restart [
+
+	| promise |
+	promise := remoteSelf restart.
+	promise
+		when: [ :ignored | 
+			self
+				updateServices;
+				announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'as yet unclassified' }
 SpkDebuggerFrameServiceClient >> stepInto [
 
 	| promise |

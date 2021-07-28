@@ -14,6 +14,7 @@ Class {
 		'stepOverButton',
 		'stepThroughButton',
 		'stepIntoButton',
+		'restartButton',
 		'sourcePresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
@@ -30,6 +31,21 @@ SpkDebuggerFramePane >> addSourcePositionDecoration [
 				 interval:
 					 (model currentStartPosition to: model currentEndPosition + 1);
 				 yourself)
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFramePane >> controlButtonNamed: buttonName
+icon: iconBaseName
+action: anEvaluable [
+
+	^self newIconButton
+		color: Color transparent;
+		enabledIcon: (self iconNamed: (iconBaseName, '28') asSymbol);
+		disabledIcon: (self iconNamed: (iconBaseName, 'Disabled28') asSymbol);
+		help: buttonName;
+		action: anEvaluable;
+		enablementCondition: [:aBoolean | model canStep & aBoolean];
+		yourself
 ]
 
 { #category : 'tests - header' }
@@ -49,35 +65,21 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 		add: controlsLayout
 		withConstraints: [ :c | c width: 35 ].
 
-	stepIntoButton := self newIconButton
-		                  color: Color transparent;
-		                  enabledIcon: (self iconNamed: #stepInto28);
-		                  disabledIcon:
-			                  (self iconNamed: #stepIntoDisabled28);
-		                  help: 'Step into';
-		                  action: [ self stepInto ];
-								enablementCondition: [:aBoolean | model canStep & aBoolean];
-		                  yourself.
+	stepIntoButton := self controlButtonNamed: 'Step into' 
+		icon: #stepInto
+		action: [ self stepInto ].
+			
+	stepThroughButton := self controlButtonNamed: 'Step through blocks'
+		icon: #stepThrough
+		action: [ self stepThrough ].
 
-	stepThroughButton := self newIconButton
-		                     color: Color transparent;
-		                     enabledIcon: (self iconNamed: #stepThrough28);
-		                     disabledIcon:
-			                     (self iconNamed: #stepThroughDisabled28);
-		                     help: 'Step through blocks';
-		                     action: [ self stepThrough ];
-								enablementCondition: [:aBoolean | model canStep & aBoolean];
-		                     yourself.
+	stepOverButton := self controlButtonNamed: 'Step over'
+		icon: #stepOver
+		action: [ self stepOver ].
 
-	stepOverButton := self newIconButton
-		                  color: Color transparent;
-		                  enabledIcon: (self iconNamed: #stepOver28);
-		                  disabledIcon:
-			                  (self iconNamed: #stepOverDisabled28);
-		                  help: 'Step over';
-		                  action: [ self stepOver ];
-								enablementCondition: [:aBoolean | model canStep & aBoolean];
-		                  yourself.
+	restartButton := self controlButtonNamed: 'Restart frame'
+		icon: #restart
+		action: [ self restart ].
 
 	controlsLayout
 		add: SpkBoxLayout newHorizontal
@@ -91,6 +93,10 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 			height: 35;
 			width: 28 ];
 		add: stepOverButton withConstraints: [ :c | 
+		c
+			height: 35;
+			width: 28 ];
+		add: restartButton withConstraints: [ :c | 
 		c
 			height: 35;
 			width: 28 ]
@@ -171,6 +177,13 @@ SpkDebuggerFramePane >> refreshSourcePane [
 
 	sourcePresenter text: self sourceText.
 	self addSourcePositionDecoration
+]
+
+{ #category : 'actions' }
+SpkDebuggerFramePane >> restart [
+
+	self disableAll.
+	model restart
 ]
 
 { #category : 'printing' }

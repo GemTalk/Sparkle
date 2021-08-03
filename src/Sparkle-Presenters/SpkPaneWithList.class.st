@@ -12,7 +12,7 @@ Class {
 SpkPaneWithList >> connectPresenters [
 
 	super connectPresenters.
-	header menu: self menuActions asMenuPresenter.
+	header menu: self menuCommandGroup asMenuPresenter.
 	model when: SpkPaneServiceAnnouncement send: #receiveLinkedPaneAnnouncement: to: self
 ]
 

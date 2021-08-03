@@ -65,7 +65,7 @@ SpkEvaluator >> column [
 SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
-	header menu: self menuActions asMenuPresenter.
+	header menu: self menuCommandGroup asMenuPresenter.
 	codePresenter text: model newSourceCode.
 	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
@@ -137,7 +137,7 @@ SpkEvaluator >> initializePresenters [
 ]
 
 { #category : 'instance creation' }
-SpkEvaluator >> menuActions [
+SpkEvaluator >> menuCommandGroup [
 
 	^ CmCommandGroup forSpec
 		  beRoot;

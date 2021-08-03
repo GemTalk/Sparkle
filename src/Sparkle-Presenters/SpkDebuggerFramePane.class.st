@@ -172,6 +172,12 @@ SpkDebuggerFramePane >> listLabelString [
 	^ self listItemServices size printString , ' local variables'
 ]
 
+{ #category : 'accessing' }
+SpkDebuggerFramePane >> menuCommandClasses [
+
+	^{SpkStepIntoCommand. SpkStepThroughCommand. SpkStepOverCommand. SpkRestartFrameCommand.}
+]
+
 { #category : 'as yet unclassified' }
 SpkDebuggerFramePane >> refreshSourcePane [
 

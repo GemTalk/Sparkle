@@ -23,8 +23,10 @@ SpkIconLibrary class >> current [
 { #category : 'initialization' }
 SpkIconLibrary class >> loadFromGitClone [
 
-	| repository repositoryPath  |
-	repository := IceRepository registeredRepositoryIncludingPackage: self class package.
+	<example>
+	| repository repositoryPath |
+	repository := IceRepository registeredRepositoryIncludingPackage:
+		              self class package.
 	repositoryPath := repository location asPath.
 	self loadFromPath: repositoryPath
 ]

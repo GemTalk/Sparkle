@@ -152,11 +152,31 @@ SpkPane >> linkedPanes [
 ]
 
 { #category : 'accessing' }
-SpkPane >> menuActions [
+SpkPane >> menuCommandClasses [
 
-	^ CmCommandGroup forSpec
+	^#()
+]
+
+{ #category : 'accessing' }
+SpkPane >> menuCommandGroup [
+
+	| group |
+	group := CmCommandGroup forSpec
 		  beRoot;
-		  yourself
+			yourself.
+	self menuCommands do: [:command | group register: command].
+	^group
+]
+
+{ #category : 'accessing' }
+SpkPane >> menuCommands [
+
+	^self menuCommandClasses
+		collect:
+			[:each |
+			(each forSpecContext: self)
+				iconProvider: SpkIconLibrary current;
+				yourself]
 ]
 
 { #category : 'accessing' }

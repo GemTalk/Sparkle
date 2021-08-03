@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : 'default' }
+SpkAcceptChangesCommand class >> defaultDescription [
+
+	^'Inspect result of evaluator''s full text'
+]
+
+{ #category : 'default' }
 SpkAcceptChangesCommand class >> defaultShortcutKey [
 
 	^ $s command mac 

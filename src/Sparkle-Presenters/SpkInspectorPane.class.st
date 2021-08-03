@@ -190,13 +190,9 @@ SpkInspectorPane >> listLabelString [
 ]
 
 { #category : 'accessing' }
-SpkInspectorPane >> menuActions [
+SpkInspectorPane >> menuCommandClasses [
 
-	^ super menuActions
-		  register: ((SpkViewRawCommand forSpecContext: self)
-				   iconProvider: SpkIconLibrary current;
-				   yourself);
-		  yourself
+	^{SpkViewRawCommand}
 ]
 
 { #category : 'accessing' }

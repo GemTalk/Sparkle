@@ -13,7 +13,7 @@ SpkRestartFrameCommand class >> defaultDescription [
 { #category : 'defaults' }
 SpkRestartFrameCommand class >> defaultIconName [
 
-	^ #restart28
+	^ #restart16
 ]
 
 { #category : 'defaults' }

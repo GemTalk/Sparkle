@@ -13,7 +13,7 @@ SpkStepOverCommand class >> defaultDescription [
 { #category : 'defaults' }
 SpkStepOverCommand class >> defaultIconName [
 
-	^ #stepOver28
+	^ #stepOver16
 ]
 
 { #category : 'defaults' }

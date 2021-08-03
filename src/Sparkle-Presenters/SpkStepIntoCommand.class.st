@@ -13,7 +13,7 @@ SpkStepIntoCommand class >> defaultDescription [
 { #category : 'defaults' }
 SpkStepIntoCommand class >> defaultIconName [
 
-	^ #stepInto28
+	^ #stepInto16
 ]
 
 { #category : 'defaults' }

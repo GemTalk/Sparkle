@@ -13,7 +13,7 @@ SpkStepThroughCommand class >> defaultDescription [
 { #category : 'defaults' }
 SpkStepThroughCommand class >> defaultIconName [
 
-	^ #stepThrough28
+	^ #stepThrough16
 ]
 
 { #category : 'defaults' }

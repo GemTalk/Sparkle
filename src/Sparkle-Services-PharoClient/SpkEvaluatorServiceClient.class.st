@@ -41,6 +41,24 @@ SpkEvaluatorServiceClient >> cancel [
 ]
 
 { #category : 'actions' }
+SpkEvaluatorServiceClient >> debugFor: requestId [
+
+	"Send my text to the server to be evaluated, announce the returned object or error that results."
+
+	| promise |
+	promise := remoteSelf debug.
+	promise
+		when: [ :newService | 
+			self
+				updateHasUnsavedChanges;
+				updateServices.
+			parentService
+				announceService: newService forRequest: requestId;
+				announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'actions' }
 SpkEvaluatorServiceClient >> debugIt [
 
 	self flag: #TODO.

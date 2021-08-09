@@ -97,6 +97,13 @@ SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
 	^ parentCoordinate , index
 ]
 
+{ #category : 'actions' }
+SpkEvaluator >> debug [
+
+	pane disableAll.
+	model debugFor: self
+]
+
 { #category : 'updates' }
 SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
@@ -144,7 +151,7 @@ SpkEvaluator >> menuCommandGroup [
 		  register: (codePresenter class codeAcceptCommandsGroupWith: self);
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
-		  register: (self class sourceCodeCommandsGroupWith: self);
+		  "register: (self class sourceCodeCommandsGroupWith: self);"
 		  yourself
 ]
 

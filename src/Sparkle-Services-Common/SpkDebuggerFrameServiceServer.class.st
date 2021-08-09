@@ -48,11 +48,15 @@ SpkDebuggerFrameServiceServer >> refreshFromTool [
 	currentSourceInterval := tool currentSourceInterval.
 
 	oldValue := currentStartPosition.
-	currentStartPosition := currentSourceInterval first.
+	currentStartPosition := currentSourceInterval isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ currentSourceInterval first ].
 	changed := changed | (currentStartPosition ~= oldValue).
 
 	oldValue := currentEndPosition.
-	currentEndPosition := currentSourceInterval last.
+	currentEndPosition := currentSourceInterval isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ currentSourceInterval last ].
 	changed := changed | (currentEndPosition ~= oldValue).
 
 	oldValue := canStep.

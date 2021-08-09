@@ -27,6 +27,17 @@ SpkEvaluatorTool >> acceptAnnouncing: anAnnouncement [
 ]
 
 { #category : 'accessing' }
+SpkEvaluatorTool >> debugCodeAnnouncing: anAnnouncement [
+	"Debug the newSource and stop at the first step point.
+	Answer an approriate tool for whatever happens. This can
+	be a syntax error or a debugger."
+
+	^self
+		evaluateCodeAnnouncing: anAnnouncement
+		breakOnEntry: true
+]
+
+{ #category : 'accessing' }
 SpkEvaluatorTool >> evaluateCode [
 	self flag: 'Now used only by tests, which should be updated.'.
 	^ self evaluateCodeAnnouncing: SpkExecutionAnnouncement new
@@ -38,12 +49,35 @@ SpkEvaluatorTool >> evaluateCodeAnnouncing: anAnnouncement [
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
+
+	^self
+		evaluateCodeAnnouncing: anAnnouncement
+		breakOnEntry: false
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> evaluateCodeAnnouncing: anAnnouncement breakOnEntry: shouldBreak [
+	"Evaluate the newSource and answer an appropriate tool for 
+	whatever happens. This can be a syntax error, a debugger,
+	or an inspector on a object. Break at the first step point if
+	shouldBreak is specified."
+
 	| context method resultTool |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
 		on: self compilationExceptionClass
 		do: [ :ex | ^ self toolForCompilationError: ex ].
+
+	shouldBreak
+		ifTrue: [ 
+			method
+				_setBreakAtIp: -1
+				operation: 16r101
+				frame: nil
+				process: nil
+				breakpointLevel: 1 ].
+
 
 	resultTool := self evaluateMethod: method inContext: context.
 

@@ -25,6 +25,23 @@ SpkEvaluatorServiceServer >> accept [
 	^ resultService
 ]
 
+{ #category : 'actions' }
+SpkEvaluatorServiceServer >> debug [
+	"Evaluate my newSourceCode but stop at the first stepPoint."
+
+	| resultTool resultService announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	self tool newSourceCode: newSourceCode.
+	resultTool := self tool debugCodeAnnouncing: announcement.
+
+	self refreshFromTool.
+	resultService := SpkServiceFactory serviceForTool: resultTool.
+	^ resultService
+]
+
 { #category : 'initialization' }
 SpkEvaluatorServiceServer >> initializeFromTool: evaluatorTool [
 

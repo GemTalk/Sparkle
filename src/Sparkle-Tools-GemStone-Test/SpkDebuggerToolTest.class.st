@@ -118,6 +118,27 @@ SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
 ]
 
 { #category : 'tests' }
+SpkDebuggerToolTest >> testDebug [
+
+	| debugger frame inspector |
+	evaluatorTool newSourceCode: '37 + 63'.
+	debugger := evaluatorTool debugCodeAnnouncing: SpkExecutionAnnouncement new.
+	self
+		assert: debugger class
+		equals: SpkDebuggerTool.
+	frame := self
+		frameIn: debugger
+		withDescriptionContaining: 'Executed Code'.
+	self
+		assert: frame stepPoint
+		equals: 1.
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 100
+]
+
+{ #category : 'tests' }
 SpkDebuggerToolTest >> testFrameDescription [
 	"Is a frame's description reasonable?"
 

@@ -17,3 +17,9 @@ SpkAcceptChangesCommand class >> defaultShortcutKey [
 		| $s control win 
 		| $s control unix
 ]
+
+{ #category : 'execution' }
+SpkAcceptChangesCommand >> execute [
+
+	self context accept
+]

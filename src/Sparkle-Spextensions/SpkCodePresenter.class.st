@@ -26,13 +26,11 @@ SpkCodePresenter class >> codeAcceptCommandsGroupWith: aPresenter [
 		                beDisplayedAsGroup;
 		                yourself.
 
-	aPresenter hasSubmitAction ifTrue: [ 
-		commandGroup register:
-			(SpkAcceptChangesCommand forSpecContext: aPresenter) ].
+	commandGroup register:
+		(SpkAcceptChangesCommand forSpecContext: aPresenter).
 	commandGroup register: (SpkDebugCommand forSpecContext: aPresenter).
-	aPresenter hasResetAction ifTrue: [ 
-		commandGroup register:
-			(SpkCancelChangesCommand forSpecContext: aPresenter) ].
+   "commandGroup register:
+		(SpkCancelChangesCommand forSpecContext: aPresenter)."
 
 	^ commandGroup
 ]

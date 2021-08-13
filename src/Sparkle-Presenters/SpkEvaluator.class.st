@@ -137,10 +137,7 @@ SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
 	self layout add: codePresenter.
-	codePresenter
-		placeholder: 'Accept to evaluate code typed here.';
-		whenSubmitDo: [ :ignored | self accept ];
-		whenResetDo: [ self cancel ]
+	codePresenter placeholder: 'Accept to evaluate code typed here.'
 ]
 
 { #category : 'instance creation' }

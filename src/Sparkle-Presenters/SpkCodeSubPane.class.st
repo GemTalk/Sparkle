@@ -50,6 +50,12 @@ SpkCodeSubPane class >> undoRedoCommandsGroupWith: aPresenter [
 	^ commandGroup
 ]
 
+{ #category : 'visiting' }
+SpkCodeSubPane >> accept [
+
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 SpkCodeSubPane >> codePresenter [
 	^ codePresenter
@@ -101,7 +107,10 @@ SpkCodeSubPane >> hasSubmitAction [
 SpkCodeSubPane >> initializePresenters [
 
 	super initializePresenters.
-	codePresenter := self instantiate: SpkCodePresenter
+	codePresenter := self instantiate: SpkCodePresenter.
+	codePresenter
+		bindKeyCombination: $s meta
+		toAction: [ self accept ]
 ]
 
 { #category : 'actions' }

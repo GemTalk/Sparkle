@@ -27,14 +27,20 @@ SpkEvaluatorTool >> acceptAnnouncing: anAnnouncement [
 ]
 
 { #category : 'accessing' }
-SpkEvaluatorTool >> debugCodeAnnouncing: anAnnouncement [
-	"Debug the newSource and stop at the first step point.
-	Answer an approriate tool for whatever happens. This can
+SpkEvaluatorTool >> debugAnnouncing: anAnnouncement [
+	"Evaluate newSourceCode through an undoable action, stopping
+	at the first step point. Answer a new Tool, which can
 	be a syntax error or a debugger."
 
-	^self
-		evaluateCodeAnnouncing: anAnnouncement
-		breakOnEntry: true
+	| action resultTool |
+	action := SpkEvaluatorDebugAction new
+		target: self;
+		oldSourceCode: oldSourceCode;
+		newSourceCode: newSourceCode;
+		announcement: anAnnouncement;
+		yourself.
+	resultTool := explorerTool performAction: action.
+	^ resultTool
 ]
 
 { #category : 'accessing' }

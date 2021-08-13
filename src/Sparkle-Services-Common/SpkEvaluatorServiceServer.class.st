@@ -35,7 +35,7 @@ SpkEvaluatorServiceServer >> debug [
 		                updatedServices: updatedServices;
 		                yourself.
 	self tool newSourceCode: newSourceCode.
-	resultTool := self tool debugCodeAnnouncing: announcement.
+	resultTool := self tool debugAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.

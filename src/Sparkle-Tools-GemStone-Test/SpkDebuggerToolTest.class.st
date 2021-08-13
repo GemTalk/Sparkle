@@ -122,7 +122,7 @@ SpkDebuggerToolTest >> testDebug [
 
 	| debugger frame inspector |
 	evaluatorTool newSourceCode: '37 + 63'.
-	debugger := evaluatorTool debugCodeAnnouncing: SpkExecutionAnnouncement new.
+	debugger := evaluatorTool debugAnnouncing: SpkExecutionAnnouncement new.
 	self
 		assert: debugger class
 		equals: SpkDebuggerTool.

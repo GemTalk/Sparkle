@@ -28,6 +28,7 @@ SpkServiceFactory class >> initializeServiceClassesForToolTypes [
 		at: SpkPaneLayoutTool put: SpkPaneLayoutServiceServer;
 		at: SpkProcessTerminatedTool put: SpkProcessTerminatedServiceServer;
 		at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
+		at: SpkSuccessTool put: SpkSuccessServiceServer;
 		at: SpkTaskspaceLayoutTool put: SpkTaskspaceLayoutServiceServer;
 		at: SpkTaskspaceTool put: SpkTaskspaceServiceServer;
 		yourself

@@ -16,7 +16,8 @@ Class {
 	#name : 'SpkTaskspaceService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'explorers'
+		'explorers',
+		'updatedServices'
 	],
 	#category : 'Sparkle-Services-Common'
 }

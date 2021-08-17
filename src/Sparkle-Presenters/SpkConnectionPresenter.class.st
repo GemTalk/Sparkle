@@ -76,8 +76,23 @@ SpkConnectionPresenter >> closeConnectionWindows [
 { #category : 'actions' }
 SpkConnectionPresenter >> connect [
 
-	connectionProfile connect.
-	self openExplorer: connectionProfile taskspace.
+	| shouldDebug |
+	[ connectionProfile connect ]
+		on: Error
+		do: [ :ex | 
+			| ws |
+			ws := WriteStream on: String new.
+			ws
+				nextPutAll: ex description;
+				cr;
+				nextPutAll: 'Debug?'.
+			shouldDebug := self uiManager
+				               questionWithoutCancel: ws contents
+				               title: 'Sparkle Connection Error'.
+			shouldDebug
+				ifTrue: [ ex pass ]
+				ifFalse: [ ^ self ] ].
+	self openExplorer: connectionProfile taskspace
 ]
 
 { #category : 'initialization' }

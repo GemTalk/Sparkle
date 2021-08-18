@@ -250,13 +250,6 @@ SpkConnectionPresenter >> initializeUnselectedProfile [
 	self disableButtons. 
 ]
 
-{ #category : 'initialization' }
-SpkConnectionPresenter >> initializeWindow: aWindowPresenter [
-
-	aWindowPresenter whenClosedDo: [ 
-		SpkConnectionProfile profileAnnouncer unsubscribe: self ]
-]
-
 { #category : 'accessing' }
 SpkConnectionPresenter >> newLayout [
 

@@ -34,7 +34,6 @@ SpkConnectionListPresenter >> connectPresenters [
 
 	super connectPresenters.
 	connectionList whenSelectionChangedDo: [ :selection | 
-		"explorerButton enabled: self isConnectedProfileSelected." "button enablement is broken in 1214"
 		selection selectedItems size > 1
 			ifTrue: [ self initializeConnectionProfileTabs ]
 			ifFalse: [ 
@@ -232,7 +231,11 @@ SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 		borderWidth: 3;
 		initialExtent: 800 @ 450;
 		whenClosedDo: [ 
-			SpkConnectionProfile profileAnnouncer unsubscribe: self ]
+			SpkConnectionProfile profileAnnouncer unsubscribe: self.
+			SpkConnectionProfile profileAnnouncer unsubscribe:
+					gciConnectionPresenter.
+			SpkConnectionProfile profileAnnouncer unsubscribe:
+					insecureConnectionPresenter ]
 ]
 
 { #category : 'testing' }
@@ -347,5 +350,4 @@ SpkConnectionListPresenter >> showConnectionIndicatorFor: profile [
 SpkConnectionListPresenter >> updateGUI [
 
 	self update.
-	"explorerButton enabled: self isConnectedProfileSelected." "button enablement is broken in 1214"
 ]

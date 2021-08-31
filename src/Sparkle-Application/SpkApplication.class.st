@@ -7,6 +7,12 @@ Class {
 	#category : 'Sparkle-Application'
 }
 
+{ #category : 'showing' }
+SpkApplication >> defaultWindowPresenterClass [
+
+	^SpkWindowPresenter 
+]
+
 { #category : 'initialization' }
 SpkApplication >> initialize [
 

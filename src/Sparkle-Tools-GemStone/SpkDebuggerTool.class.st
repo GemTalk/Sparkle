@@ -241,6 +241,14 @@ SpkDebuggerTool >> markTopGlueFramesForGenericException [
 				indexOfFrameInLast: 20
 				suchThat: [ :frame | 
 					frame receiver == currentException
+						and: [ frame method selector == #'_signalFromPrimitive:' ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					frame receiver == currentException
 						and: [ frame method selector == #'_signalToDebugger' ] ] ].
 
 	indexOfFirstDiscardedFrame

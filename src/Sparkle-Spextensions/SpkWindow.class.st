@@ -8,16 +8,6 @@ Class {
 }
 
 { #category : 'hacking' }
-SpkWindow >> addMenuControl [
-	"If I have a label area, add a menu control to it."
-
-	labelArea ifNil: [^ self]. "No menu if no label area"
-	hamburgerMenu ifNotNil: [ hamburgerMenu delete ].
-	labelArea addMorphBack: (hamburgerMenu := self createHamburgerMenu).
-	^super addMenuControl
-]
-
-{ #category : 'hacking' }
 SpkWindow >> createHamburgerMenu [
 	"Answer a button for the window menu."
 	
@@ -57,4 +47,15 @@ SpkWindow >> createHamburgerMenu [
 SpkWindow >> iconNamed: aSymbol [
 
 	^self model iconNamed: aSymbol
+]
+
+{ #category : 'accessing' }
+SpkWindow >> model: aPresenter [
+
+	super model: aPresenter.
+	labelArea ifNil: [ ^ self ]. "No menu if no label area"
+	hamburgerMenu ifNotNil: [ hamburgerMenu delete ].
+	labelArea
+		addMorph: (hamburgerMenu := self createHamburgerMenu)
+		inFrontOf: menuBox
 ]

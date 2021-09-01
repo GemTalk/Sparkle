@@ -9,3 +9,8 @@ SpkWindowPresenter class >> adapterName [
 
 	^#SpkWindowAdapter
 ]
+
+{ #category : 'accessing' }
+SpkWindowPresenter >> iconNamed: aSymbol [
+	^ self application iconNamed: aSymbol
+]

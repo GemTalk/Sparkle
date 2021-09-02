@@ -38,8 +38,10 @@ SpkTaskspaceTool class >> newDefault [
 SpkTaskspaceTool >> abortTransactionAnnouncing: anAnnouncement [
 	"Abort the current transaction. Announce the change to those interested."
 
-	System abortTransaction.
-	self announce: anAnnouncement
+	| resultTool |
+	resultTool := self performTransactionAction: [System abortTransaction].
+	self announce: anAnnouncement.
+	^resultTool
 ]
 
 { #category : 'initialization' }
@@ -76,8 +78,10 @@ SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
 SpkTaskspaceTool >> beginTransactionAnnouncing: anAnnouncement [
 	"Begin a new transaction. Announce the change to those interested."
 
-	System beginTransaction.
-	self announce: anAnnouncement
+	| resultTool |
+	resultTool := self performTransactionAction: [System beginTransaction].
+	self announce: anAnnouncement.
+	^resultTool
 ]
 
 { #category : 'transaction management' }
@@ -136,4 +140,24 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 		processBody: processBody;
 		runProcess;
 		waitForResult
+]
+
+{ #category : 'transaction management' }
+SpkTaskspaceTool >> setAutomaticTransactionModeAnnouncing: anAnnouncement [
+	"Abort the current transaction (implicit) and change to #autoBegin mode."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System transactionMode: #autoBegin].
+	self announce: anAnnouncement.
+	^resultTool
+]
+
+{ #category : 'transaction management' }
+SpkTaskspaceTool >> setManualTransactionModeAnnouncing: anAnnouncement [
+	"Abort the current transaction (implicit) and change to #manualBegin mode."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System transactionMode: #manualBegin].
+	self announce: anAnnouncement.
+	^resultTool
 ]

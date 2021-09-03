@@ -9,6 +9,24 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'transaction management' }
+SpkExplorerWindow >> abortTransaction [
+
+	^self application abortTransaction
+]
+
+{ #category : 'building menus' }
+SpkExplorerWindow >> buildHamburgerMenu [
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Accept commands') asSpecGroup
+		description: 'Accept or cancel changes.';
+		beDisplayedAsGroup;
+		yourself.
+	commandGroup register: (SpkAbortTransactionCommand forSpecContext: self).
+	^commandGroup
+]
+
 { #category : 'initialize-release' }
 SpkExplorerWindow >> close [
 

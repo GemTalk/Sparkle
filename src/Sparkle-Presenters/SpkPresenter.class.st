@@ -35,6 +35,12 @@ SpkPresenter class >> notYetImplemented: aString [
 	self inform: aString , ' not yet implemented (shucks)'
 ]
 
+{ #category : 'building menus' }
+SpkPresenter >> buildHamburgerMenu [
+
+	self subclassResponsibility 
+]
+
 { #category : 'as yet unclassified' }
 SpkPresenter >> extraPresenters [
 

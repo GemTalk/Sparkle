@@ -7,7 +7,13 @@ Class {
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
-{ #category : 'hacking' }
+{ #category : 'menus' }
+SpkWindow >> buildHamburgerMenu [
+
+	^self model buildHamburgerMenu
+]
+
+{ #category : 'menus' }
 SpkWindow >> createHamburgerMenu [
 	"Answer a button for the window menu."
 	
@@ -37,13 +43,13 @@ SpkWindow >> createHamburgerMenu [
 		extent: form extent;
 		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
 		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		addUpAction: [self offerWindowMenu];
+		addUpAction: [self offerHamburgerMenu];
 		setBalloonText: 'hamburger menu' translated;
 		extent: self boxExtent.
 	^msb
 ]
 
-{ #category : 'hacking' }
+{ #category : 'accessing' }
 SpkWindow >> iconNamed: aSymbol [
 
 	^self model iconNamed: aSymbol
@@ -58,4 +64,12 @@ SpkWindow >> model: aPresenter [
 	labelArea
 		addMorph: (hamburgerMenu := self createHamburgerMenu)
 		inFrontOf: menuBox
+]
+
+{ #category : 'menus' }
+SpkWindow >> offerHamburgerMenu [
+
+	| aMenu |
+	aMenu := self buildHamburgerMenu asMenuPresenter.
+	aMenu openWithSpecAtPointer
 ]

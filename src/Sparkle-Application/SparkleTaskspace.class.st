@@ -33,6 +33,12 @@ SparkleTaskspace class >> applicationName [
 	^ 'Sparkle Taskspace'
 ]
 
+{ #category : 'transaction management' }
+SparkleTaskspace >> abortTransaction [
+
+	^taskspaceService abortTransaction
+]
+
 { #category : 'initialization' }
 SparkleTaskspace >> addDefaultExplorer [
 

@@ -16,7 +16,7 @@ SpkTaskspaceServiceServer >> abortTransaction [
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
-	resultTool := self tool abortTransactionAnnouncing: announcement.
+	resultTool := tool abortTransactionAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.
@@ -42,7 +42,7 @@ SpkTaskspaceServiceServer >> beginTransaction [
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
-	resultTool := self tool beginTransactionAnnouncing: announcement.
+	resultTool := tool beginTransactionAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.
@@ -58,7 +58,7 @@ SpkTaskspaceServiceServer >> commitTransaction [
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
-	resultTool := self tool commitTransactionAnnouncing: announcement.
+	resultTool := tool commitTransactionAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.
@@ -79,7 +79,7 @@ SpkTaskspaceServiceServer >> setAutomaticTransactionMode [
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
-	resultTool := self tool setAutomaticTransactionModeAnnouncing: announcement.
+	resultTool := tool setAutomaticTransactionModeAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.
@@ -95,7 +95,7 @@ SpkTaskspaceServiceServer >> setManualTransactionMode [
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
-	resultTool := self tool setManualTransactionModeAnnouncing: announcement.
+	resultTool := tool setManualTransactionModeAnnouncing: announcement.
 
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.

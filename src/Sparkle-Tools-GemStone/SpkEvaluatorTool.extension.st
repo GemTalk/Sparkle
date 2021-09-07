@@ -29,8 +29,3 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 		runProcess;
 		waitForResult
 ]
-
-{ #category : '*Sparkle-Tools-GemStone' }
-SpkEvaluatorTool >> evaluationPriority [
-	^ Processor userSchedulingPriority
-]

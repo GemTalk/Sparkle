@@ -123,6 +123,19 @@ SpkTaskspaceTool >> newExplorerTool [
 ]
 
 { #category : 'transaction management' }
+SpkTaskspaceTool >> newProcessManager [
+	"Create a new process to handle the asynchronous evaluation of an expression."
+
+	^ SpkProcessLauncherAndManager new
+		  taskspaceTool: self;
+		  debuggerDebugAction: Processor activeProcess debugActionBlock;
+		  processName: 'Evaluation';
+		  processPriority: self evaluationPriority;
+		  processBreakpointLevel: 1;
+		  yourself
+]
+
+{ #category : 'transaction management' }
 SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 

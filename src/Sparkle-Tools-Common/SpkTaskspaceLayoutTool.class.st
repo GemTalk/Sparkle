@@ -37,8 +37,7 @@ SpkTaskspaceLayoutTool >> initialize [
 { #category : 'initialization' }
 SpkTaskspaceLayoutTool >> initializeForDefault [
 
-	taskspaceTool := SpkTaskspaceTool newDefault.
-	self initializeForTool: taskspaceTool
+	self initializeForTool: SpkTaskspaceTool newDefault
 ]
 
 { #category : 'initialization' }

@@ -15,7 +15,7 @@ SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 { #category : '*Sparkle-Tools-GemStone' }
 SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 	| processBody processManager |
-	processManager := self newProcessLauncherAndManager.
+	processManager := self newProcessManager.
 	processBody := [ 
 	| resultObject |
 	resultObject := [ method _executeInContext: context ]

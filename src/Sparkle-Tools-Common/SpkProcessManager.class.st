@@ -95,18 +95,9 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 ]
 
 { #category : 'initialization' }
-SpkProcessManager >> explorerTool [
-	self flag: 'Need to implement'.
-	self
-		halt:
-			'Debugging forked processes with no explorer tool is not yet implemented.'
-]
-
-{ #category : 'initialization' }
 SpkProcessManager >> initializeDebuggerTool [
 	debuggerTool := SpkDebuggerTool new
 		taskspaceTool: taskspaceTool;
-		explorerTool: self explorerTool;
 		process: process;
 		processManager: self;
 		mustInitiate: self debuggerMustInitiate;

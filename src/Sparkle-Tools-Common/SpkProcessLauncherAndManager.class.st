@@ -2,7 +2,6 @@ Class {
 	#name : 'SpkProcessLauncherAndManager',
 	#superclass : 'SpkProcessManager',
 	#instVars : [
-		'explorerTool',
 		'processPriority',
 		'processName',
 		'processBreakpointLevel',
@@ -16,18 +15,6 @@ Class {
 SpkProcessLauncherAndManager >> debuggerMustInitiate [
 
 	^ false
-]
-
-{ #category : 'accessing' }
-SpkProcessLauncherAndManager >> explorerTool [
-
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkProcessLauncherAndManager >> explorerTool: anExplorerTool [
-
-	explorerTool := anExplorerTool
 ]
 
 { #category : 'initialization' }

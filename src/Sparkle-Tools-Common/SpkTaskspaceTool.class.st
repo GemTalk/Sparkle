@@ -127,7 +127,7 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 
 	| processBody processManager |
-	processManager := self newProcessLauncherAndManager.
+	processManager := self newProcessManager.
 	processBody := [ 
 	| resultObject |
 	resultObject := aBlock

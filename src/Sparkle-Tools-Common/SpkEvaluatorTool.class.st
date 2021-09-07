@@ -111,9 +111,9 @@ SpkEvaluatorTool >> inspectorTool: anObject [
 ]
 
 { #category : 'accessing' }
-SpkEvaluatorTool >> newProcessLauncherAndManager [
+SpkEvaluatorTool >> newProcessManager [
 
-	^ SpkProcessLauncherAndManager new
+	^ SpkEvaluatedProcessManager new
 		  taskspaceTool: taskspaceTool;
 		  debuggerDebugAction: Processor activeProcess debugActionBlock;
 		  processName: 'Evaluation';

@@ -105,7 +105,8 @@ SpkDebuggerFrameTool >> explorerTool [
 
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> explorerTool: object [
-	explorerTool := object
+	explorerTool := object.
+	explorerTool addPane: self
 ]
 
 { #category : 'private' }

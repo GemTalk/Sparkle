@@ -43,8 +43,8 @@ SpkTaskspaceServiceServer >> beginTransaction [
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool beginTransactionAnnouncing: announcement.
-
-	self refreshFromTool.
+	resultTool class == SpkSuccessTool
+		ifTrue: [].
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
 ]
@@ -59,8 +59,8 @@ SpkTaskspaceServiceServer >> commitTransaction [
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool commitTransactionAnnouncing: announcement.
-
-	self refreshFromTool.
+	resultTool class == SpkSuccessTool
+		ifTrue: [].
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
 ]
@@ -80,8 +80,8 @@ SpkTaskspaceServiceServer >> setAutomaticTransactionMode [
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool setAutomaticTransactionModeAnnouncing: announcement.
-
-	self refreshFromTool.
+	resultTool class == SpkSuccessTool
+		ifTrue: [].
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
 ]
@@ -96,8 +96,8 @@ SpkTaskspaceServiceServer >> setManualTransactionMode [
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool setManualTransactionModeAnnouncing: announcement.
-
-	self refreshFromTool.
+	resultTool class == SpkSuccessTool
+		ifTrue: [].
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
 ]

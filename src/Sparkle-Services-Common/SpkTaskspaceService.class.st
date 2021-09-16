@@ -58,3 +58,15 @@ SpkTaskspaceService >> removeExplorer: anExplorerService [
 
 	explorers remove: anExplorerService
 ]
+
+{ #category : 'acccessing' }
+SpkTaskspaceService >> updatedServices [
+
+	^updatedServices
+]
+
+{ #category : 'acccessing' }
+SpkTaskspaceService >> updatedServices: aSetOfServices [
+
+	updatedServices := aSetOfServices
+]

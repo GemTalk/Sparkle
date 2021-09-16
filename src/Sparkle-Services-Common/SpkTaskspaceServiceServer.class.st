@@ -17,8 +17,8 @@ SpkTaskspaceServiceServer >> abortTransaction [
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool abortTransactionAnnouncing: announcement.
-
-	self refreshFromTool.
+	resultTool class == SpkSuccessTool
+		ifTrue: [].
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
 ]

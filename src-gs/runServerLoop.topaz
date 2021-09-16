@@ -2,7 +2,6 @@ exec
 [
 	| spec connection |
 
-	System abort.
 	GsFile gciLogClient: '==============================================================='.
 	GsFile gciLogClient: 'Starting to listen'.
 
@@ -11,6 +10,8 @@ exec
 	"connection log addSink: (RsrCustomSink action: [:string | GsFile gciLogClient: string])."
 
 	GsFile gciLogClient: 'Accepted connection'.
+
+	System abort.
 
 	connection waitUntilClose. 
 

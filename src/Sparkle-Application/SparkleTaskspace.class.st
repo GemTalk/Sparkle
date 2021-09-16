@@ -45,6 +45,18 @@ SparkleTaskspace >> addDefaultExplorer [
 	layoutService addDefaultExplorer
 ]
 
+{ #category : 'transaction management' }
+SparkleTaskspace >> beginTransaction [
+
+	^taskspaceService beginTransaction
+]
+
+{ #category : 'transaction management' }
+SparkleTaskspace >> commitTransaction [
+
+	^taskspaceService commitTransaction
+]
+
 { #category : 'accessing' }
 SparkleTaskspace >> connection [
 	^ connection
@@ -175,6 +187,18 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 		send: #receiveTaskspaceResponse:
 		to: self.
 	self openAllWindows
+]
+
+{ #category : 'transaction management' }
+SparkleTaskspace >> setAutomaticTransactionMode [
+
+	^taskspaceService setAutomaticTransactionMode
+]
+
+{ #category : 'transaction management' }
+SparkleTaskspace >> setManualTransactionMode [
+
+	^taskspaceService setManualTransactionMode
 ]
 
 { #category : 'running' }

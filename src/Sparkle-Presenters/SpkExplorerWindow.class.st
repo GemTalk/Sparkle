@@ -15,15 +15,25 @@ SpkExplorerWindow >> abortTransaction [
 	^self application abortTransaction
 ]
 
+{ #category : 'transaction management' }
+SpkExplorerWindow >> beginTransaction [
+
+	^self application beginTransaction
+]
+
 { #category : 'building menus' }
 SpkExplorerWindow >> buildHamburgerMenu [
 
 	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Accept commands') asSpecGroup
-		description: 'Accept or cancel changes.';
+	commandGroup := (CmCommandGroup named: 'Transaction Management') asSpecGroup
+		description: 'Manage aspects of GemStone transactions.';
 		beDisplayedAsGroup;
 		yourself.
+	commandGroup register: (SpkCommitTransactionCommand forSpecContext: self).
 	commandGroup register: (SpkAbortTransactionCommand forSpecContext: self).
+	commandGroup register: (SpkBeginTransactionCommand forSpecContext: self).
+	commandGroup register: (SpkSetAutomaticTransactionModeCommand forSpecContext: self).
+	commandGroup register: (SpkSetManualTransactionModeCommand forSpecContext: self).
 	^commandGroup
 ]
 
@@ -37,6 +47,12 @@ SpkExplorerWindow >> close [
 SpkExplorerWindow >> columns [
 
 	^ columns
+]
+
+{ #category : 'transaction management' }
+SpkExplorerWindow >> commitTransaction [
+
+	^self application commitTransaction
 ]
 
 { #category : 'constants' }
@@ -66,4 +82,16 @@ SpkExplorerWindow >> initializeFromLayoutService: anExplorerLayoutService [
 SpkExplorerWindow >> initializePresenters [
 
 	self initializeFromLayoutService: model layoutService
+]
+
+{ #category : 'transaction management' }
+SpkExplorerWindow >> setAutomaticTransactionMode [
+
+	^self application setAutomaticTransactionMode
+]
+
+{ #category : 'transaction management' }
+SpkExplorerWindow >> setManualTransactionMode [
+
+	^self application setManualTransactionMode
 ]

@@ -59,15 +59,25 @@ SpkTaskspaceServiceServer >> commitTransaction [
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool commitTransactionAnnouncing: announcement.
-	resultTool class == SpkSuccessTool
-		ifTrue: [].
-	resultService := SpkServiceFactory serviceForTool: resultTool.
-	^ resultService
+	^self serviceForTransactionResult: resultTool
 ]
 
 { #category : 'initialization' }
 SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 	tool := aTool
+]
+
+{ #category : 'transaction management' }
+SpkTaskspaceServiceServer >> serviceForTransactionResult: resultTool [
+
+	| resultService |
+	resultTool class == SpkSuccessTool
+		ifTrue: [^SpkServiceFactory serviceForTool: resultTool].
+
+	resultTool .
+
+	resultService := SpkServiceFactory serviceForTool: resultTool.
+	^ resultService
 ]
 
 { #category : 'transaction management' }

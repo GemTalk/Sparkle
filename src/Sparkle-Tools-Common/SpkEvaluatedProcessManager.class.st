@@ -18,10 +18,3 @@ SpkEvaluatedProcessManager >> explorerTool: anExplorerTool [
 
 	explorerTool := anExplorerTool
 ]
-
-{ #category : 'initializing' }
-SpkEvaluatedProcessManager >> initializeDebuggerTool [
-
-	super initializeDebuggerTool.
-	debuggerTool explorerTool: explorerTool
-]

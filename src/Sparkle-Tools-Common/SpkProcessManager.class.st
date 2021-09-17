@@ -94,11 +94,18 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 	process priority: originalPriority
 ]
 
+{ #category : 'accessing' }
+SpkProcessManager >> explorerTool [
+
+	^SpkExplorerTool newInTaskspace: taskspaceTool
+]
+
 { #category : 'initialization' }
 SpkProcessManager >> initializeDebuggerTool [
 
 	debuggerTool := SpkDebuggerTool new
 		taskspaceTool: taskspaceTool;
+		explorerTool: self explorerTool;
 		process: process;
 		processManager: self;
 		mustInitiate: self debuggerMustInitiate;

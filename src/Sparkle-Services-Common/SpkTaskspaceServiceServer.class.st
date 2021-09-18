@@ -53,13 +53,13 @@ SpkTaskspaceServiceServer >> beginTransaction [
 SpkTaskspaceServiceServer >> commitTransaction [
 	"Commit the current transaction"
 
-	| resultTool resultService announcement |
+	| resultTool announcement |
 	updatedServices := Set new.
 	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
+		updatedServices: updatedServices;
+		yourself.
 	resultTool := tool commitTransactionAnnouncing: announcement.
-	^self serviceForTransactionResult: resultTool
+	^ self serviceForTransactionResult: resultTool
 ]
 
 { #category : 'initialization' }
@@ -74,7 +74,7 @@ SpkTaskspaceServiceServer >> serviceForTransactionResult: resultTool [
 	resultTool class == SpkSuccessTool
 		ifTrue: [^SpkServiceFactory serviceForTool: resultTool].
 
-	resultTool .
+"Work in progress"
 
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService

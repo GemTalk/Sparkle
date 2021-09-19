@@ -18,6 +18,22 @@ NonLocalReturnTest class >> new [
 	^ super new initialize
 ]
 
+{ #category : 'support' }
+NonLocalReturnTest >> home [
+	"The home of the closure, thus the terminus of the NLR"
+
+	| levelString closure |
+	levelString := level printString.
+	trace add: 'enter home ' , levelString.
+	closure := [ trace add: 'starting NLR ' , levelString.
+				^ 'nlrReturnValue ' , levelString ].
+	self innerWithClosure: closure.
+
+	"Should not get to here."
+	trace add: 'exit home ' , levelString.
+	^ 'normal return of home ' , levelString
+]
+
 { #category : 'initialization' }
 NonLocalReturnTest >> initialize [
 	self initializeRandom
@@ -39,6 +55,13 @@ NonLocalReturnTest >> initializeRandom [
 	random := Lag1MwcRandom
 ]
 
+{ #category : 'support' }
+NonLocalReturnTest >> innerWithClosure: closure [
+	level > 1
+		ifTrue: [ self nestWithClosure: closure ]
+		ifFalse: closure
+]
+
 { #category : 'logging' }
 NonLocalReturnTest >> log: aString [
 	self logCr: Time now asStringMs , ' ' , self asOop printString , '  ' , aString
@@ -50,6 +73,32 @@ NonLocalReturnTest >> logSeed: anInteger [
 ]
 
 { #category : 'support' }
+NonLocalReturnTest >> nestWithClosure: closure [
+	| levelString |
+	levelString := level printString.
+	level := level - 1.
+	[trace add: 'enter protected ' , levelString.
+	closure value.
+	trace add: 'exit protected ' , levelString ]
+		ifCurtailed: [ 
+			trace add: 'enter ifCurtailed ' , levelString.
+			self preHome.
+			trace add: 'exit ifCurtailed ' , levelString ]
+]
+
+{ #category : 'support' }
+NonLocalReturnTest >> preHome [
+	"The sender of the home activation, thus where NLRs return to."
+
+	| levelString returnVal |
+	levelString := level printString.
+	trace add: 'enter preHome ' , levelString.
+	returnVal := self home.
+	trace add: 'preHome got returnVal ' , returnVal.
+	trace add: 'exit preHome ' , levelString
+]
+
+{ #category : 'support' }
 NonLocalReturnTest >> setUp [
 
 	super setUp.
@@ -58,7 +107,8 @@ NonLocalReturnTest >> setUp [
 
 { #category : 'tests' }
 NonLocalReturnTest >> testWellNestedNLRs [
-	"Nest non-local returns to many different arbitrary levels,and make sure things happen in the correct order."
+	"Nest non-local returns to many different arbitrary levels,and make sure things happen in the correct order.
+	Always test the more common small depths, then a bunch of random larger depths."
 
 	| max |
 	max := 500.
@@ -71,5 +121,7 @@ NonLocalReturnTest >> testWellNestedNLRs [
 NonLocalReturnTest >> wellNestedToDepth: depth [
 	"Strictly nest NLRs to the given depth, and assert that things happen in the correct order."
 
-	self assert: false.
+	level := depth.
+	self preHome.
+	self assert: false
 ]

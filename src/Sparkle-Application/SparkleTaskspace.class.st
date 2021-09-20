@@ -71,8 +71,7 @@ SparkleTaskspace >> connection: anObject [
 SparkleTaskspace >> handleRespondedService: aService [
 
 	aService class == SpkSuccessServiceClient
-		ifFalse: [ self openWindowForService: aService ].
-	"self enableAll"
+		ifFalse: [ self openWindowForService: aService ]
 ]
 
 { #category : 'initialization' }
@@ -152,6 +151,12 @@ SparkleTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
 ]
 
 { #category : 'processing announcements' }
+SparkleTaskspace >> receiveNewExplorer: anAnnouncement [
+
+	self defer: [ self openWindowForService: anAnnouncement service ]
+]
+
+{ #category : 'processing announcements' }
 SparkleTaskspace >> receiveTaskspaceLayoutAnnouncement: anAnnouncement [
 
 	self defer: [ 
@@ -185,6 +190,10 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 	taskspaceService
 		when: SpkTaskspaceResponseAnnouncement
 		send: #receiveTaskspaceResponse:
+		to: self.
+	taskspaceService
+		when: SpkNewExplorerAnnouncement
+		send: #receiveNewExplorer:
 		to: self.
 	self openAllWindows
 ]

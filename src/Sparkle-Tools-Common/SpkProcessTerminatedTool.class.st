@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkProcessTerminatedTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'process'
+		'process',
+		'explorerTool'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -12,6 +13,28 @@ SpkProcessTerminatedTool class >> forProcess: aGsProcess [
 	^ self new
 		process: aGsProcess;
 		yourself
+]
+
+{ #category : 'other' }
+SpkProcessTerminatedTool class >> forProcess: aGsProcess
+explorerTool: anExplorerTool [
+
+	^ self new
+		process: aGsProcess;
+		explorerTool: anExplorerTool;
+		yourself
+]
+
+{ #category : 'accessing' }
+SpkProcessTerminatedTool >> explorerTool [
+
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkProcessTerminatedTool >> explorerTool: anExplorerTool [
+
+	explorerTool := anExplorerTool
 ]
 
 { #category : 'accessing' }

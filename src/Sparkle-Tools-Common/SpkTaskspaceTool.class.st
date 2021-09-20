@@ -139,20 +139,39 @@ SpkTaskspaceTool >> newProcessManager [
 SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 
-	| processBody processManager |
+	| processBody processManager wasSuccessful processResult columnLayoutTool paneLayoutTool explorerLayoutTool |
 	processManager := self newProcessManager.
+	wasSuccessful := false.
 	processBody := [ 
 	| resultObject |
 	resultObject := aBlock
 		ifCurtailed: [ 
 			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
-			SpkSuccessTool new].
+				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current explorerTool: (SpkExplorerTool newInTaskspace: self)) ].
+		wasSuccessful := true.
+		nil "In the case of success, there is no defined return value."].
 
-	^ processManager
+	processResult := processManager
 		processBody: processBody;
 		runProcess;
-		waitForResult
+		waitForResult.
+	^wasSuccessful
+		ifTrue: [SpkSuccessTool new]
+		ifFalse:
+			["Do something to build that LayoutService"
+			columnLayoutTool := SpkColumnLayoutTool new.
+			paneLayoutTool := SpkPaneLayoutTool new
+				taskpaceTool: self;
+				paneTool: processResult;
+				relativeHeight: 1;
+				paneCoordinate: {0.5};
+				yourself.
+			columnLayoutTool addPaneLayout: paneLayoutTool.
+			explorerLayoutTool := SpkExplorerLayoutTool newInTaskspace: self.
+			explorerLayoutTool
+				explorerTool: processResult explorerTool;
+				addColumnLayout: columnLayoutTool.
+			explorerLayoutTool]
 ]
 
 { #category : 'transaction management' }

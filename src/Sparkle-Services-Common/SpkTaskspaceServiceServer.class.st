@@ -11,16 +11,13 @@ Class {
 SpkTaskspaceServiceServer >> abortTransaction [
 	"Abort the current transaction"
 
-	| resultTool resultService announcement |
+	| resultTool announcement |
 	updatedServices := Set new.
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool abortTransactionAnnouncing: announcement.
-	resultTool class == SpkSuccessTool
-		ifTrue: [].
-	resultService := SpkServiceFactory serviceForTool: resultTool.
-	^ resultService
+	^SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'adding' }
@@ -59,7 +56,7 @@ SpkTaskspaceServiceServer >> commitTransaction [
 		updatedServices: updatedServices;
 		yourself.
 	resultTool := tool commitTransactionAnnouncing: announcement.
-	^ self serviceForTransactionResult: resultTool
+	^SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'initialization' }
@@ -100,16 +97,13 @@ SpkTaskspaceServiceServer >> setAutomaticTransactionMode [
 SpkTaskspaceServiceServer >> setManualTransactionMode [
 	"Abort the current transaction and begin using manual transaction mode"
 
-	| resultTool resultService announcement |
+	| resultTool announcement |
 	updatedServices := Set new.
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool setManualTransactionModeAnnouncing: announcement.
-	resultTool class == SpkSuccessTool
-		ifTrue: [].
-	resultService := SpkServiceFactory serviceForTool: resultTool.
-	^ resultService
+	^SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'initialization' }

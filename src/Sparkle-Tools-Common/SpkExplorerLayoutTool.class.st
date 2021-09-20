@@ -49,6 +49,12 @@ SpkExplorerLayoutTool >> explorerTool [
 ]
 
 { #category : 'accessing' }
+SpkExplorerLayoutTool >> explorerTool: anExplorerTool [
+
+	explorerTool := anExplorerTool
+]
+
+{ #category : 'accessing' }
 SpkExplorerLayoutTool >> height [
 
 	^ height
@@ -70,8 +76,8 @@ SpkExplorerLayoutTool >> initialize [
 
 { #category : 'initialization' }
 SpkExplorerLayoutTool >> initializeForDefault [
-	explorerTool := SpkExplorerTool defaultInTaskspace: taskspaceTool.
-	self initializeForTool: explorerTool
+	
+	self initializeForTool: (SpkExplorerTool defaultInTaskspace: taskspaceTool)
 ]
 
 { #category : 'initialization' }

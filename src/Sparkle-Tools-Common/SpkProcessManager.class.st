@@ -35,6 +35,7 @@ SpkProcessManager >> debugForeignProcess: processToDebug withException: anExcept
 	and pass the buck."
 
 	SpkProcessManager new
+		taskspaceTool: taskspaceTool;
 		process: processToDebug;
 		debugException: anException
 ]

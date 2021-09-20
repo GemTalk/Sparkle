@@ -71,7 +71,7 @@ SparkleTaskspace >> connection: anObject [
 SparkleTaskspace >> handleRespondedService: aService [
 
 	aService class == SpkSuccessServiceClient
-		ifFalse: [ self openExplorerWindowWithService: aService ].
+		ifFalse: [ self openWindowForService: aService ].
 	"self enableAll"
 ]
 

@@ -254,6 +254,20 @@ SpkPane >> redo [
 	^ model redo
 ]
 
+{ #category : 'actions' }
+SpkPane >> replaceWithIndependentPaneFor: aPaneService [
+	" Replace the existing pane with one defined by aPaneService."
+
+	| column newPane |
+	column := owner.
+	"Ask the column, since it must own the new pane."
+	newPane := column presenterForService: aPaneService.
+	newPane coordinate: coordinate.
+	"Add before close so that the column doesn't become empty and remove itself"
+	column add: newPane.
+	self close
+]
+
 { #category : 'initialization' }
 SpkPane >> setCoordinateFromLayoutService [
 

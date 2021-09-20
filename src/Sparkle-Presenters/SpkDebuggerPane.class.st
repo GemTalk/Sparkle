@@ -190,11 +190,9 @@ SpkDebuggerPane >> replace [
 	"I'm done being a debugger, usually because my process has completed or been terminated.
 	Replace myself with a new pane."
 
-	linkedFrom ifNil: [ 
-		self flag:
-			'Should replace self with new independent pane with my coordinate.'.
-		^ self error: 'Independent debugger panes not yet fully supported.' ].
-	self openLinkedPane: model replacementService forItem: linkedFrom
+	linkedFrom
+		ifNil: [self replaceWithIndependentPaneFor: model replacementService]
+		ifNotNil: [self openLinkedPane: model replacementService forItem: linkedFrom]
 ]
 
 { #category : 'as yet unclassified' }

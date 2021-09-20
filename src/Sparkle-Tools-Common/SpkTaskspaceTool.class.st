@@ -161,7 +161,7 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 			["Do something to build that LayoutService"
 			columnLayoutTool := SpkColumnLayoutTool new.
 			paneLayoutTool := SpkPaneLayoutTool new
-				taskpaceTool: self;
+				taskspaceTool: self;
 				paneTool: processResult;
 				relativeHeight: 1;
 				paneCoordinate: {0.5};

@@ -34,16 +34,13 @@ SpkTaskspaceServiceServer >> addDefaultExplorer [
 SpkTaskspaceServiceServer >> beginTransaction [
 	"Begin a new transaction"
 
-	| resultTool resultService announcement |
+	| resultTool announcement |
 	updatedServices := Set new.
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool beginTransactionAnnouncing: announcement.
-	resultTool class == SpkSuccessTool
-		ifTrue: [].
-	resultService := SpkServiceFactory serviceForTool: resultTool.
-	^ resultService
+	^SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'transaction management' }
@@ -65,32 +62,16 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 ]
 
 { #category : 'transaction management' }
-SpkTaskspaceServiceServer >> serviceForTransactionResult: resultTool [
-
-	| resultService |
-	resultTool class == SpkSuccessTool
-		ifTrue: [^SpkServiceFactory serviceForTool: resultTool].
-
-"Work in progress"
-
-	resultService := SpkServiceFactory serviceForTool: resultTool.
-	^ resultService
-]
-
-{ #category : 'transaction management' }
 SpkTaskspaceServiceServer >> setAutomaticTransactionMode [
 	"Abort the current transaction and begin using automatic transaction mode"
 
-	| resultTool resultService announcement |
+	| resultTool announcement |
 	updatedServices := Set new.
 	announcement := SpkExecutionAnnouncement new
 		                updatedServices: updatedServices;
 		                yourself.
 	resultTool := tool setAutomaticTransactionModeAnnouncing: announcement.
-	resultTool class == SpkSuccessTool
-		ifTrue: [].
-	resultService := SpkServiceFactory serviceForTool: resultTool.
-	^ resultService
+	^SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'transaction management' }

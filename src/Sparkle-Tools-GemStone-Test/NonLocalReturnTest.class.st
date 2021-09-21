@@ -18,7 +18,35 @@ NonLocalReturnTest class >> new [
 	^ super new initialize
 ]
 
-{ #category : 'support' }
+{ #category : 'expected trace' }
+NonLocalReturnTest >> augmentExpectedTrace: expectedTrace depth: depth [
+	| depthString |
+	depthString := depth printString.
+	expectedTrace
+		add: 'enter preHome ' , depthString;
+		add: 'enter home ' , depthString.
+	depth > 1
+		ifFalse: [ expectedTrace add: 'starting NLR ' , depthString]
+		ifTrue: [ expectedTrace 
+						add:  'enter protected ' , depthString;
+						add: 'starting NLR ' , depthString;
+						add: 'enter ifCurtailed ' , depthString.
+					self augmentExpectedTrace: expectedTrace depth: depth - 1.
+					expectedTrace add: 'exit ifCurtailed ' , depthString].
+	expectedTrace
+		add: 'preHome got returnVal nlrReturnValue ' , depthString;
+		add: 'exit preHome ' , depthString
+]
+
+{ #category : 'expected trace' }
+NonLocalReturnTest >> expectedTraceForWellNestedToDepth: depth [
+	| expectedTrace |
+	expectedTrace := Array new.
+	self augmentExpectedTrace: expectedTrace depth: depth.
+	^ expectedTrace
+]
+
+{ #category : 'winding and unwinding' }
 NonLocalReturnTest >> home [
 	"The home of the closure, thus the terminus of the NLR"
 
@@ -52,10 +80,10 @@ NonLocalReturnTest >> initializeRandom [
 	upper29 := hostRandom integer bitAnd: 16r1FFFFFFF.
 	seed := (upper29 bitShift: 32) + lower32 + SmallInteger minimumValue.
 	self logSeed: seed.
-	random := Lag1MwcRandom
+	random := Lag1MwcRandom seed: seed
 ]
 
-{ #category : 'support' }
+{ #category : 'winding and unwinding' }
 NonLocalReturnTest >> innerWithClosure: closure [
 	level > 1
 		ifTrue: [ self nestWithClosure: closure ]
@@ -72,7 +100,7 @@ NonLocalReturnTest >> logSeed: anInteger [
 	self log: 'Setting random seed to ' , anInteger printString
 ]
 
-{ #category : 'support' }
+{ #category : 'winding and unwinding' }
 NonLocalReturnTest >> nestWithClosure: closure [
 	| levelString |
 	levelString := level printString.
@@ -86,7 +114,7 @@ NonLocalReturnTest >> nestWithClosure: closure [
 			trace add: 'exit ifCurtailed ' , levelString ]
 ]
 
-{ #category : 'support' }
+{ #category : 'winding and unwinding' }
 NonLocalReturnTest >> preHome [
 	"The sender of the home activation, thus where NLRs return to."
 
@@ -98,30 +126,25 @@ NonLocalReturnTest >> preHome [
 	trace add: 'exit preHome ' , levelString
 ]
 
-{ #category : 'support' }
-NonLocalReturnTest >> setUp [
-
-	super setUp.
-	trace := Array new.
-]
-
 { #category : 'tests' }
 NonLocalReturnTest >> testWellNestedNLRs [
 	"Nest non-local returns to many different arbitrary levels,and make sure things happen in the correct order.
 	Always test the more common small depths, then a bunch of random larger depths."
 
 	| max |
-	max := 500.
+	max := 100.
 	1 to: 3 do: [ :i | self wellNestedToDepth: i ].
-	50
-		timesRepeat: [ self wellNestedToDepth: ('random' integerBetween: 4 and: max) ]
+	50 timesRepeat: [ self wellNestedToDepth: (random integerBetween: 4 and: max) ]
 ]
 
 { #category : 'support' }
 NonLocalReturnTest >> wellNestedToDepth: depth [
 	"Strictly nest NLRs to the given depth, and assert that things happen in the correct order."
 
+	| expectedTrace |
+	trace := Array new.
 	level := depth.
 	self preHome.
-	self assert: false
+	expectedTrace := self expectedTraceForWellNestedToDepth: depth.
+	self assert: trace equals: expectedTrace
 ]

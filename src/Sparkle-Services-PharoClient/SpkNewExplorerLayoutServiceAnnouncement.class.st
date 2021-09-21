@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkNewExplorerAnnouncement',
+	#name : 'SpkNewExplorerLayoutServiceAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
 		'service'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkNewExplorerAnnouncement class >> service: anExplorerLayoutService [
+SpkNewExplorerLayoutServiceAnnouncement class >> service: anExplorerLayoutService [
 
 	^self new
 		service: anExplorerLayoutService;
@@ -16,13 +16,13 @@ SpkNewExplorerAnnouncement class >> service: anExplorerLayoutService [
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerAnnouncement >> service [
+SpkNewExplorerLayoutServiceAnnouncement >> service [
 
 	^ service
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerAnnouncement >> service: anObject [
+SpkNewExplorerLayoutServiceAnnouncement >> service: anObject [
 
 	service := anObject
 ]

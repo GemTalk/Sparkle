@@ -151,7 +151,7 @@ SparkleTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
 ]
 
 { #category : 'processing announcements' }
-SparkleTaskspace >> receiveNewExplorer: anAnnouncement [
+SparkleTaskspace >> receiveNewExplorerLayoutService: anAnnouncement [
 
 	self defer: [ self openWindowForService: anAnnouncement service ]
 ]
@@ -192,8 +192,8 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 		send: #receiveTaskspaceResponse:
 		to: self.
 	taskspaceService
-		when: SpkNewExplorerAnnouncement
-		send: #receiveNewExplorer:
+		when: SpkNewExplorerLayoutServiceAnnouncement
+		send: #receiveNewExplorerLayoutService:
 		to: self.
 	self openAllWindows
 ]

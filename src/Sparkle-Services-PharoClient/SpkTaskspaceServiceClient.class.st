@@ -50,7 +50,7 @@ SpkTaskspaceServiceClient >> openNewExplorer: anExplorerLayoutService [
 	"Open the provided explorer at the request of the server"
 
 	self updateServices.
-	self announce: (SpkNewExplorerAnnouncement service: anExplorerLayoutService)
+	self announce: (SpkNewExplorerLayoutServiceAnnouncement service: anExplorerLayoutService)
 ]
 
 { #category : 'transaction management' }

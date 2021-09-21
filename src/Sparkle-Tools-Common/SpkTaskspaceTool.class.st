@@ -139,7 +139,7 @@ SpkTaskspaceTool >> newProcessManager [
 SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 
-	| processBody processManager wasSuccessful processResult columnLayoutTool paneLayoutTool explorerLayoutTool |
+	| processBody processManager wasSuccessful processResult |
 	processManager := self newProcessManager.
 	wasSuccessful := false.
 	processBody := [ 
@@ -158,20 +158,9 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 	^wasSuccessful
 		ifTrue: [SpkSuccessTool new]
 		ifFalse:
-			["Do something to build that LayoutService"
-			columnLayoutTool := SpkColumnLayoutTool new.
-			paneLayoutTool := SpkPaneLayoutTool new
-				taskspaceTool: self;
-				paneTool: processResult;
-				relativeHeight: 1;
-				paneCoordinate: {0.5};
-				yourself.
-			columnLayoutTool addPaneLayout: paneLayoutTool.
-			explorerLayoutTool := SpkExplorerLayoutTool newInTaskspace: self.
-			explorerLayoutTool
-				explorerTool: processResult explorerTool;
-				addColumnLayout: columnLayoutTool.
-			explorerLayoutTool]
+			[SpkExplorerLayoutTool
+				newInTaskspace: self
+				viewing: processResult]
 ]
 
 { #category : 'transaction management' }

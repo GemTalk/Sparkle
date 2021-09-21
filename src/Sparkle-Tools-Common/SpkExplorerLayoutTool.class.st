@@ -10,18 +10,38 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'other' }
+{ #category : 'instance creation' }
 SpkExplorerLayoutTool class >> defaultInTaskspace: aTaskspaceTool [
 	^ (self newInTaskspace: aTaskspaceTool)
 		initializeForDefault;
 		yourself
 ]
 
-{ #category : 'other' }
+{ #category : 'instance creation' }
 SpkExplorerLayoutTool class >> newInTaskspace: aTaskspaceTool [
 	^ self new
 		taskspaceTool: aTaskspaceTool;
 		yourself
+]
+
+{ #category : 'instance creation' }
+SpkExplorerLayoutTool class >> newInTaskspace: aTaskspaceTool
+viewing: aPaneTool [
+
+	| columnLayoutTool paneLayoutTool explorerLayoutTool |
+	columnLayoutTool := SpkColumnLayoutTool new.
+	paneLayoutTool := SpkPaneLayoutTool new
+		taskspaceTool: aTaskspaceTool;
+		paneTool: aPaneTool;
+		relativeHeight: 1;
+		paneCoordinate: {0.5};
+		yourself.
+	columnLayoutTool addPaneLayout: paneLayoutTool.
+	explorerLayoutTool := self newInTaskspace: aTaskspaceTool.
+	explorerLayoutTool
+		explorerTool: aPaneTool explorerTool;
+		addColumnLayout: columnLayoutTool.
+	^explorerLayoutTool
 ]
 
 { #category : 'adding' }

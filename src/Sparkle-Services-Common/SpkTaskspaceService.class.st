@@ -50,7 +50,8 @@ SpkTaskspaceService >> explorersDo: aUnaryBlock [
 SpkTaskspaceService >> initialize [
 
 	super initialize.
-	explorers := Set new
+	explorers := Set new.
+	updatedServices := Set new.
 ]
 
 { #category : 'acccessing' }

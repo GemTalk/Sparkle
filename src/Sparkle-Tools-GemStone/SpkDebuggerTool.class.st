@@ -35,7 +35,13 @@ SpkDebuggerTool >> currentException: anException [
 SpkDebuggerTool >> debug [
 	mustInitiate
 		ifFalse: [ processManager returnValue: self ]
-		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
+		ifTrue:
+			[| explorerLayoutTool announcement |
+			explorerLayoutTool := SpkExplorerLayoutTool
+				newInTaskspace: taskspaceTool
+				viewing: self.
+			announcement := SpkNewExplorerLayoutToolAnnouncement tool: explorerLayoutTool.
+			taskspaceTool announce: announcement]
 ]
 
 { #category : 'accessing' }

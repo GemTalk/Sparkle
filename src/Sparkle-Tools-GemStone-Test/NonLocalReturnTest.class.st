@@ -30,9 +30,9 @@ NonLocalReturnTest >> augmentExpectedTrace: expectedTrace depth: depth [
 		ifTrue: [ expectedTrace 
 						add:  'enter protected ' , depthString;
 						add: 'starting NLR ' , depthString;
-						add: 'enter ifCurtailed ' , depthString.
+						add: 'enter unwind ' , depthString.
 					self augmentExpectedTrace: expectedTrace depth: depth - 1.
-					expectedTrace add: 'exit ifCurtailed ' , depthString].
+					expectedTrace add: 'exit unwind ' , depthString].
 	expectedTrace
 		add: 'preHome got returnVal nlrReturnValue ' , depthString;
 		add: 'exit preHome ' , depthString
@@ -109,9 +109,9 @@ NonLocalReturnTest >> nestWithClosure: closure [
 	closure value.
 	trace add: 'exit protected ' , levelString ]
 		ifCurtailed: [ 
-			trace add: 'enter ifCurtailed ' , levelString.
+			trace add: 'enter unwind ' , levelString.
 			self preHome.
-			trace add: 'exit ifCurtailed ' , levelString ]
+			trace add: 'exit unwind ' , levelString ]
 ]
 
 { #category : 'winding and unwinding' }
@@ -126,15 +126,33 @@ NonLocalReturnTest >> preHome [
 	trace add: 'exit preHome ' , levelString
 ]
 
+{ #category : 'future tests' }
+NonLocalReturnTest >> testMessilyNestedNLRs [
+
+	"Tests NLRs, some of which have a terminus that is below one or more unwind blocks."
+
+	self assert: true equals: false
+]
+
 { #category : 'tests' }
 NonLocalReturnTest >> testWellNestedNLRs [
 	"Nest non-local returns to many different arbitrary levels,and make sure things happen in the correct order.
-	Always test the more common small depths, then a bunch of random larger depths."
+	Always test the more common small depths, then a bunch of random larger depths.
+	These are all 'well-nested' NLRs -- those that only abnormally terminate *part* of an unwind block, never
+	the *entire* unwind block."
 
 	| max |
 	max := 100.
 	1 to: 3 do: [ :i | self wellNestedToDepth: i ].
 	50 timesRepeat: [ self wellNestedToDepth: (random integerBetween: 4 and: max) ]
+]
+
+{ #category : 'future tests' }
+NonLocalReturnTest >> testWellNestedNLRsWithExtraUnwindBlocks [
+
+	"Tests well-nested NLRs with randomly-placed unwind blocks that complete without adding an NLR nesting level."
+
+	self assert: true equals: false
 ]
 
 { #category : 'support' }

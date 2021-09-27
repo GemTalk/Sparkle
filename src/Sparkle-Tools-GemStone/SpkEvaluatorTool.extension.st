@@ -14,7 +14,7 @@ SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 
 { #category : '*Sparkle-Tools-GemStone' }
 SpkEvaluatorTool >> evaluateMethod: method inContext: context [
-	| processBody processManager |
+	| processBody processManager processLauncher |
 	processManager := self newProcessManager.
 	processBody := [ 
 	| resultObject |
@@ -23,9 +23,10 @@ SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 			processManager
 				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
 	explorerTool newInspectorToolOn: resultObject ].
+	processLauncher := self
+		newProcessLauncherWithBody: processBody
+		manager: processManager.
 
-	^ processManager
-		processBody: processBody;
-		runProcess;
-		waitForResult
+	processLauncher launch.
+	^processManager waitForResult
 ]

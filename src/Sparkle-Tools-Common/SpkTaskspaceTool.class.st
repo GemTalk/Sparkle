@@ -123,15 +123,25 @@ SpkTaskspaceTool >> newExplorerTool [
 ]
 
 { #category : 'transaction management' }
+SpkTaskspaceTool >> newProcessLauncherWithBody: processBody
+manager: processManager [
+
+	^SpkProcessLauncher new
+		processBreakpointLevel: 1;
+		processPriority: self evaluationPriority;
+		processName: 'Transaction Management';
+		processBody: processBody;
+		processManager: processManager;
+		yourself
+]
+
+{ #category : 'transaction management' }
 SpkTaskspaceTool >> newProcessManager [
 	"Create a new process to handle the asynchronous evaluation of an expression."
 
 	^ SpkProcessLauncherAndManager new
 		  taskspaceTool: self;
 		  debuggerDebugAction: Processor activeProcess debugActionBlock;
-		  processName: 'Evaluation';
-		  processPriority: self evaluationPriority;
-		  processBreakpointLevel: 1;
 		  yourself
 ]
 
@@ -139,7 +149,7 @@ SpkTaskspaceTool >> newProcessManager [
 SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 
-	| processBody processManager wasSuccessful processResult |
+	| processBody processManager processLauncher wasSuccessful processResult |
 	processManager := self newProcessManager.
 	wasSuccessful := false.
 	processBody := [ 
@@ -150,11 +160,12 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current explorerTool: (SpkExplorerTool newInTaskspace: self)) ].
 		wasSuccessful := true.
 		nil "In the case of success, there is no defined return value."].
+	processLauncher := self
+		newProcessLauncherWithBody: processBody
+		manager: processManager.
 
-	processResult := processManager
-		processBody: processBody;
-		runProcess;
-		waitForResult.
+	processLauncher launch.
+	processResult := processManager waitForResult.
 	^wasSuccessful
 		ifTrue: [SpkSuccessTool new]
 		ifFalse:

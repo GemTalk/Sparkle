@@ -2,9 +2,6 @@ Class {
 	#name : 'SpkProcessLauncherAndManager',
 	#superclass : 'SpkProcessManager',
 	#instVars : [
-		'processPriority',
-		'processName',
-		'processBreakpointLevel',
 		'result',
 		'resultReady'
 	],
@@ -23,28 +20,6 @@ SpkProcessLauncherAndManager >> initialize [
 	resultReady := Semaphore new
 ]
 
-{ #category : 'accessing' }
-SpkProcessLauncherAndManager >> processBody: aBlock [
-	process := [ self returnValue: aBlock value ] newProcess
-]
-
-{ #category : 'accessing' }
-SpkProcessLauncherAndManager >> processBreakpointLevel: anObject [
-
-	processBreakpointLevel := anObject
-]
-
-{ #category : 'accessing' }
-SpkProcessLauncherAndManager >> processName: object [
-	processName := object
-]
-
-{ #category : 'accessing' }
-SpkProcessLauncherAndManager >> processPriority: aPriority [
-
-	processPriority := aPriority
-]
-
 { #category : 'actions' }
 SpkProcessLauncherAndManager >> resumeProcessAndWait [
 	"Evaluation process waits for an answer and returns it"
@@ -57,16 +32,6 @@ SpkProcessLauncherAndManager >> resumeProcessAndWait [
 SpkProcessLauncherAndManager >> returnValue: anObject [
 	result := anObject.
 	resultReady signal
-]
-
-{ #category : 'actions' }
-SpkProcessLauncherAndManager >> runProcess [
-
-	process
-		name: processName;
-		priority: processPriority;
-		breakpointLevel: processBreakpointLevel.
-	self resumeProcess
 ]
 
 { #category : 'actions' }

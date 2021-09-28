@@ -5,7 +5,11 @@ Class {
 		'process',
 		'taskspaceTool',
 		'debuggerDebugAction',
-		'debuggerTool'
+		'debuggerTool',
+		'explorerTool',
+		'debuggerMustInitiate',
+		'result',
+		'resultReady'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
@@ -53,7 +57,13 @@ SpkProcessManager >> debuggerDebugAction: aBlock [
 { #category : 'accessing' }
 SpkProcessManager >> debuggerMustInitiate [
 
-	^ true
+	^debuggerMustInitiate
+]
+
+{ #category : 'accessing' }
+SpkProcessManager >> debuggerMustInitiate: aBoolean [
+
+	debuggerMustInitiate := aBoolean
 ]
 
 { #category : 'private' }
@@ -97,8 +107,24 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 
 { #category : 'accessing' }
 SpkProcessManager >> explorerTool [
+	^ explorerTool
+		ifNil: [ 
+			debuggerMustInitiate
+				ifTrue: [ explorerTool := SpkExplorerTool newInTaskspace: taskspaceTool ] ]
+]
 
-	^SpkExplorerTool newInTaskspace: taskspaceTool
+{ #category : 'accessing' }
+SpkProcessManager >> explorerTool: anExplorerTool [
+
+	explorerTool := anExplorerTool
+]
+
+{ #category : 'initialization' }
+SpkProcessManager >> initialize [
+
+	super initialize.
+	debuggerMustInitiate := true.
+	resultReady := Semaphore new
 ]
 
 { #category : 'initialization' }
@@ -134,6 +160,21 @@ SpkProcessManager >> resumeProcess [
 	process resume
 ]
 
+{ #category : 'actions' }
+SpkProcessManager >> resumeProcessAndWait [
+	"Evaluation process waits for an answer and returns it"
+
+	self resumeProcess.
+	^ self waitForResult
+]
+
+{ #category : 'actions' }
+SpkProcessManager >> returnValue: anObject [
+
+	result := anObject.
+	resultReady signal
+]
+
 { #category : 'initialization' }
 SpkProcessManager >> setDebugAction [
 
@@ -163,11 +204,23 @@ SpkProcessManager >> taskspaceTool: anObject [
 
 { #category : 'actions' }
 SpkProcessManager >> terminateProcess [
+	"Evaluation process waits for termination to be complete and returns the tool.
+	processBody must send me #returnValue: on completion of termination or this will hang."
+
 	process _isTerminated
 		ifTrue: [ ^ self newTerminatedTool ].
 	"If the process has started terminating, don't terminate again,
 	just proceed to let the unwind blocks run."
 	process _terminationStarted ifTrue: [^ self resumeProcess ].
 	[ process terminateTimeoutMs: SmallInteger maximumValue ]
-		forkAt: (process priority - 1 max: 1)
+		forkAt: (process priority - 1 max: 1).
+	^ self waitForResult
+]
+
+{ #category : 'actions' }
+SpkProcessManager >> waitForResult [
+	"Result may be a debugger"
+
+	resultReady wait.
+	^ result
 ]

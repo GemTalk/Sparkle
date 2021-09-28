@@ -33,7 +33,9 @@ SpkDebuggerTool >> currentException: anException [
 
 { #category : 'private' }
 SpkDebuggerTool >> debug [
-	mustInitiate
+
+	processManager returnValue: self
+	"mustInitiate
 		ifFalse: [ processManager returnValue: self ]
 		ifTrue:
 			[| explorerLayoutTool announcement |
@@ -41,7 +43,8 @@ SpkDebuggerTool >> debug [
 				newInTaskspace: taskspaceTool
 				viewing: self.
 			announcement := SpkNewExplorerLayoutToolAnnouncement tool: explorerLayoutTool.
-			taskspaceTool announce: announcement]
+			taskspaceTool announce: announcement.
+			mustInitiate := false]"
 ]
 
 { #category : 'accessing' }

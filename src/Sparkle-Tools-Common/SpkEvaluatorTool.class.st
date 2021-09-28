@@ -126,9 +126,10 @@ manager: processManager [
 { #category : 'accessing' }
 SpkEvaluatorTool >> newProcessManager [
 
-	^ SpkEvaluatedProcessManager new
+	^ SpkProcessManager new
 		  taskspaceTool: taskspaceTool;
 		  debuggerDebugAction: Processor activeProcess debugActionBlock;
+		  debuggerMustInitiate: false;
 		  explorerTool: explorerTool;
 		  yourself
 ]

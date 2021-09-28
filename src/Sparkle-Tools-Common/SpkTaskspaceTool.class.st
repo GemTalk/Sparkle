@@ -139,7 +139,7 @@ manager: processManager [
 SpkTaskspaceTool >> newProcessManager [
 	"Create a new process to handle the asynchronous evaluation of an expression."
 
-	^ SpkProcessLauncherAndManager new
+	^ SpkProcessManager new
 		  taskspaceTool: self;
 		  debuggerDebugAction: Processor activeProcess debugActionBlock;
 		  yourself

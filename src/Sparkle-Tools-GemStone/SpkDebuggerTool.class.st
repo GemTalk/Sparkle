@@ -8,7 +8,6 @@ Class {
 		'exceptionOfRecord',
 		'currentException',
 		'frames',
-		'mustInitiate',
 		'replacementTool'
 	],
 	#category : 'Sparkle-Tools-GemStone'
@@ -289,11 +288,6 @@ SpkDebuggerTool >> markTopGlueFramesForHalt [
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
 		ifNil: [ self markTopGlueFramesForGenericException ]
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> mustInitiate: object [
-	mustInitiate := object
 ]
 
 { #category : 'accessing' }

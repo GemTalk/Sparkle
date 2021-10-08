@@ -7,7 +7,6 @@ Class {
 		'debuggerDebugAction',
 		'debuggerTool',
 		'explorerTool',
-		'debuggerMustInitiate',
 		'result',
 		'resultReady'
 	],
@@ -54,18 +53,6 @@ SpkProcessManager >> debuggerDebugAction: aBlock [
 	debuggerDebugAction := aBlock
 ]
 
-{ #category : 'accessing' }
-SpkProcessManager >> debuggerMustInitiate [
-
-	^debuggerMustInitiate
-]
-
-{ #category : 'accessing' }
-SpkProcessManager >> debuggerMustInitiate: aBoolean [
-
-	debuggerMustInitiate := aBoolean
-]
-
 { #category : 'private' }
 SpkProcessManager >> debuggerProcessForException: anException [
 	"Answer a new debugger process for a new or existing debugger,
@@ -107,10 +94,8 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 
 { #category : 'accessing' }
 SpkProcessManager >> explorerTool [
-	^ explorerTool
-		ifNil: [ 
-			debuggerMustInitiate
-				ifTrue: [ explorerTool := SpkExplorerTool newInTaskspace: taskspaceTool ] ]
+
+	^explorerTool ifNil: [explorerTool := SpkExplorerTool newInTaskspace: taskspaceTool]
 ]
 
 { #category : 'accessing' }
@@ -123,7 +108,6 @@ SpkProcessManager >> explorerTool: anExplorerTool [
 SpkProcessManager >> initialize [
 
 	super initialize.
-	debuggerMustInitiate := true.
 	resultReady := Semaphore new
 ]
 
@@ -135,7 +119,6 @@ SpkProcessManager >> initializeDebuggerTool [
 		explorerTool: self explorerTool;
 		process: process;
 		processManager: self;
-		mustInitiate: self debuggerMustInitiate;
 		yourself
 ]
 

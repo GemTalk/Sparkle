@@ -157,7 +157,7 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 	resultObject := aBlock
 		ifCurtailed: [ 
 			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current explorerTool: (SpkExplorerTool newInTaskspace: self)) ].
+				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current explorerTool: processManager explorerTool) ].
 		wasSuccessful := true.
 		nil "In the case of success, there is no defined return value."].
 	processLauncher := self

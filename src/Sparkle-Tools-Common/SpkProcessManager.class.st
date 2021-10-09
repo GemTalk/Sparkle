@@ -8,10 +8,27 @@ Class {
 		'debuggerTool',
 		'explorerTool',
 		'result',
-		'resultReady'
+		'resultReady',
+		'announceNextDebug'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
+
+{ #category : 'private - debugger process' }
+SpkProcessManager >> announceDebug [
+	| newExplorerLayoutTool announcement |
+	newExplorerLayoutTool := SpkExplorerLayoutTool
+		newInTaskspace: taskspaceTool
+		viewing: debuggerTool.
+	announcement := SpkNewExplorerLayoutToolAnnouncement
+		tool: newExplorerLayoutTool.
+	taskspaceTool announce: announcement
+]
+
+{ #category : 'accessing' }
+SpkProcessManager >> announceNextDebug: aBoolean [
+	announceNextDebug := aBoolean
+]
 
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
@@ -27,20 +44,7 @@ SpkProcessManager >> debugException: anException [
 	"Either the process is mine, or it was forked from mine and inherited the debug action and therefore sent me a message"
 	processToDebug == process
 		ifTrue: [ self debugMyProcessWithException: anException ]
-		ifFalse: [ 
-		self debugForeignProcess: processToDebug withException: anException ]
-]
-
-{ #category : 'private' }
-SpkProcessManager >> debugForeignProcess: processToDebug withException: anException [
-
-	"This process is not my problem, create another manager for it
-	and pass the buck."
-
-	SpkProcessManager new
-		taskspaceTool: taskspaceTool;
-		process: processToDebug;
-		debugException: anException
+		ifFalse: [ self inNewManagerDebug: anException ]
 ]
 
 { #category : 'accessing' }
@@ -53,6 +57,18 @@ SpkProcessManager >> debuggerDebugAction: aBlock [
 	debuggerDebugAction := aBlock
 ]
 
+{ #category : 'private - debugger process' }
+SpkProcessManager >> debuggerProcessDebugException: anException [
+	"The part of the body of the debugger process that deals with setting up the debugger tool to debug the given exception."
+
+	process suspend.
+	debuggerTool ifNil: [ self initializeDebuggerTool ].
+	debuggerTool
+		currentException: anException;
+		refreshFromProcess;
+		debug
+]
+
 { #category : 'private' }
 SpkProcessManager >> debuggerProcessForException: anException [
 	"Answer a new debugger process for a new or existing debugger,
@@ -60,12 +76,11 @@ SpkProcessManager >> debuggerProcessForException: anException [
 
 	| debuggerProcess |
 	debuggerProcess := [ 
-	process suspend.
-	debuggerTool ifNil: [ self initializeDebuggerTool ].
-	debuggerTool
-		currentException: anException;
-		refreshFromProcess;
-		debug ] newProcess.
+	self debuggerProcessDebugException: anException.
+	announceNextDebug
+		ifTrue: [ 
+			announceNextDebug := false.
+			self announceDebug ] ] newProcess.
 	debuggerProcess name: 'Debugger for ' , process asOop printString.
 	^ debuggerProcess
 ]
@@ -108,7 +123,8 @@ SpkProcessManager >> explorerTool: anExplorerTool [
 SpkProcessManager >> initialize [
 
 	super initialize.
-	resultReady := Semaphore new
+	resultReady := Semaphore new.
+	announceNextDebug := false
 ]
 
 { #category : 'initialization' }
@@ -120,6 +136,18 @@ SpkProcessManager >> initializeDebuggerTool [
 		process: process;
 		processManager: self;
 		yourself
+]
+
+{ #category : 'private' }
+SpkProcessManager >> inNewManagerDebug: anException [
+	"This process is not my problem, create another manager for it
+	and pass the buck."
+
+	SpkProcessManager new
+		taskspaceTool: taskspaceTool;
+		process: Processor activeProcess;
+		announceNextDebug: true;
+		debugMyProcessWithException: anException	"debuggerDebugAction: **what**?"
 ]
 
 { #category : 'private' }

@@ -16,7 +16,7 @@ SpkViewRawCommand class >> defaultDescription [
 { #category : 'default' }
 SpkViewRawCommand class >> defaultName [
 
-	^ 'Raw'
+	^ 'Raw View'
 ]
 
 { #category : 'executing' }

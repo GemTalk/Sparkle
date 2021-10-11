@@ -27,6 +27,15 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	self layout add: evaluator before: addEvaluatorButton
 ]
 
+{ #category : 'actions' }
+SpkInspectorPane >> copyOop [ 
+
+	"Put the oop of the inspected object on the clipboard as a hex string 
+	(the same as it's displayed in the header)"
+	
+	Clipboard clipboardText: model oop hex.
+]
+
 { #category : 'as yet unclassified' }
 SpkInspectorPane >> deselectChangedFields [
 
@@ -192,7 +201,9 @@ SpkInspectorPane >> listLabelString [
 { #category : 'accessing' }
 SpkInspectorPane >> menuCommandClasses [
 
-	^{SpkViewRawCommand}
+	^ { 
+		  SpkViewRawCommand.
+		  SpkCopyOopCommand }
 ]
 
 { #category : 'accessing' }

@@ -22,6 +22,12 @@ SpkDebugCommand class >> defaultName [
 	^ 'Debug'
 ]
 
+{ #category : 'default' }
+SpkDebugCommand class >> defaultShortcutKey [
+
+	^ nil
+]
+
 { #category : 'executing' }
 SpkDebugCommand >> execute [
 

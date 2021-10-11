@@ -147,7 +147,8 @@ SpkProcessManager >> inNewManagerDebug: anException [
 		taskspaceTool: taskspaceTool;
 		process: Processor activeProcess;
 		announceNextDebug: true;
-		debugMyProcessWithException: anException	"debuggerDebugAction: **what**?"
+		debuggerDebugAction: debuggerDebugAction;
+		debugMyProcessWithException: anException
 ]
 
 { #category : 'private' }

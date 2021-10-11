@@ -128,7 +128,7 @@ SpkEvaluatorTool >> newProcessManager [
 
 	^ SpkProcessManager new
 		  taskspaceTool: taskspaceTool;
-		  debuggerDebugAction: Processor activeProcess debugActionBlock;
+		  debuggerDebugAction: nil;
 		  explorerTool: explorerTool;
 		  yourself
 ]

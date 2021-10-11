@@ -141,7 +141,7 @@ SpkTaskspaceTool >> newProcessManager [
 
 	^ SpkProcessManager new
 		  taskspaceTool: self;
-		  debuggerDebugAction: Processor activeProcess debugActionBlock;
+		  debuggerDebugAction: nil;
 		  yourself
 ]
 

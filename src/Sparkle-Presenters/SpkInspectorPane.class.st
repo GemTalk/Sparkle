@@ -1,11 +1,29 @@
+"
+I'm the top-level presenter of a Sparkle inspector.
+I live in a column.
+My responsibility is dividing the space between these elements:
+* The InspectorPane proper (header, printString, field list)
+* Zero or more evaluator subpanes
+* The addEvaluator button
+
+    Instance Variables
+*	addEvaluatorButton:		<SpkIconButtonPresenter>
+*	evaluators:		<OrderedCollection of SpkEvaluator>
+*	nextEvaluatorIndex:		<SmallInteger>
+*  pane:							<SpkInspectorPane
+
+    Implementation Points
+
+I don't have a coordinate; my pane has that.
+"
 Class {
 	#name : 'SpkInspectorPane',
-	#superclass : 'SpkPaneWithTwizzledList',
+	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'addEvaluatorButton',
 		'evaluators',
 		'nextEvaluatorIndex',
-		'selfDescription'
+		'pane'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -13,7 +31,7 @@ Class {
 { #category : 'adding' }
 SpkInspectorPane >> addEvaluator [
 
-	self addEvaluatorWithModel: model addEvaluator
+	self addEvaluatorWithModel: pane addEvaluator
 ]
 
 { #category : 'adding' }
@@ -23,57 +41,8 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
 	evaluator pane: self.
 	self evaluators add: evaluator.
-	self updateEvaluatorIndices.
+	pane updateEvaluatorIndices.
 	self layout add: evaluator before: addEvaluatorButton
-]
-
-{ #category : 'actions' }
-SpkInspectorPane >> copyOop [ 
-
-	"Put the oop of the inspected object on the clipboard as a hex string 
-	(the same as it's displayed in the header)"
-	
-	Clipboard clipboardText: model oop hex.
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorPane >> deselectChangedFields [
-
-	self
-		deselectOffTheEndFields;
-		deselectIdentityChangedFields
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorPane >> deselectIdentityChangedFields [
-
-	| oldFields newFields |
-	oldFields := listModel items.
-	newFields := model fields.
-	1 to: (newFields size min: oldFields size) do: [ :i | 
-		| oldField newField |
-		oldField := oldFields at: i.
-		newField := newFields at: i.
-		oldField model == newField ifFalse: [ 
-			listModel deselectItem: oldField ] ]
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorPane >> deselectOffTheEndFields [
-
-	| newNumberOfFields |
-	newNumberOfFields := model fields size.
-	listModel deselectItemsBeyondIndex: newNumberOfFields
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> enabled: aBoolean [
-
-	"selfDescription is not a presenter, so does not get
-	taken care of automatically."
-
-	super enabled: aBoolean.
-	selfDescription ifNotNil: [ :sd | sd enabled: aBoolean ]
 ]
 
 { #category : 'initialization' }
@@ -92,12 +61,6 @@ SpkInspectorPane >> evaluatorsWithLinkedPanes [
 SpkInspectorPane >> extraPresenters [
 
 	^ super extraPresenters , self evaluators
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> headerClass [
-
-	^ SpkInspectorPaneHeader
 ]
 
 { #category : 'adding' }
@@ -121,27 +84,8 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 { #category : 'adding' }
 SpkInspectorPane >> initializeEvaluators [
 
-	model evaluators do: [ :evaluatorModel | 
+	pane model evaluators do: [ :evaluatorModel | 
 		self addEvaluatorWithModel: evaluatorModel ]
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeFieldList [
-
-	self
-		initializeSelfDescription;
-		initializeTwizzledList.
-	twizzledList twizzleHelp: 'Show or hide the field list'
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeListColumns [
-
-	list
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 2 ])
 ]
 
 { #category : 'initialization' }
@@ -149,61 +93,19 @@ SpkInspectorPane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializeFieldList;
+		initializePane;
 		initializeAddEvaluatorButton;
 		initializeEvaluators
 ]
 
-{ #category : 'initialization' }
-SpkInspectorPane >> initializeSelfDescription [
+{ #category : 'instance creation' }
+SpkInspectorPane >> newLayout [
 
-	selfDescription := self instantiate: SpkTwizzledString.
-	selfDescription twizzleHelp: 'Show or hide the full printString'.
-	self updateSelfDescription
-]
+	"Splitters are wanted between the inspector pane and each evaluator."
 
-{ #category : 'actions' }
-SpkInspectorPane >> itemSelected: anAnnouncement [
-
-	"This announcement comes from the UI, not a service, so does not need to be deferred."
-
-	| field inspectorService |
-	field := anAnnouncement item.
-	inspectorService := field model inspectFieldForRequest: field.
-	"If nil, a server round trip is required and the inspector pane 
-	will be created by announcement from the service."
-	inspectorService
-		ifNil: [ self disableAll ]
-		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> itemsWithLinkedPanes [
-
-	"In addition to linked panes in the list, the inspector's 
-	evaluators may also have linked panes."
-
-	^ super itemsWithLinkedPanes , self evaluatorsWithLinkedPanes
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> linkedPanes [
-
-	^ super linkedPanes , self panesLinkedToEvaluators
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorPane >> listLabelString [
-
-	^ self listItemServices size printString , ' fields'
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> menuCommandClasses [
-
-	^ { 
-		  SpkViewRawCommand.
-		  SpkCopyOopCommand }
+	^ SpkAccordianLayout newVertical
+		  color: Color veryVeryDarkGray;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -220,78 +122,22 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 		  thenSelect: [ :each | each notNil ]
 ]
 
-{ #category : 'printing' }
-SpkInspectorPane >> printOn: aStream [
-
-	super printOn: aStream.
-	model ifNotNil: [ 
-		[ 
-		| classMembership oop |
-		classMembership := model classMembershipDescription.
-		oop := model oop.
-		aStream
-			<< ' for ';
-			<< classMembership;
-			space.
-		oop printOn: aStream base: 16 ]
-			on: Error
-			do: [ :ex | ex return ] ]
-]
-
 { #category : 'removing' }
 SpkInspectorPane >> removeEvaluator: anEvaluator [
 
 	model removeEvaluator: anEvaluator model.
 	layout remove: anEvaluator.
 	evaluators remove: anEvaluator.
-	self updateEvaluatorIndices.
+	pane updateEvaluatorIndices.
 ]
 
-{ #category : 'updating' }
-SpkInspectorPane >> updateEvaluatorIndices [
+{ #category : 'as yet unclassified' }
+SpkInspectorPane >> updateEvaluatorIndicesForListSize: listSize [
 
 	"Update the assigned indices for each evaluator
 	because the list of evaluators has or may have changed
 	or because the numbers of fields has changes."
 
-	| listSize |
-	listSize := listModel size.
-	self evaluators withIndexDo: [ :each :evaluatorIndex | each index: listSize + evaluatorIndex ]
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorPane >> updateFieldList [
-
-	self
-		deselectChangedFields;
-		refreshTwizzledList.
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> updateFromModel [
-
-	"Must be sent in the UI thread."
-
-	header classMembershipDescription: model classMembershipDescription.
-	self
-		updateSelfDescription;
-		updateFieldList
-]
-
-{ #category : 'updating' }
-SpkInspectorPane >> updateLinkedPaneCoordinates [
-
-	"Update the list."
-
-	super updateLinkedPaneCoordinates.
-	"Then, update the evaluators in case the list size has changed."
-	self updateEvaluatorIndices
-]
-
-{ #category : 'initialization' }
-SpkInspectorPane >> updateSelfDescription [
-
-	selfDescription
-		labelString: model selfDescription;
-		bodyString: model selfDescription
+	self evaluators withIndexDo: [ :each :evaluatorIndex | 
+		each index: listSize + evaluatorIndex ]
 ]

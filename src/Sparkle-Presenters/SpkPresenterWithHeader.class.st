@@ -13,12 +13,6 @@ SpkPresenterWithHeader >> closeRequestedLocally [
 	self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
-SpkPresenterWithHeader >> header [
-
-	^ header
-]
-
 { #category : 'initialization' }
 SpkPresenterWithHeader >> initializeHeader [
 

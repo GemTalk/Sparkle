@@ -1,3 +1,6 @@
+"
+Split extra space between submorphs, resulting in fully-justified submorphs.
+"
 Class {
 	#name : 'SpkLinearLayoutPlaceJustified',
 	#superclass : 'SpkLinearLayout',

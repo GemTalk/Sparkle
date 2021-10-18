@@ -1,3 +1,6 @@
+"
+Place extra space at the end, resulting in left/top justified submorphs.
+"
 Class {
 	#name : 'SpkLinearLayoutPlaceAtStart',
 	#superclass : 'SpkLinearLayout',

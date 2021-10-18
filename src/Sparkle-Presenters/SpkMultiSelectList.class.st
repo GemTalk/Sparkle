@@ -150,7 +150,7 @@ SpkMultiSelectList >> linkedPanes [
 
 	^ items
 		  collect: [ :item | item linkedPane ]
-		  thenSelect: [ :pane | pane notNil ]
+		  thenSelect: [ :aPane | aPane notNil ]
 ]
 
 { #category : 'accessing' }

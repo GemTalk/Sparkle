@@ -85,7 +85,7 @@ SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 		  at: SpkCompilationErrorServiceClient put: SpkCompilationErrorPane;
 		  at: SpkDebuggerFrameServiceClient put: SpkDebuggerFramePane;
 		  at: SpkDebuggerServiceClient put: SpkDebuggerPane;
-		  at: SpkInspectorServiceClient put: SpkInspectorSubPane;
+		  at: SpkInspectorServiceClient put: SpkInspectorPane;
 		  at: SpkProcessTerminatedServiceClient put: SpkProcessTerminatedPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;
 		  yourself

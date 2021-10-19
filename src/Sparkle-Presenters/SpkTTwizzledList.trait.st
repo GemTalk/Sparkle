@@ -30,3 +30,9 @@ SpkTTwizzledList >> refreshTwizzledList [
 		ifTrue: [ self updateLinkedPaneCoordinates ].
 	twizzledList labelString: self listLabelString.
 ]
+
+{ #category : 'accessing' }
+SpkTTwizzledList >> twizzledList [
+
+	^ twizzledList
+]

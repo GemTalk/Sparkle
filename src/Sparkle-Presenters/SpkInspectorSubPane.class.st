@@ -1,21 +1,14 @@
 Class {
 	#name : 'SpkInspectorSubPane',
-	#superclass : 'SpkPresenterWithHeader',
-	#traits : 'SpkTList',
-	#classTraits : 'SpkTList classTrait',
+	#superclass : 'SpkPresenterWithModel',
+	#traits : 'SpkTList + SpkTHeader + SpkTTwizzledList',
+	#classTraits : 'SpkTList classTrait + SpkTHeader classTrait + SpkTTwizzledList classTrait',
 	#instVars : [
+		'pane',
 		'selfDescription'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
-
-{ #category : 'adding' }
-SpkInspectorSubPane >> addEvaluator [
-
-	" Answer the new evaluator's model"
-
-	^ model addEvaluator
-]
 
 { #category : 'actions' }
 SpkInspectorSubPane >> copyOop [ 
@@ -180,16 +173,6 @@ SpkInspectorSubPane >> printOn: aStream [
 			do: [ :ex | ex return ] ]
 ]
 
-{ #category : 'updating' }
-SpkInspectorSubPane >> updateEvaluatorIndices [
-
-	"Update the assigned indices for each evaluator
-	because the list of evaluators has or may have changed
-	or because the numbers of fields has changes."
-
-	owner updateEvaluatorIndicesForListSize: listModel size
-]
-
 { #category : 'as yet unclassified' }
 SpkInspectorSubPane >> updateFieldList [
 
@@ -203,7 +186,8 @@ SpkInspectorSubPane >> updateFromModel [
 
 	"Must be sent in the UI thread."
 
-	header classMembershipDescription: model classMembershipDescription.
+	self header classMembershipDescription:
+		model classMembershipDescription.
 	self
 		updateSelfDescription;
 		updateFieldList

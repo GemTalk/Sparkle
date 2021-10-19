@@ -8,7 +8,7 @@ This differs from a plain text editor in several ways:
 "
 Class {
 	#name : 'SpkCodeSubPane',
-	#superclass : 'SpkPresenterWithHeader',
+	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'codePresenter'
 	],

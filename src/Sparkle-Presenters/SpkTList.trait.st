@@ -47,6 +47,18 @@ SpkTList >> itemsWithLinkedPanes [
 	^listModel itemsWithLinkedPanes
 ]
 
+{ #category : 'accessing' }
+SpkTList >> list [
+
+	^ list
+]
+
+{ #category : 'accessing' }
+SpkTList >> listModel [
+
+	^ listModel
+]
+
 { #category : 'as yet unclassified' }
 SpkTList >> panesLinkedToListItems [
 
@@ -57,6 +69,13 @@ SpkTList >> panesLinkedToListItems [
 SpkTList >> refreshList [
 
 	list refresh
+]
+
+{ #category : 'initialization' }
+SpkTList >> refreshListModel [
+
+	listModel refreshFromServices: self model listItems.
+	self updateSelection
 ]
 
 { #category : 'updating' }

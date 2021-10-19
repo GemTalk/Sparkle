@@ -1,10 +1,8 @@
 Class {
 	#name : 'SpkPaneWithList',
 	#superclass : 'SpkPane',
-	#instVars : [
-		'list',
-		'listModel'
-	],
+	#traits : 'SpkTHeader',
+	#classTraits : 'SpkTHeader classTrait',
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -12,7 +10,7 @@ Class {
 SpkPaneWithList >> connectPresenters [
 
 	super connectPresenters.
-	header menu: self menuCommandGroup asMenuPresenter.
+	self header menu: self menuCommandGroup asMenuPresenter.
 	model when: SpkPaneServiceAnnouncement send: #receiveLinkedPaneAnnouncement: to: self
 ]
 
@@ -74,13 +72,6 @@ SpkPaneWithList >> openLinkedPane: aPaneService forItem: item [
 
 	super openLinkedPane: aPaneService forItem: item.
 	self refreshList "Change linking arrow."
-]
-
-{ #category : 'initialization' }
-SpkPaneWithList >> refreshListModel [
-
-	listModel refreshFromServices: model listItems.
-	self updateSelection
 ]
 
 { #category : 'updating' }

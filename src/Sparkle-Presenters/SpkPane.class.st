@@ -10,7 +10,7 @@ I take most of the responsibility for formatting the pane header, which is commo
 "
 Class {
 	#name : 'SpkPane',
-	#superclass : 'SpkPresenterWithHeader',
+	#superclass : 'SpkPresenterWithModel',
 	#traits : 'SpkTLayoutService',
 	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
@@ -116,15 +116,6 @@ SpkPane >> initialize [
 	super initialize.
 	coordinate := SpkPaneCoordinate new.
 	isOpen := true
-]
-
-{ #category : 'initialization' }
-SpkPane >> initializeHeader [
-
-	header := self instantiate: self headerClass on: model.
-	self layout
-		add: header
-		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
 { #category : 'testing' }

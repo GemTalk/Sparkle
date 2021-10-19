@@ -10,8 +10,8 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
-	#traits : 'SpkTLinkedPane',
-	#classTraits : 'SpkTLinkedPane classTrait',
+	#traits : 'SpkTLinkedPane + SpkTHeader',
+	#classTraits : 'SpkTLinkedPane classTrait + SpkTHeader classTrait',
 	#instVars : [
 		'pane',
 		'index'
@@ -65,7 +65,7 @@ SpkEvaluator >> column [
 SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
-	header menu: self menuCommandGroup asMenuPresenter.
+	self header menu: self menuCommandGroup asMenuPresenter.
 	codePresenter text: model newSourceCode.
 	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
@@ -110,6 +110,12 @@ SpkEvaluator >> hasUnsavedChanges: aBoolean [
 	codePresenter hasUnacceptedEdits: aBoolean
 ]
 
+{ #category : 'tests - header' }
+SpkEvaluator >> headerClass [
+
+	^ SpkEvaluatorHeader
+]
+
 { #category : 'accessing' }
 SpkEvaluator >> index [
 
@@ -126,16 +132,10 @@ SpkEvaluator >> index: anIndex [
 ]
 
 { #category : 'initialization' }
-SpkEvaluator >> initializeHeader [
-
-	header := self instantiate: SpkEvaluatorHeader on: model.
-	self layout add: header withConstraints: [ :c | c height: 30 ]
-]
-
-{ #category : 'initialization' }
 SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
+	self initializeHeader.
 	self layout add: codePresenter.
 	codePresenter placeholder: 'Accept to evaluate code typed here.'
 ]
@@ -150,12 +150,6 @@ SpkEvaluator >> menuCommandGroup [
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
 		  "register: (self class sourceCodeCommandsGroupWith: self);"
 		  yourself
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> newLayout [
-
-	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'accessing' }

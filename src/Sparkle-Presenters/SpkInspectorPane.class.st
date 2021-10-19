@@ -18,12 +18,12 @@ I don't have a coordinate; my pane has that.
 "
 Class {
 	#name : 'SpkInspectorPane',
-	#superclass : 'SpkPresenterWithModel',
+	#superclass : 'SpkPane',
 	#instVars : [
 		'addEvaluatorButton',
+		'inspectorSubPane',
 		'evaluators',
-		'nextEvaluatorIndex',
-		'pane'
+		'nextEvaluatorIndex'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -31,7 +31,7 @@ Class {
 { #category : 'adding' }
 SpkInspectorPane >> addEvaluator [
 
-	self addEvaluatorWithModel: pane addEvaluator
+	self addEvaluatorWithModel: model addEvaluator
 ]
 
 { #category : 'adding' }
@@ -41,7 +41,7 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
 	evaluator pane: self.
 	self evaluators add: evaluator.
-	pane updateEvaluatorIndices.
+	self updateEvaluatorIndices.
 	self layout add: evaluator before: addEvaluatorButton
 ]
 
@@ -84,7 +84,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 { #category : 'adding' }
 SpkInspectorPane >> initializeEvaluators [
 
-	pane model evaluators do: [ :evaluatorModel | 
+	model evaluators do: [ :evaluatorModel | 
 		self addEvaluatorWithModel: evaluatorModel ]
 ]
 
@@ -93,7 +93,7 @@ SpkInspectorPane >> initializePresenters [
 
 	super initializePresenters.
 	self
-		initializePane;
+		initializeInspectorSubPane;
 		initializeAddEvaluatorButton;
 		initializeEvaluators
 ]
@@ -128,7 +128,17 @@ SpkInspectorPane >> removeEvaluator: anEvaluator [
 	model removeEvaluator: anEvaluator model.
 	layout remove: anEvaluator.
 	evaluators remove: anEvaluator.
-	pane updateEvaluatorIndices.
+	self updateEvaluatorIndices.
+]
+
+{ #category : 'updating' }
+SpkInspectorPane >> updateEvaluatorIndices [
+
+	"Update the assigned indices for each evaluator
+	because the list of evaluators has or may have changed
+	or because the numbers of fields has changes."
+
+	self updateEvaluatorIndicesForListSize: inspectorSubPane listSize
 ]
 
 { #category : 'as yet unclassified' }

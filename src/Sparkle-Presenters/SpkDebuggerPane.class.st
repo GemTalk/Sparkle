@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkDebuggerPane',
-	#superclass : 'SpkPaneWithList',
+	#superclass : 'SpkPane',
+	#traits : 'SpkTList',
+	#classTraits : 'SpkTList classTrait',
 	#instVars : [
 		'description',
 		'processControlLayout',
@@ -27,7 +29,7 @@ SpkDebuggerPane >> deselectExitedFrames [
 	We know which these are by identity of the FrameDescriptionService."
 
 	| oldFrameItems newFrames |
-	oldFrameItems := listModel items reverse. "Compare from the bottom of the stack."
+	oldFrameItems := self listModel items reverse. "Compare from the bottom of the stack."
 	newFrames := model frames.
 	1 to: (newFrames size min: oldFrameItems size) do: [ :index | 
 		| oldFrameItem oldFrame newFrame |
@@ -35,7 +37,7 @@ SpkDebuggerPane >> deselectExitedFrames [
 		oldFrame := oldFrameItem model.
 		newFrame := newFrames at: index.
 		oldFrame == newFrame ifFalse: [ 
-			listModel deselectItem: oldFrameItem ] ]
+			self listModel deselectItem: oldFrameItem ] ]
 ]
 
 { #category : 'private' }
@@ -68,7 +70,8 @@ SpkDebuggerPane >> deselectOffTheTopFrames [
 
 	| newNumberOfFrames |
 	newNumberOfFrames := model frames size.
-	listModel deselectItemsThroughIndex: listModel size - newNumberOfFrames
+	self listModel deselectItemsThroughIndex:
+		self listModel size - newNumberOfFrames
 ]
 
 { #category : 'accessing' }
@@ -100,14 +103,14 @@ SpkDebuggerPane >> initializeDescription [
 SpkDebuggerPane >> initializeFrameList [
 
 	self initializeList.
-	self layout add: list.
+	self layout add: self list.
 	self selectTopFrame
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeListColumns [
 
-	list addColumn: (SpStringTableColumn evaluated: #description)
+	self list addColumn: (SpStringTableColumn evaluated: #description)
 ]
 
 { #category : 'initialization' }
@@ -174,7 +177,7 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 
 { #category : 'as yet unclassified' }
 SpkDebuggerPane >> linkedFramePanes [
-	^ listModel linkedPanes
+	^ self listModel linkedPanes
 ]
 
 { #category : 'menu' }
@@ -200,7 +203,7 @@ SpkDebuggerPane >> selectTopFrame [
 
 	"If the top frame is not selected, select it."
 
-	listModel ensureFirstItemSelected.
+	self listModel ensureFirstItemSelected.
 	self updateSelection
 ]
 
@@ -229,14 +232,14 @@ SpkDebuggerPane >> updateDescription [
 SpkDebuggerPane >> updateFrameList [
 
 	| listCount |
-	listCount := listModel size.
+	listCount := self listModel size.
 	self
 		deselectInvalidFrames;
 		refreshListModel;
 		refreshList;
 		selectTopFrame.
-	listCount ~= listModel size
-		ifTrue: [ self updateLinkedPaneCoordinates ]
+	listCount ~= self listModel size ifTrue: [ 
+		self updateLinkedPaneCoordinates ]
 ]
 
 { #category : 'initialization' }

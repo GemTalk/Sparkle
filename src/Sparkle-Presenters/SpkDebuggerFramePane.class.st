@@ -7,7 +7,9 @@ Features
 "
 Class {
 	#name : 'SpkDebuggerFramePane',
-	#superclass : 'SpkPaneWithTwizzledList',
+	#superclass : 'SpkPane',
+	#traits : 'SpkTTwizzledList',
+	#classTraits : 'SpkTTwizzledList classTrait',
 	#instVars : [
 		'sourceLayout',
 		'controlsLayout',
@@ -105,7 +107,7 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 { #category : 'initialization' }
 SpkDebuggerFramePane >> initializeListColumns [
 
-	list
+	self list
 		addColumn: (SpStringTableColumn evaluated: #name);
 		addColumn: (SpStringTableColumn evaluated: #description)
 ]
@@ -114,7 +116,7 @@ SpkDebuggerFramePane >> initializeListColumns [
 SpkDebuggerFramePane >> initializeLocalVariableList [
 
 	self initializeTwizzledList.
-	twizzledList
+	self twizzledList
 		showSubPresenter: false;
 		twizzleHelp: 'Show or hide the local variable list'
 ]

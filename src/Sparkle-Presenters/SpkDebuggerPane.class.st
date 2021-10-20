@@ -1,8 +1,8 @@
 Class {
 	#name : 'SpkDebuggerPane',
 	#superclass : 'SpkPane',
-	#traits : 'SpkTList',
-	#classTraits : 'SpkTList classTrait',
+	#traits : 'SpkTList + SpkTHeader',
+	#classTraits : 'SpkTList classTrait + SpkTHeader classTrait',
 	#instVars : [
 		'description',
 		'processControlLayout',
@@ -22,7 +22,17 @@ SpkDebuggerPane >> closeRequestedLocally [
 	model terminate
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
+SpkDebuggerPane >> connectPresenters [
+
+	self header menu: self menuCommandGroup asMenuPresenter.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receiveLinkedPaneAnnouncement:
+		to: self
+]
+
+{ #category : 'private' }
 SpkDebuggerPane >> deselectExitedFrames [
 
 	"Deselect any selected frames that are no longer on the stack.
@@ -118,6 +128,7 @@ SpkDebuggerPane >> initializePresenters [
 
 	super initializePresenters.
 	self
+		initializeHeader
 		initializeDescription;
 		initializeProcessControls;
 		initializeFrameList

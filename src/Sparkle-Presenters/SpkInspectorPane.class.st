@@ -45,6 +45,22 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	self layout add: evaluator before: addEvaluatorButton
 ]
 
+{ #category : 'copying' }
+SpkInspectorPane >> copyOop [
+
+	inspectorSubPane copyOop
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> enabled: aBoolean [
+
+	"selfDescription is not a presenter, so does not get
+	taken care of automatically."
+
+	super enabled: aBoolean.
+	selfDescription ifNotNil: [ :sd | sd enabled: aBoolean ]
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> evaluators [
 
@@ -88,6 +104,14 @@ SpkInspectorPane >> initializeEvaluators [
 		self addEvaluatorWithModel: evaluatorModel ]
 ]
 
+{ #category : 'adding' }
+SpkInspectorPane >> initializeInspectorSubPane [
+
+	inspectorSubPane := self instantiate: SpkInspectorSubPane on: model.
+	inspectorSubPane pane: self.
+	self layout add: inspectorSubPane
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> initializePresenters [
 
@@ -96,6 +120,14 @@ SpkInspectorPane >> initializePresenters [
 		initializeInspectorSubPane;
 		initializeAddEvaluatorButton;
 		initializeEvaluators
+]
+
+{ #category : 'accessing' }
+SpkInspectorPane >> menuCommandClasses [
+
+	^ { 
+		  SpkViewRawCommand.
+		  SpkCopyOopCommand }
 ]
 
 { #category : 'instance creation' }
@@ -112,6 +144,12 @@ SpkInspectorPane >> newLayout [
 SpkInspectorPane >> nextEvaluatorIndex [
 
 	^ nextEvaluatorIndex ifNil: [ nextEvaluatorIndex := 1 ]
+]
+
+{ #category : 'actions' }
+SpkInspectorPane >> openLinkedPane: newService forItem: item [
+
+	inspectorSubPane openLinkedPane: newService forItem: item
 ]
 
 { #category : 'accessing' }

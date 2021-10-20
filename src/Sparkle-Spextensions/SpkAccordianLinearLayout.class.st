@@ -193,7 +193,7 @@ SpkAccordianLinearLayout >> pResizingOf: aMorph [
 { #category : 'as yet unclassified' }
 SpkAccordianLinearLayout >> placeRigidsOnly [
 
-	self subclassResponsibility
+	"self subclassResponsibility"
 ]
 
 { #category : 'accessing' }

@@ -8,8 +8,8 @@ Features
 Class {
 	#name : 'SpkDebuggerFramePane',
 	#superclass : 'SpkPane',
-	#traits : 'SpkTTwizzledList',
-	#classTraits : 'SpkTTwizzledList classTrait',
+	#traits : 'SpkTTwizzledList + SpkTHeader',
+	#classTraits : 'SpkTTwizzledList classTrait + SpkTHeader classTrait',
 	#instVars : [
 		'sourceLayout',
 		'controlsLayout',
@@ -126,6 +126,7 @@ SpkDebuggerFramePane >> initializePresenters [
 
 	super initializePresenters.
 	self
+		initializeHeader;
 		initializeLocalVariableList;
 		initializeSourceLayout;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 

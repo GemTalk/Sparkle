@@ -1,14 +1,26 @@
 Class {
 	#name : 'SpkInspectorSubPane',
 	#superclass : 'SpkPresenterWithModel',
-	#traits : 'SpkTList + SpkTHeader + SpkTTwizzledList',
-	#classTraits : 'SpkTList classTrait + SpkTHeader classTrait + SpkTTwizzledList classTrait',
+	#traits : 'SpkTHeader + (SpkTTwizzledList @ {#updateLinkedPaneCoordinates->#tUpdateLinkedPaneCoordinates})',
+	#classTraits : 'SpkTHeader classTrait + SpkTTwizzledList classTrait',
 	#instVars : [
 		'pane',
 		'selfDescription'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
+
+{ #category : 'accessing' }
+SpkInspectorSubPane >> column [
+
+	^ pane column
+]
+
+{ #category : 'accessing' }
+SpkInspectorSubPane >> coordinate [
+
+	^ pane coordinate
+]
 
 { #category : 'actions' }
 SpkInspectorSubPane >> copyOop [ 
@@ -49,14 +61,10 @@ SpkInspectorSubPane >> deselectOffTheEndFields [
 	listModel deselectItemsBeyondIndex: newNumberOfFields
 ]
 
-{ #category : 'accessing' }
-SpkInspectorSubPane >> enabled: aBoolean [
+{ #category : 'actions' }
+SpkInspectorSubPane >> disableAll [
 
-	"selfDescription is not a presenter, so does not get
-	taken care of automatically."
-
-	super enabled: aBoolean.
-	selfDescription ifNotNil: [ :sd | sd enabled: aBoolean ]
+	pane disableAll
 ]
 
 { #category : 'accessing' }
@@ -94,7 +102,10 @@ SpkInspectorSubPane >> initializeListColumns [
 SpkInspectorSubPane >> initializePresenters [
 
 	super initializePresenters.
-	self initializeFieldList
+
+	self
+		initializeHeader;
+		initializeFieldList
 ]
 
 { #category : 'initialization' }
@@ -142,11 +153,20 @@ SpkInspectorSubPane >> listLabelString [
 ]
 
 { #category : 'accessing' }
-SpkInspectorSubPane >> menuCommandClasses [
+SpkInspectorSubPane >> nonChildSlotNames [ 
+	^ super nonChildSlotNames , #( #pane )
+]
 
-	^ { 
-		  SpkViewRawCommand.
-		  SpkCopyOopCommand }
+{ #category : 'accessing' }
+SpkInspectorSubPane >> pane: anInspectorPane [
+
+	pane := anInspectorPane.
+	"Cannot do the following until my pane is known."
+	self header menu: pane menuCommandGroup asMenuPresenter.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receiveLinkedPaneAnnouncement:
+		to: pane
 ]
 
 { #category : 'accessing' }
@@ -197,10 +217,10 @@ SpkInspectorSubPane >> updateFromModel [
 SpkInspectorSubPane >> updateLinkedPaneCoordinates [
 
 	"Update the list."
-
-	super updateLinkedPaneCoordinates.
+	self halt.
+	self tUpdateLinkedPaneCoordinates.
 	"Then, update the evaluators in case the list size has changed."
-	self updateEvaluatorIndices
+	pane updateEvaluatorIndices
 ]
 
 { #category : 'initialization' }

@@ -200,24 +200,6 @@ SpkPane >> nonChildSlotNames [
 	^ super nonChildSlotNames , #( #linkedFrom )
 ]
 
-{ #category : 'actions' }
-SpkPane >> openLinkedPane: aPaneService forItem: item [
-
-	" Create and open a pane in the next column.
-	Generic part is here, see subclasses for detailed use."
-
-	| nextRightColumn newPane |
-	nextRightColumn := item column nextRightColumn.
-	"Ask the column, since it must own the new pane."
-	newPane := nextRightColumn presenterForService: aPaneService.
-	newPane coordinate: (item coordinateRelativeTo: coordinate).
-	"Add before close so that the column doesn't become empty and remove itself"
-	nextRightColumn add: newPane.
-	item
-		closeLinkedPane;
-		linkedPane: newPane
-]
-
 { #category : 'initialization' }
 SpkPane >> receiveActionCompleteAnnouncement [ 
 	

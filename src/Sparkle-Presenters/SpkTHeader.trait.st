@@ -27,4 +27,6 @@ SpkTHeader >> newLayout [
 	"Everything with a header is vertical, and not an accordian."
 
 	^ SpkBoxLayout newVertical
+		  color: Color veryVeryDarkGray;
+		  yourself
 ]

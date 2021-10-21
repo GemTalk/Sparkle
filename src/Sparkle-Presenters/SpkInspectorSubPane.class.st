@@ -10,6 +10,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'events' }
+SpkInspectorSubPane >> closeRequestedLocally [
+
+	pane closeRequestedLocally
+]
+
 { #category : 'accessing' }
 SpkInspectorSubPane >> column [
 
@@ -84,6 +90,7 @@ SpkInspectorSubPane >> initializeFieldList [
 
 	self
 		initializeSelfDescription;
+		addSeparator;
 		initializeTwizzledList.
 	twizzledList twizzleHelp: 'Show or hide the field list'
 ]

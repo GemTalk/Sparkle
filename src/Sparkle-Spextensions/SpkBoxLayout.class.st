@@ -86,6 +86,14 @@ SpkBoxLayout >> add: aPresenter height: anInteger [
 ]
 
 { #category : 'adding' }
+SpkBoxLayout >> add: aPresenter primaryDimension: anInteger [
+
+	self isHorizontal
+		ifTrue: [ self add: aPresenter width: anInteger ]
+		ifFalse: [ self add: aPresenter height: anInteger ]
+]
+
+{ #category : 'adding' }
 SpkBoxLayout >> add: aPresenter width: anInteger [
 
 	self

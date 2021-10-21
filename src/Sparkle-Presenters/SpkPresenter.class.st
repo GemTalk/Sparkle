@@ -35,6 +35,12 @@ SpkPresenter class >> notYetImplemented: aString [
 	self inform: aString , ' not yet implemented (shucks)'
 ]
 
+{ #category : 'adding' }
+SpkPresenter >> addSeparator [
+
+	self layout add: self newSeparatorPresenter primaryDimension: 1
+]
+
 { #category : 'building menus' }
 SpkPresenter >> buildHamburgerMenu [
 
@@ -100,6 +106,24 @@ SpkPresenter >> newLayout [
 SpkPresenter >> newMenuButton [
 
 	^ self instantiate: SpkMenuButtonPresenter
+]
+
+{ #category : 'as yet unclassified' }
+SpkPresenter >> newSeparatorMorph [
+
+	^ Morph new
+		  color: Color darkGray;
+		  height: 2;
+		  vResizing: #rigid;
+		  "Should be layout's primary direction, not vertical"yourself
+]
+
+{ #category : 'adding' }
+SpkPresenter >> newSeparatorPresenter [
+
+	^ self newMorph
+		  morph: self newSeparatorMorph;
+		  yourself
 ]
 
 { #category : 'widgets' }

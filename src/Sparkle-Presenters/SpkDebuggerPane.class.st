@@ -130,6 +130,7 @@ SpkDebuggerPane >> initializePresenters [
 	self
 		initializeHeader
 		initializeDescription;
+		addSeparator;
 		initializeProcessControls;
 		initializeFrameList
 ]

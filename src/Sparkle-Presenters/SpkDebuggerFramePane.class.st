@@ -128,6 +128,7 @@ SpkDebuggerFramePane >> initializePresenters [
 	self
 		initializeHeader;
 		initializeLocalVariableList;
+		addSeparator;
 		initializeSourceLayout;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
 			self updateFromModel ]

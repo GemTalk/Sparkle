@@ -74,6 +74,16 @@ SpkInspectorSubPane >> disableAll [
 ]
 
 { #category : 'accessing' }
+SpkInspectorSubPane >> enabled: aBoolean [
+
+	"selfDescription is not a presenter, so does not get
+	taken care of automatically."
+
+	super enabled: aBoolean.
+	selfDescription ifNotNil: [ :sd | sd enabled: aBoolean ]
+]
+
+{ #category : 'accessing' }
 SpkInspectorSubPane >> evaluatorsWithLinkedPanes [
 
 	^ owner evaluatorsWithLinkedPanes
@@ -145,12 +155,6 @@ SpkInspectorSubPane >> itemsWithLinkedPanes [
 	evaluators may also have linked panes."
 
 	^ super itemsWithLinkedPanes , owner evaluatorsWithLinkedPanes
-]
-
-{ #category : 'accessing' }
-SpkInspectorSubPane >> linkedPanes [
-
-	^ super linkedPanes , self panesLinkedToEvaluators
 ]
 
 { #category : 'as yet unclassified' }

@@ -81,7 +81,9 @@ SpkPane >> coordinate [
 { #category : 'accessing' }
 SpkPane >> coordinate: aCoordinate [
 
-	coordinate := aCoordinate
+	coordinate = aCoordinate ifTrue: [ ^ self ].
+	coordinate := aCoordinate.
+	self updateLinkedPaneCoordinates
 ]
 
 { #category : 'actions' }
@@ -139,7 +141,7 @@ SpkPane >> linkedFrom: anObject [
 { #category : 'accessing' }
 SpkPane >> linkedPanes [
 
-	^ #(  )
+	^ self panesLinkedToListItems
 ]
 
 { #category : 'accessing' }
@@ -198,6 +200,12 @@ SpkPane >> newPaneForService: newService linkedTo: item [
 SpkPane >> nonChildSlotNames [
 
 	^ super nonChildSlotNames , #( #linkedFrom )
+]
+
+{ #category : 'as yet unclassified' }
+SpkPane >> panesLinkedToListItems [
+
+	^ #(  )
 ]
 
 { #category : 'initialization' }
@@ -261,4 +269,11 @@ SpkPane >> undo [
 SpkPane >> updateFromModel [
 	"Must be sent only in the UI thread."
 	"Subclasses should override if they can receive update announcements"
+]
+
+{ #category : 'updating' }
+SpkPane >> updateLinkedPaneCoordinates [
+
+	"By default do nothing. Overridden by subclasses, 
+	especially those using SpkTList."
 ]

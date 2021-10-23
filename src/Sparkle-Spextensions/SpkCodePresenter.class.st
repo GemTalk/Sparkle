@@ -28,7 +28,8 @@ SpkCodePresenter class >> codeAcceptCommandsGroupWith: aPresenter [
 
 	commandGroup register:
 		(SpkAcceptChangesCommand forSpecContext: aPresenter).
-	commandGroup register: (SpkDebugCommand forSpecContext: aPresenter).
+	commandGroup register: 
+		(SpkDebugCommand forSpecContext: aPresenter).
    "commandGroup register:
 		(SpkCancelChangesCommand forSpecContext: aPresenter)."
 

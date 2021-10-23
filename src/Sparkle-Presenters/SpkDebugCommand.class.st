@@ -25,7 +25,9 @@ SpkDebugCommand class >> defaultName [
 { #category : 'default' }
 SpkDebugCommand class >> defaultShortcutKey [
 
-	^ nil
+	^ $d command mac 
+		| $d control win 
+		| $d control unix
 ]
 
 { #category : 'executing' }

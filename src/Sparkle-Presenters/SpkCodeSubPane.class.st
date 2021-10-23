@@ -15,41 +15,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'commands' }
-SpkCodeSubPane class >> sourceCodeCommandsGroupWith: aPresenter [
-
-	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Source code commands')
-		                asSpecGroup
-		                description: 'Format or do it';
-		                beDisplayedAsGroup;
-		                yourself.
-
-	commandGroup
-		register: (SpkFormatCodeCommand forSpecContext: aPresenter);
-		register: (SpkDoItCommand forSpecContext: aPresenter);
-		register: (SpkDebugItCommand forSpecContext: aPresenter).
-
-	^ commandGroup
-]
-
-{ #category : 'commands' }
-SpkCodeSubPane class >> undoRedoCommandsGroupWith: aPresenter [
-
-	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Undo/redo commands')
-		                asSpecGroup
-		                description: 'Undo or redo changes.';
-		                beDisplayedAsGroup;
-		                yourself.
-
-	commandGroup
-		register: (SpkUndoCommand forSpecContext: aPresenter);
-		register: (SpkRedoCommand forSpecContext: aPresenter).
-
-	^ commandGroup
-]
-
 { #category : 'visiting' }
 SpkCodeSubPane >> accept [
 
@@ -108,9 +73,7 @@ SpkCodeSubPane >> initializePresenters [
 
 	super initializePresenters.
 	codePresenter := self instantiate: SpkCodePresenter.
-	codePresenter
-		bindKeyCombination: $s meta
-		toAction: [ self accept ]
+	codePresenter bindKeyCombination: $s meta toAction: [ self accept ]
 ]
 
 { #category : 'actions' }

@@ -137,7 +137,9 @@ SpkEvaluator >> initializePresenters [
 	super initializePresenters.
 	self initializeHeader.
 	self layout add: codePresenter.
-	codePresenter placeholder: 'Accept to evaluate code typed here.'
+	codePresenter
+		placeholder: 'Accept to evaluate code typed here.';
+		bindKeyCombination: $d meta toAction: [ self debug ]
 ]
 
 { #category : 'instance creation' }

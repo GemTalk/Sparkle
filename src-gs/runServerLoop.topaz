@@ -1,7 +1,8 @@
 exec
+Processor activeProcess name: 'Sparkle Server'.
 [
 	| spec connection |
-
+	
 	GsFile gciLogClient: '==============================================================='.
 	GsFile gciLogClient: 'Starting to listen'.
 

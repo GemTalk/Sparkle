@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkProcessListPane',
-	#superclass : 'SpkPaneWithList',
+	#superclass : 'SpkPane',
+	#traits : 'SpkTHeader + SpkTList',
+	#classTraits : 'SpkTHeader classTrait + SpkTList classTrait',
 	#category : 'Sparkle-Presenters-Presenters'
 }
 

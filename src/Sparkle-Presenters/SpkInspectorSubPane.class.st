@@ -176,7 +176,7 @@ SpkInspectorSubPane >> pane: anInspectorPane [
 	self header menu: pane menuCommandGroup asMenuPresenter.
 	model
 		when: SpkPaneServiceAnnouncement
-		send: #receiveLinkedPaneAnnouncement:
+		send: #receivePaneServiceAnnouncement:
 		to: pane
 ]
 

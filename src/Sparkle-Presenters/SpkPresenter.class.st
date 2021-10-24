@@ -112,7 +112,7 @@ SpkPresenter >> newMenuButton [
 SpkPresenter >> newSeparatorMorph [
 
 	^ Morph new
-		  color: Color darkGray;
+		  color: Color veryDarkGray;
 		  height: 2;
 		  vResizing: #rigid;
 		  "Should be layout's primary direction, not vertical"yourself

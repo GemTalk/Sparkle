@@ -35,6 +35,17 @@ SpkDebuggerFramePane >> addSourcePositionDecoration [
 				 yourself)
 ]
 
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> connectPresenters [
+
+	super connectPresenters.
+	self header menu: self menuCommandGroup asMenuPresenter.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receivePaneServiceAnnouncement:
+		to: self
+]
+
 { #category : 'accessing' }
 SpkDebuggerFramePane >> controlButtonNamed: buttonName
 icon: iconBaseName

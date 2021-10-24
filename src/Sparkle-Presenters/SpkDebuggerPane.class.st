@@ -25,10 +25,11 @@ SpkDebuggerPane >> closeRequestedLocally [
 { #category : 'initialization' }
 SpkDebuggerPane >> connectPresenters [
 
+	super connectPresenters.
 	self header menu: self menuCommandGroup asMenuPresenter.
 	model
 		when: SpkPaneServiceAnnouncement
-		send: #receiveLinkedPaneAnnouncement:
+		send: #receivePaneServiceAnnouncement:
 		to: self
 ]
 

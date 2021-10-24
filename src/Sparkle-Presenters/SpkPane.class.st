@@ -215,7 +215,7 @@ SpkPane >> receiveActionCompleteAnnouncement [
 ]
 
 { #category : 'announcements' }
-SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
+SpkPane >> receivePaneServiceAnnouncement: anAnnouncement [
 
 	(anAnnouncement requestId linkedPane isNil or: [ 
 		 anAnnouncement service ~~ anAnnouncement requestId linkedPane model ]) 

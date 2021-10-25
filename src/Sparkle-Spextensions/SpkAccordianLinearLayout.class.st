@@ -78,6 +78,12 @@ SpkAccordianLinearLayout >> computeLayout [
 ]
 
 { #category : 'accessing' }
+SpkAccordianLinearLayout >> coordinateTransform [
+
+	^ xform
+]
+
+{ #category : 'accessing' }
 SpkAccordianLinearLayout >> coordinateTransform: aTransform [
 
 	xform := aTransform

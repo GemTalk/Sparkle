@@ -49,23 +49,47 @@ SpMorphicSpkAccordianAdapter >> addPadding: aNumber toMorph: aMorph [
 
 { #category : 'adding' }
 SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
+
 	"Normally should use #basicAdd:constraints:to:beforeIndex:.
 	But this message is sent when first building a non-empty adapter."
 
+	| physicalSize logicalIndex |
+	physicalSize := aPanel submorphs size.
+	logicalIndex := physicalSize + physicalSize sign / 2 + 1.
 	self
 		basicAdd: aPresenter
 		constraints: constraints
 		to: aPanel
-		beforeIndex: widget submorphs size + 1
+		beforeIndex: logicalIndex
 ]
 
 { #category : 'adding' }
-SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: anInteger [
-	| childMorph |
+SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: logicalIndex [
+
+	"The given logical index does not take into account the splitter morphs.
+	Must adjust the index, and also add a splitter if this is not the only child."
+
+	| physicalIndex childMorph |
+	physicalIndex := logicalIndex * 2 - 1.
 	childMorph := self buildMorph: aPresenter constraints: constraints.
 	aPanel extent: (aPanel width max: childMorph width)
 		@ (aPanel height max: childMorph height).
-	widget privateAddMorph: childMorph atIndex: anInteger.
+
+	aPanel submorphs isEmpty
+		ifTrue: [ aPanel privateAddMorph: childMorph atIndex: physicalIndex ]
+		ifFalse: [ 
+			| splitterMorph |
+			splitterMorph := SpkSplitterMorph withIndex: logicalIndex.
+			"If we are adding the last child, put splitter before. Otherwise, splitter goes after."
+			aPanel submorphs size < physicalIndex
+				ifTrue: [ 
+					aPanel
+						privateAddMorph: splitterMorph atIndex: physicalIndex - 1;
+						privateAddMorph: childMorph atIndex: physicalIndex ]
+				ifFalse: [ 
+					aPanel
+						privateAddMorph: childMorph atIndex: physicalIndex;
+						privateAddMorph: splitterMorph atIndex: physicalIndex + 1 ] ].
 	^ childMorph
 ]
 
@@ -123,8 +147,12 @@ SpMorphicSpkAccordianAdapter >> newVertical [
 ]
 
 { #category : 'removing' }
-SpMorphicSpkAccordianAdapter >> removeChild: aPresenter atIndex: anInteger [
-	widget removeMorph: (widget submorphs at: anInteger)
+SpMorphicSpkAccordianAdapter >> removeChild: aPresenter atIndex: logicalIndex [
+
+	"The given logical index does not take into account the splitter morphs.
+	Must adjust the index, and also remove a splitter if this is not the only child."
+
+	widget removeMorph: (widget submorphs at: logicalIndex)
 ]
 
 { #category : 'private' }

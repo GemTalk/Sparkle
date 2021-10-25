@@ -1,5 +1,5 @@
 Class {
 	#name : 'SpkSuccessServiceClient',
 	#superclass : 'SpkSuccessService',
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-PharoClient-Services'
 }

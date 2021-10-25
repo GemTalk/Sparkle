@@ -25,5 +25,5 @@ SpkProcessListServiceServer >> initializeFromTool: aProcessListTool [
 { #category : 'initialization' }
 SpkProcessListServiceServer >> refreshFromTool [
 
-	processes := tool processTools collect: [:each | SpkProcessService tool: each]
+	processes := tool processTools collect: [:each | SpkServiceFactory serviceForTool: each]
 ]

@@ -122,6 +122,15 @@ SpkTaskspaceTool >> newExplorerTool [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+SpkTaskspaceTool >> newExplorerViewingAProcessList [
+	"Returns a new ExplorerTool viewing a ProcessListTool"
+
+	^SpkExplorerLayoutTool
+		newInTaskspace: self
+		viewing: self newProcessListTool
+]
+
 { #category : 'transaction management' }
 SpkTaskspaceTool >> newProcessLauncherWithBody: processBody
 manager: processManager [
@@ -132,6 +141,15 @@ manager: processManager [
 		processName: 'Transaction Management';
 		processBody: processBody;
 		processManager: processManager;
+		yourself
+]
+
+{ #category : 'accessing' }
+SpkTaskspaceTool >> newProcessListTool [
+
+	^SpkProcessListTool new
+		taskspaceTool: self;
+		explorerTool:  (SpkExplorerTool newInTaskspace: taskspaceTool);
 		yourself
 ]
 

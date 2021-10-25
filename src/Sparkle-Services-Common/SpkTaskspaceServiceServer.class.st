@@ -62,6 +62,13 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 	self tool: aTool.
 ]
 
+{ #category : 'transaction management' }
+SpkTaskspaceServiceServer >> newExplorerViewingAProcessList [
+	"Returns a new Explorer viewing a ProcessList"
+
+	^SpkServiceFactory serviceForTool: tool newExplorerViewingAProcessList
+]
+
 { #category : 'opening explorers' }
 SpkTaskspaceServiceServer >> openNewExplorer: anExplorerLayoutTool [
 

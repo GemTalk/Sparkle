@@ -119,8 +119,8 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 SpkDebuggerFramePane >> initializeListColumns [
 
 	self list
-		addColumn: (SpStringTableColumn evaluated: #name);
-		addColumn: (SpStringTableColumn evaluated: #description)
+		addColumn: (SpStringTableColumn evaluated: [:item | item model name]);
+		addColumn: (SpStringTableColumn evaluated: [:item | item model description])
 ]
 
 { #category : 'initialization' }

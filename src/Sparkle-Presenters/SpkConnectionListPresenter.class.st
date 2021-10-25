@@ -10,7 +10,8 @@ Class {
 		'insecureConnectionPresenter',
 		'connectionsNotebook',
 		'gciConnectionPresenter',
-		'explorerButton'
+		'explorerButton',
+		'processListButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -205,6 +206,14 @@ SpkConnectionListPresenter >> initializeToolbar [
 				                              help: 'Open a Sparkle Explorer';
 				                              action: [ self openExplorer ];
 				                              yourself);
+		           addItem: (processListButton := SpToolbarButtonPresenter new
+				                              label: 'Processes';
+				                              icon:
+					                              (self iconNamed:
+							                               #smallSystemBrowser);
+				                              help: 'Open a Process List Explorer';
+				                              action: [ self openProcessList ];
+				                              yourself);
 		           yourself.
 	connectionsBox
 		add: #toolbar
@@ -278,6 +287,16 @@ SpkConnectionListPresenter >> openExplorer [
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
 	selection openExplorer
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> openProcessList [
+
+	| selection |
+	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
+	selection := connectionList selectedItem. 
+	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
+	selection openExplorerViewingAProcessList
 ]
 
 { #category : 'events' }

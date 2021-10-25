@@ -117,6 +117,13 @@ SparkleTaskspace >> openAllWindows [
 		self openWindowForService: xlServ ]
 ]
 
+{ #category : 'actions' }
+SparkleTaskspace >> openExplorerViewingAProcessList [
+
+	
+	taskspaceService openExplorerViewingAProcessList
+]
+
 { #category : 'initialization' }
 SparkleTaskspace >> openNewDefaultTaskspace [
 

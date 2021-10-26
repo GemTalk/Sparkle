@@ -212,6 +212,12 @@ SpkConnectionProfile >> openExplorer [
 	taskspace addDefaultExplorer
 ]
 
+{ #category : 'actions' }
+SpkConnectionProfile >> openExplorerViewingAProcessList [
+
+	taskspace openExplorerViewingAProcessList
+]
+
 { #category : 'copying' }
 SpkConnectionProfile >> postCopy [
 

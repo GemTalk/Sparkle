@@ -11,3 +11,28 @@ SpkProcessListPane >> headerClass [
 
 	^ SpkProcessListPaneHeader
 ]
+
+{ #category : 'initialization' }
+SpkProcessListPane >> initializeListColumns [
+
+	self list
+		addColumn: (SpStringTableColumn evaluated: [:item | item model nameOrOopHex]);
+		addColumn: (SpStringTableColumn evaluated: [:item | item model priority]);
+		addColumn: (SpStringTableColumn evaluated: [:item | item model status])
+]
+
+{ #category : 'initialization' }
+SpkProcessListPane >> initializePresenters [
+
+	super initializePresenters.
+	self
+		initializeHeader;
+		initializeProcessList
+]
+
+{ #category : 'initialization' }
+SpkProcessListPane >> initializeProcessList [
+
+	self initializeList.
+	self layout add: self list
+]

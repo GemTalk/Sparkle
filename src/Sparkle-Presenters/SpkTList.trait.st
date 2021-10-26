@@ -104,7 +104,7 @@ SpkTList >> openLinkedPane: aPaneService forItem: item [
 	self refreshList "Change linking arrow."
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTList >> panesLinkedToListItems [
 
 	^ listModel linkedPanes

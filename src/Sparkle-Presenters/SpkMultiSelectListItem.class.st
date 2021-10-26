@@ -62,11 +62,6 @@ SpkMultiSelectListItem >> coordinateRelativeTo: parentCoordinate [
 ]
 
 { #category : 'accessing' }
-SpkMultiSelectListItem >> description [
-	^ model description
-]
-
-{ #category : 'accessing' }
 SpkMultiSelectListItem >> index [
 	^ index
 ]
@@ -90,11 +85,6 @@ SpkMultiSelectListItem >> model [
 { #category : 'accessing' }
 SpkMultiSelectListItem >> model: aService [
 	model := aService
-]
-
-{ #category : 'accessing' }
-SpkMultiSelectListItem >> name [
-	^ model name
 ]
 
 { #category : 'printing' }

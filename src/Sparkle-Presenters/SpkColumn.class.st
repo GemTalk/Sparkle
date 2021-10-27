@@ -118,7 +118,7 @@ SpkColumn >> remove: aPanePresenter [
 	self isEmpty ifTrue: [ owner removeColumn: self ]
 ]
 
-{ #category : 'removing' }
+{ #category : 'private' }
 SpkColumn >> removeFromLayout: aPane atIndex: paneIndex [
 
 	"Remove the pane and any associated splitter"

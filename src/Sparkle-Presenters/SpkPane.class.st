@@ -106,12 +106,6 @@ an item really should be enabled."
 	self enabled: true
 ]
 
-{ #category : 'tests - header' }
-SpkPane >> headerClass [
-
-	self subclassResponsibility
-]
-
 { #category : 'initialization' }
 SpkPane >> initialize [
 

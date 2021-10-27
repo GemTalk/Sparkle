@@ -26,10 +26,7 @@ SpkBoxLayout >> adapterName [
 { #category : 'adding' }
 SpkBoxLayout >> add: aPresenter [
 
-	self
-		add: aPresenter
-		beforeIndex: children size + 1
-		withConstraints: [ :constraints |  ]
+	self add: aPresenter withConstraints: [ :constraints |  ]
 ]
 
 { #category : 'adding' }
@@ -56,6 +53,15 @@ SpkBoxLayout >> add: newPresenter before: anExistingPresenter [
 	self
 		add: newPresenter
 		beforeIndex: (self indexOfPresenter: anExistingPresenter)
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: newPresenter before: anExistingPresenter withConstraints: aBlock [
+
+	self
+		add: newPresenter
+		beforeIndex: (self indexOfPresenter: anExistingPresenter)
+		withConstraints: aBlock
 ]
 
 { #category : 'adding/removing presenters' }
@@ -99,6 +105,15 @@ SpkBoxLayout >> add: aPresenter width: anInteger [
 	self
 		add: aPresenter
 		withConstraints: [ :constraints | constraints width: anInteger ]
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: aPresenter withConstraints: constraintsBlock [
+
+	self
+		add: aPresenter
+		beforeIndex: children size + 1
+		withConstraints: constraintsBlock
 ]
 
 { #category : 'adding' }

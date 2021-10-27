@@ -17,26 +17,27 @@ SpMorphicSpkAccordianAdapter >> add: aPresenter constraints: constraints beforeI
 { #category : 'adding' }
 SpMorphicSpkAccordianAdapter >> addConstraints: constraints toChild: childMorph [
 
-	"adds constraints by child"
-
 	| theMorph defaultSizing |
-	theMorph := self addPadding: constraints padding toMorph: childMorph.
+	theMorph := childMorph.
 
 
-	defaultSizing := constraints isFill
-		                 ifTrue: [ #spaceFill ]
-		                 ifFalse: [ #shrinkWrap ].
+	defaultSizing := #spaceFill.
 	theMorph
 		hResizing: defaultSizing;
 		vResizing: defaultSizing.
-	constraints width ifNotNil: [ :w | 
-		theMorph
-			hResizing: #rigid;
-			width: w ].
-	constraints height ifNotNil: [ :h | 
-		theMorph
-			vResizing: #rigid;
-			height: h ].
+
+	constraints sizeIsVariable ifFalse: [ 
+		| size |
+		size := constraints size.
+		layout isHorizontal
+			ifTrue: [ 
+				theMorph
+					hResizing: #rigid;
+					width: size ]
+			ifFalse: [ 
+				theMorph
+					vResizing: #rigid;
+					height: size ] ].
 
 	^ theMorph
 ]
@@ -49,47 +50,23 @@ SpMorphicSpkAccordianAdapter >> addPadding: aNumber toMorph: aMorph [
 
 { #category : 'adding' }
 SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel [
-
 	"Normally should use #basicAdd:constraints:to:beforeIndex:.
 	But this message is sent when first building a non-empty adapter."
 
-	| physicalSize logicalIndex |
-	physicalSize := aPanel submorphs size.
-	logicalIndex := physicalSize + physicalSize sign / 2 + 1.
 	self
 		basicAdd: aPresenter
 		constraints: constraints
 		to: aPanel
-		beforeIndex: logicalIndex
+		beforeIndex: widget submorphs size + 1
 ]
 
 { #category : 'adding' }
-SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: logicalIndex [
-
-	"The given logical index does not take into account the splitter morphs.
-	Must adjust the index, and also add a splitter if this is not the only child."
-
-	| physicalIndex childMorph |
-	physicalIndex := logicalIndex * 2 - 1.
+SpMorphicSpkAccordianAdapter >> basicAdd: aPresenter constraints: constraints to: aPanel beforeIndex: anInteger [
+	| childMorph |
 	childMorph := self buildMorph: aPresenter constraints: constraints.
 	aPanel extent: (aPanel width max: childMorph width)
 		@ (aPanel height max: childMorph height).
-
-	aPanel submorphs isEmpty
-		ifTrue: [ aPanel privateAddMorph: childMorph atIndex: physicalIndex ]
-		ifFalse: [ 
-			| splitterMorph |
-			splitterMorph := SpkSplitterMorph withIndex: logicalIndex.
-			"If we are adding the last child, put splitter before. Otherwise, splitter goes after."
-			aPanel submorphs size < physicalIndex
-				ifTrue: [ 
-					aPanel
-						privateAddMorph: splitterMorph atIndex: physicalIndex - 1;
-						privateAddMorph: childMorph atIndex: physicalIndex ]
-				ifFalse: [ 
-					aPanel
-						privateAddMorph: childMorph atIndex: physicalIndex;
-						privateAddMorph: splitterMorph atIndex: physicalIndex + 1 ] ].
+	widget privateAddMorph: childMorph atIndex: anInteger.
 	^ childMorph
 ]
 

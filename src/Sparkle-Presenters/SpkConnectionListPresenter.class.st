@@ -10,8 +10,8 @@ Class {
 		'insecureConnectionPresenter',
 		'connectionsNotebook',
 		'gciConnectionPresenter',
-		'explorerButton',
-		'processListButton'
+		'processListButton',
+		'evaluatorButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -198,12 +198,12 @@ SpkConnectionListPresenter >> initializeToolbar [
 				            help: 'Restore profiles from a file';
 				            action: [ self loadFromFile ];
 				            yourself);
-		           addItem: (explorerButton := SpToolbarButtonPresenter new
-				                              label: 'Explorer';
+		           addItem: (evaluatorButton := SpToolbarButtonPresenter new
+				                              label: 'Evaluator';
 				                              icon:
 					                              (self iconNamed:
 							                               #smallSystemBrowser);
-				                              help: 'Open a Sparkle Explorer';
+				                              help: 'Open a Sparkle Inspector with Evaluator';
 				                              action: [ self openExplorer ];
 				                              yourself);
 		           addItem: (processListButton := SpToolbarButtonPresenter new

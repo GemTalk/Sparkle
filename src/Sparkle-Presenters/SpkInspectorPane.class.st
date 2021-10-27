@@ -37,12 +37,19 @@ SpkInspectorPane >> addEvaluator [
 { #category : 'adding' }
 SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 
+	"Every evaluator gets a splitter above it."
+
 	| evaluator |
 	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
+
 	evaluator pane: self.
 	self evaluators add: evaluator.
 	self updateEvaluatorIndices.
-	self layout add: evaluator before: addEvaluatorButton
+	self layout
+		add: evaluator before: addEvaluatorButton;
+		add: self newSplitter
+		before: evaluator
+		withConstraints: self splitterConstraints
 ]
 
 { #category : 'copying' }
@@ -81,10 +88,7 @@ SpkInspectorPane >> initializeAddEvaluatorButton [
 		                      yourself.
 	self layout
 		add: addEvaluatorButton
-		withConstraints: [ :constraints | 
-			constraints
-				height: 26;
-				width: 26 ]
+		withConstraints: [ :constraints | constraints size: 26 ]
 ]
 
 { #category : 'adding' }
@@ -160,10 +164,15 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 { #category : 'removing' }
 SpkInspectorPane >> removeEvaluator: anEvaluator [
 
+	| evaluatorIndex |
 	model removeEvaluator: anEvaluator model.
-	layout remove: anEvaluator.
+	"Also remove the associated splitter, which is just before the evaluator"
+	evaluatorIndex := self layout indexOfPresenter: anEvaluator.
+	self layout
+		removePresenterAtIndex: evaluatorIndex - 1;
+		remove: anEvaluator.
 	evaluators remove: anEvaluator.
-	self updateEvaluatorIndices.
+	self updateEvaluatorIndices
 ]
 
 { #category : 'updating' }
@@ -176,7 +185,7 @@ SpkInspectorPane >> updateEvaluatorIndices [
 	self updateEvaluatorIndicesForListSize: inspectorSubPane listSize
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkInspectorPane >> updateEvaluatorIndicesForListSize: listSize [
 
 	"Update the assigned indices for each evaluator

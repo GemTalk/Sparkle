@@ -17,3 +17,9 @@ Class {
 SpkAccordianLayout >> adapterName [
 	^ #SpkAccordianAdapter
 ]
+
+{ #category : 'private' }
+SpkAccordianLayout >> constraintsClass [
+
+	^ SpkAccordianConstraints
+]

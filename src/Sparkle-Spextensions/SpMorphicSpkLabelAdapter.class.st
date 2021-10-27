@@ -13,7 +13,7 @@ Class {
 SpMorphicSpkLabelAdapter >> buildWidget [
 
 	| label |
-	label := label := LabelMorph new model: self.
+	label := LabelMorph new model: self.
 	label
 		getEnabledSelector: #enabled;
 		getTextSelector: #getText;

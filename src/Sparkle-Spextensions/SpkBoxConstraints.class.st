@@ -1,3 +1,8 @@
+"
+Simpler version of SpBoxConstraints, for use by SpkBoxLayout.
+Since SpkBoxLayouts allow insertion and removal of presenters at any index, 
+constraints like #placedAtStart are not needed.
+"
 Class {
 	#name : 'SpkBoxConstraints',
 	#superclass : 'SpLayoutConstraints',

@@ -41,13 +41,7 @@ SpkPresenter >> addSeparator [
 	self layout add: self newSeparatorPresenter primaryDimension: 1
 ]
 
-{ #category : 'building menus' }
-SpkPresenter >> buildHamburgerMenu [
-
-	self subclassResponsibility 
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'private-traversing' }
 SpkPresenter >> extraPresenters [
 
 	"Answer a collection of presenters that are logically my children but answer false 
@@ -108,7 +102,7 @@ SpkPresenter >> newMenuButton [
 	^ self instantiate: SpkMenuButtonPresenter
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'widgets' }
 SpkPresenter >> newSeparatorMorph [
 
 	^ Morph new
@@ -124,6 +118,12 @@ SpkPresenter >> newSeparatorPresenter [
 	^ self newMorph
 		  morph: self newSeparatorMorph;
 		  yourself
+]
+
+{ #category : 'widgets' }
+SpkPresenter >> newSplitter [
+
+	^ self instantiate: SpkSplitterPresenter
 ]
 
 { #category : 'widgets' }
@@ -179,4 +179,16 @@ SpkPresenter >> presentersDo: aBlock [
 			var := self readSlot: each.
 			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ].
 	self extraPresenters do: aBlock
+]
+
+{ #category : 'as yet unclassified' }
+SpkPresenter >> splitterConstraints [
+
+	^ [ :c | c size: self splitterSize ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkPresenter >> splitterSize [
+
+	^ SpkSplitterMorph splitterWidth
 ]

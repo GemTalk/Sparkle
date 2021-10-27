@@ -34,6 +34,11 @@ SpkWindowWithColumns >> addColumn [
 	| newColumn |
 	newColumn := self newColumn.
 	columns add: newColumn.
+	"Need a splitter between columns"
+	columns size > 1 ifTrue: [ 
+		self layout
+			add: self newSplitter
+			withConstraints: self splitterConstraints ].
 	self layout add: newColumn.
 	self layoutService addColumnLayout: newColumn layoutService.
 	^ newColumn
@@ -76,9 +81,9 @@ SpkWindowWithColumns >> initialize [
 SpkWindowWithColumns >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparkle Object Explorer';
+		title: 'Sparkle Explorer';
 		aboutText:
-			'The Sparkle object explorer is part of the Pharo IDE for GemStone, 
+			'The Sparkle explorer is part of the Pharo IDE for GemStone, 
 a set of tools for developing GemStone code via a remote connection from Pharo.';
 		initialExtent: self initialExtent
 ]
@@ -105,6 +110,13 @@ SpkWindowWithColumns >> newLayout [
 { #category : 'removing' }
 SpkWindowWithColumns >> removeColumn: aColumn [
 
+	columns size > 1 ifTrue: [ "Remove splitter between columns"
+		| columnIndex splitterIndex |
+		columnIndex := self layout indexOfPresenter: aColumn.
+		splitterIndex := columnIndex = 1
+			                 ifTrue: [ 2 ]
+			                 ifFalse: [ columnIndex - 1 ].
+		self layout removePresenterAtIndex: splitterIndex ].
 	columns remove: aColumn.
 	self layout remove: aColumn.
 	self layoutService removeColumnLayout: aColumn layoutService

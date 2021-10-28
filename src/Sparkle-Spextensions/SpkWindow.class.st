@@ -55,6 +55,14 @@ SpkWindow >> iconNamed: aSymbol [
 	^self model iconNamed: aSymbol
 ]
 
+{ #category : 'as yet unclassified' }
+SpkWindow >> lockInactivePortions [
+
+	"Lock parts that should not respond to mouse and keyboard when I am not the top window."
+
+	self submorphsDo: [ :m | (self shouldLock: m) ifTrue: [ m lock ] ]
+]
+
 { #category : 'accessing' }
 SpkWindow >> model: aPresenter [
 
@@ -72,4 +80,19 @@ SpkWindow >> offerHamburgerMenu [
 	| aMenu |
 	aMenu := self buildHamburgerMenu asMenuPresenter.
 	aMenu openWithSpecAtPointer
+]
+
+{ #category : 'as yet unclassified' }
+SpkWindow >> shouldLock: aMorph [
+
+	"Answer true if the given submorph should not respond to mouse and keyboard when I am not the top window."
+
+	"Title bar controls remain active"
+
+	aMorph == labelArea ifTrue: [ ^ false ].
+
+	"Edge and corner grips that are direct children remain active.
+	Using #isKindOf: :-/ to avoid extending base classes."
+	(aMorph isKindOf: AbstractResizerMorph) ifTrue: [ ^ false ].
+	^ true
 ]

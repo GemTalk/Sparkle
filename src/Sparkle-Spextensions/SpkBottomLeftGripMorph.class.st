@@ -1,7 +1,7 @@
 Class {
 	#name : 'SpkBottomLeftGripMorph',
 	#superclass : 'BottomLeftGripMorph',
-	#traits : 'SpkTCornerGrip',
-	#classTraits : 'SpkTCornerGrip classTrait',
+	#traits : 'SpkTWindowGrip',
+	#classTraits : 'SpkTWindowGrip classTrait',
 	#category : 'Sparkle-Spextensions-Morphic'
 }

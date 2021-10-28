@@ -1,10 +1,10 @@
 Trait {
-	#name : 'SpkTCornerGrip',
+	#name : 'SpkTWindowGrip',
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
 { #category : 'accessing' }
-SpkTCornerGrip >> lock: aBoolean [
+SpkTWindowGrip >> lock: aBoolean [
 
 	"Refuse to lock, agree to unlock"
 
@@ -12,7 +12,7 @@ SpkTCornerGrip >> lock: aBoolean [
 ]
 
 { #category : 'event handling' }
-SpkTCornerGrip >> mouseDown: anEvent [
+SpkTWindowGrip >> mouseDown: anEvent [
 	"Activate the window if not currently so."
 	
 	(self bounds containsPoint: anEvent cursorPoint)

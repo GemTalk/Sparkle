@@ -24,6 +24,27 @@ SpkWindow >> addCornerGrips [
 		addMorph: (SpkBottomRightGripMorph new target: self;position: self position)
 ]
 
+{ #category : 'adding' }
+SpkWindow >> addEdgeGrips [
+	"Should add these to the front!"
+	
+	|t l r lh|
+	lh := self labelHeight.
+	t  := SpkWindowEdgeGripMorph new target: self; position: self position; edgeName: #top.
+	t layoutFrame
+		topOffset: lh negated;
+		bottomOffset: lh negated + self class borderWidth.
+	l  := SpkWindowEdgeGripMorph new target: self; position: self position; edgeName: #left.
+	l layoutFrame topOffset: lh negated + 22.
+	r  := SpkWindowEdgeGripMorph new target: self; position: self position; edgeName: #right.
+	r layoutFrame topOffset: lh negated + 22.
+	self
+		addMorph: t;
+		addMorph: l;
+		addMorph: r;
+		addMorph: (SpkWindowEdgeGripMorph new target: self;position: self position; edgeName: #bottom)
+]
+
 { #category : 'menus' }
 SpkWindow >> buildHamburgerMenu [
 

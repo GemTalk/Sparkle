@@ -7,6 +7,23 @@ Class {
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
+{ #category : 'adding' }
+SpkWindow >> addCornerGrips [
+	"Should add these to the front!"
+	
+	|tl tr lh|
+	lh := self labelHeight.
+	tl  := SpkTopLeftGripMorph new target: self; position: self position.
+	tl layoutFrame topOffset: lh negated.
+	tr  := SpkTopRightGripMorph new target: self; position: self position.
+	tr layoutFrame topOffset: lh negated.
+	self
+		addMorph: tl;
+		addMorph: tr;
+		addMorph: (SpkBottomLeftGripMorph new target: self;position: self position);
+		addMorph: (SpkBottomRightGripMorph new target: self;position: self position)
+]
+
 { #category : 'menus' }
 SpkWindow >> buildHamburgerMenu [
 
@@ -55,14 +72,6 @@ SpkWindow >> iconNamed: aSymbol [
 	^self model iconNamed: aSymbol
 ]
 
-{ #category : 'as yet unclassified' }
-SpkWindow >> lockInactivePortions [
-
-	"Lock parts that should not respond to mouse and keyboard when I am not the top window."
-
-	self submorphsDo: [ :m | (self shouldLock: m) ifTrue: [ m lock ] ]
-]
-
 { #category : 'accessing' }
 SpkWindow >> model: aPresenter [
 
@@ -80,19 +89,4 @@ SpkWindow >> offerHamburgerMenu [
 	| aMenu |
 	aMenu := self buildHamburgerMenu asMenuPresenter.
 	aMenu openWithSpecAtPointer
-]
-
-{ #category : 'as yet unclassified' }
-SpkWindow >> shouldLock: aMorph [
-
-	"Answer true if the given submorph should not respond to mouse and keyboard when I am not the top window."
-
-	"Title bar controls remain active"
-
-	aMorph == labelArea ifTrue: [ ^ false ].
-
-	"Edge and corner grips that are direct children remain active.
-	Using #isKindOf: :-/ to avoid extending base classes."
-	(aMorph isKindOf: AbstractResizerMorph) ifTrue: [ ^ false ].
-	^ true
 ]

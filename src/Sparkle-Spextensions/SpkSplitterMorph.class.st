@@ -126,7 +126,9 @@ SpkSplitterMorph >> mouseUp: anEvent [
 
 	(self bounds containsPoint: anEvent cursorPoint) ifFalse: [ 
 		anEvent hand showTemporaryCursor: nil ].
-	self setNormalColor
+	self
+		setNormalColor;
+		setDefaultColors
 	"	owner endSplitterDragFor: self."
 ]
 

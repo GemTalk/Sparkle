@@ -28,7 +28,7 @@ SpkSplitterMorph class >> withIndex: logicalIndex [
 { #category : 'initialization' }
 SpkSplitterMorph >> dotColor [
 
-	^ dotColor ifNil: [self setDefaultColors. dotColor]
+	^ dotColor ifNil: [self setNormalHandleColors. dotColor]
 ]
 
 { #category : 'drawing' }
@@ -48,7 +48,7 @@ SpkSplitterMorph >> drawOn: aCanvas [
 { #category : 'initialization' }
 SpkSplitterMorph >> handleColor [
 
-	^ handleColor ifNil: [self setDefaultColors. handleColor]
+	^ handleColor ifNil: [self setNormalHandleColors. handleColor]
 ]
 
 { #category : 'private' }
@@ -105,7 +105,7 @@ SpkSplitterMorph >> mouseDown: anEvent [
 SpkSplitterMorph >> mouseEnter: anEvent [
 
 	self
-		setInverseColors;
+		setHighlightedHandleColors;
 		changed.
 	anEvent hand showTemporaryCursor: self resizeCursor
 ]
@@ -114,7 +114,7 @@ SpkSplitterMorph >> mouseEnter: anEvent [
 SpkSplitterMorph >> mouseLeave: anEvent [
 
 	self
-		setDefaultColors;
+		setNormalHandleColors;
 		changed.
 	anEvent hand showTemporaryCursor: nil
 ]
@@ -125,10 +125,9 @@ SpkSplitterMorph >> mouseUp: anEvent [
 	"Change the cursor back to normal if necessary and change the color back to normal."
 
 	(self bounds containsPoint: anEvent cursorPoint) ifFalse: [ 
+		self setNormalHandleColors.
 		anEvent hand showTemporaryCursor: nil ].
-	self
-		setNormalColor;
-		setDefaultColors
+	self setNormalColor
 	"	owner endSplitterDragFor: self."
 ]
 
@@ -157,13 +156,6 @@ SpkSplitterMorph >> resizeCursor [
 ]
 
 { #category : 'initialization' }
-SpkSplitterMorph >> setDefaultColors [
-
-	handleColor := Color lightGray lighter lighter.
-	dotColor := Color gray lighter
-]
-
-{ #category : 'initialization' }
 SpkSplitterMorph >> setGrabbedColor [
 	"Set the color of the receiver when it is grabbed."
 	
@@ -171,7 +163,7 @@ SpkSplitterMorph >> setGrabbedColor [
 ]
 
 { #category : 'initialization' }
-SpkSplitterMorph >> setInverseColors [
+SpkSplitterMorph >> setHighlightedHandleColors [
 
 	handleColor := Color lightGray.
 	dotColor := Color white
@@ -180,9 +172,16 @@ SpkSplitterMorph >> setInverseColors [
 { #category : 'initialization' }
 SpkSplitterMorph >> setNormalColor [
 
-	"Set the color of the receiver when it is grabbed."
+	"Set the color of the entire splitter when it is grabbed."
 
 	self fillStyle: self normalFillStyle
+]
+
+{ #category : 'initialization' }
+SpkSplitterMorph >> setNormalHandleColors [
+
+	handleColor := Color lightGray lighter lighter.
+	dotColor := Color gray lighter
 ]
 
 { #category : 'accessing' }

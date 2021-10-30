@@ -7,9 +7,10 @@ Class {
 		'cells',
 		'bounds',
 		'xform',
-		'numberOfResizeableChildren',
 		'totalMinimumSize',
-		'totalDesiredAllocation'
+		'numberOfVariableSubmorphs',
+		'totalDesiredAllocation',
+		'totalPriority'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
@@ -108,12 +109,12 @@ SpkAccordianLinearLayout >> layoutAllocating [
 	
 	Each variable submorph's size and allocation is computed this way:
   overallSize = minimumSize + allocatedSize.
-  allocatedSize = priority * desiredAllocation * allocatableSpace / (desiredAllocations sum).
+  allocatedSize = priority * desiredAllocation * allocatableSpace / (desiredAllocations sum * priorities sum).
 	"
 
 	| allocationProportion p sStart sEnd |
-	allocationProportion := self allocatableSpace asFloat
-	                        / totalDesiredAllocation.
+	allocationProportion := self allocatableSpace asFloat * numberOfVariableSubmorphs 
+	                        / totalDesiredAllocation / totalPriority.
 	p := xform pStartOf: bounds.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
@@ -228,7 +229,7 @@ SpkAccordianLinearLayout >> scanSubmorphs [
 	and compute total of minimum space along the primary axis.
 	Cache some of this information in LayoutCells"
 
-	totalDesiredAllocation := totalMinimumSize := 0.
+	numberOfVariableSubmorphs := totalDesiredAllocation := totalMinimumSize := totalPriority := 0.
 	cells := OrderedCollection new.
 	morph submorphsDo: [ :submorph | 
 		| cell |
@@ -243,5 +244,7 @@ SpkAccordianLinearLayout >> scanSubmorphs [
 					optimalSize: (self optimalAllocatedSizeOf: submorph);
 					priority: (morph priorityOf: submorph).
 				totalDesiredAllocation := totalDesiredAllocation
-				                          + cell optimalSize ] ]
+				                          + cell optimalSize.
+				totalPriority := totalPriority + cell priority.
+				numberOfVariableSubmorphs := numberOfVariableSubmorphs + 1] ]
 ]

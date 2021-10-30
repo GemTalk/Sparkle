@@ -31,7 +31,7 @@ SpkLinearLayout >> adjacentLayoutCells: someCells startingAt: gap [
 
 	someCells do: [ :cell | 
 		| pEnd rect |
-		pEnd := p + cell pMinimumSize.
+		pEnd := p + cell minimumSize.
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd
@@ -77,7 +77,7 @@ SpkLinearLayout >> computeLayout [
 		^ self placeRigidsOnly ].
 	self extraSpace < 0 ifTrue: [ ^ self layoutTrimming ].
 	numberOfSpaceFills > 0 ifTrue: [ ^ self layoutWithSpaceFills ].
-	^ self layoutWithPlacementRule
+	self layoutWithPlacementRule
 ]
 
 { #category : 'accessing' }
@@ -108,7 +108,7 @@ SpkLinearLayout >> layoutTrimming [
 	cellsToTrim := cells reject: [ :cell | cell isRigid ].
 	totalNonRigidSize := cellsToTrim
 		                     inject: 0
-		                     into: [ :sum :cell | sum + cell pMinimumSize ].
+		                     into: [ :sum :cell | sum + cell minimumSize ].
 	p := xform pStartOf: bounds.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
@@ -119,9 +119,9 @@ SpkLinearLayout >> layoutTrimming [
 			ifTrue: [ cellTrim := 0 ]
 			ifFalse: [ 
 				| cellPortion |
-				cellPortion := cell pMinimumSize asFloat / totalNonRigidSize.
+				cellPortion := cell minimumSize asFloat / totalNonRigidSize.
 				cellTrim := (cellPortion * deficit) ceiling ].
-		trimmedSize := cell pMinimumSize - cellTrim.
+		trimmedSize := cell minimumSize - cellTrim.
 		pEnd := p + trimmedSize.
 		rect := xform
 			        rectanglePStart: p
@@ -154,7 +154,7 @@ SpkLinearLayout >> layoutWithSpaceFills [
 
 	cells do: [ :cell | 
 		| pEnd rect |
-		pEnd := p + cell pMinimumSize.
+		pEnd := p + cell minimumSize.
 		cell isSpaceFill ifTrue: [ pEnd := pEnd + extraPerSpaceFill ].
 		rect := xform
 			        rectanglePStart: p
@@ -215,14 +215,14 @@ SpkLinearLayout >> scanSubmorphs [
 	cells := OrderedCollection new.
 	morph submorphsDo: [ :submorph | 
 		| cell resizing |
-		cell := cells add: (SpkLayoutCell forMorph: submorph).
+		cell := cells add: (SpkLinearLayoutCell forMorph: submorph).
 		resizing := self pResizingOf: submorph.
-		cell pMinimumSize: (self pMinimumSizeOf: submorph).
+		cell minimumSize: (self pMinimumSizeOf: submorph).
 		resizing == #spaceFill ifTrue: [ 
 			cell isSpaceFill: true.
 			numberOfSpaceFills := numberOfSpaceFills + 1 ].
-		minimumPrimarySize := minimumPrimarySize + cell pMinimumSize.
+		minimumPrimarySize := minimumPrimarySize + cell minimumSize.
 		resizing == #rigid ifTrue: [ 
-			cell isRigid: true.
-			totalRigidSize := totalRigidSize + cell pMinimumSize ] ]
+			cell beRigid.
+			totalRigidSize := totalRigidSize + cell minimumSize ] ]
 ]

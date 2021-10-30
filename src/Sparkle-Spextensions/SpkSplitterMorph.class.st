@@ -95,10 +95,8 @@ SpkSplitterMorph >> mouseDown: anEvent [
 	Update the color for feedback and store the mouse
 	position and relative offset to the receiver."
 
-	| cp |
 	self setGrabbedColor.
-	cp := anEvent cursorPoint
-	"owner startSplitterDragFor: self at: cp"
+	"owner startSplitterMoveFor: self at: anEvent cursorPoint"
 ]
 
 { #category : 'event handling' }
@@ -120,6 +118,13 @@ SpkSplitterMorph >> mouseLeave: anEvent [
 ]
 
 { #category : 'event handling' }
+SpkSplitterMorph >> mouseMove: anEvent [
+
+	anEvent hand temporaryCursor ifNil: [ ^ self ].
+	"owner splitterMoveFor: self at: anEvent cursorPoint"
+]
+
+{ #category : 'event handling' }
 SpkSplitterMorph >> mouseUp: anEvent [
 
 	"Change the cursor back to normal if necessary and change the color back to normal."
@@ -128,7 +133,7 @@ SpkSplitterMorph >> mouseUp: anEvent [
 		self setNormalHandleColors.
 		anEvent hand showTemporaryCursor: nil ].
 	self setNormalColor
-	"	owner endSplitterDragFor: self."
+	"owner endSplitterMoveFor: self at: anEvent cursorPoint"
 ]
 
 { #category : 'style' }

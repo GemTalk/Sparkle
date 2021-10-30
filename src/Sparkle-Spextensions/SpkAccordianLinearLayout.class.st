@@ -5,11 +5,11 @@ Class {
 		'policy',
 		'morph',
 		'cells',
-		'numberOfSpaceFills',
-		'totalRigidSize',
 		'bounds',
-		'minimumPrimarySize',
-		'xform'
+		'xform',
+		'numberOfResizeableChildren',
+		'totalMinimumSize',
+		'totalDesiredAllocation'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
@@ -28,7 +28,7 @@ SpkAccordianLinearLayout >> adjacentLayoutCells: someCells startingAt: gap [
 
 	someCells do: [ :cell | 
 		| pEnd rect |
-		pEnd := p + cell pMinimumSize.
+		pEnd := p + cell minimumSize.
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd
@@ -51,6 +51,14 @@ SpkAccordianLinearLayout >> adjacentLayoutStartingAt: gap [
 ]
 
 { #category : 'private' }
+SpkAccordianLinearLayout >> allocatableSpace [
+
+	"Only valid after #scanSubmorphs"
+
+	^ self availableSpace - totalMinimumSize
+]
+
+{ #category : 'private' }
 SpkAccordianLinearLayout >> availableSpace [
 
 	^ xform pExtentOf: bounds
@@ -70,11 +78,8 @@ SpkAccordianLinearLayout >> computeLayout [
 	If there are none, place the extra space according to my primary-axis alignment."
 
 	self scanSubmorphs.
-	totalRigidSize > self availableSpace ifTrue: [ 
-		^ self placeRigidsOnly ].
-	self extraSpace < 0 ifTrue: [ ^ self layoutTrimming ].
-	numberOfSpaceFills > 0 ifTrue: [ ^ self layoutWithSpaceFills ].
-	^ self layoutWithPlacementRule
+	self allocatableSpace < 0 ifTrue: [ ^ self layoutTrimming ].
+	self layoutAllocating
 ]
 
 { #category : 'accessing' }
@@ -89,43 +94,38 @@ SpkAccordianLinearLayout >> coordinateTransform: aTransform [
 	xform := aTransform
 ]
 
-{ #category : 'private' }
-SpkAccordianLinearLayout >> extraSpace [
+{ #category : 'testing' }
+SpkAccordianLinearLayout >> isRigid: aMorph [
 
-	"Only valid after #scanSubmorphs"
-
-	^ self availableSpace - minimumPrimarySize
+	^ (xform pResizingOf: aMorph) == #rigid
 ]
 
 { #category : 'layout' }
-SpkAccordianLinearLayout >> layoutTrimming [
+SpkAccordianLinearLayout >> layoutAllocating [
 
-	"We don't have enough space for the minimum size of all our submorphs.
-	The available primary (p) space is allocated first to #rigid submorphs
-	  * If there isn't enough p size for just the #rigid ones, they will be
-		 truncated according to the placement rule, and we won't get to this method.
-	Any space left over is then allocated to #spaceFill and #shrinkWrap submorphs."
+	"We have some extra space to allocate among our variable-size submorphs.
+	Allocate to each according to priority.
+	
+	Each variable submorph's size and allocation is computed this way:
+  overallSize = minimumSize + allocatedSize.
+  allocatedSize = priority * desiredAllocation * allocatableSpace / (desiredAllocations sum).
+	"
 
-	| deficit cellsToTrim totalNonRigidSize p sStart sEnd |
-	deficit := self extraSpace negated.
-	cellsToTrim := cells reject: [ :cell | cell isRigid ].
-	totalNonRigidSize := cellsToTrim
-		                     inject: 0
-		                     into: [ :sum :cell | sum + cell pMinimumSize ].
+	| allocationProportion p sStart sEnd |
+	allocationProportion := self allocatableSpace asFloat
+	                        / totalDesiredAllocation.
 	p := xform pStartOf: bounds.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
 
 	cells do: [ :cell | 
-		| cellTrim trimmedSize pEnd rect |
-		cell isRigid
-			ifTrue: [ cellTrim := 0 ]
-			ifFalse: [ 
-				| cellPortion |
-				cellPortion := cell pMinimumSize asFloat / totalNonRigidSize.
-				cellTrim := (cellPortion * deficit) ceiling ].
-		trimmedSize := cell pMinimumSize - cellTrim.
-		pEnd := p + trimmedSize.
+		| pEnd rect |
+		pEnd := p + cell minimumSize.
+		cell isRigid ifFalse: [ 
+			pEnd := pEnd
+			        +
+			        (cell priority * cell optimalSize * allocationProportion)
+				        floor ].
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd
@@ -137,28 +137,27 @@ SpkAccordianLinearLayout >> layoutTrimming [
 ]
 
 { #category : 'layout' }
-SpkAccordianLinearLayout >> layoutWithPlacementRule [
+SpkAccordianLinearLayout >> layoutTrimming [
 
-	"No submorphs have #spaceFill, so place any extra space according to my alignment."
+	"We don't have enough space for the minimum size of all our submorphs.
+	Trim each proportionally to their minimum size.
+	It would be better to prevent this case from happening by setting the 
+	minimumExtent of the window, and limiting the number of columns and panes
+	appropriately, but we don't want to totally break when there's not
+	enough space."
 
-	self subclassResponsibility
-]
-
-{ #category : 'layout' }
-SpkAccordianLinearLayout >> layoutWithSpaceFills [
-
-	"At least one submorph is #spaceFill, so allocate any extra space equally among those."
-
-	| extraPerSpaceFill p sStart sEnd |
-	extraPerSpaceFill := self extraSpace // numberOfSpaceFills.
+	| deficit p sStart sEnd |
+	deficit := self allocatableSpace negated.
 	p := xform pStartOf: bounds.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
 
 	cells do: [ :cell | 
-		| pEnd rect |
-		pEnd := p + cell pMinimumSize.
-		cell isSpaceFill ifTrue: [ pEnd := pEnd + extraPerSpaceFill ].
+		| cellTrim trimmedSize pEnd rect cellPortion |
+		cellPortion := cell minimumSize asFloat / self availableSpace.
+		cellTrim := (cellPortion * deficit) ceiling.
+		trimmedSize := cell minimumSize - cellTrim.
+		pEnd := p + trimmedSize.
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd
@@ -181,6 +180,17 @@ SpkAccordianLinearLayout >> numberOfCells [
 ]
 
 { #category : 'private' }
+SpkAccordianLinearLayout >> optimalAllocatedSizeOf: aMorph [
+
+	"What size, beyond the minimum size, 
+	would be needed to fully display the given morph?
+	This applies only to variable-size submorphs.
+	For now, guess, and computation will be not-as-smart as desired."
+
+	^ 100
+]
+
+{ #category : 'private' }
 SpkAccordianLinearLayout >> pMinimumSizeOf: aMorph [
 
 	"What is the minimum size along the primary axis to display aMorph?"
@@ -189,22 +199,26 @@ SpkAccordianLinearLayout >> pMinimumSizeOf: aMorph [
 ]
 
 { #category : 'private' }
-SpkAccordianLinearLayout >> pResizingOf: aMorph [
-
-	"What is the resizing attribute of the morph along my primary axis?"
-
-	^ xform pResizingOf: aMorph
-]
-
-{ #category : 'as yet unclassified' }
 SpkAccordianLinearLayout >> placeRigidsOnly [
 
-	"self subclassResponsibility"
+	self
+		adjacentLayoutCells: (cells select: [ :cell | cell isRigid ])
+		startingAt: 0
+	"It is expected that this will end beyond the available space,
+	this overrun is not an error"
 ]
 
 { #category : 'accessing' }
 SpkAccordianLinearLayout >> policy: anObject [
 	policy := anObject
+]
+
+{ #category : 'private' }
+SpkAccordianLinearLayout >> resizingOf: aMorph [
+
+	"What is the resizing attribute of the morph along my primary axis?"
+
+	^ xform pResizingOf: aMorph
 ]
 
 { #category : 'layout' }
@@ -214,18 +228,20 @@ SpkAccordianLinearLayout >> scanSubmorphs [
 	and compute total of minimum space along the primary axis.
 	Cache some of this information in LayoutCells"
 
-	numberOfSpaceFills := minimumPrimarySize := totalRigidSize := 0.
+	totalDesiredAllocation := totalMinimumSize := 0.
 	cells := OrderedCollection new.
 	morph submorphsDo: [ :submorph | 
-		| cell resizing |
-		cell := cells add: (SpkLayoutCell forMorph: submorph).
-		resizing := self pResizingOf: submorph.
-		cell pMinimumSize: (self pMinimumSizeOf: submorph).
-		resizing == #spaceFill ifTrue: [ 
-			cell isSpaceFill: true.
-			numberOfSpaceFills := numberOfSpaceFills + 1 ].
-		minimumPrimarySize := minimumPrimarySize + cell pMinimumSize.
-		resizing == #rigid ifTrue: [ 
-			cell isRigid: true.
-			totalRigidSize := totalRigidSize + cell pMinimumSize ] ]
+		| cell |
+		cell := cells add: (SpkAccordianLayoutCell forMorph: submorph).
+		cell minimumSize: (self pMinimumSizeOf: submorph).
+		totalMinimumSize := totalMinimumSize + cell minimumSize.
+		(self isRigid: submorph)
+			ifTrue: [ cell beRigid ]
+			ifFalse: [ 
+				cell
+					beVariable;
+					optimalSize: (self optimalAllocatedSizeOf: submorph);
+					priority: (morph priorityOf: submorph).
+				totalDesiredAllocation := totalDesiredAllocation
+				                          + cell optimalSize ] ]
 ]

@@ -24,7 +24,7 @@ SpkLinearLayoutPlaceJustified >> layoutWithPlacementRule [
 
 	cells do: [ :cell | 
 		| pEnd rect |
-		pEnd := p + cell pMinimumSize.
+		pEnd := p + cell minimumSize.
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd

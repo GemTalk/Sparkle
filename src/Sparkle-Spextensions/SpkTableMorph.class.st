@@ -6,6 +6,15 @@ Class {
 	#category : 'Sparkle-Spextensions-Morphic'
 }
 
+{ #category : 'event handling' }
+SpkTableMorph >> allowsKeymapping [
+
+	"No meaningful key mappings for now, and some (like CR) produce 
+	error because of wanting #selectedIndex, which I don't have."
+
+	^ false
+]
+
 { #category : 'accessing' }
 SpkTableMorph >> beMultipleSelection [
 	selectionStrategy := SpkFTMultipleSelection table: self.

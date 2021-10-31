@@ -71,8 +71,11 @@ SpkAccordianLayoutMorph >> splitterMoveFor: aSplitterMorph at: aMousePoint [
 { #category : 'splitter' }
 SpkAccordianLayoutMorph >> startSplitterMoveFor: aSplitterMorph at: aMousePoint [
 
-	currentSplitterMove ifNotNil: [ 
-		^ self error: 'Splitter move already in progress' ].
+	currentSplitterMove ifNotNil: [ "Most likely, mouse up happened outside of Pharo,
+						and this mouse down should be ignored by this morph.
+						That causes this mouse down event to be ignored.
+						This appears to be a limitation in Morphic mouse event dispatching." 
+		currentSplitterMove := nil ].
 	currentSplitterMove := SpkSplitterMove
 		                       forLayoutMorph: self
 		                       splitter: aSplitterMorph.

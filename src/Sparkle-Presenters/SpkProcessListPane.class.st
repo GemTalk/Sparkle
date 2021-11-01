@@ -6,6 +6,16 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'initialization' }
+SpkProcessListPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receivePaneServiceAnnouncement:
+		to: self
+]
+
 { #category : 'accessing' }
 SpkProcessListPane >> headerClass [
 

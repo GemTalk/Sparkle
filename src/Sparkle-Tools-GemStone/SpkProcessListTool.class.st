@@ -19,6 +19,12 @@ SpkProcessListTool >> explorerTool: anExplorerTool [
 	explorerTool := anExplorerTool
 ]
 
+{ #category : 'inspecting' }
+SpkProcessListTool >> newInspectorToolOn: anObject [
+
+	^ explorerTool newInspectorToolOn: anObject
+]
+
 { #category : 'accessing' }
 SpkProcessListTool >> processTools [
 

@@ -15,6 +15,14 @@ SpkProcessServiceServer class >> forTool: aProcessTool [
 		yourself
 ]
 
+{ #category : 'inspecting' }
+SpkProcessServiceServer >> createInspectorService [
+
+	| newTool |
+	newTool := parentService tool newInspectorToolOn: tool process.
+	^SpkServiceFactory serviceForTool: newTool
+]
+
 { #category : 'initialization' }
 SpkProcessServiceServer >> initializeFromTool: aTool [
 

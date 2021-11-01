@@ -149,7 +149,7 @@ SpkTaskspaceTool >> newProcessListTool [
 
 	^SpkProcessListTool new
 		taskspaceTool: self;
-		explorerTool:  (SpkExplorerTool newInTaskspace: taskspaceTool);
+		explorerTool:  (SpkExplorerTool newInTaskspace: self);
 		yourself
 ]
 

@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkProcessService',
-	#superclass : 'RsrService',
+	#superclass : 'SpkLinkableSubService',
 	#instVars : [
 		'updatedServices',
 		'name',

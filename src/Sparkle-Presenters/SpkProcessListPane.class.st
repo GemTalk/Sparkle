@@ -36,3 +36,17 @@ SpkProcessListPane >> initializeProcessList [
 	self initializeList.
 	self layout add: self list
 ]
+
+{ #category : 'actions' }
+SpkProcessListPane >> itemSelected: anAnnouncement [
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
+
+	| field inspectorService |
+	field := anAnnouncement item.
+	inspectorService := field model inspectFieldForRequest: field.
+	"If nil, a server round trip is required and the inspector pane 
+	will be created by announcement from the service."
+	inspectorService
+		ifNil: [ self disableAll ]
+		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+]

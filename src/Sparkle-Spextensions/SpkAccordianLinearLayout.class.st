@@ -8,9 +8,7 @@ Class {
 		'bounds',
 		'xform',
 		'totalMinimumSize',
-		'numberOfVariableSubmorphs',
-		'totalDesiredAllocation',
-		'totalPriority'
+		'sumOfGrantsTimesRequests'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
@@ -113,8 +111,8 @@ SpkAccordianLinearLayout >> layoutAllocating [
 	"
 
 	| allocationProportion p sStart sEnd |
-	allocationProportion := self allocatableSpace asFloat * numberOfVariableSubmorphs 
-	                        / totalDesiredAllocation / totalPriority.
+	allocationProportion := self allocatableSpace asFloat
+	                        / sumOfGrantsTimesRequests.
 	p := xform pStartOf: bounds.
 	sStart := xform sStartOf: bounds.
 	sEnd := xform sEndOf: bounds.
@@ -123,10 +121,7 @@ SpkAccordianLinearLayout >> layoutAllocating [
 		| pEnd rect |
 		pEnd := p + cell minimumSize.
 		cell isRigid ifFalse: [ 
-			pEnd := pEnd
-			        +
-			        (cell priority * cell optimalSize * allocationProportion)
-				        floor ].
+			pEnd := pEnd + (cell allocationFactor * allocationProportion) floor ].
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd
@@ -183,12 +178,7 @@ SpkAccordianLinearLayout >> numberOfCells [
 { #category : 'private' }
 SpkAccordianLinearLayout >> optimalAllocatedSizeOf: aMorph [
 
-	"What size, beyond the minimum size, 
-	would be needed to fully display the given morph?
-	This applies only to variable-size submorphs.
-	For now, guess, and computation will be not-as-smart as desired."
-
-	^ 100
+	^ morph optimalAllocatedSizeOf: aMorph
 ]
 
 { #category : 'private' }
@@ -229,7 +219,7 @@ SpkAccordianLinearLayout >> scanSubmorphs [
 	and compute total of minimum space along the primary axis.
 	Cache some of this information in LayoutCells"
 
-	numberOfVariableSubmorphs := totalDesiredAllocation := totalMinimumSize := totalPriority := 0.
+	sumOfGrantsTimesRequests := totalMinimumSize := 0.
 	cells := OrderedCollection new.
 	morph submorphsDo: [ :submorph | 
 		| cell |
@@ -241,10 +231,9 @@ SpkAccordianLinearLayout >> scanSubmorphs [
 			ifFalse: [ 
 				cell
 					beVariable;
-					optimalSize: (self optimalAllocatedSizeOf: submorph);
-					priority: (morph priorityOf: submorph).
-				totalDesiredAllocation := totalDesiredAllocation
-				                          + cell optimalSize.
-				totalPriority := totalPriority + cell priority.
-				numberOfVariableSubmorphs := numberOfVariableSubmorphs + 1] ]
+					allocationFactor:
+						(self optimalAllocatedSizeOf: submorph)
+						* (morph priorityOf: submorph).
+				sumOfGrantsTimesRequests := sumOfGrantsTimesRequests
+				                            + cell allocationFactor ] ]
 ]

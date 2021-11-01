@@ -46,6 +46,17 @@ SpkAccordianLayoutMorph >> isVariableSize: aMorph [
 	^ (self coordinateTransform pResizingOf: aMorph) ~~ #rigid
 ]
 
+{ #category : 'private' }
+SpkAccordianLayoutMorph >> optimalAllocatedSizeOf: aMorph [
+
+	"What size, beyond the minimum size, 
+	would be needed to fully display the given morph?
+	This applies only to variable-size submorphs.
+	For now, guess, and computation will be not-as-smart as desired."
+
+	^ 100
+]
+
 { #category : 'accessing' }
 SpkAccordianLayoutMorph >> priorityOf: aSubmorph [
 

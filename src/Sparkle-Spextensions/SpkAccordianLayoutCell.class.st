@@ -2,32 +2,19 @@ Class {
 	#name : 'SpkAccordianLayoutCell',
 	#superclass : 'SpkLayoutCell',
 	#instVars : [
-		'optimalSize',
-		'priority'
+		'allocationFactor'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
 
 { #category : 'accessing' }
-SpkAccordianLayoutCell >> optimalSize [
+SpkAccordianLayoutCell >> allocationFactor [
 
-	^ optimalSize
+	^ allocationFactor
 ]
 
 { #category : 'accessing' }
-SpkAccordianLayoutCell >> optimalSize: anObject [
+SpkAccordianLayoutCell >> allocationFactor: anObject [
 
-	optimalSize := anObject
-]
-
-{ #category : 'accessing' }
-SpkAccordianLayoutCell >> priority [
-
-	^ priority
-]
-
-{ #category : 'accessing' }
-SpkAccordianLayoutCell >> priority: anObject [
-
-	priority := anObject
+	allocationFactor := anObject
 ]

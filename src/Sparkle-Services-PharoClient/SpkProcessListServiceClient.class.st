@@ -14,6 +14,8 @@ SpkProcessListServiceClient >> listItems [
 				a priority > b priority
 					ifTrue: [true]
 					ifFalse: [a priority = b priority
-									ifTrue: [a nameOrOopHex <= b nameOrOopHex]
+									ifTrue: [a nameOrOopHex = b nameOrOopHex
+													ifTrue: [a oop < b oop]
+													ifFalse: [a nameOrOopHex < b nameOrOopHex]]
 									ifFalse: [false]]]
 ]

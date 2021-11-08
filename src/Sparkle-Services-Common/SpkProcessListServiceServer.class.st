@@ -19,13 +19,24 @@ SpkProcessListServiceServer class >> forTool: aProcessListTool [
 SpkProcessListServiceServer >> initializeFromTool: aProcessListTool [
 
 	tool := aProcessListTool.
-	self refreshFromTool
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
+	self refreshFromTool.
+]
+
+{ #category : 'processing announcements' }
+SpkProcessListServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
+
+	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
 ]
 
 { #category : 'initialization' }
 SpkProcessListServiceServer >> refreshFromTool [
 
-	processes := tool processTools collect: [:each | (SpkServiceFactory serviceForTool: each) parentService: self; yourself]
+	processes := tool processTools collect: [:each | (SpkServiceFactory serviceForTool: each) parentService: self; yourself].
+	^true
 ]
 
 { #category : 'accessing' }

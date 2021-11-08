@@ -30,3 +30,19 @@ SpkProcessListTool >> processTools [
 
 	^ProcessorScheduler topazAllProcesses collect: [:proc | SpkProcessTool new process: proc; yourself]
 ]
+
+{ #category : 'processing announcements' }
+SpkProcessListTool >> receiveExecutionAnnouncement: anAnnouncement [
+
+	self announce: anAnnouncement
+]
+
+{ #category : 'accessing' }
+SpkProcessListTool >> taskspaceTool: aTool [
+
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self
+]

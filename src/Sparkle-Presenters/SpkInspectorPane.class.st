@@ -195,3 +195,9 @@ SpkInspectorPane >> updateEvaluatorIndicesForListSize: listSize [
 	self evaluators withIndexDo: [ :each :evaluatorIndex | 
 		each index: listSize + evaluatorIndex ]
 ]
+
+{ #category : 'updating' }
+SpkInspectorPane >> updateFromModel [
+
+	inspectorSubPane updateFromModel
+]

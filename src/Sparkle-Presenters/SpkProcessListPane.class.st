@@ -60,3 +60,9 @@ SpkProcessListPane >> itemSelected: anAnnouncement [
 		ifNil: [ self disableAll ]
 		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
 ]
+
+{ #category : 'updating' }
+SpkProcessListPane >> updateFromModel [
+
+	self refreshListModel
+]

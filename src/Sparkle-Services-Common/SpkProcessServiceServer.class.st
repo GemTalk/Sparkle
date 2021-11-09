@@ -33,9 +33,28 @@ SpkProcessServiceServer >> initializeFromTool: aTool [
 { #category : 'initialization' }
 SpkProcessServiceServer >> refreshFromTool [
 
-	name := tool name.
-	oop := tool oop.
-	priority := tool priority.
-	stack := tool stack.
-	status := tool status
+	| changed newValue |
+	changed := false.
+
+	newValue := tool name.
+	changed := changed | (name ~= newValue).
+	name := newValue.
+
+	newValue := tool oop.
+	changed := changed | (oop ~= newValue).
+	oop := newValue.
+
+	newValue := tool priority.
+	changed := changed | (priority ~= newValue).
+	priority := newValue.
+
+	newValue := tool stack.
+	changed := changed | (stack ~= newValue).
+	stack := newValue.
+
+	newValue := tool status.
+	changed := changed | (status ~= newValue).
+	status := newValue.
+
+	^changed
 ]

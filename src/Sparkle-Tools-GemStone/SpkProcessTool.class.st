@@ -7,6 +7,14 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
+{ #category : 'instance creation' }
+SpkProcessTool class >> process: aProcess [
+
+	^self new
+		process: aProcess;
+		yourself
+]
+
 { #category : 'accessing' }
 SpkProcessTool >> name [
 

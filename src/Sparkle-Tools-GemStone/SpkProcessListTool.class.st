@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkProcessListTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'explorerTool'
+		'explorerTool',
+		'processTools'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
@@ -19,22 +20,43 @@ SpkProcessListTool >> explorerTool: anExplorerTool [
 	explorerTool := anExplorerTool
 ]
 
+{ #category : 'initializing' }
+SpkProcessListTool >> initialize [
+
+	super initialize.
+	processTools := IdentityDictionary new
+]
+
 { #category : 'inspecting' }
 SpkProcessListTool >> newInspectorToolOn: anObject [
 
 	^ explorerTool newInspectorToolOn: anObject
 ]
 
-{ #category : 'accessing' }
-SpkProcessListTool >> processTools [
+{ #category : 'enumerating' }
+SpkProcessListTool >> processToolsDo: aBlock [
 
-	^ProcessorScheduler topazAllProcesses collect: [:proc | SpkProcessTool new process: proc; yourself]
+	self refreshProcessList.
+	processTools valuesDo: aBlock
 ]
 
 { #category : 'processing announcements' }
 SpkProcessListTool >> receiveExecutionAnnouncement: anAnnouncement [
 
 	self announce: anAnnouncement
+]
+
+{ #category : 'refreshing' }
+SpkProcessListTool >> refreshProcessList [
+
+	| newProcessTools |
+	newProcessTools := IdentityDictionary new.
+	ProcessorScheduler topazAllProcesses
+		do:
+			[:process | | processTool |
+			processTool := processTools at: process ifAbsent: [SpkProcessTool process: process].
+			newProcessTools at: process put: processTool].
+	processTools := newProcessTools
 ]
 
 { #category : 'accessing' }

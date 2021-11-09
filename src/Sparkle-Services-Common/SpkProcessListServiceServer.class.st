@@ -35,7 +35,13 @@ SpkProcessListServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
 { #category : 'initialization' }
 SpkProcessListServiceServer >> refreshFromTool [
 
-	processes := tool processTools collect: [:each | (SpkServiceFactory serviceForTool: each) parentService: self; yourself].
+	processes := Array new.
+	tool processToolsDo:
+		[:processTool | | service |
+		service := (SpkServiceFactory serviceForTool: processTool)
+			parentService: self;
+			yourself.
+		processes add: service].
 	^true
 ]
 

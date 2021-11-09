@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkProcessListServiceServer',
 	#superclass : 'SpkProcessListService',
 	#instVars : [
-		'tool'
+		'tool',
+		'toolServiceMapping'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -13,6 +14,13 @@ SpkProcessListServiceServer class >> forTool: aProcessListTool [
 	^self new
 		initializeFromTool: aProcessListTool;
 		yourself
+]
+
+{ #category : 'initialization' }
+SpkProcessListServiceServer >> initialize [
+
+	super initialize.
+	toolServiceMapping := IdentityDictionary new
 ]
 
 { #category : 'initialization' }
@@ -35,14 +43,25 @@ SpkProcessListServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
 { #category : 'initialization' }
 SpkProcessListServiceServer >> refreshFromTool [
 
-	processes := Array new.
+	| oldToolServiceMapping changed |
+	oldToolServiceMapping := toolServiceMapping.
+	toolServiceMapping := IdentityDictionary new.
+	processes := Set new.
+	changed := false.
 	tool processToolsDo:
 		[:processTool | | service |
-		service := (SpkServiceFactory serviceForTool: processTool)
-			parentService: self;
-			yourself.
-		processes add: service].
-	^true
+		service := oldToolServiceMapping
+			at: processTool
+			ifAbsent:
+				[changed := true.
+				(SpkServiceFactory serviceForTool: processTool)
+					parentService: self;
+					yourself].
+		toolServiceMapping at: processTool put: service.
+		processes add: service.
+		changed := changed | service refreshFromTool].
+	changed := changed | (toolServiceMapping size ~= oldToolServiceMapping size).
+	^changed
 ]
 
 { #category : 'accessing' }

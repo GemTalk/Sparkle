@@ -64,5 +64,8 @@ SpkProcessListPane >> itemSelected: anAnnouncement [
 { #category : 'updating' }
 SpkProcessListPane >> updateFromModel [
 
-	self refreshListModel
+	self
+		"deselectChangedFields;"
+		refreshListModel;
+		refreshList
 ]

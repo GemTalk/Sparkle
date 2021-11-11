@@ -142,7 +142,8 @@ DebuggingTest >> levelsWithSelector: selector inProcess: aProcess [
 DebuggingTest >> log: aString [
 	log
 		addAll: aString;
-		lf
+		lf.
+	"GsFile gciLogServer: aString"
 ]
 
 { #category : 'logging' }
@@ -196,6 +197,17 @@ DebuggingTest >> newProcessForBlock: aBlock id: anID [
 { #category : 'support' }
 DebuggingTest >> processPriority [
 	^ Processor activeProcess priority - 1
+]
+
+{ #category : 'support' }
+DebuggingTest >> runHotForSeconds: anInteger shouldHalt: shouldHalt counter: aCounter [
+	| endTime |
+	endTime := DateAndTime now + (Duration seconds: anInteger).
+	[ DateAndTime now < endTime ]
+		whileTrue: [ 
+			shouldHalt
+				ifTrue: [ self halt ].
+			aCounter increment ]
 ]
 
 { #category : 'support - breaking' }

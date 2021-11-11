@@ -5,6 +5,51 @@ Class {
 }
 
 { #category : 'tests' }
+MultiProcessBreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
+	"This test ensures that when you have a debugger on a process and #step, the step action applies
+	to the specific process. The step shouldn't apply to other processes executing the same method."
+
+	| haltingProcess independentProcess level haltingMethod haltingCounter independentCounter independentCounterCache |
+	haltingCounter := GsCounter new.
+	independentCounter := GsCounter new.
+	haltingProcess := self
+		newProcessForBlock: [ self runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
+		id: #'HaltingProcess'.
+	independentProcess := self
+		newProcessForBlock: [ self runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
+		id: #'IndependentProcess'.
+	independentProcess
+		convertToPortableStack.
+	self advanceToControlInterruptIn: haltingProcess.
+	independentCounterCache := independentCounter current.
+	level := self firstFrameBelowHalt.
+	haltingMethod := (haltingProcess _frameContentsAt: level) first.
+	self
+		assert: haltingMethod selector
+		equals: #'runHotForSeconds:shouldHalt:counter:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Halt.
+
+	independentProcess resume.
+	(self waitMS: 100).
+	independentProcess convertToPortableStack.
+
+	haltingProcess stepOverFromLevel: level.
+	(self waitMS: 100).
+
+	self assertSuspended: haltingProcess.
+	self denySuspended: independentProcess.
+	self assertNoTraceEntries.
+	self assert: independentCounter current > independentCounterCache.
+	independentProcess terminate.
+	self assert: independentProcess _isTerminated.
+
+	self advanceToControlInterruptIn: haltingProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint
+]
+
+{ #category : 'tests' }
 MultiProcessBreakpointHandlingTest >> testMultiProcessBreakpointHandlingInSameMethodAfterHalting [
 	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
 
@@ -38,7 +83,7 @@ MultiProcessBreakpointHandlingTest >> testMultiProcessBreakpointHandlingInSameMe
 	"Set the breakpoint for the second process."
 	self
 		setMethodBreakAtStepPoint: 10
-		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
+		inMethod: (DebuggingTest compiledMethodAt: #factorialOf:stopAt:)
 		forProcess: secondProcess.
 
 	"Finish the first process. It should not encounter the second process' breakpoint."

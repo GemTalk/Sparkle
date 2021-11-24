@@ -45,7 +45,7 @@ SpkEvaluatorTool >> innerEvaluateMethod: method inContext: context [
 				  #(  ).
 				  method }
 		  to: context
-		  ifNotUnderstood: [ 
+		  ifUnsuccessful: [ 
 		  'Evaluation message not understood by this object' ]
 ]
 

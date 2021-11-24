@@ -44,6 +44,6 @@ SpkInspectionTool >> selfDescriptionOf: anObject [
 		carefullySend: #printOn:
 		withArguments: { stream }
 		to: anObject
-		ifNotUnderstood: [  ].
+		ifUnsuccessful: [].
 	^ stream contents
 ]

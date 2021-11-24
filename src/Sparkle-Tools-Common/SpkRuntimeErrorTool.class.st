@@ -23,7 +23,7 @@ SpkRuntimeErrorTool >> initializeFromException: anError [
 		         carefullySend: #description
 		         withArguments: #(  )
 		         to: anError
-		         ifNotUnderstood: [ 'Indescribable exception' ].
+		         ifUnsuccessful: [ 'Indescribable exception' ].
 	stack := RsrProcessModel currentStackDump
 ]
 

@@ -9,13 +9,26 @@ Class {
 }
 
 { #category : 'messaging' }
-SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: aBlock [
+SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: notUnderstoodBlock onError: errorBlock [
 	| class |
 	class := self classOf: anObject.
 	^ ((class canUnderstand: aSelector)
 		and: [ class canUnderstand: #'perform:withArguments:' ])
-		ifTrue: [ anObject perform: aSelector withArguments: argArray ]
-		ifFalse: aBlock
+		ifTrue: [ 
+			[ anObject perform: aSelector withArguments: argArray ]
+				on: Error
+				do: [ :ex | ex return: errorBlock value ] ]
+		ifFalse: notUnderstoodBlock
+]
+
+{ #category : 'messaging' }
+SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anObject ifUnsuccessful: aBlock [
+	^ self
+		carefullySend: aSelector
+		withArguments: argArray
+		to: anObject
+		ifNotUnderstood: aBlock
+		onError: aBlock
 ]
 
 { #category : 'querying' }

@@ -17,7 +17,7 @@ SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anOb
 		ifTrue: [ 
 			[ anObject perform: aSelector withArguments: argArray ]
 				on: Error
-				do: [ :ex | ex return: errorBlock value ] ]
+				do: errorBlock ]
 		ifFalse: notUnderstoodBlock
 ]
 
@@ -28,7 +28,7 @@ SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anOb
 		withArguments: argArray
 		to: anObject
 		ifNotUnderstood: aBlock
-		onError: aBlock
+		onError: [:ex | ex return: aBlock value]
 ]
 
 { #category : 'querying' }

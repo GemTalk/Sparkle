@@ -45,8 +45,8 @@ SpkEvaluatorTool >> innerEvaluateMethod: method inContext: context [
 				  #(  ).
 				  method }
 		  to: context
-		  ifUnsuccessful: [ 
-		  'Evaluation message not understood by this object' ]
+		  ifNotUnderstood: ['Evaluation message not understood by this object']
+		  onError: [:ex | ex pass]
 ]
 
 { #category : '*Sparkle-Tools-Pharo' }

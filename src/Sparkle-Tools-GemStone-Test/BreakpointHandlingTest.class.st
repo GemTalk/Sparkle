@@ -78,10 +78,11 @@ Need to recreate that specific scenario."
 	self waitMS: 100.
 	self assertSuspended.	
 
-	"The ipOffset shouldn't change just from setting step breakpoints."
+	"Since there is now a stack breakpoint at level + 1, IP should be negated."
 	self
+		assert: (process _frameContentsAt: level + 1) second negative;
 		assert: (process _frameContentsAt: level + 1) second
-		equals: (process _frameContentsAt: level + 2) second
+			equals: (process _frameContentsAt: level + 2) second negated
 ]
 
 { #category : 'tests' }

@@ -10,6 +10,11 @@ Class {
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
+{ #category : 'testing' }
+SpkEvaluationTest class >> isAbstract [
+	^ self sunitName = #'SpkEvaluationTest'
+]
+
 { #category : 'other' }
 SpkEvaluationTest >> newInspectorToolOn: anObject [
 	taskspaceTool := SpkTaskspaceTool new.

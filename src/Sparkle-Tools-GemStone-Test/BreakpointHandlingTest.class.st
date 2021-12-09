@@ -74,7 +74,7 @@ Need to recreate that specific scenario."
 		assert: (process _frameContentsAt: level + 1) second
 		equals: (process _frameContentsAt: level + 2) second.
 
-	process stepOverFromLevel: level.
+	process setStepOverBreaksAtLevel: level.
 	self waitMS: 100.
 	self assertSuspended.	
 

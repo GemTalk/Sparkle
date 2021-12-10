@@ -48,12 +48,11 @@ BreakpointHandlingTest >> testRecursionStepOutOfFrame [
 		equals: initialNumberOfRecursiveFrames - 1
 ]
 
-{ #category : 'tests expected to fail for now' }
+{ #category : 'tests' }
 BreakpointHandlingTest >> testRecursionStepPointOddity [
 	"An earlier version of testMultiProcessSteppingInSameMethod used the GsProcess for 'stepOver...' which
  doesn't actually step, just sets the step breakpoint. But it also messed up how the stack frame reported
- itself - reverted @9 line 6 to @1 line 1.
-Need to recreate that specific scenario."
+ itself - reverted @9 line 6 to @1 line 1. This became bug 49782."
 
 	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
 

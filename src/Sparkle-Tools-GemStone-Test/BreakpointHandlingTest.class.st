@@ -56,7 +56,7 @@ BreakpointHandlingTest >> testRecursionStepPointOddity [
 
 	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
 
-	| result processMethod level frameAtLevel |
+	| result processMethod level frameAtLevel stackReportNoBreakpoints stackReportWithBreakpoints |
 	self processBlock: [ result := self factorialOf: 10 stopAt: 4 ].
 
 	self advanceToControlInterrupt.
@@ -73,15 +73,23 @@ BreakpointHandlingTest >> testRecursionStepPointOddity [
 		assert: (process _frameContentsAt: level + 1) second
 		equals: (process _frameContentsAt: level + 2) second.
 
+	stackReportNoBreakpoints := process _stackReport.
 	process setStepOverBreaksAtLevel: level.
+	stackReportWithBreakpoints := process _stackReport.
+	self assert: stackReportWithBreakpoints 
+		equals: stackReportNoBreakpoints.
+
 	self waitMS: 100.
 	self assertSuspended.	
 
-	"Since there is now a stack breakpoint at level + 1, IP should be negated."
+	"Since there is now a stack breakpoint at level + 1, IP should be negated.
+	Step points, however, should still report as equal."
 	self
 		assert: (process _frameContentsAt: level + 1) second negative;
 		assert: (process _frameContentsAt: level + 1) second
-			equals: (process _frameContentsAt: level + 2) second negated
+			equals: (process _frameContentsAt: level + 2) second negated;
+		assert: (process _stepPointAt: level + 1)
+			equals: (process _stepPointAt: level + 2)
 ]
 
 { #category : 'tests' }

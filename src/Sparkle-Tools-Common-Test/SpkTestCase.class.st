@@ -23,7 +23,7 @@ identicalTo: bObject [
 	self assert: anObject == bObject
 ]
 
-{ #category : 'other' }
+{ #category : 'asserting' }
 SpkTestCase >> assert: aBoolean ifFail: blockAnsweringString [
 	aBoolean
 		ifFalse: [ 

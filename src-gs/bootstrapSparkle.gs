@@ -586,6 +586,24 @@ removeallclassmethods SpkExecutionAnnouncement
 
 doit
 (Announcement
+	subclass: 'SpkNewExplorerLayoutToolAnnouncement'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkNewExplorerLayoutToolAnnouncement
+removeallclassmethods SpkNewExplorerLayoutToolAnnouncement
+
+doit
+(Announcement
 	subclass: 'SpkNewExplorerToolAnnouncement'
 	instVarNames: #( tool )
 	classVars: #(  )
@@ -1131,7 +1149,7 @@ doit
 	subclass: 'SpkExplorerServiceServer'
 	instVarNames: #( tool )
 	classVars: #(  )
-	classInstVars: #( serviceClassesForToolTypes )
+	classInstVars: #(  )
 	poolDictionaries: #()
 	inDictionary: Globals
 	options: #()
@@ -1381,6 +1399,42 @@ removeallmethods SpkInspectorFieldServiceServer
 removeallclassmethods SpkInspectorFieldServiceServer
 
 doit
+(SpkLinkableSubService
+	subclass: 'SpkProcessService'
+	instVarNames: #( updatedServices name oop priority stack status )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessService
+removeallclassmethods SpkProcessService
+
+doit
+(SpkProcessService
+	subclass: 'SpkProcessServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessServiceServer
+removeallclassmethods SpkProcessServiceServer
+
+doit
 (RsrService
 	subclass: 'SpkPaneLayoutService'
 	instVarNames: #( relativeHeight paneCoordinate paneService )
@@ -1430,6 +1484,42 @@ true.
 
 removeallmethods SpkPaneLayoutServiceServer
 removeallclassmethods SpkPaneLayoutServiceServer
+
+doit
+(RsrService
+	subclass: 'SpkProcessListService'
+	instVarNames: #( updatedServices processes )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessListService
+removeallclassmethods SpkProcessListService
+
+doit
+(SpkProcessListService
+	subclass: 'SpkProcessListServiceServer'
+	instVarNames: #( tool toolServiceMapping )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessListServiceServer
+removeallclassmethods SpkProcessListServiceServer
 
 doit
 (RsrService
@@ -1502,6 +1592,42 @@ true.
 
 removeallmethods SpkRuntimeErrorServiceServer
 removeallclassmethods SpkRuntimeErrorServiceServer
+
+doit
+(RsrService
+	subclass: 'SpkSuccessService'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkSuccessService
+removeallclassmethods SpkSuccessService
+
+doit
+(SpkSuccessService
+	subclass: 'SpkSuccessServiceServer'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkSuccessServiceServer
+removeallclassmethods SpkSuccessServiceServer
 
 doit
 (RsrService
@@ -1578,7 +1704,7 @@ removeallclassmethods SpkTaskspaceRegistryServiceServer
 doit
 (RsrService
 	subclass: 'SpkTaskspaceService'
-	instVarNames: #( explorers )
+	instVarNames: #( explorers updatedServices )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3812,6 +3938,24 @@ removeallmethods SpkEvaluatorCancelAction
 removeallclassmethods SpkEvaluatorCancelAction
 
 doit
+(SpkEvaluatorAction
+	subclass: 'SpkEvaluatorDebugAction'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkEvaluatorDebugAction
+removeallclassmethods SpkEvaluatorDebugAction
+
+doit
 (SpkObject
 	subclass: 'SpkProcessFrameInfo'
 	instVarNames: #( frameContents level description isNativeStack calleeIsAsync )
@@ -3833,8 +3977,26 @@ removeallclassmethods SpkProcessFrameInfo
 
 doit
 (SpkObject
+	subclass: 'SpkProcessLauncher'
+	instVarNames: #( processBody processPriority processName processBreakpointLevel processManager )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessLauncher
+removeallclassmethods SpkProcessLauncher
+
+doit
+(SpkObject
 	subclass: 'SpkProcessManager'
-	instVarNames: #( process taskspaceTool debuggerDebugAction debuggerTool )
+	instVarNames: #( process taskspaceTool debuggerDebugAction debuggerTool explorerTool result resultReady announceNextDebug )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3848,24 +4010,6 @@ true.
 
 removeallmethods SpkProcessManager
 removeallclassmethods SpkProcessManager
-
-doit
-(SpkProcessManager
-	subclass: 'SpkProcessLauncherAndManager'
-	instVarNames: #( explorerTool processPriority processName processBreakpointLevel result resultReady )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkProcessLauncherAndManager
-removeallclassmethods SpkProcessLauncherAndManager
 
 doit
 (SpkObject
@@ -3998,7 +4142,7 @@ removeallclassmethods SpkDebuggerFrameTool
 doit
 (SpkTool
 	subclass: 'SpkDebuggerTool'
-	instVarNames: #( explorerTool processManager process exceptionOfRecord currentException frames mustInitiate replacementTool )
+	instVarNames: #( explorerTool processManager process exceptionOfRecord currentException frames replacementTool )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4159,8 +4303,26 @@ removeallclassmethods SpkPaneLayoutTool
 
 doit
 (SpkTool
+	subclass: 'SpkProcessListTool'
+	instVarNames: #( explorerTool processTools )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessListTool
+removeallclassmethods SpkProcessListTool
+
+doit
+(SpkTool
 	subclass: 'SpkProcessTerminatedTool'
-	instVarNames: #( process )
+	instVarNames: #( process explorerTool )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4174,6 +4336,24 @@ true.
 
 removeallmethods SpkProcessTerminatedTool
 removeallclassmethods SpkProcessTerminatedTool
+
+doit
+(SpkTool
+	subclass: 'SpkProcessTool'
+	instVarNames: #( process )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkProcessTool
+removeallclassmethods SpkProcessTool
 
 doit
 (SpkTool
@@ -4192,6 +4372,24 @@ true.
 
 removeallmethods SpkRuntimeErrorTool
 removeallclassmethods SpkRuntimeErrorTool
+
+doit
+(SpkTool
+	subclass: 'SpkSuccessTool'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkSuccessTool
+removeallclassmethods SpkSuccessTool
 
 doit
 (SpkTool
@@ -5001,6 +5199,35 @@ category: 'accessing'
 method: SpkExecutionAnnouncement
 updatedServices: object
 	updatedServices := object
+%
+
+! Class implementation for 'SpkNewExplorerLayoutToolAnnouncement'
+
+!		Class methods for 'SpkNewExplorerLayoutToolAnnouncement'
+
+category: 'instance creation'
+classmethod: SpkNewExplorerLayoutToolAnnouncement
+tool: anExplorerLayoutTool
+
+	^self new
+		tool: anExplorerLayoutTool;
+		yourself
+%
+
+!		Instance methods for 'SpkNewExplorerLayoutToolAnnouncement'
+
+category: 'accessing'
+method: SpkNewExplorerLayoutToolAnnouncement
+tool
+
+	^tool
+%
+
+category: 'accessing'
+method: SpkNewExplorerLayoutToolAnnouncement
+tool: anExplorerLayoutTool
+
+	tool := anExplorerLayoutTool
 %
 
 ! Class implementation for 'SpkNewExplorerToolAnnouncement'
@@ -6281,11 +6508,15 @@ refreshFromTool
 	currentSourceInterval := tool currentSourceInterval.
 
 	oldValue := currentStartPosition.
-	currentStartPosition := currentSourceInterval first.
+	currentStartPosition := currentSourceInterval isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ currentSourceInterval first ].
 	changed := changed | (currentStartPosition ~= oldValue).
 
 	oldValue := currentEndPosition.
-	currentEndPosition := currentSourceInterval last.
+	currentEndPosition := currentSourceInterval isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ currentSourceInterval last ].
 	changed := changed | (currentEndPosition ~= oldValue).
 
 	oldValue := canStep.
@@ -6333,6 +6564,18 @@ refreshLocalVariablesFromTool
 				fieldService := newFieldService ].
 		changed := changed | fieldService refreshFromTool ].
 	^ changed
+%
+
+category: 'other'
+method: SpkDebuggerFrameServiceServer
+restart
+
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool restartAnnouncing: announcement
 %
 
 category: 'other'
@@ -6788,43 +7031,6 @@ removePane: aService
 
 ! Class implementation for 'SpkExplorerServiceServer'
 
-!		Class methods for 'SpkExplorerServiceServer'
-
-category: 'class initialization'
-classmethod: SpkExplorerServiceServer
-initialize
-	self initializeServiceClassesForToolTypes
-%
-
-category: 'initialization'
-classmethod: SpkExplorerServiceServer
-initializeServiceClassesForToolTypes
-
-	serviceClassesForToolTypes := IdentityDictionary new.
-	^ serviceClassesForToolTypes
-		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
-		  at: SpkDebuggerTool put: SpkDebuggerServiceServer;
-		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
-		  at: SpkInspectorTool put: SpkInspectorServiceServer;
-		  yourself
-%
-
-category: 'accessing'
-classmethod: SpkExplorerServiceServer
-serviceClassesForToolTypes
-
-	^ serviceClassesForToolTypes
-%
-
-category: 'accessing'
-classmethod: SpkExplorerServiceServer
-serviceClassForToolClass: aToolClass
-
-	^ self serviceClassesForToolTypes
-		  at: aToolClass
-		  ifAbsent: [ self error: 'Unrecognized tool class ' , aToolClass name ]
-%
-
 !		Instance methods for 'SpkExplorerServiceServer'
 
 category: 'initialization'
@@ -7133,6 +7339,24 @@ accept
 	^ resultService
 %
 
+category: 'actions'
+method: SpkEvaluatorServiceServer
+debug
+	"Evaluate my newSourceCode but stop at the first stepPoint."
+
+	| resultTool resultService announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	self tool newSourceCode: newSourceCode.
+	resultTool := self tool debugAnnouncing: announcement.
+
+	self refreshFromTool.
+	resultService := SpkServiceFactory serviceForTool: resultTool.
+	^ resultService
+%
+
 category: 'initialization'
 method: SpkEvaluatorServiceServer
 initializeFromTool: evaluatorTool
@@ -7380,6 +7604,116 @@ tool: anObject
 	tool := anObject
 %
 
+! Class implementation for 'SpkProcessService'
+
+!		Class methods for 'SpkProcessService'
+
+category: 'accessing'
+classmethod: SpkProcessService
+templateClassName
+
+	^ #SpkProcessService
+%
+
+!		Instance methods for 'SpkProcessService'
+
+category: 'accessing'
+method: SpkProcessService
+name
+
+	^name
+%
+
+category: 'accessing'
+method: SpkProcessService
+oop
+
+	^oop
+%
+
+category: 'accessing'
+method: SpkProcessService
+priority
+
+	^priority
+%
+
+category: 'accessing'
+method: SpkProcessService
+stack
+
+	^stack
+%
+
+category: 'accessing'
+method: SpkProcessService
+status
+
+	^status
+%
+
+! Class implementation for 'SpkProcessServiceServer'
+
+!		Class methods for 'SpkProcessServiceServer'
+
+category: 'instance creaction'
+classmethod: SpkProcessServiceServer
+forTool: aProcessTool
+
+	^self new
+		initializeFromTool: aProcessTool;
+		yourself
+%
+
+!		Instance methods for 'SpkProcessServiceServer'
+
+category: 'inspecting'
+method: SpkProcessServiceServer
+createInspectorService
+
+	| newTool |
+	newTool := parentService tool newInspectorToolOn: tool process.
+	^SpkServiceFactory serviceForTool: newTool
+%
+
+category: 'initialization'
+method: SpkProcessServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'initialization'
+method: SpkProcessServiceServer
+refreshFromTool
+
+	| changed newValue |
+	changed := false.
+
+	newValue := tool name.
+	changed := changed | (name ~= newValue).
+	name := newValue.
+
+	newValue := tool oop.
+	changed := changed | (oop ~= newValue).
+	oop := newValue.
+
+	newValue := tool priority.
+	changed := changed | (priority ~= newValue).
+	priority := newValue.
+
+	newValue := tool stack.
+	changed := changed | (stack ~= newValue).
+	stack := newValue.
+
+	newValue := tool status.
+	changed := changed | (status ~= newValue).
+	status := newValue.
+
+	^changed
+%
+
 ! Class implementation for 'SpkPaneLayoutService'
 
 !		Class methods for 'SpkPaneLayoutService'
@@ -7450,6 +7784,100 @@ refreshFromTool
 
 	paneCoordinate := tool paneCoordinate copy.
 	relativeHeight := tool relativeHeight
+%
+
+! Class implementation for 'SpkProcessListService'
+
+!		Class methods for 'SpkProcessListService'
+
+category: 'accessing'
+classmethod: SpkProcessListService
+templateClassName
+
+	^ #SpkProcessListService
+%
+
+!		Instance methods for 'SpkProcessListService'
+
+category: 'accessing'
+method: SpkProcessListService
+processes
+
+	^processes
+%
+
+! Class implementation for 'SpkProcessListServiceServer'
+
+!		Class methods for 'SpkProcessListServiceServer'
+
+category: 'instance creation'
+classmethod: SpkProcessListServiceServer
+forTool: aProcessListTool
+
+	^self new
+		initializeFromTool: aProcessListTool;
+		yourself
+%
+
+!		Instance methods for 'SpkProcessListServiceServer'
+
+category: 'initialization'
+method: SpkProcessListServiceServer
+initialize
+
+	super initialize.
+	toolServiceMapping := IdentityDictionary new
+%
+
+category: 'initialization'
+method: SpkProcessListServiceServer
+initializeFromTool: aProcessListTool
+
+	tool := aProcessListTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
+	self refreshFromTool.
+%
+
+category: 'processing announcements'
+method: SpkProcessListServiceServer
+receiveExecutionAnnouncement: anAnnouncement
+
+	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
+%
+
+category: 'initialization'
+method: SpkProcessListServiceServer
+refreshFromTool
+
+	| oldToolServiceMapping changed |
+	oldToolServiceMapping := toolServiceMapping.
+	toolServiceMapping := IdentityDictionary new.
+	processes := Set new.
+	changed := false.
+	tool processToolsDo:
+		[:processTool | | service |
+		service := oldToolServiceMapping
+			at: processTool
+			ifAbsent:
+				[changed := true.
+				(SpkServiceFactory serviceForTool: processTool)
+					parentService: self;
+					yourself].
+		toolServiceMapping at: processTool put: service.
+		processes add: service.
+		changed := changed | service refreshFromTool].
+	changed := changed | (toolServiceMapping size ~= oldToolServiceMapping size).
+	^changed
+%
+
+category: 'accessing'
+method: SpkProcessListServiceServer
+tool
+
+	^tool
 %
 
 ! Class implementation for 'SpkProcessTerminatedService'
@@ -7525,6 +7953,27 @@ initializeFromTool: aTool
 
 	title := aTool title.
 	stack := aTool stack
+%
+
+! Class implementation for 'SpkSuccessService'
+
+!		Class methods for 'SpkSuccessService'
+
+category: 'other'
+classmethod: SpkSuccessService
+templateClassName
+
+	^ #SpkSuccessService
+%
+
+! Class implementation for 'SpkSuccessServiceServer'
+
+!		Instance methods for 'SpkSuccessServiceServer'
+
+category: 'initialization'
+method: SpkSuccessServiceServer
+initializeFromTool: aSuccessTool
+	"NOP - there is no state"
 %
 
 ! Class implementation for 'SpkTaskspaceLayoutService'
@@ -7668,7 +8117,8 @@ method: SpkTaskspaceService
 initialize
 
 	super initialize.
-	explorers := Set new
+	explorers := Set new.
+	updatedServices := Set new.
 %
 
 category: 'acccessing'
@@ -7678,9 +8128,37 @@ removeExplorer: anExplorerService
 	explorers remove: anExplorerService
 %
 
+category: 'acccessing'
+method: SpkTaskspaceService
+updatedServices
+
+	^updatedServices
+%
+
+category: 'acccessing'
+method: SpkTaskspaceService
+updatedServices: aSetOfServices
+
+	updatedServices := aSetOfServices
+%
+
 ! Class implementation for 'SpkTaskspaceServiceServer'
 
 !		Instance methods for 'SpkTaskspaceServiceServer'
+
+category: 'transaction management'
+method: SpkTaskspaceServiceServer
+abortTransaction
+	"Abort the current transaction"
+
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	resultTool := tool abortTransactionAnnouncing: announcement.
+	^SpkServiceFactory serviceForTool: resultTool
+%
 
 category: 'adding'
 method: SpkTaskspaceServiceServer
@@ -7693,17 +8171,111 @@ addDefaultExplorer
 	^ SpkServiceFactory serviceForTool: newExplorerTool
 %
 
-category: 'other'
+category: 'transaction management'
+method: SpkTaskspaceServiceServer
+beginTransaction
+	"Begin a new transaction"
+
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	resultTool := tool beginTransactionAnnouncing: announcement.
+	^SpkServiceFactory serviceForTool: resultTool
+%
+
+category: 'transaction management'
+method: SpkTaskspaceServiceServer
+commitTransaction
+	"Commit the current transaction"
+
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	resultTool := tool commitTransactionAnnouncing: announcement.
+	^SpkServiceFactory serviceForTool: resultTool
+%
+
+category: 'initialization'
 method: SpkTaskspaceServiceServer
 initializeFromTool: aTool
-	tool := aTool
+
+	self tool: aTool.
+%
+
+category: 'transaction management'
+method: SpkTaskspaceServiceServer
+newExplorerViewingAProcessList
+	"Returns a new Explorer viewing a ProcessList"
+
+	^SpkServiceFactory serviceForTool: tool newExplorerViewingAProcessList
+%
+
+category: 'opening explorers'
+method: SpkTaskspaceServiceServer
+openNewExplorer: anExplorerLayoutTool
+
+	| promise |
+	promise := remoteSelf openNewExplorer: (SpkServiceFactory serviceForTool: anExplorerLayoutTool).
+	promise
+		when: [:res | "NOP"]
+		catch: [:reason | GsFile gciLogServer: 'SpkTaskspaceServiceServer>>#openNewExplorer: ', Character lf asString, reason printString]
+%
+
+category: 'handling announcements'
+method: SpkTaskspaceServiceServer
+receiveOpenNewExplorer: anAnnouncement
+
+	self openNewExplorer: anAnnouncement tool
+%
+
+category: 'initialization'
+method: SpkTaskspaceServiceServer
+registerForAnnouncements
+
+	tool
+		when: SpkNewExplorerLayoutToolAnnouncement
+		send: #receiveOpenNewExplorer:
+		to: self
+%
+
+category: 'transaction management'
+method: SpkTaskspaceServiceServer
+setAutomaticTransactionMode
+	"Abort the current transaction and begin using automatic transaction mode"
+
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	resultTool := tool setAutomaticTransactionModeAnnouncing: announcement.
+	^SpkServiceFactory serviceForTool: resultTool
+%
+
+category: 'transaction management'
+method: SpkTaskspaceServiceServer
+setManualTransactionMode
+	"Abort the current transaction and begin using manual transaction mode"
+
+	| resultTool announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	resultTool := tool setManualTransactionModeAnnouncing: announcement.
+	^SpkServiceFactory serviceForTool: resultTool
 %
 
 category: 'initialization'
 method: SpkTaskspaceServiceServer
 tool: aTaskspaceTool
 
-	tool := aTaskspaceTool
+	tool := aTaskspaceTool.
+	self registerForAnnouncements
 %
 
 ! Class implementation for 'RsrAsyncMournHandler'
@@ -13353,6 +13925,28 @@ undoAction
 	^ nil
 %
 
+! Class implementation for 'SpkEvaluatorDebugAction'
+
+!		Instance methods for 'SpkEvaluatorDebugAction'
+
+category: 'public'
+method: SpkEvaluatorDebugAction
+performAction
+	"Debug makes the tool's oldSourceCode and newSourceCode the same."
+
+	target oldSourceCode: newSourceCode.
+	^ target evaluateCodeAnnouncing: announcement breakOnEntry: true
+%
+
+category: 'public'
+method: SpkEvaluatorDebugAction
+undoAction
+	"Cannot undo the actual execution, but can restore the code"
+
+	target oldSourceCode: oldSourceCode.
+	^ nil
+%
+
 ! Class implementation for 'SpkProcessFrameInfo'
 
 !		Class methods for 'SpkProcessFrameInfo'
@@ -13507,6 +14101,8 @@ sourceInterval
 	method == nil
 		ifTrue: [ ^ 1 to: 0 ].
 	source := self source.
+	source isEmpty
+		ifTrue: [ ^ 1 to: 0 ].
 	stepPoint == nil
 		ifTrue: [ ^ 1 to: (1 min: source size) ].
 	startPos := method _sourceOffsetsAt: stepPoint.
@@ -13539,9 +14135,87 @@ stepPoint
 		useNext: isNativeStack | calleeIsAsync
 %
 
+! Class implementation for 'SpkProcessLauncher'
+
+!		Instance methods for 'SpkProcessLauncher'
+
+category: 'actions'
+method: SpkProcessLauncher
+launch
+
+	| process |
+	process := processBody newProcess.
+	process
+		name: processName;
+		priority: processPriority;
+		breakpointLevel: processBreakpointLevel.
+	processManager
+		process: process;
+		resumeProcess
+%
+
+category: 'accessing'
+method: SpkProcessLauncher
+processBody: aBlock
+
+	processBody := [ self processManager returnValue: aBlock value ]
+%
+
+category: 'accessing'
+method: SpkProcessLauncher
+processBreakpointLevel: aBreakpointLevel
+
+	processBreakpointLevel := aBreakpointLevel
+%
+
+category: 'accessing'
+method: SpkProcessLauncher
+processManager
+
+	^processManager
+%
+
+category: 'accessing'
+method: SpkProcessLauncher
+processManager: aProcessManager
+
+	processManager := aProcessManager
+%
+
+category: 'accessing'
+method: SpkProcessLauncher
+processName: object
+	processName := object
+%
+
+category: 'accessing'
+method: SpkProcessLauncher
+processPriority: aPriority
+
+	processPriority := aPriority
+%
+
 ! Class implementation for 'SpkProcessManager'
 
 !		Instance methods for 'SpkProcessManager'
+
+category: 'private - debugger process'
+method: SpkProcessManager
+announceDebug
+	| newExplorerLayoutTool announcement |
+	newExplorerLayoutTool := SpkExplorerLayoutTool
+		newInTaskspace: taskspaceTool
+		viewing: debuggerTool.
+	announcement := SpkNewExplorerLayoutToolAnnouncement
+		tool: newExplorerLayoutTool.
+	taskspaceTool announce: announcement
+%
+
+category: 'accessing'
+method: SpkProcessManager
+announceNextDebug: aBoolean
+	announceNextDebug := aBoolean
+%
 
 category: 'accessing'
 method: SpkProcessManager
@@ -13559,20 +14233,7 @@ debugException: anException
 	"Either the process is mine, or it was forked from mine and inherited the debug action and therefore sent me a message"
 	processToDebug == process
 		ifTrue: [ self debugMyProcessWithException: anException ]
-		ifFalse: [ 
-		self debugForeignProcess: processToDebug withException: anException ]
-%
-
-category: 'private'
-method: SpkProcessManager
-debugForeignProcess: processToDebug withException: anException
-
-	"This process is not my problem, create another manager for it
-	and pass the buck."
-
-	SpkProcessManager new
-		process: processToDebug;
-		debugException: anException
+		ifFalse: [ self inNewManagerDebug: anException ]
 %
 
 category: 'accessing'
@@ -13586,11 +14247,17 @@ debuggerDebugAction: aBlock
 	debuggerDebugAction := aBlock
 %
 
-category: 'accessing'
+category: 'private - debugger process'
 method: SpkProcessManager
-debuggerMustInitiate
+debuggerProcessDebugException: anException
+	"The part of the body of the debugger process that deals with setting up the debugger tool to debug the given exception."
 
-	^ true
+	process suspend.
+	debuggerTool ifNil: [ self initializeDebuggerTool ].
+	debuggerTool
+		currentException: anException;
+		refreshFromProcess;
+		debug
 %
 
 category: 'private'
@@ -13601,12 +14268,11 @@ debuggerProcessForException: anException
 
 	| debuggerProcess |
 	debuggerProcess := [ 
-	process suspend.
-	debuggerTool ifNil: [ self initializeDebuggerTool ].
-	debuggerTool
-		currentException: anException;
-		refreshFromProcess;
-		debug ] newProcess.
+	self debuggerProcessDebugException: anException.
+	announceNextDebug
+		ifTrue: [ 
+			announceNextDebug := false.
+			self announceDebug ] ] newProcess.
 	debuggerProcess name: 'Debugger for ' , process asOop printString.
 	^ debuggerProcess
 %
@@ -13634,25 +14300,53 @@ debugMyProcessWithException: anException
 	process priority: originalPriority
 %
 
-category: 'initialization'
+category: 'accessing'
 method: SpkProcessManager
 explorerTool
-	self flag: 'Need to implement'.
-	self
-		halt:
-			'Debugging forked processes with no explorer tool is not yet implemented.'
+
+	^explorerTool ifNil: [explorerTool := SpkExplorerTool newInTaskspace: taskspaceTool]
+%
+
+category: 'accessing'
+method: SpkProcessManager
+explorerTool: anExplorerTool
+
+	explorerTool := anExplorerTool
+%
+
+category: 'initialization'
+method: SpkProcessManager
+initialize
+
+	super initialize.
+	resultReady := Semaphore new.
+	announceNextDebug := false
 %
 
 category: 'initialization'
 method: SpkProcessManager
 initializeDebuggerTool
+
 	debuggerTool := SpkDebuggerTool new
 		taskspaceTool: taskspaceTool;
 		explorerTool: self explorerTool;
 		process: process;
 		processManager: self;
-		mustInitiate: self debuggerMustInitiate;
 		yourself
+%
+
+category: 'private'
+method: SpkProcessManager
+inNewManagerDebug: anException
+	"This process is not my problem, create another manager for it
+	and pass the buck."
+
+	SpkProcessManager new
+		taskspaceTool: taskspaceTool;
+		process: Processor activeProcess;
+		announceNextDebug: true;
+		debuggerDebugAction: debuggerDebugAction;
+		debugMyProcessWithException: anException
 %
 
 category: 'private'
@@ -13677,6 +14371,23 @@ resumeProcess
 	Debug action might be right already, but simpler to always set it"
 	self setDebugAction.
 	process resume
+%
+
+category: 'actions'
+method: SpkProcessManager
+resumeProcessAndWait
+	"Evaluation process waits for an answer and returns it"
+
+	self resumeProcess.
+	^ self waitForResult
+%
+
+category: 'actions'
+method: SpkProcessManager
+returnValue: anObject
+
+	result := anObject.
+	resultReady signal
 %
 
 category: 'initialization'
@@ -13712,112 +14423,21 @@ taskspaceTool: anObject
 category: 'actions'
 method: SpkProcessManager
 terminateProcess
+	"Evaluation process waits for termination to be complete and returns the tool.
+	processBody must send me #returnValue: on completion of termination or this will hang."
+
 	process _isTerminated
 		ifTrue: [ ^ self newTerminatedTool ].
 	"If the process has started terminating, don't terminate again,
 	just proceed to let the unwind blocks run."
 	process _terminationStarted ifTrue: [^ self resumeProcess ].
 	[ process terminateTimeoutMs: SmallInteger maximumValue ]
-		forkAt: (process priority - 1 max: 1)
-%
-
-! Class implementation for 'SpkProcessLauncherAndManager'
-
-!		Instance methods for 'SpkProcessLauncherAndManager'
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-debuggerMustInitiate
-
-	^ false
-%
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-explorerTool
-
-	^explorerTool
-%
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-explorerTool: anExplorerTool
-
-	explorerTool := anExplorerTool
-%
-
-category: 'initialization'
-method: SpkProcessLauncherAndManager
-initialize
-	super initialize.
-	resultReady := Semaphore new
-%
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-processBody: aBlock
-	process := [ self returnValue: aBlock value ] newProcess
-%
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-processBreakpointLevel: anObject
-
-	processBreakpointLevel := anObject
-%
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-processName: object
-	processName := object
-%
-
-category: 'accessing'
-method: SpkProcessLauncherAndManager
-processPriority: aPriority
-
-	processPriority := aPriority
-%
-
-category: 'actions'
-method: SpkProcessLauncherAndManager
-resumeProcessAndWait
-	"Evaluation process waits for an answer and returns it"
-
-	self resumeProcess.
+		forkAt: (process priority - 1 max: 1).
 	^ self waitForResult
 %
 
 category: 'actions'
-method: SpkProcessLauncherAndManager
-returnValue: anObject
-	result := anObject.
-	resultReady signal
-%
-
-category: 'actions'
-method: SpkProcessLauncherAndManager
-runProcess
-
-	process
-		name: processName;
-		priority: processPriority;
-		breakpointLevel: processBreakpointLevel.
-	self resumeProcess
-%
-
-category: 'actions'
-method: SpkProcessLauncherAndManager
-terminateProcess
-	"Evaluation process waits for termination to be complete and returns the tool.
-	processBody must send me #returnValue: on completion of termination or this will hang."
-
-	super terminateProcess.
-	^ self waitForResult
-%
-
-category: 'actions'
-method: SpkProcessLauncherAndManager
+method: SpkProcessManager
 waitForResult
 	"Result may be a debugger"
 
@@ -13831,13 +14451,27 @@ waitForResult
 
 category: 'messaging'
 classmethod: SpkReflection
-carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: aBlock
+carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: notUnderstoodBlock onError: errorBlock
 	| class |
 	class := self classOf: anObject.
 	^ ((class canUnderstand: aSelector)
 		and: [ class canUnderstand: #'perform:withArguments:' ])
-		ifTrue: [ anObject perform: aSelector withArguments: argArray ]
-		ifFalse: aBlock
+		ifTrue: [ 
+			[ anObject perform: aSelector withArguments: argArray ]
+				on: Error
+				do: errorBlock ]
+		ifFalse: notUnderstoodBlock
+%
+
+category: 'messaging'
+classmethod: SpkReflection
+carefullySend: aSelector withArguments: argArray to: anObject ifUnsuccessful: aBlock
+	^ self
+		carefullySend: aSelector
+		withArguments: argArray
+		to: anObject
+		ifNotUnderstood: aBlock
+		onError: [:ex | ex return: aBlock value]
 %
 
 category: 'querying'
@@ -14247,7 +14881,8 @@ explorerTool
 category: 'accessing'
 method: SpkDebuggerFrameTool
 explorerTool: object
-	explorerTool := object
+	explorerTool := object.
+	explorerTool addPane: self
 %
 
 category: 'private'
@@ -14434,7 +15069,7 @@ stepIntoAnnouncing: anAnnouncement
 	| level |
 	level := currentState level.
 	process _isTerminated
-		ifFalse: [ process stepIntoFromLevel: level ].
+		ifFalse: [ process setStepIntoBreaksAtLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
 %
@@ -14446,7 +15081,7 @@ stepOverAnnouncing: anAnnouncement
 	| level |
 	level := currentState level.
 	process _isTerminated
-		ifFalse: [ process stepOverFromLevel: level ].
+		ifFalse: [ process setStepOverBreaksAtLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^debuggerTool resumeAnnouncing: anAnnouncement
 %
@@ -14471,7 +15106,7 @@ stepThroughAnnouncing: anAnnouncement
 	| level |
 	level := currentState level.
 	process _isTerminated
-		ifFalse: [ process stepThroughFromLevel: level ].
+		ifFalse: [ process setStepThroughBreaksAtLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
 %
@@ -14502,9 +15137,18 @@ currentException: anException
 category: 'private'
 method: SpkDebuggerTool
 debug
-	mustInitiate
+
+	processManager returnValue: self
+	"mustInitiate
 		ifFalse: [ processManager returnValue: self ]
-		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
+		ifTrue:
+			[| explorerLayoutTool announcement |
+			explorerLayoutTool := SpkExplorerLayoutTool
+				newInTaskspace: taskspaceTool
+				viewing: self.
+			announcement := SpkNewExplorerLayoutToolAnnouncement tool: explorerLayoutTool.
+			taskspaceTool announce: announcement.
+			mustInitiate := false]"
 %
 
 category: 'accessing'
@@ -14728,6 +15372,14 @@ markTopGlueFramesForGenericException
 				indexOfFrameInLast: 20
 				suchThat: [ :frame | 
 					frame receiver == currentException
+						and: [ frame method selector == #'_signalFromPrimitive:' ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					frame receiver == currentException
 						and: [ frame method selector == #'_signalToDebugger' ] ] ].
 
 	indexOfFirstDiscardedFrame
@@ -14760,12 +15412,6 @@ markTopGlueFramesForHalt
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
 		ifNil: [ self markTopGlueFramesForGenericException ]
-%
-
-category: 'accessing'
-method: SpkDebuggerTool
-mustInitiate: object
-	mustInitiate := object
 %
 
 category: 'accessing'
@@ -14988,6 +15634,24 @@ acceptAnnouncing: anAnnouncement
 
 category: 'accessing'
 method: SpkEvaluatorTool
+debugAnnouncing: anAnnouncement
+	"Evaluate newSourceCode through an undoable action, stopping
+	at the first step point. Answer a new Tool, which can
+	be a syntax error or a debugger."
+
+	| action resultTool |
+	action := SpkEvaluatorDebugAction new
+		target: self;
+		oldSourceCode: oldSourceCode;
+		newSourceCode: newSourceCode;
+		announcement: anAnnouncement;
+		yourself.
+	resultTool := explorerTool performAction: action.
+	^ resultTool
+%
+
+category: 'accessing'
+method: SpkEvaluatorTool
 evaluateCode
 	self flag: 'Now used only by tests, which should be updated.'.
 	^ self evaluateCodeAnnouncing: SpkExecutionAnnouncement new
@@ -15000,12 +15664,36 @@ evaluateCodeAnnouncing: anAnnouncement
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
+
+	^self
+		evaluateCodeAnnouncing: anAnnouncement
+		breakOnEntry: false
+%
+
+category: 'accessing'
+method: SpkEvaluatorTool
+evaluateCodeAnnouncing: anAnnouncement breakOnEntry: shouldBreak
+	"Evaluate the newSource and answer an appropriate tool for 
+	whatever happens. This can be a syntax error, a debugger,
+	or an inspector on a object. Break at the first step point if
+	shouldBreak is specified."
+
 	| context method resultTool |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
 		on: self compilationExceptionClass
 		do: [ :ex | ^ self toolForCompilationError: ex ].
+
+	shouldBreak
+		ifTrue: [ 
+			method
+				_setBreakAtIp: -1
+				operation: 16r101
+				frame: nil
+				process: nil
+				breakpointLevel: 1 ].
+
 
 	resultTool := self evaluateMethod: method inContext: context.
 
@@ -15037,14 +15725,25 @@ inspectorTool: anObject
 
 category: 'accessing'
 method: SpkEvaluatorTool
-newProcessLauncherAndManager
+newProcessLauncherWithBody: processBody
+manager: processManager
 
-	^ SpkProcessLauncherAndManager new
+	^SpkProcessLauncher new
+		processBreakpointLevel: 1;
+		processPriority: self evaluationPriority;
+		processName: 'Evaluation';
+		processBody: processBody;
+		processManager: processManager;
+		yourself
+%
+
+category: 'accessing'
+method: SpkEvaluatorTool
+newProcessManager
+
+	^ SpkProcessManager new
 		  taskspaceTool: taskspaceTool;
-		  debuggerDebugAction: Processor activeProcess debugActionBlock;
-		  processName: 'Evaluation';
-		  processPriority: self evaluationPriority;
-		  processBreakpointLevel: 1;
+		  debuggerDebugAction: nil;
 		  explorerTool: explorerTool;
 		  yourself
 %
@@ -15096,7 +15795,7 @@ updatedServices
 
 !		Class methods for 'SpkExplorerLayoutTool'
 
-category: 'other'
+category: 'instance creation'
 classmethod: SpkExplorerLayoutTool
 defaultInTaskspace: aTaskspaceTool
 	^ (self newInTaskspace: aTaskspaceTool)
@@ -15104,12 +15803,33 @@ defaultInTaskspace: aTaskspaceTool
 		yourself
 %
 
-category: 'other'
+category: 'instance creation'
 classmethod: SpkExplorerLayoutTool
 newInTaskspace: aTaskspaceTool
 	^ self new
 		taskspaceTool: aTaskspaceTool;
 		yourself
+%
+
+category: 'instance creation'
+classmethod: SpkExplorerLayoutTool
+newInTaskspace: aTaskspaceTool
+viewing: aPaneTool
+
+	| columnLayoutTool paneLayoutTool explorerLayoutTool |
+	columnLayoutTool := SpkColumnLayoutTool new.
+	paneLayoutTool := SpkPaneLayoutTool new
+		taskspaceTool: aTaskspaceTool;
+		paneTool: aPaneTool;
+		relativeHeight: 1;
+		paneCoordinate: {0.5};
+		yourself.
+	columnLayoutTool addPaneLayout: paneLayoutTool.
+	explorerLayoutTool := self newInTaskspace: aTaskspaceTool.
+	explorerLayoutTool
+		explorerTool: aPaneTool explorerTool;
+		addColumnLayout: columnLayoutTool.
+	^explorerLayoutTool
 %
 
 !		Instance methods for 'SpkExplorerLayoutTool'
@@ -15144,6 +15864,13 @@ explorerTool
 
 category: 'accessing'
 method: SpkExplorerLayoutTool
+explorerTool: anExplorerTool
+
+	explorerTool := anExplorerTool
+%
+
+category: 'accessing'
+method: SpkExplorerLayoutTool
 height
 
 	^ height
@@ -15168,8 +15895,8 @@ initialize
 category: 'initialization'
 method: SpkExplorerLayoutTool
 initializeForDefault
-	explorerTool := SpkExplorerTool defaultInTaskspace: taskspaceTool.
-	self initializeForTool: explorerTool
+	
+	self initializeForTool: (SpkExplorerTool defaultInTaskspace: taskspaceTool)
 %
 
 category: 'initialization'
@@ -15250,7 +15977,7 @@ selfDescriptionOf: anObject
 		carefullySend: #printOn:
 		withArguments: { stream }
 		to: anObject
-		ifNotUnderstood: [  ].
+		ifUnsuccessful: [].
 	^ stream contents
 %
 
@@ -15728,6 +16455,79 @@ relativeHeight: anObject
 	relativeHeight := anObject
 %
 
+! Class implementation for 'SpkProcessListTool'
+
+!		Instance methods for 'SpkProcessListTool'
+
+category: 'accessing'
+method: SpkProcessListTool
+explorerTool
+
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkProcessListTool
+explorerTool: anExplorerTool
+
+	explorerTool := anExplorerTool
+%
+
+category: 'initializing'
+method: SpkProcessListTool
+initialize
+
+	super initialize.
+	processTools := IdentityDictionary new
+%
+
+category: 'inspecting'
+method: SpkProcessListTool
+newInspectorToolOn: anObject
+
+	^ explorerTool newInspectorToolOn: anObject
+%
+
+category: 'enumerating'
+method: SpkProcessListTool
+processToolsDo: aBlock
+
+	self refreshProcessList.
+	processTools valuesDo: aBlock
+%
+
+category: 'processing announcements'
+method: SpkProcessListTool
+receiveExecutionAnnouncement: anAnnouncement
+
+	self announce: anAnnouncement
+%
+
+category: 'refreshing'
+method: SpkProcessListTool
+refreshProcessList
+
+	| newProcessTools |
+	newProcessTools := IdentityDictionary new.
+	ProcessorScheduler topazAllProcesses
+		do:
+			[:process | | processTool |
+			processTool := processTools at: process ifAbsent: [SpkProcessTool process: process].
+			newProcessTools at: process put: processTool].
+	processTools := newProcessTools
+%
+
+category: 'accessing'
+method: SpkProcessListTool
+taskspaceTool: aTool
+
+	super taskspaceTool: aTool.
+	taskspaceTool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self
+%
+
 ! Class implementation for 'SpkProcessTerminatedTool'
 
 !		Class methods for 'SpkProcessTerminatedTool'
@@ -15740,7 +16540,32 @@ forProcess: aGsProcess
 		yourself
 %
 
+category: 'other'
+classmethod: SpkProcessTerminatedTool
+forProcess: aGsProcess
+explorerTool: anExplorerTool
+
+	^ self new
+		process: aGsProcess;
+		explorerTool: anExplorerTool;
+		yourself
+%
+
 !		Instance methods for 'SpkProcessTerminatedTool'
+
+category: 'accessing'
+method: SpkProcessTerminatedTool
+explorerTool
+
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkProcessTerminatedTool
+explorerTool: anExplorerTool
+
+	explorerTool := anExplorerTool
+%
 
 category: 'accessing'
 method: SpkProcessTerminatedTool
@@ -15752,6 +16577,74 @@ category: 'accessing'
 method: SpkProcessTerminatedTool
 process: object
 	process := object
+%
+
+! Class implementation for 'SpkProcessTool'
+
+!		Class methods for 'SpkProcessTool'
+
+category: 'instance creation'
+classmethod: SpkProcessTool
+process: aProcess
+
+	^self new
+		process: aProcess;
+		yourself
+%
+
+!		Instance methods for 'SpkProcessTool'
+
+category: 'accessing'
+method: SpkProcessTool
+name
+
+	^process name
+%
+
+category: 'accessing'
+method: SpkProcessTool
+oop
+
+	^process asOop
+%
+
+category: 'accessing'
+method: SpkProcessTool
+priority
+
+	^process priority
+%
+
+category: 'accessing'
+method: SpkProcessTool
+process
+
+	^process
+%
+
+category: 'accessing'
+method: SpkProcessTool
+process: aProcess
+
+	process := aProcess
+%
+
+category: 'accessing'
+method: SpkProcessTool
+stack
+
+	| report |
+	report := process _reportOfSize: 3000.
+	^String
+		new: 16 * report size
+		streamContents: [ :stream | report do: [ :each | stream nextPutAll: each ] separatedBy: [ stream lf ] ]
+%
+
+category: 'accessing'
+method: SpkProcessTool
+status
+
+	^process _statusString
 %
 
 ! Class implementation for 'SpkRuntimeErrorTool'
@@ -15777,7 +16670,7 @@ initializeFromException: anError
 		         carefullySend: #description
 		         withArguments: #(  )
 		         to: anError
-		         ifNotUnderstood: [ 'Indescribable exception' ].
+		         ifUnsuccessful: [ 'Indescribable exception' ].
 	stack := RsrProcessModel currentStackDump
 %
 
@@ -15836,8 +16729,7 @@ category: 'initialization'
 method: SpkTaskspaceLayoutTool
 initializeForDefault
 
-	taskspaceTool := SpkTaskspaceTool newDefault.
-	self initializeForTool: taskspaceTool
+	self initializeForTool: SpkTaskspaceTool newDefault
 %
 
 category: 'initialization'
@@ -15955,6 +16847,17 @@ newDefault
 
 !		Instance methods for 'SpkTaskspaceTool'
 
+category: 'transaction management'
+method: SpkTaskspaceTool
+abortTransactionAnnouncing: anAnnouncement
+	"Abort the current transaction. Announce the change to those interested."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System abortTransaction].
+	self announce: anAnnouncement.
+	^resultTool
+%
+
 category: 'initialization'
 method: SpkTaskspaceTool
 addDefaultExplorer
@@ -15988,6 +16891,28 @@ announceNewExplorer: anExplorerTool
 	self announce: announcement
 %
 
+category: 'transaction management'
+method: SpkTaskspaceTool
+beginTransactionAnnouncing: anAnnouncement
+	"Begin a new transaction. Announce the change to those interested."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System beginTransaction].
+	self announce: anAnnouncement.
+	^resultTool
+%
+
+category: 'transaction management'
+method: SpkTaskspaceTool
+commitTransactionAnnouncing: anAnnouncement
+	"Commit the current transaction. Announce the change to those interested."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System commit].
+	self announce: anAnnouncement.
+	^resultTool
+%
+
 category: 'accessing'
 method: SpkTaskspaceTool
 explorerTools
@@ -16018,6 +16943,103 @@ newExplorerTool
 	^ SpkExplorerTool new
 		  taskspaceTool: self;
 		  yourself
+%
+
+category: 'accessing'
+method: SpkTaskspaceTool
+newExplorerViewingAProcessList
+	"Returns a new ExplorerTool viewing a ProcessListTool"
+
+	^SpkExplorerLayoutTool
+		newInTaskspace: self
+		viewing: self newProcessListTool
+%
+
+category: 'transaction management'
+method: SpkTaskspaceTool
+newProcessLauncherWithBody: processBody
+manager: processManager
+
+	^SpkProcessLauncher new
+		processBreakpointLevel: 1;
+		processPriority: self evaluationPriority;
+		processName: 'Transaction Management';
+		processBody: processBody;
+		processManager: processManager;
+		yourself
+%
+
+category: 'accessing'
+method: SpkTaskspaceTool
+newProcessListTool
+
+	^SpkProcessListTool new
+		taskspaceTool: self;
+		explorerTool:  (SpkExplorerTool newInTaskspace: self);
+		yourself
+%
+
+category: 'transaction management'
+method: SpkTaskspaceTool
+newProcessManager
+	"Create a new process to handle the asynchronous evaluation of an expression."
+
+	^ SpkProcessManager new
+		  taskspaceTool: self;
+		  debuggerDebugAction: nil;
+		  yourself
+%
+
+category: 'transaction management'
+method: SpkTaskspaceTool
+performTransactionAction: aBlock
+	"Perform some transaction related action."
+
+	| processBody processManager processLauncher wasSuccessful processResult |
+	processManager := self newProcessManager.
+	wasSuccessful := false.
+	processBody := [ 
+	| resultObject |
+	resultObject := aBlock
+		ifCurtailed: [ 
+			processManager
+				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current explorerTool: processManager explorerTool) ].
+		wasSuccessful := true.
+		nil "In the case of success, there is no defined return value."].
+	processLauncher := self
+		newProcessLauncherWithBody: processBody
+		manager: processManager.
+
+	processLauncher launch.
+	processResult := processManager waitForResult.
+	^wasSuccessful
+		ifTrue: [SpkSuccessTool new]
+		ifFalse:
+			[SpkExplorerLayoutTool
+				newInTaskspace: self
+				viewing: processResult]
+%
+
+category: 'transaction management'
+method: SpkTaskspaceTool
+setAutomaticTransactionModeAnnouncing: anAnnouncement
+	"Abort the current transaction (implicit) and change to #autoBegin mode."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System transactionMode: #autoBegin].
+	self announce: anAnnouncement.
+	^resultTool
+%
+
+category: 'transaction management'
+method: SpkTaskspaceTool
+setManualTransactionModeAnnouncing: anAnnouncement
+	"Abort the current transaction (implicit) and change to #manualBegin mode."
+
+	| resultTool |
+	resultTool := self performTransactionAction: [System transactionMode: #manualBegin].
+	self announce: anAnnouncement.
+	^resultTool
 %
 
 ! Class implementation for 'SpkUndoManager'
@@ -16121,8 +17143,11 @@ initializeServiceClassesForToolTypes
 		at: SpkExplorerTool put: SpkExplorerServiceServer;
 		at: SpkInspectorTool put: SpkInspectorServiceServer;
 		at: SpkPaneLayoutTool put: SpkPaneLayoutServiceServer;
+		at: SpkProcessListTool put: SpkProcessListServiceServer;
 		at: SpkProcessTerminatedTool put: SpkProcessTerminatedServiceServer;
+		at: SpkProcessTool put: SpkProcessServiceServer;
 		at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
+		at: SpkSuccessTool put: SpkSuccessServiceServer;
 		at: SpkTaskspaceLayoutTool put: SpkTaskspaceLayoutServiceServer;
 		at: SpkTaskspaceTool put: SpkTaskspaceServiceServer;
 		yourself
@@ -17306,8 +18331,8 @@ compileNewSourceCodeInContext: anObject
 category: '*Sparkle-Tools-GemStone'
 method: SpkEvaluatorTool
 evaluateMethod: method inContext: context
-	| processBody processManager |
-	processManager := self newProcessLauncherAndManager.
+	| processBody processManager processLauncher |
+	processManager := self newProcessManager.
 	processBody := [ 
 	| resultObject |
 	resultObject := [ method _executeInContext: context ]
@@ -17315,17 +18340,12 @@ evaluateMethod: method inContext: context
 			processManager
 				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
 	explorerTool newInspectorToolOn: resultObject ].
+	processLauncher := self
+		newProcessLauncherWithBody: processBody
+		manager: processManager.
 
-	^ processManager
-		processBody: processBody;
-		runProcess;
-		waitForResult
-%
-
-category: '*Sparkle-Tools-GemStone'
-method: SpkEvaluatorTool
-evaluationPriority
-	^ Processor userSchedulingPriority
+	processLauncher launch.
+	^processManager waitForResult
 %
 
 ! Class extensions for 'SpkObject'
@@ -17344,6 +18364,16 @@ category: '*Sparkle-Tools-GemStone'
 method: SpkObject
 flag: anObject
 	"Look at senders of #flag: to find code that needs further attention"
+%
+
+! Class extensions for 'SpkTool'
+
+!		Instance methods for 'SpkTool'
+
+category: '*Sparkle-Tools-GemStone'
+method: SpkTool
+evaluationPriority
+	^ Processor userSchedulingPriority
 %
 
 ! Class extensions for 'TestAsserter'
@@ -17370,7 +18400,6 @@ should: aBlock notTakeMoreThan: aDuration
 run
 GemToGemAnnouncement initialize.
 RsrPlatformInitializer initialize.
-SpkExplorerServiceServer initialize.
 SpkServiceFactory initialize.
 true
 %

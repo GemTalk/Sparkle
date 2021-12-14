@@ -19,10 +19,13 @@ BaselineOfSparkle >> baselineNoScaffolding: spec [
 		spec
 			postLoadDoIt: #postload:package:;
 			package: 'Sparkle-Tools-Common';
+			package: 'Sparkle-TestBase-Pharo';
 			package: 'Sparkle-Tools-Pharo'
 			with: [ spec requires: 'Sparkle-Tools-Common' ];
 			package: 'Sparkle-Tools-Common-Test'
-			with: [ spec requires: 'Sparkle-Tools-Common' ];
+			with: [ 
+				spec requires:
+						#( 'Sparkle-Tools-Common' 'Sparkle-TestBase-Pharo' ) ];
 			package: 'Sparkle-Tools-Pharo-Test'
 			with: [ spec requires: 'Sparkle-Tools-Common-Test' ];
 			package: 'Sparkle-Services-Common'
@@ -36,10 +39,12 @@ BaselineOfSparkle >> baselineNoScaffolding: spec [
 			package: 'Sparkle-Presenters' with: [ 
 				spec requires:
 						#( 'Sparkle-Spextensions' 'Sparkle-Services-PharoClient' ) ];
-			package: 'Sparkle-Presenters-Test'
-			with: [ spec requires: #('Sparkle-Presenters' 'Sparkle-Tools-Common-Test') ];
-			package: 'Sparkle-UiTest'
-			with: [ spec requires: #('Sparkle-Presenters' 'Sparkle-Tools-Common-Test') ];
+			package: 'Sparkle-Presenters-Test' with: [ 
+				spec requires:
+						#( 'Sparkle-Presenters' 'Sparkle-Tools-Common-Test' ) ];
+			package: 'Sparkle-UiTest' with: [ 
+				spec requires:
+						#( 'Sparkle-Presenters' 'Sparkle-Tools-Common-Test' ) ];
 			package: 'Sparkle-Application'
 			with: [ spec requires: 'Sparkle-Presenters' ];
 			package: 'Sparkle-Spextensions'.
@@ -48,7 +53,7 @@ BaselineOfSparkle >> baselineNoScaffolding: spec [
 			with: [ spec repository: self rsrUrl ].
 		spec
 			baseline: 'SparkleFFI'
-			with: [ spec repository: self sparkleFFIUrl ]  ]
+			with: [ spec repository: self sparkleFFIUrl ] ]
 ]
 
 { #category : 'baselines' }

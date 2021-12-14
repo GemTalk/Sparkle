@@ -217,7 +217,7 @@ MultiProcessBreakpointHandlingTest >> testMethodSteppingIsLocalToOneProcess [
 	(self waitMS: 100).
 	independentProcess convertToPortableStack.
 
-	haltingProcess stepOverFromLevel: level.
+	haltingProcess setStepOverBreaksAtLevel: level.
 	(self waitMS: 100).
 
 	self assertSuspended: haltingProcess.
@@ -321,7 +321,7 @@ MultiProcessBreakpointHandlingTest >> testSteppingInSameMethod [
 	"Start the first process stepping over the #waitMS: send (long)."
 	self log: 'Step first process over #waitMS: send'.
 	firstProcess
-		stepOverFromLevel: level;
+		setStepOverBreaksAtLevel: level;
 		resume.
 	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
 

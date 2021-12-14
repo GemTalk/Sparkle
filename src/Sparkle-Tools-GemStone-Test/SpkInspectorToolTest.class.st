@@ -4,6 +4,18 @@ Class {
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
+{ #category : 'accessing' }
+SpkInspectorToolTest >> objectWithErroneousPrintOn [
+
+	^SpkTestClassWithDynamicPrintOn printOnAction: [:stream | Error signal]
+]
+
+{ #category : 'accessing' }
+SpkInspectorToolTest >> objectWithInfinitePrintOn [
+
+	^SpkTestClassWithDynamicPrintOn printOnAction: [:stream | [ stream << 'done yet? ' ] repeat]
+]
+
 { #category : 'tests' }
 SpkInspectorToolTest >> testClassMembershipDescription [
 
@@ -55,9 +67,6 @@ SpkInspectorToolTest >> testFieldToolsSize [
 	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
 	self assert: tool fieldTools size equals: 2.
 
-	self newInspectorToolOn: SpkTestClassWithInfinitePrintOn new.
-	self assert: tool fieldTools size equals: 0.
-
 	"ZeroDivide has both inherited and declared named instvars"
 	self newInspectorToolOn: ZeroDivide new.
 	self assert: tool fieldTools size equals: 11.
@@ -105,10 +114,13 @@ SpkInspectorToolTest >> testSelfDescription [
 	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
 	self assert: tool selfDescription equals: ''.
 
-	self newInspectorToolOn: SpkTestClassWithInfinitePrintOn new.
+	self newInspectorToolOn: self objectWithInfinitePrintOn.
 	description := tool selfDescription.
 	self
 		assert: description size equals: 250000;
 		assert: (description beginsWith: 'done yet? done yet? ');
-		assert: (description endsWith: 'done yet? done yet? ')
+		assert: (description endsWith: 'done yet? done yet? ').
+
+	self newInspectorToolOn: self objectWithErroneousPrintOn.
+	self assert: tool selfDescription equals: ''
 ]

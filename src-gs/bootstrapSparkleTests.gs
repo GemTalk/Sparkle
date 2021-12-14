@@ -78,6 +78,347 @@ removeallmethods AnnouncementMockD
 removeallclassmethods AnnouncementMockD
 
 doit
+(GsTestCase
+	subclass: 'DebuggerSteppingTest'
+	instVarNames: #( process trace )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods DebuggerSteppingTest
+removeallclassmethods DebuggerSteppingTest
+
+doit
+(GsTestCase
+	subclass: 'NonLocalReturnTest'
+	instVarNames: #( random closures trace level )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Tests behavior of nested non-local returns.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods NonLocalReturnTest
+removeallclassmethods NonLocalReturnTest
+
+doit
+(GsTestCase
+	subclass: 'SpkTestCase'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common-Test';
+		comment: 'A common abstract superclass for all Sparkle tests, which makes it easier to build a suite in GemStone.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkTestCase
+removeallclassmethods SpkTestCase
+
+doit
+(SpkTestCase
+	subclass: 'DebuggingTest'
+	instVarNames: #( trace log )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Abstract superclass for tests of debugging operations like breakpoints and stepping.
+These tests are actually independent of Sparkle, and test base debugging functionality.
+
+The logging API and instance variable can be used to record diagnostic information that would be helpful debugging tests.
+
+trace records the sequence of ControlInterrupts encountered during execution.
+Each trace entry is an association of the process'' ID with the exception encountered. These trace entries can be examined during the test.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods DebuggingTest
+removeallclassmethods DebuggingTest
+
+doit
+(DebuggingTest
+	subclass: 'MultiProcessDebuggingTest'
+	instVarNames: #( processes )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Abstract class for tests of debugging operations that test interaction between multiple processes.
+
+processes is a dictionary mapping Symbol IDs to processes. The ID is determined by the individual test.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods MultiProcessDebuggingTest
+removeallclassmethods MultiProcessDebuggingTest
+
+doit
+(MultiProcessDebuggingTest
+	subclass: 'MultiProcessBreakpointHandlingTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods MultiProcessBreakpointHandlingTest
+removeallclassmethods MultiProcessBreakpointHandlingTest
+
+doit
+(DebuggingTest
+	subclass: 'SingleProcessDebuggingTest'
+	instVarNames: #( process )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Abstract, tests for debugging operations on a single process.
+
+process is the process being debugged.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SingleProcessDebuggingTest
+removeallclassmethods SingleProcessDebuggingTest
+
+doit
+(SingleProcessDebuggingTest
+	subclass: 'BreakpointHandlingTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Tests of breakpoint handling in GemStone, using a single process.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods BreakpointHandlingTest
+removeallclassmethods BreakpointHandlingTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkLimitedWriteStreamTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkLimitedWriteStreamTest
+removeallclassmethods SpkLimitedWriteStreamTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkServiceServerTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		comment: 'Tests to test server-side services (and sometimes their underlying tools) on the server, without needing an RSR connection';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkServiceServerTest
+removeallclassmethods SpkServiceServerTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkSmallStackTest'
+	instVarNames: #( stack )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkSmallStackTest
+removeallclassmethods SpkSmallStackTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkToolTest'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkToolTest
+removeallclassmethods SpkToolTest
+
+doit
+(SpkToolTest
+	subclass: 'SpkEvaluationTest'
+	instVarNames: #( inspectorTool evaluatorTool taskspaceTool explorerTool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkEvaluationTest
+removeallclassmethods SpkEvaluationTest
+
+doit
+(SpkEvaluationTest
+	subclass: 'SpkDebuggerServiceTest'
+	instVarNames: #( debuggerService )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerServiceTest
+removeallclassmethods SpkDebuggerServiceTest
+
+doit
+(SpkEvaluationTest
+	subclass: 'SpkDebuggerToolTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkDebuggerToolTest
+removeallclassmethods SpkDebuggerToolTest
+
+doit
+(SpkEvaluationTest
+	subclass: 'SpkEvaluatorToolTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkEvaluatorToolTest
+removeallclassmethods SpkEvaluatorToolTest
+
+doit
+(SpkToolTest
+	subclass: 'SpkInspectorToolTest'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorToolTest
+removeallclassmethods SpkInspectorToolTest
+
+doit
+(SpkTestCase
+	subclass: 'SpkUndoManagerTest'
+	instVarNames: #( manager )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkUndoManagerTest
+removeallclassmethods SpkUndoManagerTest
+
+doit
 (nil
 	subclass: 'SpkTestSubclassOfNil'
 	instVarNames: #( first second )
@@ -132,25 +473,6 @@ true.
 
 removeallmethods AnnouncerSubscriberMockB
 removeallclassmethods AnnouncerSubscriberMockB
-
-doit
-(Object
-	subclass: 'BreakpointHandling'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		comment: 'Used by BreakpointHandlingTest';
-		immediateInvariant.
-true.
-%
-
-removeallmethods BreakpointHandling
-removeallclassmethods BreakpointHandling
 
 doit
 (Object
@@ -870,8 +1192,8 @@ removeallclassmethods RsrValueHolderServer
 
 doit
 (SpkObject
-	subclass: 'SpkTestClassWithInfinitePrintOn'
-	instVarNames: #(  )
+	subclass: 'SpkTestClassWithDynamicPrintOn'
+	instVarNames: #( printOnAction )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -883,8 +1205,8 @@ doit
 true.
 %
 
-removeallmethods SpkTestClassWithInfinitePrintOn
-removeallclassmethods SpkTestClassWithInfinitePrintOn
+removeallmethods SpkTestClassWithDynamicPrintOn
+removeallclassmethods SpkTestClassWithDynamicPrintOn
 
 doit
 (SpkObject
@@ -987,39 +1309,6 @@ true.
 
 removeallmethods WeakAnnouncerTest
 removeallclassmethods WeakAnnouncerTest
-
-doit
-(TestCase
-	subclass: 'BreakpointHandlingTest'
-	instVarNames: #( utility defaultProcess processes trace priority log )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		comment: 'These tests are actually independent of Sparkle, and test base debugging functionality.
-They are (with minor exceptions) replicared in ernie0.
-
-Most tests require only a single process. These tests can use the ''default process'' API which is simpler and more readable. 
-Use #processBlock: to establish a default process for the test.
-
-When tests require multiple processes, each process needs to be identified. These tests use the ''specific process'' API.
-Use #processBlock:forID: to establish each such processes.
-
-The ''IDed process'' API is expected to go away as unnecessary.
-
-The processes created using #processBlock: and #processBlock:forID: record a trace of ControlInterrupts encountered during execution.
-Each trace entry is an association of the process'' ID with the exception encountered. These trace entries can be examined during the test.
-
-The logging API and instance variable can be used to record diagnostic information that would be helpful debugging tests.';
-		immediateInvariant.
-true.
-%
-
-removeallmethods BreakpointHandlingTest
-removeallclassmethods BreakpointHandlingTest
 
 doit
 (TestCase
@@ -1747,206 +2036,6 @@ true.
 removeallmethods RsrTokenExchangeCodecTestCase
 removeallclassmethods RsrTokenExchangeCodecTestCase
 
-doit
-(TestCase
-	subclass: 'SpkTestCase'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common-Test';
-		comment: 'A common abstract superclass for all Sparkle tests, which makes it easier to build a suite in GemStone.';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkTestCase
-removeallclassmethods SpkTestCase
-
-doit
-(SpkTestCase
-	subclass: 'SpkLimitedWriteStreamTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkLimitedWriteStreamTest
-removeallclassmethods SpkLimitedWriteStreamTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkServiceServerTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		comment: 'Tests to test server-side services (and sometimes their underlying tools) on the server, without needing an RSR connection';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkServiceServerTest
-removeallclassmethods SpkServiceServerTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkSmallStackTest'
-	instVarNames: #( stack )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkSmallStackTest
-removeallclassmethods SpkSmallStackTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkToolTest'
-	instVarNames: #( tool )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkToolTest
-removeallclassmethods SpkToolTest
-
-doit
-(SpkToolTest
-	subclass: 'SpkEvaluationTest'
-	instVarNames: #( inspectorTool evaluatorTool taskspaceTool explorerTool )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkEvaluationTest
-removeallclassmethods SpkEvaluationTest
-
-doit
-(SpkEvaluationTest
-	subclass: 'SpkDebuggerServiceTest'
-	instVarNames: #( debuggerService )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkDebuggerServiceTest
-removeallclassmethods SpkDebuggerServiceTest
-
-doit
-(SpkEvaluationTest
-	subclass: 'SpkDebuggerToolTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkDebuggerToolTest
-removeallclassmethods SpkDebuggerToolTest
-
-doit
-(SpkEvaluationTest
-	subclass: 'SpkEvaluatorToolTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkEvaluatorToolTest
-removeallclassmethods SpkEvaluatorToolTest
-
-doit
-(SpkToolTest
-	subclass: 'SpkInspectorToolTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkInspectorToolTest
-removeallclassmethods SpkInspectorToolTest
-
-doit
-(SpkTestCase
-	subclass: 'SpkUndoManagerTest'
-	instVarNames: #( manager )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-Common-Test';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkUndoManagerTest
-removeallclassmethods SpkUndoManagerTest
-
 ! Class implementation for 'AnnouncementMockB'
 
 !		Class methods for 'AnnouncementMockB'
@@ -1996,6 +2085,2508 @@ prepareForDelivery
 	announcingCounter := announcingCounter + 1
 %
 
+! Class implementation for 'DebuggerSteppingTest'
+
+!		Instance methods for 'DebuggerSteppingTest'
+
+category: 'support'
+method: DebuggerSteppingTest
+setUp
+
+	trace := Array new.
+%
+
+category: 'tests'
+method: DebuggerSteppingTest
+testStepThroughInLevel1
+	"Test whether GsProcess>>_setBreaksForStepOverFromLevel: misbehaves when stepping through in level 1."
+
+	"Stop in a block that does not do an NLR, at the end of the block."
+
+	| result |
+	process := [ result := self throughInLevel1 ] newProcess.
+	process
+		name: 'processToStep';
+		priority: Processor activeProcess priority + 1;
+		resume.
+	self halt	
+
+"Trim the stack so that block is the top frame. Current stack trimming method will also rewind."	
+
+"Step in level 1 until block returns, verify stopped at correct point."
+%
+
+category: 'code to step'
+method: DebuggerSteppingTest
+throughInLevel1
+
+	trace add: 1.
+	trace add: [trace add: 2. self halt. trace add: 3] value.
+	trace add: 4.
+	self halt.
+%
+
+! Class implementation for 'NonLocalReturnTest'
+
+!		Class methods for 'NonLocalReturnTest'
+
+category: 'instance creation'
+classmethod: NonLocalReturnTest
+new
+	^ super new initialize
+%
+
+!		Instance methods for 'NonLocalReturnTest'
+
+category: 'expected trace'
+method: NonLocalReturnTest
+augmentExpectedTrace: expectedTrace depth: depth
+	| depthString |
+	depthString := depth printString.
+	expectedTrace
+		add: 'enter preHome ' , depthString;
+		add: 'enter home ' , depthString.
+	depth > 1
+		ifFalse: [ expectedTrace add: 'starting NLR ' , depthString]
+		ifTrue: [ expectedTrace 
+						add:  'enter protected ' , depthString;
+						add: 'starting NLR ' , depthString;
+						add: 'enter unwind ' , depthString.
+					self augmentExpectedTrace: expectedTrace depth: depth - 1.
+					expectedTrace add: 'exit unwind ' , depthString].
+	expectedTrace
+		add: 'preHome got returnVal nlrReturnValue ' , depthString;
+		add: 'exit preHome ' , depthString
+%
+
+category: 'expected trace'
+method: NonLocalReturnTest
+expectedTraceForWellNestedToDepth: depth
+	| expectedTrace |
+	expectedTrace := Array new.
+	self augmentExpectedTrace: expectedTrace depth: depth.
+	^ expectedTrace
+%
+
+category: 'winding and unwinding'
+method: NonLocalReturnTest
+home
+	"The home of the closure, thus the terminus of the NLR"
+
+	| levelString closure |
+	levelString := level printString.
+	trace add: 'enter home ' , levelString.
+	closure := [ trace add: 'starting NLR ' , levelString.
+				^ 'nlrReturnValue ' , levelString ].
+	self innerWithClosure: closure.
+
+	"Should not get to here."
+	trace add: 'exit home ' , levelString.
+	^ 'normal return of home ' , levelString
+%
+
+category: 'initialization'
+method: NonLocalReturnTest
+initialize
+	self initializeRandom
+%
+
+category: 'initialization'
+method: NonLocalReturnTest
+initializeRandom
+	"Make and log a seed that spans the full SmallInteger range,
+	which is 61 bits including sign.Create the random number generator using this seed.
+	An intermediate large integer is created half the time, which is OK since this 
+	method is used only once per new instance of this test."
+
+	| hostRandom lower32 upper29 seed |
+	hostRandom := HostRandom new.
+	lower32 := hostRandom integer.
+	upper29 := hostRandom integer bitAnd: 16r1FFFFFFF.
+	seed := (upper29 bitShift: 32) + lower32 + SmallInteger minimumValue.
+	self logSeed: seed.
+	random := Lag1MwcRandom seed: seed
+%
+
+category: 'winding and unwinding'
+method: NonLocalReturnTest
+innerWithClosure: closure
+	level > 1
+		ifTrue: [ self nestWithClosure: closure ]
+		ifFalse: closure
+%
+
+category: 'logging'
+method: NonLocalReturnTest
+log: aString
+	self logCr: Time now asStringMs , ' ' , self asOop printString , '  ' , aString
+%
+
+category: 'logging'
+method: NonLocalReturnTest
+logSeed: anInteger
+	self log: 'Setting random seed to ' , anInteger printString
+%
+
+category: 'winding and unwinding'
+method: NonLocalReturnTest
+nestWithClosure: closure
+	| levelString |
+	levelString := level printString.
+	level := level - 1.
+	[trace add: 'enter protected ' , levelString.
+	closure value.
+	trace add: 'exit protected ' , levelString ]
+		ifCurtailed: [ 
+			trace add: 'enter unwind ' , levelString.
+			self preHome.
+			trace add: 'exit unwind ' , levelString ]
+%
+
+category: 'winding and unwinding'
+method: NonLocalReturnTest
+preHome
+	"The sender of the home activation, thus where NLRs return to."
+
+	| levelString returnVal |
+	levelString := level printString.
+	trace add: 'enter preHome ' , levelString.
+	returnVal := self home.
+	trace add: 'preHome got returnVal ' , returnVal.
+	trace add: 'exit preHome ' , levelString
+%
+
+category: 'future tests'
+method: NonLocalReturnTest
+testMessilyNestedNLRs
+
+	"Tests NLRs, some of which have a terminus that is below one or more unwind blocks."
+
+	self assert: true equals: false
+%
+
+category: 'tests'
+method: NonLocalReturnTest
+testWellNestedNLRs
+	"Nest non-local returns to many different arbitrary levels,and make sure things happen in the correct order.
+	Always test the more common small depths, then a bunch of random larger depths.
+	These are all 'well-nested' NLRs -- those that only abnormally terminate *part* of an unwind block, never
+	the *entire* unwind block."
+
+	| max |
+	max := 100.
+	1 to: 3 do: [ :i | self wellNestedToDepth: i ].
+	50 timesRepeat: [ self wellNestedToDepth: (random integerBetween: 4 and: max) ]
+%
+
+category: 'future tests'
+method: NonLocalReturnTest
+testWellNestedNLRsWithExtraUnwindBlocks
+
+	"Tests well-nested NLRs with randomly-placed unwind blocks that complete without adding an NLR nesting level."
+
+	self assert: true equals: false
+%
+
+category: 'support'
+method: NonLocalReturnTest
+wellNestedToDepth: depth
+	"Strictly nest NLRs to the given depth, and assert that things happen in the correct order."
+
+	| expectedTrace |
+	trace := Array new.
+	level := depth.
+	self preHome.
+	expectedTrace := self expectedTraceForWellNestedToDepth: depth.
+	self assert: trace equals: expectedTrace
+%
+
+! Class implementation for 'SpkTestCase'
+
+!		Class methods for 'SpkTestCase'
+
+category: 'testing'
+classmethod: SpkTestCase
+isAbstract
+
+	"Override to true if a TestCase subclass is Abstract and should not have
+	TestCase instances built from it"
+
+	^ self == SpkTestCase
+%
+
+!		Instance methods for 'SpkTestCase'
+
+category: 'asserting'
+method: SpkTestCase
+assert: anObject
+identicalTo: bObject
+
+	self assert: anObject == bObject
+%
+
+category: 'asserting'
+method: SpkTestCase
+assert: aBoolean ifFail: blockAnsweringString
+	aBoolean
+		ifFalse: [ 
+			self logFailure: blockAnsweringString value.
+			TestResult failure signal: 'Assertion failed' ]
+%
+
+! Class implementation for 'DebuggingTest'
+
+!		Class methods for 'DebuggingTest'
+
+category: 'Testing'
+classmethod: DebuggingTest
+isAbstract
+	^ self sunitName = #'DebuggingTest'
+%
+
+!		Instance methods for 'DebuggingTest'
+
+category: 'support - specific process'
+method: DebuggingTest
+advanceToBreakpointIn: aProcess
+	self
+		advanceToControlInterruptIn: aProcess;
+		assertOneTraceEntry;
+		assertNextTraceValueClass: Breakpoint
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+advanceToControlInterruptIn: aProcess
+	aProcess resume.
+	self waitMS: 100.
+	self assertSuspended: aProcess
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+advanceToEndIn: aProcess
+	aProcess resume.
+	self waitMS: 100.
+	self
+		denySuspended: aProcess;
+		assert: aProcess _isTerminated;
+		assertNoTraceEntries
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+advanceToHaltIn: aProcess
+	self
+		advanceToControlInterruptIn: aProcess;
+		assertOneTraceEntry;
+		assertNextTraceValueClass: Halt
+%
+
+category: 'asserting'
+method: DebuggingTest
+assertNextTraceKey: anID valueClass: aBehavior
+	| traceEntry |
+	traceEntry := trace next.
+	self assert: traceEntry key equals: anID.
+	self assert: traceEntry value class equals: aBehavior
+%
+
+category: 'asserting'
+method: DebuggingTest
+assertNextTraceValueClass: aBehavior
+	| traceEntry |
+	traceEntry := trace next.
+	self assert: traceEntry value class equals: aBehavior
+%
+
+category: 'asserting'
+method: DebuggingTest
+assertNoTraceEntries
+	self assert: trace size equals: 0
+%
+
+category: 'asserting'
+method: DebuggingTest
+assertOneTraceEntry
+	self assert: trace size equals: 1
+%
+
+category: 'asserting'
+method: DebuggingTest
+assertSuspended: aProcess
+	self
+		assert: (self isSuspended: aProcess)
+		ifFail: [ 
+			'Process status is ' , aProcess _statusString , ' should have been suspended. '
+				, aProcess printString ]
+%
+
+category: 'asserting'
+method: DebuggingTest
+denySuspended: aProcess
+	self
+		deny: (self isSuspended: aProcess)
+		description: 'Process should not have been suspended'
+%
+
+category: 'code to test'
+method: DebuggingTest
+factorialOf: factInt stopAt: stopInt
+	factInt = stopInt
+		ifTrue: [ self halt ].
+	factInt = 1
+		ifTrue: [ ^ 1 ].
+	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
+%
+
+category: 'support'
+method: DebuggingTest
+firstFrameBelowHalt
+	"Answer the number of the frame below a #halt, considering all the overhead of signalling the exception."
+	"This magic number is fragile. Perhaps could replace with a search?"
+
+	^ 10
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+isSuspended: aProcess
+	^ ProcessorScheduler scheduler _isSuspended: aProcess
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+levelsSelect: aBlock inProcess: aProcess
+	"Answer an array of levels for which the block answers true.
+	The argument to the block is the frame contents array."
+
+	| result |
+	result := {}.
+
+	1 to: aProcess stackDepth do: [ :level | 
+		(aBlock value: (aProcess _frameContentsAt: level))
+			ifTrue: [ result add: level ] ].
+	^ result
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+levelsWithSelector: selector inProcess: aProcess
+	^ self
+		levelsSelect: [ :fc | fc first selector == selector ]
+		inProcess: aProcess
+%
+
+category: 'logging'
+method: DebuggingTest
+log: aString
+	log
+		addAll: aString;
+		lf.
+	"GsFile gciLogServer: aString"
+%
+
+category: 'logging'
+method: DebuggingTest
+log: aString processEssentials: aProcess frameLevel: levelInteger
+	| frameAtLevel frameAtNextHigherLevel methodAtLevel ipOffsetAtLevel stepPointAtLevel |
+	aProcess _isTerminated
+		ifTrue: [ self log: aString with: aProcess ]
+		ifFalse: [ 
+			frameAtLevel := aProcess _frameContentsAt: levelInteger.
+			frameAtNextHigherLevel := aProcess _frameContentsAt: levelInteger - 1.
+			methodAtLevel := frameAtLevel first.
+			ipOffsetAtLevel := frameAtLevel second.
+			stepPointAtLevel := aProcess _stepPointAt: levelInteger.
+
+			self log: aString with: aProcess.
+			self log: #'level' with: levelInteger.
+			self log: #'frameAtLevel' with: frameAtLevel.
+			self log: #'frameAtNextHigherLevel' with: frameAtNextHigherLevel.
+			self log: #'stepPointAtLevel' with: stepPointAtLevel ].
+	self logGroupSeparator
+%
+
+category: 'logging'
+method: DebuggingTest
+log: aString with: anObject
+	self log: aString , ': ' , anObject printString
+%
+
+category: 'logging'
+method: DebuggingTest
+logGroupSeparator
+	self
+		log: '= = = = = = = = = =';
+		log: ''
+%
+
+category: 'support'
+method: DebuggingTest
+newProcessForBlock: aBlock id: anID
+	| newProcess |
+	newProcess := [ 
+	aBlock
+		on: ControlInterrupt
+		do: [ :ex | 
+			self traceID: anID value: ex.
+			newProcess suspend.
+			ex resume ] ] newProcess.
+	newProcess
+		priority: self processPriority;
+		breakpointLevel: 1.
+	^ newProcess
+%
+
+category: 'support'
+method: DebuggingTest
+processPriority
+	^ Processor activeProcess priority - 1
+%
+
+category: 'support'
+method: DebuggingTest
+runHotForSeconds: anInteger shouldHalt: shouldHalt counter: aCounter
+	| endTime |
+	endTime := DateAndTime now + (Duration seconds: anInteger).
+	[ DateAndTime now < endTime ]
+		whileTrue: [ 
+			shouldHalt
+				ifTrue: [ self halt ].
+			aCounter increment ]
+%
+
+category: 'support - breaking'
+method: DebuggingTest
+setAllStepBreaksIn: aMethod forProcess: aProcess
+	aProcess convertToPortableStack.
+	^ aMethod
+		_setBreakAtIp: -1
+		operation: 1
+		frame: nil
+		process: aProcess
+		breakpointLevel: 1
+%
+
+category: 'support - breaking'
+method: DebuggingTest
+setMethodBreakAtStepPoint: aStepPoint inMethod: aMethod forProcess: aProcess
+	| info |
+	aProcess convertToPortableStack.
+	info := aMethod _meth_ip_ForStepPoint: aStepPoint abs.
+	self assert: info notNil description: 'Could not find ip for step point'.
+
+	(info at: 1)
+		_setBreakAtIp: (info at: 2)
+		operation: 0
+		frame: nil
+		process: aProcess
+		breakpointLevel: 1
+%
+
+category: 'support - breaking'
+method: DebuggingTest
+setStepBreakAtStepPoint: aStepPoint inMethod: aMethod forProcess: aProcess
+	| result |
+	aProcess convertToPortableStack.
+	result := aMethod
+		_breakOperation: 1
+		forStepPoint: aStepPoint
+		breakpointLevel: 1.
+	self
+		assert: result notNil
+		description: 'Failed to set step point at step ' , aStepPoint printString.
+	^ result
+%
+
+category: 'support'
+method: DebuggingTest
+setUp
+	super setUp.
+	GsNMethod clearAllBreaks.
+	trace := SharedQueue new.
+	log := AppendableString new
+%
+
+category: 'support - specific process'
+method: DebuggingTest
+stepOverInLevel: aLevel inProcess: aProcess
+	aProcess setStepOverBreaksAtLevel: aLevel.
+	self advanceToBreakpointIn: aProcess
+%
+
+category: 'support'
+method: DebuggingTest
+tearDown
+	GsNMethod clearAllBreaks.
+	super tearDown
+%
+
+category: 'support'
+method: DebuggingTest
+traceID: anID value: anObject
+	trace nextPut: anID -> anObject
+%
+
+category: 'support'
+method: DebuggingTest
+waitMS: milliseconds
+	(Delay forMilliseconds: milliseconds) wait
+%
+
+! Class implementation for 'MultiProcessDebuggingTest'
+
+!		Class methods for 'MultiProcessDebuggingTest'
+
+category: 'Testing'
+classmethod: MultiProcessDebuggingTest
+isAbstract
+	^ self sunitName = #'MultiProcessDebuggingTest'
+%
+
+!		Instance methods for 'MultiProcessDebuggingTest'
+
+category: 'support - processes'
+method: MultiProcessDebuggingTest
+newProcessForBlock: aBlock id: id
+	| newProcess |
+	(processes includesKey: id)
+		ifTrue: [ self error: 'Process with ID ' , id printString , ' already exists' ].
+	newProcess := super newProcessForBlock: aBlock id: id.
+	processes at: id put: newProcess.
+	^ newProcess
+%
+
+category: 'support'
+method: MultiProcessDebuggingTest
+setUp
+	super setUp.
+	processes := Dictionary new
+%
+
+category: 'support'
+method: MultiProcessDebuggingTest
+tearDown
+	processes do: [ :each | each terminate ].
+	processes := nil.
+	super tearDown
+%
+
+! Class implementation for 'MultiProcessBreakpointHandlingTest'
+
+!		Instance methods for 'MultiProcessBreakpointHandlingTest'
+
+category: 'code to test'
+method: MultiProcessBreakpointHandlingTest
+factorialOf: anInteger afterWaitingMS: milliseconds
+	"First factorial is so that we get a halt before the wait."
+
+	self factorialOf: 1 stopAt: 1.
+	self waitMS: milliseconds.
+	^ self factorialOf: anInteger stopAt: 0
+%
+
+category: 'code to test'
+method: MultiProcessBreakpointHandlingTest
+fibonacciGenerations: genInt stopAt: stopInt
+	| fNumbers howMany |
+	fNumbers := OrderedCollection with: 0 with: 1.
+	[ (howMany := fNumbers size) < genInt ]
+		whileTrue: [ 
+			howMany = stopInt
+				ifTrue: [ self halt ].
+			fNumbers add: (fNumbers at: howMany) + (fNumbers at: howMany - 1) ].
+	^ fNumbers at: genInt	"Can''t use #last in case genInt = 1"
+%
+
+category: 'tests expected to fail for now'
+method: MultiProcessBreakpointHandlingTest
+testBreakpointHandlingInSameMethod
+	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		newProcessForBlock: [ firstResult := self factorialOf: 10 stopAt: 6 ]
+		id: #'FirstProcess'.
+	secondProcess := self
+		newProcessForBlock: [ secondResult := self factorialOf: 10 stopAt: 4 ]
+		id: #'SecondProcess'.
+
+	"Set the breakpoint for the second process."
+	self
+		setMethodBreakAtStepPoint: 10
+		inMethod: (DebuggingTest compiledMethodAt: #factorialOf:stopAt:)
+		forProcess: secondProcess.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Set the breakpoint for the second process."
+"	self setMethodBreakAtStepPoint: 10 inMethod: secondProcessMethod forProcess: secondProcess."
+
+	"Finish the first process. It should not encounter the second process' breakpoint."
+	self log: 'Finish first process'.
+	self advanceToEndIn: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Run the second process to its breakpoint."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Run the second process to its breakpoint again, to ensure it sticks around."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+%
+
+category: 'tests'
+method: MultiProcessBreakpointHandlingTest
+testBreakpointHandlingInSameMethodAfterHalting
+	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		newProcessForBlock: [ firstResult := self factorialOf: 10 stopAt: 6 ]
+		id: #'FirstProcess'.
+	secondProcess := self
+		newProcessForBlock: [ secondResult := self factorialOf: 10 stopAt: 4 ]
+		id: #'SecondProcess'.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Set the breakpoint for the second process."
+	self
+		setMethodBreakAtStepPoint: 10
+		inMethod: (DebuggingTest compiledMethodAt: #factorialOf:stopAt:)
+		forProcess: secondProcess.
+
+	"Finish the first process. It should not encounter the second process' breakpoint."
+	self log: 'Finish first process'.
+	self advanceToEndIn: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Run the second process to its breakpoint."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Run the second process to its breakpoint again, to ensure it sticks around."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+%
+
+category: 'tests expected to fail for now'
+method: MultiProcessBreakpointHandlingTest
+testBreakpointHandlingInSameMethodBeforeHalting
+	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		newProcessForBlock: [ firstResult := self factorialOf: 10 stopAt: 6 ]
+		id: #'FirstProcess'.
+	secondProcess := self
+		newProcessForBlock: [ secondResult := self factorialOf: 10 stopAt: 4 ]
+		id: #'SecondProcess'.
+
+	"Set the breakpoint for the second process."
+	self
+		setMethodBreakAtStepPoint: 10
+		inMethod: (DebuggingTest compiledMethodAt: #factorialOf:stopAt:)
+		forProcess: secondProcess.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Finish the first process. It should not encounter the second process' breakpoint."
+	self log: 'Finish first process'.
+	self advanceToEndIn: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Run the second process to its breakpoint."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Run the second process to its breakpoint again, to ensure it sticks around."
+	self log: 'Advance second process to breakpoint'.
+	self advanceToBreakpointIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+%
+
+category: 'tests'
+method: MultiProcessBreakpointHandlingTest
+testMethodSteppingIsLocalToOneProcess
+	"This test ensures that when you have a debugger on a process and #step, the step action applies
+	to the specific process. The step shouldn't apply to other processes executing the same method."
+
+	| haltingProcess independentProcess level haltingMethod haltingCounter independentCounter independentCounterCache |
+	haltingCounter := GsCounter new.
+	independentCounter := GsCounter new.
+	haltingProcess := self
+		newProcessForBlock: [ self runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
+		id: #'HaltingProcess'.
+	independentProcess := self
+		newProcessForBlock: [ self runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
+		id: #'IndependentProcess'.
+	independentProcess
+		convertToPortableStack.
+	self advanceToControlInterruptIn: haltingProcess.
+	independentCounterCache := independentCounter current.
+	level := self firstFrameBelowHalt.
+	haltingMethod := (haltingProcess _frameContentsAt: level) first.
+	self
+		assert: haltingMethod selector
+		equals: #'runHotForSeconds:shouldHalt:counter:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Halt.
+
+	independentProcess resume.
+	(self waitMS: 100).
+	independentProcess convertToPortableStack.
+
+	haltingProcess setStepOverBreaksAtLevel: level.
+	(self waitMS: 100).
+
+	self assertSuspended: haltingProcess.
+	self denySuspended: independentProcess.
+	self assertNoTraceEntries.
+	self assert: independentCounter current > independentCounterCache.
+	independentProcess terminate.
+	self assert: independentProcess _isTerminated.
+
+	self advanceToControlInterruptIn: haltingProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint
+%
+
+category: 'tests expected to fail for now'
+method: MultiProcessBreakpointHandlingTest
+testSteppingInDifferentMethods
+	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
+
+	| factorial factorialProcess factorialMethod fibonacci fibonacciProcess fibonacciMethod level |
+	factorialProcess := self
+		newProcessForBlock: [ factorial := self factorialOf: 10 stopAt: 5 ]
+		id: #'FactorialProcess'.
+	fibonacciProcess := self
+		newProcessForBlock: [ fibonacci := self fibonacciGenerations: 10 stopAt: 4 ]
+		id: #'FibonacciProcess'.
+
+	self advanceToControlInterruptIn: factorialProcess.
+	level := self firstFrameBelowHalt.
+	factorialMethod := (factorialProcess _frameContentsAt: level) first.
+	self assert: factorialMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FactorialProcess' valueClass: Halt.
+
+	self advanceToControlInterruptIn: fibonacciProcess.
+	fibonacciMethod := (fibonacciProcess _frameContentsAt: level) first.
+	self assert: fibonacciMethod selector equals: #'fibonacciGenerations:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FibonacciProcess' valueClass: Halt.
+
+"	self setAllStepBreaksIn: factorialMethod forProcess: factorialProcess.
+	self setAllStepBreaksIn: fibonacciMethod forProcess: fibonacciProcess."
+	self setStepBreakAtStepPoint: 11 inMethod: factorialMethod forProcess: factorialProcess.		"Last step point in method"
+	self setStepBreakAtStepPoint: 17 inMethod: fibonacciMethod forProcess: fibonacciProcess.	"Last step point in method"
+
+	self advanceToControlInterruptIn: factorialProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FactorialProcess' valueClass: Breakpoint.
+
+	"This next test is currently expected to fail, as the previous process cleared all step points in the gem.
+	 It would work if the step points were reset here. But we want it to fail until the server is changed."
+"	self setAllStepBreaksIn: fibonacciMethod forProcess: fibonacciProcess."
+"	self setStepBreakAtStepPoint: 17 inMethod: fibonacciMethod forProcess: fibonacciProcess."	"Last step point in method"
+	self advanceToControlInterruptIn: fibonacciProcess.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FibonacciProcess' valueClass: Breakpoint.
+
+	self assertSuspended: factorialProcess.
+	self assertSuspended: fibonacciProcess
+%
+
+category: 'tests expected to fail for now'
+method: MultiProcessBreakpointHandlingTest
+testSteppingInSameMethod
+	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
+
+	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
+	firstProcess := self
+		newProcessForBlock: [ firstResult := self factorialOf: 10 afterWaitingMS: 3000 ]
+		id: #'FirstProcess'.
+	secondProcess := self
+		newProcessForBlock: [ secondResult := self factorialOf: 10 afterWaitingMS: 10 ]
+		id: #'SecondProcess'.
+
+	self log: 'Set up first process'.
+	self advanceToControlInterruptIn: firstProcess.
+	level := self firstFrameBelowHalt + 1.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+	frameAtLevel := firstProcess _frameContentsAt: level.
+	firstProcessMethod := frameAtLevel first.
+	self assert: firstProcessMethod selector equals: #'factorialOf:afterWaitingMS:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
+
+	"Advance to the #waitMS: send."
+	self stepOverInLevel: level inProcess: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+
+	self log: 'Set up second process'.
+	self advanceToControlInterruptIn: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	frameAtLevel := secondProcess _frameContentsAt: level.
+	secondProcessMethod := frameAtLevel first.
+	self assert: secondProcessMethod selector equals: #'factorialOf:afterWaitingMS:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
+
+	"Advance to the #waitMS: send."
+	self stepOverInLevel: level inProcess: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	"Start the first process stepping over the #waitMS: send (long)."
+	self log: 'Step first process over #waitMS: send'.
+	firstProcess
+		setStepOverBreaksAtLevel: level;
+		resume.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	"Step the second process over the #waitMS: send and the second #factorialOf:stopAt: send."
+	self log: 'Step second process over #waitMS: send'.
+	self stepOverInLevel: level inProcess: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+	self log: 'Step second process over second #factorialOf:stopAt: send'.
+	self stepOverInLevel: level inProcess: secondProcess.
+	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
+
+	self assert: firstResult isNil description: 'First process yielded result too soon'.
+	self assert: secondResult isNil description: 'Second process yielded result too soon'.
+	"Finish the second process"
+	self advanceToEndIn: secondProcess.
+
+	"Wait for the first process to finish the step (expected to fail currently)"
+	self log: 'Wait for first process to finish #waitMS: send'.
+	(self waitMS: 200).	"Second process used up 2x100ms waits stepping."
+	self assertSuspended: firstProcess.
+	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
+
+	self assert: firstResult isNil description: 'First process should not have finished to produce a result'.
+	self deny: secondResult isNil description: 'Second process failed to yield a result'.
+%
+
+! Class implementation for 'SingleProcessDebuggingTest'
+
+!		Class methods for 'SingleProcessDebuggingTest'
+
+category: 'Testing'
+classmethod: SingleProcessDebuggingTest
+isAbstract
+	^ self sunitName = #'SingleProcessDebuggingTest'
+%
+
+!		Instance methods for 'SingleProcessDebuggingTest'
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+advanceToBreakpoint
+	self advanceToBreakpointIn: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+advanceToControlInterrupt
+	self advanceToControlInterruptIn: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+advanceToEnd
+	self advanceToEndIn: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+advanceToHalt
+	self advanceToHaltIn: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+assertSuspended
+	self assertSuspended: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+denySuspended
+	self denySuspended: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+levelsSelect: aBlock
+	"Answer an array of levels for which the block answers true.
+	The argument to the block is the frame contents array."
+
+	^ self levelsSelect: aBlock inProcess: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+levelsWithSelector: selector
+	^ self levelsWithSelector: selector inProcess: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+processBlock: aBlock
+	process := self newProcessForBlock: aBlock id: #'DefaultProcess'
+%
+
+category: 'support - breaking'
+method: SingleProcessDebuggingTest
+setAllStepBreaksIn: aMethod
+	^ self setAllStepBreaksIn: aMethod forProcess: process
+%
+
+category: 'support - breaking'
+method: SingleProcessDebuggingTest
+setMethodBreakAtStepPoint: aStepPoint inMethod: aMethod
+	^ self
+		setMethodBreakAtStepPoint: aStepPoint
+		inMethod: aMethod
+		forProcess: process
+%
+
+category: 'support - breaking'
+method: SingleProcessDebuggingTest
+setStepBreakAtStepPoint: aStepPoint inMethod: aMethod
+	^ self
+		setStepBreakAtStepPoint: aStepPoint
+		inMethod: aMethod
+		forProcess: process
+%
+
+category: 'support - process'
+method: SingleProcessDebuggingTest
+stepOverInLevel: aLevel
+	self stepOverInLevel: aLevel inProcess: process
+%
+
+category: 'support'
+method: SingleProcessDebuggingTest
+tearDown
+	process ifNotNil: [ :p | p terminate ].
+	process := nil.
+	super tearDown
+%
+
+! Class implementation for 'BreakpointHandlingTest'
+
+!		Instance methods for 'BreakpointHandlingTest'
+
+category: 'code to test'
+method: BreakpointHandlingTest
+nlr2
+	| block |
+	block := [ ^ 42 ].
+	self halt.
+	block value.
+	^ 42 printString
+%
+
+category: 'tests'
+method: BreakpointHandlingTest
+testRecursionStepOutOfFrame
+	"This test ensures that debugging a recursive processes will allow stepping out of a frame to the next lower one.
+	Bug 49574"
+
+	| result processMethod level frameAtLevel initialNumberOfRecursiveFrames finalNumberOfRecursiveFrames |
+	self processBlock: [ result := self factorialOf: 10 stopAt: 4 ].
+
+	self advanceToControlInterrupt.
+	initialNumberOfRecursiveFrames := (self
+		levelsWithSelector: #'factorialOf:stopAt:') size.
+	level := self firstFrameBelowHalt.
+	self log: #'defaultProcess' processEssentials: process frameLevel: level.
+	frameAtLevel := process _frameContentsAt: level.
+	processMethod := frameAtLevel first.
+	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.	"Server bug: stepping off the end of a recursive method does not stop in the next lower frame. Process will run to completion."
+	7
+		timesRepeat: [ 
+			self stepOverInLevel: level.
+			level := self firstFrameBelowHalt + 1.
+			self log: #'defaultProcess' processEssentials: process frameLevel: level ].
+
+	self assertSuspended.
+	finalNumberOfRecursiveFrames := (self
+		levelsWithSelector: #'factorialOf:stopAt:') size.
+	self
+		assert: finalNumberOfRecursiveFrames
+		equals: initialNumberOfRecursiveFrames - 1
+%
+
+category: 'tests'
+method: BreakpointHandlingTest
+testRecursionStepPointOddity
+	"An earlier version of testMultiProcessSteppingInSameMethod used the GsProcess for 'stepOver...' which
+ doesn't actually step, just sets the step breakpoint. But it also messed up how the stack frame reported
+ itself - reverted @9 line 6 to @1 line 1. This became bug 49782."
+
+	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
+
+	| result processMethod level frameAtLevel stackReportNoBreakpoints stackReportWithBreakpoints |
+	self processBlock: [ result := self factorialOf: 10 stopAt: 4 ].
+
+	self advanceToControlInterrupt.
+	level := self firstFrameBelowHalt.
+	self log: #'defaultProcess' processEssentials: process frameLevel: level.
+	frameAtLevel := process _frameContentsAt: level.
+	processMethod := frameAtLevel first.
+	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
+	self assertOneTraceEntry.
+	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.	
+
+	"The ipOffset of deeper recursive frames should be the same."
+	self
+		assert: (process _frameContentsAt: level + 1) second
+		equals: (process _frameContentsAt: level + 2) second.
+
+	stackReportNoBreakpoints := process _stackReport.
+	process setStepOverBreaksAtLevel: level.
+	stackReportWithBreakpoints := process _stackReport.
+	self assert: stackReportWithBreakpoints 
+		equals: stackReportNoBreakpoints.
+
+	self waitMS: 100.
+	self assertSuspended.	
+
+	"Since there is now a stack breakpoint at level + 1, IP should be negated.
+	Step points, however, should still report as equal."
+	self
+		assert: (process _frameContentsAt: level + 1) second negative;
+		assert: (process _frameContentsAt: level + 1) second
+			equals: (process _frameContentsAt: level + 2) second negated;
+		assert: (process _stepPointAt: level + 1)
+			equals: (process _stepPointAt: level + 2)
+%
+
+category: 'tests'
+method: BreakpointHandlingTest
+testStepNonLocalReturn
+	"This test ensures that a step through a non-local return ends up in a reasonable place."
+
+	| result levels numberOfLevels |
+	self processBlock: [ result := self nlr2 ].
+	self advanceToHalt.
+	levels := self levelsWithSelector: #'nlr2'.
+	numberOfLevels := levels size.
+	self assert: numberOfLevels equals: 1.
+	self stepOverInLevel: levels first.	"Advance to block value"
+	levels := self levelsWithSelector: #'nlr2'.
+	numberOfLevels := levels size.
+	self assert: numberOfLevels equals: 1.
+	self stepOverInLevel: levels first.	"Advance into block, just before non-local return"
+	levels := self levelsWithSelector: #'nlr2'.
+	numberOfLevels := levels size.
+	self assert: numberOfLevels equals: 1.
+	levels := self
+		levelsSelect: [ :fc | 
+			| method |
+			method := fc first.
+			method isMethodForBlock and: [ method homeMethod selector == #'nlr2' ] ].
+	numberOfLevels := levels size.
+	self assert: numberOfLevels equals: 1.
+	self stepOverInLevel: levels first.	"Step over non-local return"
+	levels := self levelsWithSelector: #'nlr2'.
+	numberOfLevels := levels size.
+	self assert: numberOfLevels equals: 0. "Should have returned from home method."	
+	self advanceToEnd.
+	self assert: result equals: 42
+%
+
+category: 'tests'
+method: BreakpointHandlingTest
+testStepOverInRecursion
+	"This test ensures that when you step over in a method that is on the stack multiple times (recursion)
+	the step stops in the level of the step, not the topmost occuurrence of the method."
+
+	| result factorialLevels numberOfLevels |
+	self processBlock: [ result := self factorialOf: 10 stopAt: 5 ].
+	self advanceToHalt.
+	factorialLevels := self levelsWithSelector: #'factorialOf:stopAt:'.
+	numberOfLevels := factorialLevels size.
+	self assert: numberOfLevels equals: 6.
+	self stepOverInLevel: (factorialLevels at: 5).
+	factorialLevels := self levelsWithSelector: #'factorialOf:stopAt:'.
+	numberOfLevels := factorialLevels size.
+	self assert: numberOfLevels equals: 2.
+	self advanceToEnd.
+	self assert: result equals: 10 factorial
+%
+
+! Class implementation for 'SpkLimitedWriteStreamTest'
+
+!		Instance methods for 'SpkLimitedWriteStreamTest'
+
+category: 'instance creation'
+method: SpkLimitedWriteStreamTest
+newStream
+	^ self newStreamOn: String new
+%
+
+category: 'instance creation'
+method: SpkLimitedWriteStreamTest
+newStreamOn: aCollection
+	^ self streamClass on: aCollection
+%
+
+category: 'accessing'
+method: SpkLimitedWriteStreamTest
+streamClass
+	^ SpkLimitedWriteStream
+%
+
+category: 'accessing'
+method: SpkLimitedWriteStreamTest
+string
+	^ 'testing' shallowCopy
+%
+
+category: 'accessing'
+method: SpkLimitedWriteStreamTest
+stringSize
+	^ self string size
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testLimit
+	| stream overLimit |
+	stream := self newStream.
+	overLimit := false.
+	stream
+		limitBlock: [ overLimit := true ];
+		nextPutAll: self string.
+	self
+		assert: stream limit equals: self streamClass defaultLimit;
+		assert: (stream limit: self stringSize) identicalTo: stream;
+		assert: stream limit equals: self stringSize;
+		deny: overLimit.
+
+	self stringSize - 1 to: 0 by: -1 do: [ :i | 
+		overLimit := false.
+		self
+			assert: (stream limit: i) identicalTo: stream;
+			assert: stream limit equals: i;
+			assert: stream position equals: i;
+			assert: stream contents equals: (self string copyFrom: 1 to: i);
+			assert: overLimit ]
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testLimitBlock
+	| stream overLimit limitBlock |
+	stream := self newStream.
+	overLimit := false.
+	limitBlock := [ overLimit := true ].
+	self
+		assert: stream limitBlock isNil;
+		assert: (stream limitBlock: limitBlock) identicalTo: stream;
+		assert: stream limitBlock identicalTo: limitBlock;
+		deny: overLimit
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testNextPut
+	| stream overLimit |
+
+	stream := self newStream.
+	self string
+		withIndexDo: [ :each :i | 
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: i;
+				assert: stream contents equals: (self string copyFrom: 1 to: i) ].
+
+	stream := self streamClass on: String new limit: self stringSize limitBlock: [ overLimit := true ].
+	overLimit := false.
+	self string
+		withIndexDo: [ :each :i | 
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: i;
+				assert: stream contents equals: (self string copyFrom: 1 to: i);
+				deny: overLimit ].
+	self string
+		do: [ :each | 
+			overLimit := false.
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: self stringSize;
+				assert: stream contents equals: self string;
+				assert: overLimit ]
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testNextPutAll
+	| stream overLimit |
+	stream := self newStream.
+	self
+		assert: (stream nextPutAll: self string) equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string.
+
+	stream := self streamClass on: String new limit: self stringSize limitBlock: [ overLimit := true ].
+	overLimit := false.
+	self
+		assert: (stream nextPutAll: self string) equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		deny: overLimit.
+	self
+		assert: (stream nextPutAll: self string) equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: overLimit
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testOn
+	| collection stream |
+	collection := String new.
+	stream := self streamClass on: collection.
+	self
+		assert: stream originalContents identicalTo: collection;
+		assert: stream position equals: 0;
+		assert: stream contents isEmpty;
+		assert: stream size equals: 0.
+
+	stream := self newStream.
+	self
+		assert: stream limit equals: self streamClass defaultLimit;
+		assert: stream limitBlock isNil
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testOnFromTo
+	| stream |
+	stream := self streamClass on: self string , self string from: self stringSize + 1 to: self stringSize * 2.
+	self
+		assert: stream originalContents equals: self string , self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: stream size equals: self stringSize * 2.
+
+	stream := self streamClass on: self string , self string from: self stringSize + 1 to: self stringSize * 2.
+	self
+		assert: stream limit equals: self streamClass defaultLimit;
+		assert: stream limitBlock isNil
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testOnLimitLimitBlock
+	| collection overLimit limitBlock stream |
+	collection := String new.
+	overLimit := false.
+	limitBlock := [ overLimit := true ].
+	stream := self streamClass on: collection limit: self stringSize limitBlock: limitBlock.
+	self
+		assert: stream originalContents identicalTo: collection;
+		assert: stream position equals: 0;
+		assert: stream limit equals: self stringSize;
+		assert: stream limitBlock equals: limitBlock;
+		deny: overLimit
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testSetLimitLimitBlock
+	| stream overLimit |
+	stream := self newStream.
+	overLimit := false.
+	self assert: (stream setLimit: self stringSize limitBlock: [ overLimit := true ]) identicalTo: stream.
+	stream nextPutAll: self string.
+	self deny: overLimit.
+
+	self stringSize - 1 to: 0 by: -1 do: [ :i | 
+		overLimit := false.
+		"ensure the new block argument is used when the new limit is less than
+		the position by setting it to nil first"
+		self assert: (stream setLimit: stream position limitBlock: nil) identicalTo: stream.
+		self deny: overLimit.
+		self assert: (stream setLimit: i limitBlock: [ overLimit := true ]) identicalTo: stream.
+		self assert: overLimit ]
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testWith
+	"like on: except it starts writing at the end of its argument collection,
+	and the initial position is the collection size and the initial contents
+	is the collection"
+
+	| stream overLimit |
+	
+	stream := self streamClass with: self string.
+	self
+		assert: stream originalContents equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: stream size equals: self stringSize.
+
+	stream := self streamClass with: self string.
+	overLimit := false.
+	stream
+		limit: self stringSize * 2;
+		limitBlock: [ overLimit := true ].
+	self string
+		withIndexDo: [ :each :i | 
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: self stringSize + i;
+				assert: stream contents equals: self string , (self string copyFrom: 1 to: i);
+				deny: overLimit ].
+	self string
+		do: [ :each | 
+			overLimit := false.
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: self stringSize * 2;
+				assert: stream contents equals: self string , self string;
+				assert: overLimit ]
+%
+
+category: 'tests'
+method: SpkLimitedWriteStreamTest
+testWithFromTo
+	"like with: except it paritions its argument collection first using the
+	from:/to: indexes"
+
+	| stream overLimit |
+	
+	stream := self streamClass with: self string , self string from: 1 to: self stringSize.
+	self
+		assert: stream originalContents equals: self string;
+		assert: stream position equals: self stringSize;
+		assert: stream contents equals: self string;
+		assert: stream size equals: self stringSize.
+
+	stream := self streamClass with: self string , self string from: 1 to: self stringSize.
+	overLimit := false.
+	stream
+		limit: self stringSize * 2;
+		limitBlock: [ overLimit := true ].
+	self string
+		withIndexDo: [ :each :i | 
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: self stringSize + i;
+				assert: stream contents equals: self string , (self string copyFrom: 1 to: i);
+				deny: overLimit ].
+	self string
+		do: [ :each | 
+			overLimit := false.
+			self
+				assert: (stream nextPut: each) equals: each;
+				assert: stream position equals: self stringSize * 2;
+				assert: stream contents equals: self string , self string;
+				assert: overLimit ]
+%
+
+! Class implementation for 'SpkServiceServerTest'
+
+!		Instance methods for 'SpkServiceServerTest'
+
+category: 'tests'
+method: SpkServiceServerTest
+testDefaultTaskspaceLayout
+	"Basically, can we create a default taskspace and all its server-side bitses"
+
+	| server layout |
+	server := SpkTaskspaceRegistryServiceServer new.
+	layout := server newDefaultTaskspaceLayout.
+	self assert: layout class equals: SpkTaskspaceLayoutServiceServer
+%
+
+! Class implementation for 'SpkSmallStackTest'
+
+!		Instance methods for 'SpkSmallStackTest'
+
+category: 'running'
+method: SpkSmallStackTest
+setUp
+	super setUp.
+	stack := SpkSmallStack new
+%
+
+category: 'tests'
+method: SpkSmallStackTest
+testCollect
+	self assert: stack isEmpty.
+	stack push: 'first'.
+	stack push: 'second'.
+	stack push: 'third'.
+	self
+		assert: (stack collect: [ :each | each first ])
+		equals: (OrderedCollection withAll: #($t $s $f))
+%
+
+category: 'tests'
+method: SpkSmallStackTest
+testEmptyStack
+	self assert: stack isEmpty
+%
+
+category: 'tests'
+method: SpkSmallStackTest
+testPopWhenEmpty
+	self should: [ stack pop ] raise: Error.
+	stack push: 'aThing'.
+	stack pop.
+	self should: [ stack pop ] raise: Error
+%
+
+category: 'tests'
+method: SpkSmallStackTest
+testPushPop
+	self assert: stack isEmpty.
+	stack push: 'one'.
+	self deny: stack isEmpty.
+	stack push: 'two'.
+	self deny: stack isEmpty.
+	stack push: 'three'.
+	self deny: stack isEmpty.
+	self assert: stack pop equals: 'three'.
+	self deny: stack isEmpty.
+	self assert: stack pop equals: 'two'.
+	self deny: stack isEmpty.
+	self assert: stack pop equals: 'one'.
+	self assert: stack isEmpty
+%
+
+category: 'tests'
+method: SpkSmallStackTest
+testReducingLimit
+	self assert: stack limit equals: stack class defaultLimit.
+	self assert: stack isEmpty.
+	stack push: 'first'.
+	stack push: 'second'.
+	stack push: 'third'.
+	stack limit: 2.
+	self assert: stack pop equals: 'third'.
+	self assert: stack pop equals: 'second'.
+	self assert: stack isEmpty
+%
+
+category: 'tests'
+method: SpkSmallStackTest
+testStackLimit
+	self assert: stack limit equals: stack class defaultLimit.
+	stack limit: 2.
+	self assert: stack isEmpty.
+	stack push: 'first'.
+	stack push: 'second'.
+	stack push: 'third'.
+	self assert: stack pop equals: 'third'.
+	self assert: stack pop equals: 'second'.
+	self assert: stack isEmpty
+%
+
+! Class implementation for 'SpkToolTest'
+
+!		Instance methods for 'SpkToolTest'
+
+category: 'running'
+method: SpkToolTest
+newInspectorToolOn: anObject
+
+	| taskspaceTool explorerTool |
+	taskspaceTool := SpkTaskspaceTool new.
+	explorerTool := taskspaceTool newExplorerTool.
+	^ tool := SpkInspectorTool new
+		          inspectedObject: anObject;
+		          taskspaceTool: taskspaceTool;
+		          initializeViews;
+		          explorerTool: explorerTool;
+		          yourself
+%
+
+! Class implementation for 'SpkEvaluationTest'
+
+!		Class methods for 'SpkEvaluationTest'
+
+category: 'testing'
+classmethod: SpkEvaluationTest
+isAbstract
+	^ self sunitName = #'SpkEvaluationTest'
+%
+
+!		Instance methods for 'SpkEvaluationTest'
+
+category: 'other'
+method: SpkEvaluationTest
+newInspectorToolOn: anObject
+	taskspaceTool := SpkTaskspaceTool new.
+	explorerTool := taskspaceTool newExplorerTool.
+	^ tool := explorerTool newInspectorToolOn: anObject
+%
+
+category: 'other'
+method: SpkEvaluationTest
+setUp
+	super setUp.
+	inspectorTool := self newInspectorToolOn: nil.
+	evaluatorTool := inspectorTool addEvaluator
+%
+
+! Class implementation for 'SpkDebuggerServiceTest'
+
+!		Instance methods for 'SpkDebuggerServiceTest'
+
+category: 'support'
+method: SpkDebuggerServiceTest
+divideByZeroAfterProceed
+	| debuggerTool |
+	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
+	debuggerTool := evaluatorTool evaluateCode.
+	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testExceptionDescription
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessFrameNumbering
+	"The bottom ten frames are glue, first 
+	visible frame should have index 11."
+
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self assert: frames first index equals: 11
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessFrameQuantity
+	| frames |
+	self zork3.
+	frames := debuggerService frames.
+	self
+		assert: (frames isKindOf: SequenceableCollection);
+		assert: frames size equals: 3
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessIdentifier
+	| id |
+	self zork3.
+	id := debuggerService processIdentifier.
+	self
+		assert: id class equals: SmallInteger;
+		assert: (id bitAnd: 16rFF) equals: 1
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessName
+	"Can we make a tree of services out of a DebuggerTool?"
+
+	self zork3.
+	self assert: debuggerService processName equals: 'Evaluation'
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testProcessPriority
+	| prio |
+	self zork3.
+	prio := debuggerService processPriority.
+	self
+		assert: prio class equals: SmallInteger;
+		assert: prio equals: 15
+%
+
+category: 'tests'
+method: SpkDebuggerServiceTest
+testUpdateAfterExecution
+
+	| frames matchingFrames executedCodeFrameDescription frameService newDebuggerService |
+	self divideByZeroAfterProceed.
+	"Should now be stopped on the pause."
+	frames := debuggerService frames.
+	matchingFrames := frames select: [:each | each description = 'Executed Code '].
+	self assert: matchingFrames size equals: 1.
+	executedCodeFrameDescription := matchingFrames first.
+	self assert: executedCodeFrameDescription class equals: SpkDebuggerFrameDescriptionServiceServer.
+	frameService := executedCodeFrameDescription createFrameService.
+	self assert: frameService class equals: SpkDebuggerFrameServiceServer;
+	assert: frameService currentStartPosition equals: 3;
+	assert: frameService currentEndPosition equals: 7.
+	newDebuggerService := debuggerService proceed.
+	"Should no be stopped on the division by zero, and the frame service should have updated itself."
+	self assert: newDebuggerService == debuggerService;
+	assert: frameService currentStartPosition equals: 13;
+	assert: frameService currentEndPosition equals: 13.
+%
+
+category: 'support'
+method: SpkDebuggerServiceTest
+zork3
+	| debuggerTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debuggerTool := evaluatorTool evaluateCode.
+	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
+%
+
+! Class implementation for 'SpkDebuggerToolTest'
+
+!		Instance methods for 'SpkDebuggerToolTest'
+
+category: 'support'
+method: SpkDebuggerToolTest
+executedCodeFrameInDebugger: debugger
+	| doitFrames |
+	self assert: debugger class equals: SpkDebuggerTool.
+
+	doitFrames := debugger frames
+		select: [ :frame | 
+			self assert: frame class equals: SpkDebuggerFrameTool.
+			frame description = 'Executed Code ' ].
+	self assert: doitFrames size equals: 1.
+	^ doitFrames first
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+frameIn: debugger
+withDescriptionContaining: aString
+
+	^debugger frames detect: [ :each | each description includesString: aString ].
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+restartInFrame: frameTool
+
+	^frameTool restartAnnouncing: SpkExecutionAnnouncement new
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+stepIntoInFrame: frameTool
+
+	^frameTool stepIntoAnnouncing: SpkExecutionAnnouncement new
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+stepOverInFrame: frameTool
+
+	^frameTool stepOverAnnouncing: SpkExecutionAnnouncement new
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testBreakpoint01
+	| method debugger frames frame localVariables variable inspector |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	method setBreakAtStepPoint: 3 breakpointLevel: 1.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	frames := debugger frames.
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"
+	Have we properly omitted the glue frames following a breakpoint?"
+	self assert: frame equals: frames last.
+	self assert: (frame description includesString: 'twelve').
+	self assert: frame stepPoint equals: 3.
+	localVariables := frame localVariables.
+	variable := localVariables at: 1.
+	self assert: (variable columnAt: 1) equals: 'receiver'.
+	variable := localVariables at: 2.
+	self assert: (variable columnAt: 2) equals: '7'.
+	variable := localVariables at: 3.
+	self assert: (variable columnAt: 2) equals: '5'.
+	inspector := debugger proceed.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ]
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testClearAllBreaks
+	| method debugger frames frame inspector |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	self assert: method _allBreakpoints size equals: 0.
+	method setBreakAtStepPoint: 3 breakpointLevel: 1.
+	self assert: method _allBreakpoints size equals: 4.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	frames := debugger frames.
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].
+	self assert: frame stepPoint equals: 3.
+	inspector := debugger proceed.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12.
+	self assert: method _allBreakpoints size equals: 4.
+	method clearAllBreaks.
+	self assert: method _allBreakpoints size equals: 0.
+	inspector := evaluatorTool evaluateCode.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ].
+	self assert: method _allBreakpoints size equals: 0
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testCurrentSourceIntervalForPrimitive
+	"Do we get a reasonable source code interval for a primitive method?"
+
+	| debugger frameTool interval|
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	interval := frameTool currentSourceInterval.
+	self 
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC';
+		assert: frameTool stepPoint equals: 1;
+		assert: interval class equals: Interval;
+		assert: interval begin > 100;
+		assert: interval size equals: 4
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testDebug
+
+	| debugger frame inspector |
+	evaluatorTool newSourceCode: '37 + 63'.
+	debugger := evaluatorTool debugAnnouncing: SpkExecutionAnnouncement new.
+	self
+		assert: debugger class
+		equals: SpkDebuggerTool.
+	frame := self
+		frameIn: debugger
+		withDescriptionContaining: 'Executed Code'.
+	self
+		assert: frame stepPoint
+		equals: 1.
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 100
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testFrameDescription
+	"Is a frame's description reasonable?"
+
+	| debugger frame |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+
+	frame := self executedCodeFrameInDebugger: debugger.
+	self assert: frame index equals: 11
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testFrameIndex
+	"Are frames indexed from the bottom of the stack?"
+
+	| debugger frameTool |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	frameTool := debugger frames at: 1.
+	self
+		assert: frameTool class equals: SpkDebuggerFrameTool;
+		assert: frameTool index equals: 1;
+		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testHaltGlueTrimming
+	"A halt should trim all top glue down through Object>>halt."
+
+	| debugger frames  execCodeFrame topFrame |
+	evaluatorTool newSourceCode: '3 halt + 4'.
+	debugger := evaluatorTool evaluateCode.
+	frames := debugger nonGlueFrames.
+	topFrame := frames last.
+	self assert: topFrame index equals: 11.
+	execCodeFrame := self executedCodeFrameInDebugger: debugger.
+	self assert: execCodeFrame identicalTo: topFrame
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testNumberOfFrames
+	"Can the debugger get frames from the process?"
+
+	| debugger |
+	evaluatorTool newSourceCode: '3 zork'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	self assert: debugger frames size > 6
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testProceedChangedDepth
+	"Get a debugger, proceed, get the same debugger with different stack depth."
+
+	| debugger1 debugger2 frame depth1 depth2 index1 index2 |
+	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	depth1 := debugger1 frames size.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	index1 := frame index.
+	self assert: frame currentSourceInterval equals: (3 to: 7).
+	debugger2 := debugger1 proceed.
+	self assert: debugger1 == debugger2.
+	depth2 := debugger2 frames size.
+	self assert: depth1 < depth2.
+	self assert: frame == (self executedCodeFrameInDebugger: debugger1).
+	index2 := frame index.
+	self assert: index1 equals: index2.
+	self assert: frame currentSourceInterval equals: (13 to: 13)
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testProceedOnce
+	"Get a debugger, proceed, get an inspector"
+
+	| debugger inspector |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 7
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testProceedTwice
+	"Get a debugger, proceed, get the same debugger, proceed, get inspector"
+
+	| debugger1 debugger2 inspector frame |
+	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	frame := self executedCodeFrameInDebugger: debugger1.
+	self assert: frame currentSourceInterval equals: (4 to: 8).
+	debugger2 := debugger1 proceed.
+	self assert: debugger1 == debugger2.
+	self assert: (frame == (self executedCodeFrameInDebugger: debugger1)).
+	self assert: frame currentSourceInterval equals: (15 to: 19).
+	inspector := debugger2 proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 12
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testRestartFrame
+	"Get a debugger, proceed, get an inspector"
+
+	| debugger frame restartFrame printStringFrame inspector |
+	evaluatorTool newSourceCode: 'self halt. BreakpointHandling new restartFrameTestMethod'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	frame := self executedCodeFrameInDebugger: debugger.
+	debugger := self
+		stepOverInFrame: frame;
+		stepOverInFrame: frame;
+		stepIntoInFrame: frame.
+
+	"Move execution to the start of the #printString method of SmallInteger."
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	self
+		assert: restartFrame stepPoint
+		equals: 1.
+	debugger := self
+		stepOverInFrame: restartFrame;
+		stepIntoInFrame: restartFrame.
+
+	"Ensure execution is in the correct place."
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	printStringFrame := self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString'.
+	self
+		assert: restartFrame stepPoint
+		equals: 2.
+	self
+		assert: printStringFrame stepPoint
+		equals: 1.
+
+	"Ensure restarting a frame in middle of the stack removes higher frames
+	and the step point in the frame is reset back to 1."
+	debugger := self restartInFrame: restartFrame.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	self
+		should: [self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString']
+		raise: LookupError.
+	self
+		assert: restartFrame stepPoint
+		equals: 1.
+	self
+		assert: restartFrame index
+		equals: debugger frames size.
+
+	"Ensure that restarting the 'top frame' behaves correctly"
+	debugger := self restartInFrame: restartFrame.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	self
+		assert: restartFrame stepPoint
+		equals: 1.
+	self
+		assert: restartFrame index
+		equals: debugger frames size.
+
+	"Ensure we can resume and get the correct result."
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: '12'
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testStepOver01
+	| method debugger debugger2 frames frame localVariables variable inspector |
+	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
+	self assert: method class equals: GsNMethod.
+	[ 
+	method setBreakAtStepPoint: 1 breakpointLevel: 1.
+	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
+	debugger := evaluatorTool evaluateCode.
+	frames := debugger nonGlueFrames.
+	frame := frames
+		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
+	"Have we properly omitted the glue frames following a breakpoint?"
+	self assert: frame equals: frames last.
+	self assert: (frame description includesString: 'twelve').
+	self assert: frame stepPoint equals: 1.
+	localVariables := frame localVariables.
+	self assert: localVariables size equals: 1.
+	variable := localVariables at: 1.
+	self
+		assert: (variable columnAt: 1) equals: 'receiver';
+		assert: frame currentSourceInterval equals: (1 to: 6).
+	debugger2 := frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self
+		assert: debugger2 == debugger;
+		assert: frame == frames last;
+		assert: frame currentSourceInterval equals: (13 to: 13).
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self assert: frame currentSourceInterval equals: (17 to: 17).
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self assert: frame currentSourceInterval equals: (9 to: 9).
+	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
+	self assert: debugger nonGlueFrames size equals: frames size - 1.
+	inspector := debugger proceed.
+	self assert: inspector class equals: SpkInspectorTool.
+	self assert: inspector inspectedObject equals: 12 ]
+		ensure: [ method clearAllBreaks ]
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testTerminate
+	"Get a debugger, terminate, verify termination.
+	As of 2021-07-19, this test is failing. 
+	Adding a brief delay before the final assertion makes the test pass,
+	but this *should* not be required. Leaving failing pending further
+	investigation."
+
+	| debugger process |
+	evaluatorTool newSourceCode: '3 pause + 4'.
+	debugger := evaluatorTool evaluateCode.
+	self assert: debugger class equals: SpkDebuggerTool.
+	process := debugger process.
+
+	self deny: process _isTerminated.
+	debugger terminateAnnouncing: SpkExecutionAnnouncement new.
+	self assert: process _isTerminated
+%
+
+category: 'tests'
+method: SpkDebuggerToolTest
+testTerminate01
+	"Get a debugger, terminate, get the same debugger with the 
+	same executedCode frame, proceed, get inspector"
+
+	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
+	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	debugger1 := evaluatorTool evaluateCode.
+	self assert: debugger1 class equals: SpkDebuggerTool.
+	bottomFrame := debugger1 frames at: 1.
+	topFrame := debugger1 frames at: debugger1 frames size.
+	execCodeFrame := self executedCodeFrameInDebugger: debugger1.	"Should be on ifCurtailed:"
+	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+	debugger2 := debugger1 terminateAnnouncing: SpkExecutionAnnouncement new.
+	self
+		assert: debugger1 == debugger2;
+		assert: bottomFrame == (debugger2 frames at: 1);
+		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
+		deny: topFrame == (debugger2 frames at: debugger2 frames size);
+		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
+	inspector := debugger2 proceed.
+	self assert: inspector class equals: SpkProcessTerminatedTool
+%
+
+! Class implementation for 'SpkEvaluatorToolTest'
+
+!		Instance methods for 'SpkEvaluatorToolTest'
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testEvaluationReferencingInstvar
+	| result |
+	inspectorTool inspectedObject: #'foo' -> 'bar'.
+	evaluatorTool newSourceCode: 'value , ''n'''.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 'barn'
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testEvaluationUsingSelf
+	| result |
+	inspectorTool inspectedObject: 7.
+	evaluatorTool newSourceCode: 'self - 4'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 3
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testRuntimeError
+	| result |
+	evaluatorTool newSourceCode: '3 zork'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkDebuggerTool
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testSimpleEvaluation
+	| result |
+	evaluatorTool newSourceCode: '3 + 4'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkInspectorTool.
+	self assert: result inspectedObject equals: 7
+%
+
+category: 'other'
+method: SpkEvaluatorToolTest
+testSyntaxError
+	| result |
+	evaluatorTool newSourceCode: '(self class'.
+	result := evaluatorTool evaluateCode.
+	self assert: result class equals: SpkCompilationErrorTool.
+	self assert: result errorLocation equals: 12.
+	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0
+%
+
+! Class implementation for 'SpkInspectorToolTest'
+
+!		Instance methods for 'SpkInspectorToolTest'
+
+category: 'accessing'
+method: SpkInspectorToolTest
+objectWithErroneousPrintOn
+
+	^SpkTestClassWithDynamicPrintOn printOnAction: [:stream | Error signal]
+%
+
+category: 'accessing'
+method: SpkInspectorToolTest
+objectWithInfinitePrintOn
+
+	^SpkTestClassWithDynamicPrintOn printOnAction: [:stream | [ stream << 'done yet? ' ] repeat]
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testClassMembershipDescription
+
+	self newInspectorToolOn: nil.
+	self
+		assert: tool classMembershipDescription
+		equals: 'an UndefinedObject'.
+
+	self newInspectorToolOn: nil class.
+	self
+		assert: tool classMembershipDescription
+		equals: 'UndefinedObject'.
+
+	self newInspectorToolOn: 42.
+	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
+
+	self newInspectorToolOn: 'Hi!'.
+	self assert: tool classMembershipDescription equals: 'a ' , '' class name asString.
+
+	self newInspectorToolOn: Object new.
+	self assert: tool classMembershipDescription equals: 'an Object'.
+
+	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
+	self
+		assert: tool classMembershipDescription
+		equals: 'a SpkTestSubclassOfNil'
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testFieldToolsSize
+
+	"Here, just testing that we get the right number of FieldTools back."
+
+	self newInspectorToolOn: nil.
+	self assert: tool fieldTools size equals: 0.
+
+	self newInspectorToolOn: nil class.
+	self assert: tool fieldTools size equals: 19.
+
+	self newInspectorToolOn: 42.
+	self assert: tool fieldTools size equals: 0.
+
+	self newInspectorToolOn: 'Hi!'.
+	self assert: tool fieldTools size equals: 3.
+
+	self newInspectorToolOn: Object new.
+	self assert: tool fieldTools size equals: 0.
+
+	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
+	self assert: tool fieldTools size equals: 2.
+
+	"ZeroDivide has both inherited and declared named instvars"
+	self newInspectorToolOn: ZeroDivide new.
+	self assert: tool fieldTools size equals: 11.
+
+	"Class with both named and indexed instvars."
+	self newInspectorToolOn:
+		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
+	self assert: tool fieldTools size equals: 8
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testOop
+	| object |
+	self newInspectorToolOn: nil.
+	self assert: tool oop equals: 16r14.
+	self newInspectorToolOn: 42.
+	self assert: tool oop equals: 42 * 8 + 2.
+	object := Object new.
+	self newInspectorToolOn: object.
+	self assert: tool oop equals: object asOop.
+	object := SpkTestSubclassOfNil basicNew.
+	self newInspectorToolOn: object.
+	self assert: tool oop equals: (Reflection oopOf: object)
+%
+
+category: 'tests'
+method: SpkInspectorToolTest
+testSelfDescription
+
+	| description |
+	self newInspectorToolOn: nil.
+	self assert: tool selfDescription equals: 'nil'.
+
+	self newInspectorToolOn: nil class.
+	self assert: tool selfDescription equals: 'UndefinedObject'.
+
+	self newInspectorToolOn: 42.
+	self assert: tool selfDescription equals: '42'.
+
+	self newInspectorToolOn: 'Hi!'.
+	self assert: tool selfDescription equals: '''Hi!'''.
+
+	self newInspectorToolOn: Object new.
+	self assert: tool selfDescription equals: 'anObject'.
+
+	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
+	self assert: tool selfDescription equals: ''.
+
+	self newInspectorToolOn: self objectWithInfinitePrintOn.
+	description := tool selfDescription.
+	self
+		assert: description size equals: 250000;
+		assert: (description beginsWith: 'done yet? done yet? ');
+		assert: (description endsWith: 'done yet? done yet? ').
+
+	self newInspectorToolOn: self objectWithErroneousPrintOn.
+	self assert: tool selfDescription equals: ''
+%
+
+! Class implementation for 'SpkUndoManagerTest'
+
+!		Instance methods for 'SpkUndoManagerTest'
+
+category: 'support'
+method: SpkUndoManagerTest
+newAction
+
+	^ SpkTestUndoableAction new
+%
+
+category: 'running'
+method: SpkUndoManagerTest
+setUp
+
+	super setUp.
+	manager := SpkUndoManager withLimit: 2
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testDoClearsRedo
+
+	"If you perform a new action (that is not a redo) the redo stack should be cleared. "
+
+	| actions action1 action2 |
+	actions := { 
+		           (action1 := self newAction).
+		           (action2 := self newAction) }.
+	actions do: [ :action | manager performAction: action ].
+	manager
+		undo;
+		undo.
+
+	self deny: manager hasUndoableAction.
+	self assert: manager hasRedoableAction.
+	manager performAction: action1.
+	self assert: manager hasUndoableAction.
+	self deny: manager hasRedoableAction.
+	self should: [ manager redo ] raise: Error
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testEmptyUndo
+
+	self
+		deny: manager hasUndoableAction;
+		deny: manager hasRedoableAction
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testIndecision
+
+	| action |
+	action := self newAction.
+	manager performAction: action.
+	manager
+		undo;
+		redo;
+		undo;
+		redo.
+	self
+		assert: action isDone;
+		assert: manager hasUndoableAction;
+		deny: manager hasRedoableAction.
+	manager undo.
+	self
+		deny: action isDone;
+		deny: manager hasUndoableAction;
+		assert: manager hasRedoableAction
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testRedoUnderflow
+
+	| actions action1 action2 action3 |
+	actions := { 
+		           (action1 := self newAction).
+		           (action2 := self newAction).
+		           (action3 := self newAction) }.
+	actions do: [ :action | manager performAction: action ].
+	manager
+		undo;
+		undo;
+		redo;
+		redo.
+
+	self deny: manager hasRedoableAction.
+	self should: [ manager redo ] raise: Error
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testSingleRedo
+
+	| action |
+	action := self newAction.
+	self
+		assert: (manager performAction: action) equals: 42;
+		assert: manager undo equals: nil;
+		deny: action isDone;
+		deny: manager hasUndoableAction;
+		assert: manager hasRedoableAction;
+		assert: manager redo equals: 42;
+		assert: action isDone;
+		assert: manager hasUndoableAction;
+		deny: manager hasRedoableAction
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testSingleUndo
+
+	| action |
+	action := self newAction.
+	self
+		deny: manager hasUndoableAction;
+		deny: manager hasRedoableAction;
+		deny: action isDone;
+		assert: (manager performAction: action) equals: 42;
+		assert: action isDone;
+		assert: manager hasUndoableAction;
+		deny: manager hasRedoableAction;
+		assert: manager undo equals: nil;
+		deny: action isDone;
+		deny: manager hasUndoableAction;
+		assert: manager hasRedoableAction
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testUndoOverflow
+
+	| actions action1 action2 action3 |
+	actions := { 
+		           (action1 := self newAction).
+		           (action2 := self newAction).
+		           (action3 := self newAction) }.
+	actions do: [ :action | manager performAction: action ].
+	actions do: [ :action | self assert: action isDone ].
+
+	manager
+		undo;
+		redo;
+		undo;
+		undo.
+
+	self
+		assert: action1 isDone;
+		deny: action2 isDone;
+		deny: action3 isDone;
+		deny: manager hasUndoableAction;
+		assert: manager hasRedoableAction
+%
+
+category: 'tests'
+method: SpkUndoManagerTest
+testUndoUnderflow
+
+	| actions action1 action2 action3 |
+	actions := { 
+		           (action1 := self newAction).
+		           (action2 := self newAction).
+		           (action3 := self newAction) }.
+	actions do: [ :action | manager performAction: action ].
+	manager
+		undo;
+		redo;
+		undo;
+		undo.
+
+	self deny: manager hasUndoableAction.
+	self should: [ manager undo ] raise: Error
+%
+
 ! Class implementation for 'AnnouncerSubscriberMockA'
 
 !		Instance methods for 'AnnouncerSubscriberMockA'
@@ -2016,97 +4607,6 @@ category: 'events'
 method: AnnouncerSubscriberMockA
 registerEvents
 	self announcer when: AnnouncementMockA do: [ :evt | " something" ] for: self "GemStone can't identiy this block's receiver".
-%
-
-! Class implementation for 'BreakpointHandling'
-
-!		Instance methods for 'BreakpointHandling'
-
-category: 'other'
-method: BreakpointHandling
-factorialOf: anInteger afterWaitingMS: milliseconds
-	"First factorial is so that we get a halt before the wait."
-
-	self factorialOf: 1 stopAt: 1.
-	self waitMS: milliseconds.
-	^ self factorialOf: anInteger stopAt: 0
-%
-
-category: 'other'
-method: BreakpointHandling
-factorialOf: factInt stopAt: stopInt
-	factInt = stopInt
-		ifTrue: [ self halt ].
-	factInt = 1
-		ifTrue: [ ^ 1 ].
-	^ factInt * (self factorialOf: factInt - 1 stopAt: stopInt)
-%
-
-category: 'other'
-method: BreakpointHandling
-fibonacciGenerations: genInt stopAt: stopInt
-	| fNumbers howMany |
-	fNumbers := OrderedCollection with: 0 with: 1.
-	[ (howMany := fNumbers size) < genInt ]
-		whileTrue: [ 
-			howMany = stopInt
-				ifTrue: [ self halt ].
-			fNumbers add: (fNumbers at: howMany) + (fNumbers at: howMany - 1) ].
-	^ fNumbers at: genInt	"Can''t use #last in case genInt = 1"
-%
-
-category: 'other'
-method: BreakpointHandling
-nlr1
-
-| dict |
-self halt.
-dict := KeyValueDictionary new.
-dict
-     at: #notPresent
-     ifAbsent: [3 + 4. 
-	^self].
-^75
-%
-
-category: 'other'
-method: BreakpointHandling
-nlr2
-	| block |
-	block := [ ^ 42 ].
-	self halt.
-	block value.
-	^ 42 printString
-%
-
-category: 'other'
-method: BreakpointHandling
-restartFrameTestMethod
-
-	8 printString.
-	^(5 + 7) printString
-%
-
-category: 'other'
-method: BreakpointHandling
-runHotForSeconds: anInteger
-shouldHalt: shouldHalt
-counter: aCounter
-
-	| endTime |
-	endTime := DateAndTime now + (Duration seconds: anInteger).
-	[ DateAndTime now < endTime ]
-		whileTrue: [ 
-			shouldHalt
-				ifTrue: [ self halt ].
-			"Processor yield."
-			aCounter increment]
-%
-
-category: 'other'
-method: BreakpointHandling
-waitMS: milliseconds
-	(Delay forMilliseconds: milliseconds) wait
 %
 
 ! Class implementation for 'GsCounter'
@@ -3194,15 +5694,33 @@ value: anObject
 	self synchronize
 %
 
-! Class implementation for 'SpkTestClassWithInfinitePrintOn'
+! Class implementation for 'SpkTestClassWithDynamicPrintOn'
 
-!		Instance methods for 'SpkTestClassWithInfinitePrintOn'
+!		Class methods for 'SpkTestClassWithDynamicPrintOn'
+
+category: 'instance creation'
+classmethod: SpkTestClassWithDynamicPrintOn
+printOnAction: aBlock
+
+	^super new
+		printOnAction: aBlock;
+		yourself
+%
+
+!		Instance methods for 'SpkTestClassWithDynamicPrintOn'
 
 category: 'printing'
-method: SpkTestClassWithInfinitePrintOn
+method: SpkTestClassWithDynamicPrintOn
 printOn: aStream
 
-	[ aStream << 'done yet? ' ] repeat
+	printOnAction cull: aStream
+%
+
+category: 'accessing'
+method: SpkTestClassWithDynamicPrintOn
+printOnAction: aBlock
+
+	printOnAction := aBlock
 %
 
 ! Class implementation for 'SpkTestUndoableAction'
@@ -3731,863 +6249,6 @@ testWeakSubscription
 	obj := Object new.
 	subscription := (announcer when: AnnouncementMockA send: #value to: obj) makeWeak.
 	self assert: obj identicalTo: subscription subscriber
-%
-
-! Class implementation for 'BreakpointHandlingTest'
-
-!		Instance methods for 'BreakpointHandlingTest'
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-advanceToBreakpoint
-	self advanceToBreakpointIn: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-advanceToBreakpointIn: aProcess
-	self
-		advanceToControlInterruptIn: aProcess;
-		assertOneTraceEntry;
-		assertNextTraceValueClass: Breakpoint
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-advanceToBreakpointInProcessID: anID
-	self advanceToBreakpointIn: (self processWithID: anID)
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-advanceToControlInterrupt
-	self advanceToControlInterruptIn: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-advanceToControlInterruptIn: aProcess
-	aProcess resume.
-	(self waitMS: 100).
-	self assertSuspended: aProcess
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-advanceToControlInterruptInProcessNamed: aName
-	self advanceToControlInterruptIn: (self processNamed: aName)
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-advanceToEnd
-	self advanceToEndIn: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-advanceToEndIn: aProcess
-	aProcess resume.
-	(self waitMS: 100).
-	self
-		denySuspended: aProcess;
-		assert: aProcess _isTerminated;
-		assertNoTraceEntries
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-advanceToEndInProcessID: anID
-	self advanceToEndIn: (self processWithID: anID)
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-advanceToHalt
-	self advanceToHaltIn: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-advanceToHaltIn: aProcess
-	self
-		advanceToControlInterruptIn: aProcess;
-		assertOneTraceEntry;
-		assertNextTraceValueClass: Halt
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-advanceToHaltInProcessID: anID
-	self advanceToHaltIn: (self processWithID: anID)
-%
-
-category: 'asserting'
-method: BreakpointHandlingTest
-assertNextTraceKey: anID valueClass: aBehavior
-	| nextTrace |
-	nextTrace := trace next.
-	self assert: nextTrace key equals: anID.
-	self assert: nextTrace value class equals: aBehavior
-%
-
-category: 'asserting'
-method: BreakpointHandlingTest
-assertNextTraceValueClass: aBehavior
-	| nextTrace |
-	nextTrace := trace next.
-	self assert: nextTrace value class equals: aBehavior
-%
-
-category: 'asserting'
-method: BreakpointHandlingTest
-assertNoTraceEntries
-	self assert: trace size equals: 0
-%
-
-category: 'asserting'
-method: BreakpointHandlingTest
-assertOneTraceEntry
-	self assert: trace size equals: 1
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-assertSuspended
-	self assertSuspended: defaultProcess
-%
-
-category: 'asserting'
-method: BreakpointHandlingTest
-assertSuspended: aProcess
-	self
-		assert: (self isSuspended: aProcess)
-		description: 'Process should have been suspended'
-%
-
-category: 'support'
-method: BreakpointHandlingTest
-defaultProcessID
-	^#DefaultProcess
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-denySuspended
-	self denySuspended: defaultProcess
-%
-
-category: 'asserting'
-method: BreakpointHandlingTest
-denySuspended: aProcess
-	self
-		deny: (self isSuspended: aProcess)
-		description: 'Process should not have been suspended'
-%
-
-category: 'support'
-method: BreakpointHandlingTest
-firstFrameBelowHalt
-	"Answer the number of the frame below a #halt, considering all the overhead of signalling the exception."
-
-	^ 10
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-isSuspended: aProcess
-
-	^ProcessorScheduler scheduler _isSuspended: aProcess
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-levelsSelect: aBlock
-	"Answer an array of levels for which the block answers true.
-	The argument to the block is the frame contents array."
-
-	^ self levelsSelect: aBlock inProcess: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-levelsSelect: aBlock inProcess: aProcess
-	"Answer an array of levels for which the block answers true.
-	The argument to the block is the frame contents array."
-
-	| result |
-	result := {}.
-
-	1 to: aProcess stackDepth do: [ :level | 
-		(aBlock value: (aProcess _frameContentsAt: level))
-			ifTrue: [ result add: level ] ].
-	^ result
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-levelsWithSelector: selector
-	^ self levelsWithSelector: selector inProcess: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-levelsWithSelector: selector inProcess: aProcess
-	^ self
-		levelsSelect: [ :fc | fc first selector == selector ]
-		inProcess: aProcess
-%
-
-category: 'support - logging'
-method: BreakpointHandlingTest
-log: aString
-	log
-		addAll: aString;
-		lf
-%
-
-category: 'support - logging'
-method: BreakpointHandlingTest
-log: aString processEssentials: aProcess frameLevel: levelInteger
-	| frameAtLevel frameAtNextHigherLevel methodAtLevel ipOffsetAtLevel stepPointAtLevel |
-	aProcess _isTerminated
-		ifTrue: [ self log: aString with: aProcess ]
-		ifFalse: [ 
-			frameAtLevel := aProcess _frameContentsAt: levelInteger.
-			frameAtNextHigherLevel := aProcess _frameContentsAt: levelInteger - 1.
-			methodAtLevel := frameAtLevel first.
-			ipOffsetAtLevel := frameAtLevel second.
-			stepPointAtLevel := aProcess _stepPointAt: levelInteger.
-
-			self log: aString with: aProcess.
-			self log: #'level' with: levelInteger.
-			self log: #'frameAtLevel' with: frameAtLevel.
-			self log: #'frameAtNextHigherLevel' with: frameAtNextHigherLevel.
-			self log: #'stepPointAtLevel' with: stepPointAtLevel ].
-	self logGroupSeparator
-%
-
-category: 'support - logging'
-method: BreakpointHandlingTest
-log: aString with: anObject
-
-	self log: aString, ': ', anObject printString.
-%
-
-category: 'support - logging'
-method: BreakpointHandlingTest
-logGroupSeparator
-	self
-		log: '= = = = = = = = = =';
-		log: ''.
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-processBlock: aBlock
-	defaultProcess := self processBlock: aBlock forID: self defaultProcessID
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-processBlock: aBlock forID: anID
-	| thisProcess |
-	(processes includesKey: anID)
-		ifTrue: [ self error: 'Process with ID ' , anID printString , ' already exists' ].
-	thisProcess := [ 
-	aBlock
-		on: ControlInterrupt
-		do: [ :ex | 
-			self traceID: anID value: ex.
-			thisProcess suspend.
-			ex resume ] ] newProcess.
-	thisProcess
-		priority: priority;
-		breakpointLevel: 1.
-	processes at: anID put: thisProcess.
-	^ thisProcess
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-processWithID: anID
-	processes
-		at: anID
-		ifAbsent: [ self error: 'No process found for id ' , anID printString ]
-%
-
-category: 'support - breaking'
-method: BreakpointHandlingTest
-setAllStepBreaksIn: aMethod
-	^ self setAllStepBreaksIn: aMethod forProcess: defaultProcess
-%
-
-category: 'support - breaking'
-method: BreakpointHandlingTest
-setAllStepBreaksIn: aMethod forProcess: aProcess
-	aProcess convertToPortableStack.
-	^ aMethod
-		_setBreakAtIp: -1
-		operation: 1
-		frame: nil
-		process: aProcess
-		breakpointLevel: 1
-%
-
-category: 'support - breaking'
-method: BreakpointHandlingTest
-setMethodBreakAtStepPoint: aStepPoint inMethod: aMethod
-	^ self
-		setMethodBreakAtStepPoint: aStepPoint
-		inMethod: aMethod
-		forProcess: defaultProcess
-%
-
-category: 'support - breaking'
-method: BreakpointHandlingTest
-setMethodBreakAtStepPoint: aStepPoint inMethod: aMethod forProcess: aProcess
-	| info |
-	aProcess convertToPortableStack.
-	info := aMethod _meth_ip_ForStepPoint: aStepPoint abs.
-	self assert: info notNil description: 'Could not find ip for step point'.
-
-	(info at: 1)
-		_setBreakAtIp: (info at: 2)
-		operation: 0
-		frame: nil
-		process: aProcess
-		breakpointLevel: 1
-%
-
-category: 'support - breaking'
-method: BreakpointHandlingTest
-setStepBreakAtStepPoint: aStepPoint inMethod: aMethod
-	^ self
-		setStepBreakAtStepPoint: aStepPoint
-		inMethod: aMethod
-		forProcess: defaultProcess
-%
-
-category: 'support - breaking'
-method: BreakpointHandlingTest
-setStepBreakAtStepPoint: aStepPoint inMethod: aMethod forProcess: aProcess
-	| result |
-	aProcess convertToPortableStack.
-	result := aMethod
-		_breakOperation: 1
-		forStepPoint: aStepPoint
-		breakpointLevel: 1.
-	self
-		assert: result notNil
-		description: 'Failed to set step point at step ' , aStepPoint printString.
-	^ result
-%
-
-category: 'support'
-method: BreakpointHandlingTest
-setUp
-
-	super setUp.
-	GsNMethod clearAllBreaks.
-	utility := BreakpointHandling new.
-	trace := SharedQueue new.
-	priority := Processor activePriority - 1.
-	processes := Dictionary new.
-	log := AppendableString new.
-%
-
-category: 'support - default process'
-method: BreakpointHandlingTest
-stepOverInLevel: aLevel
-	self stepOverInLevel: aLevel inProcess: defaultProcess
-%
-
-category: 'support - specific process'
-method: BreakpointHandlingTest
-stepOverInLevel: aLevel inProcess: aProcess
-	aProcess stepOverFromLevel: aLevel.
-	self advanceToBreakpointIn: aProcess
-%
-
-category: 'support - IDed process'
-method: BreakpointHandlingTest
-stepOverInLevel: aLevel inProcessID: anID
-	self stepOverInLevel: aLevel inProcess: (self processWithID: anID)
-%
-
-category: 'support'
-method: BreakpointHandlingTest
-tearDown
-	GsNMethod clearAllBreaks.
-	defaultProcess := nil.
-	processes copy
-		keysAndValuesDo: [ :eachName :eachProcess | 
-			eachProcess terminate.
-			processes removeKey: eachName ]
-%
-
-category: 'tests'
-method: BreakpointHandlingTest
-testMethodSteppingIsLocalToOneProcess
-	"This test ensures that when you have a debugger on a process and #step, the step action applies
-	to the specific process. The step shouldn't apply to other processes executing the same method."
-
-	| haltingProcess independentProcess level haltingMethod haltingCounter independentCounter independentCounterCache |
-	haltingCounter := GsCounter new.
-	independentCounter := GsCounter new.
-	haltingProcess := self
-		processBlock: [ utility runHotForSeconds: 6 shouldHalt: true counter: haltingCounter ]
-		forID: #'HaltingProcess'.
-	independentProcess := self
-		processBlock: [ utility runHotForSeconds: 6 shouldHalt: false counter: independentCounter ]
-		forID: #'RunningProcess'.
-	independentProcess
-		convertToPortableStack.
-	self advanceToControlInterruptIn: haltingProcess.
-	independentCounterCache := independentCounter current.
-	level := self firstFrameBelowHalt.
-	haltingMethod := (haltingProcess _frameContentsAt: level) first.
-	self
-		assert: haltingMethod selector
-		equals: #'runHotForSeconds:shouldHalt:counter:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'HaltingProcess' valueClass: Halt.
-
-	independentProcess resume.
-	(self waitMS: 100).
-	independentProcess convertToPortableStack.
-
-	haltingProcess stepOverFromLevel: level.
-	(self waitMS: 100).
-
-	self assertSuspended: haltingProcess.
-	self denySuspended: independentProcess.
-	self assertNoTraceEntries.
-	self assert: independentCounter current > independentCounterCache.
-	independentProcess terminate.
-	self assert: independentProcess _isTerminated.
-
-	self advanceToControlInterruptIn: haltingProcess.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'HaltingProcess' valueClass: Breakpoint
-%
-
-category: 'tests expected to fail for now'
-method: BreakpointHandlingTest
-testMultiProcessBreakpointHandlingInSameMethod
-	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
-
-	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
-	firstProcess := self
-		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 6 ]
-		forID: #'FirstProcess'.
-	secondProcess := self
-		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 4 ]
-		forID: #'SecondProcess'.
-
-	"Set the breakpoint for the second process."
-	self
-		setMethodBreakAtStepPoint: 10
-		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
-		forProcess: secondProcess.
-
-	self log: 'Set up first process'.
-	self advanceToControlInterruptIn: firstProcess.
-	level := self firstFrameBelowHalt.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-	frameAtLevel := firstProcess _frameContentsAt: level.
-	firstProcessMethod := frameAtLevel first.
-	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
-
-	self log: 'Set up second process'.
-	self advanceToControlInterruptIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-	frameAtLevel := secondProcess _frameContentsAt: level.
-	secondProcessMethod := frameAtLevel first.
-	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
-
-	"Set the breakpoint for the second process."
-"	self setMethodBreakAtStepPoint: 10 inMethod: secondProcessMethod forProcess: secondProcess."
-
-	"Finish the first process. It should not encounter the second process' breakpoint."
-	self log: 'Finish first process'.
-	self advanceToEndIn: firstProcess.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-
-	"Run the second process to its breakpoint."
-	self log: 'Advance second process to breakpoint'.
-	self advanceToBreakpointIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-
-	"Run the second process to its breakpoint again, to ensure it sticks around."
-	self log: 'Advance second process to breakpoint'.
-	self advanceToBreakpointIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-%
-
-category: 'tests'
-method: BreakpointHandlingTest
-testMultiProcessBreakpointHandlingInSameMethodAfterHalting
-	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
-
-	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
-	firstProcess := self
-		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 6 ]
-		forID: #'FirstProcess'.
-	secondProcess := self
-		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 4 ]
-		forID: #'SecondProcess'.
-
-	self log: 'Set up first process'.
-	self advanceToControlInterruptIn: firstProcess.
-	level := self firstFrameBelowHalt.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-	frameAtLevel := firstProcess _frameContentsAt: level.
-	firstProcessMethod := frameAtLevel first.
-	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
-
-	self log: 'Set up second process'.
-	self advanceToControlInterruptIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-	frameAtLevel := secondProcess _frameContentsAt: level.
-	secondProcessMethod := frameAtLevel first.
-	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
-
-	"Set the breakpoint for the second process."
-	self
-		setMethodBreakAtStepPoint: 10
-		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
-		forProcess: secondProcess.
-
-	"Finish the first process. It should not encounter the second process' breakpoint."
-	self log: 'Finish first process'.
-	self advanceToEndIn: firstProcess.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-
-	"Run the second process to its breakpoint."
-	self log: 'Advance second process to breakpoint'.
-	self advanceToBreakpointIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-
-	"Run the second process to its breakpoint again, to ensure it sticks around."
-	self log: 'Advance second process to breakpoint'.
-	self advanceToBreakpointIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-%
-
-category: 'tests expected to fail for now'
-method: BreakpointHandlingTest
-testMultiProcessBreakpointHandlingInSameMethodBeforeHalting
-	"This test ensures that two processes debugging the same method don't interfere with each other's breakpoints."
-
-	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
-	firstProcess := self
-		processBlock: [ firstResult := utility factorialOf: 10 stopAt: 6 ]
-		forID: #'FirstProcess'.
-	secondProcess := self
-		processBlock: [ secondResult := utility factorialOf: 10 stopAt: 4 ]
-		forID: #'SecondProcess'.
-
-	"Set the breakpoint for the second process."
-	self
-		setMethodBreakAtStepPoint: 10
-		inMethod: (BreakpointHandling compiledMethodAt: #factorialOf:stopAt:)
-		forProcess: secondProcess.
-
-	self log: 'Set up first process'.
-	self advanceToControlInterruptIn: firstProcess.
-	level := self firstFrameBelowHalt.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-	frameAtLevel := firstProcess _frameContentsAt: level.
-	firstProcessMethod := frameAtLevel first.
-	self assert: firstProcessMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
-
-	self log: 'Set up second process'.
-	self advanceToControlInterruptIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-	frameAtLevel := secondProcess _frameContentsAt: level.
-	secondProcessMethod := frameAtLevel first.
-	self assert: secondProcessMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
-
-	"Finish the first process. It should not encounter the second process' breakpoint."
-	self log: 'Finish first process'.
-	self advanceToEndIn: firstProcess.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-
-	"Run the second process to its breakpoint."
-	self log: 'Advance second process to breakpoint'.
-	self advanceToBreakpointIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-
-	"Run the second process to its breakpoint again, to ensure it sticks around."
-	self log: 'Advance second process to breakpoint'.
-	self advanceToBreakpointIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-%
-
-category: 'tests expected to fail for now'
-method: BreakpointHandlingTest
-testMultiProcessSteppingInDifferentMethods
-	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
-
-	| factorial factorialProcess factorialMethod fibonacci fibonacciProcess fibonacciMethod level |
-	factorialProcess := self
-		processBlock: [ factorial := utility factorialOf: 10 stopAt: 5 ]
-		forID: #'FactorialProcess'.
-	fibonacciProcess := self
-		processBlock: [ fibonacci := utility fibonacciGenerations: 10 stopAt: 4 ]
-		forID: #'FibonacciProcess'.
-
-	self advanceToControlInterruptIn: factorialProcess.
-	level := self firstFrameBelowHalt.
-	factorialMethod := (factorialProcess _frameContentsAt: level) first.
-	self assert: factorialMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FactorialProcess' valueClass: Halt.
-
-	self advanceToControlInterruptIn: fibonacciProcess.
-	fibonacciMethod := (fibonacciProcess _frameContentsAt: level) first.
-	self assert: fibonacciMethod selector equals: #'fibonacciGenerations:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FibonacciProcess' valueClass: Halt.
-
-"	self setAllStepBreaksIn: factorialMethod forProcess: factorialProcess.
-	self setAllStepBreaksIn: fibonacciMethod forProcess: fibonacciProcess."
-	self setStepBreakAtStepPoint: 11 inMethod: factorialMethod forProcess: factorialProcess.		"Last step point in method"
-	self setStepBreakAtStepPoint: 17 inMethod: fibonacciMethod forProcess: fibonacciProcess.	"Last step point in method"
-
-	self advanceToControlInterruptIn: factorialProcess.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FactorialProcess' valueClass: Breakpoint.
-
-	"This next test is currently expected to fail, as the previous process cleared all step points in the gem.
-	 It would work if the step points were reset here. But we want it to fail until the server is changed."
-"	self setAllStepBreaksIn: fibonacciMethod forProcess: fibonacciProcess."
-"	self setStepBreakAtStepPoint: 17 inMethod: fibonacciMethod forProcess: fibonacciProcess."	"Last step point in method"
-	self advanceToControlInterruptIn: fibonacciProcess.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FibonacciProcess' valueClass: Breakpoint.
-
-	self assertSuspended: factorialProcess.
-	self assertSuspended: fibonacciProcess
-%
-
-category: 'tests expected to fail for now'
-method: BreakpointHandlingTest
-testMultiProcessSteppingInSameMethod
-	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
-
-	| firstResult firstProcess firstProcessMethod secondResult secondProcess secondProcessMethod level frameAtLevel |
-	firstProcess := self
-		processBlock: [ firstResult := utility factorialOf: 10 afterWaitingMS: 3000 ]
-		forID: #'FirstProcess'.
-	secondProcess := self
-		processBlock: [ secondResult := utility factorialOf: 10 afterWaitingMS: 10 ]
-		forID: #'SecondProcess'.
-
-	self log: 'Set up first process'.
-	self advanceToControlInterruptIn: firstProcess.
-	level := self firstFrameBelowHalt + 1.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-	frameAtLevel := firstProcess _frameContentsAt: level.
-	firstProcessMethod := frameAtLevel first.
-	self assert: firstProcessMethod selector equals: #'factorialOf:afterWaitingMS:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'FirstProcess' valueClass: Halt.
-
-	"Advance to the #waitMS: send."
-	self stepOverInLevel: level inProcess: firstProcess.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-
-
-	self log: 'Set up second process'.
-	self advanceToControlInterruptIn: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-	frameAtLevel := secondProcess _frameContentsAt: level.
-	secondProcessMethod := frameAtLevel first.
-	self assert: secondProcessMethod selector equals: #'factorialOf:afterWaitingMS:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'SecondProcess' valueClass: Halt.
-
-	"Advance to the #waitMS: send."
-	self stepOverInLevel: level inProcess: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-
-	"Start the first process stepping over the #waitMS: send (long)."
-	self log: 'Step first process over #waitMS: send'.
-	firstProcess
-		stepOverFromLevel: level;
-		resume.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-
-	"Step the second process over the #waitMS: send and the second #factorialOf:stopAt: send."
-	self log: 'Step second process over #waitMS: send'.
-	self stepOverInLevel: level inProcess: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-	self log: 'Step second process over second #factorialOf:stopAt: send'.
-	self stepOverInLevel: level inProcess: secondProcess.
-	self log: #secondProcess processEssentials: secondProcess frameLevel: level.
-
-	self assert: firstResult isNil description: 'First process yielded result too soon'.
-	self assert: secondResult isNil description: 'Second process yielded result too soon'.
-	"Finish the second process"
-	self advanceToEndIn: secondProcess.
-
-	"Wait for the first process to finish the step (expected to fail currently)"
-	self log: 'Wait for first process to finish #waitMS: send'.
-	(self waitMS: 200).	"Second process used up 2x100ms waits stepping."
-	self assertSuspended: firstProcess.
-	self log: #firstProcess processEssentials: firstProcess frameLevel: level.
-
-	self assert: firstResult isNil description: 'First process should not have finished to produce a result'.
-	self deny: secondResult isNil description: 'Second process failed to yield a result'.
-%
-
-category: 'tests'
-method: BreakpointHandlingTest
-testRecursionStepOutOfFrame
-	"This test ensures that debugging a recursive processes will allow stepping out of a frame to the next lower one.
-	Bug 49574"
-
-	| result processMethod level frameAtLevel initialNumberOfRecursiveFrames finalNumberOfRecursiveFrames |
-	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
-
-	self advanceToControlInterrupt.
-	initialNumberOfRecursiveFrames := (self
-		levelsWithSelector: #'factorialOf:stopAt:') size.
-	level := self firstFrameBelowHalt.
-	self log: #'defaultProcess' processEssentials: defaultProcess frameLevel: level.
-	frameAtLevel := defaultProcess _frameContentsAt: level.
-	processMethod := frameAtLevel first.
-	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.	"Server bug: stepping off the end of a recursive method does not stop in the next lower frame. Process will run to completion."
-	7
-		timesRepeat: [ 
-			self stepOverInLevel: level.
-			level := self firstFrameBelowHalt + 1.
-			self
-				log: #'defaultProcess'
-				processEssentials: defaultProcess
-				frameLevel: level ].
-
-	self assertSuspended.
-	finalNumberOfRecursiveFrames := (self
-		levelsWithSelector: #'factorialOf:stopAt:') size.
-	self
-		assert: finalNumberOfRecursiveFrames
-		equals: initialNumberOfRecursiveFrames - 1
-%
-
-category: 'tests expected to fail for now'
-method: BreakpointHandlingTest
-testRecursionStepPointOddity
-"An earlier version of testMultiProcessSteppingInSameMethod used the GsProcess for 'stepOver...' which
- doesn't actually step, just sets the step breakpoint. But it also messed up how the stack frame reported
- itself - reverted @9 line 6 to @1 line 1.
-Need to recreate that specific scenario."
-	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
-
-	| result processMethod level frameAtLevel |
-	self processBlock: [ result := utility factorialOf: 10 stopAt: 4 ].
-
-	self advanceToControlInterrupt.
-	level := self firstFrameBelowHalt.
-	self log: #defaultProcess processEssentials: defaultProcess frameLevel: level.
-	frameAtLevel := defaultProcess _frameContentsAt: level.
-	processMethod := frameAtLevel first.
-	self assert: processMethod selector equals: #'factorialOf:stopAt:'.
-	self assertOneTraceEntry.
-	self assertNextTraceKey: #'DefaultProcess' valueClass: Halt.
-
-
-	"The ipOffset of deeper recursive frames should be the same."
-	self assert: (defaultProcess _frameContentsAt: level+1) second equals: (defaultProcess _frameContentsAt: level+2) second.
-
-	defaultProcess stepOverFromLevel: level.
-	(self waitMS: 100).
-	self assertSuspended.
-
-	"The ipOffset shouldn't change just from setting a step point."
-	self assert: (defaultProcess _frameContentsAt: level+1) second equals: (defaultProcess _frameContentsAt: level+2) second.
-%
-
-category: 'tests'
-method: BreakpointHandlingTest
-testStepNonLocalReturn
-	"This test ensures that a step through a non-local return ends up in a reasonable place."
-
-	| result levels numberOfLevels |
-	self processBlock: [ result := utility nlr2 ].
-	self advanceToHalt.
-	levels := self levelsWithSelector: #'nlr2'.
-	numberOfLevels := levels size.
-	self assert: numberOfLevels equals: 1.
-	self stepOverInLevel: levels first.	"Advance to block value"
-	levels := self levelsWithSelector: #'nlr2'.
-	numberOfLevels := levels size.
-	self assert: numberOfLevels equals: 1.
-	self stepOverInLevel: levels first.	"Advance into block, just before non-local return"
-	levels := self levelsWithSelector: #'nlr2'.
-	numberOfLevels := levels size.
-	self assert: numberOfLevels equals: 1.
-	levels := self
-		levelsSelect: [ :fc | 
-			| method |
-			method := fc first.
-			method isMethodForBlock and: [ method homeMethod selector == #'nlr2' ] ].
-	numberOfLevels := levels size.
-	self assert: numberOfLevels equals: 1.
-	self stepOverInLevel: levels first.	"Step over non-local return"
-	levels := self levelsWithSelector: #'nlr2'.
-	numberOfLevels := levels size.
-	self assert: numberOfLevels equals: 0. "Should have returned from home method."	
-	self advanceToEnd.
-	self assert: result equals: 42
-%
-
-category: 'tests'
-method: BreakpointHandlingTest
-testStepOverInRecursion
-	"This test ensures that when you step over in a method that is on the stack multiple times (recursion)
-	the step stops in the level of the step, not the topmost occuurrence of the method."
-
-	| result factorialLevels numberOfLevels |
-	self processBlock: [ result := utility factorialOf: 10 stopAt: 5 ].
-	self advanceToHalt.
-	factorialLevels := self levelsWithSelector: #'factorialOf:stopAt:'.
-	numberOfLevels := factorialLevels size.
-	self assert: numberOfLevels equals: 6.
-	self stepOverInLevel: (factorialLevels at: 5).
-	factorialLevels := self levelsWithSelector: #'factorialOf:stopAt:'.
-	numberOfLevels := factorialLevels size.
-	self assert: numberOfLevels equals: 2.
-	self advanceToEnd.
-	self assert: result equals: 10 factorial
-%
-
-category: 'support'
-method: BreakpointHandlingTest
-traceID: anID value: anObject
-	trace nextPut: anID -> anObject
-%
-
-category: 'support'
-method: BreakpointHandlingTest
-waitMS: milliseconds
-	(Delay forMilliseconds: milliseconds) wait
 %
 
 ! Class implementation for 'GsCounterTest'
@@ -8967,1291 +10628,6 @@ testTokenRejected
 	self
 		assert: result
 		equals: tokenRejected
-%
-
-! Class implementation for 'SpkTestCase'
-
-!		Class methods for 'SpkTestCase'
-
-category: 'testing'
-classmethod: SpkTestCase
-isAbstract
-
-	"Override to true if a TestCase subclass is Abstract and should not have
-	TestCase instances built from it"
-
-	^ self == SpkTestCase
-%
-
-!		Instance methods for 'SpkTestCase'
-
-category: 'asserting'
-method: SpkTestCase
-assert: anObject
-identicalTo: bObject
-
-	self assert: anObject == bObject
-%
-
-! Class implementation for 'SpkLimitedWriteStreamTest'
-
-!		Instance methods for 'SpkLimitedWriteStreamTest'
-
-category: 'instance creation'
-method: SpkLimitedWriteStreamTest
-newStream
-	^ self newStreamOn: String new
-%
-
-category: 'instance creation'
-method: SpkLimitedWriteStreamTest
-newStreamOn: aCollection
-	^ self streamClass on: aCollection
-%
-
-category: 'accessing'
-method: SpkLimitedWriteStreamTest
-streamClass
-	^ SpkLimitedWriteStream
-%
-
-category: 'accessing'
-method: SpkLimitedWriteStreamTest
-string
-	^ 'testing' shallowCopy
-%
-
-category: 'accessing'
-method: SpkLimitedWriteStreamTest
-stringSize
-	^ self string size
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testLimit
-	| stream overLimit |
-	stream := self newStream.
-	overLimit := false.
-	stream
-		limitBlock: [ overLimit := true ];
-		nextPutAll: self string.
-	self
-		assert: stream limit equals: self streamClass defaultLimit;
-		assert: (stream limit: self stringSize) identicalTo: stream;
-		assert: stream limit equals: self stringSize;
-		deny: overLimit.
-
-	self stringSize - 1 to: 0 by: -1 do: [ :i | 
-		overLimit := false.
-		self
-			assert: (stream limit: i) identicalTo: stream;
-			assert: stream limit equals: i;
-			assert: stream position equals: i;
-			assert: stream contents equals: (self string copyFrom: 1 to: i);
-			assert: overLimit ]
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testLimitBlock
-	| stream overLimit limitBlock |
-	stream := self newStream.
-	overLimit := false.
-	limitBlock := [ overLimit := true ].
-	self
-		assert: stream limitBlock isNil;
-		assert: (stream limitBlock: limitBlock) identicalTo: stream;
-		assert: stream limitBlock identicalTo: limitBlock;
-		deny: overLimit
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testNextPut
-	| stream overLimit |
-
-	stream := self newStream.
-	self string
-		withIndexDo: [ :each :i | 
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: i;
-				assert: stream contents equals: (self string copyFrom: 1 to: i) ].
-
-	stream := self streamClass on: String new limit: self stringSize limitBlock: [ overLimit := true ].
-	overLimit := false.
-	self string
-		withIndexDo: [ :each :i | 
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: i;
-				assert: stream contents equals: (self string copyFrom: 1 to: i);
-				deny: overLimit ].
-	self string
-		do: [ :each | 
-			overLimit := false.
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: self stringSize;
-				assert: stream contents equals: self string;
-				assert: overLimit ]
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testNextPutAll
-	| stream overLimit |
-	stream := self newStream.
-	self
-		assert: (stream nextPutAll: self string) equals: self string;
-		assert: stream position equals: self stringSize;
-		assert: stream contents equals: self string.
-
-	stream := self streamClass on: String new limit: self stringSize limitBlock: [ overLimit := true ].
-	overLimit := false.
-	self
-		assert: (stream nextPutAll: self string) equals: self string;
-		assert: stream position equals: self stringSize;
-		assert: stream contents equals: self string;
-		deny: overLimit.
-	self
-		assert: (stream nextPutAll: self string) equals: self string;
-		assert: stream position equals: self stringSize;
-		assert: stream contents equals: self string;
-		assert: overLimit
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testOn
-	| collection stream |
-	collection := String new.
-	stream := self streamClass on: collection.
-	self
-		assert: stream originalContents identicalTo: collection;
-		assert: stream position equals: 0;
-		assert: stream contents isEmpty;
-		assert: stream size equals: 0.
-
-	stream := self newStream.
-	self
-		assert: stream limit equals: self streamClass defaultLimit;
-		assert: stream limitBlock isNil
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testOnFromTo
-	| stream |
-	stream := self streamClass on: self string , self string from: self stringSize + 1 to: self stringSize * 2.
-	self
-		assert: stream originalContents equals: self string , self string;
-		assert: stream position equals: self stringSize;
-		assert: stream contents equals: self string;
-		assert: stream size equals: self stringSize * 2.
-
-	stream := self streamClass on: self string , self string from: self stringSize + 1 to: self stringSize * 2.
-	self
-		assert: stream limit equals: self streamClass defaultLimit;
-		assert: stream limitBlock isNil
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testOnLimitLimitBlock
-	| collection overLimit limitBlock stream |
-	collection := String new.
-	overLimit := false.
-	limitBlock := [ overLimit := true ].
-	stream := self streamClass on: collection limit: self stringSize limitBlock: limitBlock.
-	self
-		assert: stream originalContents identicalTo: collection;
-		assert: stream position equals: 0;
-		assert: stream limit equals: self stringSize;
-		assert: stream limitBlock equals: limitBlock;
-		deny: overLimit
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testSetLimitLimitBlock
-	| stream overLimit |
-	stream := self newStream.
-	overLimit := false.
-	self assert: (stream setLimit: self stringSize limitBlock: [ overLimit := true ]) identicalTo: stream.
-	stream nextPutAll: self string.
-	self deny: overLimit.
-
-	self stringSize - 1 to: 0 by: -1 do: [ :i | 
-		overLimit := false.
-		"ensure the new block argument is used when the new limit is less than
-		the position by setting it to nil first"
-		self assert: (stream setLimit: stream position limitBlock: nil) identicalTo: stream.
-		self deny: overLimit.
-		self assert: (stream setLimit: i limitBlock: [ overLimit := true ]) identicalTo: stream.
-		self assert: overLimit ]
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testWith
-	"like on: except it starts writing at the end of its argument collection,
-	and the initial position is the collection size and the initial contents
-	is the collection"
-
-	| stream overLimit |
-	
-	stream := self streamClass with: self string.
-	self
-		assert: stream originalContents equals: self string;
-		assert: stream position equals: self stringSize;
-		assert: stream contents equals: self string;
-		assert: stream size equals: self stringSize.
-
-	stream := self streamClass with: self string.
-	overLimit := false.
-	stream
-		limit: self stringSize * 2;
-		limitBlock: [ overLimit := true ].
-	self string
-		withIndexDo: [ :each :i | 
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: self stringSize + i;
-				assert: stream contents equals: self string , (self string copyFrom: 1 to: i);
-				deny: overLimit ].
-	self string
-		do: [ :each | 
-			overLimit := false.
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: self stringSize * 2;
-				assert: stream contents equals: self string , self string;
-				assert: overLimit ]
-%
-
-category: 'tests'
-method: SpkLimitedWriteStreamTest
-testWithFromTo
-	"like with: except it paritions its argument collection first using the
-	from:/to: indexes"
-
-	| stream overLimit |
-	
-	stream := self streamClass with: self string , self string from: 1 to: self stringSize.
-	self
-		assert: stream originalContents equals: self string;
-		assert: stream position equals: self stringSize;
-		assert: stream contents equals: self string;
-		assert: stream size equals: self stringSize.
-
-	stream := self streamClass with: self string , self string from: 1 to: self stringSize.
-	overLimit := false.
-	stream
-		limit: self stringSize * 2;
-		limitBlock: [ overLimit := true ].
-	self string
-		withIndexDo: [ :each :i | 
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: self stringSize + i;
-				assert: stream contents equals: self string , (self string copyFrom: 1 to: i);
-				deny: overLimit ].
-	self string
-		do: [ :each | 
-			overLimit := false.
-			self
-				assert: (stream nextPut: each) equals: each;
-				assert: stream position equals: self stringSize * 2;
-				assert: stream contents equals: self string , self string;
-				assert: overLimit ]
-%
-
-! Class implementation for 'SpkServiceServerTest'
-
-!		Instance methods for 'SpkServiceServerTest'
-
-category: 'tests'
-method: SpkServiceServerTest
-testDefaultTaskspaceLayout
-	"Basically, can we create a default taskspace and all its server-side bitses"
-
-	| server layout |
-	server := SpkTaskspaceRegistryServiceServer new.
-	layout := server newDefaultTaskspaceLayout.
-	self assert: layout class equals: SpkTaskspaceLayoutServiceServer
-%
-
-! Class implementation for 'SpkSmallStackTest'
-
-!		Instance methods for 'SpkSmallStackTest'
-
-category: 'running'
-method: SpkSmallStackTest
-setUp
-	super setUp.
-	stack := SpkSmallStack new
-%
-
-category: 'tests'
-method: SpkSmallStackTest
-testCollect
-	self assert: stack isEmpty.
-	stack push: 'first'.
-	stack push: 'second'.
-	stack push: 'third'.
-	self
-		assert: (stack collect: [ :each | each first ])
-		equals: (OrderedCollection withAll: #($t $s $f))
-%
-
-category: 'tests'
-method: SpkSmallStackTest
-testEmptyStack
-	self assert: stack isEmpty
-%
-
-category: 'tests'
-method: SpkSmallStackTest
-testPopWhenEmpty
-	self should: [ stack pop ] raise: Error.
-	stack push: 'aThing'.
-	stack pop.
-	self should: [ stack pop ] raise: Error
-%
-
-category: 'tests'
-method: SpkSmallStackTest
-testPushPop
-	self assert: stack isEmpty.
-	stack push: 'one'.
-	self deny: stack isEmpty.
-	stack push: 'two'.
-	self deny: stack isEmpty.
-	stack push: 'three'.
-	self deny: stack isEmpty.
-	self assert: stack pop equals: 'three'.
-	self deny: stack isEmpty.
-	self assert: stack pop equals: 'two'.
-	self deny: stack isEmpty.
-	self assert: stack pop equals: 'one'.
-	self assert: stack isEmpty
-%
-
-category: 'tests'
-method: SpkSmallStackTest
-testReducingLimit
-	self assert: stack limit equals: stack class defaultLimit.
-	self assert: stack isEmpty.
-	stack push: 'first'.
-	stack push: 'second'.
-	stack push: 'third'.
-	stack limit: 2.
-	self assert: stack pop equals: 'third'.
-	self assert: stack pop equals: 'second'.
-	self assert: stack isEmpty
-%
-
-category: 'tests'
-method: SpkSmallStackTest
-testStackLimit
-	self assert: stack limit equals: stack class defaultLimit.
-	stack limit: 2.
-	self assert: stack isEmpty.
-	stack push: 'first'.
-	stack push: 'second'.
-	stack push: 'third'.
-	self assert: stack pop equals: 'third'.
-	self assert: stack pop equals: 'second'.
-	self assert: stack isEmpty
-%
-
-! Class implementation for 'SpkToolTest'
-
-!		Instance methods for 'SpkToolTest'
-
-category: 'running'
-method: SpkToolTest
-newInspectorToolOn: anObject
-
-	| taskspaceTool explorerTool |
-	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := taskspaceTool newExplorerTool.
-	^ tool := SpkInspectorTool new
-		          inspectedObject: anObject;
-		          taskspaceTool: taskspaceTool;
-		          initializeViews;
-		          explorerTool: explorerTool;
-		          yourself
-%
-
-! Class implementation for 'SpkEvaluationTest'
-
-!		Instance methods for 'SpkEvaluationTest'
-
-category: 'other'
-method: SpkEvaluationTest
-newInspectorToolOn: anObject
-	taskspaceTool := SpkTaskspaceTool new.
-	explorerTool := taskspaceTool newExplorerTool.
-	^ tool := explorerTool newInspectorToolOn: anObject
-%
-
-category: 'other'
-method: SpkEvaluationTest
-setUp
-	super setUp.
-	inspectorTool := self newInspectorToolOn: nil.
-	evaluatorTool := inspectorTool addEvaluator
-%
-
-! Class implementation for 'SpkDebuggerServiceTest'
-
-!		Instance methods for 'SpkDebuggerServiceTest'
-
-category: 'support'
-method: SpkDebuggerServiceTest
-divideByZeroAfterProceed
-	| debuggerTool |
-	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
-	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testExceptionDescription
-	"Can we make a tree of services out of a DebuggerTool?"
-
-	self zork3.
-	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessFrameNumbering
-	"The bottom ten frames are glue, first 
-	visible frame should have index 11."
-
-	| frames |
-	self zork3.
-	frames := debuggerService frames.
-	self assert: frames first index equals: 11
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessFrameQuantity
-	| frames |
-	self zork3.
-	frames := debuggerService frames.
-	self
-		assert: (frames isKindOf: SequenceableCollection);
-		assert: frames size equals: 3
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessIdentifier
-	| id |
-	self zork3.
-	id := debuggerService processIdentifier.
-	self
-		assert: id class equals: SmallInteger;
-		assert: (id bitAnd: 16rFF) equals: 1
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessName
-	"Can we make a tree of services out of a DebuggerTool?"
-
-	self zork3.
-	self assert: debuggerService processName equals: 'Evaluation'
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testProcessPriority
-	| prio |
-	self zork3.
-	prio := debuggerService processPriority.
-	self
-		assert: prio class equals: SmallInteger;
-		assert: prio equals: 15
-%
-
-category: 'tests'
-method: SpkDebuggerServiceTest
-testUpdateAfterExecution
-
-	| frames matchingFrames executedCodeFrameDescription frameService newDebuggerService |
-	self divideByZeroAfterProceed.
-	"Should now be stopped on the pause."
-	frames := debuggerService frames.
-	matchingFrames := frames select: [:each | each description = 'Executed Code '].
-	self assert: matchingFrames size equals: 1.
-	executedCodeFrameDescription := matchingFrames first.
-	self assert: executedCodeFrameDescription class equals: SpkDebuggerFrameDescriptionServiceServer.
-	frameService := executedCodeFrameDescription createFrameService.
-	self assert: frameService class equals: SpkDebuggerFrameServiceServer;
-	assert: frameService currentStartPosition equals: 3;
-	assert: frameService currentEndPosition equals: 7.
-	newDebuggerService := debuggerService proceed.
-	"Should no be stopped on the division by zero, and the frame service should have updated itself."
-	self assert: newDebuggerService == debuggerService;
-	assert: frameService currentStartPosition equals: 13;
-	assert: frameService currentEndPosition equals: 13.
-%
-
-category: 'support'
-method: SpkDebuggerServiceTest
-zork3
-	| debuggerTool |
-	evaluatorTool newSourceCode: '3 zork'.
-	debuggerTool := evaluatorTool evaluateCode.
-	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
-%
-
-! Class implementation for 'SpkDebuggerToolTest'
-
-!		Instance methods for 'SpkDebuggerToolTest'
-
-category: 'support'
-method: SpkDebuggerToolTest
-executedCodeFrameInDebugger: debugger
-	| doitFrames |
-	self assert: debugger class equals: SpkDebuggerTool.
-
-	doitFrames := debugger frames
-		select: [ :frame | 
-			self assert: frame class equals: SpkDebuggerFrameTool.
-			frame description = 'Executed Code ' ].
-	self assert: doitFrames size equals: 1.
-	^ doitFrames first
-%
-
-category: 'support'
-method: SpkDebuggerToolTest
-frameIn: debugger
-withDescriptionContaining: aString
-
-	^debugger frames detect: [ :each | each description includesString: aString ].
-%
-
-category: 'support'
-method: SpkDebuggerToolTest
-restartInFrame: frameTool
-
-	^frameTool restartAnnouncing: SpkExecutionAnnouncement new
-%
-
-category: 'support'
-method: SpkDebuggerToolTest
-stepIntoInFrame: frameTool
-
-	^frameTool stepIntoAnnouncing: SpkExecutionAnnouncement new
-%
-
-category: 'support'
-method: SpkDebuggerToolTest
-stepOverInFrame: frameTool
-
-	^frameTool stepOverAnnouncing: SpkExecutionAnnouncement new
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testBreakpoint01
-	| method debugger frames frame localVariables variable inspector |
-	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
-	self assert: method class equals: GsNMethod.
-	[ 
-	method setBreakAtStepPoint: 3 breakpointLevel: 1.
-	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
-	frames := debugger frames.
-	frame := frames
-		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"
-	Have we properly omitted the glue frames following a breakpoint?"
-	self assert: frame equals: frames last.
-	self assert: (frame description includesString: 'twelve').
-	self assert: frame stepPoint equals: 3.
-	localVariables := frame localVariables.
-	variable := localVariables at: 1.
-	self assert: (variable columnAt: 1) equals: 'receiver'.
-	variable := localVariables at: 2.
-	self assert: (variable columnAt: 2) equals: '7'.
-	variable := localVariables at: 3.
-	self assert: (variable columnAt: 2) equals: '5'.
-	inspector := debugger proceed.
-	self assert: inspector class equals: SpkInspectorTool.
-	self assert: inspector inspectedObject equals: 12 ]
-		ensure: [ method clearAllBreaks ]
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testClearAllBreaks
-	| method debugger frames frame inspector |
-	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
-	self assert: method class equals: GsNMethod.
-	[ 
-	self assert: method _allBreakpoints size equals: 0.
-	method setBreakAtStepPoint: 3 breakpointLevel: 1.
-	self assert: method _allBreakpoints size equals: 4.
-	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	frames := debugger frames.
-	frame := frames
-		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].
-	self assert: frame stepPoint equals: 3.
-	inspector := debugger proceed.
-	self assert: inspector class equals: SpkInspectorTool.
-	self assert: inspector inspectedObject equals: 12.
-	self assert: method _allBreakpoints size equals: 4.
-	method clearAllBreaks.
-	self assert: method _allBreakpoints size equals: 0.
-	inspector := evaluatorTool evaluateCode.
-	self assert: inspector class equals: SpkInspectorTool.
-	self assert: inspector inspectedObject equals: 12 ]
-		ensure: [ method clearAllBreaks ].
-	self assert: method _allBreakpoints size equals: 0
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testCurrentSourceIntervalForPrimitive
-	"Do we get a reasonable source code interval for a primitive method?"
-
-	| debugger frameTool interval|
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	frameTool := debugger frames at: 1.
-	interval := frameTool currentSourceInterval.
-	self 
-		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC';
-		assert: frameTool stepPoint equals: 1;
-		assert: interval class equals: Interval;
-		assert: interval begin > 100;
-		assert: interval size equals: 4
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testFrameDescription
-	"Is a frame's description reasonable?"
-
-	| debugger frame |
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-
-	frame := self executedCodeFrameInDebugger: debugger.
-	self assert: frame index equals: 11
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testFrameIndex
-	"Are frames indexed from the bottom of the stack?"
-
-	| debugger frameTool |
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	frameTool := debugger frames at: 1.
-	self
-		assert: frameTool class equals: SpkDebuggerFrameTool;
-		assert: frameTool index equals: 1;
-		assert: frameTool description equals: 'GsNMethod class >> _gsReturnToC'
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testHaltGlueTrimming
-	"A halt should trim all top glue down through Object>>halt."
-
-	| debugger frames  execCodeFrame topFrame |
-	evaluatorTool newSourceCode: '3 halt + 4'.
-	debugger := evaluatorTool evaluateCode.
-	frames := debugger nonGlueFrames.
-	topFrame := frames last.
-	self assert: topFrame index equals: 11.
-	execCodeFrame := self executedCodeFrameInDebugger: debugger.
-	self assert: execCodeFrame identicalTo: topFrame
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testNumberOfFrames
-	"Can the debugger get frames from the process?"
-
-	| debugger |
-	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	self assert: debugger frames size > 6
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testProceedChangedDepth
-	"Get a debugger, proceed, get the same debugger with different stack depth."
-
-	| debugger1 debugger2 frame depth1 depth2 index1 index2 |
-	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
-	debugger1 := evaluatorTool evaluateCode.
-	self assert: debugger1 class equals: SpkDebuggerTool.
-	depth1 := debugger1 frames size.
-	frame := self executedCodeFrameInDebugger: debugger1.
-	index1 := frame index.
-	self assert: frame currentSourceInterval equals: (3 to: 7).
-	debugger2 := debugger1 proceed.
-	self assert: debugger1 == debugger2.
-	depth2 := debugger2 frames size.
-	self assert: depth1 < depth2.
-	self assert: frame == (self executedCodeFrameInDebugger: debugger1).
-	index2 := frame index.
-	self assert: index1 equals: index2.
-	self assert: frame currentSourceInterval equals: (13 to: 13)
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testProceedOnce
-	"Get a debugger, proceed, get an inspector"
-
-	| debugger inspector |
-	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	inspector := debugger proceed.
-	self
-		assert: inspector class equals: SpkInspectorTool;
-		assert: inspector inspectedObject equals: 7
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testProceedTwice
-	"Get a debugger, proceed, get the same debugger, proceed, get inspector"
-
-	| debugger1 debugger2 inspector frame |
-	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
-	debugger1 := evaluatorTool evaluateCode.
-	self assert: debugger1 class equals: SpkDebuggerTool.
-	frame := self executedCodeFrameInDebugger: debugger1.
-	self assert: frame currentSourceInterval equals: (4 to: 8).
-	debugger2 := debugger1 proceed.
-	self assert: debugger1 == debugger2.
-	self assert: (frame == (self executedCodeFrameInDebugger: debugger1)).
-	self assert: frame currentSourceInterval equals: (15 to: 19).
-	inspector := debugger2 proceed.
-	self
-		assert: inspector class equals: SpkInspectorTool;
-		assert: inspector inspectedObject equals: 12
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testRestartFrame
-	"Get a debugger, proceed, get an inspector"
-
-	| debugger frame restartFrame printStringFrame inspector |
-	evaluatorTool newSourceCode: 'self halt. BreakpointHandling new restartFrameTestMethod'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	frame := self executedCodeFrameInDebugger: debugger.
-	debugger := self
-		stepOverInFrame: frame;
-		stepOverInFrame: frame;
-		stepIntoInFrame: frame.
-
-	"Move execution to the start of the #printString method of SmallInteger."
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
-	self
-		assert: restartFrame stepPoint
-		equals: 1.
-	debugger := self
-		stepOverInFrame: restartFrame;
-		stepIntoInFrame: restartFrame.
-
-	"Ensure execution is in the correct place."
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
-	printStringFrame := self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString'.
-	self
-		assert: restartFrame stepPoint
-		equals: 2.
-	self
-		assert: printStringFrame stepPoint
-		equals: 1.
-
-	"Ensure restarting a frame in middle of the stack removes higher frames
-	and the step point in the frame is reset back to 1."
-	debugger := self restartInFrame: restartFrame.
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
-	self
-		should: [self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString']
-		raise: LookupError.
-	self
-		assert: restartFrame stepPoint
-		equals: 1.
-	self
-		assert: restartFrame index
-		equals: debugger frames size.
-
-	"Ensure that restarting the 'top frame' behaves correctly"
-	debugger := self restartInFrame: restartFrame.
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
-	self
-		assert: restartFrame stepPoint
-		equals: 1.
-	self
-		assert: restartFrame index
-		equals: debugger frames size.
-
-	"Ensure we can resume and get the correct result."
-	inspector := debugger proceed.
-	self
-		assert: inspector class equals: SpkInspectorTool;
-		assert: inspector inspectedObject equals: '12'
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testStepOver01
-	| method debugger debugger2 frames frame localVariables variable inspector |
-	method := SpkTestClassForDebugging compiledMethodAt: #'twelve'.
-	self assert: method class equals: GsNMethod.
-	[ 
-	method setBreakAtStepPoint: 1 breakpointLevel: 1.
-	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
-	frames := debugger nonGlueFrames.
-	frame := frames
-		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
-	"Have we properly omitted the glue frames following a breakpoint?"
-	self assert: frame equals: frames last.
-	self assert: (frame description includesString: 'twelve').
-	self assert: frame stepPoint equals: 1.
-	localVariables := frame localVariables.
-	self assert: localVariables size equals: 1.
-	variable := localVariables at: 1.
-	self
-		assert: (variable columnAt: 1) equals: 'receiver';
-		assert: frame currentSourceInterval equals: (1 to: 6).
-	debugger2 := frame stepOverAnnouncing: SpkExecutionAnnouncement new.
-	self
-		assert: debugger2 == debugger;
-		assert: frame == frames last;
-		assert: frame currentSourceInterval equals: (13 to: 13).
-	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
-	self assert: frame currentSourceInterval equals: (17 to: 17).
-	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
-	self assert: frame currentSourceInterval equals: (9 to: 9).
-	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
-	self assert: debugger nonGlueFrames size equals: frames size - 1.
-	inspector := debugger proceed.
-	self assert: inspector class equals: SpkInspectorTool.
-	self assert: inspector inspectedObject equals: 12 ]
-		ensure: [ method clearAllBreaks ]
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testTerminate
-	"Get a debugger, terminate, verify termination.
-	As of 2021-07-19, this test is failing. 
-	Adding a brief delay before the final assertion makes the test pass,
-	but this *should* not be required. Leaving failing pending further
-	investigation."
-
-	| debugger process |
-	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
-	self assert: debugger class equals: SpkDebuggerTool.
-	process := debugger process.
-
-	self deny: process _isTerminated.
-	debugger terminateAnnouncing: SpkExecutionAnnouncement new.
-	self assert: process _isTerminated
-%
-
-category: 'tests'
-method: SpkDebuggerToolTest
-testTerminate01
-	"Get a debugger, terminate, get the same debugger with the 
-	same executedCode frame, proceed, get inspector"
-
-	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
-	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
-	debugger1 := evaluatorTool evaluateCode.
-	self assert: debugger1 class equals: SpkDebuggerTool.
-	bottomFrame := debugger1 frames at: 1.
-	topFrame := debugger1 frames at: debugger1 frames size.
-	execCodeFrame := self executedCodeFrameInDebugger: debugger1.	"Should be on ifCurtailed:"
-	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
-	debugger2 := debugger1 terminateAnnouncing: SpkExecutionAnnouncement new.
-	self
-		assert: debugger1 == debugger2;
-		assert: bottomFrame == (debugger2 frames at: 1);
-		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
-		deny: topFrame == (debugger2 frames at: debugger2 frames size);
-		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
-	inspector := debugger2 proceed.
-	self assert: inspector class equals: SpkProcessTerminatedTool
-%
-
-! Class implementation for 'SpkEvaluatorToolTest'
-
-!		Instance methods for 'SpkEvaluatorToolTest'
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testEvaluationReferencingInstvar
-	| result |
-	inspectorTool inspectedObject: #'foo' -> 'bar'.
-	evaluatorTool newSourceCode: 'value , ''n'''.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkInspectorTool.
-	self assert: result inspectedObject equals: 'barn'
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testEvaluationUsingSelf
-	| result |
-	inspectorTool inspectedObject: 7.
-	evaluatorTool newSourceCode: 'self - 4'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkInspectorTool.
-	self assert: result inspectedObject equals: 3
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testRuntimeError
-	| result |
-	evaluatorTool newSourceCode: '3 zork'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkDebuggerTool
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testSimpleEvaluation
-	| result |
-	evaluatorTool newSourceCode: '3 + 4'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkInspectorTool.
-	self assert: result inspectedObject equals: 7
-%
-
-category: 'other'
-method: SpkEvaluatorToolTest
-testSyntaxError
-	| result |
-	evaluatorTool newSourceCode: '(self class'.
-	result := evaluatorTool evaluateCode.
-	self assert: result class equals: SpkCompilationErrorTool.
-	self assert: result errorLocation equals: 12.
-	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0
-%
-
-! Class implementation for 'SpkInspectorToolTest'
-
-!		Instance methods for 'SpkInspectorToolTest'
-
-category: 'tests'
-method: SpkInspectorToolTest
-testClassMembershipDescription
-
-	self newInspectorToolOn: nil.
-	self
-		assert: tool classMembershipDescription
-		equals: 'an UndefinedObject'.
-
-	self newInspectorToolOn: nil class.
-	self
-		assert: tool classMembershipDescription
-		equals: 'UndefinedObject'.
-
-	self newInspectorToolOn: 42.
-	self assert: tool classMembershipDescription equals: 'a SmallInteger'.
-
-	self newInspectorToolOn: 'Hi!'.
-	self assert: tool classMembershipDescription equals: 'a ' , '' class name asString.
-
-	self newInspectorToolOn: Object new.
-	self assert: tool classMembershipDescription equals: 'an Object'.
-
-	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
-	self
-		assert: tool classMembershipDescription
-		equals: 'a SpkTestSubclassOfNil'
-%
-
-category: 'tests'
-method: SpkInspectorToolTest
-testFieldToolsSize
-
-	"Here, just testing that we get the right number of FieldTools back."
-
-	self newInspectorToolOn: nil.
-	self assert: tool fieldTools size equals: 0.
-
-	self newInspectorToolOn: nil class.
-	self assert: tool fieldTools size equals: 19.
-
-	self newInspectorToolOn: 42.
-	self assert: tool fieldTools size equals: 0.
-
-	self newInspectorToolOn: 'Hi!'.
-	self assert: tool fieldTools size equals: 3.
-
-	self newInspectorToolOn: Object new.
-	self assert: tool fieldTools size equals: 0.
-
-	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
-	self assert: tool fieldTools size equals: 2.
-
-	self newInspectorToolOn: SpkTestClassWithInfinitePrintOn new.
-	self assert: tool fieldTools size equals: 0.
-
-	"ZeroDivide has both inherited and declared named instvars"
-	self newInspectorToolOn: ZeroDivide new.
-	self assert: tool fieldTools size equals: 11.
-
-	"Class with both named and indexed instvars."
-	self newInspectorToolOn:
-		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
-	self assert: tool fieldTools size equals: 8
-%
-
-category: 'tests'
-method: SpkInspectorToolTest
-testOop
-	| object |
-	self newInspectorToolOn: nil.
-	self assert: tool oop equals: 16r14.
-	self newInspectorToolOn: 42.
-	self assert: tool oop equals: 42 * 8 + 2.
-	object := Object new.
-	self newInspectorToolOn: object.
-	self assert: tool oop equals: object asOop.
-	object := SpkTestSubclassOfNil basicNew.
-	self newInspectorToolOn: object.
-	self assert: tool oop equals: (Reflection oopOf: object)
-%
-
-category: 'tests'
-method: SpkInspectorToolTest
-testSelfDescription
-
-	| description |
-	self newInspectorToolOn: nil.
-	self assert: tool selfDescription equals: 'nil'.
-
-	self newInspectorToolOn: nil class.
-	self assert: tool selfDescription equals: 'UndefinedObject'.
-
-	self newInspectorToolOn: 42.
-	self assert: tool selfDescription equals: '42'.
-
-	self newInspectorToolOn: 'Hi!'.
-	self assert: tool selfDescription equals: '''Hi!'''.
-
-	self newInspectorToolOn: Object new.
-	self assert: tool selfDescription equals: 'anObject'.
-
-	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
-	self assert: tool selfDescription equals: ''.
-
-	self newInspectorToolOn: SpkTestClassWithInfinitePrintOn new.
-	description := tool selfDescription.
-	self
-		assert: description size equals: 250000;
-		assert: (description beginsWith: 'done yet? done yet? ');
-		assert: (description endsWith: 'done yet? done yet? ')
-%
-
-! Class implementation for 'SpkUndoManagerTest'
-
-!		Instance methods for 'SpkUndoManagerTest'
-
-category: 'support'
-method: SpkUndoManagerTest
-newAction
-
-	^ SpkTestUndoableAction new
-%
-
-category: 'running'
-method: SpkUndoManagerTest
-setUp
-
-	super setUp.
-	manager := SpkUndoManager withLimit: 2
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testDoClearsRedo
-
-	"If you perform a new action (that is not a redo) the redo stack should be cleared. "
-
-	| actions action1 action2 |
-	actions := { 
-		           (action1 := self newAction).
-		           (action2 := self newAction) }.
-	actions do: [ :action | manager performAction: action ].
-	manager
-		undo;
-		undo.
-
-	self deny: manager hasUndoableAction.
-	self assert: manager hasRedoableAction.
-	manager performAction: action1.
-	self assert: manager hasUndoableAction.
-	self deny: manager hasRedoableAction.
-	self should: [ manager redo ] raise: Error
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testEmptyUndo
-
-	self
-		deny: manager hasUndoableAction;
-		deny: manager hasRedoableAction
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testIndecision
-
-	| action |
-	action := self newAction.
-	manager performAction: action.
-	manager
-		undo;
-		redo;
-		undo;
-		redo.
-	self
-		assert: action isDone;
-		assert: manager hasUndoableAction;
-		deny: manager hasRedoableAction.
-	manager undo.
-	self
-		deny: action isDone;
-		deny: manager hasUndoableAction;
-		assert: manager hasRedoableAction
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testRedoUnderflow
-
-	| actions action1 action2 action3 |
-	actions := { 
-		           (action1 := self newAction).
-		           (action2 := self newAction).
-		           (action3 := self newAction) }.
-	actions do: [ :action | manager performAction: action ].
-	manager
-		undo;
-		undo;
-		redo;
-		redo.
-
-	self deny: manager hasRedoableAction.
-	self should: [ manager redo ] raise: Error
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testSingleRedo
-
-	| action |
-	action := self newAction.
-	self
-		assert: (manager performAction: action) equals: 42;
-		assert: manager undo equals: nil;
-		deny: action isDone;
-		deny: manager hasUndoableAction;
-		assert: manager hasRedoableAction;
-		assert: manager redo equals: 42;
-		assert: action isDone;
-		assert: manager hasUndoableAction;
-		deny: manager hasRedoableAction
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testSingleUndo
-
-	| action |
-	action := self newAction.
-	self
-		deny: manager hasUndoableAction;
-		deny: manager hasRedoableAction;
-		deny: action isDone;
-		assert: (manager performAction: action) equals: 42;
-		assert: action isDone;
-		assert: manager hasUndoableAction;
-		deny: manager hasRedoableAction;
-		assert: manager undo equals: nil;
-		deny: action isDone;
-		deny: manager hasUndoableAction;
-		assert: manager hasRedoableAction
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testUndoOverflow
-
-	| actions action1 action2 action3 |
-	actions := { 
-		           (action1 := self newAction).
-		           (action2 := self newAction).
-		           (action3 := self newAction) }.
-	actions do: [ :action | manager performAction: action ].
-	actions do: [ :action | self assert: action isDone ].
-
-	manager
-		undo;
-		redo;
-		undo;
-		undo.
-
-	self
-		assert: action1 isDone;
-		deny: action2 isDone;
-		deny: action3 isDone;
-		deny: manager hasUndoableAction;
-		assert: manager hasRedoableAction
-%
-
-category: 'tests'
-method: SpkUndoManagerTest
-testUndoUnderflow
-
-	| actions action1 action2 action3 |
-	actions := { 
-		           (action1 := self newAction).
-		           (action2 := self newAction).
-		           (action3 := self newAction) }.
-	actions do: [ :action | manager performAction: action ].
-	manager
-		undo;
-		redo;
-		undo;
-		undo.
-
-	self deny: manager hasUndoableAction.
-	self should: [ manager undo ] raise: Error
 %
 
 ! Class extensions for 'RsrConnection'

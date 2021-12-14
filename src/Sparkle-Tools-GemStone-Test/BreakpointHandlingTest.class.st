@@ -48,16 +48,15 @@ BreakpointHandlingTest >> testRecursionStepOutOfFrame [
 		equals: initialNumberOfRecursiveFrames - 1
 ]
 
-{ #category : 'tests expected to fail for now' }
+{ #category : 'tests' }
 BreakpointHandlingTest >> testRecursionStepPointOddity [
 	"An earlier version of testMultiProcessSteppingInSameMethod used the GsProcess for 'stepOver...' which
  doesn't actually step, just sets the step breakpoint. But it also messed up how the stack frame reported
- itself - reverted @9 line 6 to @1 line 1.
-Need to recreate that specific scenario."
+ itself - reverted @9 line 6 to @1 line 1. This became bug 49782."
 
 	"This test ensures that debugging multiple processes will faithfully honor step points in both processes."
 
-	| result processMethod level frameAtLevel |
+	| result processMethod level frameAtLevel stackReportNoBreakpoints stackReportWithBreakpoints |
 	self processBlock: [ result := self factorialOf: 10 stopAt: 4 ].
 
 	self advanceToControlInterrupt.
@@ -74,14 +73,23 @@ Need to recreate that specific scenario."
 		assert: (process _frameContentsAt: level + 1) second
 		equals: (process _frameContentsAt: level + 2) second.
 
-	process stepOverFromLevel: level.
+	stackReportNoBreakpoints := process _stackReport.
+	process setStepOverBreaksAtLevel: level.
+	stackReportWithBreakpoints := process _stackReport.
+	self assert: stackReportWithBreakpoints 
+		equals: stackReportNoBreakpoints.
+
 	self waitMS: 100.
 	self assertSuspended.	
 
-	"The ipOffset shouldn't change just from setting step breakpoints."
+	"Since there is now a stack breakpoint at level + 1, IP should be negated.
+	Step points, however, should still report as equal."
 	self
+		assert: (process _frameContentsAt: level + 1) second negative;
 		assert: (process _frameContentsAt: level + 1) second
-		equals: (process _frameContentsAt: level + 2) second
+			equals: (process _frameContentsAt: level + 2) second negated;
+		assert: (process _stepPointAt: level + 1)
+			equals: (process _stepPointAt: level + 2)
 ]
 
 { #category : 'tests' }

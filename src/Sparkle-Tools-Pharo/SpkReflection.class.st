@@ -16,18 +16,30 @@ Class {
 }
 
 { #category : 'messaging' }
-SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: aBlock [
+SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anObject ifNotUnderstood: notUnderstoodBlock onError: errorBlock [
 
 	| class |
 	class := self classOf: anObject.
 	^ (class canUnderstand: aSelector)
 		  ifTrue: [ 
-			  thisContext
+			  [thisContext
 				  object: anObject
 				  perform: aSelector
 				  withArguments: argArray
-				  inClass: class ]
-		  ifFalse: aBlock
+				  inClass: class]
+						on: Error
+						do: errorBlock]
+		  ifFalse: notUnderstoodBlock
+]
+
+{ #category : 'messaging' }
+SpkReflection class >> carefullySend: aSelector withArguments: argArray to: anObject ifUnsuccessful: aBlock [
+	^ self
+		carefullySend: aSelector
+		withArguments: argArray
+		to: anObject
+		ifNotUnderstood: aBlock
+		onError: [:ex | ex return: aBlock value]
 ]
 
 { #category : 'querying' }
@@ -59,7 +71,7 @@ SpkReflection class >> identifierOf: anObject [
 		  carefullySend: #identityHash
 		  withArguments: #(  )
 		  to: anObject
-		  ifNotUnderstood: [ "No actual object has an identityHash of zero" 
+		  ifUnsuccessful: [ "No actual object has an identityHash of zero" 
 		  0 ]
 ]
 

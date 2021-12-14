@@ -9,7 +9,7 @@ Each trace entry is an association of the process' ID with the exception encount
 "
 Class {
 	#name : 'DebuggingTest',
-	#superclass : 'GsTestCase',
+	#superclass : 'SpkTestCase',
 	#instVars : [
 		'trace',
 		'log'
@@ -84,8 +84,9 @@ DebuggingTest >> assertOneTraceEntry [
 DebuggingTest >> assertSuspended: aProcess [
 	self
 		assert: (self isSuspended: aProcess)
-		description:
-			'Process status is ' , aProcess _statusString , ' should have been suspended'
+		ifFail: [ 
+			'Process status is ' , aProcess _statusString , ' should have been suspended. '
+				, aProcess printString ]
 ]
 
 { #category : 'asserting' }
@@ -260,7 +261,7 @@ DebuggingTest >> setUp [
 
 { #category : 'support - specific process' }
 DebuggingTest >> stepOverInLevel: aLevel inProcess: aProcess [
-	aProcess stepOverFromLevel: aLevel.
+	aProcess setStepOverBreaksAtLevel: aLevel.
 	self advanceToBreakpointIn: aProcess
 ]
 

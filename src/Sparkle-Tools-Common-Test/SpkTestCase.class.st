@@ -3,7 +3,7 @@ A common abstract superclass for all Sparkle tests, which makes it easier to bui
 "
 Class {
 	#name : 'SpkTestCase',
-	#superclass : 'TestCase',
+	#superclass : 'GsTestCase',
 	#category : 'Sparkle-Tools-Common-Test'
 }
 
@@ -21,4 +21,12 @@ SpkTestCase >> assert: anObject
 identicalTo: bObject [
 
 	self assert: anObject == bObject
+]
+
+{ #category : 'asserting' }
+SpkTestCase >> assert: aBoolean ifFail: blockAnsweringString [
+	aBoolean
+		ifFalse: [ 
+			self logFailure: blockAnsweringString value.
+			TestResult failure signal: 'Assertion failed' ]
 ]

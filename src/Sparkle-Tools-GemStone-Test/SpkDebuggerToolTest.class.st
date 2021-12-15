@@ -24,6 +24,12 @@ withDescriptionContaining: aString [
 	^debugger frames detect: [ :each | each description includesString: aString ].
 ]
 
+{ #category : 'code to test' }
+SpkDebuggerToolTest >> restartFrameTestMethod [
+	8 printString.
+	^ (5 + 7) printString
+]
+
 { #category : 'support' }
 SpkDebuggerToolTest >> restartInFrame: frameTool [
 
@@ -250,7 +256,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 	"Get a debugger, proceed, get an inspector"
 
 	| debugger frame restartFrame printStringFrame inspector |
-	evaluatorTool newSourceCode: 'self halt. BreakpointHandling new restartFrameTestMethod'.
+	evaluatorTool newSourceCode: 'self halt. SpkDebuggerToolTest new restartFrameTestMethod'.
 	debugger := evaluatorTool evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	frame := self executedCodeFrameInDebugger: debugger.
@@ -260,7 +266,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 		stepIntoInFrame: frame.
 
 	"Move execution to the start of the #printString method of SmallInteger."
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	self
 		assert: restartFrame stepPoint
 		equals: 1.
@@ -269,7 +275,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 		stepIntoInFrame: restartFrame.
 
 	"Ensure execution is in the correct place."
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	printStringFrame := self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString'.
 	self
 		assert: restartFrame stepPoint
@@ -281,7 +287,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 	"Ensure restarting a frame in middle of the stack removes higher frames
 	and the step point in the frame is reset back to 1."
 	debugger := self restartInFrame: restartFrame.
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	self
 		should: [self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString']
 		raise: LookupError.
@@ -294,7 +300,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 
 	"Ensure that restarting the 'top frame' behaves correctly"
 	debugger := self restartInFrame: restartFrame.
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	self
 		assert: restartFrame stepPoint
 		equals: 1.

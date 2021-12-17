@@ -4,11 +4,12 @@ Class {
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
-{ #category : 'tests' }
-StackTrimmingTest >> testInTermination [
-	| process status |
+{ #category : 'support' }
+StackTrimmingTest >> inTermination: terminatorPriority [
+	| status target terminator |
 	status := 'not started'.
-	process := [ 
+	terminator := [ target terminate ] newProcess.
+	target := [ 
 	status := 'started'.
 	[ 
 	Delay waitForSeconds: 5.
@@ -19,25 +20,36 @@ StackTrimmingTest >> testInTermination [
 			status := 'done' ] ] newProcess.
 	self
 		assert: status equals: 'not started';
-		assert: process _statusString equals: 'suspended'.
-	process
-		priority: GsProcess current priority + 1;
+		assert: target _statusString equals: 'suspended'.
+	target
+		priority: Processor userSchedulingPriority;
 		resume.
+	Delay waitForMilliseconds: 100.
 	self
 		assert: status equals: 'started';
-		assert: process _statusString equals: 'on delayQueue';
-		deny: process _isTerminated;
-		deny: process _terminationStarted.
-	[ process terminate ] forkAt: GsProcess current priority + 2.
+		assert: target _statusString equals: 'on delayQueue';
+		deny: target _isTerminated;
+		deny: target _terminationStarted.
+	terminator
+		priority: terminatorPriority;
+		resume.
+	Delay waitForMilliseconds: 100.
 	self
 		assert: status equals: 'curtailed';
-		assert: process _statusString equals: 'terminationStarted';
-		deny: process _isTerminated;
-		assert: process _terminationStarted.
+		assert: target _statusString equals: 'terminationStarted';
+		deny: target _isTerminated;
+		assert: target _terminationStarted.
 	Delay waitForSeconds: 2.
-		self
+	self
 		assert: status equals: 'done';
-		assert: process _statusString equals: 'terminated';
-		assert: process _isTerminated;
-		assert: process _terminationStarted.
+		assert: target _statusString equals: 'terminated';
+		assert: target _isTerminated;
+		assert: target _terminationStarted
+]
+
+{ #category : 'tests' }
+StackTrimmingTest >> testInTermination [
+	{(Processor lowestPriority).
+	(Processor userSchedulingPriority).
+	(Processor highestPriority)} do: [ :priority | self inTermination: priority ]
 ]

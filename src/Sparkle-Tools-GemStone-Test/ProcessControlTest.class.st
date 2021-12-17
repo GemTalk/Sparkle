@@ -1,11 +1,11 @@
 Class {
-	#name : 'StackTrimmingTest',
+	#name : 'ProcessControlTest',
 	#superclass : 'GsTestCase',
 	#category : 'Sparkle-Tools-GemStone-Test'
 }
 
 { #category : 'support' }
-StackTrimmingTest >> inTermination: terminatorPriority [
+ProcessControlTest >> inTermination: terminatorPriority [
 	| status target terminator |
 	status := 'not started'.
 	terminator := [ target terminate ] newProcess.
@@ -48,7 +48,7 @@ StackTrimmingTest >> inTermination: terminatorPriority [
 ]
 
 { #category : 'tests' }
-StackTrimmingTest >> testInTermination [
+ProcessControlTest >> testInTermination [
 	{(Processor lowestPriority).
 	(Processor userSchedulingPriority).
 	(Processor highestPriority)} do: [ :priority | self inTermination: priority ]

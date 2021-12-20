@@ -120,6 +120,19 @@ SpkTaskspaceServiceServer >> setManualTransactionMode [
 	^SpkServiceFactory serviceForTool: resultTool
 ]
 
+{ #category : 'updating' }
+SpkTaskspaceServiceServer >> synchronizeTaskspace [
+	"Synchronize with the client which has requested the server update its state."
+
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		updatedServices: updatedServices;
+		yourself.
+	tool announce: announcement.
+	^self
+]
+
 { #category : 'initialization' }
 SpkTaskspaceServiceServer >> tool: aTaskspaceTool [
 

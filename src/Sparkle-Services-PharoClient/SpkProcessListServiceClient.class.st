@@ -1,8 +1,8 @@
 Class {
 	#name : 'SpkProcessListServiceClient',
 	#superclass : 'SpkProcessListService',
-	#traits : 'SpkTModel',
-	#classTraits : 'SpkTModel classTrait',
+	#traits : 'SpkTModel + SpkTPromise',
+	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
@@ -18,4 +18,18 @@ SpkProcessListServiceClient >> listItems [
 													ifTrue: [a oop < b oop]
 													ifFalse: [a nameOrOopHex < b nameOrOopHex]]
 									ifFalse: [false]]]
+]
+
+{ #category : 'actions' }
+SpkProcessListServiceClient >> synchronizeTaskspace [
+	"Synchronize everything in the taskspace that has changed."
+	
+	| promise |
+	promise := remoteSelf synchronizeTaskspace.
+	promise
+		when: [ :ignored |
+			self
+				updateServices;
+				announceActionComplete]
+		catch: self defaultCatchBlock
 ]

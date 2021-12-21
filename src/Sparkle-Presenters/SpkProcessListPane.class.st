@@ -3,6 +3,9 @@ Class {
 	#superclass : 'SpkPane',
 	#traits : 'SpkTHeader + SpkTList',
 	#classTraits : 'SpkTHeader classTrait + SpkTList classTrait',
+	#instVars : [
+		'toolbar'
+	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -37,6 +40,7 @@ SpkProcessListPane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeHeader;
+		initializeToolbar;
 		initializeProcessList
 ]
 
@@ -45,6 +49,15 @@ SpkProcessListPane >> initializeProcessList [
 
 	self initializeList.
 	self layout add: self list
+]
+
+{ #category : 'initialization' }
+SpkProcessListPane >> initializeToolbar [
+
+	toolbar := self instantiate: self toolbarClass on: self model.
+	self layout
+		add: toolbar
+		withConstraints: [ :c | c height: toolbar toolbarHeight ]
 ]
 
 { #category : 'actions' }
@@ -59,6 +72,12 @@ SpkProcessListPane >> itemSelected: anAnnouncement [
 	inspectorService
 		ifNil: [ self disableAll ]
 		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+]
+
+{ #category : 'accessing' }
+SpkProcessListPane >> toolbarClass [
+
+	^ SpkProcessListToolbar
 ]
 
 { #category : 'updating' }

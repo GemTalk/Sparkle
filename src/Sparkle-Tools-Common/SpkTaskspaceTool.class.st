@@ -211,3 +211,9 @@ SpkTaskspaceTool >> setManualTransactionModeAnnouncing: anAnnouncement [
 	self announce: anAnnouncement.
 	^resultTool
 ]
+
+{ #category : 'refreshing' }
+SpkTaskspaceTool >> synchronizeTaskspaceAnnouncing: anAnnouncement [
+
+	self announce: anAnnouncement
+]

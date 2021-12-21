@@ -64,6 +64,18 @@ SpkProcessListServiceServer >> refreshFromTool [
 	^changed
 ]
 
+{ #category : 'updating' }
+SpkProcessListServiceServer >> synchronizeTaskspace [
+
+	| announcement |
+	updatedServices := Set new.
+	announcement := SpkExecutionAnnouncement new
+		                updatedServices: updatedServices;
+		                yourself.
+	tool synchronizeTaskspaceAnnouncing: announcement.
+	^self
+]
+
 { #category : 'accessing' }
 SpkProcessListServiceServer >> tool [
 

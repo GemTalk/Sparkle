@@ -59,6 +59,12 @@ SpkProcessListTool >> refreshProcessList [
 	processTools := newProcessTools
 ]
 
+{ #category : 'refreshing' }
+SpkProcessListTool >> synchronizeTaskspaceAnnouncing: anAnnouncement [
+
+	taskspaceTool synchronizeTaskspaceAnnouncing: anAnnouncement
+]
+
 { #category : 'accessing' }
 SpkProcessListTool >> taskspaceTool: aTool [
 

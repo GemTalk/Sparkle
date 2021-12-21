@@ -19,3 +19,15 @@ SpkProcessListService >> processes [
 
 	^processes
 ]
+
+{ #category : 'accessing' }
+SpkProcessListService >> updatedServices [
+
+	^ updatedServices
+]
+
+{ #category : 'accessing' }
+SpkProcessListService >> updatedServices: aSet [
+
+	updatedServices := aSet
+]

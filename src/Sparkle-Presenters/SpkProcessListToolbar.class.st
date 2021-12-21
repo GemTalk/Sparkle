@@ -20,9 +20,11 @@ SpkProcessListToolbar >> initializeRefreshButton [
 	refreshButton := self newButton
 		label: 'Refresh';
 		icon: (self iconNamed: #refresh);
-		color: SpkConnectionListPresenter defaultColor;
+		color: Color veryDarkGray;
 		action: [ self refresh ].
-	self layout add: refreshButton
+	self layout
+		add: refreshButton
+		withConstraints: [ :c | c height: 24; width: 100]
 ]
 
 { #category : 'accessing' }

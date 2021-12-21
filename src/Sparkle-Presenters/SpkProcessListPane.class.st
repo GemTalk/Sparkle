@@ -41,6 +41,7 @@ SpkProcessListPane >> initializePresenters [
 	self
 		initializeHeader;
 		initializeToolbar;
+		addSeparator;
 		initializeProcessList
 ]
 

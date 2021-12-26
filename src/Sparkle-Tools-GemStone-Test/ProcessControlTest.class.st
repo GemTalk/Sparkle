@@ -55,6 +55,51 @@ ProcessControlTest >> testInTermination [
 ]
 
 { #category : 'tests' }
+ProcessControlTest >> testResumedWaitsOnSemaphore [
+	"If a process waiting on a semaphore is suspended,
+	sending #resume to the process should not let the process proceed
+	until the semaphore is signaled."
+
+	| sem proc eventLog |
+	sem := Semaphore new.
+	eventLog := Array new.
+	proc := [eventLog add: 1.
+				sem wait.
+				eventLog add: 2] newProcess.
+	proc priority: Processor activeProcess priority + 1.
+	self assert: eventLog equals: #().
+	proc resume.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 1;
+		assert: (sem at: 1) identical: proc;
+		assert: proc _statusString equals: 'waiting on a Semaphore'.
+	proc suspend.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 1;
+		assert: (sem at: 1) identical: proc;
+		assert: proc _statusString equals: 'suspended suspended'.
+	proc resume.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 1;
+		assert: (sem at: 1) identical: proc;
+		assert: proc _statusString equals: 'waiting on a Semaphore'.
+	(Delay forMilliseconds: 500) wait.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 1;
+		assert: (sem at: 1) identical: proc;
+		assert: proc _statusString equals: 'waiting on a Semaphore'.
+	sem signal.
+	self assert: eventLog equals: #(1 2);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 0;
+		assert: proc _statusString equals: 'terminated'.
+]
+
+{ #category : 'tests' }
 ProcessControlTest >> testResumeInDelay [
 	"Resume sent to a process waiting on a Delay should not cut the Delay short."
 
@@ -79,4 +124,48 @@ ProcessControlTest >> testResumeInDelay [
 			sema wait ].
 
 	self assert: elapsedMilliseconds > 4500
+]
+
+{ #category : 'tests' }
+ProcessControlTest >> testSuspendedWaitsOnSemaphore [
+	"If a process waiting on a semaphore is suspended,
+	signaling the semaphore should not let the process run until the process is sent #resume."
+
+	| sem proc eventLog |
+	sem := Semaphore new.
+	eventLog := Array new.
+	proc := [eventLog add: 1.
+				sem wait.
+				eventLog add: 2] newProcess.
+	proc priority: Processor activeProcess priority + 1.
+	self assert: eventLog equals: #().
+	proc resume.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 1;
+		assert: (sem at: 1) identical: proc;
+		assert: proc _statusString equals: 'waiting on a Semaphore'.
+	proc suspend.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 1;
+		assert: (sem at: 1) identical: proc.
+		"TBD what status string really ought to be in this state.
+		assert: proc _statusString equals: 'suspended waiting on a Semaphore'."
+	sem signal.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 0.
+		"TBD what status string really ought to be in this state.
+		assert: proc _statusString equals: 'suspended suspended'."
+	(Delay forMilliseconds: 500) wait.
+	self assert: eventLog equals: #(1);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 0;
+		assert: proc _statusString equals: 'suspended suspended'.
+	proc resume.
+	self assert: eventLog equals: #(1 2);
+		assert: sem excessSignals equals: 0;
+		assert: sem size equals: 0;
+		assert: proc _statusString equals: 'terminated'.
 ]

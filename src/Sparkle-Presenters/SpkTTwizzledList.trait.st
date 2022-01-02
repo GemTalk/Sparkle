@@ -21,14 +21,8 @@ SpkTTwizzledList >> initializeTwizzledList [
 { #category : 'initialization' }
 SpkTTwizzledList >> refreshTwizzledList [
 
-	| listCount |
-	listCount := listModel size.
-	self
-		refreshListModel;
-		refreshList.
-	listCount ~= listModel size
-		ifTrue: [ self updateLinkedPaneCoordinates ].
-	twizzledList labelString: self listLabelString.
+	self refreshListModel.
+	twizzledList labelString: self listLabelString
 ]
 
 { #category : 'accessing' }

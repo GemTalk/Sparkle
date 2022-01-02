@@ -31,7 +31,6 @@ SpkTList >> initializeList [
 SpkTList >> initializeListModel [
 
 	listModel := SpkMultiSelectList new.
-	self refreshListModel.
 	listModel
 		pane: self;
 		when: SpkItemSelected send: #itemSelected: to: self;
@@ -120,7 +119,10 @@ SpkTList >> refreshList [
 SpkTList >> refreshListModel [
 
 	listModel refreshFromServices: self model listItems.
-	self updateSelection
+	self
+		updateSelection;
+		refreshList;
+		updateLinkedPaneCoordinates
 ]
 
 { #category : 'updating' }

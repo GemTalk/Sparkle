@@ -27,6 +27,7 @@ SpkDebuggerPane >> connectPresenters [
 
 	super connectPresenters.
 	self header menu: self menuCommandGroup asMenuPresenter.
+	self updateFrameList.
 	model
 		when: SpkPaneServiceAnnouncement
 		send: #receivePaneServiceAnnouncement:
@@ -244,15 +245,10 @@ SpkDebuggerPane >> updateDescription [
 { #category : 'private' }
 SpkDebuggerPane >> updateFrameList [
 
-	| listCount |
-	listCount := self listModel size.
 	self
 		deselectInvalidFrames;
 		refreshListModel;
-		refreshList;
-		selectTopFrame.
-	listCount ~= self listModel size ifTrue: [ 
-		self updateLinkedPaneCoordinates ]
+		selectTopFrame
 ]
 
 { #category : 'initialization' }

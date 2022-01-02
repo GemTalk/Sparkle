@@ -114,6 +114,8 @@ SpkPaneCoordinate >> printOn: aStream [
 	aStream
 		<< self class name;
 		<< '('.
-	vector do: [ :each | each printOn: aStream ].
+	vector
+		do: [ :each | each printOn: aStream ]
+		separatedBy: [ aStream << ', ' ].
 	aStream << ')'
 ]

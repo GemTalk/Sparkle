@@ -154,7 +154,7 @@ SpkInspectorSubPane >> itemsWithLinkedPanes [
 	"In addition to linked panes in the list, the inspector's 
 	evaluators may also have linked panes."
 
-	^ super itemsWithLinkedPanes , owner evaluatorsWithLinkedPanes
+	^ listModel itemsWithLinkedPanes , owner evaluatorsWithLinkedPanes
 ]
 
 { #category : 'as yet unclassified' }
@@ -174,6 +174,7 @@ SpkInspectorSubPane >> pane: anInspectorPane [
 	pane := anInspectorPane.
 	"Cannot do the following until my pane is known."
 	self header menu: pane menuCommandGroup asMenuPresenter.
+	self refreshListModel.
 	model
 		when: SpkPaneServiceAnnouncement
 		send: #receivePaneServiceAnnouncement:
@@ -227,9 +228,11 @@ SpkInspectorSubPane >> updateFromModel [
 { #category : 'updating' }
 SpkInspectorSubPane >> updateLinkedPaneCoordinates [
 
-	"Update the list."
-	self halt.
-	self tUpdateLinkedPaneCoordinates.
+	"Copy the body of the trait implementation here, since trait aliasing does not seem to work. "
+	self itemsWithLinkedPanes do: [ :item | 
+		item linkedPane coordinate:
+			(item coordinateRelativeTo: self coordinate) ].
+
 	"Then, update the evaluators in case the list size has changed."
 	pane updateEvaluatorIndices
 ]

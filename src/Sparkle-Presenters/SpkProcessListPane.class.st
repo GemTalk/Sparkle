@@ -13,6 +13,7 @@ Class {
 SpkProcessListPane >> connectPresenters [
 
 	super connectPresenters.
+	self refreshListModel.
 	model
 		when: SpkPaneServiceAnnouncement
 		send: #receivePaneServiceAnnouncement:
@@ -84,7 +85,5 @@ SpkProcessListPane >> toolbarClass [
 { #category : 'updating' }
 SpkProcessListPane >> updateFromModel [
 
-	self
-		refreshListModel;
-		refreshList
+	self refreshListModel
 ]

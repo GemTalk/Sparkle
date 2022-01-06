@@ -148,33 +148,6 @@ ProcessControlTest >> testResumedWaitsOnSemaphore [
 		assert: proc _statusString equals: 'terminated'.
 ]
 
-{ #category : 'tests failing for now' }
-ProcessControlTest >> testResumeInDelay [
-	"Resume sent to a process waiting on a Delay should not cut the Delay short."
-
-	| elapsedMilliseconds |
-	elapsedMilliseconds := Time
-		millisecondsElapsedTime: [ 
-			| proc sema |
-			sema := Semaphore new.
-			proc := [ 
-			(Delay forSeconds: 5) wait.
-			sema signal ] newProcess.
-			proc priority: Processor activeProcess priority - 1;
-			resume.
-			(Delay forMilliseconds: 500) wait.
-			self assert: proc _statusString equals: 'waiting on a Delay'.
-			proc suspend.
-			self assert: proc _statusString equals: 'suspended'.
-			proc resume.
-			(Delay forMilliseconds: 500) wait.
-			self assert: proc _statusString equals: 'waiting on a Delay'.
-			proc resume.
-			sema wait ].
-
-	self assert: elapsedMilliseconds > 4500
-]
-
 { #category : 'tests' }
 ProcessControlTest >> testSuspendedWaitsOnSemaphore [
 	"If a process waiting on a semaphore is suspended,

@@ -128,7 +128,7 @@ ProcessControlTest >> testResumedWaitsOnSemaphore [
 		assert: sem excessSignals equals: 0;
 		assert: sem size equals: 1;
 		assert: (sem at: 1) identical: proc;
-		assert: proc _statusString equals: 'suspended suspended'.
+		assert: proc _statusString equals: 'suspended'.
 	proc resume.
 	self assert: eventLog equals: #(1);
 		assert: sem excessSignals equals: 0;
@@ -165,7 +165,7 @@ ProcessControlTest >> testResumeInDelay [
 			(Delay forMilliseconds: 500) wait.
 			self assert: proc _statusString equals: 'waiting on a Delay'.
 			proc suspend.
-			self assert: proc _statusString equals: 'suspended suspended'.
+			self assert: proc _statusString equals: 'suspended'.
 			proc resume.
 			(Delay forMilliseconds: 500) wait.
 			self assert: proc _statusString equals: 'waiting on a Delay'.
@@ -211,7 +211,7 @@ ProcessControlTest >> testSuspendedWaitsOnSemaphore [
 	self assert: eventLog equals: #(1);
 		assert: sem excessSignals equals: 0;
 		assert: sem size equals: 0;
-		assert: proc _statusString equals: 'suspended suspended'.
+		assert: proc _statusString equals: 'suspended'.
 	proc resume.
 	self assert: eventLog equals: #(1 2);
 		assert: sem excessSignals equals: 0;

@@ -105,6 +105,39 @@ ProcessControlTest >> testInTermination [
 ]
 
 { #category : 'tests' }
+ProcessControlTest >> testPriorityLimits [
+
+	"Private method #_setPriority: allows a highest priority of one greater than the public method #priority:
+	Test both upper and lower limits of both the public and private methods."
+
+	| process |
+	process := [] newProcess.
+
+	process priority: Processor lowestPriority.
+	self assert: process priority equals: Processor lowestPriority.
+	self should: [process priority: Processor lowestPriority - 1] raise: OutOfRange.
+	self assert: process priority equals: Processor lowestPriority.
+
+	process priority: Processor highestPriority.
+	self assert: process priority equals: Processor highestPriority.
+	self should: [process priority: Processor highestPriority + 1] raise: OutOfRange.
+	self assert: process priority equals: Processor highestPriority.
+
+	process _setPriority: Processor lowestPriority.
+	self assert: process priority equals: Processor lowestPriority.
+	self should: [process _setPriority: Processor lowestPriority - 1] raise: OutOfRange.
+	self assert: process priority equals: Processor lowestPriority.
+
+	process _setPriority: Processor highestPriority + 1.
+	self assert: process priority equals: Processor highestPriority + 1.
+	self should: [process _setPriority: Processor highestPriority + 2] raise: OutOfRange.
+	self assert: process priority equals: Processor highestPriority + 1.
+
+	process terminate.
+	self assert: process _isTerminated.
+]
+
+{ #category : 'tests' }
 ProcessControlTest >> testResumedWaitsOnSemaphore [
 	"If a process waiting on a semaphore is suspended,
 	sending #resume to the process should not let the process proceed

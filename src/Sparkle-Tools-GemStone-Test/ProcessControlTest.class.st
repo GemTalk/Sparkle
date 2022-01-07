@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : 'support' }
-ProcessControlTest >> inTermination: terminatorPriority [
+ProcessControlTest >> inTermination: targetPriority [
 	| status target terminator |
 	status := 'not started'.
 	terminator := [ target terminate ] newProcess.
@@ -16,13 +16,13 @@ ProcessControlTest >> inTermination: terminatorPriority [
 	status := 'delay done' ]
 		ifCurtailed: [ 
 			status := 'curtailed'.
-			Delay waitForSeconds: 1.
+			Delay waitForMilliseconds: 200.
 			status := 'done' ] ] newProcess.
 	self
 		assert: status equals: 'not started';
 		assert: target _statusString equals: 'suspended'.
 	target
-		priority: Processor userSchedulingPriority;
+		priority: targetPriority;
 		resume.
 	Delay waitForMilliseconds: 100.
 	self
@@ -30,21 +30,22 @@ ProcessControlTest >> inTermination: terminatorPriority [
 		assert: target _statusString equals: 'on delayQueue';
 		deny: target _isTerminated;
 		deny: target _terminationStarted.
-	terminator
-		priority: terminatorPriority;
-		resume.
+	terminator resume.
 	Delay waitForMilliseconds: 100.
 	self
 		assert: status equals: 'curtailed';
 		assert: target _statusString equals: 'terminationStarted';
 		deny: target _isTerminated;
-		assert: target _terminationStarted.
-	Delay waitForSeconds: 2.
+		assert: target _terminationStarted;
+		assert: target priority equals: targetPriority;
+		assert: terminator priority > targetPriority.
+	Delay waitForMilliseconds: 200.
 	self
 		assert: status equals: 'done';
 		assert: target _statusString equals: 'terminated';
 		assert: target _isTerminated;
-		assert: target _terminationStarted
+		assert: target _terminationStarted;
+		assert: terminator _isTerminated
 ]
 
 { #category : 'tests' }

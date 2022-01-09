@@ -5,6 +5,19 @@ Class {
 }
 
 { #category : 'support' }
+ProcessControlTest >> connectToLocalPort: port afterSeconds: delay [
+	"Launch an external process to make a TCP connection to a localhost port.
+	Don't actually do anything with the port, just connect to it."
+
+	"Intended to be used by testInterruptRunNextProcess, but not working there yet."
+
+	| commandString |
+	commandString := '/bin/bash -c "sleep ' , delay printString
+		, '; nc -d localhost ' , port printString , ' < /dev/zero > /dev/null 2>&1"'.
+	GsHostProcess fork: commandString
+]
+
+{ #category : 'support' }
 ProcessControlTest >> inTermination: targetPriority [
 	| status target terminator |
 	status := 'not started'.
@@ -102,6 +115,38 @@ ProcessControlTest >> testInTermination [
 	{(Processor lowestPriority).
 	(Processor userSchedulingPriority).
 	(Processor highestPriority)} do: [ :priority | self inTermination: priority ]
+]
+
+{ #category : 'tests failing for now' }
+ProcessControlTest >> testInterruptRunNextProcess [
+	"If the _runNextProcess of a terminating process gets a timer interrupt event
+	that does not make a process ready to run, the timer event should be ignored."
+
+	| proc sema events sock port |
+	sema := Semaphore new.
+	events := Array new.
+	events add: 1.
+	proc := [ 
+	events add: 2.
+	sema waitForMilliseconds: 100.
+	events add: 3 ] newProcess.
+	proc
+		priority: Processor activePriority + 1;
+		resume.
+	self assert: events equals: #(1 2).
+	proc priority: Processor activePriority - 1.
+	self assert: events equals: #(1 2).	"Reducing priority should not cause it to run."
+	sema signal.
+	self assert: events equals: #(1 2).	"Since it's lower priority, signaling semaphore should not cause proc to run."	
+
+	"Make test process not ready"
+	sock := GsSignalingSocket new.
+	[ 
+	sock makeServer: 5 atPort: nil atAddress: '127.0.0.1'.
+	port := sock port.
+	"self connectToLocalPort: port afterSeconds: 1."
+	sock accept ]
+		ensure: [ sock close ]
 ]
 
 { #category : 'tests' }

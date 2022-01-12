@@ -30,9 +30,18 @@ SpkProcessListPane >> headerClass [
 SpkProcessListPane >> initializeListColumns [
 
 	self list
-		addColumn: (SpStringTableColumn evaluated: [:item | item model nameOrOopHex]);
-		addColumn: (SpStringTableColumn evaluated: [:item | item model priority]);
-		addColumn: (SpStringTableColumn evaluated: [:item | item model status])
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item model nameOrOopHex ]);
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item model priority ]);
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item model status ]);
+		addColumn:
+			((SpkButtonTableColumn evaluated: [ :item | self halt.
+					  self iconNamed:  #addEvaluator24 ])
+				 width: 25;
+					action: [ :item | item halt ];
+				 yourself)
 ]
 
 { #category : 'initialization' }

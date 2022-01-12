@@ -33,7 +33,7 @@ SpkProcessManager >> announceNextDebug: aBoolean [
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
 
-	^ [:ex | GsFile gciLogServer: 'ProcessManager>>debugAction:'. self debugException: ex. nil]
+	^ [:ex | self debugException: ex. nil]
 ]
 
 { #category : 'private' }

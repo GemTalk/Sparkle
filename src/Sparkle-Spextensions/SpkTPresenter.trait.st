@@ -1,6 +1,6 @@
 Trait {
 	#name : 'SpkTPresenter',
-	#category : 'Sparkle-Presenters-Support'
+	#category : 'Sparkle-Spextensions-Presenters'
 }
 
 { #category : 'accessing' }

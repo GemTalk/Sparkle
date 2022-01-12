@@ -3,7 +3,7 @@ Class {
 	#superclass : 'FTTableMorph',
 	#traits : 'SpkTMorphEnablement',
 	#classTraits : 'SpkTMorphEnablement classTrait',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Table'
 }
 
 { #category : 'event handling' }

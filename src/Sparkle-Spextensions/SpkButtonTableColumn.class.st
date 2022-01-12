@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkButtonTableColumn',
 	#superclass : 'SpTableColumn',
 	#instVars : [
-		'action'
+		'action',
+		'icon'
 	],
 	#category : 'Sparkle-Spextensions-Table'
 }

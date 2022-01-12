@@ -379,13 +379,17 @@ SpkDebuggerToolTest >> testTerminate01 [
 	same executedCode frame, proceed, get inspector"
 
 	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
-	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	evaluatorTool newSourceCode: '[GsFile gciLogServer: ''1''.
+												3 pause + 4.
+												GsFile gciLogServer: ''2''.] ifCurtailed: [GsFile gciLogServer: ''3''.
+																					12 pause.
+																					GsFile gciLogServer: ''4'']'.
 	debugger1 := evaluatorTool evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	bottomFrame := debugger1 frames at: 1.
 	topFrame := debugger1 frames at: debugger1 frames size.
 	execCodeFrame := self executedCodeFrameInDebugger: debugger1.	"Should be on ifCurtailed:"
-	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+"	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26)."
 	debugger2 := debugger1 terminateAnnouncing: SpkExecutionAnnouncement new.
 	self
 		assert: debugger1 == debugger2;

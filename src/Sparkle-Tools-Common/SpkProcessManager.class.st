@@ -33,7 +33,7 @@ SpkProcessManager >> announceNextDebug: aBoolean [
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
 
-	^ [:ex | self debugException: ex. nil]
+	^ [:ex | GsFile gciLogServer: 'ProcessManager>>debugAction:'. self debugException: ex. nil]
 ]
 
 { #category : 'private' }
@@ -223,9 +223,13 @@ SpkProcessManager >> terminateProcess [
 		ifTrue: [ ^ self newTerminatedTool ].
 	"If the process has started terminating, don't terminate again,
 	just proceed to let the unwind blocks run."
+	self flag: 'The response to _terminationStarted is definitely not right. 
+				It answers the ProcessManager, not a tool of any kind.
+				Also, it may not be thread safe -- the test for _terminationStarted 
+				and the response may need to be in a critical section.'.
 	process _terminationStarted ifTrue: [^ self resumeProcess ].
-	[ process terminateTimeoutMs: SmallInteger maximumValue ]
-		forkAt: (process priority - 1 max: 1).
+	[ process trimStackToLevel: process stackDepth - 2 ]
+		forkAt: (process priority + 1 min: Processor highestPriority).
 	^ self waitForResult
 ]
 

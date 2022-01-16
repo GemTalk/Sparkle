@@ -88,7 +88,9 @@ SpkProcessManager >> debuggerProcessForException: anException [
 { #category : 'private' }
 SpkProcessManager >> debugMyProcessWithException: anException [
 
-	"process is the active process on empty. Set up a new higher-priority Process to debug it."
+	"process is the active process on entry to this method,
+	and it needs to be debugged. 
+	Set up a new higher-priority Process to debug it."
 
 	| debuggerProcess originalPriority |
 	originalPriority := process priority.

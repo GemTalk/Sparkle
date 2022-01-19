@@ -3,6 +3,7 @@ Class {
 	#superclass : 'SpkObject',
 	#instVars : [
 		'process',
+		'processPriority',
 		'taskspaceTool',
 		'debuggerDebugAction',
 		'debuggerTool',
@@ -92,8 +93,8 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 	and it needs to be debugged. 
 	Set up a new higher-priority Process to debug it."
 
-	| debuggerProcess originalPriority |
-	originalPriority := process priority.
+	| debuggerProcess |
+	processPriority := process priority.
 	self setDebugAction. "Debug action may not be correct the first exception for this process."
 	debuggerProcess := self debuggerProcessForException: anException.
 
@@ -102,11 +103,9 @@ SpkProcessManager >> debugMyProcessWithException: anException [
 		relativeToDebugged: process.
 	debuggerProcess
 		debugActionBlock: debuggerDebugAction;
-		"This resume preempts processToDebug, and the debuggerProcess takes over."
-			resume.
-	" If I get here, the debugger has decided to proceed my process.
-	Its priority will have been changed if it was running at max priority, set it back before continuing."
-	process priority: originalPriority
+		"This resume preempts the active process, and the debuggerProcess takes over."
+		resume.
+	"If I get here, the debugger has decided to resume my process for step or proceed."
 ]
 
 { #category : 'accessing' }
@@ -164,6 +163,11 @@ SpkProcessManager >> process: anObject [
 	process := anObject
 ]
 
+{ #category : 'accessing' }
+SpkProcessManager >> processPriority: anInteger [
+	processPriority := anInteger
+]
+
 { #category : 'private' }
 SpkProcessManager >> resumeProcess [
 	process _isTerminated
@@ -171,6 +175,12 @@ SpkProcessManager >> resumeProcess [
 
 	Debug action might be right already, but simpler to always set it"
 	self setDebugAction.
+
+	"If the debugged process normally runs at the highest priority,
+	its priority will have been lowered by one so the debugger can
+	run at a higher priority. If so, restore priority before resuming."
+	process priority ~= processPriority 
+		ifTrue: [process priority: processPriority].
 	process resume
 ]
 

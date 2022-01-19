@@ -22,6 +22,7 @@ SpkProcessLauncher >> launch [
 		breakpointLevel: processBreakpointLevel.
 	processManager
 		process: process;
+		processPriority: processPriority;
 		resumeProcess
 ]
 

@@ -101,14 +101,6 @@ SpkTaskspaceTool >> explorerTools [
 ]
 
 { #category : 'initialization' }
-SpkTaskspaceTool >> initialize [
-
-	super initialize.
-	explorerTools := IdentitySet new.
-	name := ''
-]
-
-{ #category : 'initialization' }
 SpkTaskspaceTool >> initializeForDefault [
 
 	self addDefaultExplorer

@@ -48,6 +48,28 @@ SpkProcessManager >> debugException: anException [
 		ifFalse: [ self inNewManagerDebug: anException ]
 ]
 
+{ #category : 'private' }
+SpkProcessManager >> debugMyProcessWithException: anException [
+
+	"process is the active process on entry to this method,
+	and it needs to be debugged. 
+	Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess |
+	processPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessForException: anException.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts the active process, and the debuggerProcess takes over."
+		resume.
+	"If I get here, the debugger has decided to resume my process for step or proceed."
+]
+
 { #category : 'accessing' }
 SpkProcessManager >> debuggerDebugAction: aBlock [
 
@@ -86,28 +108,6 @@ SpkProcessManager >> debuggerProcessForException: anException [
 	^ debuggerProcess
 ]
 
-{ #category : 'private' }
-SpkProcessManager >> debugMyProcessWithException: anException [
-
-	"process is the active process on entry to this method,
-	and it needs to be debugged. 
-	Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess |
-	processPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessForException: anException.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts the active process, and the debuggerProcess takes over."
-		resume.
-	"If I get here, the debugger has decided to resume my process for step or proceed."
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> explorerTool [
 
@@ -118,6 +118,19 @@ SpkProcessManager >> explorerTool [
 SpkProcessManager >> explorerTool: anExplorerTool [
 
 	explorerTool := anExplorerTool
+]
+
+{ #category : 'private' }
+SpkProcessManager >> inNewManagerDebug: anException [
+	"This process is not my problem, create another manager for it
+	and pass the buck."
+
+	SpkProcessManager new
+		taskspaceTool: taskspaceTool;
+		process: Processor activeProcess;
+		announceNextDebug: true;
+		debuggerDebugAction: debuggerDebugAction;
+		debugMyProcessWithException: anException
 ]
 
 { #category : 'initialization' }
@@ -137,19 +150,6 @@ SpkProcessManager >> initializeDebuggerTool [
 		process: process;
 		processManager: self;
 		yourself
-]
-
-{ #category : 'private' }
-SpkProcessManager >> inNewManagerDebug: anException [
-	"This process is not my problem, create another manager for it
-	and pass the buck."
-
-	SpkProcessManager new
-		taskspaceTool: taskspaceTool;
-		process: Processor activeProcess;
-		announceNextDebug: true;
-		debuggerDebugAction: debuggerDebugAction;
-		debugMyProcessWithException: anException
 ]
 
 { #category : 'private' }

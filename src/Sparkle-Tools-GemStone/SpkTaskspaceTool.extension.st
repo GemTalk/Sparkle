@@ -32,10 +32,10 @@ SpkTaskspaceTool >> commitTransactionAnnouncing: anAnnouncement [
 
 { #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> initialize [
-
 	super initialize.
 	explorerTools := IdentitySet new.
-	name := ''
+	name := ''.
+	processRegistry := SpkProcessRegistry new
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }

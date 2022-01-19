@@ -21,7 +21,8 @@ Class {
 	#superclass : 'SpkToolWithUndoManager',
 	#instVars : [
 		'name',
-		'explorerTools'
+		'explorerTools',
+		'processRegistry'
 	],
 	#category : 'Sparkle-Tools-Common'
 }

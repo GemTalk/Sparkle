@@ -33,9 +33,11 @@ SpkProcessRegistry >> managerOfProcess: aProcess ifAbsent: aBlock [
 
 { #category : 'accessing' }
 SpkProcessRegistry >> registerManager: aProcessManager forProcess: aProcess [
+	"Answer the newly-registered manager."
+
 	| key |
 	key := SpkEphemeronKey on: aProcess mournAction: [ self removeKey: aProcess ].
-	map
+	^ map
 		at: key
 		ifPresent: [ :existingMgr | self error: 'Registering same process more than once.' ]
 		ifAbsentPut: [ aProcessManager ]

@@ -6,15 +6,18 @@ Class {
 
 { #category : 'accessing' }
 SpkThreadSafeDictionary >> at: key ifPresent: presentBlock ifAbsentPut: absentBlock [
-	| existing wasPresent |
+	"Answer result of either the presentBlock or the absentBlock"
+
+	| value wasPresent |
 	wasPresent := true.
 	self
 		critical: [ 
-			existing := map
+			value := map
 				at: key
 				ifAbsentPut: [ 
 					wasPresent := false.
 					absentBlock value ] ].
-	wasPresent
-		ifTrue: [ presentBlock cull: existing ]
+	^ wasPresent
+		ifTrue: [ presentBlock cull: value ]
+		ifFalse: [ value ]
 ]

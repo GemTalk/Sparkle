@@ -39,6 +39,31 @@ SpkTaskspaceTool >> initialize [
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
+SpkTaskspaceTool >> managerForProcess: aProcess [
+	"Answer the new or existing manager for the given process."
+
+	^ processRegistry
+		managerOfProcess: aProcess
+		ifAbsent: [ 
+			processRegistry
+				registerManager: (self newManagerForProcess: aProcess)
+				forProcess: aProcess ]
+]
+
+{ #category : '*Sparkle-Tools-GemStone' }
+SpkTaskspaceTool >> newManagerForProcess: aProcess [
+	"Private. Create a new ProcessManager. 
+	Should only be done after checking the registry to
+	see if there already is a manager for the process."
+
+	^ SpkProcessManager new
+		taskspaceTool: self;
+		process: aProcess;
+		debuggerDebugAction: nil;
+		yourself
+]
+
+{ #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> newProcessLauncherWithBody: processBody
 manager: processManager [
 

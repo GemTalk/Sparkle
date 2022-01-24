@@ -26,13 +26,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="11.313709"
-     inkscape:cx="14.893437"
-     inkscape:cy="19.091883"
+     inkscape:zoom="1"
+     inkscape:cx="3.4999998"
+     inkscape:cy="47.999998"
      inkscape:window-width="1769"
      inkscape:window-height="1172"
-     inkscape:window-x="1174"
-     inkscape:window-y="0"
+     inkscape:window-x="1016"
+     inkscape:window-y="125"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      units="px" />
@@ -56,39 +56,32 @@
      inkscape:label="Crosshairs"
      inkscape:groupmode="layer"
      id="layer1">
-    <ellipse
-       style="fill:none;fill-opacity:1;stroke:#f4f4f4;stroke-width:0.356705;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.99991554"
-       id="path10440"
-       cx="2.1166666"
-       cy="2.1166668"
-       rx="1.938314"
-       ry="1.9383142" />
-    <ellipse
-       style="fill:none;fill-opacity:1;stroke:#f4f4f4;stroke-width:0.129805;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.977361"
-       id="ellipse13025"
-       cx="2.1166666"
-       cy="2.1166666"
-       rx="1.2580142"
-       ry="1.2580143" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#f5f5f5;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 2.1166667,0.13249999 V 1.5049875"
-       id="path13068"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#f5f5f5;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 2.1166667,2.7283458 V 4.1008333"
-       id="path16621"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#f5f5f5;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 1.5049875,2.1166667 H 0.13249999"
-       id="path16623"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#f5f5f5;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 4.1008333,2.1166667 H 2.7283458"
-       id="path16625"
-       sodipodi:nodetypes="cc" />
+       sodipodi:type="star"
+       style="fill:#df3b30;fill-opacity:1;stroke:#f4f4f4;stroke-width:0.755906;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1251"
+       inkscape:flatsided="true"
+       sodipodi:sides="8"
+       sodipodi:cx="7.8255243"
+       sodipodi:cy="7.9504652"
+       sodipodi:r1="5.1306448"
+       sodipodi:r2="4.7400975"
+       sodipodi:arg1="1.185034"
+       sodipodi:arg2="1.5777331"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 9.7560092,12.704068 5.8292782,12.676829 3.0719211,9.8809501 3.0991603,5.954219 5.8950394,3.1968619 l 3.9267311,0.027239 2.7573575,2.7958792 -0.02724,3.9267311 z"
+       transform="matrix(0.41189109,-0.00365328,0.00365328,0.41189109,-1.1356424,-1.1294703)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:100%;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="0.98390895"
+       y="3.2598379"
+       id="text3873"><tspan
+         sodipodi:role="line"
+         id="tspan3871"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f2f2f2;fill-opacity:1;stroke-width:0.264583px"
+         x="0.98390895"
+         y="3.2598379">D</tspan></text>
   </g>
 </svg>

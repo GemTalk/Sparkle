@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : 'private' }
-SpkWeakKeyDictionary >> elementClass [
+SpkWeakKeyDictionary >> entryClass [
 	^ SpkWeakKeyMapEntry
 ]

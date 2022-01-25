@@ -35,14 +35,14 @@ SpkTaskspaceTool >> initialize [
 	super initialize.
 	explorerTools := IdentitySet new.
 	name := ''.
-	processRegistry := SpkProcessRegistry new
+	processRegistry := SpkWeakKeyDictionary new
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
 	"Answer the new or existing manager for the given process."
 
-	^ processRegistry managerOfProcess: aProcess ifAbsent: absentBlock
+	^ processRegistry at: aProcess ifAbsent: absentBlock
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
@@ -108,7 +108,10 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 
 { #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> registerManager: aProcessManager forProcess: aProcess [
-	^ processRegistry registerManager: aProcessManager forProcess: aProcess
+	^ processRegistry
+		at: aProcess
+		ifPresent: [ :existingMgr | self error: 'Registering same process more than once.' ]
+		ifAbsentPut: [ aProcessManager ]
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }

@@ -13,19 +13,21 @@ Class {
 
 { #category : 'instance creation' }
 SpkWeakMapEntry class >> key: aKey value: aValue owner: aMap [
-	"Create an instance and add it to aMap.
-	The key and value are strongly referenced at least until the end of this method,
-	so it's safe to make the new instance an ephemeron before it's 
-	added to the map."
+	"Sender must hold map's mutex."
 
-	| instance |
-	instance := self new.
-	instance
+	"Create an instance to be added to aMap.
+	Sender must ensure that the key (or value) 
+	are strongly referenced until the new entry
+	is fully added to the map, so that ephemeron
+	mourning does not try to remove an entry
+	that is not yet there."
+
+	^ self new
 		key: aKey;
 		value: aValue;
 		owner: aMap;
-		beEphemeron: true.
-	^ aMap add: instance
+		beEphemeron: true;
+		yourself
 ]
 
 { #category : 'instance creation' }
@@ -50,8 +52,8 @@ SpkWeakMapEntry >> key: anObject [
 
 { #category : 'mourning' }
 SpkWeakMapEntry >> mourn [
-
-	self owner removeEntry: self
+	
+	self owner removeKey: self key.
 ]
 
 { #category : 'accessing' }

@@ -19,23 +19,23 @@ Class {
 
 { #category : 'instance creation' }
 SpkWeakDictionary class >> new [
-	^ self basicNew
+	^ super new
 		initialize: 5;
 		yourself
 ]
 
 { #category : 'private' }
-SpkWeakDictionary >> add: aMapEntry [
+SpkWeakDictionary >> addEntry: aMapEntry [
+	"Sender must hold my mutex."
+
 	"The given map entry must already know that I'm its owner."
 
-	self
-		critical: [ 
-			| index element |
-			index := self findEntryOrNil: aMapEntry key.
-			element := table at: index.
-			element
-				ifNil: [ self atNewIndex: index put: aMapEntry ]
-				ifNotNil: [ element value: aMapEntry value ] ].
+	| index element |
+	index := self findEntryOrNil: aMapEntry key.
+	element := table at: index.
+	element
+		ifNil: [ self atNewIndex: index put: aMapEntry ]
+		ifNotNil: [ element value: aMapEntry value ].
 	^ aMapEntry
 ]
 
@@ -191,12 +191,15 @@ SpkWeakDictionary >> grow [
 
 	"Grow the table to at least double its size, and reinsert all elements"
 
-	| oldTable |
+	| oldTally oldTable |
+	oldTally := tally.
 	oldTable := table.
 	table := Array new: (SpkHashTableSizes atLeast: oldTable size * 2).
 	tally := 0.
 	oldTable
-		do: [ :anElement | anElement ifNotNil: [ self noCheckAdd: anElement ] ]
+		do: [ :anElement | anElement ifNotNil: [ self noCheckAdd: anElement ] ].
+	tally = oldTally
+		ifFalse: [ self error: 'Tally changed during grow, old ' , oldTally printString , ' new ' , tally printString ]
 ]
 
 { #category : 'private' }

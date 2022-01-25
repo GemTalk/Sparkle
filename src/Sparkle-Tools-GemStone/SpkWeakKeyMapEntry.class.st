@@ -12,23 +12,6 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'instance creation' }
-SpkWeakKeyMapEntry class >> key: aKey value: aValue owner: aMap [
-	"Create an instance and add it to aMap.
-	aKey is strongly referenced at least until the end of this method,
-	so it's safe to make the new instance an ephemeron before it's 
-	added to the map."
-
-	| instance |
-	instance := self basicNew.
-	instance
-		key: aKey;
-		value: aValue;
-		owner: aMap;
-		beEphemeron: true.
-	^ aMap add: instance
-]
-
 { #category : 'accessing' }
 SpkWeakKeyMapEntry >> key [
 	^key

@@ -15,13 +15,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'instance creation' }
-SpkProcessManager class >> forProcess: aProcess inTaskspace: aTaskspaceTool [
-	"Answer the new or existing manager for the given process."
-
-	^ aTaskspaceTool managerForProcess: aProcess
-]
-
 { #category : 'private - debugger process' }
 SpkProcessManager >> announceDebug [
 	| newExplorerLayoutTool announcement |
@@ -165,9 +158,10 @@ SpkProcessManager >> newTerminatedTool [
 ]
 
 { #category : 'accessing' }
-SpkProcessManager >> process: anObject [
-
-	process := anObject
+SpkProcessManager >> process: aProcess [
+	process ifNotNil: [self error: 'Already managing a process.'].
+	process := aProcess.
+	taskspaceTool registerManager: self forProcess: aProcess
 ]
 
 { #category : 'accessing' }

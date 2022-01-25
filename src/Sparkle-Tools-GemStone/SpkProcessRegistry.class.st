@@ -10,17 +10,25 @@ past their normal lifetime.
 "
 Class {
 	#name : 'SpkProcessRegistry',
-	#superclass : 'SpkObject',
-	#instVars : [
-		'map'
+	#superclass : 'RsrThreadSafeDictionary',
+	#gs_options : [
+		'instancesNonPersistent'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
 
+{ #category : 'accessing' }
+SpkProcessRegistry >> at: key ifPresent: presentBlock ifAbsentPut: absentBlock [
+	"Answer result of either the presentBlock or the absentBlock"
+
+	^ self
+		critical: [ map at: key ifPresent: presentBlock ifAbsentPut: absentBlock ]
+]
+
 { #category : 'initialization' }
 SpkProcessRegistry >> initialize [
 	super initialize.
-	map := SpkThreadSafeDictionary new.
+	map := SpkWeakKeyDictionary new.
 ]
 
 { #category : 'accessing' }
@@ -28,17 +36,15 @@ SpkProcessRegistry >> managerOfProcess: aProcess ifAbsent: aBlock [
 	"Answer the SpkProcessManager that manages aProcess,
 	or the result of evaluating aBlock."
 
-	^ map at: aProcess ifAbsent: aBlock
+	^ super at: aProcess ifAbsent: aBlock
 ]
 
 { #category : 'accessing' }
 SpkProcessRegistry >> registerManager: aProcessManager forProcess: aProcess [
 	"Answer the newly-registered manager."
 
-	| key |
-	key := SpkEphemeronKey on: aProcess mournAction: [ self removeKey: aProcess ].
-	^ map
-		at: key
+	^ self
+		at: aProcess
 		ifPresent: [ :existingMgr | self error: 'Registering same process more than once.' ]
 		ifAbsentPut: [ aProcessManager ]
 ]

@@ -31,6 +31,21 @@ SpkTaskspaceTool >> commitTransactionAnnouncing: anAnnouncement [
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
+SpkTaskspaceTool >> debugException: anException in: processToDebug [
+	"ProcessToDebug is normally the active process"
+
+	| manager |
+	manager := self
+		managerForProcess: processToDebug
+		ifAbsent: [ 
+			self newProcessManager
+				process: processToDebug;
+				announceNextDebug: true;
+				yourself ].
+	manager debugException: anException
+]
+
+{ #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> initialize [
 	super initialize.
 	explorerTools := IdentitySet new.

@@ -50,7 +50,7 @@ SpkWeakDictionary >> at: key ifAbsent: aBlock [
 		critical: [ 
 			entry := table at: (self findEntryOrNil: key).
 			entry ifNotNil: [ :e | value := e value ] ].  "Must grab value inside critical section."
-	^ entry ifNil: aBlock value ifNotNil: [ value ]
+	^ entry ifNil: [aBlock value] ifNotNil: [ value ]
 ]
 
 { #category : 'accessing' }

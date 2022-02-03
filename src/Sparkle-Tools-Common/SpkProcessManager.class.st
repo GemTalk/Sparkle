@@ -33,19 +33,31 @@ SpkProcessManager >> announceNextDebug: aBoolean [
 
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
-
-	^ [:ex | self debugException: ex. nil]
+	^ [ :ex | 
+	taskspaceTool debugException: ex in: Processor activeProcess.
+	nil ]
 ]
 
 { #category : 'private' }
 SpkProcessManager >> debugException: anException [
+	"Sender must ensure that anException belongs to my process."
+	"process is the active process on entry to this method,
+	and it needs to be debugged. 
+	Set up a new higher-priority Process to debug it."
 
-	| processToDebug |
-	processToDebug := Processor activeProcess.
-	"Either the process is mine, or it was forked from mine and inherited the debug action and therefore sent me a message"
-	processToDebug == process
-		ifTrue: [ self debugMyProcessWithException: anException ]
-		ifFalse: [ self inNewManagerDebug: anException ]
+	| debuggerProcess |
+	processPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessForException: anException.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts the active process, and the debuggerProcess takes over."
+		resume.
+	"If I get here, the debugger has decided to resume my process for step or proceed."
 ]
 
 { #category : 'accessing' }
@@ -86,28 +98,6 @@ SpkProcessManager >> debuggerProcessForException: anException [
 	^ debuggerProcess
 ]
 
-{ #category : 'private' }
-SpkProcessManager >> debugMyProcessWithException: anException [
-
-	"process is the active process on entry to this method,
-	and it needs to be debugged. 
-	Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess |
-	processPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessForException: anException.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts the active process, and the debuggerProcess takes over."
-		resume.
-	"If I get here, the debugger has decided to resume my process for step or proceed."
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> explorerTool [
 
@@ -137,19 +127,6 @@ SpkProcessManager >> initializeDebuggerTool [
 		process: process;
 		processManager: self;
 		yourself
-]
-
-{ #category : 'private' }
-SpkProcessManager >> inNewManagerDebug: anException [
-	"This process is not my problem, create another manager for it
-	and pass the buck."
-
-	SpkProcessManager new
-		taskspaceTool: taskspaceTool;
-		process: Processor activeProcess;
-		announceNextDebug: true;
-		debuggerDebugAction: debuggerDebugAction;
-		debugMyProcessWithException: anException
 ]
 
 { #category : 'private' }

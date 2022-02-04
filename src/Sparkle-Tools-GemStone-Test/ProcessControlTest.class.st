@@ -151,6 +151,26 @@ ProcessControlTest >> testInterruptRunNextProcess [
 ]
 
 { #category : 'tests' }
+ProcessControlTest >> testJoin [
+	"Test that join allows proceeding before the timeout."
+
+	| log proc result startMs endMs |
+	log := {}.
+	proc := [ log add: 1 ] newProcess.
+	proc priority: Processor activeProcess priority - 1.
+	proc resume.
+	log add: 2.
+	startMs := Delay millisecondClockValue.
+	result := proc join: 2.
+	endMs := Delay millisecondClockValue.
+	log add: 3.
+	self assert: proc _statusString equals: 'terminated'.
+	self assert: log equals: #(2 1 3).
+	self assert: result equals: proc.
+	self assert: endMs - startMs < 1000.
+]
+
+{ #category : 'tests' }
 ProcessControlTest >> testPriorityLimits [
 
 	"Private method #_setPriority: allows a highest priority of one greater than the public method #priority:

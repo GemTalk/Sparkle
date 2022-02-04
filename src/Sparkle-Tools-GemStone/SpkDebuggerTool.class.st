@@ -5,8 +5,8 @@ Class {
 		'explorerTool',
 		'processManager',
 		'process',
-		'exceptionOfRecord',
-		'currentException',
+		'whyDebugged',
+		'currentExplanation',
 		'frames',
 		'replacementTool'
 	],
@@ -21,43 +21,18 @@ SpkDebuggerTool >> checkForTermination [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerTool >> currentException: anException [
+SpkDebuggerTool >> currentExplanation: anExplanation [
 	"Stepping does not update the exceptionOfRecord, but
 	must update currentException so that glue frame discarding will be accurate."
 
-	currentException := anException.	
+	currentExplanation := anExplanation.
 	"Proceed and terminate set to nil, so we will re-initialize."
-	exceptionOfRecord ifNil: [ exceptionOfRecord := anException ]
+	whyDebugged ifNil: [ whyDebugged := anExplanation description ]
 ]
 
 { #category : 'private' }
 SpkDebuggerTool >> debug [
 	processManager returnValue: self
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> exceptionDescription [
-	| string |
-	string := String new.
-	exceptionOfRecord
-		ifNil: [ string add: 'Unknown' ]
-		ifNotNil: [ 
-			string
-				add: exceptionOfRecord class name;
-				add: self exceptionSpecificMessage ].
-	^ string
-]
-
-{ #category : 'private' }
-SpkDebuggerTool >> exceptionSpecificMessage [
-	| fullMessage commaIndex latterPart |
-	fullMessage := exceptionOfRecord buildMessageText.
-	fullMessage ifNil: [ ^ '' ].
-	commaIndex := fullMessage indexOf: $,.
-	latterPart := commaIndex = 0
-		ifTrue: [ fullMessage ]
-		ifFalse: [ fullMessage copyFrom: commaIndex + 1 to: fullMessage size ].
-	^ ' - ' , latterPart
 ]
 
 { #category : 'accessing' }
@@ -194,35 +169,20 @@ to: end [
 ]
 
 { #category : 'other' }
-SpkDebuggerTool >> markTopGlueFrames [
-	"At the end of frames (top frames of the stack) are some frameTools that
-	are internal and not desirable for interaction in a debugger.
-	Identify those and mark them as glue."
-
-	| exceptionClass |
-	exceptionClass := currentException class.
-	exceptionClass == Breakpoint
-		ifTrue: [ ^ self markTopGlueFramesForBreakpoint ].
-	exceptionClass == Halt
-		ifTrue: [ ^ self markTopGlueFramesForHalt ].
-	self markTopGlueFramesForGenericException
-]
-
-{ #category : 'other' }
-SpkDebuggerTool >> markTopGlueFramesForBreakpoint [
+SpkDebuggerTool >> markTopGlueForBreakpoint: aBreakpoint [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
 		suchThat: [ :frame | 
-			frame receiver == currentException
+			frame receiver == aBreakpoint
 				and: [ frame method selector == #'_signalAsync' ] ].
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
-		ifNil: [ self markTopGlueFramesForGenericException ]
+		ifNil: [ self markTopGlueForException: aBreakpoint ]
 ]
 
 { #category : 'other' }
-SpkDebuggerTool >> markTopGlueFramesForGenericException [
+SpkDebuggerTool >> markTopGlueForException: anException [
 	"Search for, in order of preference, this exception being sent #signal, being sent #_signalToDebugger,
 	and if still not found, fall back to the process manager debugAction block. If *still* not found,
 	this process is not under management and will not have any frames marked."
@@ -230,14 +190,14 @@ SpkDebuggerTool >> markTopGlueFramesForGenericException [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
-		suchThat: [ :frame | frame receiver == currentException and: [ frame method selector == #'signal' ] ].
+		suchThat: [ :frame | frame receiver == anException and: [ frame method selector == #'signal' ] ].
 
 	indexOfFirstDiscardedFrame
 		ifNil: [ 
 			indexOfFirstDiscardedFrame := self
 				indexOfFrameInLast: 20
 				suchThat: [ :frame | 
-					frame receiver == currentException
+					frame receiver == anException
 						and: [ frame method selector == #'_signalFromPrimitive:' ] ] ].
 
 	indexOfFirstDiscardedFrame
@@ -245,7 +205,7 @@ SpkDebuggerTool >> markTopGlueFramesForGenericException [
 			indexOfFirstDiscardedFrame := self
 				indexOfFrameInLast: 20
 				suchThat: [ :frame | 
-					frame receiver == currentException
+					frame receiver == anException
 						and: [ frame method selector == #'_signalToDebugger' ] ] ].
 
 	indexOfFirstDiscardedFrame
@@ -265,7 +225,7 @@ SpkDebuggerTool >> markTopGlueFramesForGenericException [
 ]
 
 { #category : 'other' }
-SpkDebuggerTool >> markTopGlueFramesForHalt [
+SpkDebuggerTool >> markTopGlueForHalt: aHalt [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
@@ -276,7 +236,16 @@ SpkDebuggerTool >> markTopGlueFramesForHalt [
 				and: [ method selector == #'halt' or: [ method selector == #'pause' ] ] ].
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
-		ifNil: [ self markTopGlueFramesForGenericException ]
+		ifNil: [ self markTopGlueForException: aHalt ]
+]
+
+{ #category : 'other' }
+SpkDebuggerTool >> markTopGlueFrames [
+	"At the end of frames (top frames of the stack) are some frameTools that
+	are internal and not desirable for interaction in a debugger.
+	Identify those and mark them as glue."
+
+	currentExplanation markTopGlueFor: self
 ]
 
 { #category : 'accessing' }
@@ -309,7 +278,7 @@ SpkDebuggerTool >> proceedAnnouncing: anAnnouncement [
 	"May wait for an answer, depending on whether the process is an evaluation process.
 	Announce the announcement when done."
 
-	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	whyDebugged := nil.	"If we hit another exception, we want the exception to be updated."
 	^ self resumeAnnouncing: anAnnouncement
 ]
 
@@ -453,8 +422,13 @@ SpkDebuggerTool >> taskspaceTool: aTool [
 SpkDebuggerTool >> terminateAnnouncing: anAnnouncement [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	whyDebugged := nil.	"If we hit another exception, we want the exception to be updated."
 	replacementTool := processManager terminateProcess.
 	taskspaceTool announce: anAnnouncement.
 	^ replacementTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> whyDebugged [
+	^ whyDebugged ifNil: [ 'Unknown' ] ifNotNil: [ :w | w ]
 ]

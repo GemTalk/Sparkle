@@ -34,30 +34,10 @@ SpkProcessManager >> announceNextDebug: aBoolean [
 { #category : 'accessing' }
 SpkProcessManager >> debugAction [
 	^ [ :ex | 
-	taskspaceTool debugException: ex in: Processor activeProcess.
+	taskspaceTool
+		debug: Processor activeProcess
+		explanation: (self explain: ex).
 	nil ]
-]
-
-{ #category : 'private' }
-SpkProcessManager >> debugException: anException [
-	"Sender must ensure that anException belongs to my process."
-	"process is the active process on entry to this method,
-	and it needs to be debugged. 
-	Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess |
-	processPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessForException: anException.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts the active process, and the debuggerProcess takes over."
-		resume.
-	"If I get here, the debugger has decided to resume my process for step or proceed."
 ]
 
 { #category : 'accessing' }
@@ -71,31 +51,57 @@ SpkProcessManager >> debuggerDebugAction: aBlock [
 ]
 
 { #category : 'private - debugger process' }
-SpkProcessManager >> debuggerProcessDebugException: anException [
+SpkProcessManager >> debuggerProcessDebugBecause: anExplanation [
 	"The part of the body of the debugger process that deals with setting up the debugger tool to debug the given exception."
 
 	process suspend.
 	debuggerTool ifNil: [ self initializeDebuggerTool ].
 	debuggerTool
-		currentException: anException;
+		currentExplanation: anExplanation;
 		refreshFromProcess;
 		debug
 ]
 
 { #category : 'private' }
-SpkProcessManager >> debuggerProcessForException: anException [
+SpkProcessManager >> debuggerProcessFor: anExplanation [
 	"Answer a new debugger process for a new or existing debugger,
 	debugging process. Start by suspending the process."
 
 	| debuggerProcess |
-	debuggerProcess := [ 
-	self debuggerProcessDebugException: anException.
-	announceNextDebug
-		ifTrue: [ 
-			announceNextDebug := false.
-			self announceDebug ] ] newProcess.
+	debuggerProcess := 
+		[self debuggerProcessDebugBecause: anExplanation.
+		announceNextDebug
+			ifTrue: [ 
+				announceNextDebug := false.
+				self announceDebug ] ] newProcess.
 	debuggerProcess name: 'Debugger for ' , process asOop printString.
 	^ debuggerProcess
+]
+
+{ #category : 'private' }
+SpkProcessManager >> debugWithExplanation: anExplanation [
+
+	"process may be the active process on entry to this method.
+	Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess |
+	processPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessFor: anExplanation.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts the debugged process, and the debuggerProcess takes over."
+		resume.
+	"If I get here, the debugger has decided to resume my process for step or proceed."
+]
+
+{ #category : 'accessing' }
+SpkProcessManager >> explain: anException [
+	^ SpkAtException for: anException
 ]
 
 { #category : 'accessing' }

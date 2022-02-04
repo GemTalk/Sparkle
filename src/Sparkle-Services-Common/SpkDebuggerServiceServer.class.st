@@ -107,7 +107,7 @@ SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	changed := false.
 
 	oldValue := exceptionDescription.
-	exceptionDescription := tool exceptionDescription.
+	exceptionDescription := tool whyDebugged.
 	changed := changed | (exceptionDescription ~= oldValue).
 
 	oldValue := processName.

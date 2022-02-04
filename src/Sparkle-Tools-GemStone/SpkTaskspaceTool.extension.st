@@ -31,9 +31,7 @@ SpkTaskspaceTool >> commitTransactionAnnouncing: anAnnouncement [
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
-SpkTaskspaceTool >> debugException: anException in: processToDebug [
-	"ProcessToDebug is normally the active process"
-
+SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
 	| manager |
 	manager := self
 		managerForProcess: processToDebug
@@ -42,7 +40,7 @@ SpkTaskspaceTool >> debugException: anException in: processToDebug [
 				process: processToDebug;
 				announceNextDebug: true;
 				yourself ].
-	manager debugException: anException
+	manager debugWithExplanation: anExplanation
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }

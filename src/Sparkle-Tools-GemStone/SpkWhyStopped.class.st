@@ -8,3 +8,8 @@ Class {
 SpkWhyStopped >> description [
 	self subclassResponsibility
 ]
+
+{ #category : 'dispatching' }
+SpkWhyStopped >> markTopGlueFor: aDebuggerTool [
+	self subclassResponsibility
+]

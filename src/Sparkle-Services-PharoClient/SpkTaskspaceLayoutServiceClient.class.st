@@ -21,7 +21,7 @@ SpkTaskspaceLayoutServiceClient >> addProcessListExplorer [
 	"Switch to automatic transaction mode"
 
 	| promise |
-	promise := remoteSelf newExplorerViewingAProcessList.
+	promise := remoteSelf addProcessListExplorer.
 	promise
 		when: [ :xlService | self openNewExplorer: xlService]
 		catch: self defaultCatchBlock

@@ -45,6 +45,13 @@ SparkleTaskspace >> addDefaultExplorer [
 	layoutService addDefaultExplorer
 ]
 
+{ #category : 'actions' }
+SparkleTaskspace >> addProcessListExplorer [
+
+	
+	layoutService addProcessListExplorer
+]
+
 { #category : 'transaction management' }
 SparkleTaskspace >> beginTransaction [
 
@@ -111,17 +118,11 @@ SparkleTaskspace >> initializeRegistryService [
 { #category : 'running' }
 SparkleTaskspace >> openAllWindows [
 
-	"Open and initialize windows from my service"
+	"Open and initialize windows from my service.
+	This method runs in the UI thread."
 
 	layoutService explorerLayoutServices do: [ :xlServ | 
 		self openWindowForService: xlServ ]
-]
-
-{ #category : 'actions' }
-SparkleTaskspace >> openExplorerViewingAProcessList [
-
-	
-	taskspaceService openExplorerViewingAProcessList
 ]
 
 { #category : 'initialization' }
@@ -155,13 +156,7 @@ SparkleTaskspace >> presenterClassesForServiceTypes [
 SparkleTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
 
 	self defer: [ 
-		self openWindowForService: announcement explorerLayoutService ]
-]
-
-{ #category : 'processing announcements' }
-SparkleTaskspace >> receiveNewExplorerLayoutService: anAnnouncement [
-
-	self defer: [ self openWindowForService: anAnnouncement service ]
+		self openWindowForService: announcement service ]
 ]
 
 { #category : 'processing announcements' }
@@ -187,7 +182,8 @@ SparkleTaskspace >> registryService [
 { #category : 'running' }
 SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 
-	"Open and initialize windows from the given service"
+	"Open and initialize windows from the given service.
+	This method runs in the UI thread."
 
 	layoutService := aLayoutService.
 	taskspaceService := layoutService taskspaceService.
@@ -200,8 +196,8 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 		send: #receiveTaskspaceResponse:
 		to: self.
 	taskspaceService
-		when: SpkNewExplorerLayoutServiceAnnouncement
-		send: #receiveNewExplorerLayoutService:
+		when: SpkExplorerToOpenAnnouncement
+		send: #receiveExplorerToOpenAnnouncement:
 		to: self.
 	self openAllWindows
 ]

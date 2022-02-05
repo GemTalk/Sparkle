@@ -296,7 +296,7 @@ SpkConnectionListPresenter >> openProcessList [
 	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
-	selection openExplorerViewingAProcessList
+	selection addProcessListExplorer
 ]
 
 { #category : 'events' }

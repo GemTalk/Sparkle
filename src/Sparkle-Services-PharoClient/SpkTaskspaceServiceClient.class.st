@@ -46,22 +46,11 @@ SpkTaskspaceServiceClient >> commitTransaction [
 ]
 
 { #category : 'transaction management' }
-SpkTaskspaceServiceClient >> openExplorerViewingAProcessList [
-	"Switch to automatic transaction mode"
-
-	| promise |
-	promise := remoteSelf newExplorerViewingAProcessList.
-	promise
-		when: [ :newExplorer | self openNewExplorer: newExplorer]
-		catch: self defaultCatchBlock
-]
-
-{ #category : 'transaction management' }
 SpkTaskspaceServiceClient >> openNewExplorer: anExplorerLayoutService [
 	"Open the provided explorer at the request of the server"
 
 	self updateServices.
-	self announce: (SpkNewExplorerLayoutServiceAnnouncement service: anExplorerLayoutService)
+	self announce: (SpkExplorerToOpenAnnouncement service: anExplorerLayoutService)
 ]
 
 { #category : 'transaction management' }

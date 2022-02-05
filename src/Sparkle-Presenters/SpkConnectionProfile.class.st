@@ -98,6 +98,12 @@ SpkConnectionProfile >> = connectionProfile [
 	^ name = connectionProfile name
 ]
 
+{ #category : 'actions' }
+SpkConnectionProfile >> addProcessListExplorer [
+
+	taskspace addProcessListExplorer
+]
+
 { #category : 'accessing' }
 SpkConnectionProfile >> connection [
 
@@ -210,12 +216,6 @@ SpkConnectionProfile >> name: anObject [
 SpkConnectionProfile >> openExplorer [
 
 	taskspace addDefaultExplorer
-]
-
-{ #category : 'actions' }
-SpkConnectionProfile >> openExplorerViewingAProcessList [
-
-	taskspace openExplorerViewingAProcessList
 ]
 
 { #category : 'copying' }

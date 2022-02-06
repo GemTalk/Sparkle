@@ -7,7 +7,7 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'initialization' }
+{ #category : 'opening explorers' }
 SpkTaskspaceLayoutServiceServer >> addDefaultExplorer [ 
 	| xlTool xlServ |
 	xlTool := SpkExplorerLayoutTool defaultInTaskspace: tool taskspaceTool.
@@ -16,10 +16,19 @@ SpkTaskspaceLayoutServiceServer >> addDefaultExplorer [
 	^ xlServ
 ]
 
-{ #category : 'initialization' }
+{ #category : 'opening explorers' }
 SpkTaskspaceLayoutServiceServer >> addExplorerLayoutService: xlServ [
 	explorerLayoutServices add: xlServ.
 	taskspaceService addExplorer: xlServ explorerService
+]
+
+{ #category : 'opening explorers' }
+SpkTaskspaceLayoutServiceServer >> addProcessListExplorer [
+	| xlTool xlService |
+	xlTool := tool newProcessListExplorerLayout.
+	xlService := SpkServiceFactory serviceForTool: xlTool.
+	self addExplorerLayoutService: xlService.
+	^ xlService
 ]
 
 { #category : 'initialization' }

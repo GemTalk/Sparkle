@@ -65,6 +65,19 @@ SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
 	self announce: announcement
 ]
 
+{ #category : 'actions' }
+SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
+	| manager |
+	manager := self
+		managerForProcess: processToDebug
+		ifAbsent: [ 
+			self newProcessManager
+				process: processToDebug;
+				announceNextDebug: true;
+				yourself ].
+	manager debugWithExplanation: anExplanation
+]
+
 { #category : 'accessing' }
 SpkTaskspaceTool >> explorerTools [
 
@@ -77,6 +90,13 @@ SpkTaskspaceTool >> initializeForDefault [
 	self addDefaultExplorer
 ]
 
+{ #category : 'private' }
+SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
+	"Answer the new or existing manager for the given process."
+
+	^ processRegistry at: aProcess ifAbsent: absentBlock
+]
+
 { #category : 'instance creation' }
 SpkTaskspaceTool >> newExplorerTool [
 
@@ -85,13 +105,17 @@ SpkTaskspaceTool >> newExplorerTool [
 		  yourself
 ]
 
-{ #category : 'accessing' }
-SpkTaskspaceTool >> newExplorerViewingAProcessList [
-	"Returns a new ExplorerTool viewing a ProcessListTool"
+{ #category : 'actions' }
+SpkTaskspaceTool >> newProcessLauncherWithBody: processBody
+manager: processManager [
 
-	^SpkExplorerLayoutTool
-		newInTaskspace: self
-		viewing: self newProcessListTool
+	^SpkProcessLauncher new
+		processBreakpointLevel: 1;
+		processPriority: self evaluationPriority;
+		processName: 'Transaction Management';
+		processBody: processBody;
+		processManager: processManager;
+		yourself
 ]
 
 { #category : 'refreshing' }

@@ -3,7 +3,8 @@ Class {
 	#superclass : 'RsrService',
 	#instVars : [
 		'taskspaceService',
-		'explorerLayoutServices'
+		'explorerLayoutServices',
+		'updatedServices'
 	],
 	#category : 'Sparkle-Services-Common'
 }
@@ -22,13 +23,24 @@ SpkTaskspaceLayoutService >> explorerLayoutServices [
 
 { #category : 'initialization' }
 SpkTaskspaceLayoutService >> initialize [
-
+	
 	super initialize.
-	explorerLayoutServices := Set new
+	explorerLayoutServices := IdentitySet new.
+	updatedServices := IdentitySet new
 ]
 
 { #category : 'accessing' }
 SpkTaskspaceLayoutService >> taskspaceService [
 
 	^ taskspaceService
+]
+
+{ #category : 'accessing' }
+SpkTaskspaceLayoutService >> updatedServices [
+	^updatedServices
+]
+
+{ #category : 'accessing' }
+SpkTaskspaceLayoutService >> updatedServices: object [
+	updatedServices := object
 ]

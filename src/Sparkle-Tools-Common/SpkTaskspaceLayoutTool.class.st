@@ -31,7 +31,7 @@ SpkTaskspaceLayoutTool >> explorerLayouts [
 SpkTaskspaceLayoutTool >> initialize [
 
 	super initialize.
-	explorerLayouts := Set new
+	explorerLayouts := IdentitySet new
 ]
 
 { #category : 'initialization' }
@@ -48,4 +48,36 @@ SpkTaskspaceLayoutTool >> initializeForTool: aTaskspaceTool [
 		                   SpkExplorerLayoutTool new
 			                   initializeForTool: each;
 			                   yourself ]
+]
+
+{ #category : 'private' }
+SpkTaskspaceLayoutTool >> newExplorerLayoutForPaneTool: paneTool [
+	"XLTool -> CLTool -> PaneLayoutTool
+	         \-> XTool  -------------------->\-> paneTool"
+
+	"Assumes that paneTool has not been hooked 
+	into the tool hierarchy."
+
+	| xTool xlTool |
+	xTool := SpkExplorerTool newInTaskspace: taskspaceTool.
+	paneTool
+		taskspaceTool: taskspaceTool;
+		explorerTool: xTool.
+	xlTool := SpkExplorerLayoutTool newInTaskspace: taskspaceTool viewing: paneTool.
+	self addExplorerLayout: xlTool.
+	taskspaceTool addExplorer: xTool.
+	^ xlTool
+]
+
+{ #category : 'new explorers' }
+SpkTaskspaceLayoutTool >> newProcessListExplorerLayout [
+	"XLTool -> CLTool -> PaneLayoutTool
+	         \-> XTool  -------------------->\->ProcessListTool"
+
+	| paneTool |
+	paneTool := SpkProcessListTool new
+		taskspaceTool: taskspaceTool;
+		explorerTool: (SpkExplorerTool newInTaskspace: taskspaceTool);
+		yourself.
+	^ self newExplorerLayoutForPaneTool: paneTool
 ]

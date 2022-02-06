@@ -31,44 +31,11 @@ SpkTaskspaceTool >> commitTransactionAnnouncing: anAnnouncement [
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
-SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
-	| manager |
-	manager := self
-		managerForProcess: processToDebug
-		ifAbsent: [ 
-			self newProcessManager
-				process: processToDebug;
-				announceNextDebug: true;
-				yourself ].
-	manager debugWithExplanation: anExplanation
-]
-
-{ #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> initialize [
 	super initialize.
 	explorerTools := IdentitySet new.
 	name := ''.
 	processRegistry := SpkWeakKeyDictionary new
-]
-
-{ #category : '*Sparkle-Tools-GemStone' }
-SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
-	"Answer the new or existing manager for the given process."
-
-	^ processRegistry at: aProcess ifAbsent: absentBlock
-]
-
-{ #category : '*Sparkle-Tools-GemStone' }
-SpkTaskspaceTool >> newProcessLauncherWithBody: processBody
-manager: processManager [
-
-	^SpkProcessLauncher new
-		processBreakpointLevel: 1;
-		processPriority: self evaluationPriority;
-		processName: 'Transaction Management';
-		processBody: processBody;
-		processManager: processManager;
-		yourself
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }

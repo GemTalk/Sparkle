@@ -25,8 +25,8 @@ SpkTaskspaceLayoutService >> explorerLayoutServices [
 SpkTaskspaceLayoutService >> initialize [
 	
 	super initialize.
-	explorerLayoutServices := IdentitySet new.
-	updatedServices := IdentitySet new
+	explorerLayoutServices := Set new.
+	updatedServices := Set new
 ]
 
 { #category : 'accessing' }

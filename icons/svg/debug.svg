@@ -26,13 +26,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1"
-     inkscape:cx="3.4999998"
-     inkscape:cy="47.999998"
+     inkscape:zoom="32"
+     inkscape:cx="8.390625"
+     inkscape:cy="8.125"
      inkscape:window-width="1769"
      inkscape:window-height="1172"
-     inkscape:window-x="1016"
-     inkscape:window-y="125"
+     inkscape:window-x="1015"
+     inkscape:window-y="776"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      units="px" />
@@ -43,7 +43,7 @@
      id="layer2"
      inkscape:label="Editing Background"
      sodipodi:insensitive="true"
-     style="display:inline">
+     style="display:none">
     <rect
        style="fill:#343434;fill-opacity:1;stroke:none;stroke-width:0.17315;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.977361"
        id="rect12313"
@@ -53,35 +53,29 @@
        y="0" />
   </g>
   <g
-     inkscape:label="Crosshairs"
+     inkscape:label="Icon"
      inkscape:groupmode="layer"
      id="layer1">
-    <path
-       sodipodi:type="star"
-       style="fill:#df3b30;fill-opacity:1;stroke:#f4f4f4;stroke-width:0.755906;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path1251"
-       inkscape:flatsided="true"
-       sodipodi:sides="8"
-       sodipodi:cx="7.8255243"
-       sodipodi:cy="7.9504652"
-       sodipodi:r1="5.1306448"
-       sodipodi:r2="4.7400975"
-       sodipodi:arg1="1.185034"
-       sodipodi:arg2="1.5777331"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="M 9.7560092,12.704068 5.8292782,12.676829 3.0719211,9.8809501 3.0991603,5.954219 5.8950394,3.1968619 l 3.9267311,0.027239 2.7573575,2.7958792 -0.02724,3.9267311 z"
-       transform="matrix(0.41189109,-0.00365328,0.00365328,0.41189109,-1.1356424,-1.1294703)" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:100%;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="0.98390895"
-       y="3.2598379"
-       id="text3873"><tspan
-         sodipodi:role="line"
-         id="tspan3871"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f2f2f2;fill-opacity:1;stroke-width:0.264583px"
-         x="0.98390895"
-         y="3.2598379">D</tspan></text>
+    <ellipse
+       cy="2.1166666"
+       cx="2.1166666"
+       id="path851"
+       style="fill:none;stroke:#c9c9c9;stroke-width:0.386372;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       rx="1.9234807"
+       ry="1.9234806" />
+    <rect
+       style="fill:#ffc06a;stroke:none;stroke-width:0.396875;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       id="rect1034"
+       width="0.69523573"
+       height="2.0568986"
+       x="1.1762455"
+       y="1.0882174" />
+    <rect
+       style="fill:#ffc06a;stroke:none;stroke-width:0.396875;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       id="rect1138"
+       width="0.69523573"
+       height="2.0568986"
+       x="2.3618522"
+       y="1.0882174" />
   </g>
 </svg>

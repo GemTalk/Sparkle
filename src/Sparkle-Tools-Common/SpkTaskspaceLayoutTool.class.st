@@ -44,10 +44,19 @@ SpkTaskspaceLayoutTool >> initializeForDefault [
 SpkTaskspaceLayoutTool >> initializeForTool: aTaskspaceTool [
 
 	taskspaceTool := aTaskspaceTool.
+	taskspaceTool layoutTool: self.
 	explorerLayouts := taskspaceTool explorerTools collect: [ :each | 
 		                   SpkExplorerLayoutTool new
 			                   initializeForTool: each;
 			                   yourself ]
+]
+
+{ #category : 'new explorers' }
+SpkTaskspaceLayoutTool >> newEvaluatorExplorerLayout [
+	"XLTool -> CLTool -> PaneLayoutTool
+	         \-> XTool  -------------------->\-> PaneTool"
+
+	^ self newExplorerLayoutForPaneTool: SpkInspectorTool new
 ]
 
 { #category : 'private' }
@@ -60,9 +69,8 @@ SpkTaskspaceLayoutTool >> newExplorerLayoutForPaneTool: paneTool [
 
 	| xTool xlTool |
 	xTool := SpkExplorerTool newInTaskspace: taskspaceTool.
-	paneTool
-		taskspaceTool: taskspaceTool;
-		explorerTool: xTool.
+paneTool class == SpkDebuggerTool ifTrue: [self halt].
+	paneTool initializeDefaultInExplorer: xTool.
 	xlTool := SpkExplorerLayoutTool newInTaskspace: taskspaceTool viewing: paneTool.
 	self addExplorerLayout: xlTool.
 	taskspaceTool addExplorer: xTool.
@@ -74,10 +82,5 @@ SpkTaskspaceLayoutTool >> newProcessListExplorerLayout [
 	"XLTool -> CLTool -> PaneLayoutTool
 	         \-> XTool  -------------------->\->ProcessListTool"
 
-	| paneTool |
-	paneTool := SpkProcessListTool new
-		taskspaceTool: taskspaceTool;
-		explorerTool: (SpkExplorerTool newInTaskspace: taskspaceTool);
-		yourself.
-	^ self newExplorerLayoutForPaneTool: paneTool
+	^ self newExplorerLayoutForPaneTool: SpkProcessListTool new.
 ]

@@ -6,7 +6,7 @@ Class {
 
 { #category : 'accessing' }
 SpkAtBreakpoint >> description [
-	^ 'It was a breakpoint'
+	^ 'Stopped by Breakpoint'
 ]
 
 { #category : 'dispatching' }

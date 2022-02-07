@@ -6,7 +6,7 @@ Class {
 
 { #category : 'accessing' }
 SpkAtHalt >> description [
-	^ 'It was a Halt'
+	^ 'Stopped by Halt'
 ]
 
 { #category : 'dispatching' }

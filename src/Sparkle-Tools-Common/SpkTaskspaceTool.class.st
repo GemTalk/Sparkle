@@ -21,6 +21,7 @@ Class {
 	#superclass : 'SpkToolWithUndoManager',
 	#instVars : [
 		'name',
+		'layoutTool',
 		'explorerTools',
 		'processRegistry'
 	],
@@ -51,22 +52,13 @@ SpkTaskspaceTool >> addDefaultExplorer [
 
 { #category : 'adding' }
 SpkTaskspaceTool >> addExplorer: anExplorerTool [
-
-	explorerTools add: anExplorerTool.
-	self announceNewExplorer: anExplorerTool
-]
-
-{ #category : 'announcing' }
-SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
-
-	| announcement |
-	announcement := SpkNewExplorerToolAnnouncement new.
-	announcement tool: anExplorerTool.
-	self announce: announcement
+	explorerTools add: anExplorerTool
 ]
 
 { #category : 'actions' }
 SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
+	"Dispatch the debug to the process's manager"
+
 	| manager |
 	manager := self
 		managerForProcess: processToDebug
@@ -90,11 +82,21 @@ SpkTaskspaceTool >> initializeForDefault [
 	self addDefaultExplorer
 ]
 
+{ #category : 'accessing' }
+SpkTaskspaceTool >> layoutTool: object [
+	layoutTool := object
+]
+
 { #category : 'private' }
 SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
 	"Answer the new or existing manager for the given process."
 
 	^ processRegistry at: aProcess ifAbsent: absentBlock
+]
+
+{ #category : 'adding' }
+SpkTaskspaceTool >> newExplorerLayoutForPaneTool: paneTool [
+	^ layoutTool newExplorerLayoutForPaneTool: paneTool
 ]
 
 { #category : 'instance creation' }

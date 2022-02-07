@@ -30,11 +30,6 @@ SpkDebuggerTool >> currentExplanation: anExplanation [
 	whyDebugged ifNil: [ whyDebugged := anExplanation description ]
 ]
 
-{ #category : 'private' }
-SpkDebuggerTool >> debug [
-	processManager returnValue: self
-]
-
 { #category : 'accessing' }
 SpkDebuggerTool >> explorerTool [
 	^explorerTool
@@ -42,8 +37,7 @@ SpkDebuggerTool >> explorerTool [
 
 { #category : 'accessing' }
 SpkDebuggerTool >> explorerTool: object [
-	explorerTool := object.
-	explorerTool addPane: self
+	explorerTool := object
 ]
 
 { #category : 'accessing' }
@@ -74,6 +68,12 @@ SpkDebuggerTool >> initialize [
 	super initialize.
 	frames := OrderedCollection new.
 	replacementTool := self
+]
+
+{ #category : 'initialization' }
+SpkDebuggerTool >> initializeDefaultInExplorer: xTool [
+	explorerTool := xTool.
+	self refreshFromProcess
 ]
 
 { #category : 'other' }

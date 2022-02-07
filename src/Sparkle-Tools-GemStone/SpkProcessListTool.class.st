@@ -27,6 +27,12 @@ SpkProcessListTool >> initialize [
 	processTools := IdentityDictionary new
 ]
 
+{ #category : 'initializing' }
+SpkProcessListTool >> initializeDefaultInExplorer: xTool [
+	self taskspaceTool: xTool taskspaceTool.
+	self explorerTool: xTool
+]
+
 { #category : 'inspecting' }
 SpkProcessListTool >> newInspectorToolOn: anObject [
 

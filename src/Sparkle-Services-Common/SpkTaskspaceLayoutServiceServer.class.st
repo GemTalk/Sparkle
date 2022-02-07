@@ -9,11 +9,11 @@ Class {
 
 { #category : 'opening explorers' }
 SpkTaskspaceLayoutServiceServer >> addDefaultExplorer [ 
-	| xlTool xlServ |
-	xlTool := SpkExplorerLayoutTool defaultInTaskspace: tool taskspaceTool.
-	xlServ := SpkServiceFactory serviceForTool: xlTool.
-	self addExplorerLayoutService: xlServ.
-	^ xlServ
+	| xlTool xlService |
+	xlTool := tool newEvaluatorExplorerLayout.
+	xlService := SpkServiceFactory serviceForTool: xlTool.
+	self addExplorerLayoutService: xlService.
+	^ xlService
 ]
 
 { #category : 'opening explorers' }

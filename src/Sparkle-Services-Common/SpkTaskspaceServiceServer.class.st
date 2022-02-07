@@ -20,16 +20,6 @@ SpkTaskspaceServiceServer >> abortTransaction [
 	^SpkServiceFactory serviceForTool: resultTool
 ]
 
-{ #category : 'adding' }
-SpkTaskspaceServiceServer >> addDefaultExplorer [
-
-	"Answer a new explorer service"
-
-	| newExplorerTool |
-	newExplorerTool := tool addDefaultExplorer.
-	^ SpkServiceFactory serviceForTool: newExplorerTool
-]
-
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> beginTransaction [
 	"Begin a new transaction"

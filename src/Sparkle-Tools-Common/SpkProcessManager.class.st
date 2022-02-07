@@ -17,10 +17,11 @@ Class {
 
 { #category : 'private - debugger process' }
 SpkProcessManager >> announceDebug [
+	"Typically this announcement will open a new explorer window on the client,
+	containing a debugger for my debuggerTool."
+
 	| newExplorerLayoutTool announcement |
-	newExplorerLayoutTool := SpkExplorerLayoutTool
-		newInTaskspace: taskspaceTool
-		viewing: debuggerTool.
+	newExplorerLayoutTool := taskspaceTool newExplorerLayoutForPaneTool: debuggerTool.
 	announcement := SpkNewExplorerLayoutToolAnnouncement
 		tool: newExplorerLayoutTool.
 	taskspaceTool announce: announcement
@@ -55,14 +56,12 @@ SpkProcessManager >> debuggerProcessDebugBecause: anExplanation [
 	"The part of the body of the debugger process that deals with setting up the debugger tool to debug the given exception."
 
 	process suspend.
-	debuggerTool ifNil: [ self initializeDebuggerTool ].
 	debuggerTool
-		currentExplanation: anExplanation;
-		refreshFromProcess;
-		debug
+		ifNil: [ self initializeDebuggerToolWithExplanation: anExplanation ]
+		ifNotNil: [ :dTool | dTool currentExplanation: anExplanation ]
 ]
 
-{ #category : 'private' }
+{ #category : 'private - debugger process' }
 SpkProcessManager >> debuggerProcessFor: anExplanation [
 	"Answer a new debugger process for a new or existing debugger,
 	debugging process. Start by suspending the process."
@@ -73,7 +72,8 @@ SpkProcessManager >> debuggerProcessFor: anExplanation [
 		announceNextDebug
 			ifTrue: [ 
 				announceNextDebug := false.
-				self announceDebug ] ] newProcess.
+				self announceDebug ]
+			ifFalse: [self returnValue: debuggerTool]] newProcess.
 	debuggerProcess name: 'Debugger for ' , process asOop printString.
 	^ debuggerProcess
 ]
@@ -107,7 +107,7 @@ SpkProcessManager >> explain: anException [
 { #category : 'accessing' }
 SpkProcessManager >> explorerTool [
 
-	^explorerTool ifNil: [explorerTool := SpkExplorerTool newInTaskspace: taskspaceTool]
+	^explorerTool
 ]
 
 { #category : 'accessing' }
@@ -125,14 +125,15 @@ SpkProcessManager >> initialize [
 ]
 
 { #category : 'initialization' }
-SpkProcessManager >> initializeDebuggerTool [
+SpkProcessManager >> initializeDebuggerToolWithExplanation: anExplanation [
 
 	debuggerTool := SpkDebuggerTool new
 		taskspaceTool: taskspaceTool;
-		explorerTool: self explorerTool;
 		process: process;
 		processManager: self;
-		yourself
+		currentExplanation: anExplanation;
+		yourself.
+	explorerTool ifNotNil: [:xTool | debuggerTool initializeDefaultInExplorer: xTool]
 ]
 
 { #category : 'private' }

@@ -85,6 +85,15 @@ SpkInspectorTool >> initialize [
 ]
 
 { #category : 'accessing' }
+SpkInspectorTool >> initializeDefaultInExplorer: xTool [
+	self
+		taskspaceTool: xTool taskspaceTool;
+		explorerTool: xTool;
+		initializeViews;
+		addEvaluator
+]
+
+{ #category : 'accessing' }
 SpkInspectorTool >> initializeForDefault [
 
 	self addEvaluator

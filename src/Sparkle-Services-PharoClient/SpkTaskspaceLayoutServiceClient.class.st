@@ -12,7 +12,7 @@ SpkTaskspaceLayoutServiceClient >> addDefaultExplorer [
 	| promise |
 	promise := remoteSelf addDefaultExplorer.
 	promise
-		when: [ :xlService | self openNewExplorer: xlService]
+		when: [ :xlService | self openNewExplorerLayout: xlService]
 		catch: self defaultCatchBlock
 ]
 
@@ -23,12 +23,12 @@ SpkTaskspaceLayoutServiceClient >> addProcessListExplorer [
 	| promise |
 	promise := remoteSelf addProcessListExplorer.
 	promise
-		when: [ :xlService | self openNewExplorer: xlService]
+		when: [ :xlService | self openNewExplorerLayout: xlService]
 		catch: self defaultCatchBlock
 ]
 
 { #category : 'adding' }
-SpkTaskspaceLayoutServiceClient >> openNewExplorer: anExplorerLayoutService [
+SpkTaskspaceLayoutServiceClient >> openNewExplorerLayout: anExplorerLayoutService [
 	"Open the provided explorer at the request of the server"
 
 	self updateServices.

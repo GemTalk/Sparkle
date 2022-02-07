@@ -46,14 +46,6 @@ SpkTaskspaceServiceClient >> commitTransaction [
 ]
 
 { #category : 'transaction management' }
-SpkTaskspaceServiceClient >> openNewExplorer: anExplorerLayoutService [
-	"Open the provided explorer at the request of the server"
-
-	self updateServices.
-	self announce: (SpkExplorerToOpenAnnouncement service: anExplorerLayoutService)
-]
-
-{ #category : 'transaction management' }
 SpkTaskspaceServiceClient >> setAutomaticTransactionMode [
 	"Switch to automatic transaction mode"
 

@@ -21,6 +21,16 @@ SpkTaskspaceLayoutTool >> addExplorerLayout: anExplorerLayoutTool [
 	explorerLayouts add: anExplorerLayoutTool
 ]
 
+{ #category : 'private' }
+SpkTaskspaceLayoutTool >> announceNewExplorerLayoutForPaneTool: paneTool [
+
+	| newExplorerLayoutTool announcement |
+	newExplorerLayoutTool := self newExplorerLayoutForPaneTool: paneTool.
+	announcement := SpkNewExplorerLayoutToolAnnouncement
+		tool: newExplorerLayoutTool.
+	self announce: announcement
+]
+
 { #category : 'accessing' }
 SpkTaskspaceLayoutTool >> explorerLayouts [
 
@@ -69,7 +79,6 @@ SpkTaskspaceLayoutTool >> newExplorerLayoutForPaneTool: paneTool [
 
 	| xTool xlTool |
 	xTool := SpkExplorerTool newInTaskspace: taskspaceTool.
-paneTool class == SpkDebuggerTool ifTrue: [self halt].
 	paneTool initializeDefaultInExplorer: xTool.
 	xlTool := SpkExplorerLayoutTool newInTaskspace: taskspaceTool viewing: paneTool.
 	self addExplorerLayout: xlTool.

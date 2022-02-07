@@ -55,6 +55,11 @@ SpkTaskspaceTool >> addExplorer: anExplorerTool [
 	explorerTools add: anExplorerTool
 ]
 
+{ #category : 'adding' }
+SpkTaskspaceTool >> announceNewExplorerLayoutForPaneTool: aPaneTool [
+	layoutTool announceNewExplorerLayoutForPaneTool: aPaneTool
+]
+
 { #category : 'actions' }
 SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
 	"Dispatch the debug to the process's manager"
@@ -92,11 +97,6 @@ SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
 	"Answer the new or existing manager for the given process."
 
 	^ processRegistry at: aProcess ifAbsent: absentBlock
-]
-
-{ #category : 'adding' }
-SpkTaskspaceTool >> newExplorerLayoutForPaneTool: paneTool [
-	^ layoutTool newExplorerLayoutForPaneTool: paneTool
 ]
 
 { #category : 'instance creation' }

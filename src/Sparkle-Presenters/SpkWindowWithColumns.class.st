@@ -40,7 +40,6 @@ SpkWindowWithColumns >> addColumn [
 			add: self newSplitter
 			withConstraints: self splitterConstraints ].
 	self layout add: newColumn.
-	self layoutService addColumnLayout: newColumn layoutService.
 	^ newColumn
 ]
 
@@ -115,6 +114,5 @@ SpkWindowWithColumns >> removeColumn: aColumn [
 			                 ifFalse: [ columnIndex - 1 ].
 		self layout removePresenterAtIndex: splitterIndex ].
 	columns remove: aColumn.
-	self layout remove: aColumn.
-	self layoutService removeColumnLayout: aColumn layoutService
+	self layout remove: aColumn
 ]

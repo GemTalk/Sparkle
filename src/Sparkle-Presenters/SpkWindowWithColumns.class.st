@@ -95,9 +95,6 @@ SpkWindowWithColumns >> newColumn [
 
 	| column |
 	column := self instantiate: SpkColumn.
-	self flag:
-		'Setting layoutService here seems wrong, should only be during initialize.'.
-	"column layoutService: SpkColumnLayoutServiceClient new."
 	^ column
 ]
 

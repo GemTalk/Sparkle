@@ -65,14 +65,18 @@ SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
 	"Dispatch the debug to the process's manager"
 
 	| manager |
-	manager := self
-		managerForProcess: processToDebug
-		ifAbsent: [ 
-			self newProcessManager
-				process: processToDebug;
-				announceNextDebug: true;
-				yourself ].
+	manager := self managerForProcess: processToDebug.
 	manager debugWithExplanation: anExplanation
+]
+
+{ #category : 'actions' }
+SpkTaskspaceTool >> debugAndAnnounce: processToDebug explanation: anExplanation [
+	"Dispatch the debug to the process's manager.
+	Announces, so will always create a new explorer."
+
+	(self managerForProcess: processToDebug)
+		announceNextDebug: true;
+		debugWithExplanation: anExplanation
 ]
 
 { #category : 'accessing' }
@@ -93,8 +97,23 @@ SpkTaskspaceTool >> layoutTool: object [
 ]
 
 { #category : 'private' }
+SpkTaskspaceTool >> managerForProcess: aProcess [
+	"Answer a new or existing manager for the given process.
+	New manager will announce, and so create a new explorer."
+
+	^ self
+		managerForProcess: aProcess
+		ifAbsent: [ 
+			self newProcessManager
+				process: aProcess;
+				announceNextDebug: true;
+				yourself ]
+]
+
+{ #category : 'private' }
 SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
-	"Answer the new or existing manager for the given process."
+	"Answer the existing manager for the given process.
+	If none, evaluate absentBlock."
 
 	^ processRegistry at: aProcess ifAbsent: absentBlock
 ]

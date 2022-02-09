@@ -54,14 +54,15 @@ SpkProcessListTool >> receiveExecutionAnnouncement: anAnnouncement [
 
 { #category : 'refreshing' }
 SpkProcessListTool >> refreshProcessList [
-
 	| newProcessTools |
 	newProcessTools := IdentityDictionary new.
 	ProcessorScheduler topazAllProcesses
-		do:
-			[:process | | processTool |
-			processTool := processTools at: process ifAbsent: [SpkProcessTool process: process].
-			newProcessTools at: process put: processTool].
+		do: [ :process | 
+			| processTool |
+			processTool := processTools
+				at: process
+				ifAbsent: [ SpkProcessTool process: process taskspaceTool: taskspaceTool ].
+			newProcessTools at: process put: processTool ].
 	processTools := newProcessTools
 ]
 

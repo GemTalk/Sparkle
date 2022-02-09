@@ -8,11 +8,17 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkProcessTool class >> process: aProcess [
+SpkProcessTool class >> process: aProcess taskspaceTool: aTaskspaceTool [
 
 	^self new
 		process: aProcess;
+		taskspaceTool: aTaskspaceTool;
 		yourself
+]
+
+{ #category : 'actions' }
+SpkProcessTool >> debugInNewExplorer [
+	taskspaceTool debugAndAnnounce: process explanation: SpkDebuggerAttached new
 ]
 
 { #category : 'accessing' }

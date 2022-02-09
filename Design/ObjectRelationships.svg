@@ -25,16 +25,23 @@
      showgrid="false"
      units="in"
      inkscape:zoom="1"
-     inkscape:cx="502.5"
-     inkscape:cy="358"
+     inkscape:cx="625.5"
+     inkscape:cy="431.5"
      inkscape:window-width="2095"
-     inkscape:window-height="1072"
-     inkscape:window-x="1428"
-     inkscape:window-y="163"
+     inkscape:window-height="1177"
+     inkscape:window-x="673"
+     inkscape:window-y="231"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="layer1"
+     inkscape:snap-global="false" />
   <defs
      id="defs2">
+    <rect
+       x="116.02643"
+       y="55.319244"
+       width="337.52008"
+       height="127.66684"
+       id="rect13654" />
     <marker
        style="overflow:visible;"
        id="Arrow2Mend"
@@ -127,10 +134,268 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Arrows">
+     inkscape:label="Title"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-35.273509,-4.0316667)"
+       id="text13652"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40px;line-height:100%;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect13654);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="244.70703"
+       y="0"><tspan
+         x="315.28516"
+         y="86.684526"
+         id="tspan1461">Sparkle
+</tspan><tspan
+         x="330.57812"
+         y="126.68453"
+         id="tspan1463">Object
+</tspan><tspan
+         x="206.16406"
+         y="166.68453"
+         id="tspan1465">Relationships</tspan></text>
+  </g>
+  <g
+     inkscape:label="Diagram"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 38.272257,136.17496 v 40.10398"
+       id="path61414"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 106.5232,136.17496 v 40.10398"
+       id="path61416"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 242.95713,136.17496 v 40.10398"
+       id="path61418"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect846"
+       width="39.00425"
+       height="22.036255"
+       x="19.220091"
+       y="53.094368" />
+    <rect
+       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5240"
+       width="39.00425"
+       height="22.036255"
+       x="154.61461"
+       y="53.094368" />
+    <rect
+       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5242"
+       width="39.00425"
+       height="22.036255"
+       x="222.31186"
+       y="53.094368" />
+    <rect
+       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5244"
+       width="39.00425"
+       height="22.036255"
+       x="86.917328"
+       y="53.094368" />
+    <rect
+       style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5246"
+       width="39.00425"
+       height="22.036255"
+       x="19.220091"
+       y="116.5658" />
+    <rect
+       style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5250"
+       width="39.00425"
+       height="22.036255"
+       x="222.31186"
+       y="116.5658" />
+    <rect
+       style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5252"
+       width="39.00425"
+       height="22.036255"
+       x="86.917328"
+       y="116.5658" />
+    <rect
+       style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5254"
+       width="39.00425"
+       height="22.036255"
+       x="19.220091"
+       y="177.50153" />
+    <rect
+       style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5258"
+       width="39.00425"
+       height="22.036255"
+       x="222.31186"
+       y="177.50153" />
+    <rect
+       style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5260"
+       width="39.00425"
+       height="22.036255"
+       x="86.917328"
+       y="177.50153" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,4.8467668,24.222299)"
+       id="text12852"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect12854);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
+         x="82.642578"
+         y="155.39988"
+         id="tspan1469"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1467">Taskspace</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,65.049499,22.149812)"
+       id="text18222"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect18224);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="117.11328"
+         y="155.39988"
+         id="tspan1473"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1471">Explorer
+</tspan></tspan><tspan
+         x="117.20605"
+         y="175.56788"
+         id="tspan1477"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1475">Window</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,132.81455,24.817861)"
+       id="text29484"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect29486);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="119.7793"
+         y="155.39988"
+         id="tspan1481"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1479">Column</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,200.34773,24.695119)"
+       id="text30258"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect30260);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="129.81836"
+         y="155.39988"
+         id="tspan1485"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1483">*Pane</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-2.5695762,85.621281)"
+       id="text31126"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect31136);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="45.087891"
+       y="0"><tspan
+         x="110.67285"
+         y="155.39988"
+         id="tspan1489"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1487">Taskspace
+</tspan></tspan><tspan
+         x="123.08496"
+         y="175.56788"
+         id="tspan1493"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1491">Service</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,64.882196,85.621281)"
+       id="text31130"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect31138);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="117.11328"
+         y="155.39988"
+         id="tspan1497"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1495">Explorer
+</tspan></tspan><tspan
+         x="123.08496"
+         y="175.56788"
+         id="tspan1501"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1499">Service</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,200.36323,88.341016)"
+       id="text31134"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect31140);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="118.75879"
+         y="155.39988"
+         id="tspan1505"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1503">*Service</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-2.5695762,145.74172)"
+       id="text39771"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect39781);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="45.087891"
+       y="0"><tspan
+         x="110.67285"
+         y="155.39988"
+         id="tspan1509"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1507">Taskspace
+</tspan></tspan><tspan
+         x="136.54199"
+         y="175.56788"
+         id="tspan1513"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1511">Tool</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,64.882196,145.74172)"
+       id="text39775"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect39783);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="117.11328"
+         y="155.39988"
+         id="tspan1517"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1515">Explorer
+</tspan></tspan><tspan
+         x="136.54199"
+         y="175.56788"
+         id="tspan1521"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1519">Tool</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,200.44199,149.2768)"
+       id="text39779"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect39785);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="38.876953"
+       y="0"><tspan
+         x="132.21582"
+         y="155.39988"
+         id="tspan1525"><tspan
+           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
+           id="tspan1523">*Tool</tspan></tspan></text>
     <g
        id="g59299"
-       transform="translate(0,-0.52916667)">
+       transform="translate(-2.6458334,15.598566)">
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 60.808205,48.461437 h 28.8838"
@@ -143,7 +408,7 @@
     </g>
     <g
        id="g59305"
-       transform="translate(67.73337,-0.52916667)">
+       transform="translate(65.087535,15.598566)">
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 60.808205,48.461437 h 28.8838"
@@ -156,7 +421,7 @@
     </g>
     <g
        id="g59311"
-       transform="translate(135.39432,-0.52916667)">
+       transform="translate(132.74847,15.598566)">
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 60.808205,48.461437 h 28.8838"
@@ -169,7 +434,7 @@
     </g>
     <g
        id="g59439"
-       transform="translate(0,62.76957)">
+       transform="translate(-2.6458334,78.897303)">
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 60.808205,48.461437 h 28.8838"
@@ -181,13 +446,14 @@
          sodipodi:nodetypes="ccc" />
     </g>
     <g
-       id="g59812">
+       id="g59812"
+       transform="translate(-2.6458334,16.127733)">
       <g
          id="g59445"
          transform="translate(135.59882,62.76957)">
         <path
            style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m -7.1099242,48.461437 96.8019292,0"
+           d="M -7.1099242,48.461437 H 89.692005"
            id="path59441"
            sodipodi:nodetypes="cc" />
         <path
@@ -199,7 +465,7 @@
     </g>
     <g
        id="g59818"
-       transform="translate(0,123.6374)">
+       transform="translate(-2.6458334,139.76516)">
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 60.808205,48.461437 h 28.8838"
@@ -212,7 +478,7 @@
     </g>
     <g
        id="g59826"
-       transform="translate(0,60.867829)">
+       transform="translate(-2.6458334,76.995563)">
       <g
          id="g59824"
          transform="translate(135.59882,62.76957)">
@@ -230,270 +496,84 @@
     </g>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="m 40.918092,59.12709 0,40.103982"
+       d="M 38.272257,75.254823 V 115.35883"
        id="path60502"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="M 109.16905,59.12709 V 99.231072"
+       d="M 106.5232,75.254823 V 115.35883"
        id="path61410"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="M 245.60298,59.12709 V 99.231072"
+       d="M 242.95713,75.254823 V 115.35883"
        id="path61412"
        sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="m 40.918092,120.0472 v 40.10398"
-       id="path61414"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="m 109.16905,120.0472 v 40.10398"
-       id="path61416"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="m 245.60298,120.0472 v 40.10398"
-       id="path61418"
-       sodipodi:nodetypes="cc" />
-  </g>
-  <g
-     inkscape:label="Boxes"
-     inkscape:groupmode="layer"
-     id="layer1"
-     sodipodi:insensitive="true"
-     style="display:inline">
-    <rect
-       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect846"
-       width="39.00425"
-       height="22.036255"
-       x="21.865927"
-       y="36.966633" />
-    <rect
-       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5240"
-       width="39.00425"
-       height="22.036255"
-       x="157.26041"
-       y="36.966633" />
-    <rect
-       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5242"
-       width="39.00425"
-       height="22.036255"
-       x="224.95766"
-       y="36.966633" />
-    <rect
-       style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5244"
-       width="39.00425"
-       height="22.036255"
-       x="89.563164"
-       y="36.966633" />
-    <rect
-       style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5246"
-       width="39.00425"
-       height="22.036255"
-       x="21.865927"
-       y="100.4381" />
-    <rect
-       style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5250"
-       width="39.00425"
-       height="22.036255"
-       x="224.95766"
-       y="100.4381" />
-    <rect
-       style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5252"
-       width="39.00425"
-       height="22.036255"
-       x="89.563164"
-       y="100.4381" />
-    <rect
-       style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5254"
-       width="39.00425"
-       height="22.036255"
-       x="21.865927"
-       y="161.37386" />
-    <rect
-       style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5258"
-       width="39.00425"
-       height="22.036255"
-       x="224.95766"
-       y="161.37386" />
-    <rect
-       style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5260"
-       width="39.00425"
-       height="22.036255"
-       x="89.563164"
-       y="161.37386" />
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,7.4926003,8.0945658)"
-       id="text12852"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect12854);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
-         x="82.642578"
-         y="155.39988"
-         id="tspan61500"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61498">Taskspace</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,67.695334,6.0220785)"
-       id="text18222"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect18224);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="117.11328"
-         y="155.39988"
-         id="tspan61504"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61502">Explorer
-</tspan></tspan><tspan
-         x="117.20605"
-         y="175.56788"
-         id="tspan61508"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61506">Window</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,135.4604,8.6901282)"
-       id="text29484"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect29486);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="119.7793"
-         y="155.39988"
-         id="tspan61512"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61510">Column</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,202.99358,8.5673864)"
-       id="text30258"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect30260);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="129.81836"
-         y="155.39988"
-         id="tspan61516"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61514">*Pane</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,0.07625721,69.493548)"
-       id="text31126"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect31136);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="45.087891"
-       y="0"><tspan
-         x="110.67285"
-         y="155.39988"
-         id="tspan61520"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61518">Taskspace
-</tspan></tspan><tspan
-         x="123.08496"
-         y="175.56788"
-         id="tspan61524"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61522">Service</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,67.528031,69.493548)"
-       id="text31130"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect31138);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="117.11328"
-         y="155.39988"
-         id="tspan61528"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61526">Explorer
-</tspan></tspan><tspan
-         x="123.08496"
-         y="175.56788"
-         id="tspan61532"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61530">Service</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,203.13698,69.370817)"
-       id="text31134"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect31140);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="129.81836"
-         y="155.39988"
-         id="tspan61536"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61534">*Pane
-</tspan></tspan><tspan
-         x="123.08496"
-         y="175.56788"
-         id="tspan61540"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61538">Service</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,0.07625721,129.61396)"
-       id="text39771"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect39781);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="45.087891"
-       y="0"><tspan
-         x="110.67285"
-         y="155.39988"
-         id="tspan61544"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61542">Taskspace
-</tspan></tspan><tspan
-         x="136.54199"
-         y="175.56788"
-         id="tspan61548"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61546">Tool</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,67.528031,129.61396)"
-       id="text39775"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect39783);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="117.11328"
-         y="155.39988"
-         id="tspan61552"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61550">Explorer
-</tspan></tspan><tspan
-         x="136.54199"
-         y="175.56788"
-         id="tspan61556"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61554">Tool</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,203.13698,129.49123)"
-       id="text39779"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect39785);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="38.876953"
-       y="0"><tspan
-         x="129.81836"
-         y="155.39988"
-         id="tspan61560"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61558">*Pane
-</tspan></tspan><tspan
-         x="136.54199"
-         y="175.56788"
-         id="tspan61564"><tspan
-           style="font-weight:bold;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Bold'"
-           id="tspan61562">Tool</tspan></tspan></text>
+    <g
+       id="g39615"
+       transform="translate(-82.550046,3.7041668)">
+      <rect
+         style="fill:#cfeefa;fill-opacity:1;stroke:#000000;stroke-width:0.117381;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect25341"
+         width="6.8826184"
+         height="6.8826189"
+         x="176.62366"
+         y="-17.489794"
+         transform="scale(1,-1)" />
+      <rect
+         style="fill:#cffae6;fill-opacity:1;stroke:#000000;stroke-width:0.117381;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect25343"
+         width="6.8826184"
+         height="6.8826189"
+         x="176.62366"
+         y="20.545347" />
+      <rect
+         style="fill:#fafacf;fill-opacity:1;stroke:#000000;stroke-width:0.117381;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect25345"
+         width="6.8826184"
+         height="6.8826189"
+         x="176.62366"
+         y="30.483519" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:100%;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="186.05222"
+         y="14.926983"
+         id="text31641"><tspan
+           sodipodi:role="line"
+           id="tspan31639"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583px"
+           x="186.05222"
+           y="14.926983">Presentation Layer</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:100%;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="186.24033"
+         y="24.878592"
+         id="text34379"><tspan
+           sodipodi:role="line"
+           id="tspan34377"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583px"
+           x="186.24033"
+           y="24.878592">Service Layer</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:100%;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="186.38708"
+         y="34.901512"
+         id="text36463"><tspan
+           sodipodi:role="line"
+           id="tspan36461"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:'Linux Biolinum';-inkscape-font-specification:'Linux Biolinum, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583px"
+           x="186.38708"
+           y="34.901512">Tool Layer</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect39501"
+         width="49.642925"
+         height="32.254078"
+         x="172.64751"
+         y="7.6582918" />
+    </g>
   </g>
 </svg>

@@ -174,7 +174,7 @@ SpkConnectionProfile >> initialize [
 { #category : 'accessing' }
 SpkConnectionProfile >> initializeTaskspaceForConnection: anRSRConnection [
 
-	taskspace := SparkleTaskspace new
+	taskspace := SpkTaskspace new
 		             connection: anRSRConnection;
 		             yourself.
 	ProfileAnnouncer announce:

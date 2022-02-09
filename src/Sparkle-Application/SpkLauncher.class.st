@@ -1,21 +1,21 @@
 Class {
-	#name : 'SparkleConnectionsLauncher',
+	#name : 'SpkLauncher',
 	#superclass : 'SpkApplication',
 	#category : 'Sparkle-Application'
 }
 
 { #category : 'examples' }
-SparkleConnectionsLauncher class >> example [ 
+SpkLauncher class >> example [ 
 	<example>
 	self new start
 ]
 
 { #category : 'world menu' }
-SparkleConnectionsLauncher class >> menuCommandOn: aBuilder [ 
+SpkLauncher class >> menuCommandOn: aBuilder [ 
 	"Add a custom menu item to the world menu"	
 	<worldMenu> 
 	
-	(aBuilder item: #'Sparkle Connections Launcher')
+	(aBuilder item: #'Sparkle Launcher')
 		order: 0.9; 
 		icon: nil;  
 		parent: #'Tools'; "This appears as the Library menu option for whatever reason"
@@ -25,6 +25,6 @@ SparkleConnectionsLauncher class >> menuCommandOn: aBuilder [
 ]
 
 { #category : 'running' }
-SparkleConnectionsLauncher >> start [
+SpkLauncher >> start [
 	(self new: SpkConnectionListPresenter) openWithSpec
 ]

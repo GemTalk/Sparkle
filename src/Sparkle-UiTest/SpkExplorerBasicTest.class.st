@@ -38,7 +38,7 @@ SpkExplorerBasicTest >> firstPaneOf: aColumn [
 SpkExplorerBasicTest >> openExplorer [
 
 	| taskspace |
-	taskspace := SparkleTaskspace new.
+	taskspace := SpkTaskspace new.
 	taskspace when: SpkExplorerOpenedAnnouncement send: #windowOpened: to: self.
 	taskspace
 		connection: self connection;

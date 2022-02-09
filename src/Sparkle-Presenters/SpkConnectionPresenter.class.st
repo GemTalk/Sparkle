@@ -67,7 +67,7 @@ SpkConnectionPresenter >> closeConnectionWindows [
 
 	| connection connectedPresenters |
 	connection := connectionProfile connection.
-	connectedPresenters := SparkleTaskspace allInstances select: [ 
+	connectedPresenters := SpkTaskspace allInstances select: [ 
 		                       :presenter | 
 		                       presenter connection == connection ].
 	connectedPresenters do: [ :presenter | presenter close ]

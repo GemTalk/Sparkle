@@ -14,7 +14,7 @@ Responsibilities of this class
 * Manage the RSR connection, especially initiating it and closing it
 "
 Class {
-	#name : 'SparkleTaskspace',
+	#name : 'SpkTaskspace',
 	#superclass : 'SpkApplication',
 	#traits : 'SpkTModel',
 	#classTraits : 'SpkTModel classTrait',
@@ -29,60 +29,60 @@ Class {
 }
 
 { #category : 'activation' }
-SparkleTaskspace class >> applicationName [ 
+SpkTaskspace class >> applicationName [ 
 	^ 'Sparkle Taskspace'
 ]
 
 { #category : 'transaction management' }
-SparkleTaskspace >> abortTransaction [
+SpkTaskspace >> abortTransaction [
 
 	^taskspaceService abortTransaction
 ]
 
 { #category : 'initialization' }
-SparkleTaskspace >> addDefaultExplorer [
+SpkTaskspace >> addDefaultExplorer [
 
 	layoutService addDefaultExplorer
 ]
 
 { #category : 'actions' }
-SparkleTaskspace >> addProcessListExplorer [
+SpkTaskspace >> addProcessListExplorer [
 
 	
 	layoutService addProcessListExplorer
 ]
 
 { #category : 'transaction management' }
-SparkleTaskspace >> beginTransaction [
+SpkTaskspace >> beginTransaction [
 
 	^taskspaceService beginTransaction
 ]
 
 { #category : 'transaction management' }
-SparkleTaskspace >> commitTransaction [
+SpkTaskspace >> commitTransaction [
 
 	^taskspaceService commitTransaction
 ]
 
 { #category : 'accessing' }
-SparkleTaskspace >> connection [
+SpkTaskspace >> connection [
 	^ connection
 ]
 
 { #category : 'accessing' }
-SparkleTaskspace >> connection: anObject [
+SpkTaskspace >> connection: anObject [
 	connection := anObject
 ]
 
 { #category : 'processing announcements' }
-SparkleTaskspace >> handleRespondedService: aService [
+SpkTaskspace >> handleRespondedService: aService [
 
 	aService class == SpkSuccessServiceClient
 		ifFalse: [ self openWindowForService: aService ]
 ]
 
 { #category : 'initialization' }
-SparkleTaskspace >> initializePresenterClassesForServiceTypes [
+SpkTaskspace >> initializePresenterClassesForServiceTypes [
 
 	"This is only for pane presenters and services.
 	Elements smaller than panes are handled by the panes themselves."
@@ -100,7 +100,7 @@ SparkleTaskspace >> initializePresenterClassesForServiceTypes [
 ]
 
 { #category : 'initialization' }
-SparkleTaskspace >> initializeRegistryService [
+SpkTaskspace >> initializeRegistryService [
 
 	"Note that the use of SpkTaskspaceAnnouncement means that there must be exactly one
 	connection per SparkleTaskspace."
@@ -116,7 +116,7 @@ SparkleTaskspace >> initializeRegistryService [
 ]
 
 { #category : 'running' }
-SparkleTaskspace >> openAllWindows [
+SpkTaskspace >> openAllWindows [
 
 	"Open and initialize windows from my service.
 	This method runs in the UI thread."
@@ -126,14 +126,14 @@ SparkleTaskspace >> openAllWindows [
 ]
 
 { #category : 'initialization' }
-SparkleTaskspace >> openNewDefaultTaskspace [
+SpkTaskspace >> openNewDefaultTaskspace [
 
 	self registryService newDefaultTaskspaceLayout
 	"Reply via TaskspaceLayoutAnnouncment"
 ]
 
 { #category : 'running' }
-SparkleTaskspace >> openWindowForService: anExplorerLayoutService [
+SpkTaskspace >> openWindowForService: anExplorerLayoutService [
 
 	| explorer |
 	explorer := SpkExplorerWindow
@@ -146,21 +146,21 @@ SparkleTaskspace >> openWindowForService: anExplorerLayoutService [
 ]
 
 { #category : 'initialization' }
-SparkleTaskspace >> presenterClassesForServiceTypes [
+SpkTaskspace >> presenterClassesForServiceTypes [
 
 	^ presenterClassesForServiceTypes ifNil: [ 
 		  self initializePresenterClassesForServiceTypes ]
 ]
 
 { #category : 'as yet unclassified' }
-SparkleTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
+SpkTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
 
 	self defer: [ 
 		self openWindowForService: announcement service ]
 ]
 
 { #category : 'processing announcements' }
-SparkleTaskspace >> receiveTaskspaceLayoutAnnouncement: anAnnouncement [
+SpkTaskspace >> receiveTaskspaceLayoutAnnouncement: anAnnouncement [
 
 	self defer: [ 
 		self restoreFromTaskspaceLayoutService:
@@ -168,19 +168,19 @@ SparkleTaskspace >> receiveTaskspaceLayoutAnnouncement: anAnnouncement [
 ]
 
 { #category : 'processing announcements' }
-SparkleTaskspace >> receiveTaskspaceResponse: anAnnouncement [
+SpkTaskspace >> receiveTaskspaceResponse: anAnnouncement [
 
 	self defer: [ self handleRespondedService: anAnnouncement service ]
 ]
 
 { #category : 'accessing' }
-SparkleTaskspace >> registryService [
+SpkTaskspace >> registryService [
 
 	^ registryService ifNil: [ self initializeRegistryService ]
 ]
 
 { #category : 'running' }
-SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
+SpkTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 
 	"Open and initialize windows from the given service.
 	This method runs in the UI thread."
@@ -203,19 +203,19 @@ SparkleTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
 ]
 
 { #category : 'transaction management' }
-SparkleTaskspace >> setAutomaticTransactionMode [
+SpkTaskspace >> setAutomaticTransactionMode [
 
 	^taskspaceService setAutomaticTransactionMode
 ]
 
 { #category : 'transaction management' }
-SparkleTaskspace >> setManualTransactionMode [
+SpkTaskspace >> setManualTransactionMode [
 
 	^taskspaceService setManualTransactionMode
 ]
 
 { #category : 'running' }
-SparkleTaskspace >> start [
+SpkTaskspace >> start [
 
 	self shouldNotImplement
 ]

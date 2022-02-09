@@ -39,7 +39,7 @@ SpkProcessListPane >> initializeListColumns [
 		addColumn:
 			((SpkButtonTableColumn evaluated: [ :item | self iconNamed: #debug16 ])
 				 width: 12;
-				 action: [ :item | item halt ];
+				 action: [ :item | item model debugInNewExplorer ];
 				 yourself)
 ]
 

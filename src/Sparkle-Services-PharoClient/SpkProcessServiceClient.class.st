@@ -7,6 +7,17 @@ Class {
 }
 
 { #category : 'inspecting' }
+SpkProcessServiceClient >> debugInNewExplorer [ 
+
+	| promise |
+	promise := remoteSelf debugInNewExplorer.
+	promise
+		when: [ :ignored | ]
+		catch: self defaultCatchBlock.
+	^ nil
+]
+
+{ #category : 'inspecting' }
 SpkProcessServiceClient >> inspectFieldForRequest: aRequestId [
 
 	| promise |

@@ -11,8 +11,6 @@ A column's containing presenter is a kind of SpkWindowWithColumns.
 Class {
 	#name : 'SpkColumn',
 	#superclass : 'SpkPresenter',
-	#traits : 'SpkTLayoutService',
-	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'panes'
 	],
@@ -62,23 +60,6 @@ SpkColumn >> initialize [
 
 	super initialize.
 	panes := SortedCollection sortUsing: #coordinate ascending
-]
-
-{ #category : 'initialization' }
-SpkColumn >> initializeFromLayoutService: aColumnLayoutService [
-
-	| panePresenters |
-	self layoutService: aColumnLayoutService.
-	panePresenters := aColumnLayoutService paneLayouts collect: [ 
-		                  :paneLayoutService | 
-		                  | pane |
-		                  pane := self presenterForService:
-			                          paneLayoutService paneService.
-		                  pane
-			                  layoutService: paneLayoutService;
-			                  setCoordinateFromLayoutService.
-		                  pane ].
-	panePresenters do: [ :panePresenter | self add: panePresenter ]
 ]
 
 { #category : 'adding' }

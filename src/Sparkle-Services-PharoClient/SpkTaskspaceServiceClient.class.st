@@ -19,6 +19,33 @@ SpkTaskspaceServiceClient >> abortTransaction [
 		catch: self defaultCatchBlock
 ]
 
+{ #category : 'actions' }
+SpkTaskspaceServiceClient >> addDefaultExplorer [
+
+	| promise |
+	promise := remoteSelf addDefaultExplorer.
+	promise
+		when: [ :xService | self announceNewExplorer: xService ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'actions' }
+SpkTaskspaceServiceClient >> addProcessListExplorer [
+
+	| promise |
+	promise := remoteSelf addProcessListExplorer.
+	promise
+		when: [ :xService | self announceNewExplorer: xService ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'private' }
+SpkTaskspaceServiceClient >> announceNewExplorer: anExplorerService [
+
+	self updateServices.
+	self announce: (SpkNewExplorerAnnouncement service: anExplorerService)
+]
+
 { #category : 'transaction management' }
 SpkTaskspaceServiceClient >> beginTransaction [
 	"Begin a new transaction"

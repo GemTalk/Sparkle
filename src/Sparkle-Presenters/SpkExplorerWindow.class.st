@@ -58,30 +58,26 @@ SpkExplorerWindow >> commitTransaction [
 { #category : 'constants' }
 SpkExplorerWindow >> initialExtent [
 
-	^ self layoutService width @ self layoutService height
+	^ 900 @ 900
 ]
 
 { #category : 'initialization' }
-SpkExplorerWindow >> initializeFromLayoutService: anExplorerLayoutService [
-
-	| columnPresenters |
-	self layoutService: anExplorerLayoutService.
-	columnPresenters := anExplorerLayoutService columnLayouts collect: [ 
-		                    :columnLayoutService | 
-		                    | column |
-		                    column := self instantiate: SpkColumn.
-		                    column initializeFromLayoutService:
-			                    columnLayoutService.
-		                    column ].
-	columnPresenters do: [ :each | 
-		columns add: each.
-		self layout add: each ]
+SpkExplorerWindow >> initializeFromModel [
+	"When initializing, it is required that my model have exactly one pane.
+	Make one column, and put the pane in it."
+	| pane column |
+	pane := self presenterForService: model singlePaneService.
+	pane coordinate: (SpkPaneCoordinate forVector: #(0.5)).
+	column := self addColumn.
+	column add: pane.
+	
 ]
 
 { #category : 'initialization' }
 SpkExplorerWindow >> initializePresenters [
 
-	self initializeFromLayoutService: model layoutService
+	super initializePresenters.
+	self initializeFromModel
 ]
 
 { #category : 'transaction management' }

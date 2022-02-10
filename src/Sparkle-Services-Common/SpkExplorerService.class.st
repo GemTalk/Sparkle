@@ -49,8 +49,7 @@ SpkExplorerService >> defaultLayout [
 SpkExplorerService >> initialize [
 
 	super initialize.
-	paneServices := Set new.
-	layoutService := self defaultLayout
+	paneServices := Set new
 ]
 
 { #category : 'accessing' }

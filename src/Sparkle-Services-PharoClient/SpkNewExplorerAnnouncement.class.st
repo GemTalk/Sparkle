@@ -10,7 +10,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : 'SpkExplorerToOpenAnnouncement',
+	#name : 'SpkNewExplorerAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
 		'service'
@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkExplorerToOpenAnnouncement class >> service: anExplorerLayoutService [
+SpkNewExplorerAnnouncement class >> service: anExplorerLayoutService [
 
 	^self new
 		service: anExplorerLayoutService;
@@ -27,13 +27,13 @@ SpkExplorerToOpenAnnouncement class >> service: anExplorerLayoutService [
 ]
 
 { #category : 'accessing' }
-SpkExplorerToOpenAnnouncement >> service [
+SpkNewExplorerAnnouncement >> service [
 
 	^ service
 ]
 
 { #category : 'accessing' }
-SpkExplorerToOpenAnnouncement >> service: anObject [
+SpkNewExplorerAnnouncement >> service: anObject [
 
 	service := anObject
 ]

@@ -20,8 +20,6 @@ Since they represent the entire contents of a Pharo window, instances of my subc
 Class {
 	#name : 'SpkWindowWithColumns',
 	#superclass : 'SpkPresenterWithModel',
-	#traits : 'SpkTLayoutService',
-	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'columns'
 	],

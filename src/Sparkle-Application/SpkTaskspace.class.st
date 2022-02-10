@@ -21,7 +21,6 @@ Class {
 	#instVars : [
 		'connection',
 		'registryService',
-		'layoutService',
 		'taskspaceService',
 		'presenterClassesForServiceTypes'
 	],
@@ -42,14 +41,13 @@ SpkTaskspace >> abortTransaction [
 { #category : 'initialization' }
 SpkTaskspace >> addDefaultExplorer [
 
-	layoutService addDefaultExplorer
+	taskspaceService addDefaultExplorer
 ]
 
 { #category : 'actions' }
 SpkTaskspace >> addProcessListExplorer [
 
-	
-	layoutService addProcessListExplorer
+	taskspaceService addProcessListExplorer
 ]
 
 { #category : 'transaction management' }
@@ -108,8 +106,8 @@ SpkTaskspace >> initializeRegistryService [
 	registryService := SpkTaskspaceRegistryServiceClient new 
 		                   registerWith: connection.
 	registryService
-		when: SpkTaskspaceLayoutAnnouncement
-		send: #receiveTaskspaceLayoutAnnouncement:
+		when: SpkNewTaskspaceAnnouncement
+		send: #receiveNewTaskspaceAnnouncement:
 		to: self.
 
 	^ registryService
@@ -121,27 +119,27 @@ SpkTaskspace >> openAllWindows [
 	"Open and initialize windows from my service.
 	This method runs in the UI thread."
 
-	layoutService explorerLayoutServices do: [ :xlServ | 
-		self openWindowForService: xlServ ]
+	taskspaceService explorersDo: [ :xServ | 
+		self openWindowForService: xServ ]
 ]
 
 { #category : 'initialization' }
 SpkTaskspace >> openNewDefaultTaskspace [
 
-	self registryService newDefaultTaskspaceLayout
+	self registryService newDefaultTaskspace
 	"Reply via TaskspaceLayoutAnnouncment"
 ]
 
 { #category : 'running' }
-SpkTaskspace >> openWindowForService: anExplorerLayoutService [
+SpkTaskspace >> openWindowForService: anExplorerService [
 
 	| explorer |
 	explorer := SpkExplorerWindow
 		            newApplication: self
-		            model: anExplorerLayoutService explorerService.
-	explorer
-		openWithSpec;
-		initializeFromLayoutService: anExplorerLayoutService.
+		            model: anExplorerService.
+	explorer openWithSpec.
+
+	"For UI tests"
 	self announce: (SpkExplorerOpenedAnnouncement new explorer: explorer)
 ]
 
@@ -153,18 +151,17 @@ SpkTaskspace >> presenterClassesForServiceTypes [
 ]
 
 { #category : 'as yet unclassified' }
-SpkTaskspace >> receiveExplorerToOpenAnnouncement: announcement [
+SpkTaskspace >> receiveNewExplorerAnnouncement: announcement [
 
 	self defer: [ 
 		self openWindowForService: announcement service ]
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspace >> receiveTaskspaceLayoutAnnouncement: anAnnouncement [
+SpkTaskspace >> receiveNewTaskspaceAnnouncement: anAnnouncement [
 
 	self defer: [ 
-		self restoreFromTaskspaceLayoutService:
-			anAnnouncement taskspaceLayoutService ]
+		self restoreFromTaskspaceService: anAnnouncement taskspaceService ]
 ]
 
 { #category : 'processing announcements' }
@@ -180,24 +177,19 @@ SpkTaskspace >> registryService [
 ]
 
 { #category : 'running' }
-SpkTaskspace >> restoreFromTaskspaceLayoutService: aLayoutService [
+SpkTaskspace >> restoreFromTaskspaceService: aTaskspaceService [
 
 	"Open and initialize windows from the given service.
 	This method runs in the UI thread."
 
-	layoutService := aLayoutService.
-	taskspaceService := layoutService taskspaceService.
-	layoutService
-		when: SpkExplorerToOpenAnnouncement
-		send: #receiveExplorerToOpenAnnouncement:
+	taskspaceService := aTaskspaceService.
+	taskspaceService
+		when: SpkNewExplorerAnnouncement
+		send: #receiveNewExplorerAnnouncement:
 		to: self.
 	taskspaceService
 		when: SpkTaskspaceResponseAnnouncement
 		send: #receiveTaskspaceResponse:
-		to: self.
-	taskspaceService
-		when: SpkExplorerToOpenAnnouncement
-		send: #receiveExplorerToOpenAnnouncement:
 		to: self.
 	self openAllWindows
 ]

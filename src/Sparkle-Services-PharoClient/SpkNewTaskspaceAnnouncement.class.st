@@ -12,22 +12,22 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : 'SpkTaskspaceLayoutAnnouncement',
+	#name : 'SpkNewTaskspaceAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
-		'taskspaceLayoutService'
+		'taskspaceService'
 	],
 	#category : 'Sparkle-Services-PharoClient-Announcements'
 }
 
 { #category : 'accessing' }
-SpkTaskspaceLayoutAnnouncement >> taskspaceLayoutService [
+SpkNewTaskspaceAnnouncement >> taskspaceService [
 
-	^ taskspaceLayoutService
+	^ taskspaceService
 ]
 
 { #category : 'accessing' }
-SpkTaskspaceLayoutAnnouncement >> taskspaceLayoutService: anObject [
+SpkNewTaskspaceAnnouncement >> taskspaceService: anObject [
 
-	taskspaceLayoutService := anObject
+	taskspaceService := anObject
 ]

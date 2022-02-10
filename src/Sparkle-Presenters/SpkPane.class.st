@@ -11,8 +11,6 @@ I take most of the responsibility for formatting the pane header, which is commo
 Class {
 	#name : 'SpkPane',
 	#superclass : 'SpkPresenterWithModel',
-	#traits : 'SpkTLayoutService',
-	#classTraits : 'SpkTLayoutService classTrait',
 	#instVars : [
 		'coordinate',
 		'linkedFrom',
@@ -244,13 +242,6 @@ SpkPane >> replaceWithIndependentPaneFor: aPaneService [
 	"Add before close so that the column doesn't become empty and remove itself"
 	column add: newPane.
 	self close
-]
-
-{ #category : 'initialization' }
-SpkPane >> setCoordinateFromLayoutService [
-
-	coordinate := SpkPaneCoordinate forVector:
-		              self layoutService paneCoordinate
 ]
 
 { #category : 'menu messages' }

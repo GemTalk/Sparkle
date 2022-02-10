@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : 'defaults' }
-SpkTaskspaceRegistryServiceServer >> newDefaultTaskspaceLayout [
+SpkTaskspaceRegistryServiceServer >> newDefaultTaskspace [
 
-	"Create a new default taskspace layout tool, and answer a service for it."
+	"Create a new default taskspace tool, and answer a service for it."
 
 	| tool |
-	tool := SpkTaskspaceLayoutTool newDefault.
+	tool := SpkTaskspaceTool newDefault.
 	^ SpkServiceFactory serviceForTool: tool
 ]

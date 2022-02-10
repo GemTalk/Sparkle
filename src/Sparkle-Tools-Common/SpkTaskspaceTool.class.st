@@ -36,7 +36,7 @@ SpkTaskspaceTool class >> newDefault [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : 'adding' }
 SpkTaskspaceTool >> addDefaultExplorer [
 
 	"The default initial taskspace has one default explorer."
@@ -50,14 +50,19 @@ SpkTaskspaceTool >> addDefaultExplorer [
 	^ explorer
 ]
 
-{ #category : 'adding' }
+{ #category : 'private' }
 SpkTaskspaceTool >> addExplorer: anExplorerTool [
 	explorerTools add: anExplorerTool
 ]
 
-{ #category : 'adding' }
-SpkTaskspaceTool >> announceNewExplorerLayoutForPaneTool: aPaneTool [
-	layoutTool announceNewExplorerLayoutForPaneTool: aPaneTool
+{ #category : 'private' }
+SpkTaskspaceTool >> announceNewExplorerForPaneTool: aPaneTool [
+
+	| newExplorerTool announcement |
+	newExplorerTool := self newExplorerForPaneTool: aPaneTool.
+	announcement := SpkNewExplorerToolAnnouncement
+		tool: newExplorerTool.
+	self announce: announcement
 ]
 
 { #category : 'actions' }
@@ -118,6 +123,18 @@ SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
 	^ processRegistry at: aProcess ifAbsent: absentBlock
 ]
 
+{ #category : 'private' }
+SpkTaskspaceTool >> newExplorerForPaneTool: paneTool [
+	"Assumes that paneTool has not been hooked 
+	into the tool hierarchy."
+
+	| xTool |
+	xTool := SpkExplorerTool newInTaskspace: taskspaceTool.
+	paneTool initializeDefaultInExplorer: xTool.
+	self addExplorer: xTool.
+	^ xTool
+]
+
 { #category : 'instance creation' }
 SpkTaskspaceTool >> newExplorerTool [
 
@@ -137,6 +154,11 @@ manager: processManager [
 		processBody: processBody;
 		processManager: processManager;
 		yourself
+]
+
+{ #category : 'adding' }
+SpkTaskspaceTool >> newProcessListExplorer [
+	^ self newExplorerForPaneTool: SpkProcessListTool new
 ]
 
 { #category : 'refreshing' }

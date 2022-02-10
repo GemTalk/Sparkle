@@ -5,7 +5,7 @@ Example: If a forked process signals an unhandled exception, it will open a new 
 debugger window using this announcement.
 "
 Class {
-	#name : 'SpkNewExplorerLayoutToolAnnouncement',
+	#name : 'SpkNewExplorerToolAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
 		'tool'
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkNewExplorerLayoutToolAnnouncement class >> tool: anExplorerLayoutTool [
+SpkNewExplorerToolAnnouncement class >> tool: anExplorerLayoutTool [
 
 	^self new
 		tool: anExplorerLayoutTool;
@@ -22,13 +22,13 @@ SpkNewExplorerLayoutToolAnnouncement class >> tool: anExplorerLayoutTool [
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerLayoutToolAnnouncement >> tool [
+SpkNewExplorerToolAnnouncement >> tool [
 
 	^tool
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerLayoutToolAnnouncement >> tool: anExplorerLayoutTool [
+SpkNewExplorerToolAnnouncement >> tool: anExplorerLayoutTool [
 
 	tool := anExplorerLayoutTool
 ]

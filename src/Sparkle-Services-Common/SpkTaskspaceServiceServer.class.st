@@ -20,6 +20,24 @@ SpkTaskspaceServiceServer >> abortTransaction [
 	^SpkServiceFactory serviceForTool: resultTool
 ]
 
+{ #category : 'opening explorers' }
+SpkTaskspaceServiceServer >> addDefaultExplorer [ 
+	| xTool xService |
+	xTool := tool addDefaultExplorer.
+	xService := SpkServiceFactory serviceForTool: xTool.
+	self addExplorer: xService.
+	^ xService
+]
+
+{ #category : 'opening explorers' }
+SpkTaskspaceServiceServer >> addProcessListExplorer [
+	| xTool xService |
+	xTool := tool newProcessListExplorer.
+	xService := SpkServiceFactory serviceForTool: xTool.
+	self addExplorer: xService.
+	^ xService
+]
+
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> beginTransaction [
 	"Begin a new transaction"

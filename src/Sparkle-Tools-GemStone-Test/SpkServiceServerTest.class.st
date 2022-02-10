@@ -14,5 +14,5 @@ SpkServiceServerTest >> testDefaultTaskspaceLayout [
 	| server layout |
 	server := SpkTaskspaceRegistryServiceServer new.
 	layout := server newDefaultTaskspaceLayout.
-	self assert: layout class equals: SpkTaskspaceLayoutServiceServer
+	self assert: layout class equals: 'SpkTaskspaceLayoutServiceServer'
 ]

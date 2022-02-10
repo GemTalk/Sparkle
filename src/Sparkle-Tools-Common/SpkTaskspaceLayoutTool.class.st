@@ -21,16 +21,6 @@ SpkTaskspaceLayoutTool >> addExplorerLayout: anExplorerLayoutTool [
 	explorerLayouts add: anExplorerLayoutTool
 ]
 
-{ #category : 'private' }
-SpkTaskspaceLayoutTool >> announceNewExplorerLayoutForPaneTool: paneTool [
-
-	| newExplorerLayoutTool announcement |
-	newExplorerLayoutTool := self newExplorerLayoutForPaneTool: paneTool.
-	announcement := SpkNewExplorerLayoutToolAnnouncement
-		tool: newExplorerLayoutTool.
-	self announce: announcement
-]
-
 { #category : 'accessing' }
 SpkTaskspaceLayoutTool >> explorerLayouts [
 
@@ -59,14 +49,6 @@ SpkTaskspaceLayoutTool >> initializeForTool: aTaskspaceTool [
 		                   SpkExplorerLayoutTool new
 			                   initializeForTool: each;
 			                   yourself ]
-]
-
-{ #category : 'new explorers' }
-SpkTaskspaceLayoutTool >> newEvaluatorExplorerLayout [
-	"XLTool -> CLTool -> PaneLayoutTool
-	         \-> XTool  -------------------->\-> PaneTool"
-
-	^ self newExplorerLayoutForPaneTool: SpkInspectorTool new
 ]
 
 { #category : 'private' }

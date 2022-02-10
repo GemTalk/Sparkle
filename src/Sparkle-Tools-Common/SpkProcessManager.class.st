@@ -20,7 +20,7 @@ SpkProcessManager >> announceDebug [
 	"Typically this announcement will open a new explorer window on the client,
 	containing a debugger for my debuggerTool."
 
-	taskspaceTool announceNewExplorerLayoutForPaneTool: debuggerTool
+	taskspaceTool announceNewExplorerForPaneTool: debuggerTool
 ]
 
 { #category : 'accessing' }

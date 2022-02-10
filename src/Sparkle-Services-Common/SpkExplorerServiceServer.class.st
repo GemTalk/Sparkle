@@ -7,12 +7,6 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'initialization' }
-SpkExplorerServiceServer >> defaultLayout [
-
-	^ SpkExplorerLayoutServiceServer new
-]
-
 { #category : 'accessing' }
 SpkExplorerServiceServer >> initializeFromTool: aTool [
 	tool := aTool.

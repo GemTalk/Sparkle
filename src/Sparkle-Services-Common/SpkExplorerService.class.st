@@ -38,14 +38,6 @@ SpkExplorerService >> addPaneService: aService [
 ]
 
 { #category : 'initialization' }
-SpkExplorerService >> defaultLayout [
-
-	"Server class on server, client on client"
-
-	self subclassResponsibility
-]
-
-{ #category : 'initialization' }
 SpkExplorerService >> initialize [
 
 	super initialize.

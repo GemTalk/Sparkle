@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'newContents'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-PharoClient-Announcements'
 }
 
 { #category : 'accessing' }

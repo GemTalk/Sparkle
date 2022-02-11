@@ -72,6 +72,18 @@ SpkTaskspaceServiceClient >> commitTransaction [
 		catch: self defaultCatchBlock
 ]
 
+{ #category : 'actions' }
+SpkTaskspaceServiceClient >> newExplorerService: xService [
+
+	"This message is sent from the server."
+
+	self announceNewExplorer: xService.
+
+	"Response is not used by the server, 
+so send the cheapest object to send."
+	^ nil
+]
+
 { #category : 'transaction management' }
 SpkTaskspaceServiceClient >> setAutomaticTransactionMode [
 	"Switch to automatic transaction mode"

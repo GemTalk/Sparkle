@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'hasUnsavedChanges'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-PharoClient-Announcements'
 }
 
 { #category : 'testing' }

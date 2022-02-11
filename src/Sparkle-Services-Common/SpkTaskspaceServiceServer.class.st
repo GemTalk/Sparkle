@@ -69,8 +69,11 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 	self tool: aTool.
 	tool
 		when: SpkExecutionAnnouncement
-		send: #'receiveExecutionAnnouncement:'
-		to: self.
+			send: #'receiveExecutionAnnouncement:'
+			to: self;
+		when: SpkNewExplorerToolAnnouncement
+			send: #'receiveNewExplorerToolAnnouncement:'
+			to: self.
 	self refreshFromTool
 ]
 
@@ -79,6 +82,33 @@ SpkTaskspaceServiceServer >> receiveExecutionAnnouncement: announcement [
 
 	self refreshFromTool ifTrue: [ 
 		announcement updatedServices add: self ]
+]
+
+{ #category : 'processing announcements' }
+SpkTaskspaceServiceServer >> receiveNewExplorerToolAnnouncement: announcement [
+	"Receiving this announcement should mean that I have a new explorer, 
+	and need to send that to the client."
+
+	| xTool existingService newService promise |
+	xTool := announcement tool.
+	existingService := explorers
+		detect: [ :xService | xService tool == xTool ]
+		ifNone: [ nil ].
+	existingService
+		ifNotNil: [ self error: 'Expected a new explorer tool, not one I already have.' ].
+	newService := SpkServiceFactory serviceForTool: xTool.
+	explorers add: newService.	
+
+	"Probably no changes, but good practice to refresh."
+	self refreshFromTool.
+
+	promise := remoteSelf newExplorerService: newService.
+	promise
+		when: [ "no action required" ]
+		catch: [ :reason | 
+			GsFile
+				gciLogServer:
+					'Send of #newExplorerService: failed because ' , reason printString ]
 ]
 
 { #category : 'initialization' }

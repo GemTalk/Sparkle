@@ -29,6 +29,7 @@ SpkExplorerLayoutTool class >> newInTaskspace: aTaskspaceTool
 viewing: aPaneTool [
 
 	| columnLayoutTool paneLayoutTool explorerLayoutTool |
+	self error: 'should not create new instances'.
 	columnLayoutTool := SpkColumnLayoutTool new.
 	paneLayoutTool := SpkPaneLayoutTool new
 		taskspaceTool: aTaskspaceTool;

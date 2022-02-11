@@ -21,7 +21,6 @@ Class {
 	#superclass : 'SpkToolWithUndoManager',
 	#instVars : [
 		'name',
-		'layoutTool',
 		'explorerTools',
 		'processRegistry'
 	],
@@ -96,11 +95,6 @@ SpkTaskspaceTool >> initializeForDefault [
 	self addDefaultExplorer
 ]
 
-{ #category : 'accessing' }
-SpkTaskspaceTool >> layoutTool: object [
-	layoutTool := object
-]
-
 { #category : 'private' }
 SpkTaskspaceTool >> managerForProcess: aProcess [
 	"Answer a new or existing manager for the given process.
@@ -129,7 +123,8 @@ SpkTaskspaceTool >> newExplorerForPaneTool: paneTool [
 	into the tool hierarchy."
 
 	| xTool |
-	xTool := SpkExplorerTool newInTaskspace: taskspaceTool.
+	xTool := SpkExplorerTool newInTaskspace: self.
+	xTool addPane: paneTool.
 	paneTool initializeDefaultInExplorer: xTool.
 	self addExplorer: xTool.
 	^ xTool

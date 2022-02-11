@@ -21,6 +21,7 @@ SpkServiceFactory class >> initializeServiceClassesForToolTypes [
 	^ serviceClassesForToolTypes
 		at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
 		at: SpkDebuggerTool put: SpkDebuggerServiceServer;
+		at: SpkDebuggerFrameTool put: SpkDebuggerFrameServiceServer;
 		at: SpkExplorerTool put: SpkExplorerServiceServer;
 		at: SpkInspectorTool put: SpkInspectorServiceServer;
 		at: SpkProcessListTool put: SpkProcessListServiceServer;

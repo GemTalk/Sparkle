@@ -175,7 +175,7 @@ SpkDebuggerTool >> markTopGlueForBreakpoint: aBreakpoint [
 		indexOfFrameInLast: 20
 		suchThat: [ :frame | 
 			frame receiver == aBreakpoint
-				and: [ frame method selector == #'_signalAsync' ] ].
+				and: [ frame method selector == #'_signalAsync:' ] ].
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
 		ifNil: [ self markTopGlueForException: aBreakpoint ]

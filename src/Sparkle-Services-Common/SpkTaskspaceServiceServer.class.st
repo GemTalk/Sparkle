@@ -66,8 +66,38 @@ SpkTaskspaceServiceServer >> commitTransaction [
 
 { #category : 'initialization' }
 SpkTaskspaceServiceServer >> initializeFromTool: aTool [
-
 	self tool: aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #'receiveExecutionAnnouncement:'
+		to: self.
+	self refreshFromTool
+]
+
+{ #category : 'processing announcements' }
+SpkTaskspaceServiceServer >> receiveExecutionAnnouncement: announcement [
+
+	self refreshFromTool ifTrue: [ 
+		announcement updatedServices add: self ]
+]
+
+{ #category : 'initialization' }
+SpkTaskspaceServiceServer >> refreshFromTool [
+	"Make there be one explorer service for each explorer tool in my tool,
+	but keep any still-valid existing explorer services"
+
+	| newExplorers changed |
+	newExplorers := Set new.
+	tool explorerTools
+		do: [ :xTool | 
+			| xService |
+			xService := explorers
+				detect: [ :xS | xS tool == xTool ]
+				ifNone: [ SpkServiceFactory serviceForTool: xTool ].
+			newExplorers add: xService ].
+	changed := newExplorers ~= explorers.
+	explorers := newExplorers.
+	^ changed
 ]
 
 { #category : 'transaction management' }

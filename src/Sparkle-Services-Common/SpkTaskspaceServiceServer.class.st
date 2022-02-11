@@ -104,7 +104,7 @@ SpkTaskspaceServiceServer >> receiveNewExplorerToolAnnouncement: announcement [
 
 	promise := remoteSelf newExplorerService: newService.
 	promise
-		when: [ "no action required" ]
+		when: [:ignored | "no action required" ]
 		catch: [ :reason | 
 			GsFile
 				gciLogServer:

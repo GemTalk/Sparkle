@@ -35,7 +35,7 @@ SpkExplorerBasicTest >> firstPaneOf: aColumn [
 ]
 
 { #category : 'running' }
-SpkExplorerBasicTest >> openExplorer [
+SpkExplorerBasicTest >> newEvaluator [
 
 	| taskspace |
 	taskspace := SpkTaskspace new.
@@ -50,7 +50,7 @@ SpkExplorerBasicTest >> openExplorer [
 SpkExplorerBasicTest >> setUp [
 	super setUp.
 	self connection. "Force lazy initialization if we don't already have a connection."
-	self openExplorer
+	self newEvaluator
 ]
 
 { #category : 'running' }

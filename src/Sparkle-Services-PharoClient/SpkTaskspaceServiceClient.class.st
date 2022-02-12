@@ -29,21 +29,20 @@ SpkTaskspaceServiceClient >> addDefaultExplorer [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'actions' }
-SpkTaskspaceServiceClient >> addProcessListExplorer [
-
-	| promise |
-	promise := remoteSelf addProcessListExplorer.
-	promise
-		when: [ :xService | self announceNewExplorer: xService ]
-		catch: self defaultCatchBlock
-]
-
 { #category : 'private' }
 SpkTaskspaceServiceClient >> announceNewExplorer: anExplorerService [
 
 	self updateServices.
 	self announce: (SpkNewExplorerAnnouncement service: anExplorerService)
+]
+
+{ #category : 'private' }
+SpkTaskspaceServiceClient >> announceNewExplorerAndPane: anExplorerAndPaneService [
+
+	self updateServices.
+	self announce: (SpkNewExplorerAndPaneAnnouncement
+			 explorerService: anExplorerAndPaneService explorer
+			 paneService: anExplorerAndPaneService pane)
 ]
 
 { #category : 'transaction management' }
@@ -73,6 +72,16 @@ SpkTaskspaceServiceClient >> commitTransaction [
 ]
 
 { #category : 'actions' }
+SpkTaskspaceServiceClient >> newEvaluatorExplorer [
+
+	| promise |
+	promise := remoteSelf newEvaluatorExplorer.
+	promise
+		when: [ :xpService | self announceNewExplorerAndPane: xpService ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'actions' }
 SpkTaskspaceServiceClient >> newExplorerService: xService [
 
 	"This message is sent from the server."
@@ -82,6 +91,16 @@ SpkTaskspaceServiceClient >> newExplorerService: xService [
 	"Response is not used by the server, 
 so send the cheapest object to send."
 	^ nil
+]
+
+{ #category : 'actions' }
+SpkTaskspaceServiceClient >> newProcessListExplorer [
+
+	| promise |
+	promise := remoteSelf newProcessListExplorer.
+	promise
+		when: [ :xService | self announceNewExplorer: xService ]
+		catch: self defaultCatchBlock
 ]
 
 { #category : 'transaction management' }

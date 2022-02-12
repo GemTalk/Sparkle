@@ -44,12 +44,6 @@ SpkTaskspace >> addDefaultExplorer [
 	taskspaceService addDefaultExplorer
 ]
 
-{ #category : 'actions' }
-SpkTaskspace >> addProcessListExplorer [
-
-	taskspaceService addProcessListExplorer
-]
-
 { #category : 'transaction management' }
 SpkTaskspace >> beginTransaction [
 
@@ -77,6 +71,23 @@ SpkTaskspace >> handleRespondedService: aService [
 
 	aService class == SpkSuccessServiceClient
 		ifFalse: [ self openWindowForService: aService ]
+]
+
+{ #category : 'running' }
+SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
+
+	"Open and initialize windows from the given service.
+	This method runs in the UI thread."
+
+	taskspaceService := aTaskspaceService.
+	taskspaceService
+		when: SpkNewExplorerAndPaneAnnouncement
+		send: #receiveNewExplorerAndPaneAnnouncement:
+		to: self.
+	taskspaceService
+		when: SpkTaskspaceResponseAnnouncement
+		send: #receiveTaskspaceResponse:
+		to: self
 ]
 
 { #category : 'initialization' }
@@ -113,14 +124,33 @@ SpkTaskspace >> initializeRegistryService [
 	^ registryService
 ]
 
+{ #category : 'actions' }
+SpkTaskspace >> newEvaluator [
+
+	taskspaceService newEvaluatorExplorer
+	"Reply via announcement"
+]
+
+{ #category : 'actions' }
+SpkTaskspace >> newProcessListExplorer [
+
+	taskspaceService newProcessListExplorer
+]
+
 { #category : 'running' }
-SpkTaskspace >> openAllWindows [
+SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 
-	"Open and initialize windows from my service.
-	This method runs in the UI thread."
+	| explorer column pane |
+	explorer := SpkExplorerWindow newApplication: self model: xService.
+	explorer openWithSpec.
+	pane := explorer presenterForService: pService.
+	pane coordinate: (SpkPaneCoordinate forVector: #( 0.5 )).
 
-	taskspaceService explorersDo: [ :xServ | 
-		self openWindowForService: xServ ]
+	column := explorer addColumn.
+	column add: pane.
+
+	"For UI tests"
+	self announce: (SpkExplorerOpenedAnnouncement new explorer: explorer)
 ]
 
 { #category : 'initialization' }
@@ -151,6 +181,15 @@ SpkTaskspace >> presenterClassesForServiceTypes [
 ]
 
 { #category : 'as yet unclassified' }
+SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
+
+	self defer: [ 
+		self
+			openExplorerForService: announcement explorerService
+			withPaneForService: announcement paneService ]
+]
+
+{ #category : 'as yet unclassified' }
 SpkTaskspace >> receiveNewExplorerAnnouncement: announcement [
 
 	self defer: [ 
@@ -161,7 +200,7 @@ SpkTaskspace >> receiveNewExplorerAnnouncement: announcement [
 SpkTaskspace >> receiveNewTaskspaceAnnouncement: anAnnouncement [
 
 	self defer: [ 
-		self restoreFromTaskspaceService: anAnnouncement taskspaceService ]
+		self initializeFromTaskspaceService: anAnnouncement taskspaceService ]
 ]
 
 { #category : 'processing announcements' }
@@ -174,24 +213,6 @@ SpkTaskspace >> receiveTaskspaceResponse: anAnnouncement [
 SpkTaskspace >> registryService [
 
 	^ registryService ifNil: [ self initializeRegistryService ]
-]
-
-{ #category : 'running' }
-SpkTaskspace >> restoreFromTaskspaceService: aTaskspaceService [
-
-	"Open and initialize windows from the given service.
-	This method runs in the UI thread."
-
-	taskspaceService := aTaskspaceService.
-	taskspaceService
-		when: SpkNewExplorerAnnouncement
-		send: #receiveNewExplorerAnnouncement:
-		to: self.
-	taskspaceService
-		when: SpkTaskspaceResponseAnnouncement
-		send: #receiveTaskspaceResponse:
-		to: self.
-	self openAllWindows
 ]
 
 { #category : 'transaction management' }

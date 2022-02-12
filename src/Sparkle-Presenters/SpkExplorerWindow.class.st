@@ -61,25 +61,6 @@ SpkExplorerWindow >> initialExtent [
 	^ 900 @ 900
 ]
 
-{ #category : 'initialization' }
-SpkExplorerWindow >> initializeFromModel [
-	"When initializing, it is required that my model have exactly one pane.
-	Make one column, and put the pane in it."
-	| pane column |
-	pane := self presenterForService: model singlePaneService.
-	pane coordinate: (SpkPaneCoordinate forVector: #(0.5)).
-	column := self addColumn.
-	column add: pane.
-	
-]
-
-{ #category : 'initialization' }
-SpkExplorerWindow >> initializePresenters [
-
-	super initializePresenters.
-	self initializeFromModel
-]
-
 { #category : 'transaction management' }
 SpkExplorerWindow >> setAutomaticTransactionMode [
 

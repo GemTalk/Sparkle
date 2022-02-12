@@ -204,7 +204,7 @@ SpkConnectionListPresenter >> initializeToolbar [
 					                              (self iconNamed:
 							                               #smallSystemBrowser);
 				                              help: 'Open a Sparkle Inspector with Evaluator';
-				                              action: [ self openExplorer ];
+				                              action: [ self newEvaluator ];
 				                              yourself);
 		           addItem: (processListButton := SpToolbarButtonPresenter new
 				                              label: 'Processes';
@@ -273,20 +273,20 @@ SpkConnectionListPresenter >> loadFromFile [
 	connectionList items: SpkConnectionProfile profiles
 ]
 
-{ #category : 'accessing' }
-SpkConnectionListPresenter >> newLayout [
-
-	^ SpkBoxLayout newVertical
-]
-
 { #category : 'actions' }
-SpkConnectionListPresenter >> openExplorer [
+SpkConnectionListPresenter >> newEvaluator [
 
 	| selection |
 	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
-	selection openExplorer
+	selection newEvaluator
+]
+
+{ #category : 'accessing' }
+SpkConnectionListPresenter >> newLayout [
+
+	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'actions' }
@@ -296,7 +296,7 @@ SpkConnectionListPresenter >> openProcessList [
 	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
-	selection addProcessListExplorer
+	selection newProcessListExplorer
 ]
 
 { #category : 'events' }

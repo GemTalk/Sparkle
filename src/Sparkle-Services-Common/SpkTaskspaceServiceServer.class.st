@@ -29,15 +29,6 @@ SpkTaskspaceServiceServer >> addDefaultExplorer [
 	^ xService
 ]
 
-{ #category : 'opening explorers' }
-SpkTaskspaceServiceServer >> addProcessListExplorer [
-	| xTool xService |
-	xTool := tool newProcessListExplorer.
-	xService := SpkServiceFactory serviceForTool: xTool.
-	"self addExplorer: xService."
-	^ xService
-]
-
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> beginTransaction [
 	"Begin a new transaction"
@@ -74,6 +65,15 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 		when: SpkNewExplorerToolAnnouncement
 			send: #'receiveNewExplorerToolAnnouncement:'
 			to: self
+]
+
+{ #category : 'opening explorers' }
+SpkTaskspaceServiceServer >> newProcessListExplorer [
+	| xTool xService |
+	xTool := tool newProcessListExplorer.
+	xService := SpkServiceFactory serviceForTool: xTool.
+	"self addExplorer: xService."
+	^ xService
 ]
 
 { #category : 'processing announcements' }

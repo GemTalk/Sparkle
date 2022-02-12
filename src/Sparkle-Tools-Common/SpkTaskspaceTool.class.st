@@ -27,28 +27,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'instance creation' }
-SpkTaskspaceTool class >> newDefault [
-
-	^ self new
-		  initializeForDefault;
-		  yourself
-]
-
-{ #category : 'adding' }
-SpkTaskspaceTool >> addDefaultExplorer [
-
-	"The default initial taskspace has one default explorer."
-
-	| explorer |
-	explorer := self newExplorerTool
-		            initializeForDefault;
-		            yourself.
-
-	self addExplorer: explorer.
-	^ explorer
-]
-
 { #category : 'private' }
 SpkTaskspaceTool >> addExplorer: anExplorerTool [
 	explorerTools add: anExplorerTool
@@ -89,12 +67,6 @@ SpkTaskspaceTool >> explorerTools [
 	^ explorerTools
 ]
 
-{ #category : 'initialization' }
-SpkTaskspaceTool >> initializeForDefault [
-
-	self addDefaultExplorer
-]
-
 { #category : 'private' }
 SpkTaskspaceTool >> managerForProcess: aProcess [
 	"Answer a new or existing manager for the given process.
@@ -132,10 +104,12 @@ SpkTaskspaceTool >> newExplorerForPaneTool: paneTool [
 
 { #category : 'instance creation' }
 SpkTaskspaceTool >> newExplorerTool [
-
-	^ SpkExplorerTool new
-		  taskspaceTool: self;
-		  yourself
+	| xTool |
+	xTool := SpkExplorerTool new
+		taskspaceTool: self;
+		yourself.
+	self addExplorer: xTool.
+	^ xTool
 ]
 
 { #category : 'actions' }

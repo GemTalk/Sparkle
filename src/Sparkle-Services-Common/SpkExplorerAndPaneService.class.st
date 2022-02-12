@@ -8,6 +8,14 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
+{ #category : 'instance creation' }
+SpkExplorerAndPaneService class >> newForPane: pService inExplorer: xService [
+	^ self new
+		pane: pService;
+		explorer: xService;
+		yourself
+]
+
 { #category : 'accessing' }
 SpkExplorerAndPaneService class >> templateClassName [
 

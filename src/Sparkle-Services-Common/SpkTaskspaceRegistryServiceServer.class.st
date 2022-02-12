@@ -5,11 +5,10 @@ Class {
 }
 
 { #category : 'defaults' }
-SpkTaskspaceRegistryServiceServer >> newDefaultTaskspace [
+SpkTaskspaceRegistryServiceServer >> newTaskspace [
+	"Create a new taskspace tool, and answer a service for it."
 
-	"Create a new default taskspace tool, and answer a service for it."
-
-	| tool |
-	tool := SpkTaskspaceTool newDefault.
-	^ SpkServiceFactory serviceForTool: tool
+	| tTool |
+	tTool := SpkTaskspaceTool new.
+	^ SpkServiceFactory serviceForTool: tTool
 ]

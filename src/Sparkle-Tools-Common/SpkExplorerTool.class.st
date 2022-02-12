@@ -21,13 +21,6 @@ Class {
 }
 
 { #category : 'other' }
-SpkExplorerTool class >> defaultInTaskspace: aTaskspaceTool [
-	^ (self newInTaskspace: aTaskspaceTool)
-		initializeForDefault;
-		yourself
-]
-
-{ #category : 'other' }
 SpkExplorerTool class >> newInTaskspace: aTaskspaceTool [
 	^ self new
 		taskspaceTool: aTaskspaceTool;
@@ -35,10 +28,8 @@ SpkExplorerTool class >> newInTaskspace: aTaskspaceTool [
 ]
 
 { #category : 'adding' }
-SpkExplorerTool >> addPane: aPaneTool [
-
-aPaneTool class == SpkDebuggerFrameTool ifTrue: [self halt].
-	panes add: aPaneTool
+SpkExplorerTool >> addPane: pTool [
+	panes add: pTool
 ]
 
 { #category : 'initialization' }
@@ -46,18 +37,6 @@ SpkExplorerTool >> initialize [
 
 	super initialize.
 	panes := IdentitySet new
-]
-
-{ #category : 'initialization' }
-SpkExplorerTool >> initializeForDefault [
-
-	"A default explorer starts with an inspector pane on nil, with one evaluator"
-
-	| inspector |
-	inspector := (self newInspectorToolOn: nil)
-		             initializeForDefault;
-		             yourself.
-	self addPane: inspector
 ]
 
 { #category : 'instance creation' }

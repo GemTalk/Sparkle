@@ -20,15 +20,6 @@ SpkTaskspaceServiceServer >> abortTransaction [
 	^SpkServiceFactory serviceForTool: resultTool
 ]
 
-{ #category : 'opening explorers' }
-SpkTaskspaceServiceServer >> addDefaultExplorer [ 
-	| xTool xService |
-	xTool := tool addDefaultExplorer.
-	xService := SpkServiceFactory serviceForTool: xTool.
-	"self addExplorer: xService."
-	^ xService
-]
-
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> beginTransaction [
 	"Begin a new transaction"
@@ -65,6 +56,18 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 		when: SpkNewExplorerToolAnnouncement
 			send: #'receiveNewExplorerToolAnnouncement:'
 			to: self
+]
+
+{ #category : 'opening explorers' }
+SpkTaskspaceServiceServer >> newEvaluatorExplorer [
+	| xTool pTool xService pService |
+	xTool := tool newExplorerTool.
+	pTool := SpkInspectorTool newInExplorer: xTool.
+	pTool addEvaluator.
+
+	xService := SpkServiceFactory serviceForTool: xTool.
+	pService := SpkServiceFactory serviceForTool: pTool.
+	^ SpkExplorerAndPaneService newForPane: pService inExplorer: xService
 ]
 
 { #category : 'opening explorers' }

@@ -72,8 +72,7 @@ SpkDebuggerTool >> initialize [
 
 { #category : 'initialization' }
 SpkDebuggerTool >> initializeDefaultInExplorer: xTool [
-	explorerTool := xTool.
-	self refreshFromProcess
+	explorerTool := xTool
 ]
 
 { #category : 'other' }

@@ -37,6 +37,7 @@ SpkExplorerTool class >> newInTaskspace: aTaskspaceTool [
 { #category : 'adding' }
 SpkExplorerTool >> addPane: aPaneTool [
 
+aPaneTool class == SpkDebuggerFrameTool ifTrue: [self halt].
 	panes add: aPaneTool
 ]
 

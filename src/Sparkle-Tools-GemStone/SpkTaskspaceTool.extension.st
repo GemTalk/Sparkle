@@ -81,7 +81,7 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 	^wasSuccessful
 		ifTrue: [SpkSuccessTool new]
 		ifFalse:
-			[SpkExplorerLayoutTool
+			[SpkExplorerTool
 				newInTaskspace: self
 				viewing: processResult]
 ]

@@ -16,7 +16,6 @@ Class {
 	#name : 'SpkTaskspaceService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'explorers',
 		'updatedServices'
 	],
 	#category : 'Sparkle-Services-Common'
@@ -28,36 +27,10 @@ SpkTaskspaceService class >> templateClassName [
 	^ #SpkTaskspaceService
 ]
 
-{ #category : 'acccessing' }
-SpkTaskspaceService >> addExplorer: anExplorerService [
-
-	explorers add: anExplorerService
-]
-
-{ #category : 'accessing' }
-SpkTaskspaceService >> explorers [
-
-	^ explorers
-]
-
-{ #category : 'enumerating' }
-SpkTaskspaceService >> explorersDo: aUnaryBlock [
-
-	explorers do: aUnaryBlock
-]
-
 { #category : 'initialization' }
 SpkTaskspaceService >> initialize [
-
 	super initialize.
-	explorers := Set new.
-	updatedServices := Set new.
-]
-
-{ #category : 'acccessing' }
-SpkTaskspaceService >> removeExplorer: anExplorerService [
-
-	explorers remove: anExplorerService
+	updatedServices := Set new
 ]
 
 { #category : 'acccessing' }

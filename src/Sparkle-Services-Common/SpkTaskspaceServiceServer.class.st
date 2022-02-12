@@ -25,7 +25,7 @@ SpkTaskspaceServiceServer >> addDefaultExplorer [
 	| xTool xService |
 	xTool := tool addDefaultExplorer.
 	xService := SpkServiceFactory serviceForTool: xTool.
-	self addExplorer: xService.
+	"self addExplorer: xService."
 	^ xService
 ]
 
@@ -34,7 +34,7 @@ SpkTaskspaceServiceServer >> addProcessListExplorer [
 	| xTool xService |
 	xTool := tool newProcessListExplorer.
 	xService := SpkServiceFactory serviceForTool: xTool.
-	self addExplorer: xService.
+	"self addExplorer: xService."
 	^ xService
 ]
 
@@ -73,8 +73,7 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 			to: self;
 		when: SpkNewExplorerToolAnnouncement
 			send: #'receiveNewExplorerToolAnnouncement:'
-			to: self.
-	self refreshFromTool
+			to: self
 ]
 
 { #category : 'processing announcements' }
@@ -91,16 +90,13 @@ SpkTaskspaceServiceServer >> receiveNewExplorerToolAnnouncement: announcement [
 
 	| xTool existingService newService promise |
 	xTool := announcement tool.
-	existingService := explorers
+	existingService := nil
 		detect: [ :xService | xService tool == xTool ]
 		ifNone: [ nil ].
 	existingService
 		ifNotNil: [ self error: 'Expected a new explorer tool, not one I already have.' ].
 	newService := SpkServiceFactory serviceForTool: xTool.
-	explorers add: newService.	
-
-	"Probably no changes, but good practice to refresh."
-	self refreshFromTool.
+	"explorers add: newService."
 
 	promise := remoteSelf newExplorerService: newService.
 	promise
@@ -121,12 +117,12 @@ SpkTaskspaceServiceServer >> refreshFromTool [
 	tool explorerTools
 		do: [ :xTool | 
 			| xService |
-			xService := explorers
+			xService := nil
 				detect: [ :xS | xS tool == xTool ]
 				ifNone: [ SpkServiceFactory serviceForTool: xTool ].
 			newExplorers add: xService ].
-	changed := newExplorers ~= explorers.
-	explorers := newExplorers.
+	changed := newExplorers ~= nil.
+newExplorers.
 	^ changed
 ]
 

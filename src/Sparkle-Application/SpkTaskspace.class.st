@@ -170,10 +170,9 @@ SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 	| explorer column pane |
 	explorer := SpkExplorerWindow newApplication: self model: xService.
 	explorer openWithSpec.
-	pane := explorer presenterForService: pService.
-	pane coordinate: (SpkPaneCoordinate forVector: #( 0.5 )).
-
 	column := explorer addColumn.
+	pane := column presenterForService: pService.
+	pane coordinate: (SpkPaneCoordinate forVector: #( 0.5 )).
 	column add: pane.
 
 	"For UI tests"

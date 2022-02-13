@@ -22,7 +22,8 @@ Class {
 		'connection',
 		'registryService',
 		'taskspaceService',
-		'presenterClassesForServiceTypes'
+		'presenterClassesForServiceTypes',
+		'needEvaluator'
 	],
 	#category : 'Sparkle-Application'
 }
@@ -32,16 +33,18 @@ SpkTaskspace class >> applicationName [
 	^ 'Sparkle Taskspace'
 ]
 
+{ #category : 'instance creation' }
+SpkTaskspace class >> forConnection: anRsrConnection [
+
+	^ self new
+		  initializeForConnection: anRsrConnection;
+		  yourself
+]
+
 { #category : 'transaction management' }
 SpkTaskspace >> abortTransaction [
 
 	^taskspaceService abortTransaction
-]
-
-{ #category : 'initialization' }
-SpkTaskspace >> addDefaultExplorer [
-
-	taskspaceService addDefaultExplorer
 ]
 
 { #category : 'transaction management' }
@@ -73,7 +76,22 @@ SpkTaskspace >> handleRespondedService: aService [
 		ifFalse: [ self openWindowForService: aService ]
 ]
 
-{ #category : 'running' }
+{ #category : 'initialization' }
+SpkTaskspace >> initialize [ 
+	super initialize.
+	needEvaluator := false
+]
+
+{ #category : 'initialization' }
+SpkTaskspace >> initializeForConnection: anRsrConnection [ 
+	connection := anRsrConnection.
+	self initializeRegistryService.
+	
+	"Reply arrives via announcement and sets my taskspaceService"
+	registryService newTaskspace. 
+]
+
+{ #category : 'initialization' }
 SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
 
 	"Open and initialize windows from the given service.
@@ -87,7 +105,10 @@ SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
 	taskspaceService
 		when: SpkTaskspaceResponseAnnouncement
 		send: #receiveTaskspaceResponse:
-		to: self
+		to: self.
+	needEvaluator ifTrue: [ 
+		needEvaluator := false.
+		self newEvaluator ]
 ]
 
 { #category : 'initialization' }
@@ -127,8 +148,14 @@ SpkTaskspace >> initializeRegistryService [
 { #category : 'actions' }
 SpkTaskspace >> newEvaluator [
 
-	taskspaceService newEvaluatorExplorer
-	"Reply via announcement"
+	"When first connecting, taskspaceService will be 
+	nil since it's coming from the server."
+
+	taskspaceService
+		ifNotNil: [ :tService | 
+			tService newEvaluatorExplorer
+			"Reply comes via announcement" ]
+		ifNil: [ "Defer until service comes in" needEvaluator := true ]
 ]
 
 { #category : 'actions' }
@@ -151,13 +178,6 @@ SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 
 	"For UI tests"
 	self announce: (SpkExplorerOpenedAnnouncement new explorer: explorer)
-]
-
-{ #category : 'initialization' }
-SpkTaskspace >> openNewDefaultTaskspace [
-
-	self registryService newDefaultTaskspace
-	"Reply via TaskspaceLayoutAnnouncment"
 ]
 
 { #category : 'running' }
@@ -207,12 +227,6 @@ SpkTaskspace >> receiveNewTaskspaceAnnouncement: anAnnouncement [
 SpkTaskspace >> receiveTaskspaceResponse: anAnnouncement [
 
 	self defer: [ self handleRespondedService: anAnnouncement service ]
-]
-
-{ #category : 'accessing' }
-SpkTaskspace >> registryService [
-
-	^ registryService ifNil: [ self initializeRegistryService ]
 ]
 
 { #category : 'transaction management' }

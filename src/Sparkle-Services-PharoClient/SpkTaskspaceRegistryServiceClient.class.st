@@ -7,17 +7,17 @@ Class {
 }
 
 { #category : 'remote actions' }
-SpkTaskspaceRegistryServiceClient >> newDefaultTaskspace [
+SpkTaskspaceRegistryServiceClient >> newTaskspace [
 
-	"Create a default taskspace. 
-	The new TaskspaceService arrives via announcement."
+	"Creates a new taskspace on the server,
+	and announce it when it arrives."
 
 	| promise |
-	promise := remoteSelf newDefaultTaskspace.
+	promise := remoteSelf newTaskspace.
 	promise
-		when: [ :ts | 
+		when: [ :tService | 
 			self announce: (SpkNewTaskspaceAnnouncement new
-					 taskspaceService: ts;
+					 taskspaceService: tService;
 					 yourself) ]
 		catch: self defaultCatchBlock
 ]

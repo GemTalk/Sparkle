@@ -92,7 +92,7 @@ SpkConnectionPresenter >> connect [
 			shouldDebug
 				ifTrue: [ ex pass ]
 				ifFalse: [ ^ self ] ].
-	self openExplorer: connectionProfile taskspace
+	self newEvaluatorIn: connectionProfile taskspace
 ]
 
 { #category : 'initialization' }
@@ -250,16 +250,16 @@ SpkConnectionPresenter >> initializeUnselectedProfile [
 	self disableButtons. 
 ]
 
+{ #category : 'actions' }
+SpkConnectionPresenter >> newEvaluatorIn: aTaskspace [
+
+	aTaskspace newEvaluator
+]
+
 { #category : 'accessing' }
 SpkConnectionPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
-]
-
-{ #category : 'actions' }
-SpkConnectionPresenter >> openExplorer: aTaskspace [
-
-	aTaskspace openNewDefaultTaskspace
 ]
 
 { #category : 'actions' }

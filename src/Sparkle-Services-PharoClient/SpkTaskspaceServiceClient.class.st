@@ -19,16 +19,6 @@ SpkTaskspaceServiceClient >> abortTransaction [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'actions' }
-SpkTaskspaceServiceClient >> addDefaultExplorer [
-
-	| promise |
-	promise := remoteSelf addDefaultExplorer.
-	promise
-		when: [ :xService | self announceNewExplorer: xService ]
-		catch: self defaultCatchBlock
-]
-
 { #category : 'private' }
 SpkTaskspaceServiceClient >> announceNewExplorer: anExplorerService [
 

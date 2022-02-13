@@ -50,12 +50,9 @@ SpkTaskspaceServiceServer >> commitTransaction [
 SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 	self tool: aTool.
 	tool
-		when: SpkExecutionAnnouncement
-			send: #'receiveExecutionAnnouncement:'
-			to: self;
 		when: SpkNewExplorerToolAnnouncement
-			send: #'receiveNewExplorerToolAnnouncement:'
-			to: self
+		send: #'receiveNewExplorerToolAnnouncement:'
+		to: self
 ]
 
 { #category : 'opening explorers' }
@@ -80,13 +77,6 @@ SpkTaskspaceServiceServer >> newProcessListExplorer [
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspaceServiceServer >> receiveExecutionAnnouncement: announcement [
-
-	self refreshFromTool ifTrue: [ 
-		announcement updatedServices add: self ]
-]
-
-{ #category : 'processing announcements' }
 SpkTaskspaceServiceServer >> receiveNewExplorerToolAnnouncement: announcement [
 	"Receiving this announcement should mean that I have a new explorer, 
 	and need to send that to the client."
@@ -108,25 +98,6 @@ SpkTaskspaceServiceServer >> receiveNewExplorerToolAnnouncement: announcement [
 			GsFile
 				gciLogServer:
 					'Send of #newExplorerService: failed because ' , reason printString ]
-]
-
-{ #category : 'initialization' }
-SpkTaskspaceServiceServer >> refreshFromTool [
-	"Make there be one explorer service for each explorer tool in my tool,
-	but keep any still-valid existing explorer services"
-
-	| newExplorers changed |
-	newExplorers := Set new.
-	tool explorerTools
-		do: [ :xTool | 
-			| xService |
-			xService := nil
-				detect: [ :xS | xS tool == xTool ]
-				ifNone: [ SpkServiceFactory serviceForTool: xTool ].
-			newExplorers add: xService ].
-	changed := newExplorers ~= nil.
-newExplorers.
-	^ changed
 ]
 
 { #category : 'transaction management' }

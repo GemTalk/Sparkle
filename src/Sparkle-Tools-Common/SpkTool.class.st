@@ -13,6 +13,13 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'instance creation' }
+SpkTool class >> newInTaskspace: aTaskspaceTool [
+	^ self new
+		taskspaceTool: aTaskspaceTool;
+		yourself
+]
+
 { #category : 'comparing' }
 SpkTool >> = anObject [
 	"Announcers are expected to be different for each instance, 

@@ -212,7 +212,7 @@ SpkConnectionListPresenter >> initializeToolbar [
 					                              (self iconNamed:
 							                               #smallSystemBrowser);
 				                              help: 'Open a Process List Explorer';
-				                              action: [ self openProcessList ];
+				                              action: [ self newProcessList ];
 				                              yourself);
 		           yourself.
 	connectionsBox
@@ -290,7 +290,7 @@ SpkConnectionListPresenter >> newLayout [
 ]
 
 { #category : 'actions' }
-SpkConnectionListPresenter >> openProcessList [
+SpkConnectionListPresenter >> newProcessList [
 
 	| selection |
 	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 

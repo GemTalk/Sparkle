@@ -20,13 +20,6 @@ SpkTaskspaceServiceClient >> abortTransaction [
 ]
 
 { #category : 'private' }
-SpkTaskspaceServiceClient >> announceNewExplorer: anExplorerService [
-
-	self updateServices.
-	self announce: (SpkNewExplorerAnnouncement service: anExplorerService)
-]
-
-{ #category : 'private' }
 SpkTaskspaceServiceClient >> announceNewExplorerAndPane: anExplorerAndPaneService [
 
 	self updateServices.
@@ -72,24 +65,12 @@ SpkTaskspaceServiceClient >> newEvaluatorExplorer [
 ]
 
 { #category : 'actions' }
-SpkTaskspaceServiceClient >> newExplorerService: xService [
-
-	"This message is sent from the server."
-
-	self announceNewExplorer: xService.
-
-	"Response is not used by the server, 
-so send the cheapest object to send."
-	^ nil
-]
-
-{ #category : 'actions' }
 SpkTaskspaceServiceClient >> newProcessListExplorer [
 
 	| promise |
 	promise := remoteSelf newProcessListExplorer.
 	promise
-		when: [ :xService | self announceNewExplorer: xService ]
+		when: [ :xpService | self announceNewExplorerAndPane: xpService ]
 		catch: self defaultCatchBlock
 ]
 

@@ -4,6 +4,5 @@ Extension { #name : 'SpkTaskspaceTool' }
 SpkTaskspaceTool >> initialize [
 
 	super initialize.
-	explorerTools := IdentitySet new.
-	name := ''
+	name := 'Default Taskspace'
 ]

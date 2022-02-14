@@ -199,20 +199,13 @@ SpkTaskspace >> presenterClassesForServiceTypes [
 		  self initializePresenterClassesForServiceTypes ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'processing announcements' }
 SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
 
 	self defer: [ 
 		self
 			openExplorerForService: announcement explorerService
 			withPaneForService: announcement paneService ]
-]
-
-{ #category : 'as yet unclassified' }
-SpkTaskspace >> receiveNewExplorerAnnouncement: announcement [
-
-	self defer: [ 
-		self openWindowForService: announcement service ]
 ]
 
 { #category : 'processing announcements' }

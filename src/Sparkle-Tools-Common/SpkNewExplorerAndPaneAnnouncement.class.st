@@ -17,7 +17,7 @@ Class {
 		'explorerService',
 		'paneService'
 	],
-	#category : 'Sparkle-Services-PharoClient-Announcements'
+	#category : 'Sparkle-Tools-Common'
 }
 
 { #category : 'as yet unclassified' }

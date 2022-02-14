@@ -204,8 +204,8 @@ SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
 
 	self defer: [ 
 		self
-			openExplorerForService: announcement explorerService
-			withPaneForService: announcement paneService ]
+			openExplorerForService: announcement explorer
+			withPaneForService: announcement pane ]
 ]
 
 { #category : 'processing announcements' }

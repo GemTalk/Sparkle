@@ -24,8 +24,8 @@ SpkTaskspaceServiceClient >> announceNewExplorerAndPane: anExplorerAndPaneServic
 
 	self updateServices.
 	self announce: (SpkNewExplorerAndPaneAnnouncement
-			 explorerService: anExplorerAndPaneService explorer
-			 paneService: anExplorerAndPaneService pane)
+			 explorer: anExplorerAndPaneService explorer
+			 pane: anExplorerAndPaneService pane)
 ]
 
 { #category : 'transaction management' }

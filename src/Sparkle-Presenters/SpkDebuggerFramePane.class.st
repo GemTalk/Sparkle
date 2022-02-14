@@ -173,7 +173,9 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 
 	| field inspectorService |
 	field := anAnnouncement item.
-	inspectorService := field model inspectFieldForRequest: field.
+	inspectorService := field model
+		                    inspectFieldIn: self explorerService
+		                    forRequest: field.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
 	inspectorService

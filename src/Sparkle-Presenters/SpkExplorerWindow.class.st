@@ -61,6 +61,12 @@ SpkExplorerWindow >> initialExtent [
 	^ 900 @ 900
 ]
 
+{ #category : 'testing' }
+SpkExplorerWindow >> isExplorer [
+
+	^ true
+]
+
 { #category : 'transaction management' }
 SpkExplorerWindow >> setAutomaticTransactionMode [
 

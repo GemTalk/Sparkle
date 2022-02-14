@@ -57,6 +57,12 @@ SpkPresenter >> iconNamed: aSymbol [
 ]
 
 { #category : 'testing' }
+SpkPresenter >> isExplorer [
+
+	^ false
+]
+
+{ #category : 'testing' }
 SpkPresenter >> isPane [
 
 	"Pane classes answer true, others false"
@@ -181,13 +187,13 @@ SpkPresenter >> presentersDo: aBlock [
 	self extraPresenters do: aBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkPresenter >> splitterConstraints [
 
 	^ [ :c | c size: self splitterSize ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkPresenter >> splitterSize [
 
 	^ SpkSplitterMorph splitterWidth

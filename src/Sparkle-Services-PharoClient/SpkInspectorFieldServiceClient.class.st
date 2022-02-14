@@ -13,13 +13,13 @@ SpkInspectorFieldServiceClient >> description [
 ]
 
 { #category : 'inspecting' }
-SpkInspectorFieldServiceClient >> inspectFieldForRequest: aRequestId [
+SpkInspectorFieldServiceClient >> inspectFieldIn: xService forRequest: aRequestId [
 
 	| promise |
 	"I might already have the necessary service cached."
 	self linkedService ifNotNil: [ :service | ^ service ].
 	"Create and announce a new inspectorService for the object I reference."
-	promise := remoteSelf createInspectorService.
+	promise := remoteSelf createInspectorServiceIn: xService.
 	promise
 		when: [ :inspector | 
 			self linkedService: inspector.

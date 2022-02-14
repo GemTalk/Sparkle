@@ -50,8 +50,8 @@ SpkTaskspaceServiceServer >> commitTransaction [
 SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 	self tool: aTool.
 	tool
-		when: SpkNewExplorerToolAnnouncement
-		send: #'receiveNewExplorerToolAnnouncement:'
+		when: SpkNewExplorerAndPaneAnnouncement
+		send: #'receiveNewExplorerAndPaneAnnouncement:'
 		to: self
 ]
 
@@ -81,21 +81,16 @@ SpkTaskspaceServiceServer >> newProcessListExplorer [
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspaceServiceServer >> receiveNewExplorerToolAnnouncement: announcement [
-	"Receiving this announcement should mean that I have a new explorer, 
-	and need to send that to the client."
+SpkTaskspaceServiceServer >> receiveNewExplorerAndPaneAnnouncement: announcement [
+	"Receiving this announcement should mean that I have a new explorer,
+	and a new pane, and need to send them to the client."
 
-	| xTool existingService newService promise |
-	xTool := announcement tool.
-	existingService := nil
-		detect: [ :xService | xService tool == xTool ]
-		ifNone: [ nil ].
-	existingService
-		ifNotNil: [ self error: 'Expected a new explorer tool, not one I already have.' ].
-	newService := SpkServiceFactory serviceForTool: xTool.
-	"explorers add: newService."
+	| pService xService promise |
 
-	promise := remoteSelf newExplorerService: newService.
+	pService := SpkServiceFactory serviceForTool: announcement pane.
+	xService := SpkServiceFactory serviceForTool: announcement explorer.
+	
+	promise := remoteSelf newExplorer: xService andPane: pService.
 	promise
 		when: [:ignored | "no action required" ]
 		catch: [ :reason | 

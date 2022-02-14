@@ -27,12 +27,12 @@ Class {
 }
 
 { #category : 'private' }
-SpkTaskspaceTool >> announceNewExplorerForPaneTool: aPaneTool [
-
-	| newExplorerTool announcement |
-	newExplorerTool := self newExplorerForPaneTool: aPaneTool.
-	announcement := SpkNewExplorerToolAnnouncement
-		tool: newExplorerTool.
+SpkTaskspaceTool >> announceNewExplorerForPaneTool: pTool [
+	| xTool announcement |
+	xTool := self newExplorerTool.
+	announcement := SpkNewExplorerAndPaneAnnouncement
+		explorer: xTool
+		pane: pTool.
 	self announce: announcement
 ]
 
@@ -75,19 +75,6 @@ SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
 	If none, evaluate absentBlock."
 
 	^ processRegistry at: aProcess ifAbsent: absentBlock
-]
-
-{ #category : 'private' }
-SpkTaskspaceTool >> newExplorerForPaneTool: paneTool [
-	"Assumes that paneTool has not been hooked 
-	into the tool hierarchy."
-
-	| xTool |
-	xTool := SpkExplorerTool newInTaskspace: self.
-	xTool addPane: paneTool.
-	paneTool initializeDefaultInExplorer: xTool.
-	self addExplorer: xTool.
-	^ xTool
 ]
 
 { #category : 'instance creation' }

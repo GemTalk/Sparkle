@@ -1,6 +1,7 @@
 "
 Announces that an explorer window should be opened for the explorerService, containing a single column, containing a single pane for the paneService.
-  
+Used both for tool -> service announcing, and service -> presentation announcing. 
+
 Internal Representation and Key Implementation Points.
 
     Instance Variables
@@ -14,41 +15,37 @@ Class {
 	#name : 'SpkNewExplorerAndPaneAnnouncement',
 	#superclass : 'Announcement',
 	#instVars : [
-		'explorerService',
-		'paneService'
+		'explorer',
+		'pane'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
 
 { #category : 'as yet unclassified' }
-SpkNewExplorerAndPaneAnnouncement class >> explorerService: xService paneService: pService [
+SpkNewExplorerAndPaneAnnouncement class >> explorer: x pane: p [
 
 	^ self new
-		  explorerService: xService;
-		  paneService: pService;
+		  explorer: x;
+		  pane: p;
 		  yourself
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerAndPaneAnnouncement >> explorerService [
-
-	^ explorerService
+SpkNewExplorerAndPaneAnnouncement >> explorer [
+	^explorer
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerAndPaneAnnouncement >> explorerService: anObject [
-
-	explorerService := anObject
+SpkNewExplorerAndPaneAnnouncement >> explorer: object [
+	explorer := object
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerAndPaneAnnouncement >> paneService [
-
-	^ paneService
+SpkNewExplorerAndPaneAnnouncement >> pane [
+	^pane
 ]
 
 { #category : 'accessing' }
-SpkNewExplorerAndPaneAnnouncement >> paneService: anObject [
-
-	paneService := anObject
+SpkNewExplorerAndPaneAnnouncement >> pane: object [
+	pane := object
 ]

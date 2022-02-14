@@ -86,18 +86,21 @@ SpkTaskspaceServiceServer >> receiveNewExplorerAndPaneAnnouncement: announcement
 	and a new pane, and need to send them to the client."
 
 	| pService xService combinedService promise |
-
 	pService := SpkServiceFactory serviceForTool: announcement pane.
 	xService := SpkServiceFactory serviceForTool: announcement explorer.
-	
-	combinedService := SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService.
+
+	combinedService := SpkExplorerAndPaneServiceServer
+		newForPane: pService
+		inExplorer: xService.
 
 	promise := remoteSelf announceNewExplorerAndPane: combinedService.
 	promise
-		when: [:ignored | "no action required" ]
+		when: [ :ignored | 
+			"no action required"
+			 ]
 		catch: [ :reason | 
-			GsFile
-				gciLogServer:
+			SpkLogger
+				logError:
 					'Send of #newExplorerService: failed because ' , reason printString ]
 ]
 

@@ -14,12 +14,6 @@ SpkProcessListTool >> initialize [
 	processTools := IdentityDictionary new
 ]
 
-{ #category : 'inspecting' }
-SpkProcessListTool >> newInspectorToolOn: anObject [
-
-	^ explorerTool newInspectorToolOn: anObject
-]
-
 { #category : 'enumerating' }
 SpkProcessListTool >> processToolsDo: aBlock [
 

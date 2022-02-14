@@ -130,12 +130,6 @@ SpkInspectorTool >> inspectedObject: anObject [
 	inspectedObject := anObject
 ]
 
-{ #category : 'instance creation' }
-SpkInspectorTool >> newInspectorToolOn: anObject [
-
-	^ explorerTool newInspectorToolOn: anObject
-]
-
 { #category : 'accessing' }
 SpkInspectorTool >> oop [
 

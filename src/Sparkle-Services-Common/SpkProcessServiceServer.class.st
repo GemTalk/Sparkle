@@ -16,11 +16,10 @@ SpkProcessServiceServer class >> forTool: aProcessTool [
 ]
 
 { #category : 'actions' }
-SpkProcessServiceServer >> createInspectorService [
+SpkProcessServiceServer >> createInspectorServiceIn: xService [
+	"Sent from client."
 
-	| newTool |
-	newTool := parentService tool newInspectorToolOn: tool process.
-	^SpkServiceFactory serviceForTool: newTool
+	^ xService newInspectorServiceOn: tool process
 ]
 
 { #category : 'actions' }

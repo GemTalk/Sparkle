@@ -64,7 +64,7 @@ SpkTaskspaceServiceServer >> newEvaluatorExplorer [
 
 	xService := SpkServiceFactory serviceForTool: xTool.
 	pService := SpkServiceFactory serviceForTool: pTool.
-	^ SpkExplorerAndPaneService newForPane: pService inExplorer: xService
+	^ SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService
 ]
 
 { #category : 'opening explorers' }
@@ -77,7 +77,7 @@ SpkTaskspaceServiceServer >> newProcessListExplorer [
 
 	xService := SpkServiceFactory serviceForTool: xTool.
 	pService := SpkServiceFactory serviceForTool: pTool.
-	^ SpkExplorerAndPaneService newForPane: pService inExplorer: xService
+	^ SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService
 ]
 
 { #category : 'processing announcements' }
@@ -85,12 +85,14 @@ SpkTaskspaceServiceServer >> receiveNewExplorerAndPaneAnnouncement: announcement
 	"Receiving this announcement should mean that I have a new explorer,
 	and a new pane, and need to send them to the client."
 
-	| pService xService promise |
+	| pService xService combinedService promise |
 
 	pService := SpkServiceFactory serviceForTool: announcement pane.
 	xService := SpkServiceFactory serviceForTool: announcement explorer.
 	
-	promise := remoteSelf newExplorer: xService andPane: pService.
+	combinedService := SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService.
+
+	promise := remoteSelf announceNewExplorerAndPane: combinedService.
 	promise
 		when: [:ignored | "no action required" ]
 		catch: [ :reason | 

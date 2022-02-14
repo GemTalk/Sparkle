@@ -21,16 +21,10 @@ Class {
 	#superclass : 'SpkToolWithUndoManager',
 	#instVars : [
 		'name',
-		'explorerTools',
 		'processRegistry'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
-
-{ #category : 'private' }
-SpkTaskspaceTool >> addExplorer: anExplorerTool [
-	explorerTools add: anExplorerTool
-]
 
 { #category : 'private' }
 SpkTaskspaceTool >> announceNewExplorerForPaneTool: aPaneTool [
@@ -59,12 +53,6 @@ SpkTaskspaceTool >> debugAndAnnounce: processToDebug explanation: anExplanation 
 	(self managerForProcess: processToDebug)
 		announceNextDebug: true;
 		debugWithExplanation: anExplanation
-]
-
-{ #category : 'accessing' }
-SpkTaskspaceTool >> explorerTools [
-
-	^ explorerTools
 ]
 
 { #category : 'private' }
@@ -108,7 +96,6 @@ SpkTaskspaceTool >> newExplorerTool [
 	xTool := SpkExplorerTool new
 		taskspaceTool: self;
 		yourself.
-	self addExplorer: xTool.
 	^ xTool
 ]
 
@@ -123,11 +110,6 @@ manager: processManager [
 		processBody: processBody;
 		processManager: processManager;
 		yourself
-]
-
-{ #category : 'adding' }
-SpkTaskspaceTool >> newProcessListExplorer [
-	^ self newExplorerForPaneTool: SpkProcessListTool new
 ]
 
 { #category : 'refreshing' }

@@ -1,36 +1,17 @@
 Class {
 	#name : 'SpkProcessListTool',
-	#superclass : 'SpkTool',
+	#superclass : 'SpkPaneTool',
 	#instVars : [
-		'explorerTool',
 		'processTools'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
-
-{ #category : 'accessing' }
-SpkProcessListTool >> explorerTool [
-
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkProcessListTool >> explorerTool: anExplorerTool [
-
-	explorerTool := anExplorerTool
-]
 
 { #category : 'initializing' }
 SpkProcessListTool >> initialize [
 
 	super initialize.
 	processTools := IdentityDictionary new
-]
-
-{ #category : 'initializing' }
-SpkProcessListTool >> initializeDefaultInExplorer: xTool [
-	self taskspaceTool: xTool taskspaceTool.
-	self explorerTool: xTool
 ]
 
 { #category : 'inspecting' }

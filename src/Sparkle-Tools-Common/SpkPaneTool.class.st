@@ -17,8 +17,17 @@ SpkPaneTool class >> newInExplorer: anExplorerTool [
 		yourself
 ]
 
+{ #category : 'accessing' }
+SpkPaneTool >> explorerTool [
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkPaneTool >> explorerTool: object [
+	explorerTool := object
+]
+
 { #category : 'initialization' }
 SpkPaneTool >> initializeInExplorer: xTool [
-	explorerTool := xTool.
-	xTool addPane: self
+	explorerTool := xTool
 ]

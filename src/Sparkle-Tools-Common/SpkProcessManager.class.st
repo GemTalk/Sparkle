@@ -7,7 +7,6 @@ Class {
 		'taskspaceTool',
 		'debuggerDebugAction',
 		'debuggerTool',
-		'explorerTool',
 		'result',
 		'resultReady',
 		'announceNextDebug'
@@ -100,18 +99,6 @@ SpkProcessManager >> explain: anException [
 	^ SpkAtException for: anException
 ]
 
-{ #category : 'accessing' }
-SpkProcessManager >> explorerTool [
-
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkProcessManager >> explorerTool: anExplorerTool [
-
-	explorerTool := anExplorerTool
-]
-
 { #category : 'initialization' }
 SpkProcessManager >> initialize [
 
@@ -122,14 +109,12 @@ SpkProcessManager >> initialize [
 
 { #category : 'initialization' }
 SpkProcessManager >> initializeDebuggerToolWithExplanation: anExplanation [
-
 	debuggerTool := SpkDebuggerTool new
 		taskspaceTool: taskspaceTool;
 		process: process;
 		processManager: self;
 		currentExplanation: anExplanation;
-		yourself.
-	explorerTool ifNotNil: [:xTool | debuggerTool initializeDefaultInExplorer: xTool]
+		yourself
 ]
 
 { #category : 'private' }

@@ -31,16 +31,6 @@ SpkDebuggerTool >> currentExplanation: anExplanation [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerTool >> explorerTool [
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> explorerTool: object [
-	explorerTool := object
-]
-
-{ #category : 'accessing' }
 SpkDebuggerTool >> frameAt: anInteger [
 	^ self frames at: anInteger
 ]
@@ -68,11 +58,6 @@ SpkDebuggerTool >> initialize [
 	super initialize.
 	frames := OrderedCollection new.
 	replacementTool := self
-]
-
-{ #category : 'initialization' }
-SpkDebuggerTool >> initializeDefaultInExplorer: xTool [
-	explorerTool := xTool
 ]
 
 { #category : 'other' }
@@ -253,7 +238,6 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 
 	^SpkDebuggerFrameTool new
 		taskspaceTool: taskspaceTool;
-		explorerTool: explorerTool;
 		debuggerTool: self;
 		process: process;
 		yourself

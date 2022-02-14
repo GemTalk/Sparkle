@@ -33,18 +33,8 @@ SpkTaskspaceTool >> commitTransactionAnnouncing: anAnnouncement [
 { #category : '*Sparkle-Tools-GemStone' }
 SpkTaskspaceTool >> initialize [
 	super initialize.
-	explorerTools := IdentitySet new.
-	name := ''.
+	name := 'Default Taskspace'.
 	processRegistry := SpkWeakKeyDictionary new
-]
-
-{ #category : '*Sparkle-Tools-GemStone' }
-SpkTaskspaceTool >> newProcessListTool [
-
-	^SpkProcessListTool new
-		taskspaceTool: self;
-		explorerTool:  (SpkExplorerTool newInTaskspace: self);
-		yourself
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }
@@ -69,7 +59,7 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 	resultObject := aBlock
 		ifCurtailed: [ 
 			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current explorerTool: processManager explorerTool) ].
+				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
 		wasSuccessful := true.
 		nil "In the case of success, there is no defined return value."].
 	processLauncher := self

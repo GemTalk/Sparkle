@@ -14,23 +14,8 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : 'SpkExplorerTool',
 	#superclass : 'SpkToolWithUndoManager',
-	#instVars : [
-		'panes'
-	],
 	#category : 'Sparkle-Tools-Common'
 }
-
-{ #category : 'adding' }
-SpkExplorerTool >> addPane: pTool [
-	panes add: pTool
-]
-
-{ #category : 'initialization' }
-SpkExplorerTool >> initialize [
-
-	super initialize.
-	panes := IdentitySet new
-]
 
 { #category : 'instance creation' }
 SpkExplorerTool >> newInspectorToolOn: anObject [
@@ -42,10 +27,4 @@ SpkExplorerTool >> newInspectorToolOn: anObject [
 		  initializeViews;
 		  refreshFieldTools;
 		  yourself
-]
-
-{ #category : 'accessing' }
-SpkExplorerTool >> panes [
-
-	^ panes
 ]

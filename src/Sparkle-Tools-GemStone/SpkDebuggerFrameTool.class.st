@@ -8,7 +8,6 @@ Class {
 	#name : 'SpkDebuggerFrameTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'explorerTool',
 		'debuggerTool',
 		'process',
 		'currentState',
@@ -96,17 +95,6 @@ SpkDebuggerFrameTool >> debuggerTool: object [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> description [
 	^ currentState description
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameTool >> explorerTool [
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameTool >> explorerTool: object [
-	explorerTool := object.
-	explorerTool addPane: self
 ]
 
 { #category : 'private' }
@@ -200,11 +188,6 @@ SpkDebuggerFrameTool >> newInspectorFieldTool [
 		  taskspaceTool: taskspaceTool;
 		  numberOfColumns: 2;
 		  yourself
-]
-
-{ #category : 'other' }
-SpkDebuggerFrameTool >> newInspectorToolOn: anObject [
-	^ explorerTool newInspectorToolOn: anObject
 ]
 
 { #category : 'printing' }

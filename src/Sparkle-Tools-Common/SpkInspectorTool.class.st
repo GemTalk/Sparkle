@@ -73,8 +73,7 @@ SpkInspectorTool >> explorerTool [
 { #category : 'accessing' }
 SpkInspectorTool >> explorerTool: anObject [
 
-	explorerTool := anObject.
-	explorerTool addPane: self
+	explorerTool := anObject
 ]
 
 { #category : 'accessing' }

@@ -69,11 +69,15 @@ SpkTaskspaceServiceServer >> newEvaluatorExplorer [
 
 { #category : 'opening explorers' }
 SpkTaskspaceServiceServer >> newProcessListExplorer [
-	| xTool xService |
-	xTool := tool newProcessListExplorer.
+	"Sent from client."
+
+	| xTool pTool xService pService |
+	xTool := tool newExplorerTool.
+	pTool := SpkProcessListTool newInExplorer: xTool.
+
 	xService := SpkServiceFactory serviceForTool: xTool.
-	"self addExplorer: xService."
-	^ xService
+	pService := SpkServiceFactory serviceForTool: pTool.
+	^ SpkExplorerAndPaneService newForPane: pService inExplorer: xService
 ]
 
 { #category : 'processing announcements' }

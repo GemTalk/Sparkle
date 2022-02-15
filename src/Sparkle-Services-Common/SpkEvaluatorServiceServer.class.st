@@ -9,17 +9,14 @@ Class {
 
 { #category : 'actions' }
 SpkEvaluatorServiceServer >> accept [
+	"Sent from client"
 
 	"Evaluate my newSourceCode, answer a new service for the result."
 
-	| resultTool resultService announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
+	| resultTool resultService |
 	self tool newSourceCode: newSourceCode.
-	resultTool := self tool acceptAnnouncing: announcement.
-
+	resultTool := self tool
+		acceptAnnouncing: (SpkExecutionAnnouncement updatedServices: updatedServices).
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService
@@ -27,16 +24,14 @@ SpkEvaluatorServiceServer >> accept [
 
 { #category : 'actions' }
 SpkEvaluatorServiceServer >> debug [
+	"Sent from client"
+
 	"Evaluate my newSourceCode but stop at the first stepPoint."
 
-	| resultTool resultService announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
+	| resultTool resultService |
 	self tool newSourceCode: newSourceCode.
-	resultTool := self tool debugAnnouncing: announcement.
-
+	resultTool := self tool
+		debugAnnouncing: (SpkExecutionAnnouncement updatedServices: updatedServices).
 	self refreshFromTool.
 	resultService := SpkServiceFactory serviceForTool: resultTool.
 	^ resultService

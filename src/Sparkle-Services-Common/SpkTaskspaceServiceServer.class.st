@@ -9,41 +9,49 @@ Class {
 
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> abortTransaction [
+	"Sent from client"
+
 	"Abort the current transaction"
 
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
-	resultTool := tool abortTransactionAnnouncing: announcement.
-	^SpkServiceFactory serviceForTool: resultTool
+	| resultTool |
+	resultTool := tool
+		abortTransactionAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> beginTransaction [
+	"Sent from client"
+
 	"Begin a new transaction"
 
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
-	resultTool := tool beginTransactionAnnouncing: announcement.
-	^SpkServiceFactory serviceForTool: resultTool
+	| resultTool |
+	resultTool := tool
+		beginTransactionAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> commitTransaction [
+	"Sent from client"
+
 	"Commit the current transaction"
 
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	resultTool := tool commitTransactionAnnouncing: announcement.
-	^SpkServiceFactory serviceForTool: resultTool
+	| resultTool |
+	resultTool := tool
+		commitTransactionAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ SpkServiceFactory serviceForTool: resultTool
+]
+
+{ #category : 'updating' }
+SpkTaskspaceServiceServer >> gatherUpdatedServices [
+	"Each service subscribed to my tool gets a chance to add itself to my updatedServices
+	if it detects a significant change."
+
+	tool announce: (SpkExecutionAnnouncement updatedServices: updatedServices)
 ]
 
 { #category : 'initialization' }
@@ -93,6 +101,8 @@ SpkTaskspaceServiceServer >> receiveNewExplorerAndPaneAnnouncement: announcement
 		newForPane: pService
 		inExplorer: xService.
 
+	self gatherUpdatedServices.
+
 	promise := remoteSelf announceNewExplorerAndPane: combinedService.
 	promise
 		when: [ :ignored | 
@@ -106,41 +116,28 @@ SpkTaskspaceServiceServer >> receiveNewExplorerAndPaneAnnouncement: announcement
 
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> setAutomaticTransactionMode [
+	"Sent from client"
+
 	"Abort the current transaction and begin using automatic transaction mode"
 
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
-	resultTool := tool setAutomaticTransactionModeAnnouncing: announcement.
-	^SpkServiceFactory serviceForTool: resultTool
+	| resultTool |
+	resultTool := tool
+		setAutomaticTransactionModeAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'transaction management' }
 SpkTaskspaceServiceServer >> setManualTransactionMode [
+	"Sent from client"
+
 	"Abort the current transaction and begin using manual transaction mode"
 
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		                updatedServices: updatedServices;
-		                yourself.
-	resultTool := tool setManualTransactionModeAnnouncing: announcement.
-	^SpkServiceFactory serviceForTool: resultTool
-]
-
-{ #category : 'updating' }
-SpkTaskspaceServiceServer >> synchronizeTaskspace [
-	"Synchronize with the client which has requested the server update its state."
-
-	| announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	tool announce: announcement.
-	^self
+	| resultTool |
+	resultTool := tool
+		setManualTransactionModeAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ SpkServiceFactory serviceForTool: resultTool
 ]
 
 { #category : 'initialization' }

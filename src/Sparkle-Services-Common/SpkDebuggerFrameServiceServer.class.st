@@ -107,43 +107,41 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> restart [
+	"Sent from client"
 
-	| announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	tool restartAnnouncing: announcement
+	tool
+		restartAnnouncing: (SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ self
 ]
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepInto [
-	| announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	tool stepIntoAnnouncing: announcement
+	"Sent from client"
+
+	tool
+		stepIntoAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ self
 ]
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepOver [
-	| announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	tool stepOverAnnouncing: announcement
+	"Sent from client"
+
+	tool
+		stepOverAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ self
 ]
 
 { #category : 'other' }
 SpkDebuggerFrameServiceServer >> stepThrough [
-	| announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	tool stepThroughAnnouncing: announcement
+	"Sent from client"
+
+	tool
+		stepThroughAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
+	^ self
 ]
 
 { #category : 'other' }

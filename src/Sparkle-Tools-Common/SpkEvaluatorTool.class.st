@@ -44,12 +44,6 @@ SpkEvaluatorTool >> debugAnnouncing: anAnnouncement [
 ]
 
 { #category : 'accessing' }
-SpkEvaluatorTool >> evaluateCode [
-	self flag: 'Now used only by tests, which should be updated.'.
-	^ self evaluateCodeAnnouncing: SpkExecutionAnnouncement new
-]
-
-{ #category : 'accessing' }
 SpkEvaluatorTool >> evaluateCodeAnnouncing: anAnnouncement [
 	"Evaluate the newSource and answer an appropriate tool for 
 	whatever happens. This can be a syntax error, a runtime error, or an object.

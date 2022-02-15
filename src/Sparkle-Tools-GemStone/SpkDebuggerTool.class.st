@@ -250,13 +250,6 @@ SpkDebuggerTool >> nonGlueFrames [
 ]
 
 { #category : 'actions' }
-SpkDebuggerTool >> proceed [
-	"May wait for an answer, depending on whether the process is an evaluation process"
-	self flag: 'Now used only by tests, which should be updated.'.
-	^ self proceedAnnouncing: SpkExecutionAnnouncement new.
-]
-
-{ #category : 'actions' }
 SpkDebuggerTool >> proceedAnnouncing: anAnnouncement [
 	"May wait for an answer, depending on whether the process is an evaluation process.
 	Announce the announcement when done."

@@ -14,6 +14,12 @@ SpkProcessListService class >> templateClassName [
 	^ #SpkProcessListService
 ]
 
+{ #category : 'initialization' }
+SpkProcessListService >> initialize [
+	super initialize.
+	updatedServices := Set new
+]
+
 { #category : 'accessing' }
 SpkProcessListService >> processes [
 

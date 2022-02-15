@@ -53,6 +53,7 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 
 	| processBody processManager processLauncher wasSuccessful processResult |
 	processManager := self newProcessManager.
+	processManager announceNextDebug: true.
 	wasSuccessful := false.
 	processBody := [ 
 	| resultObject |

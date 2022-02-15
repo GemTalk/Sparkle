@@ -13,7 +13,7 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> checkForTermination [
 
 	(self isValid and: [process _isTerminated])
@@ -40,7 +40,7 @@ SpkDebuggerTool >> frames [
 	^ frames
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> indexOfFrameInLast: limit suchThat: aBlock [
 	"Search up to limit frames, starting at the end of my frames,
 	and answer the index of the first to satisfy aBlock, or nil if none."
@@ -60,7 +60,7 @@ SpkDebuggerTool >> initialize [
 	replacementTool := self
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 	"Some existing frames (the bottom of the stack) are still valid.
 	Let the frame tools that are no longer on the stack know they are 
@@ -69,12 +69,12 @@ SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 	numberOfValidFrames + 1 to: frames size do: [ :index | (frames at: index) beInvalid ]
 ]
 
-{ #category : 'other' }
+{ #category : 'testing' }
 SpkDebuggerTool >> isValid [
 	^ self == replacementTool
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markBottomGlueFrames [
 	"Some of the frames at the bottom of the stack aren't sensible
 	to display to a user in the debugger. They support the execution
@@ -86,7 +86,7 @@ SpkDebuggerTool >> markBottomGlueFrames [
 		markBottomGlueFramesForSparkleEvaluator.
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markBottomGlueFramesForForkedProcess [
 	"Detect and mark the following frames when they are the first frames on the stack.
 	ExecBlock >> valueWithArguments:
@@ -108,7 +108,7 @@ SpkDebuggerTool >> markBottomGlueFramesForForkedProcess [
 		to: 3
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markBottomGlueFramesForSparkleEvaluator [
 	"Detect and mark up to and including the following frames.
    GsNMethod >> _executeInContext:
@@ -135,7 +135,7 @@ SpkDebuggerTool >> markBottomGlueFramesForSparkleEvaluator [
 			index := index + 1 ]
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markGlueFrames [
 	"Identify the frames at the top and bottom of the stack which should be hidden for the purposes
 	of providing a sensible debugger view for the process."
@@ -145,14 +145,14 @@ SpkDebuggerTool >> markGlueFrames [
 		markTopGlueFrames
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markGlueFramesFrom: start
 to: end [
 
 	start to: end do: [:i | (frames at: i) markGlue]
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markTopGlueForBreakpoint: aBreakpoint [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
@@ -165,7 +165,7 @@ SpkDebuggerTool >> markTopGlueForBreakpoint: aBreakpoint [
 		ifNil: [ self markTopGlueForException: aBreakpoint ]
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markTopGlueForException: anException [
 	"Search for, in order of preference, this exception being sent #signal, being sent #_signalToDebugger,
 	and if still not found, fall back to the process manager debugAction block. If *still* not found,
@@ -175,6 +175,12 @@ SpkDebuggerTool >> markTopGlueForException: anException [
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
 		suchThat: [ :frame | frame receiver == anException and: [ frame method selector == #'signal' ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | frame receiver == anException and: [ frame method selector == #'signal:' ] ] ].
 
 	indexOfFirstDiscardedFrame
 		ifNil: [ 
@@ -208,7 +214,7 @@ SpkDebuggerTool >> markTopGlueForException: anException [
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markTopGlueForHalt: aHalt [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
@@ -223,7 +229,7 @@ SpkDebuggerTool >> markTopGlueForHalt: aHalt [
 		ifNil: [ self markTopGlueForException: aHalt ]
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markTopGlueFrames [
 	"At the end of frames (top frames of the stack) are some frameTools that
 	are internal and not desirable for interaction in a debugger.
@@ -302,7 +308,7 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
-{ #category : 'other' }
+{ #category : 'announcement responding' }
 SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
@@ -385,7 +391,7 @@ SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
 	^ replacementTool
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkDebuggerTool >> taskspaceTool: aTool [
 	super taskspaceTool: aTool.
 	taskspaceTool

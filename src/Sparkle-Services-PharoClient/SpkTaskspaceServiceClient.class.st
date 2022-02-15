@@ -60,7 +60,10 @@ SpkTaskspaceServiceClient >> newEvaluatorExplorer [
 	| promise |
 	promise := remoteSelf newEvaluatorExplorer.
 	promise
-		when: [ :xpService | self announceNewExplorerAndPane: xpService ]
+		when: [ :xpService | 
+			self
+				announceNewExplorerAndPane: xpService;
+				updateServices ]
 		catch: self defaultCatchBlock
 ]
 
@@ -70,7 +73,10 @@ SpkTaskspaceServiceClient >> newProcessListExplorer [
 	| promise |
 	promise := remoteSelf newProcessListExplorer.
 	promise
-		when: [ :xpService | self announceNewExplorerAndPane: xpService ]
+		when: [ :xpService | 
+			self
+				announceNewExplorerAndPane: xpService;
+				updateServices ]
 		catch: self defaultCatchBlock
 ]
 

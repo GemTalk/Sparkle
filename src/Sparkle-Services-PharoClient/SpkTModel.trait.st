@@ -69,8 +69,10 @@ SpkTModel >> updateServices [
 
 	"Can be sent in any thread."
 
-	self updatedServices do: [ :each | each announceUpdate ].
-	self updatedServices: Set new
+	| servicesWithChanges |
+	servicesWithChanges := self updatedServices.
+	self updatedServices: Set new.
+	servicesWithChanges do: [ :each | each announceUpdate ]
 ]
 
 { #category : 'announcing' }

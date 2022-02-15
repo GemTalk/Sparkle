@@ -72,6 +72,7 @@ SpkTaskspaceServiceServer >> newEvaluatorExplorer [
 
 	xService := SpkServiceFactory serviceForTool: xTool.
 	pService := SpkServiceFactory serviceForTool: pTool.
+	self gatherUpdatedServices.
 	^ SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService
 ]
 
@@ -85,6 +86,7 @@ SpkTaskspaceServiceServer >> newProcessListExplorer [
 
 	xService := SpkServiceFactory serviceForTool: xTool.
 	pService := SpkServiceFactory serviceForTool: pTool.
+	self gatherUpdatedServices.
 	^ SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService
 ]
 

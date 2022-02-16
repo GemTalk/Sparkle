@@ -15,7 +15,7 @@ SpkMorphicTableDataSource >> cellColumn: column row: rowIndex [
 	| cell builder |
 
 	cell := self cellClass new.
-	builder := SpMorphicTableCellBuilder on: self.
+	builder := SpMorphicSpkTableCellBuilder on: self.
 	builder 
 		cell: cell;
 		rowIndex: rowIndex;
@@ -23,4 +23,10 @@ SpkMorphicTableDataSource >> cellColumn: column row: rowIndex [
 	self setHeaderColumnLazyProperties: column.
 		
 	^ cell
+]
+
+{ #category : 'instance creation' }
+SpkMorphicTableDataSource >> newIconButton [
+
+	^ model instantiate: SpkIconButtonPresenter
 ]

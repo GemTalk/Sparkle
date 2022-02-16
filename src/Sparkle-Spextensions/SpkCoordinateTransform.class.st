@@ -73,6 +73,14 @@ SpkCoordinateTransform >> pStartOf: aRectangle [
 ]
 
 { #category : 'accessing' }
+SpkCoordinateTransform >> pointP: p s: s [
+
+	"Answer a Point in x-y coordinates given the primary-secondary coordinates"
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
 SpkCoordinateTransform >> rectanglePStart: pStart pEnd: pEnd sStart: sStart sEnd: sEnd [
 
 	"Answer a rectangle in x-y coordinates having the given four sides in p-s coordinates."

@@ -9,13 +9,10 @@ Class {
 }
 
 { #category : 'inspecting' }
-SpkInspectorFieldServiceServer >> createInspectorService [
+SpkInspectorFieldServiceServer >> createInspectorServiceIn: xService [
+	"Sent from client."
 
-	| newTool |
-	newTool := parentService tool newInspectorToolOn:
-		           tool referencedObject.
-
-	^ SpkServiceFactory serviceForTool: newTool
+	^ xService newInspectorServiceOn: tool referencedObject
 ]
 
 { #category : 'initialization' }

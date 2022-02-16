@@ -24,6 +24,12 @@ withDescriptionContaining: aString [
 	^debugger frames detect: [ :each | each description includesString: aString ].
 ]
 
+{ #category : 'code to test' }
+SpkDebuggerToolTest >> restartFrameTestMethod [
+	8 printString.
+	^ (5 + 7) printString
+]
+
 { #category : 'support' }
 SpkDebuggerToolTest >> restartInFrame: frameTool [
 
@@ -115,6 +121,27 @@ SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
 		assert: interval class equals: Interval;
 		assert: interval begin > 100;
 		assert: interval size equals: 4
+]
+
+{ #category : 'tests' }
+SpkDebuggerToolTest >> testDebug [
+
+	| debugger frame inspector |
+	evaluatorTool newSourceCode: '37 + 63'.
+	debugger := evaluatorTool debugAnnouncing: SpkExecutionAnnouncement new.
+	self
+		assert: debugger class
+		equals: SpkDebuggerTool.
+	frame := self
+		frameIn: debugger
+		withDescriptionContaining: 'Executed Code'.
+	self
+		assert: frame stepPoint
+		equals: 1.
+	inspector := debugger proceed.
+	self
+		assert: inspector class equals: SpkInspectorTool;
+		assert: inspector inspectedObject equals: 100
 ]
 
 { #category : 'tests' }
@@ -229,7 +256,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 	"Get a debugger, proceed, get an inspector"
 
 	| debugger frame restartFrame printStringFrame inspector |
-	evaluatorTool newSourceCode: 'self halt. BreakpointHandling new restartFrameTestMethod'.
+	evaluatorTool newSourceCode: 'self halt. SpkDebuggerToolTest new restartFrameTestMethod'.
 	debugger := evaluatorTool evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	frame := self executedCodeFrameInDebugger: debugger.
@@ -239,7 +266,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 		stepIntoInFrame: frame.
 
 	"Move execution to the start of the #printString method of SmallInteger."
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	self
 		assert: restartFrame stepPoint
 		equals: 1.
@@ -248,7 +275,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 		stepIntoInFrame: restartFrame.
 
 	"Ensure execution is in the correct place."
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	printStringFrame := self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString'.
 	self
 		assert: restartFrame stepPoint
@@ -260,7 +287,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 	"Ensure restarting a frame in middle of the stack removes higher frames
 	and the step point in the frame is reset back to 1."
 	debugger := self restartInFrame: restartFrame.
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	self
 		should: [self frameIn: debugger withDescriptionContaining: 'SmallInteger >> printString']
 		raise: LookupError.
@@ -273,7 +300,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 
 	"Ensure that restarting the 'top frame' behaves correctly"
 	debugger := self restartInFrame: restartFrame.
-	restartFrame := self frameIn: debugger withDescriptionContaining: 'BreakpointHandling'.
+	restartFrame := self frameIn: debugger withDescriptionContaining: 'restartFrameTestMethod'.
 	self
 		assert: restartFrame stepPoint
 		equals: 1.
@@ -352,13 +379,17 @@ SpkDebuggerToolTest >> testTerminate01 [
 	same executedCode frame, proceed, get inspector"
 
 	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
-	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	evaluatorTool newSourceCode: '[GsFile gciLogServer: ''1''.
+												3 pause + 4.
+												GsFile gciLogServer: ''2''.] ifCurtailed: [GsFile gciLogServer: ''3''.
+																					12 pause.
+																					GsFile gciLogServer: ''4'']'.
 	debugger1 := evaluatorTool evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	bottomFrame := debugger1 frames at: 1.
 	topFrame := debugger1 frames at: debugger1 frames size.
 	execCodeFrame := self executedCodeFrameInDebugger: debugger1.	"Should be on ifCurtailed:"
-	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26).
+"	self assert: execCodeFrame currentSourceInterval equals: (15 to: 26)."
 	debugger2 := debugger1 terminateAnnouncing: SpkExecutionAnnouncement new.
 	self
 		assert: debugger1 == debugger2;

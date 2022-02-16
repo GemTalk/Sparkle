@@ -12,3 +12,14 @@ Class {
 	#superclass : 'SpkBoxLayout',
 	#category : 'Sparkle-Spextensions-Layouts'
 }
+
+{ #category : 'specs' }
+SpkAccordianLayout >> adapterName [
+	^ #SpkAccordianAdapter
+]
+
+{ #category : 'private' }
+SpkAccordianLayout >> constraintsClass [
+
+	^ SpkAccordianConstraints
+]

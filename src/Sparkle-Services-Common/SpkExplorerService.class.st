@@ -15,10 +15,6 @@ Instance Variables
 Class {
 	#name : 'SpkExplorerService',
 	#superclass : 'RsrService',
-	#instVars : [
-		'paneServices',
-		'layoutService'
-	],
 	#category : 'Sparkle-Services-Common'
 }
 
@@ -26,53 +22,4 @@ Class {
 SpkExplorerService class >> templateClassName [
 
 	^ #SpkExplorerService
-]
-
-{ #category : 'accessing' }
-SpkExplorerService >> addPaneService: aService [
-
-	"The given service should know how to be an explorer pane. Initially, the only 
-	pane service is the inspector service."
-
-	paneServices add: aService
-]
-
-{ #category : 'initialization' }
-SpkExplorerService >> defaultLayout [
-
-	"Server class on server, client on client"
-
-	self subclassResponsibility
-]
-
-{ #category : 'initialization' }
-SpkExplorerService >> initialize [
-
-	super initialize.
-	paneServices := Set new.
-	layoutService := self defaultLayout
-]
-
-{ #category : 'accessing' }
-SpkExplorerService >> layoutService [
-	^ layoutService
-]
-
-{ #category : 'accessing' }
-SpkExplorerService >> layoutService: anObject [
-	layoutService := anObject
-]
-
-{ #category : 'accessing' }
-SpkExplorerService >> paneServices [
-	^ paneServices
-]
-
-{ #category : 'accessing' }
-SpkExplorerService >> removePane: aService [
-
-	"The given service should know how to be an explorer pane. Initially, the only 
-	pane service is the inspector service."
-
-	paneServices remove: aService
 ]

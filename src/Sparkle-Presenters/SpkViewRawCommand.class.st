@@ -8,9 +8,15 @@ Class {
 }
 
 { #category : 'default' }
+SpkViewRawCommand class >> defaultDescription [
+
+	^'Display the object''s instance variables directly'
+]
+
+{ #category : 'default' }
 SpkViewRawCommand class >> defaultName [
 
-	^ 'Raw'
+	^ 'Raw View'
 ]
 
 { #category : 'executing' }

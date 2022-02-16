@@ -150,7 +150,7 @@ SpkMultiSelectList >> linkedPanes [
 
 	^ items
 		  collect: [ :item | item linkedPane ]
-		  thenSelect: [ :pane | pane notNil ]
+		  thenSelect: [ :aPane | aPane notNil ]
 ]
 
 { #category : 'accessing' }
@@ -167,29 +167,37 @@ SpkMultiSelectList >> refreshFromServices: services [
 	| newItems itemsDictionary |
 	newItems := OrderedCollection new.
 	itemsDictionary := IdentityDictionary new: items size.
-	items do: [:each |
+
+	"Build dictionary of existing list items keyed by their service."
+	items do: [ :each | 
 		itemsDictionary
 			at: each model
-			ifPresent: [self error: 'Internal error: there should not be more than one item with the same model.']
-			ifAbsentPut: [each]].
+			ifPresent: [ 
+				self error:
+					'Internal error: there should not be more than one item with the same model.' ]
+			ifAbsentPut: [ each ] ].
+
+	"Build new items list, giving each existing item its new index, creating new items as needed."
 	services do: [ :aService | 
 		| item |
-		item := itemsDictionary at: aService ifAbsent: [nil].
-		item == nil
-			ifFalse: [
+		item := itemsDictionary at: aService ifAbsent: [ nil ].
+		item
+			ifNotNil: [ 
 				newItems add: item.
 				item index: newItems size ]
-			ifTrue: [ 
+			ifNil: [ 
 				item := SpkMultiSelectListItem new.
 				newItems add: item.
 				item
 					index: newItems size;
 					list: self;
 					model: aService ] ].
+
 	"If there are any selected items that are no longer in the list, deselect them."
 	selectedItems copy do: [ :item | 
 		(newItems identityIncludes: item) ifFalse: [ 
 			self deselectItem: item ] ].
+
 	items := newItems
 ]
 

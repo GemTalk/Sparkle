@@ -168,9 +168,7 @@ SpkConnectionProfile >> initialize [
 { #category : 'accessing' }
 SpkConnectionProfile >> initializeTaskspaceForConnection: anRSRConnection [
 
-	taskspace := SparkleTaskspace new
-		             connection: anRSRConnection;
-		             yourself.
+	taskspace := SpkTaskspace forConnection: anRSRConnection.
 	ProfileAnnouncer announce:
 		(SpkConnectionProfileConnectedAnnouncement new profiles:
 			 (Array with: self))
@@ -207,9 +205,15 @@ SpkConnectionProfile >> name: anObject [
 ]
 
 { #category : 'actions' }
-SpkConnectionProfile >> openExplorer [
+SpkConnectionProfile >> newEvaluator [
 
-	taskspace addDefaultExplorer
+	taskspace newEvaluator
+]
+
+{ #category : 'actions' }
+SpkConnectionProfile >> newProcessListExplorer [
+
+	taskspace newProcessListExplorer
 ]
 
 { #category : 'copying' }

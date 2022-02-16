@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkDebuggerPane',
-	#superclass : 'SpkPaneWithList',
+	#superclass : 'SpkPane',
+	#traits : 'SpkTList + SpkTHeader',
+	#classTraits : 'SpkTList classTrait + SpkTHeader classTrait',
 	#instVars : [
 		'description',
 		'processControlLayout',
@@ -20,14 +22,26 @@ SpkDebuggerPane >> closeRequestedLocally [
 	model terminate
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
+SpkDebuggerPane >> connectPresenters [
+
+	super connectPresenters.
+	self header menu: self menuCommandGroup asMenuPresenter.
+	self updateFrameList.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receivePaneServiceAnnouncement:
+		to: self
+]
+
+{ #category : 'private' }
 SpkDebuggerPane >> deselectExitedFrames [
 
 	"Deselect any selected frames that are no longer on the stack.
 	We know which these are by identity of the FrameDescriptionService."
 
 	| oldFrameItems newFrames |
-	oldFrameItems := listModel items reverse. "Compare from the bottom of the stack."
+	oldFrameItems := self listModel items reverse. "Compare from the bottom of the stack."
 	newFrames := model frames.
 	1 to: (newFrames size min: oldFrameItems size) do: [ :index | 
 		| oldFrameItem oldFrame newFrame |
@@ -35,7 +49,7 @@ SpkDebuggerPane >> deselectExitedFrames [
 		oldFrame := oldFrameItem model.
 		newFrame := newFrames at: index.
 		oldFrame == newFrame ifFalse: [ 
-			listModel deselectItem: oldFrameItem ] ]
+			self listModel deselectItem: oldFrameItem ] ]
 ]
 
 { #category : 'private' }
@@ -68,7 +82,8 @@ SpkDebuggerPane >> deselectOffTheTopFrames [
 
 	| newNumberOfFrames |
 	newNumberOfFrames := model frames size.
-	listModel deselectItemsThroughIndex: listModel size - newNumberOfFrames
+	self listModel deselectItemsThroughIndex:
+		self listModel size - newNumberOfFrames
 ]
 
 { #category : 'accessing' }
@@ -100,14 +115,14 @@ SpkDebuggerPane >> initializeDescription [
 SpkDebuggerPane >> initializeFrameList [
 
 	self initializeList.
-	self layout add: list.
+	self layout add: self list.
 	self selectTopFrame
 ]
 
 { #category : 'initialization' }
 SpkDebuggerPane >> initializeListColumns [
 
-	list addColumn: (SpStringTableColumn evaluated: #description)
+	self list addColumn: (SpStringTableColumn evaluated: [:item | item model description])
 ]
 
 { #category : 'initialization' }
@@ -115,7 +130,9 @@ SpkDebuggerPane >> initializePresenters [
 
 	super initializePresenters.
 	self
+		initializeHeader
 		initializeDescription;
+		addSeparator;
 		initializeProcessControls;
 		initializeFrameList
 ]
@@ -174,7 +191,7 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 
 { #category : 'as yet unclassified' }
 SpkDebuggerPane >> linkedFramePanes [
-	^ listModel linkedPanes
+	^ self listModel linkedPanes
 ]
 
 { #category : 'menu' }
@@ -190,11 +207,9 @@ SpkDebuggerPane >> replace [
 	"I'm done being a debugger, usually because my process has completed or been terminated.
 	Replace myself with a new pane."
 
-	linkedFrom ifNil: [ 
-		self flag:
-			'Should replace self with new independent pane with my coordinate.'.
-		^ self error: 'Independent debugger panes not yet fully supported.' ].
-	self openLinkedPane: model replacementService forItem: linkedFrom
+	linkedFrom
+		ifNil: [self replaceWithIndependentPaneFor: model replacementService]
+		ifNotNil: [self openLinkedPane: model replacementService forItem: linkedFrom]
 ]
 
 { #category : 'as yet unclassified' }
@@ -202,7 +217,7 @@ SpkDebuggerPane >> selectTopFrame [
 
 	"If the top frame is not selected, select it."
 
-	listModel ensureFirstItemSelected.
+	self listModel ensureFirstItemSelected.
 	self updateSelection
 ]
 
@@ -230,15 +245,10 @@ SpkDebuggerPane >> updateDescription [
 { #category : 'private' }
 SpkDebuggerPane >> updateFrameList [
 
-	| listCount |
-	listCount := listModel size.
 	self
 		deselectInvalidFrames;
 		refreshListModel;
-		refreshList;
-		selectTopFrame.
-	listCount ~= listModel size
-		ifTrue: [ self updateLinkedPaneCoordinates ]
+		selectTopFrame
 ]
 
 { #category : 'initialization' }

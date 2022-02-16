@@ -10,9 +10,7 @@ I take most of the responsibility for formatting the pane header, which is commo
 "
 Class {
 	#name : 'SpkPane',
-	#superclass : 'SpkPresenterWithHeader',
-	#traits : 'SpkTLayoutService',
-	#classTraits : 'SpkTLayoutService classTrait',
+	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'coordinate',
 		'linkedFrom',
@@ -81,7 +79,9 @@ SpkPane >> coordinate [
 { #category : 'accessing' }
 SpkPane >> coordinate: aCoordinate [
 
-	coordinate := aCoordinate
+	coordinate = aCoordinate ifTrue: [ ^ self ].
+	coordinate := aCoordinate.
+	self updateLinkedPaneCoordinates
 ]
 
 { #category : 'actions' }
@@ -104,27 +104,12 @@ an item really should be enabled."
 	self enabled: true
 ]
 
-{ #category : 'tests - header' }
-SpkPane >> headerClass [
-
-	self subclassResponsibility
-]
-
 { #category : 'initialization' }
 SpkPane >> initialize [
 
 	super initialize.
 	coordinate := SpkPaneCoordinate new.
 	isOpen := true
-]
-
-{ #category : 'initialization' }
-SpkPane >> initializeHeader [
-
-	header := self instantiate: self headerClass on: model.
-	self layout
-		add: header
-		withConstraints: [ :c | c height: header headerHeight ]
 ]
 
 { #category : 'testing' }
@@ -148,23 +133,46 @@ SpkPane >> linkedFrom: anObject [
 { #category : 'accessing' }
 SpkPane >> linkedPanes [
 
-	^ #(  )
+	^ self panesLinkedToListItems
 ]
 
 { #category : 'accessing' }
-SpkPane >> menuActions [
+SpkPane >> menuCommandClasses [
 
-	^ CmCommandGroup forSpec
+	^#()
+]
+
+{ #category : 'accessing' }
+SpkPane >> menuCommandGroup [
+
+	| group |
+	group := CmCommandGroup forSpec
 		  beRoot;
-		  yourself
+			yourself.
+	self menuCommands do: [:command | group register: command].
+	^group
+]
+
+{ #category : 'accessing' }
+SpkPane >> menuCommands [
+
+	^self menuCommandClasses
+		collect:
+			[:each |
+			(each forSpecContext: self)
+				iconProvider: SpkIconLibrary current;
+				yourself]
 ]
 
 { #category : 'accessing' }
 SpkPane >> newLayout [
 
-	^ SpkAccordianLayout newVertical
+	"Panes in general do not have splitters between their subparts. 
+	Panes that do have splittable subparts (such as those with evaluator subpanes) 
+	should override this method."
+
+	^ SpkBoxLayout newVertical
 		  color: Color veryVeryDarkGray;
-			borderWidth: 3;
 		  yourself
 ]
 
@@ -186,22 +194,10 @@ SpkPane >> nonChildSlotNames [
 	^ super nonChildSlotNames , #( #linkedFrom )
 ]
 
-{ #category : 'actions' }
-SpkPane >> openLinkedPane: aPaneService forItem: item [
+{ #category : 'as yet unclassified' }
+SpkPane >> panesLinkedToListItems [
 
-	" Create and open a pane in the next column.
-	Generic part is here, see subclasses for detailed use."
-
-	| nextRightColumn newPane |
-	nextRightColumn := item column nextRightColumn.
-	"Ask the column, since it must own the new pane."
-	newPane := nextRightColumn presenterForService: aPaneService.
-	newPane coordinate: (item coordinateRelativeTo: coordinate).
-	"Add before close so that the column doesn't become empty and remove itself"
-	nextRightColumn add: newPane.
-	item
-		closeLinkedPane;
-		linkedPane: newPane
+	^ #(  )
 ]
 
 { #category : 'initialization' }
@@ -211,7 +207,7 @@ SpkPane >> receiveActionCompleteAnnouncement [
 ]
 
 { #category : 'announcements' }
-SpkPane >> receiveLinkedPaneAnnouncement: anAnnouncement [
+SpkPane >> receivePaneServiceAnnouncement: anAnnouncement [
 
 	(anAnnouncement requestId linkedPane isNil or: [ 
 		 anAnnouncement service ~~ anAnnouncement requestId linkedPane model ]) 
@@ -234,11 +230,18 @@ SpkPane >> redo [
 	^ model redo
 ]
 
-{ #category : 'initialization' }
-SpkPane >> setCoordinateFromLayoutService [
+{ #category : 'actions' }
+SpkPane >> replaceWithIndependentPaneFor: aPaneService [
+	" Replace the existing pane with one defined by aPaneService."
 
-	coordinate := SpkPaneCoordinate forVector:
-		              self layoutService paneCoordinate
+	| column newPane |
+	column := owner.
+	"Ask the column, since it must own the new pane."
+	newPane := column presenterForService: aPaneService.
+	newPane coordinate: coordinate.
+	"Add before close so that the column doesn't become empty and remove itself"
+	column add: newPane.
+	self close
 ]
 
 { #category : 'menu messages' }
@@ -251,4 +254,11 @@ SpkPane >> undo [
 SpkPane >> updateFromModel [
 	"Must be sent only in the UI thread."
 	"Subclasses should override if they can receive update announcements"
+]
+
+{ #category : 'updating' }
+SpkPane >> updateLinkedPaneCoordinates [
+
+	"By default do nothing. Overridden by subclasses, 
+	especially those using SpkTList."
 ]

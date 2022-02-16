@@ -8,16 +8,16 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'accessing' }
-SpkInspectorFieldTool >> _columns [
-	"Private"
-	^ columns
-]
-
 { #category : 'comparing' }
 SpkInspectorFieldTool >> = anObject [
 	^ (super = anObject and: [ referencedObject == anObject referencedObject ])
 		and: [ columns = anObject _columns ]
+]
+
+{ #category : 'accessing' }
+SpkInspectorFieldTool >> _columns [
+	"Private"
+	^ columns
 ]
 
 { #category : 'accessing' }

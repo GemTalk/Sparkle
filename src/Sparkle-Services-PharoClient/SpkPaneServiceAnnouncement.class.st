@@ -20,6 +20,16 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Announcements'
 }
 
+{ #category : 'printing' }
+SpkPaneServiceAnnouncement >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream << ' requestId '.
+	requestId printOn: aStream.
+	aStream << ' service '.
+	service printOn: aStream
+]
+
 { #category : 'accessing' }
 SpkPaneServiceAnnouncement >> service [
 	^ service

@@ -35,7 +35,13 @@ SpkPresenter class >> notYetImplemented: aString [
 	self inform: aString , ' not yet implemented (shucks)'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'adding' }
+SpkPresenter >> addSeparator [
+
+	self layout add: self newSeparatorPresenter primaryDimension: 1
+]
+
+{ #category : 'private-traversing' }
 SpkPresenter >> extraPresenters [
 
 	"Answer a collection of presenters that are logically my children but answer false 
@@ -48,6 +54,12 @@ SpkPresenter >> extraPresenters [
 { #category : 'accessing' }
 SpkPresenter >> iconNamed: aSymbol [
 	^ self application iconNamed: aSymbol
+]
+
+{ #category : 'testing' }
+SpkPresenter >> isExplorer [
+
+	^ false
 ]
 
 { #category : 'testing' }
@@ -94,6 +106,30 @@ SpkPresenter >> newLayout [
 SpkPresenter >> newMenuButton [
 
 	^ self instantiate: SpkMenuButtonPresenter
+]
+
+{ #category : 'widgets' }
+SpkPresenter >> newSeparatorMorph [
+
+	^ Morph new
+		  color: Color veryDarkGray;
+		  height: 2;
+		  vResizing: #rigid;
+		  "Should be layout's primary direction, not vertical"yourself
+]
+
+{ #category : 'adding' }
+SpkPresenter >> newSeparatorPresenter [
+
+	^ self newMorph
+		  morph: self newSeparatorMorph;
+		  yourself
+]
+
+{ #category : 'widgets' }
+SpkPresenter >> newSplitter [
+
+	^ self instantiate: SpkSplitterPresenter
 ]
 
 { #category : 'widgets' }
@@ -149,4 +185,16 @@ SpkPresenter >> presentersDo: aBlock [
 			var := self readSlot: each.
 			(var isKindOf: SpAbstractPresenter) ifTrue: [ aBlock value: var ] ].
 	self extraPresenters do: aBlock
+]
+
+{ #category : 'private' }
+SpkPresenter >> splitterConstraints [
+
+	^ [ :c | c size: self splitterSize ]
+]
+
+{ #category : 'private' }
+SpkPresenter >> splitterSize [
+
+	^ SpkSplitterMorph splitterWidth
 ]

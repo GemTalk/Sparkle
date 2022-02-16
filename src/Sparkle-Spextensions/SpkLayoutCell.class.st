@@ -16,8 +16,7 @@ Class {
 	#instVars : [
 		'targetMorph',
 		'isRigid',
-		'isSpaceFill',
-		'pMinimumSize'
+		'minimumSize'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
 }
@@ -30,11 +29,23 @@ SpkLayoutCell class >> forMorph: aMorph [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+SpkLayoutCell >> beRigid [
+
+	isRigid := true
+]
+
+{ #category : 'accessing' }
+SpkLayoutCell >> beVariable [
+
+	isRigid := false
+]
+
 { #category : 'initialization' }
 SpkLayoutCell >> initialize [
 
 	super initialize.
-	isSpaceFill := isRigid := false
+	isRigid := false
 ]
 
 { #category : 'accessing' }
@@ -44,30 +55,14 @@ SpkLayoutCell >> isRigid [
 ]
 
 { #category : 'accessing' }
-SpkLayoutCell >> isRigid: anObject [
-
-	isRigid := anObject
+SpkLayoutCell >> minimumSize [
+	^ minimumSize
 ]
 
 { #category : 'accessing' }
-SpkLayoutCell >> isSpaceFill [
-	^ isSpaceFill
-]
+SpkLayoutCell >> minimumSize: aNumber [
 
-{ #category : 'accessing' }
-SpkLayoutCell >> isSpaceFill: anObject [
-	isSpaceFill := anObject
-]
-
-{ #category : 'accessing' }
-SpkLayoutCell >> pMinimumSize [
-	^ pMinimumSize
-]
-
-{ #category : 'accessing' }
-SpkLayoutCell >> pMinimumSize: aNumber [
-
-	pMinimumSize := aNumber
+	minimumSize := aNumber
 ]
 
 { #category : 'accessing' }

@@ -16,7 +16,7 @@ SpkUiExamples class >> defaultLocalTaskspace [
 	<example>
 	| connection taskspace |
 	connection := RsrInMemoryConnectionSpecification new connect.
-	taskspace := SparkleTaskspace new.
+	taskspace := SpkTaskspace new.
 	taskspace
 		connection: connection;
 		openNewDefaultTaskspace.
@@ -34,7 +34,7 @@ SpkUiExamples class >> defaultRemoteTaskspace [
 	| spec connection taskspace |
 	spec := RsrInitiateConnection host: '127.0.0.1' port: 29299.
 	connection := spec connect.
-	taskspace := SparkleTaskspace new.
+	taskspace := SpkTaskspace new.
 	taskspace
 		connection: connection;
 		openNewDefaultTaskspace

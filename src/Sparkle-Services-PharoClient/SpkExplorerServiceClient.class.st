@@ -6,8 +6,13 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'initialization' }
-SpkExplorerServiceClient >> defaultLayout [
+{ #category : 'accessing' }
+SpkExplorerServiceClient >> singlePaneService [
 
-	^ SpkExplorerLayoutServiceClient new
+	"This message should only be sent when initializing, when 
+	I'm expected to have exactly one paneService."
+
+	self paneServices size = 1 ifFalse: [ 
+		self error: 'Expected exactly one pane service.' ].
+	self paneServices do: [ :result | ^ result ]
 ]

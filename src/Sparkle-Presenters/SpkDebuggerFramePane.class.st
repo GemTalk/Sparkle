@@ -7,7 +7,9 @@ Features
 "
 Class {
 	#name : 'SpkDebuggerFramePane',
-	#superclass : 'SpkPaneWithTwizzledList',
+	#superclass : 'SpkPane',
+	#traits : 'SpkTTwizzledList + SpkTHeader',
+	#classTraits : 'SpkTTwizzledList classTrait + SpkTHeader classTrait',
 	#instVars : [
 		'sourceLayout',
 		'controlsLayout',
@@ -31,6 +33,17 @@ SpkDebuggerFramePane >> addSourcePositionDecoration [
 				 interval:
 					 (model currentStartPosition to: model currentEndPosition + 1);
 				 yourself)
+]
+
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> connectPresenters [
+
+	super connectPresenters.
+	self header menu: self menuCommandGroup asMenuPresenter.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receivePaneServiceAnnouncement:
+		to: self
 ]
 
 { #category : 'accessing' }
@@ -105,16 +118,16 @@ SpkDebuggerFramePane >> initializeControlsLayout [
 { #category : 'initialization' }
 SpkDebuggerFramePane >> initializeListColumns [
 
-	list
-		addColumn: (SpStringTableColumn evaluated: #name);
-		addColumn: (SpStringTableColumn evaluated: #description)
+	self list
+		addColumn: (SpStringTableColumn evaluated: [:item | item model name]);
+		addColumn: (SpStringTableColumn evaluated: [:item | item model description])
 ]
 
 { #category : 'initialization' }
 SpkDebuggerFramePane >> initializeLocalVariableList [
 
 	self initializeTwizzledList.
-	twizzledList
+	self twizzledList
 		showSubPresenter: false;
 		twizzleHelp: 'Show or hide the local variable list'
 ]
@@ -124,7 +137,9 @@ SpkDebuggerFramePane >> initializePresenters [
 
 	super initializePresenters.
 	self
+		initializeHeader;
 		initializeLocalVariableList;
+		addSeparator;
 		initializeSourceLayout;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
 			self updateFromModel ]
@@ -158,7 +173,9 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 
 	| field inspectorService |
 	field := anAnnouncement item.
-	inspectorService := field model inspectFieldForRequest: field.
+	inspectorService := field model
+		                    inspectFieldIn: self explorerService
+		                    forRequest: field.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
 	inspectorService
@@ -170,6 +187,12 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 SpkDebuggerFramePane >> listLabelString [
 
 	^ self listItemServices size printString , ' local variables'
+]
+
+{ #category : 'accessing' }
+SpkDebuggerFramePane >> menuCommandClasses [
+
+	^{SpkStepIntoCommand. SpkStepThroughCommand. SpkStepOverCommand. SpkRestartFrameCommand.}
 ]
 
 { #category : 'as yet unclassified' }

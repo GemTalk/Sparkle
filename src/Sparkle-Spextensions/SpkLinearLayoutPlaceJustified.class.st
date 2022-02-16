@@ -1,3 +1,6 @@
+"
+Split extra space between submorphs, resulting in fully-justified submorphs.
+"
 Class {
 	#name : 'SpkLinearLayoutPlaceJustified',
 	#superclass : 'SpkLinearLayout',
@@ -21,7 +24,7 @@ SpkLinearLayoutPlaceJustified >> layoutWithPlacementRule [
 
 	cells do: [ :cell | 
 		| pEnd rect |
-		pEnd := p + cell pMinimumSize.
+		pEnd := p + cell minimumSize.
 		rect := xform
 			        rectanglePStart: p
 			        pEnd: pEnd

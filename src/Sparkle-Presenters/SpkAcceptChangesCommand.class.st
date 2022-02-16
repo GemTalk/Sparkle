@@ -5,9 +5,13 @@ Class {
 }
 
 { #category : 'default' }
-SpkAcceptChangesCommand class >> defaultShortcutKey [
+SpkAcceptChangesCommand class >> defaultDescription [
 
-	^ $s command mac 
-		| $s control win 
-		| $s control unix
+	^'Inspect result of evaluator''s full text'
+]
+
+{ #category : 'execution' }
+SpkAcceptChangesCommand >> execute [
+
+	self context accept
 ]

@@ -1,3 +1,6 @@
+"
+Divide extra space equally between beginning and end, resulting in center-justified submorphs.
+"
 Class {
 	#name : 'SpkLinearLayoutPlaceInCenter',
 	#superclass : 'SpkLinearLayout',

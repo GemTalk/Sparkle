@@ -67,7 +67,7 @@ SpkConnectionPresenter >> closeConnectionWindows [
 
 	| connection connectedPresenters |
 	connection := connectionProfile connection.
-	connectedPresenters := SparkleTaskspace allInstances select: [ 
+	connectedPresenters := SpkTaskspace allInstances select: [ 
 		                       :presenter | 
 		                       presenter connection == connection ].
 	connectedPresenters do: [ :presenter | presenter close ]
@@ -92,7 +92,7 @@ SpkConnectionPresenter >> connect [
 			shouldDebug
 				ifTrue: [ ex pass ]
 				ifFalse: [ ^ self ] ].
-	self openExplorer: connectionProfile taskspace
+	self newEvaluatorIn: connectionProfile taskspace
 ]
 
 { #category : 'initialization' }
@@ -250,16 +250,16 @@ SpkConnectionPresenter >> initializeUnselectedProfile [
 	self disableButtons. 
 ]
 
+{ #category : 'actions' }
+SpkConnectionPresenter >> newEvaluatorIn: aTaskspace [
+
+	aTaskspace newEvaluator
+]
+
 { #category : 'accessing' }
 SpkConnectionPresenter >> newLayout [
 
 	^ SpkBoxLayout newVertical
-]
-
-{ #category : 'actions' }
-SpkConnectionPresenter >> openExplorer: aTaskspace [
-
-	aTaskspace openNewDefaultTaskspace
 ]
 
 { #category : 'actions' }

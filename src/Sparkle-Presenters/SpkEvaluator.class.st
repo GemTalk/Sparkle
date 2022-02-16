@@ -10,8 +10,8 @@ My purpose is to display and handle a code snippet that is (hopefully) executabl
 Class {
 	#name : 'SpkEvaluator',
 	#superclass : 'SpkCodeSubPane',
-	#traits : 'SpkTLinkedPane',
-	#classTraits : 'SpkTLinkedPane classTrait',
+	#traits : 'SpkTLinkedPane + SpkTHeader',
+	#classTraits : 'SpkTLinkedPane classTrait + SpkTHeader classTrait',
 	#instVars : [
 		'pane',
 		'index'
@@ -65,7 +65,7 @@ SpkEvaluator >> column [
 SpkEvaluator >> connectPresenters [
 
 	super connectPresenters.
-	header menu: self menuActions asMenuPresenter.
+	self header menu: self menuCommandGroup asMenuPresenter.
 	codePresenter text: model newSourceCode.
 	self hasUnsavedChanges: model hasUnsavedChanges.
 	codePresenter whenTextChangedDo: [ :newText | 
@@ -97,10 +97,23 @@ SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
 	^ parentCoordinate , index
 ]
 
+{ #category : 'actions' }
+SpkEvaluator >> debug [
+
+	pane disableAll.
+	model debugFor: self
+]
+
 { #category : 'updates' }
 SpkEvaluator >> hasUnsavedChanges: aBoolean [
 
 	codePresenter hasUnacceptedEdits: aBoolean
+]
+
+{ #category : 'tests - header' }
+SpkEvaluator >> headerClass [
+
+	^ SpkEvaluatorHeader
 ]
 
 { #category : 'accessing' }
@@ -119,39 +132,26 @@ SpkEvaluator >> index: anIndex [
 ]
 
 { #category : 'initialization' }
-SpkEvaluator >> initializeHeader [
-
-	header := self instantiate: SpkEvaluatorHeader on: model.
-	self layout add: header withConstraints: [ :c | c height: 30 ]
-]
-
-{ #category : 'initialization' }
 SpkEvaluator >> initializePresenters [
 
 	super initializePresenters.
+	self initializeHeader.
 	self layout add: codePresenter.
 	codePresenter
 		placeholder: 'Accept to evaluate code typed here.';
-		whenSubmitDo: [ :ignored | self accept ];
-		whenResetDo: [ self cancel ]
+		bindKeyCombination: $d meta toAction: [ self debug ]
 ]
 
 { #category : 'instance creation' }
-SpkEvaluator >> menuActions [
+SpkEvaluator >> menuCommandGroup [
 
 	^ CmCommandGroup forSpec
 		  beRoot;
 		  register: (codePresenter class codeAcceptCommandsGroupWith: self);
 		  register:
 			  (codePresenter class textEditionCommandsGroupWith: codePresenter);
-		  register: (self class sourceCodeCommandsGroupWith: self);
+		  "register: (self class sourceCodeCommandsGroupWith: self);"
 		  yourself
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> newLayout [
-
-	^ SpkBoxLayout newVertical
 ]
 
 { #category : 'accessing' }

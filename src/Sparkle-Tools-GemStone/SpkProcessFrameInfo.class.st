@@ -145,6 +145,8 @@ SpkProcessFrameInfo >> sourceInterval [
 	method == nil
 		ifTrue: [ ^ 1 to: 0 ].
 	source := self source.
+	source isEmpty
+		ifTrue: [ ^ 1 to: 0 ].
 	stepPoint == nil
 		ifTrue: [ ^ 1 to: (1 min: source size) ].
 	startPos := method _sourceOffsetsAt: stepPoint.

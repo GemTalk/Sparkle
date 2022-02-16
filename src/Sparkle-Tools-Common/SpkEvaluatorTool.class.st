@@ -27,9 +27,20 @@ SpkEvaluatorTool >> acceptAnnouncing: anAnnouncement [
 ]
 
 { #category : 'accessing' }
-SpkEvaluatorTool >> evaluateCode [
-	self flag: 'Now used only by tests, which should be updated.'.
-	^ self evaluateCodeAnnouncing: SpkExecutionAnnouncement new
+SpkEvaluatorTool >> debugAnnouncing: anAnnouncement [
+	"Evaluate newSourceCode through an undoable action, stopping
+	at the first step point. Answer a new Tool, which can
+	be a syntax error or a debugger."
+
+	| action resultTool |
+	action := SpkEvaluatorDebugAction new
+		target: self;
+		oldSourceCode: oldSourceCode;
+		newSourceCode: newSourceCode;
+		announcement: anAnnouncement;
+		yourself.
+	resultTool := explorerTool performAction: action.
+	^ resultTool
 ]
 
 { #category : 'accessing' }
@@ -38,12 +49,35 @@ SpkEvaluatorTool >> evaluateCodeAnnouncing: anAnnouncement [
 	whatever happens. This can be a syntax error, a runtime error, or an object.
 	For an object, answer an InspectorTool on the object."
 
+
+	^self
+		evaluateCodeAnnouncing: anAnnouncement
+		breakOnEntry: false
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> evaluateCodeAnnouncing: anAnnouncement breakOnEntry: shouldBreak [
+	"Evaluate the newSource and answer an appropriate tool for 
+	whatever happens. This can be a syntax error, a debugger,
+	or an inspector on a object. Break at the first step point if
+	shouldBreak is specified."
+
 	| context method resultTool |
 	context := inspectorTool inspectedObject.
 
 	[ method := self compileNewSourceCodeInContext: context ]
 		on: self compilationExceptionClass
 		do: [ :ex | ^ self toolForCompilationError: ex ].
+
+	shouldBreak
+		ifTrue: [ 
+			method
+				_setBreakAtIp: -1
+				operation: 16r101
+				frame: nil
+				process: nil
+				breakpointLevel: 1 ].
+
 
 	resultTool := self evaluateMethod: method inContext: context.
 
@@ -71,15 +105,24 @@ SpkEvaluatorTool >> inspectorTool: anObject [
 ]
 
 { #category : 'accessing' }
-SpkEvaluatorTool >> newProcessLauncherAndManager [
+SpkEvaluatorTool >> newProcessLauncherWithBody: processBody
+manager: processManager [
 
-	^ SpkProcessLauncherAndManager new
+	^SpkProcessLauncher new
+		processBreakpointLevel: 1;
+		processPriority: self evaluationPriority;
+		processName: 'Evaluation';
+		processBody: processBody;
+		processManager: processManager;
+		yourself
+]
+
+{ #category : 'accessing' }
+SpkEvaluatorTool >> newProcessManager [
+
+	^ SpkProcessManager new
 		  taskspaceTool: taskspaceTool;
-		  debuggerDebugAction: Processor activeProcess debugActionBlock;
-		  processName: 'Evaluation';
-		  processPriority: self evaluationPriority;
-		  processBreakpointLevel: 1;
-		  explorerTool: explorerTool;
+		  debuggerDebugAction: nil;
 		  yourself
 ]
 

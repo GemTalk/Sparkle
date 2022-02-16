@@ -1,16 +1,18 @@
 exec
+Processor activeProcess name: 'Sparkle Server'.
 [
 	| spec connection |
-
-	System abort.
+	
 	GsFile gciLogClient: '==============================================================='.
 	GsFile gciLogClient: 'Starting to listen'.
 
 	spec := RsrAcceptConnection port: 29299.
 	connection := spec waitForConnection.
-	"connection log addSink: (RsrCustomSink action: [:string | GsFile gciLogClient: string])."
+	"connection log addSink: (RsrCustomSink action: [:string | GsFile gciLogServer: string])."
 
 	GsFile gciLogClient: 'Accepted connection'.
+
+	System abort.
 
 	connection waitUntilClose. 
 

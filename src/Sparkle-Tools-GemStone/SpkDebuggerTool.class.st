@@ -5,16 +5,15 @@ Class {
 		'explorerTool',
 		'processManager',
 		'process',
-		'exceptionOfRecord',
-		'currentException',
+		'whyDebugged',
+		'currentExplanation',
 		'frames',
-		'mustInitiate',
 		'replacementTool'
 	],
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> checkForTermination [
 
 	(self isValid and: [process _isTerminated])
@@ -22,56 +21,13 @@ SpkDebuggerTool >> checkForTermination [
 ]
 
 { #category : 'accessing' }
-SpkDebuggerTool >> currentException: anException [
+SpkDebuggerTool >> currentExplanation: anExplanation [
 	"Stepping does not update the exceptionOfRecord, but
 	must update currentException so that glue frame discarding will be accurate."
 
-	currentException := anException.	
+	currentExplanation := anExplanation.
 	"Proceed and terminate set to nil, so we will re-initialize."
-	exceptionOfRecord ifNil: [ exceptionOfRecord := anException ]
-]
-
-{ #category : 'private' }
-SpkDebuggerTool >> debug [
-	mustInitiate
-		ifFalse: [ processManager returnValue: self ]
-		ifTrue: [ self error: 'Debugging forked processes not yet fully implemented.' ]
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> exceptionDescription [
-	| string |
-	string := String new.
-	exceptionOfRecord
-		ifNil: [ string add: 'Unknown' ]
-		ifNotNil: [ 
-			string
-				add: exceptionOfRecord class name;
-				add: self exceptionSpecificMessage ].
-	^ string
-]
-
-{ #category : 'private' }
-SpkDebuggerTool >> exceptionSpecificMessage [
-	| fullMessage commaIndex latterPart |
-	fullMessage := exceptionOfRecord buildMessageText.
-	fullMessage ifNil: [ ^ '' ].
-	commaIndex := fullMessage indexOf: $,.
-	latterPart := commaIndex = 0
-		ifTrue: [ fullMessage ]
-		ifFalse: [ fullMessage copyFrom: commaIndex + 1 to: fullMessage size ].
-	^ ' - ' , latterPart
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> explorerTool [
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkDebuggerTool >> explorerTool: object [
-	explorerTool := object.
-	explorerTool addPane: self
+	whyDebugged ifNil: [ whyDebugged := anExplanation description ]
 ]
 
 { #category : 'accessing' }
@@ -84,7 +40,7 @@ SpkDebuggerTool >> frames [
 	^ frames
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> indexOfFrameInLast: limit suchThat: aBlock [
 	"Search up to limit frames, starting at the end of my frames,
 	and answer the index of the first to satisfy aBlock, or nil if none."
@@ -104,7 +60,7 @@ SpkDebuggerTool >> initialize [
 	replacementTool := self
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
 SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 	"Some existing frames (the bottom of the stack) are still valid.
 	Let the frame tools that are no longer on the stack know they are 
@@ -113,12 +69,12 @@ SpkDebuggerTool >> invalidateFramesAfter: numberOfValidFrames [
 	numberOfValidFrames + 1 to: frames size do: [ :index | (frames at: index) beInvalid ]
 ]
 
-{ #category : 'other' }
+{ #category : 'testing' }
 SpkDebuggerTool >> isValid [
 	^ self == replacementTool
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markBottomGlueFrames [
 	"Some of the frames at the bottom of the stack aren't sensible
 	to display to a user in the debugger. They support the execution
@@ -130,7 +86,7 @@ SpkDebuggerTool >> markBottomGlueFrames [
 		markBottomGlueFramesForSparkleEvaluator.
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markBottomGlueFramesForForkedProcess [
 	"Detect and mark the following frames when they are the first frames on the stack.
 	ExecBlock >> valueWithArguments:
@@ -152,7 +108,7 @@ SpkDebuggerTool >> markBottomGlueFramesForForkedProcess [
 		to: 3
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markBottomGlueFramesForSparkleEvaluator [
 	"Detect and mark up to and including the following frames.
    GsNMethod >> _executeInContext:
@@ -179,7 +135,7 @@ SpkDebuggerTool >> markBottomGlueFramesForSparkleEvaluator [
 			index := index + 1 ]
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markGlueFrames [
 	"Identify the frames at the top and bottom of the stack which should be hidden for the purposes
 	of providing a sensible debugger view for the process."
@@ -189,43 +145,28 @@ SpkDebuggerTool >> markGlueFrames [
 		markTopGlueFrames
 ]
 
-{ #category : 'other' }
+{ #category : 'glue marking' }
 SpkDebuggerTool >> markGlueFramesFrom: start
 to: end [
 
 	start to: end do: [:i | (frames at: i) markGlue]
 ]
 
-{ #category : 'other' }
-SpkDebuggerTool >> markTopGlueFrames [
-	"At the end of frames (top frames of the stack) are some frameTools that
-	are internal and not desirable for interaction in a debugger.
-	Identify those and mark them as glue."
-
-	| exceptionClass |
-	exceptionClass := currentException class.
-	exceptionClass == Breakpoint
-		ifTrue: [ ^ self markTopGlueFramesForBreakpoint ].
-	exceptionClass == Halt
-		ifTrue: [ ^ self markTopGlueFramesForHalt ].
-	self markTopGlueFramesForGenericException
-]
-
-{ #category : 'other' }
-SpkDebuggerTool >> markTopGlueFramesForBreakpoint [
+{ #category : 'glue marking' }
+SpkDebuggerTool >> markTopGlueForBreakpoint: aBreakpoint [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
 		suchThat: [ :frame | 
-			frame receiver == currentException
-				and: [ frame method selector == #'_signalAsync' ] ].
+			frame receiver == aBreakpoint
+				and: [ frame method selector == #'_signalAsync:' ] ].
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
-		ifNil: [ self markTopGlueFramesForGenericException ]
+		ifNil: [ self markTopGlueForException: aBreakpoint ]
 ]
 
-{ #category : 'other' }
-SpkDebuggerTool >> markTopGlueFramesForGenericException [
+{ #category : 'glue marking' }
+SpkDebuggerTool >> markTopGlueForException: anException [
 	"Search for, in order of preference, this exception being sent #signal, being sent #_signalToDebugger,
 	and if still not found, fall back to the process manager debugAction block. If *still* not found,
 	this process is not under management and will not have any frames marked."
@@ -233,14 +174,28 @@ SpkDebuggerTool >> markTopGlueFramesForGenericException [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
-		suchThat: [ :frame | frame receiver == currentException and: [ frame method selector == #'signal' ] ].
+		suchThat: [ :frame | frame receiver == anException and: [ frame method selector == #'signal' ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | frame receiver == anException and: [ frame method selector == #'signal:' ] ] ].
 
 	indexOfFirstDiscardedFrame
 		ifNil: [ 
 			indexOfFirstDiscardedFrame := self
 				indexOfFrameInLast: 20
 				suchThat: [ :frame | 
-					frame receiver == currentException
+					frame receiver == anException
+						and: [ frame method selector == #'_signalFromPrimitive:' ] ] ].
+
+	indexOfFirstDiscardedFrame
+		ifNil: [ 
+			indexOfFirstDiscardedFrame := self
+				indexOfFrameInLast: 20
+				suchThat: [ :frame | 
+					frame receiver == anException
 						and: [ frame method selector == #'_signalToDebugger' ] ] ].
 
 	indexOfFirstDiscardedFrame
@@ -259,8 +214,8 @@ SpkDebuggerTool >> markTopGlueFramesForGenericException [
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
 ]
 
-{ #category : 'other' }
-SpkDebuggerTool >> markTopGlueFramesForHalt [
+{ #category : 'glue marking' }
+SpkDebuggerTool >> markTopGlueForHalt: aHalt [
 	| indexOfFirstDiscardedFrame |
 	indexOfFirstDiscardedFrame := self
 		indexOfFrameInLast: 20
@@ -271,12 +226,16 @@ SpkDebuggerTool >> markTopGlueFramesForHalt [
 				and: [ method selector == #'halt' or: [ method selector == #'pause' ] ] ].
 	indexOfFirstDiscardedFrame
 		ifNotNil: [ self markGlueFramesFrom: indexOfFirstDiscardedFrame to: frames size ]
-		ifNil: [ self markTopGlueFramesForGenericException ]
+		ifNil: [ self markTopGlueForException: aHalt ]
 ]
 
-{ #category : 'accessing' }
-SpkDebuggerTool >> mustInitiate: object [
-	mustInitiate := object
+{ #category : 'glue marking' }
+SpkDebuggerTool >> markTopGlueFrames [
+	"At the end of frames (top frames of the stack) are some frameTools that
+	are internal and not desirable for interaction in a debugger.
+	Identify those and mark them as glue."
+
+	currentExplanation markTopGlueFor: self
 ]
 
 { #category : 'accessing' }
@@ -285,7 +244,6 @@ SpkDebuggerTool >> newDebuggerFrameTool [
 
 	^SpkDebuggerFrameTool new
 		taskspaceTool: taskspaceTool;
-		explorerTool: explorerTool;
 		debuggerTool: self;
 		process: process;
 		yourself
@@ -298,18 +256,11 @@ SpkDebuggerTool >> nonGlueFrames [
 ]
 
 { #category : 'actions' }
-SpkDebuggerTool >> proceed [
-	"May wait for an answer, depending on whether the process is an evaluation process"
-	self flag: 'Now used only by tests, which should be updated.'.
-	^ self proceedAnnouncing: SpkExecutionAnnouncement new.
-]
-
-{ #category : 'actions' }
 SpkDebuggerTool >> proceedAnnouncing: anAnnouncement [
 	"May wait for an answer, depending on whether the process is an evaluation process.
 	Announce the announcement when done."
 
-	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	whyDebugged := nil.	"If we hit another exception, we want the exception to be updated."
 	^ self resumeAnnouncing: anAnnouncement
 ]
 
@@ -357,7 +308,7 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
-{ #category : 'other' }
+{ #category : 'announcement responding' }
 SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
@@ -440,7 +391,7 @@ SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
 	^ replacementTool
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkDebuggerTool >> taskspaceTool: aTool [
 	super taskspaceTool: aTool.
 	taskspaceTool
@@ -453,8 +404,13 @@ SpkDebuggerTool >> taskspaceTool: aTool [
 SpkDebuggerTool >> terminateAnnouncing: anAnnouncement [
 	"May wait for an answer, depending on whether the process is an evaluation process"
 
-	exceptionOfRecord := nil.	"If we hit another exception, we want the exception to be updated."
+	whyDebugged := nil.	"If we hit another exception, we want the exception to be updated."
 	replacementTool := processManager terminateProcess.
 	taskspaceTool announce: anAnnouncement.
 	^ replacementTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> whyDebugged [
+	^ whyDebugged ifNil: [ 'Unknown' ] ifNotNil: [ :w | w ]
 ]

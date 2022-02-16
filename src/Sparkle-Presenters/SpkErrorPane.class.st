@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkErrorPane',
 	#superclass : 'SpkPane',
+	#traits : 'SpkTHeader',
+	#classTraits : 'SpkTHeader classTrait',
 	#instVars : [
 		'textPresenter'
 	],
@@ -23,7 +25,8 @@ SpkErrorPane >> headerClass [
 SpkErrorPane >> initializePresenters [
 
 	super initializePresenters.
-	header labelString: self labelString.
+	self initializeHeader.
+	self header labelString: self labelString.
 	textPresenter := self newText
 		                 beNotEditable;
 		                 text: self errorText;

@@ -3,5 +3,5 @@ Class {
 	#superclass : 'FTTableRowMorph',
 	#traits : 'SpkTMorphEnablement',
 	#classTraits : 'SpkTMorphEnablement classTrait',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Table'
 }

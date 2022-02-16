@@ -48,6 +48,14 @@ SpkVerticalTransform >> pStartOf: aRectangle [
 ]
 
 { #category : 'accessing' }
+SpkVerticalTransform >> pointP: p s: s [
+
+	"Answer a Point in x-y coordinates given the primary-secondary coordinates"
+
+	^ s @ p
+]
+
+{ #category : 'accessing' }
 SpkVerticalTransform >> rectanglePStart: pStart pEnd: pEnd sStart: sStart sEnd: sEnd [
 
 	"Answer a rectangle in x-y coordinates having the given four sides in p-s coordinates."

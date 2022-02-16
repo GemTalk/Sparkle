@@ -4,6 +4,8 @@ A simple button represented by two icons, one for when the button is enabled and
 Class {
 	#name : 'SpkIconButtonPresenter',
 	#superclass : 'SpkButtonPresenter',
+	#traits : 'SpkTPresenter',
+	#classTraits : 'SpkTPresenter classTrait',
 	#instVars : [
 		'enabledIcon',
 		'disabledIcon',

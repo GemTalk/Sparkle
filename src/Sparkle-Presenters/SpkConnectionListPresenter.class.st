@@ -10,7 +10,8 @@ Class {
 		'insecureConnectionPresenter',
 		'connectionsNotebook',
 		'gciConnectionPresenter',
-		'explorerButton'
+		'processListButton',
+		'evaluatorButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -197,13 +198,21 @@ SpkConnectionListPresenter >> initializeToolbar [
 				            help: 'Restore profiles from a file';
 				            action: [ self loadFromFile ];
 				            yourself);
-		           addItem: (explorerButton := SpToolbarButtonPresenter new
-				                              label: 'Explorer';
+		           addItem: (evaluatorButton := SpToolbarButtonPresenter new
+				                              label: 'Evaluator';
 				                              icon:
 					                              (self iconNamed:
 							                               #smallSystemBrowser);
-				                              help: 'Open a Sparkle Explorer';
-				                              action: [ self openExplorer ];
+				                              help: 'Open a Sparkle Inspector with Evaluator';
+				                              action: [ self newEvaluator ];
+				                              yourself);
+		           addItem: (processListButton := SpToolbarButtonPresenter new
+				                              label: 'Processes';
+				                              icon:
+					                              (self iconNamed:
+							                               #smallSystemBrowser);
+				                              help: 'Open a Process List Explorer';
+				                              action: [ self newProcessList ];
 				                              yourself);
 		           yourself.
 	connectionsBox
@@ -264,6 +273,16 @@ SpkConnectionListPresenter >> loadFromFile [
 	connectionList items: SpkConnectionProfile profiles
 ]
 
+{ #category : 'actions' }
+SpkConnectionListPresenter >> newEvaluator [
+
+	| selection |
+	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
+	selection := connectionList selectedItem. 
+	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
+	selection newEvaluator
+]
+
 { #category : 'accessing' }
 SpkConnectionListPresenter >> newLayout [
 
@@ -271,13 +290,13 @@ SpkConnectionListPresenter >> newLayout [
 ]
 
 { #category : 'actions' }
-SpkConnectionListPresenter >> openExplorer [
+SpkConnectionListPresenter >> newProcessList [
 
 	| selection |
 	connectionList selectedItem ifNil:[^self notify: 'Must select connected profile']. 
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
-	selection openExplorer
+	selection newProcessListExplorer
 ]
 
 { #category : 'events' }

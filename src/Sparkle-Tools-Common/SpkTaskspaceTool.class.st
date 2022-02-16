@@ -21,73 +21,86 @@ Class {
 	#superclass : 'SpkToolWithUndoManager',
 	#instVars : [
 		'name',
-		'explorerTools'
+		'processRegistry'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'instance creation' }
-SpkTaskspaceTool class >> newDefault [
-
-	^ self new
-		  initializeForDefault;
-		  yourself
-]
-
-{ #category : 'initialization' }
-SpkTaskspaceTool >> addDefaultExplorer [
-
-	"The default initial taskspace has one default explorer."
-
-	| explorer |
-	explorer := self newExplorerTool
-		            initializeForDefault;
-		            yourself.
-
-	self addExplorer: explorer.
-	^ explorer
-]
-
-{ #category : 'adding' }
-SpkTaskspaceTool >> addExplorer: anExplorerTool [
-
-	explorerTools add: anExplorerTool.
-	self announceNewExplorer: anExplorerTool
-]
-
-{ #category : 'announcing' }
-SpkTaskspaceTool >> announceNewExplorer: anExplorerTool [
-
-	| announcement |
-	announcement := SpkNewExplorerToolAnnouncement new.
-	announcement tool: anExplorerTool.
+{ #category : 'private' }
+SpkTaskspaceTool >> announceNewExplorerForPaneTool: pTool [
+	| xTool announcement |
+	xTool := self newExplorerTool.
+	announcement := SpkNewExplorerAndPaneAnnouncement
+		explorer: xTool
+		pane: pTool.
 	self announce: announcement
 ]
 
-{ #category : 'accessing' }
-SpkTaskspaceTool >> explorerTools [
+{ #category : 'actions' }
+SpkTaskspaceTool >> debug: processToDebug explanation: anExplanation [
+	"Dispatch the debug to the process's manager"
 
-	^ explorerTools
+	| manager |
+	manager := self managerForProcess: processToDebug.
+	manager debugWithExplanation: anExplanation
 ]
 
-{ #category : 'initialization' }
-SpkTaskspaceTool >> initialize [
+{ #category : 'actions' }
+SpkTaskspaceTool >> debugAndAnnounce: processToDebug explanation: anExplanation [
+	"Dispatch the debug to the process's manager.
+	Announces, so will always create a new explorer."
 
-	super initialize.
-	explorerTools := IdentitySet new.
-	name := ''
+	(self managerForProcess: processToDebug)
+		announceNextDebug: true;
+		debugWithExplanation: anExplanation
 ]
 
-{ #category : 'initialization' }
-SpkTaskspaceTool >> initializeForDefault [
+{ #category : 'private' }
+SpkTaskspaceTool >> managerForProcess: aProcess [
+	"Answer a new or existing manager for the given process.
+	New manager will announce, and so create a new explorer."
 
-	self addDefaultExplorer
+	^ self
+		managerForProcess: aProcess
+		ifAbsent: [ 
+			self newProcessManager
+				process: aProcess;
+				announceNextDebug: true;
+				yourself ]
+]
+
+{ #category : 'private' }
+SpkTaskspaceTool >> managerForProcess: aProcess ifAbsent: absentBlock [
+	"Answer the existing manager for the given process.
+	If none, evaluate absentBlock."
+
+	^ processRegistry at: aProcess ifAbsent: absentBlock
 ]
 
 { #category : 'instance creation' }
 SpkTaskspaceTool >> newExplorerTool [
+	| xTool |
+	xTool := SpkExplorerTool new
+		taskspaceTool: self;
+		yourself.
+	^ xTool
+]
 
-	^ SpkExplorerTool new
-		  taskspaceTool: self;
-		  yourself
+{ #category : 'actions' }
+SpkTaskspaceTool >> newProcessLauncherWithBody: processBody
+manager: processManager [
+
+	^SpkProcessLauncher new
+		processBreakpointLevel: 1;
+		processPriority: self evaluationPriority;
+		processName: 'Transaction Management';
+		processBody: processBody;
+		processManager: processManager;
+		yourself
+]
+
+{ #category : 'refreshing' }
+SpkTaskspaceTool >> synchronizeTaskspaceAnnouncing: anAnnouncement [
+
+	self announce: anAnnouncement
 ]

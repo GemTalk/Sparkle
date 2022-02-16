@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkInspectorTool',
-	#superclass : 'SpkInspectionTool',
+	#superclass : 'SpkPaneTool',
 	#instVars : [
 		'evaluatorTools',
 		'views',
@@ -9,6 +9,13 @@ Class {
 	],
 	#category : 'Sparkle-Tools-Common'
 }
+
+{ #category : 'not comparing' }
+SpkInspectorTool >> = anObject [
+	"Diagnostic -- do we compare these objects?"
+
+	self halt
+]
 
 { #category : 'adding' }
 SpkInspectorTool >> addEvaluator [
@@ -66,8 +73,7 @@ SpkInspectorTool >> explorerTool [
 { #category : 'accessing' }
 SpkInspectorTool >> explorerTool: anObject [
 
-	explorerTool := anObject.
-	explorerTool addPane: self
+	explorerTool := anObject
 ]
 
 { #category : 'accessing' }
@@ -88,6 +94,12 @@ SpkInspectorTool >> initialize [
 SpkInspectorTool >> initializeForDefault [
 
 	self addEvaluator
+]
+
+{ #category : 'initialization' }
+SpkInspectorTool >> initializeInExplorer: xTool [
+	super initializeInExplorer: xTool.
+	self initializeViews
 ]
 
 { #category : 'initialization' }
@@ -116,12 +128,6 @@ SpkInspectorTool >> inspectedObject [
 SpkInspectorTool >> inspectedObject: anObject [
 
 	inspectedObject := anObject
-]
-
-{ #category : 'instance creation' }
-SpkInspectorTool >> newInspectorToolOn: anObject [
-
-	^ explorerTool newInspectorToolOn: anObject
 ]
 
 { #category : 'accessing' }

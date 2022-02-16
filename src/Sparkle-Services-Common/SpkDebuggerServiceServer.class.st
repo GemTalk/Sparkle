@@ -8,16 +8,6 @@ Class {
 }
 
 { #category : 'other' }
-SpkDebuggerServiceServer >> initializeFramesFromTool [
-
-	frames := tool frames collect: [ :frameTool | 
-		          (SpkDebuggerFrameDescriptionServiceServer forTool:
-				           frameTool)
-			          parentService: self;
-			          yourself ]
-]
-
-{ #category : 'other' }
 SpkDebuggerServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
@@ -30,12 +20,11 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> proceed [
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	resultTool := tool proceedAnnouncing: announcement.
+	"Sent from client"
+
+	| resultTool |
+	resultTool := tool
+		proceedAnnouncing: (SpkExecutionAnnouncement updatedServices: updatedServices).
 	^ resultTool == tool
 		ifTrue: [ self ]
 		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
@@ -107,7 +96,7 @@ SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	changed := false.
 
 	oldValue := exceptionDescription.
-	exceptionDescription := tool exceptionDescription.
+	exceptionDescription := tool whyDebugged.
 	changed := changed | (exceptionDescription ~= oldValue).
 
 	oldValue := processName.
@@ -127,12 +116,12 @@ SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 
 { #category : 'other' }
 SpkDebuggerServiceServer >> terminate [
-	| resultTool announcement |
-	updatedServices := Set new.
-	announcement := SpkExecutionAnnouncement new
-		updatedServices: updatedServices;
-		yourself.
-	resultTool := tool terminateAnnouncing: announcement.
+	"Sent from client"
+
+	| resultTool |
+	resultTool := tool
+		terminateAnnouncing:
+			(SpkExecutionAnnouncement updatedServices: updatedServices).
 	^ resultTool == tool
 		ifTrue: [ self ]
 		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]

@@ -8,46 +8,17 @@ This differs from a plain text editor in several ways:
 "
 Class {
 	#name : 'SpkCodeSubPane',
-	#superclass : 'SpkPresenterWithHeader',
+	#superclass : 'SpkPresenterWithModel',
 	#instVars : [
 		'codePresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'commands' }
-SpkCodeSubPane class >> sourceCodeCommandsGroupWith: aPresenter [
+{ #category : 'visiting' }
+SpkCodeSubPane >> accept [
 
-	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Source code commands')
-		                asSpecGroup
-		                description: 'Format or do it';
-		                beDisplayedAsGroup;
-		                yourself.
-
-	commandGroup
-		register: (SpkFormatCodeCommand forSpecContext: aPresenter);
-		register: (SpkDoItCommand forSpecContext: aPresenter);
-		register: (SpkDebugItCommand forSpecContext: aPresenter).
-
-	^ commandGroup
-]
-
-{ #category : 'commands' }
-SpkCodeSubPane class >> undoRedoCommandsGroupWith: aPresenter [
-
-	| commandGroup |
-	commandGroup := (CmCommandGroup named: 'Undo/redo commands')
-		                asSpecGroup
-		                description: 'Undo or redo changes.';
-		                beDisplayedAsGroup;
-		                yourself.
-
-	commandGroup
-		register: (SpkUndoCommand forSpecContext: aPresenter);
-		register: (SpkRedoCommand forSpecContext: aPresenter).
-
-	^ commandGroup
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
@@ -101,7 +72,8 @@ SpkCodeSubPane >> hasSubmitAction [
 SpkCodeSubPane >> initializePresenters [
 
 	super initializePresenters.
-	codePresenter := self instantiate: SpkCodePresenter
+	codePresenter := self instantiate: SpkCodePresenter.
+	codePresenter bindKeyCombination: $s meta toAction: [ self accept ]
 ]
 
 { #category : 'actions' }

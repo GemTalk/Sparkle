@@ -9,6 +9,34 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'transaction management' }
+SpkExplorerWindow >> abortTransaction [
+
+	^self application abortTransaction
+]
+
+{ #category : 'transaction management' }
+SpkExplorerWindow >> beginTransaction [
+
+	^self application beginTransaction
+]
+
+{ #category : 'building menus' }
+SpkExplorerWindow >> buildHamburgerMenu [
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Transaction Management') asSpecGroup
+		description: 'Manage aspects of GemStone transactions.';
+		beDisplayedAsGroup;
+		yourself.
+	commandGroup register: (SpkCommitTransactionCommand forSpecContext: self).
+	commandGroup register: (SpkAbortTransactionCommand forSpecContext: self).
+	commandGroup register: (SpkBeginTransactionCommand forSpecContext: self).
+	commandGroup register: (SpkSetAutomaticTransactionModeCommand forSpecContext: self).
+	commandGroup register: (SpkSetManualTransactionModeCommand forSpecContext: self).
+	^commandGroup
+]
+
 { #category : 'initialize-release' }
 SpkExplorerWindow >> close [
 
@@ -21,31 +49,32 @@ SpkExplorerWindow >> columns [
 	^ columns
 ]
 
+{ #category : 'transaction management' }
+SpkExplorerWindow >> commitTransaction [
+
+	^self application commitTransaction
+]
+
 { #category : 'constants' }
 SpkExplorerWindow >> initialExtent [
 
-	^ self layoutService width @ self layoutService height
+	^ 900 @ 900
 ]
 
-{ #category : 'initialization' }
-SpkExplorerWindow >> initializeFromLayoutService: anExplorerLayoutService [
+{ #category : 'testing' }
+SpkExplorerWindow >> isExplorer [
 
-	| columnPresenters |
-	self layoutService: anExplorerLayoutService.
-	columnPresenters := anExplorerLayoutService columnLayouts collect: [ 
-		                    :columnLayoutService | 
-		                    | column |
-		                    column := self instantiate: SpkColumn.
-		                    column initializeFromLayoutService:
-			                    columnLayoutService.
-		                    column ].
-	columnPresenters do: [ :each | 
-		columns add: each.
-		self layout add: each ]
+	^ true
 ]
 
-{ #category : 'initialization' }
-SpkExplorerWindow >> initializePresenters [
+{ #category : 'transaction management' }
+SpkExplorerWindow >> setAutomaticTransactionMode [
 
-	self initializeFromLayoutService: model layoutService
+	^self application setAutomaticTransactionMode
+]
+
+{ #category : 'transaction management' }
+SpkExplorerWindow >> setManualTransactionMode [
+
+	^self application setManualTransactionMode
 ]

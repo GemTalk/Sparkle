@@ -69,7 +69,8 @@ SpkDebuggerFrameService >> description: anObject [
 { #category : 'accessing' }
 SpkDebuggerFrameService >> initialize [
 	super initialize.
-	localVariables := OrderedCollection new
+	localVariables := OrderedCollection new.
+	updatedServices := Set new
 ]
 
 { #category : 'accessing' }

@@ -10,7 +10,7 @@ SpkRedoCommand class >> defaultIconName [
 	^ #glamorousRedo
 ]
 
-{ #category : 'default' }
+{ #category : 'defaults' }
 SpkRedoCommand class >> defaultName [
 
 	^ 'Redo'

@@ -8,7 +8,6 @@ Class {
 	#name : 'SpkDebuggerFrameTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'explorerTool',
 		'debuggerTool',
 		'process',
 		'currentState',
@@ -96,16 +95,6 @@ SpkDebuggerFrameTool >> debuggerTool: object [
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> description [
 	^ currentState description
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameTool >> explorerTool [
-	^explorerTool
-]
-
-{ #category : 'accessing' }
-SpkDebuggerFrameTool >> explorerTool: object [
-	explorerTool := object
 ]
 
 { #category : 'private' }
@@ -201,11 +190,6 @@ SpkDebuggerFrameTool >> newInspectorFieldTool [
 		  yourself
 ]
 
-{ #category : 'other' }
-SpkDebuggerFrameTool >> newInspectorToolOn: anObject [
-	^ explorerTool newInspectorToolOn: anObject
-]
-
 { #category : 'printing' }
 SpkDebuggerFrameTool >> printOn: aStream [
 	currentState isNil
@@ -271,7 +255,7 @@ SpkDebuggerFrameTool >> stepIntoAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
 	process _isTerminated
-		ifFalse: [ process stepIntoFromLevel: level ].
+		ifFalse: [ process setStepIntoBreaksAtLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]
@@ -282,7 +266,7 @@ SpkDebuggerFrameTool >> stepOverAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
 	process _isTerminated
-		ifFalse: [ process stepOverFromLevel: level ].
+		ifFalse: [ process setStepOverBreaksAtLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^debuggerTool resumeAnnouncing: anAnnouncement
 ]
@@ -304,7 +288,7 @@ SpkDebuggerFrameTool >> stepThroughAnnouncing: anAnnouncement [
 	| level |
 	level := currentState level.
 	process _isTerminated
-		ifFalse: [ process stepThroughFromLevel: level ].
+		ifFalse: [ process setStepThroughBreaksAtLevel: level ].
 	"Resume is required whether process is terminated or not."
 	^ debuggerTool resumeAnnouncing: anAnnouncement
 ]

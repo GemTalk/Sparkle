@@ -10,6 +10,13 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'instance creation' }
+SpkExecutionAnnouncement class >> updatedServices: aCollection [
+	^ self new
+			updatedServices: aCollection;
+			yourself
+]
+
 { #category : 'accessing' }
 SpkExecutionAnnouncement >> addUpdatedService: aService [
 	updatedServices add: aService

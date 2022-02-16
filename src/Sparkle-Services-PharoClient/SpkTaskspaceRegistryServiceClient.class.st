@@ -7,17 +7,17 @@ Class {
 }
 
 { #category : 'remote actions' }
-SpkTaskspaceRegistryServiceClient >> newDefaultTaskspaceLayout [
+SpkTaskspaceRegistryServiceClient >> newTaskspace [
 
-	"Create a default taskspace and layout. 
-	The new TaskspaceLayout arrives via announcement."
+	"Creates a new taskspace on the server,
+	and announce it when it arrives."
 
 	| promise |
-	promise := remoteSelf newDefaultTaskspaceLayout.
+	promise := remoteSelf newTaskspace.
 	promise
-		when: [ :tls | 
-			self announce: (SpkTaskspaceLayoutAnnouncement new
-					 taskspaceLayoutService: tls;
+		when: [ :tService | 
+			self announce: (SpkNewTaskspaceAnnouncement new
+					 taskspaceService: tService;
 					 yourself) ]
 		catch: self defaultCatchBlock
 ]

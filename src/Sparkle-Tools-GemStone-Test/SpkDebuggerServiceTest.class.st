@@ -20,7 +20,7 @@ SpkDebuggerServiceTest >> testExceptionDescription [
 	"Can we make a tree of services out of a DebuggerTool?"
 
 	self zork3.
-	self assert: debuggerService exceptionDescription equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+	self assert: debuggerService whyDebugged equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
 ]
 
 { #category : 'tests' }

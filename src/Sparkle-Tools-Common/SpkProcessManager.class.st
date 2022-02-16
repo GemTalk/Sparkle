@@ -36,27 +36,6 @@ SpkProcessManager >> debugAction [
 	nil ]
 ]
 
-{ #category : 'private' }
-SpkProcessManager >> debugWithExplanation: anExplanation [
-
-	"process may be the active process on entry to this method.
-	Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess |
-	processPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessFor: anExplanation.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts the debugged process, and the debuggerProcess takes over."
-		resume.
-	"If I get here, the debugger has decided to resume my process for step or proceed."
-]
-
 { #category : 'accessing' }
 SpkProcessManager >> debuggerDebugAction: aBlock [
 
@@ -92,6 +71,27 @@ SpkProcessManager >> debuggerProcessFor: anExplanation [
 			ifFalse: [self returnValue: debuggerTool]] newProcess.
 	debuggerProcess name: 'Debugger for ' , process asOop printString.
 	^ debuggerProcess
+]
+
+{ #category : 'private' }
+SpkProcessManager >> debugWithExplanation: anExplanation [
+
+	"process may be the active process on entry to this method.
+	Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess |
+	processPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessFor: anExplanation.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts the debugged process, and the debuggerProcess takes over."
+		resume.
+	"If I get here, the debugger has decided to resume my process for step or proceed."
 ]
 
 { #category : 'accessing' }
@@ -159,9 +159,10 @@ SpkProcessManager >> resumeProcessAndWait [
 ]
 
 { #category : 'actions' }
-SpkProcessManager >> returnValue: anObject [
+SpkProcessManager >> returnValue: aTool [
+	"Should always return some kind of tool."
 
-	result := anObject.
+	result := aTool.
 	resultReady signal
 ]
 
@@ -213,8 +214,18 @@ SpkProcessManager >> terminateProcess [
 
 { #category : 'actions' }
 SpkProcessManager >> waitForResult [
-	"Result may be a debugger"
+	"Result is a tool if evaluation has completed or there was
+	an exception that put us in a debugger.
+	If process terminated without either of these,
+	result will be nil."
 
+	process _addJoiner: resultReady.
 	resultReady wait.
+	process _removeJoiner: resultReady.
+	result
+		ifNil: [ 
+			process _isTerminated
+				ifFalse: [ self error: 'Nil result of non-terminated process.' ].
+			result := self newTerminatedTool ].
 	^ result
 ]

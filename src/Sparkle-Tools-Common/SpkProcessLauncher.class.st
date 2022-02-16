@@ -20,10 +20,10 @@ SpkProcessLauncher >> launch [
 		name: processName;
 		priority: processPriority;
 		breakpointLevel: processBreakpointLevel.
-	processManager
+	^ processManager
 		process: process;
 		processPriority: processPriority;
-		resumeProcess
+		resumeProcessAndWait
 ]
 
 { #category : 'accessing' }

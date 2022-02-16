@@ -15,9 +15,8 @@ Class {
 
 { #category : 'private' }
 SpkDebuggerTool >> checkForTermination [
-
-	(self isValid and: [process _isTerminated])
-		ifTrue: [replacementTool := SpkProcessTerminatedTool forProcess: process]
+	(self isValid and: [ process _isTerminated ])
+		ifTrue: [ replacementTool := processManager newTerminatedTool ]
 ]
 
 { #category : 'accessing' }

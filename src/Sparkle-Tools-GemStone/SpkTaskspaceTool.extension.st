@@ -57,24 +57,21 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 	wasSuccessful := false.
 	processBody := [ 
 	| resultObject |
-	resultObject := aBlock
-		ifCurtailed: [ 
+	resultObject := aBlock value.
+	"	ifCurtailed: [ 
 			processManager
 				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
-		wasSuccessful := true.
+		wasSuccessful := true."
 		nil "In the case of success, there is no defined return value."].
 	processLauncher := self
 		newProcessLauncherWithBody: processBody
 		manager: processManager.
 
-	processLauncher launch.
-	processResult := processManager waitForResult.
+	processResult := processLauncher launch.
 	^wasSuccessful
 		ifTrue: [SpkSuccessTool new]
 		ifFalse:
-			[SpkExplorerTool
-				newInTaskspace: self
-				viewing: processResult]
+			[self announceNewExplorerForPaneTool: processResult]
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }

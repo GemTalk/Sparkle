@@ -16,17 +16,15 @@ SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 SpkEvaluatorTool >> evaluateMethod: method inContext: context [
 	| processBody processManager processLauncher |
 	processManager := self newProcessManager.
+
 	processBody := [ 
 	| resultObject |
-	resultObject := [ method _executeInContext: context ]
-		ifCurtailed: [ 
-			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
+	resultObject :=  method _executeInContext: context.
 	explorerTool newInspectorToolOn: resultObject ].
+
 	processLauncher := self
 		newProcessLauncherWithBody: processBody
 		manager: processManager.
 
-	processLauncher launch.
-	^processManager waitForResult
+	^ processLauncher launch
 ]

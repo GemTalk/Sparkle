@@ -134,7 +134,7 @@ Direct login is a two-step process; you will launch a listening Gem on the GemSt
 1. Edit _gitRepositoryDir_`/Sparkle/src-gs/login.topaz` to have the correct stone name, user name, and password. You can use an unprivileged user for this, such as DataCurator. SystemUser is only required for installation.
 2. Execute the listening gem launch script:
 
-   `_gitRepositoryDir_/Sparkle/src-gs/server.sh
+   _gitRepositoryDir_`/Sparkle/src-gs/server.sh`
 
 You should see a "Starting to listen" message.
 

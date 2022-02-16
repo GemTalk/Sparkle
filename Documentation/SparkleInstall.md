@@ -190,13 +190,15 @@ Unlike with a Direct login, this logs out the Gem, as well as disconnecting the 
 
 ### Inspecting objects
 
-To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
+To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane of an existing Inspector, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
 Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.
-You may open a new Sparkle Object Explorer using the Sparkle Connections Launcher toolbar item **Evaluator**.
+You may open a new Sparkle Object Explorer (Inspector) using the Sparkle Connections Launcher toolbar item **Evaluator**.
 
 ### Debugging
 
-If an error occurs in the executed code, a stack pane, with a red header, will appear, instead of an inspector. Selecting frames within this stack adds panes with frame details, including method source and variables, to the right; this is similar to how object inspection is handled.
+If an error occurs in the executed code, the debugger stack pane, with a red header, will appear on the right of the Inspector. Selecting frames within this stack adds panes with frame details, including method source and variables, to the right; this is similar to how object inspection is handled.
+
+You can open a debugger to step through code by using Control-D (Debug menu item ) in the Evaluator pane of the Inspector.
 
 #### Inspecting stack variables
 
@@ -204,5 +206,9 @@ Variable values are hidden by default. To see the details of frame variables, ex
 
 #### Continue, Terminate, and step
 
-The Stack Pane has two buttons under the header; a green arrow (continue execution) and a red X (terminate execution).
+The Stack Pane/Debugger has two buttons under the header; a green arrow (continue execution) and a red X (terminate execution).
 Individual frame method panes include three icons on the left side: Step into, Step through blocks, and Step over. These allow control over stepping through code.
+
+#### Process List
+
+You can open a Process List Explorer (purple header), from the Sparkle Connections Launcher Processes button.  The Process List Browser allows you to view running Smalltalk  GsProcess instances within your Gem. The green arrows allow you to see information about the GsProcess.  You may also open a debugger on any of these processes by selecting the pause button (two vertical bars within a circle).

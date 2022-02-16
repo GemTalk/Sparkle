@@ -386,9 +386,7 @@ SpkDebuggerTool >> resumeAnnouncing: anAnnouncement [
 	"Used for both stepping and proceed."
 
 	replacementTool := processManager resumeProcessAndWait.
-	taskspaceTool announce: anAnnouncement.
-	self flag: 'Return value only used only by tests, which should be updated.'.
-	^ replacementTool
+	taskspaceTool announce: anAnnouncement
 ]
 
 { #category : 'initialization' }

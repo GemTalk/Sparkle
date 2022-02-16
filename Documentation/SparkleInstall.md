@@ -9,18 +9,21 @@ This initial version of Sparkle provides a limited set of debugging tools:
 
 * The Sparkle Launcher, allowing you to create login configuration parameters and login; you may also edit, persist, and restore the login configurations.
 * The Sparkle Object Explorer, allowing you to evaluate GemStone Smalltalk expressions and examine the contents of GemStone server objects.
-* A Debugger, allowing you to view the debugger call stack, examine objects, and step through GemStone server code.
-* A Process List, allowing you to inspect and debug any process in the gem.
+* A Debugger, allowing you to view the process stack, examine objects, and step through GemStone server code.
+* A Process List, allowing you to inspect and debug arbitrary processes in the gem.
+
 Sparkle is under active development and information in this document is likely to become out of date without notice.
 See the project on github: <https://github.com/GemTalk/Sparkle>
 
 ## Requirements
 
 With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of February 15, 2022 (the date of this document), but alpha builds are available.
-You should have GemStone v3.7 installed on a supported Linux server, with a Stone running and available for use.
-Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows, Mac, or Linux environment in which you will install Pharo.
+You should have GemStone v3.7 installed on a supported Linux or MacOS server, with a Stone running and available for use.
+Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows, MacOS, or Linux environment in which you will install Pharo.
 
-## GemStone Server Installation on Linux
+## GemStone Server Installation
+
+The following instructions are for the GemStone server, which can be run on Linux or MacOS.
 
 ### Install GemStone
 
@@ -33,7 +36,7 @@ Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windo
 2. Clone <https://github.com/GemTalk/Sparkle.git> to _gitRepositoryDir_`/Sparkle`.
 This clones the **main**  branch of the Sparkle repository.
 
-### Install into GemStone on Linux
+### Install Sparkle into GemStone
 
 1. Go to a command shell that:
     * has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and
@@ -42,7 +45,7 @@ This clones the **main**  branch of the Sparkle repository.
 
     `cd *gitRepositoryDir*/Sparkle/src-gs`
 
-3. Edit `loginSystemUser.topaz` to have the correct Stone name, and the password for SystemUser is set for your Stone.
+3. Edit `loginSystemUser.topaz` to have the correct Stone name and password for SystemUser.
 4. execute the installation script:
 
     `./bootstrapSparkle.sh`
@@ -50,9 +53,9 @@ This clones the **main**  branch of the Sparkle repository.
 The result of the "errorcount" at the end of the output should be 0.
 Sparkle is now installed in the GemStone server.
 
-## Client Installation on Windows or Linux
+## Client Installation
 
-The following instructions are for the Sparkle client, which can be run on Windows or Linux.
+The following instructions are for the Sparkle client, which can be run on Windows, MacOS, or Linux.
 
 ### Install Pharo
 
@@ -64,12 +67,12 @@ The following instructions are for the Sparkle client, which can be run on Windo
 6. Select ✲ **Create image**. This will create a new Pharo image based on the selected template.
 7. Use the right-click menu item &#x2023; **Launch** to launch the image.
 
-### Install Sparkle
+### Install Sparkle into Pharo
 
 There are two ways to build a Sparkle-enabled Pharo image:
 
-* The script-based one-step install. This clones the main branches of the required git repositories into the default location, as well as performing the load.
-* Manual installation by cloning the repository and loading via iceberg. This is useful if you wish to control the git repositories manually; that is, load branches other than the main branch; or perform other disk-based git operations.
+* A script-based one-step install. This clones the main branches of the required git repositories into Pharo's default location, as well as performing the load.
+* Manual installation by cloning repositories and loading via iceberg. This is useful if you wish to control the git repositories manually; that is, load branches other than the main branch; or perform other disk-based git operations.
 
 #### Script-based installation
 
@@ -189,7 +192,7 @@ Unlike with a Direct login, this logs out the Gem, as well as disconnecting the 
 
 To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
 Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.
-You may open a new Sparkle Object Explorer using the Sparkle Connections Launcher toolbar item **Explorer**.
+You may open a new Sparkle Object Explorer using the Sparkle Connections Launcher toolbar item **Evaluator**.
 
 ### Debugging
 

@@ -21,7 +21,7 @@ With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional 
 You should have GemStone v3.7 installed on a supported Linux or MacOS server, with a Stone running and available for use.
 Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows, MacOS, or Linux environment in which you will install Pharo.
 
-## GemStone Server Installation
+## GemStone Server Installation (Standard image)
 
 The following instructions are for the GemStone server, which can be run on Linux or MacOS.
 
@@ -49,6 +49,42 @@ This clones the **main**  branch of the Sparkle repository.
 4. execute the installation script:
 
     `./bootstrapSparkle.sh`
+
+The result of the "errorcount" at the end of the output should be 0.
+Sparkle is now installed in the GemStone server.
+
+## GemStone Server Installation (Rowan image)
+
+The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.2 loaded, which can be used with Jadeite v3.1.1pr4.
+
+### Install GemStone
+
+1. Install GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository).
+2. Start a v3.7 Stone.
+
+### Clone Sparkle from GitHub
+
+1. Create or choose a directory for git clones; this will be referred to as _gitRepositoryDir_.
+2. Clone <https://github.com/GemTalk/Sparkle.git> to _gitRepositoryDir_`/Sparkle`.
+This clones the **main**  branch of the Sparkle repository.
+3. Define $ROWAN_PROJECTS_HOME to _gitRepositoryDir_. 
+
+Note that the rowan extent does not require $ROWAN_PROJECTS_HOME to contain the rowan repository itself; $ROWAN_PROJECTS_HOME will contain Sparkle and application rowan repositories. 
+
+### Install Sparkle into GemStone
+
+1. Go to a command shell that:
+    * has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and
+    * has $GEMSTONE/bin on the $PATH, and
+    * has defined $ROWAN_PROJECTS_HOME to _gitRepositoryDir_.
+2. Change to the Sparkle GemStone directory:
+
+    `cd *gitRepositoryDir*/Sparkle/src-gs`
+
+3. Edit `loginSystemUser.topaz` to have the correct Stone name and password for SystemUser.
+4. execute the installation script:
+
+    `./installSparkle.sh`
 
 The result of the "errorcount" at the end of the output should be 0.
 Sparkle is now installed in the GemStone server.

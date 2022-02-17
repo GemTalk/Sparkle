@@ -14029,10 +14029,10 @@ launch
 		name: processName;
 		priority: processPriority;
 		breakpointLevel: processBreakpointLevel.
-	processManager
+	^ processManager
 		process: process;
 		processPriority: processPriority;
-		resumeProcess
+		resumeProcessAndWait
 %
 
 category: 'accessing'
@@ -14241,9 +14241,10 @@ resumeProcessAndWait
 
 category: 'actions'
 method: SpkProcessManager
-returnValue: anObject
+returnValue: aTool
+	"Should always return some kind of tool."
 
-	result := anObject.
+	result := aTool.
 	resultReady signal
 %
 
@@ -14294,15 +14295,26 @@ terminateProcess
 	process _terminationStarted ifTrue: [^ self resumeProcess ].
 	[ process trimStackToLevel: process stackDepth - 2 ]
 		forkAt: (process priority + 1 min: Processor highestPriority).
-	^ self waitForResult
+	"Must resume to let the process finish the remaining frames."
+	^ self resumeProcessAndWait
 %
 
 category: 'actions'
 method: SpkProcessManager
 waitForResult
-	"Result may be a debugger"
+	"Result is a tool if evaluation has completed or there was
+	an exception that put us in a debugger.
+	If process terminated without either of these,
+	result will be nil."
 
+	process _addJoiner: resultReady.
 	resultReady wait.
+	process _removeJoiner: resultReady.
+	result
+		ifNil: [ 
+			process _isTerminated
+				ifFalse: [ self error: 'Nil result of non-terminated process.' ].
+			result := self newTerminatedTool ].
 	^ result
 %
 
@@ -14923,9 +14935,8 @@ stepThroughAnnouncing: anAnnouncement
 category: 'private'
 method: SpkDebuggerTool
 checkForTermination
-
-	(self isValid and: [process _isTerminated])
-		ifTrue: [replacementTool := SpkProcessTerminatedTool forProcess: process]
+	(self isValid and: [ process _isTerminated ])
+		ifTrue: [ replacementTool := processManager newTerminatedTool ]
 %
 
 category: 'accessing'
@@ -15325,9 +15336,7 @@ resumeAnnouncing: anAnnouncement
 	"Used for both stepping and proceed."
 
 	replacementTool := processManager resumeProcessAndWait.
-	taskspaceTool announce: anAnnouncement.
-	self flag: 'Return value only used only by tests, which should be updated.'.
-	^ replacementTool
+	taskspaceTool announce: anAnnouncement
 %
 
 category: 'initialization'
@@ -18221,19 +18230,17 @@ method: SpkEvaluatorTool
 evaluateMethod: method inContext: context
 	| processBody processManager processLauncher |
 	processManager := self newProcessManager.
+
 	processBody := [ 
 	| resultObject |
-	resultObject := [ method _executeInContext: context ]
-		ifCurtailed: [ 
-			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
+	resultObject :=  method _executeInContext: context.
 	explorerTool newInspectorToolOn: resultObject ].
+
 	processLauncher := self
 		newProcessLauncherWithBody: processBody
 		manager: processManager.
 
-	processLauncher launch.
-	^processManager waitForResult
+	^ processLauncher launch
 %
 
 ! Class extensions for 'SpkLogger'
@@ -18331,24 +18338,21 @@ performTransactionAction: aBlock
 	wasSuccessful := false.
 	processBody := [ 
 	| resultObject |
-	resultObject := aBlock
-		ifCurtailed: [ 
+	resultObject := aBlock value.
+	"	ifCurtailed: [ 
 			processManager
 				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
-		wasSuccessful := true.
+		wasSuccessful := true."
 		nil "In the case of success, there is no defined return value."].
 	processLauncher := self
 		newProcessLauncherWithBody: processBody
 		manager: processManager.
 
-	processLauncher launch.
-	processResult := processManager waitForResult.
+	processResult := processLauncher launch.
 	^wasSuccessful
 		ifTrue: [SpkSuccessTool new]
 		ifFalse:
-			[SpkExplorerTool
-				newInTaskspace: self
-				viewing: processResult]
+			[self announceNewExplorerForPaneTool: processResult]
 %
 
 category: '*Sparkle-Tools-GemStone'

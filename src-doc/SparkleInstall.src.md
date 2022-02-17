@@ -20,11 +20,11 @@ With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional 
 You should have GemStone v3.7 installed on a supported Linux or MacOS server, with a Stone running and available for use.
 Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows, MacOS, or Linux environment in which you will install Pharo.
 
-## GemStone Server Installation
+## GemStone Server Installation (Standard image)
 
 The following instructions are for the GemStone server, which can be run on Linux or MacOS.
 
-### Install GemStone
+### Install GemStone with standard image
 
 1. Install GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.
 2. Start a v3.7 Stone.
@@ -32,17 +32,19 @@ The following instructions are for the GemStone server, which can be run on Linu
 ### Clone Sparkle from GitHub
 
 1. Create or choose a directory for git clones; this will be referred to as _gitRepositoryDir_.
-2. Clone <https://github.com/GemTalk/Sparkle.git> to _gitRepositoryDir_`/Sparkle`.
+2. Clone <https://github.com/GemTalk/Sparkle.git> to _gitRepositoryDir_/Sparkle.
 This clones the **main**  branch of the Sparkle repository.
 
-### Install Sparkle into GemStone
+### Install Sparkle into GemStone from bootstrap filein
 
 1. Go to a command shell that:
     * has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and
     * has $GEMSTONE/bin on the $PATH
 2. Change to the Sparkle GemStone directory:
 
-    `cd *gitRepositoryDir*/Sparkle/src-gs`
+   ```bash
+    cd $gitRepositoryDir/Sparkle/src-gs
+   ```
 
 3. Edit `loginSystemUser.topaz` to have the correct Stone name and password for SystemUser.
 4. execute the installation script:
@@ -51,6 +53,47 @@ This clones the **main**  branch of the Sparkle repository.
 
 The result of the "errorcount" at the end of the output should be 0.
 Sparkle is now installed in the GemStone server.
+
+## GemStone Server Installation (Rowan image)
+
+The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.2 loaded, which can be used with Jadeite v3.1.1pr4.  This rowan extent must be downloaded separately.
+
+### Install GemStone with Rowan image
+
+1. Install GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository).
+2. Copy the rowan extent, `extent0.rowan.dbf`, into the extent location (usually $GEMSTONE/data/).
+3. Start a v3.7 Stone.
+
+### Clone Sparkle from GitHub
+
+1. Create or choose a directory for git clones; this will be referred to as _gitRepositoryDir_.
+2. Clone <https://github.com/GemTalk/Sparkle.git> to _gitRepositoryDir_/Sparkle.
+This clones the **main**  branch of the Sparkle repository.
+3. Define $ROWAN_PROJECTS_HOME to _gitRepositoryDir_.
+
+Note that the rowan extent does not require $ROWAN_PROJECTS_HOME to contain the rowan repository itself; $ROWAN_PROJECTS_HOME will contain Sparkle and application rowan repositories.
+
+### Install Sparkle into GemStone from Rowan packages
+
+1. Go to a command shell that:
+    * has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and
+    * has $GEMSTONE/bin on the $PATH, and
+    * has defined $ROWAN_PROJECTS_HOME to _gitRepositoryDir_.
+2. Change to the Sparkle GemStone directory:
+
+   ```bash
+    cd $ROWAN_PROJECTS_HOME/Sparkle/src-gs
+   ```
+
+3. Edit `loginSystemUser.topaz` to have the correct Stone name and password for SystemUser.
+4. execute the installation script:
+
+    `./installSparkle.sh`
+
+The result of the "errorcount" at the end of the output should be 0.
+Sparkle is now installed in the GemStone server.
+
+The installation also clones two additional required repositories, Announcements and RemoteServiceReplication, into $ROWAN_PROJECTS_HOME.
 
 ## Client Installation
 
@@ -155,14 +198,14 @@ While the client is disconnected, the listening Gem remains logged in, and will 
 
 ### Logging in using GCI
 
-Login using the GCI interface does not require a listening Gem on the server. However, you must have the GCI libraries available in the `clientlibs` directory.
+Login using the GCI interface does not require a listening Gem on the server. However, you must have downloaded the client library zip file, so the GCI libraries are available in the `clientlibs` directory in the expected structure.
 
 #### Install clientlibs on the client host
 
-In addition to the GemStone product distribution itself, GemTalk distributes clientlibs for v3.7. This directory tree packages the essential shared libraries, which are a subset of the libraries files that are included in the GemStone distribution for Linux or the GemStone Client distribution for Windows. This new packaging easily handles multiple versions of GemStone, without complicated management in the client host environment.
+In addition to the GemStone product distribution itself, GemTalk distributes clientlibs as a separate zip file for v3.7. This directory tree packages the essential shared libraries, which are a subset of the libraries files that are included in the GemStone distribution for Linux or the GemStone Client distribution for Windows. This new packaging easily handles multiple versions of GemStone, without complicated management in the client host environment.
 With Sparkle, you must use this `clientlibs` structure, rather than the libraries in a regular product or client distribution.
 
-1. Copy the clientlibs directory tree from the distribution area, to a location on the client host file system.
+1. Download and unzip the clientlibs directory tree from the distribution area, to a location on the client host file system.
 
 #### On the Pharo client, enter connection parameters and connect
 
@@ -189,19 +232,30 @@ Unlike with a Direct login, this logs out the Gem, as well as disconnecting the 
 
 ### Inspecting objects
 
-To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
+To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane of an existing Inspector, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
 Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.
-You may open a new Sparkle Object Explorer using the Sparkle Connections Launcher toolbar item **Evaluator**.
+
+You may open a second evaluator pane on this Inspector using the + button at the bottom of the window.  You can open an entirely new Sparkle Object Explorer (Inspector) using the Sparkle Connections Launcher toolbar item **Evaluator**.
+
+### Commit and Abort
+
+The Inspector and Debugger upper right "hamburger" menu includes Commit Transaction, Abort Transaction, Begin Transaction, Set Automatic Transaction Mode and Set Manual Transaction Mode.
 
 ### Debugging
 
-If an error occurs in the executed code, a stack pane, with a red header, will appear, instead of an inspector. Selecting frames within this stack adds panes with frame details, including method source and variables, to the right; this is similar to how object inspection is handled.
+If an error occurs in the executed code, the debugger stack pane, with a red header, will appear on the right of the Inspector. Selecting frames within this stack adds panes with frame details, including method source and variables, to the right; this is similar to how object inspection is handled.
+
+You can open a debugger to step through code by using Control-D (Debug menu item ) in the Evaluator pane of the Inspector.
 
 #### Inspecting stack variables
 
 Variable values are hidden by default. To see the details of frame variables, expand the drop town immediately under the header. Selecting individual variables will add inspector panes to the right.
 
-#### Continue, Terminate, and step
+#### Continue, Terminate, and stepping
 
-The Stack Pane has two buttons under the header; a green arrow (continue execution) and a red X (terminate execution).
-Individual frame method panes include three icons on the left side: Step into, Step through blocks, and Step over. These allow control over stepping through code.
+The Stack Pane/Debugger has two buttons under the header; a green arrow (continue execution) and a red X (terminate execution).
+Individual frame method panes include four icons on the left side: Step into, Step through blocks, Step over, and Restart frame. These allow control over stepping through code.
+
+### Process List
+
+You can open a Process List Explorer (purple header), from the Sparkle Connections Launcher Processes button.  The Process List Browser allows you to view running Smalltalk  GsProcess instances within your Gem. The green arrows allow you to see information about the GsProcess.  You may also open a debugger on any of these processes by selecting the pause button (two vertical bars within a circle).

@@ -195,14 +195,14 @@ While the client is disconnected, the listening Gem remains logged in, and will 
 
 ### Logging in using GCI
 
-Login using the GCI interface does not require a listening Gem on the server. However, you must have the GCI libraries available in the `clientlibs` directory.
+Login using the GCI interface does not require a listening Gem on the server. However, you must have downloaded the client library zip file, so the GCI libraries are available in the `clientlibs` directory in the expected structure. 
 
 #### Install clientlibs on the client host
 
-In addition to the GemStone product distribution itself, GemTalk distributes clientlibs for v3.7. This directory tree packages the essential shared libraries, which are a subset of the libraries files that are included in the GemStone distribution for Linux or the GemStone Client distribution for Windows. This new packaging easily handles multiple versions of GemStone, without complicated management in the client host environment.
+In addition to the GemStone product distribution itself, GemTalk distributes clientlibs as a separate zip file for v3.7. This directory tree packages the essential shared libraries, which are a subset of the libraries files that are included in the GemStone distribution for Linux or the GemStone Client distribution for Windows. This new packaging easily handles multiple versions of GemStone, without complicated management in the client host environment.
 With Sparkle, you must use this `clientlibs` structure, rather than the libraries in a regular product or client distribution.
 
-1. Copy the clientlibs directory tree from the distribution area, to a location on the client host file system.
+1. Download and unzip the clientlibs directory tree from the distribution area, to a location on the client host file system.
 
 #### On the Pharo client, enter connection parameters and connect
 

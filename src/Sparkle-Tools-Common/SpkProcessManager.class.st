@@ -209,7 +209,8 @@ SpkProcessManager >> terminateProcess [
 	process _terminationStarted ifTrue: [^ self resumeProcess ].
 	[ process trimStackToLevel: process stackDepth - 2 ]
 		forkAt: (process priority + 1 min: Processor highestPriority).
-	^ self waitForResult
+	"Must resume to let the process finish the remaining frames."
+	^ self resumeProcessAndWait
 ]
 
 { #category : 'actions' }

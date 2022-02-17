@@ -30,6 +30,17 @@ SpkConnectionListPresenter >> activeConnectionPage [
 	^ connectionsNotebook selectedPage activePresenter
 ]
 
+{ #category : 'building menus' }
+SpkConnectionListPresenter >> buildHamburgerMenu [ 
+
+	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Null') asSpecGroup
+		description: 'Nothing to see here yet';
+		beDisplayedAsGroup;
+		yourself.
+	^commandGroup
+]
+
 { #category : 'initialization' }
 SpkConnectionListPresenter >> connectPresenters [
 

@@ -20,7 +20,7 @@ SpkLauncher class >> menuCommandOn: aBuilder [
 		icon: nil;  
 		parent: #'Tools'; "This appears as the Library menu option for whatever reason"
 		keyText: 'L'; "hot key doesn't work yet" 
-		help: 'Sparkle is the GemStone connection creator for Pharo';
+		help: 'Make connections to GemStone servers';
 		action: [ self new start ]
 ]
 

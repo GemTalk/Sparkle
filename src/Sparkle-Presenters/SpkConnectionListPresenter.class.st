@@ -246,7 +246,7 @@ SpkConnectionListPresenter >> initializeUnselectedProfile [
 SpkConnectionListPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Sparkle Connections Launcher';
+		title: 'Sparkle Launcher';
 		borderColor: Color purple;
 		borderWidth: 3;
 		initialExtent: 800 @ 450;

@@ -184,7 +184,7 @@ You should see a "Starting to listen" message.
 
 #### On the Pharo client, connect to the listening Gem
 
-1. Open the Sparkle Connection Launcher window using the **Library > Sparkle Connections Launcher**  menu item.
+1. Open the Sparkle Launcher window using the **Library > Sparkle Launcher**  menu item.
 2. Select the **Direct**  tab on the right pane. Enter the following fields:
    * **Connection Name**  -- a unique identifier for this connection.
    * **Host**  -- the name or IP of the host that the Stone is on.
@@ -194,7 +194,7 @@ You should see a "Starting to listen" message.
 
 #### Logging out of a direct connection
 
-Click the **Disconnect**  button in the **Sparkle Connections Launcher** to terminate your connection to the GemStone server. This closes the Sparkle Object Explorer and any other open server windows.
+Click the **Disconnect**  button in the **Sparkle Launcher** to terminate your connection to the GemStone server. This closes the Sparkle Object Explorer and any other open server windows.
 While the client is disconnected, the listening Gem remains logged in, and will continue to listen for connections from the client. To fully logout, you must stop the listening Gem on the server (e.g., using Control-C).
 
 ### Logging in using GCI
@@ -210,7 +210,7 @@ With Sparkle, you must use this `clientlibs` structure, rather than the librarie
 
 #### On the Pharo client, enter connection parameters and connect
 
-1. Open the Sparkle Connection Launcher window using the **Library > Sparkle Connections Launcher**  menu item.
+1. Open the Sparkle Launcher window using the **Library > Sparkle Launcher**  menu item.
 2. Select the **GCI**  tab on the right pane. Enter the following fields:
    * **Connection Name**  -- a unique identifier for this connection.
    * **Host**  -- the name or IP of the host that the Stone is on, and on which the Gem will be run.
@@ -226,7 +226,7 @@ With Sparkle, you must use this `clientlibs` structure, rather than the librarie
 
 ### Logging out of a GCI connection
 
-To logout, click the **Disconnect**  button in the **Sparkle Connections Launcher**.
+To logout, click the **Disconnect**  button in the **Sparkle Launcher**.
 Unlike with a Direct login, this logs out the Gem, as well as disconnecting the client. The Sparkle Object Explorer and any other open server windows are closed.
 
 ## Operations in your Session
@@ -236,7 +236,7 @@ Unlike with a Direct login, this logs out the Gem, as well as disconnecting the 
 To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane of an existing Inspector, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
 Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.
 
-You may open a second evaluator pane on this Inspector using the + button at the bottom of the window.  You can open an entirely new Sparkle Object Explorer (Inspector) using the Sparkle Connections Launcher toolbar item **Evaluator**.
+You may open a second evaluator pane on this Inspector using the + button at the bottom of the window.  You can open an entirely new Sparkle Object Explorer (Inspector) using the Sparkle Launcher toolbar item **Evaluator**.
 
 ### Commit and Abort
 
@@ -259,4 +259,4 @@ Individual frame method panes include four icons on the left side: Step into, St
 
 ### Process List
 
-You can open a Process List Explorer (purple header), from the Sparkle Connections Launcher Processes button.  The Process List Browser allows you to view running Smalltalk  GsProcess instances within your Gem. The green arrows allow you to see information about the GsProcess.  You may also open a debugger on any of these processes by selecting the pause button (two vertical bars within a circle).
+You can open a Process List Explorer (purple header), from the Sparkle Launcher Processes button.  The Process List Browser allows you to view running Smalltalk  GsProcess instances within your Gem. The green arrows allow you to see information about the GsProcess.  You may also open a debugger on any of these processes by selecting the pause button (two vertical bars within a circle).

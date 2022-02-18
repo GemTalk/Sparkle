@@ -42,9 +42,7 @@ This clones the **main**  branch of the Sparkle repository.
     * has $GEMSTONE/bin on the $PATH
 2. Change to the Sparkle GemStone directory:
 
-   ```bash
-    cd $gitRepositoryDir/Sparkle/src-gs
-   ```
+   `cd <gitRepositoryDir>/Sparkle/src-gs`
 
 3. Edit `loginSystemUser.topaz` to have the correct Stone name and password for SystemUser.
 4. execute the installation script:
@@ -81,9 +79,7 @@ Note that the rowan extent does not require $ROWAN_PROJECTS_HOME to contain the 
     * has defined $ROWAN_PROJECTS_HOME to _gitRepositoryDir_.
 2. Change to the Sparkle GemStone directory:
 
-   ```bash
-    cd $ROWAN_PROJECTS_HOME/Sparkle/src-gs
-   ```
+   `cd $ROWAN_PROJECTS_HOME/Sparkle/src-gs`
 
 3. Edit `loginSystemUser.topaz` to have the correct Stone name and password for SystemUser.
 4. execute the installation script:
@@ -134,6 +130,11 @@ The script clones Sparkle, and the other required repositories (SparkleFFI and R
 
 4. Save the image. You are now ready to log in; see the directions under [Login](#login).
 
+##### Iceberg default repository location
+
+The Sparkle load clones repositories into a default location, under `<pharoImageDir>/pharo-local/iceberg/GemTalk/`. This location can be configured, if you wish to keep your clones across Pharo images.
+See **Settings > Tools > Software Configuration Management > Iceberg** , and check **Share repositories between images**. Once this is checked, you can enter a location for shared repositories.
+
 #### Manual installation
 
 Rather than using the above script, you may manually clone the repositories, and load these into your Pharo image. This allows you complete control over specific branches from the various git repositories.
@@ -153,11 +154,6 @@ Rather than using the above script, you may manually clone the repositories, and
 10. Click on the OK button. Sparkle should appear in the Iceberg repository list.
 11. Right click on Sparkle, and select **Metacello > Install Baseline of Sparkle (default)**.
 12. Save the image. You are now ready to login; see [Login](#login).
-
-##### Iceberg default repository location
-
-The Sparkle load clones repositories into a default location, under _pharoImageDir_/`pharo-local/iceberg/GemTalk/`. This location can be configured, if you wish to keep your clones across Pharo images.
-See **Settings > Tools > Software Configuration Management > Iceberg** , and check **Share repositories between images**. Once this is checked, you can enter a location for shared repositories.
 
 ## Login
 

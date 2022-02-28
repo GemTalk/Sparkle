@@ -17,7 +17,7 @@ Class {
 		'oop',
 		'classMembershipDescription',
 		'selfDescription',
-		'fields',
+		'views',
 		'evaluators'
 	],
 	#category : 'Sparkle-Services-Common'
@@ -45,21 +45,11 @@ SpkInspectorService >> evaluators [
 	^ evaluators
 ]
 
-{ #category : 'accessing' }
-SpkInspectorService >> fields [
-	^ fields
-]
-
-{ #category : 'accessing' }
-SpkInspectorService >> fields: anObject [
-	fields := anObject
-]
-
 { #category : 'initialization' }
 SpkInspectorService >> initialize [
 
 	super initialize.
-	fields := OrderedCollection new.
+	views := OrderedCollection new.
 	evaluators := OrderedCollection new
 ]
 

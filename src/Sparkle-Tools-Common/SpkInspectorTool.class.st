@@ -171,3 +171,9 @@ SpkInspectorTool >> taskspaceTool: aTool [
 		send: #receiveExecutionAnnouncement: 
 		to: self
 ]
+
+{ #category : 'accessing' }
+SpkInspectorTool >> views [
+
+	^views
+]

@@ -39,38 +39,6 @@ SpkInspectorServiceServer >> receiveExecutionAnnouncement: announcement [
 ]
 
 { #category : 'initialization' }
-SpkInspectorServiceServer >> refreshFieldsFromTool [
-
-	| changed fieldTools |
-	changed := false.
-	fields size < tool fieldTools size ifTrue: [ 
-		changed := true.
-		fields size + 1 to: tool fieldTools size do: [ :i | 
-			fields add: (SpkInspectorFieldServiceServer new
-					 parentService: self;
-					 tool: (tool fieldTools at: i);
-					 yourself) ] ].
-	fields size > tool fieldTools size ifTrue: [ 
-		changed := true.
-		fields size - tool fieldTools size timesRepeat: [ fields removeLast ] ].
-	fieldTools := tool fieldTools.
-	1 to: fieldTools size do: [ :i | 
-		| fieldTool field newField |
-		fieldTool := fieldTools at: i.
-		field := fields at: i.
-		fieldTool == field tool ifFalse: [ 
-			changed := true.
-			newField := SpkInspectorFieldServiceServer new
-				            parentService: self;
-				            tool: fieldTool;
-				            yourself.
-			fields at: i put: newField.
-			field := newField ].
-		changed := changed | field refreshFromTool ].
-	^ changed
-]
-
-{ #category : 'initialization' }
 SpkInspectorServiceServer >> refreshFromTool [
 
 	| changed |
@@ -82,8 +50,21 @@ SpkInspectorServiceServer >> refreshFromTool [
 	oop := tool oop.
 	classMembershipDescription := tool classMembershipDescription.
 	selfDescription := tool selfDescription.
-	changed := changed | self refreshFieldsFromTool.
+	changed := changed | self refreshViews.
 	^ changed
+]
+
+{ #category : 'initialization' }
+SpkInspectorServiceServer >> refreshViews [
+
+	| changed viewServices viewTools |
+	changed := false.
+	viewServices := views.
+	viewTools := tool views.
+	views := viewTools collect: [:viewTool | viewServices detect: [:service | service tool == viewTool] ifNone: [SpkInspectorViewServiceServer forTool: viewTool]]. 
+	"SpkInspectorViewServiceServer expects #refreshFromTool to be sent here. It doesn't not refresh itself upon initialization."
+	views do: [:service | changed := changed | service refreshFromTool].
+	^changed or: [viewServices ~= views]
 ]
 
 { #category : 'accessing' }

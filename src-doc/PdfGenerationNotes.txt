@@ -11,4 +11,4 @@ The edits needed to the CSS are:
     font-weight: bold;
 
 2. Darken the color of inline code
-    In the section :not(pre):not(.hljs) > code {}, change the color from C9AE75 to 662222
+    In the section :not(pre):not(.hljs) > code {}, change the color from C9AE75 to 602020

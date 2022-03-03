@@ -26,7 +26,7 @@ The following instructions are for the GemStone server, which can be run on Linu
 
 ### Install GemStone with standard image
 
-1. Install GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.
+1. Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly. Installing a 3.7 alpha release is similar to installing previous releases; see <https://gemtalksystems.com/products/gs64/versions36x/>.
 2. Start a v3.7 Stone.
 
 ### Clone Sparkle from GitHub
@@ -58,7 +58,7 @@ The following instructions are for installing sparkle into a Rowan-enabled GemSt
 
 ### Install GemStone with Rowan image
 
-1. Install GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository).
+1. Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository). Installing a 3.7 alpha release is similar to installing previous releases; see <https://gemtalksystems.com/products/gs64/versions36x/>.
 2. Copy the rowan extent, `extent0.rowan.dbf`, into the extent location (usually $GEMSTONE/data/).
 3. Start a v3.7 Stone.
 
@@ -119,7 +119,7 @@ The script clones Sparkle, and the other required repositories (SparkleFFI and R
 
 1. Launch the Pharo 9.0 image.
 2. Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **User interface theme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
-3. Open a Pharo Playground (workspace), and execute:
+3. Open a Pharo Playground and execute with **Do it**:
 
    ```smalltalk
     Metacello new
@@ -170,7 +170,7 @@ Direct login is a two-step process; you will launch a listening Gem on the GemSt
 
  _Warning: This step will launch a gem that will listen for a connection on port 29299. At present, there is no security on that port._
 
-1. Edit _gitRepositoryDir_`/Sparkle/src-gs/login.topaz` to have the correct stone name, user name, and password. You can use an unprivileged user for this, such as DataCurator. SystemUser is only required for installation.
+1. Edit _gitRepositoryDir_`/Sparkle/src-gs/login.topaz` to have the correct stone name, user name, and password. You can use an unprivileged user for this. SystemUser is only required for installation.
 2. Execute the listening gem launch script:
 
    _gitRepositoryDir_`/Sparkle/src-gs/server.sh`
@@ -186,6 +186,8 @@ You should see a "Starting to listen" message.
    * **Port**  -- the port that the listening Gem on the server is listening on. If you are using the server script described above, this will be 29299.
 3. Click the + **Add**  button to add the new profile to your list of profiles.
 4. Click the **Connect**  button. A Sparkle Object Explorer window will open, containing an inspector on nil.
+
+See [Operations in your Session](#Operations-in-your-Session) below for an overview of what you can do before logging out. There are also links to demonstration videos in  _gitRepositoryDir_`/Sparkle/README.md`.
 
 #### Logging out of a direct connection
 
@@ -219,6 +221,8 @@ With Sparkle, you must use this `clientlibs` structure, rather than the librarie
 3. Click the + **Add**  button, to add the new profile to your list of profiles.
 4. Click the **Connect**  button. A Sparkle Object Explorer window will open, containing an inspector on nil.
 
+See [Operations in your Session](#Operations-in-your-Session) below for an overview of what you can do before logging out. There are also links to demonstration videos in  _gitRepositoryDir_`/Sparkle/README.md`.
+
 ### Logging out of a GCI connection
 
 To logout, click the **Disconnect**  button in the **Sparkle Launcher**.
@@ -228,7 +232,7 @@ Unlike with a Direct login, this logs out the Gem, as well as disconnecting the 
 
 ### Inspecting objects
 
-To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane of an existing Inspector, and accept (Ctrl-S). The window will split, with the inspector pane appearing on the right, with a green header.
+To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane of an existing Inspector, and choose **Accept** from the menu in the Evaluator's upper right corner. The window will split, with the inspector pane appearing on the right, with a green header.
 Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.
 
 You may open a second evaluator pane on this Inspector using the + button at the bottom of the window.  You can open an entirely new Sparkle Object Explorer (Inspector) using the Sparkle Launcher toolbar item **Evaluator**.

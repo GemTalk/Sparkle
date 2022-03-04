@@ -37,6 +37,11 @@ SpkInspectorViewTool >> inspectedObject: anObject [
 	inspectedObject := anObject
 ]
 
+{ #category : 'other' }
+SpkInspectorViewTool >> name [
+	self subclassResponsibility
+]
+
 { #category : 'as yet unclassified' }
 SpkInspectorViewTool >> newFieldTool [
 

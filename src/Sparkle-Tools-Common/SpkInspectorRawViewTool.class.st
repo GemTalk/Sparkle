@@ -4,7 +4,7 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> indexedSize [
 
 	^ SpkReflection indexedSizeOf: inspectedObject
@@ -18,7 +18,7 @@ SpkInspectorRawViewTool >> initialize [
 	numberOfColumns := 2 "name and self description"
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> instVarNames [
 
 	| class |
@@ -26,19 +26,24 @@ SpkInspectorRawViewTool >> instVarNames [
 	^ class allInstVarNames
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
+SpkInspectorRawViewTool >> name [
+	^ 'Raw'
+]
+
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> namedSize [
 
 	^ self instVarNames size
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> numberOfFields [
 
 	^ self namedSize + self indexedSize
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> refreshFieldToolContents [
 
 	self
@@ -46,7 +51,7 @@ SpkInspectorRawViewTool >> refreshFieldToolContents [
 		refreshIndexedFieldTools
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> refreshIndexedFieldTools [
 
 	1 to: self indexedSize do: [ :index | 
@@ -66,7 +71,7 @@ SpkInspectorRawViewTool >> refreshIndexedFieldTools [
 			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorRawViewTool >> refreshNamedFieldTools [
 
 	| names |

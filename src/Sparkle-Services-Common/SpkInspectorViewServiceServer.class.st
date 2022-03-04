@@ -52,6 +52,9 @@ SpkInspectorViewServiceServer >> refreshFromTool [
 
 	| changed |
 	changed := false.
+	name = tool name ifFalse: [ 
+		name := tool name.
+		changed := true ].
 	changed := changed | self refreshFieldsFromTool.
 	^ changed
 ]

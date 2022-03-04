@@ -1,3 +1,13 @@
+"
+Trait that gives a presenter a multi-select list with linked panes for selected items.
+ 
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	list:		<SpkMultipleSelectionTablePresenter> The GUI of the list
+	listModel:		<SpkMultiSelectList> Holds SpkMultiSelectListItems, each of which has a service as a model
+
+"
 Trait {
 	#name : 'SpkTList',
 	#instVars : [
@@ -112,11 +122,17 @@ SpkTList >> panesLinkedToListItems [
 { #category : 'refreshing' }
 SpkTList >> refreshList [
 
+	"Refresh list presenter from MultiSelectList -- 
+	does not involve services or the server"
+
 	list refresh
 ]
 
 { #category : 'initialization' }
 SpkTList >> refreshListModel [
+
+	"Fully refresh from current state of local services.
+	Does not cause a server round trip."
 
 	listModel refreshFromServices: self model listItems.
 	self

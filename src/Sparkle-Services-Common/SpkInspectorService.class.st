@@ -18,6 +18,7 @@ Class {
 		'classMembershipDescription',
 		'selfDescription',
 		'views',
+		'defaultView',
 		'evaluators'
 	],
 	#category : 'Sparkle-Services-Common'

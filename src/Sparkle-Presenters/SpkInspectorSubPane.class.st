@@ -1,11 +1,14 @@
 Class {
 	#name : 'SpkInspectorSubPane',
 	#superclass : 'SpkPresenterWithModel',
-	#traits : 'SpkTHeader + (SpkTTwizzledList @ {#updateLinkedPaneCoordinates->#tUpdateLinkedPaneCoordinates})',
-	#classTraits : 'SpkTHeader classTrait + SpkTTwizzledList classTrait',
+	#traits : 'SpkTHeader',
+	#classTraits : 'SpkTHeader classTrait',
 	#instVars : [
 		'pane',
-		'selfDescription'
+		'selfDescription',
+		'viewTwizzle',
+		'currentView',
+		'views'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -102,7 +105,7 @@ SpkInspectorSubPane >> initializeFieldList [
 		initializeSelfDescription;
 		addSeparator;
 		initializeTwizzledList.
-	twizzledList twizzleHelp: 'Show or hide the field list'
+	viewTwizzle twizzleHelp: 'Show or hide the field list'
 ]
 
 { #category : 'initialization' }
@@ -133,21 +136,14 @@ SpkInspectorSubPane >> initializeSelfDescription [
 	self updateSelfDescription
 ]
 
-{ #category : 'actions' }
-SpkInspectorSubPane >> itemSelected: anAnnouncement [
+{ #category : 'initialization' }
+SpkInspectorSubPane >> initializeTwizzledList [
 
-	"This announcement comes from the UI, not a service, so does not need to be deferred."
-
-	| field inspectorService |
-	field := anAnnouncement item.
-	inspectorService := field model
-		                    inspectFieldIn: self explorerService
-		                    forRequest: field.
-	"If nil, a server round trip is required and the inspector pane 
-	will be created by announcement from the service."
-	inspectorService
-		ifNil: [ self disableAll ]
-		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+	self initializeList.
+	viewTwizzle := self instantiate: SpkTwizzledPresenter.
+	viewTwizzle
+		subPresenter: list;
+		showSubPresenter: true
 ]
 
 { #category : 'accessing' }
@@ -205,6 +201,13 @@ SpkInspectorSubPane >> printOn: aStream [
 		oop printOn: aStream base: 16 ]
 			on: Error
 			do: [ :ex | ex return ] ]
+]
+
+{ #category : 'initialization' }
+SpkInspectorSubPane >> refreshTwizzledList [
+
+	self refreshListModel.
+	viewTwizzle labelString: self listLabelString
 ]
 
 { #category : 'as yet unclassified' }

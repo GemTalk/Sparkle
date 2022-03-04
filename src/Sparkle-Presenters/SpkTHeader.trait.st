@@ -1,3 +1,12 @@
+"
+A trait for Sparkle presenters that have headers, such as panes and some sub-panes.
+ 
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	header:		<SpkHeader>
+
+"
 Trait {
 	#name : 'SpkTHeader',
 	#instVars : [

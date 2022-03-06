@@ -31,14 +31,14 @@ SpkInspectorServiceServer >> initializeFromTool: aTool [
 		initializeEvaluatorsFromTool
 ]
 
-{ #category : 'accessing' }
+{ #category : 'announcements' }
 SpkInspectorServiceServer >> receiveExecutionAnnouncement: announcement [
 
 	self refreshFromTool ifTrue: [ 
 		announcement updatedServices add: self ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'refreshing' }
 SpkInspectorServiceServer >> refreshFromTool [
 
 	| changed |
@@ -54,7 +54,7 @@ SpkInspectorServiceServer >> refreshFromTool [
 	^ changed
 ]
 
-{ #category : 'initialization' }
+{ #category : 'refreshing' }
 SpkInspectorServiceServer >> refreshViews [
 
 	| changed viewServices viewTools |

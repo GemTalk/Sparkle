@@ -202,13 +202,6 @@ SpkDebuggerFrameTool >> process: aProcess [
 	process := aProcess
 ]
 
-{ #category : 'other' }
-SpkDebuggerFrameTool >> receiveExecutionAnnouncement: anAnnouncement [
-	"I should have already been updated by the time I receive this announcement."
-
-	 self announce: anAnnouncement
-]
-
 { #category : 'accessing' }
 SpkDebuggerFrameTool >> receiver [
 	^ currentState receiver

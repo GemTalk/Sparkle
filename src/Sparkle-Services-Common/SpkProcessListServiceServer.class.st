@@ -34,7 +34,7 @@ SpkProcessListServiceServer >> initializeFromTool: aProcessListTool [
 	self refreshFromTool.
 ]
 
-{ #category : 'processing announcements' }
+{ #category : 'announcements' }
 SpkProcessListServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
 
 	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
@@ -64,7 +64,7 @@ SpkProcessListServiceServer >> refreshFromTool [
 	^changed
 ]
 
-{ #category : 'updating' }
+{ #category : 'actions' }
 SpkProcessListServiceServer >> synchronizeTaskspace [
 	"Sent from client"
 

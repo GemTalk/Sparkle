@@ -7,7 +7,7 @@ Class {
 	#category : 'Sparkle-Tools-GemStone'
 }
 
-{ #category : 'initializing' }
+{ #category : 'initialization' }
 SpkProcessListTool >> initialize [
 
 	super initialize.
@@ -21,7 +21,7 @@ SpkProcessListTool >> processToolsDo: aBlock [
 	processTools valuesDo: aBlock
 ]
 
-{ #category : 'processing announcements' }
+{ #category : 'announcements' }
 SpkProcessListTool >> receiveExecutionAnnouncement: anAnnouncement [
 
 	self announce: anAnnouncement

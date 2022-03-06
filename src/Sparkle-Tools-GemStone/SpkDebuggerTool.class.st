@@ -307,7 +307,7 @@ SpkDebuggerTool >> processPriority [
 	^ process priority
 ]
 
-{ #category : 'announcement responding' }
+{ #category : 'announcements' }
 SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 	"Execution has happened; if we are still debugging update my
 	own state then let others (like my service) know."
@@ -317,7 +317,7 @@ SpkDebuggerTool >> receiveExecutionAnnouncement: anAnnouncement [
 		ifTrue: [ 
 			self refreshFromProcess.
 			self nonGlueFrames
-				do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
+				do: [ :frame | frame announce: anAnnouncement ] ].
 	self announce: anAnnouncement.
 	self proceedIfInGlueAnnouncing: anAnnouncement
 ]

@@ -19,6 +19,12 @@ SpkInspectorFieldListViewServiceServer >> initializeFromTool: aTool [
 		refreshFromTool
 ]
 
+{ #category : 'announcements' }
+SpkInspectorFieldListViewServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
+
+	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
+]
+
 { #category : 'initialization' }
 SpkInspectorFieldListViewServiceServer >> refreshFieldsFromTool [
 

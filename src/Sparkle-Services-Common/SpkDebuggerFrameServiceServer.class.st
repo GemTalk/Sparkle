@@ -25,7 +25,7 @@ SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
 	self refreshFromTool
 ]
 
-{ #category : 'other' }
+{ #category : 'announcements' }
 SpkDebuggerFrameServiceServer >> receiveExecutionAnnouncement: announcement [
 
 	self refreshFromTool ifTrue: [ 
@@ -105,7 +105,7 @@ SpkDebuggerFrameServiceServer >> refreshLocalVariablesFromTool [
 	^ changed
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceServer >> restart [
 	"Sent from client"
 
@@ -114,7 +114,7 @@ SpkDebuggerFrameServiceServer >> restart [
 	^ self
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceServer >> stepInto [
 	"Sent from client"
 
@@ -124,7 +124,7 @@ SpkDebuggerFrameServiceServer >> stepInto [
 	^ self
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceServer >> stepOver [
 	"Sent from client"
 
@@ -134,7 +134,7 @@ SpkDebuggerFrameServiceServer >> stepOver [
 	^ self
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceServer >> stepThrough [
 	"Sent from client"
 
@@ -144,7 +144,7 @@ SpkDebuggerFrameServiceServer >> stepThrough [
 	^ self
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerFrameServiceServer >> tool [
 	^ tool
 ]

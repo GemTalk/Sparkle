@@ -16,17 +16,20 @@ SpkInspectorTool >> = anObject [
 	self halt
 ]
 
-{ #category : 'adding' }
+{ #category : 'actions' }
 SpkInspectorTool >> addEvaluator [
+	"Sent from client"
 
-	^ evaluatorTools add: (SpkEvaluatorTool new
-			   inspectorTool: self;
-			   explorerTool: explorerTool;
-			   taskspaceTool: taskspaceTool;
-			   yourself)
+	^ evaluatorTools
+		add:
+			(SpkEvaluatorTool new
+				inspectorTool: self;
+				explorerTool: explorerTool;
+				taskspaceTool: taskspaceTool;
+				yourself)
 ]
 
-{ #category : 'adding' }
+{ #category : 'accessing' }
 SpkInspectorTool >> classMembershipDescription [
 	"Answer a string description of the object as an instance of its class"
 
@@ -43,7 +46,7 @@ SpkInspectorTool >> classMembershipDescription [
 				ifFalse: [ 'a ' ]) , title ]
 ]
 
-{ #category : 'adding' }
+{ #category : 'accessing' }
 SpkInspectorTool >> classOfInspectedObject [
 
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
@@ -51,7 +54,7 @@ SpkInspectorTool >> classOfInspectedObject [
 	^ SpkReflection classOf: inspectedObject
 ]
 
-{ #category : 'adding' }
+{ #category : 'accessing' }
 SpkInspectorTool >> evaluatorTools [
 
 	^ evaluatorTools
@@ -69,7 +72,7 @@ SpkInspectorTool >> explorerTool: anObject [
 	explorerTool := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 SpkInspectorTool >> initialize [
 
 	super initialize.
@@ -122,10 +125,9 @@ SpkInspectorTool >> oop [
 	^ SpkReflection identifierOf: inspectedObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'announcements' }
 SpkInspectorTool >> receiveExecutionAnnouncement: anAnnouncement [
-
-	self refreshFieldTools.
+	views do: [ :view | view announce: anAnnouncement ].
 	self announce: anAnnouncement
 ]
 
@@ -140,7 +142,7 @@ SpkInspectorTool >> selfDescription [
 	^ self selfDescriptionOf: inspectedObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 SpkInspectorTool >> taskspaceTool: aTool [
 
 	super taskspaceTool: aTool.

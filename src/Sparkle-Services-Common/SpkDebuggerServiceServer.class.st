@@ -7,7 +7,7 @@ Class {
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkDebuggerServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
@@ -18,7 +18,7 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 	self refreshFromTool
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerServiceServer >> proceed [
 	"Sent from client"
 
@@ -30,14 +30,14 @@ SpkDebuggerServiceServer >> proceed [
 		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
 ]
 
-{ #category : 'other' }
+{ #category : 'announcements' }
 SpkDebuggerServiceServer >> receiveExecutionAnnouncement: announcement [
 
 	self refreshFromTool ifTrue: [ 
 		announcement updatedServices add: self ]
 ]
 
-{ #category : 'other' }
+{ #category : 'refreshing' }
 SpkDebuggerServiceServer >> refreshExistingFrames [
 	| numberOfValidFrames frameTools |
 	numberOfValidFrames := 0.
@@ -49,7 +49,7 @@ SpkDebuggerServiceServer >> refreshExistingFrames [
 	^ numberOfValidFrames
 ]
 
-{ #category : 'other' }
+{ #category : 'refreshing' }
 SpkDebuggerServiceServer >> refreshFramesFromTool [
 	| changed numberOfValidFrames newStackDepth frameTools newFrames |
 	changed := false.
@@ -80,7 +80,7 @@ SpkDebuggerServiceServer >> refreshFramesFromTool [
 	^ changed
 ]
 
-{ #category : 'other' }
+{ #category : 'refreshing' }
 SpkDebuggerServiceServer >> refreshFromTool [
 	tool replacementTool == tool
 		ifTrue: [ ^ self refreshTopLevelInfoFromTool | self refreshFramesFromTool ].	"
@@ -90,7 +90,7 @@ SpkDebuggerServiceServer >> refreshFromTool [
 	^ true
 ]
 
-{ #category : 'other' }
+{ #category : 'refreshing' }
 SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	| changed oldValue |
 	changed := false.
@@ -114,7 +114,7 @@ SpkDebuggerServiceServer >> refreshTopLevelInfoFromTool [
 	^ changed
 ]
 
-{ #category : 'other' }
+{ #category : 'actions' }
 SpkDebuggerServiceServer >> terminate [
 	"Sent from client"
 

@@ -18,7 +18,6 @@ Class {
 		'classMembershipDescription',
 		'selfDescription',
 		'views',
-		'defaultView',
 		'evaluators'
 	],
 	#category : 'Sparkle-Services-Common'
@@ -38,18 +37,6 @@ SpkInspectorService >> classMembershipDescription [
 { #category : 'accessing' }
 SpkInspectorService >> classMembershipDescription: anObject [
 	classMembershipDescription := anObject
-]
-
-{ #category : 'accessing' }
-SpkInspectorService >> defaultView [
-
-	^ defaultView
-]
-
-{ #category : 'accessing' }
-SpkInspectorService >> defaultView: anObject [
-
-	defaultView := anObject
 ]
 
 { #category : 'accessing' }

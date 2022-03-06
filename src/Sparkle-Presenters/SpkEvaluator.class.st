@@ -13,8 +13,7 @@ Class {
 	#traits : 'SpkTLinkedPane + SpkTHeader',
 	#classTraits : 'SpkTLinkedPane classTrait + SpkTHeader classTrait',
 	#instVars : [
-		'pane',
-		'index'
+		'pane'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -88,15 +87,6 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 		self halt: 'update text here' ]
 ]
 
-{ #category : 'accessing' }
-SpkEvaluator >> coordinateRelativeTo: parentCoordinate [
-
-	"Linked inspectors for fields get a 0 element in their coordinate. 
-	Ones for evaluators get the evaluator's index. This sorts all fields before any evaluators."
-
-	^ parentCoordinate , index
-]
-
 { #category : 'actions' }
 SpkEvaluator >> debug [
 
@@ -114,21 +104,6 @@ SpkEvaluator >> hasUnsavedChanges: aBoolean [
 SpkEvaluator >> headerClass [
 
 	^ SpkEvaluatorHeader
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> index [
-
-	^ index
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> index: anIndex [
-
-	index = anIndex
-		ifTrue: [ ^self ].
-	index := anIndex.
-	self linkedPane ifNotNil: [:lp | lp coordinate: (self coordinateRelativeTo: owner coordinate)]
 ]
 
 { #category : 'initialization' }

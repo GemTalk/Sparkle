@@ -14,7 +14,8 @@ Internal Representation and Key Implementation Points.
 Trait {
 	#name : 'SpkTLinkedPane',
 	#instVars : [
-		'linkedPane'
+		'linkedPane',
+		'index'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -36,10 +37,28 @@ SpkTLinkedPane >> closeLinkedPane [
 			self error: 'Closing my linked pane should have unlinked it' ] ]
 ]
 
+{ #category : 'accessing' }
+SpkTLinkedPane >> coordinateRelativeTo: parentCoordinate [
+
+	^ parentCoordinate , index
+]
+
 { #category : 'testing' }
 SpkTLinkedPane >> hasLinkedPane [
 
 	^ linkedPane notNil
+]
+
+{ #category : 'accessing' }
+SpkTLinkedPane >> index [
+
+	^ index
+]
+
+{ #category : 'accessing' }
+SpkTLinkedPane >> index: anObject [
+
+	index := anObject
 ]
 
 { #category : 'accessing' }

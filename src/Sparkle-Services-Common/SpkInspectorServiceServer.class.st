@@ -61,10 +61,12 @@ SpkInspectorServiceServer >> refreshViews [
 	changed := false.
 	viewServices := views.
 	viewTools := tool views.
-	views := viewTools collect: [:viewTool | viewServices detect: [:service | service tool == viewTool] ifNone: [SpkInspectorViewServiceServer forTool: viewTool]]. 
-	"SpkInspectorViewServiceServer expects #refreshFromTool to be sent here. It doesn't not refresh itself upon initialization."
-	views do: [:service | changed := changed | service refreshFromTool].
-	^changed or: [viewServices ~= views]
+	views := viewTools collect: [ :viewTool | 
+		         viewServices
+			         detect: [ :service | service tool == viewTool ]
+			         ifNone: [ SpkServiceFactory serviceForTool: viewTool ] ].
+	views do: [ :service | changed := changed | service refreshFromTool ].
+	^ changed or: [ viewServices ~= views ]
 ]
 
 { #category : 'accessing' }

@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'evaluatorTools',
 		'views',
-		'currentView',
 		'inspectedObject'
 	],
 	#category : 'Sparkle-Tools-Common'
@@ -52,12 +51,6 @@ SpkInspectorTool >> classOfInspectedObject [
 	^ SpkReflection classOf: inspectedObject
 ]
 
-{ #category : 'as yet unclassified' }
-SpkInspectorTool >> defaultView [
-
-	^ views at: 'default'
-]
-
 { #category : 'adding' }
 SpkInspectorTool >> evaluatorTools [
 
@@ -77,17 +70,11 @@ SpkInspectorTool >> explorerTool: anObject [
 ]
 
 { #category : 'accessing' }
-SpkInspectorTool >> fieldTools [
-
-	^ currentView fieldTools
-]
-
-{ #category : 'accessing' }
 SpkInspectorTool >> initialize [
 
 	super initialize.
 	evaluatorTools := OrderedCollection new.
-	views := Dictionary new
+	views := OrderedCollection new
 ]
 
 { #category : 'accessing' }
@@ -112,10 +99,7 @@ SpkInspectorTool >> initializeViews [
 	rawView
 		taskspaceTool: taskspaceTool;
 		refreshFieldTools.
-	views
-		at: 'raw' put: rawView;
-		at: 'default' put: rawView.
-	currentView := rawView
+	views add: rawView
 ]
 
 { #category : 'accessing' }
@@ -143,12 +127,6 @@ SpkInspectorTool >> receiveExecutionAnnouncement: anAnnouncement [
 
 	self refreshFieldTools.
 	self announce: anAnnouncement
-]
-
-{ #category : 'accessing' }
-SpkInspectorTool >> refreshFieldTools [
-
-	currentView refreshFieldTools
 ]
 
 { #category : 'accessing' }

@@ -122,9 +122,12 @@ SpkTaskspace >> initializePresenterClassesForServiceTypes [
 		  at: SpkCompilationErrorServiceClient put: SpkCompilationErrorPane;
 		  at: SpkDebuggerFrameServiceClient put: SpkDebuggerFramePane;
 		  at: SpkDebuggerServiceClient put: SpkDebuggerPane;
+		  at: SpkInspectorFieldListViewServiceClient
+		  put: SpkInspectorFieldListView;
 		  at: SpkInspectorServiceClient put: SpkInspectorPane;
 		  at: SpkProcessListServiceClient put: SpkProcessListPane;
-		  at: SpkProcessTerminatedServiceClient put: SpkProcessTerminatedPane;
+		  at: SpkProcessTerminatedServiceClient
+		  put: SpkProcessTerminatedPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;
 		  yourself
 ]

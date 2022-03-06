@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkInspectorViewTool',
+	#name : 'SpkInspectorFieldListViewTool',
 	#superclass : 'SpkInspectionTool',
 	#instVars : [
 		'numberOfColumns',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SpkInspectorViewTool class >> on: anObject [
+SpkInspectorFieldListViewTool class >> on: anObject [
 
 	^ self new
 		  inspectedObject: anObject;
@@ -18,7 +18,7 @@ SpkInspectorViewTool class >> on: anObject [
 ]
 
 { #category : 'private' }
-SpkInspectorViewTool >> classOfInspectedObject [
+SpkInspectorFieldListViewTool >> classOfInspectedObject [
 
 	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
 
@@ -26,24 +26,24 @@ SpkInspectorViewTool >> classOfInspectedObject [
 ]
 
 { #category : 'accessing' }
-SpkInspectorViewTool >> fieldTools [
+SpkInspectorFieldListViewTool >> fieldTools [
 
 	^ fieldTools
 ]
 
 { #category : 'accessing' }
-SpkInspectorViewTool >> inspectedObject: anObject [
+SpkInspectorFieldListViewTool >> inspectedObject: anObject [
 
 	inspectedObject := anObject
 ]
 
 { #category : 'other' }
-SpkInspectorViewTool >> name [
+SpkInspectorFieldListViewTool >> name [
 	self subclassResponsibility
 ]
 
 { #category : 'as yet unclassified' }
-SpkInspectorViewTool >> newFieldTool [
+SpkInspectorFieldListViewTool >> newFieldTool [
 
 	^ SpkInspectorFieldTool new
 		  taskspaceTool: taskspaceTool;
@@ -52,19 +52,19 @@ SpkInspectorViewTool >> newFieldTool [
 ]
 
 { #category : 'as yet unclassified' }
-SpkInspectorViewTool >> numberOfFields [
+SpkInspectorFieldListViewTool >> numberOfFields [
 
 	self subclassResponsibility
 ]
 
 { #category : 'as yet unclassified' }
-SpkInspectorViewTool >> refreshFieldToolContents [
+SpkInspectorFieldListViewTool >> refreshFieldToolContents [
 
 	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
-SpkInspectorViewTool >> refreshFieldToolQuantity [
+SpkInspectorFieldListViewTool >> refreshFieldToolQuantity [
 	| numberOfFieldsInObject numberOfFieldsInView |
 	numberOfFieldsInObject := self numberOfFields.
 	numberOfFieldsInView := fieldTools size.
@@ -79,7 +79,7 @@ SpkInspectorViewTool >> refreshFieldToolQuantity [
 ]
 
 { #category : 'as yet unclassified' }
-SpkInspectorViewTool >> refreshFieldTools [
+SpkInspectorFieldListViewTool >> refreshFieldTools [
 
 	self
 		refreshFieldToolQuantity;

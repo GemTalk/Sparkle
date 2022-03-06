@@ -25,12 +25,6 @@ SpkInspectorSubPane >> column [
 	^ pane column
 ]
 
-{ #category : 'accessing' }
-SpkInspectorSubPane >> coordinate [
-
-	^ pane coordinate
-]
-
 { #category : 'actions' }
 SpkInspectorSubPane >> copyOop [ 
 
@@ -99,16 +93,6 @@ SpkInspectorSubPane >> headerClass [
 ]
 
 { #category : 'initialization' }
-SpkInspectorSubPane >> initializeFieldList [
-
-	self
-		initializeSelfDescription;
-		addSeparator;
-		initializeTwizzledList.
-	viewTwizzle twizzleHelp: 'Show or hide the field list'
-]
-
-{ #category : 'initialization' }
 SpkInspectorSubPane >> initializeListColumns [
 
 	list
@@ -125,7 +109,7 @@ SpkInspectorSubPane >> initializePresenters [
 
 	self
 		initializeHeader;
-		initializeFieldList
+		initializeViewPresenters
 ]
 
 { #category : 'initialization' }
@@ -146,13 +130,44 @@ SpkInspectorSubPane >> initializeTwizzledList [
 		showSubPresenter: true
 ]
 
+{ #category : 'initialization' }
+SpkInspectorSubPane >> initializeViewPresenters [
+
+	self
+		initializeSelfDescription;
+		addSeparator;
+		initializeViews;
+		initializeViewTwizzle.
+	viewTwizzle twizzleHelp: 'Show or hide the field list'
+]
+
+{ #category : 'initialization' }
+SpkInspectorSubPane >> initializeViewTwizzle [
+
+	viewTwizzle := self instantiate: SpkTwizzledPresenter.
+	viewTwizzle
+		subPresenter: (views at: model defaultView name);
+		showSubPresenter: true
+]
+
+{ #category : 'initialization' }
+SpkInspectorSubPane >> initializeViews [
+
+	views := Dictionary new.
+	model views do: [ :each | 
+		views at: each name put: (self presenterForService: each) ]
+]
+
 { #category : 'accessing' }
 SpkInspectorSubPane >> itemsWithLinkedPanes [
 
-	"In addition to linked panes in the list, the inspector's 
-	evaluators may also have linked panes."
+	"Each view may have linked panes, 
+	even when it is not the current view."
 
-	^ listModel itemsWithLinkedPanes , owner evaluatorsWithLinkedPanes
+	| items |
+	items := OrderedCollection new.
+	views do: [ :each | items addAll: each itemsWithLinkedPanes ].
+	^ items
 ]
 
 { #category : 'as yet unclassified' }
@@ -236,7 +251,7 @@ SpkInspectorSubPane >> updateLinkedPaneCoordinates [
 	"Copy the body of the trait implementation here, since trait aliasing does not seem to work. "
 	self itemsWithLinkedPanes do: [ :item | 
 		item linkedPane coordinate:
-			(item coordinateRelativeTo: self coordinate) ].
+			(item coordinateRelativeTo: pane coordinate) ].
 
 	"Then, update the evaluators in case the list size has changed."
 	pane updateEvaluatorIndices

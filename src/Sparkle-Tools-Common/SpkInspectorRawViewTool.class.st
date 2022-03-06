@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkInspectorRawViewTool',
-	#superclass : 'SpkInspectorViewTool',
+	#superclass : 'SpkInspectorFieldListViewTool',
 	#category : 'Sparkle-Tools-Common'
 }
 

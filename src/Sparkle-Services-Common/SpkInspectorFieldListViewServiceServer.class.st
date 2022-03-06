@@ -1,22 +1,26 @@
 Class {
-	#name : 'SpkInspectorViewServiceServer',
-	#superclass : 'SpkInspectorViewService',
+	#name : 'SpkInspectorFieldListViewServiceServer',
+	#superclass : 'SpkInspectorFieldListViewService',
 	#instVars : [
 		'tool'
 	],
 	#category : 'Sparkle-Services-Common'
 }
 
-{ #category : 'instance creation' }
-SpkInspectorViewServiceServer class >> forTool: anInspectorViewTool [
+{ #category : 'initialization' }
+SpkInspectorFieldListViewServiceServer >> initializeFromTool: aTool [
 
-	^self new
-		tool: anInspectorViewTool;
-		yourself
+	tool := aTool.
+	tool
+		when: SpkExecutionAnnouncement
+		send: #receiveExecutionAnnouncement:
+		to: self.
+	self
+		refreshFromTool
 ]
 
 { #category : 'initialization' }
-SpkInspectorViewServiceServer >> refreshFieldsFromTool [
+SpkInspectorFieldListViewServiceServer >> refreshFieldsFromTool [
 
 	| changed fieldTools |
 	changed := false.
@@ -48,7 +52,7 @@ SpkInspectorViewServiceServer >> refreshFieldsFromTool [
 ]
 
 { #category : 'initialization' }
-SpkInspectorViewServiceServer >> refreshFromTool [
+SpkInspectorFieldListViewServiceServer >> refreshFromTool [
 
 	| changed |
 	changed := false.
@@ -60,13 +64,13 @@ SpkInspectorViewServiceServer >> refreshFromTool [
 ]
 
 { #category : 'accessing' }
-SpkInspectorViewServiceServer >> tool [
+SpkInspectorFieldListViewServiceServer >> tool [
 
 	^tool
 ]
 
 { #category : 'accessing' }
-SpkInspectorViewServiceServer >> tool: anInspectorViewTool [
+SpkInspectorFieldListViewServiceServer >> tool: anInspectorViewTool [
 
 	tool := anInspectorViewTool
 ]

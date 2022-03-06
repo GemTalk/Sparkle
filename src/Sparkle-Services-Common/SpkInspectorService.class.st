@@ -41,6 +41,18 @@ SpkInspectorService >> classMembershipDescription: anObject [
 ]
 
 { #category : 'accessing' }
+SpkInspectorService >> defaultView [
+
+	^ defaultView
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> defaultView: anObject [
+
+	defaultView := anObject
+]
+
+{ #category : 'accessing' }
 SpkInspectorService >> evaluators [
 
 	^ evaluators
@@ -72,4 +84,10 @@ SpkInspectorService >> selfDescription [
 { #category : 'accessing' }
 SpkInspectorService >> selfDescription: anObject [
 	selfDescription := anObject
+]
+
+{ #category : 'accessing' }
+SpkInspectorService >> views [
+
+	^ views
 ]

@@ -25,8 +25,7 @@ Class {
 	#classTraits : 'SpkTLinkedPane classTrait',
 	#instVars : [
 		'model',
-		'list',
-		'index'
+		'list'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -50,25 +49,6 @@ SpkMultiSelectListItem >> column [
 SpkMultiSelectListItem >> columnAt: anInteger [
 
 	^ model columnAt: anInteger
-]
-
-{ #category : 'accessing' }
-SpkMultiSelectListItem >> coordinateRelativeTo: parentCoordinate [
-
-	"Linked inspectors for fields get a 0 element in their coordinate. 
-	Ones for evaluators get the evaluator's index."
-
-	^ parentCoordinate , index
-]
-
-{ #category : 'accessing' }
-SpkMultiSelectListItem >> index [
-	^ index
-]
-
-{ #category : 'accessing' }
-SpkMultiSelectListItem >> index: anObject [
-	index := anObject
 ]
 
 { #category : 'accessing' }

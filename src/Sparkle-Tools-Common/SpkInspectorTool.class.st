@@ -80,12 +80,6 @@ SpkInspectorTool >> initialize [
 	views := OrderedCollection new
 ]
 
-{ #category : 'accessing' }
-SpkInspectorTool >> initializeForDefault [
-
-	self addEvaluator
-]
-
 { #category : 'initialization' }
 SpkInspectorTool >> initializeInExplorer: xTool [
 	super initializeInExplorer: xTool.
@@ -127,7 +121,6 @@ SpkInspectorTool >> oop [
 
 { #category : 'announcements' }
 SpkInspectorTool >> receiveExecutionAnnouncement: anAnnouncement [
-	views do: [ :view | view announce: anAnnouncement ].
 	self announce: anAnnouncement
 ]
 

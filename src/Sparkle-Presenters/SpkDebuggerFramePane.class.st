@@ -142,7 +142,7 @@ SpkDebuggerFramePane >> initializePresenters [
 		addSeparator;
 		initializeSourceLayout;
 		defer: [ "Decoration cannot be added until the code adapter is built (issue 49)" 
-			self updateFromModel ]
+			self refreshFromService ]
 ]
 
 { #category : 'initialization' }
@@ -195,6 +195,14 @@ SpkDebuggerFramePane >> menuCommandClasses [
 	^{SpkStepIntoCommand. SpkStepThroughCommand. SpkStepOverCommand. SpkRestartFrameCommand.}
 ]
 
+{ #category : 'initialization' }
+SpkDebuggerFramePane >> refreshFromService [
+
+	self
+		refreshTwizzledList;
+		refreshSourcePane
+]
+
 { #category : 'as yet unclassified' }
 SpkDebuggerFramePane >> refreshSourcePane [
 
@@ -234,12 +242,4 @@ SpkDebuggerFramePane >> stepThrough [
 
 	self disableAll.
 	model stepThrough
-]
-
-{ #category : 'initialization' }
-SpkDebuggerFramePane >> updateFromModel [
-
-	self
-		refreshTwizzledList;
-		refreshSourcePane
 ]

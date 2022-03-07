@@ -11,18 +11,7 @@ Class {
 SpkInspectorFieldListViewServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
-	tool
-		when: SpkExecutionAnnouncement
-		send: #receiveExecutionAnnouncement:
-		to: self.
-	self
-		refreshFromTool
-]
-
-{ #category : 'announcements' }
-SpkInspectorFieldListViewServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
-
-	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
+	self refreshFromTool
 ]
 
 { #category : 'initialization' }

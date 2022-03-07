@@ -37,7 +37,8 @@ SpkProcessListServiceServer >> initializeFromTool: aProcessListTool [
 { #category : 'announcements' }
 SpkProcessListServiceServer >> receiveExecutionAnnouncement: anAnnouncement [
 
-	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
+	self refreshFromTool ifTrue: [ 
+		anAnnouncement addUpdatedService: self ]
 ]
 
 { #category : 'initialization' }

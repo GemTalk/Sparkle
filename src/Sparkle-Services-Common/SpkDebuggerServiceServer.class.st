@@ -33,8 +33,7 @@ SpkDebuggerServiceServer >> proceed [
 { #category : 'announcements' }
 SpkDebuggerServiceServer >> receiveExecutionAnnouncement: announcement [
 
-	self refreshFromTool ifTrue: [ 
-		announcement updatedServices add: self ]
+	self refreshFromTool ifTrue: [ announcement addUpdatedService: self ]
 ]
 
 { #category : 'refreshing' }

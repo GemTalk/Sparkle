@@ -4,7 +4,6 @@ Class {
 	#traits : 'SpkTHeader',
 	#classTraits : 'SpkTHeader classTrait',
 	#instVars : [
-		'pane',
 		'selfDescription',
 		'viewTwizzle',
 		'currentView',
@@ -16,13 +15,7 @@ Class {
 { #category : 'events' }
 SpkInspectorSubPane >> closeRequestedLocally [
 
-	pane closeRequestedLocally
-]
-
-{ #category : 'accessing' }
-SpkInspectorSubPane >> column [
-
-	^ pane column
+	self pane closeRequestedLocally
 ]
 
 { #category : 'actions' }
@@ -32,6 +25,14 @@ SpkInspectorSubPane >> copyOop [
 	(the same as it's displayed in the header)"
 	
 	Clipboard clipboardText: model oop hex.
+]
+
+{ #category : 'refreshing' }
+SpkInspectorSubPane >> currentView: aView [
+
+	currentView ifNotNil: [ :v | v close ].
+	currentView := aView.
+	currentView refresh
 ]
 
 { #category : 'as yet unclassified' }
@@ -67,7 +68,7 @@ SpkInspectorSubPane >> deselectOffTheEndFields [
 { #category : 'actions' }
 SpkInspectorSubPane >> disableAll [
 
-	pane disableAll
+	self pane disableAll
 ]
 
 { #category : 'accessing' }
@@ -146,16 +147,15 @@ SpkInspectorSubPane >> initializeViewTwizzle [
 
 	viewTwizzle := self instantiate: SpkTwizzledPresenter.
 	viewTwizzle
-		subPresenter: (views at: model defaultView name);
+		subPresenter: currentView;
 		showSubPresenter: true
 ]
 
 { #category : 'initialization' }
 SpkInspectorSubPane >> initializeViews [
-
-	views := Dictionary new.
-	model views do: [ :each | 
-		views at: each name put: (self presenterForService: each) ]
+	
+	views := model views collect: [ :each | self presenterForService: each ].
+	currentView := views first "Default is always first"
 ]
 
 { #category : 'accessing' }
@@ -179,19 +179,6 @@ SpkInspectorSubPane >> listLabelString [
 { #category : 'accessing' }
 SpkInspectorSubPane >> nonChildSlotNames [ 
 	^ super nonChildSlotNames , #( #pane )
-]
-
-{ #category : 'accessing' }
-SpkInspectorSubPane >> pane: anInspectorPane [
-
-	pane := anInspectorPane.
-	"Cannot do the following until my pane is known."
-	self header menu: pane menuCommandGroup asMenuPresenter.
-	self refreshListModel.
-	model
-		when: SpkPaneServiceAnnouncement
-		send: #receivePaneServiceAnnouncement:
-		to: pane
 ]
 
 { #category : 'accessing' }
@@ -219,10 +206,39 @@ SpkInspectorSubPane >> printOn: aStream [
 ]
 
 { #category : 'initialization' }
+SpkInspectorSubPane >> refreshFromService [
+
+	"Must be sent in the UI thread."
+
+	self header classMembershipDescription:
+		model classMembershipDescription.
+	self
+		updateSelfDescription;
+		refreshViews;
+		updateViewMenu
+]
+
+{ #category : 'initialization' }
 SpkInspectorSubPane >> refreshTwizzledList [
 
-	self refreshListModel.
+	self refreshViews.
 	viewTwizzle labelString: self listLabelString
+]
+
+{ #category : 'refreshing' }
+SpkInspectorSubPane >> refreshViews [
+
+	| oldViews |
+	oldViews := views.
+
+	views := model views collect: [ :viewService | 
+		         oldViews
+			         detect: [ :existingView | 
+			         existingView model == viewService ]
+			         ifNone: [ self presenterForService: viewService ] ].
+
+	(views includes: currentView) ifFalse: [ 
+		self currentView: views first "Default" ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -233,28 +249,17 @@ SpkInspectorSubPane >> updateFieldList [
 		refreshTwizzledList.
 ]
 
-{ #category : 'initialization' }
-SpkInspectorSubPane >> updateFromModel [
-
-	"Must be sent in the UI thread."
-
-	self header classMembershipDescription:
-		model classMembershipDescription.
-	self
-		updateSelfDescription;
-		updateFieldList
-]
-
 { #category : 'updating' }
 SpkInspectorSubPane >> updateLinkedPaneCoordinates [
 
+	self flag: 'Not yet correct for views'.
 	"Copy the body of the trait implementation here, since trait aliasing does not seem to work. "
 	self itemsWithLinkedPanes do: [ :item | 
 		item linkedPane coordinate:
-			(item coordinateRelativeTo: pane coordinate) ].
+			(item coordinateRelativeTo: self pane coordinate) ].
 
 	"Then, update the evaluators in case the list size has changed."
-	pane updateEvaluatorIndices
+	self pane updateEvaluatorIndices
 ]
 
 { #category : 'initialization' }
@@ -263,4 +268,11 @@ SpkInspectorSubPane >> updateSelfDescription [
 	selfDescription
 		labelString: model selfDescription;
 		bodyString: model selfDescription
+]
+
+{ #category : 'as yet unclassified' }
+SpkInspectorSubPane >> updateViewMenu [
+
+	self flag: 'Need to generate menu dynamically from views'.
+	self header menu: self pane menuCommandGroup asMenuPresenter
 ]

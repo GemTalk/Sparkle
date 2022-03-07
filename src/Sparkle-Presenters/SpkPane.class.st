@@ -221,13 +221,19 @@ SpkPane >> receivePaneServiceAnnouncement: anAnnouncement [
 { #category : 'initialization' }
 SpkPane >> receiveUpdateAnnouncement [ 
 	
-	self defer: [ self updateFromModel ]
+	self defer: [ self refreshFromService ]
 ]
 
 { #category : 'menu messages' }
 SpkPane >> redo [
 
 	^ model redo
+]
+
+{ #category : 'initialization' }
+SpkPane >> refreshFromService [
+	"Must be sent only in the UI thread."
+	"Subclasses should override if they can receive update announcements"
 ]
 
 { #category : 'actions' }
@@ -250,15 +256,17 @@ SpkPane >> undo [
 	^ model undo
 ]
 
-{ #category : 'initialization' }
-SpkPane >> updateFromModel [
-	"Must be sent only in the UI thread."
-	"Subclasses should override if they can receive update announcements"
-]
-
 { #category : 'updating' }
 SpkPane >> updateLinkedPaneCoordinates [
 
 	"By default do nothing. Overridden by subclasses, 
 	especially those using SpkTList."
+]
+
+{ #category : 'initialization' }
+SpkPane >> updatePresenter [
+
+	"Sent by Spec2 in the UI thread, following #initializePresenters and #connectPresenters."
+
+	self refreshFromService
 ]

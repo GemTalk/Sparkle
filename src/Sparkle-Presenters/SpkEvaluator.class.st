@@ -12,16 +12,13 @@ Class {
 	#superclass : 'SpkCodeSubPane',
 	#traits : 'SpkTLinkedPane + SpkTHeader',
 	#classTraits : 'SpkTLinkedPane classTrait + SpkTHeader classTrait',
-	#instVars : [
-		'pane'
-	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
 { #category : 'actions' }
 SpkEvaluator >> accept [
 
-	pane disableAll.
+	self pane disableAll.
 	model acceptFor: self
 ]
 
@@ -50,14 +47,6 @@ SpkEvaluator >> closingLinkedPane: aPane [
 	self linkedPane == aPane ifFalse: [ 
 		self error: 'Only my linked pane should notify me when closing.' ].
 	self clearLinkedPane
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> column [
-
-	"What column am I in? The same column as the pane I'm part of."
-
-	^ pane column
 ]
 
 { #category : 'initialization' }
@@ -90,7 +79,7 @@ SpkEvaluator >> contentsChanged: aContentsChangedAnnouncement [
 { #category : 'actions' }
 SpkEvaluator >> debug [
 
-	pane disableAll.
+	self pane disableAll.
 	model debugFor: self
 ]
 
@@ -135,12 +124,6 @@ SpkEvaluator >> nonChildSlotNames [
 	"linkedPane slot is defined in the SpkLinkedPane trait"
 
 	^ super nonChildSlotNames , #( #pane #linkedPane )
-]
-
-{ #category : 'accessing' }
-SpkEvaluator >> pane: anObject [
-
-	pane := anObject
 ]
 
 { #category : 'layout' }

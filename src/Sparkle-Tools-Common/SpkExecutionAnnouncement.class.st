@@ -29,11 +29,6 @@ SpkExecutionAnnouncement >> initialize [
 ]
 
 { #category : 'accessing' }
-SpkExecutionAnnouncement >> updatedServices [
-	^updatedServices
-]
-
-{ #category : 'accessing' }
 SpkExecutionAnnouncement >> updatedServices: object [
 	updatedServices := object
 ]

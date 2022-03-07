@@ -201,6 +201,22 @@ SpkDebuggerPane >> proceed [
 	model proceed
 ]
 
+{ #category : 'initialization' }
+SpkDebuggerPane >> refreshFromService [
+
+	"Must be sent in the UI thread"
+
+	"We've been told that execution has happened,
+	and we don't know whether we're still in the debugger."
+
+	model isValid
+		ifTrue: [ 
+			self
+				updateDescription;
+				updateFrameList ]
+		ifFalse: [ self replace ]
+]
+
 { #category : 'action' }
 SpkDebuggerPane >> replace [
 
@@ -221,19 +237,6 @@ SpkDebuggerPane >> selectTopFrame [
 	self updateSelection
 ]
 
-{ #category : 'initialization' }
-SpkDebuggerPane >> updateDebuggerFromModel [
-
-	"Must be sent in the UI thread"
-
-	"We've been told that execution has happened,
-	but we're still in the debugger. Update to show the new state."
-
-	self
-		updateDescription;
-		updateFrameList
-]
-
 { #category : 'private' }
 SpkDebuggerPane >> updateDescription [
 
@@ -251,21 +254,8 @@ SpkDebuggerPane >> updateFrameList [
 		selectTopFrame
 ]
 
-{ #category : 'initialization' }
-SpkDebuggerPane >> updateFromModel [
-
-	"Must be sent in the UI thread"
-
-	"We've been told that execution has happened,
-	and we don't know whether we're still in the debugger."
-
-	model isValid
-		ifTrue: [ self updateDebuggerFromModel ]
-		ifFalse: [ self replace ]
-]
-
 { #category : 'as yet unclassified' }
 SpkDebuggerPane >> updateLinkedFramePanes [
 
-	self linkedFramePanes do: [ :pane | pane updateFromModel ]
+	self linkedFramePanes do: [ :pane | pane refreshFromService ]
 ]

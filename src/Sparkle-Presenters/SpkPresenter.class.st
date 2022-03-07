@@ -41,6 +41,12 @@ SpkPresenter >> addSeparator [
 	self layout add: self newSeparatorPresenter primaryDimension: 1
 ]
 
+{ #category : 'accessing' }
+SpkPresenter >> column [
+
+	^ self pane column
+]
+
 { #category : 'private-traversing' }
 SpkPresenter >> extraPresenters [
 

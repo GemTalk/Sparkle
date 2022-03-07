@@ -28,8 +28,7 @@ SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
 { #category : 'announcements' }
 SpkDebuggerFrameServiceServer >> receiveExecutionAnnouncement: announcement [
 
-	self refreshFromTool ifTrue: [ 
-		announcement updatedServices add: self ]
+	self refreshFromTool ifTrue: [ announcement addUpdatedService: self ]
 ]
 
 { #category : 'initialization' }

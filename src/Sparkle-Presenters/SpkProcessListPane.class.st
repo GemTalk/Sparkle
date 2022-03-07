@@ -87,14 +87,14 @@ SpkProcessListPane >> itemSelected: anAnnouncement [
 		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
 ]
 
+{ #category : 'updating' }
+SpkProcessListPane >> refreshFromService [
+
+	self refreshListModel
+]
+
 { #category : 'accessing' }
 SpkProcessListPane >> toolbarClass [
 
 	^ SpkProcessListToolbar
-]
-
-{ #category : 'updating' }
-SpkProcessListPane >> updateFromModel [
-
-	self refreshListModel
 ]

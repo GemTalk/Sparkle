@@ -42,14 +42,22 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	| evaluator |
 	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
 
-	evaluator pane: self.
 	self evaluators add: evaluator.
-	self updateEvaluatorIndices.
 	self layout
 		add: evaluator before: addEvaluatorButton;
 		add: self newSplitter
 		before: evaluator
 		withConstraints: self splitterConstraints
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receivePaneServiceAnnouncement:
+		to: self
 ]
 
 { #category : 'copying' }
@@ -102,7 +110,6 @@ SpkInspectorPane >> initializeEvaluators [
 SpkInspectorPane >> initializeInspectorSubPane [
 
 	inspectorSubPane := self instantiate: SpkInspectorSubPane on: model.
-	inspectorSubPane pane: self.
 	self layout add: inspectorSubPane
 ]
 
@@ -161,6 +168,13 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 		  thenSelect: [ :each | each notNil ]
 ]
 
+{ #category : 'refreshing' }
+SpkInspectorPane >> refreshFromService [
+
+	inspectorSubPane refreshFromService.
+	self updateCoordinates
+]
+
 { #category : 'removing' }
 SpkInspectorPane >> removeEvaluator: anEvaluator [
 
@@ -175,7 +189,13 @@ SpkInspectorPane >> removeEvaluator: anEvaluator [
 	self updateEvaluatorIndices
 ]
 
-{ #category : 'updating' }
+{ #category : 'refreshing' }
+SpkInspectorPane >> updateCoordinates [
+
+	self flag: 'Incomplete'
+]
+
+{ #category : 'refreshing' }
 SpkInspectorPane >> updateEvaluatorIndices [
 
 	"Update the assigned indices for each evaluator
@@ -194,10 +214,4 @@ SpkInspectorPane >> updateEvaluatorIndicesForListSize: listSize [
 
 	self evaluators withIndexDo: [ :each :evaluatorIndex | 
 		each index: listSize + evaluatorIndex ]
-]
-
-{ #category : 'updating' }
-SpkInspectorPane >> updateFromModel [
-
-	inspectorSubPane updateFromModel
 ]

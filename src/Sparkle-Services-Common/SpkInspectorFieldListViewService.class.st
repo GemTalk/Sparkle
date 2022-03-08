@@ -24,3 +24,10 @@ SpkInspectorFieldListViewService >> fields: anObject [
 
 	fields := anObject
 ]
+
+{ #category : 'initialization' }
+SpkInspectorFieldListViewService >> initialize [
+
+	super initialize.
+	fields := OrderedCollection new
+]

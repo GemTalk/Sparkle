@@ -21,8 +21,7 @@ SpkMultiSelectList >> add: anItem [
 
 	"Add an unselected item at the end of the list."
 
-	items add: anItem.
-	anItem index: items size
+	items add: anItem
 ]
 
 { #category : 'adding' }
@@ -181,17 +180,12 @@ SpkMultiSelectList >> refreshFromServices: services [
 	services do: [ :aService | 
 		| item |
 		item := itemsDictionary at: aService ifAbsent: [ nil ].
-		item
-			ifNotNil: [ 
-				newItems add: item.
-				item index: newItems size ]
-			ifNil: [ 
-				item := SpkMultiSelectListItem new.
-				newItems add: item.
-				item
-					index: newItems size;
-					list: self;
-					model: aService ] ].
+		item ifNotNil: [ newItems add: item ] ifNil: [ 
+			item := SpkMultiSelectListItem new.
+			newItems add: item.
+			item
+				list: self;
+				model: aService ] ].
 
 	"If there are any selected items that are no longer in the list, deselect them."
 	selectedItems copy do: [ :item | 
@@ -248,4 +242,16 @@ SpkMultiSelectList >> selectedItems [
 SpkMultiSelectList >> size [
 
 	^ items size
+]
+
+{ #category : 'refreshing' }
+SpkMultiSelectList >> updateCoordinatesBasedOn: initialSuffix [
+
+	| paneCoordinate coordinateSuffix |
+	paneCoordinate := pane coordinate.
+	coordinateSuffix := initialSuffix.
+	items do: [ :item | 
+		coordinateSuffix := coordinateSuffix + 1.
+		item coordinate: paneCoordinate , coordinateSuffix ].
+	^ coordinateSuffix
 ]

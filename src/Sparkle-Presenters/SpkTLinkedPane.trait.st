@@ -15,7 +15,7 @@ Trait {
 	#name : 'SpkTLinkedPane',
 	#instVars : [
 		'linkedPane',
-		'index'
+		'coordinate'
 	],
 	#category : 'Sparkle-Presenters-Support'
 }
@@ -37,28 +37,17 @@ SpkTLinkedPane >> closeLinkedPane [
 			self error: 'Closing my linked pane should have unlinked it' ] ]
 ]
 
-{ #category : 'accessing' }
-SpkTLinkedPane >> coordinateRelativeTo: parentCoordinate [
+{ #category : 'refreshing' }
+SpkTLinkedPane >> coordinate: aCoordinate [
 
-	^ parentCoordinate , index
+	coordinate := aCoordinate.
+	linkedPane ifNotNil: [ linkedPane coordinate: coordinate ]
 ]
 
 { #category : 'testing' }
 SpkTLinkedPane >> hasLinkedPane [
 
 	^ linkedPane notNil
-]
-
-{ #category : 'accessing' }
-SpkTLinkedPane >> index [
-
-	^ index
-]
-
-{ #category : 'accessing' }
-SpkTLinkedPane >> index: anObject [
-
-	index := anObject
 ]
 
 { #category : 'accessing' }

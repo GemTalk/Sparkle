@@ -172,7 +172,7 @@ SpkInspectorPane >> panesLinkedToEvaluators [
 SpkInspectorPane >> refreshFromService [
 
 	inspectorSubPane refreshFromService.
-	self updateCoordinates
+	self updateLinkedCoordinates
 ]
 
 { #category : 'removing' }
@@ -186,32 +186,17 @@ SpkInspectorPane >> removeEvaluator: anEvaluator [
 		removePresenterAtIndex: evaluatorIndex - 1;
 		remove: anEvaluator.
 	evaluators remove: anEvaluator.
-	self updateEvaluatorIndices
+	self updateLinkedCoordinates
 ]
 
 { #category : 'refreshing' }
-SpkInspectorPane >> updateCoordinates [
+SpkInspectorPane >> updateLinkedCoordinates [
 
-	self flag: 'Incomplete'
-]
-
-{ #category : 'refreshing' }
-SpkInspectorPane >> updateEvaluatorIndices [
-
-	"Update the assigned indices for each evaluator
-	because the list of evaluators has or may have changed
-	or because the numbers of fields has changes."
-
-	self updateEvaluatorIndicesForListSize: inspectorSubPane listSize
-]
-
-{ #category : 'private' }
-SpkInspectorPane >> updateEvaluatorIndicesForListSize: listSize [
-
-	"Update the assigned indices for each evaluator
-	because the list of evaluators has or may have changed
-	or because the numbers of fields has changes."
-
-	self evaluators withIndexDo: [ :each :evaluatorIndex | 
-		each index: listSize + evaluatorIndex ]
+	| coordinateSuffix |
+	coordinateSuffix := 0.
+	coordinateSuffix := inspectorSubPane updateCoordinatesBasedOn:
+		                    coordinateSuffix.
+	evaluators do: [ :evaluator | 
+		coordinateSuffix := evaluator updateCoordinatesBasedOn:
+			                    coordinateSuffix ]
 ]

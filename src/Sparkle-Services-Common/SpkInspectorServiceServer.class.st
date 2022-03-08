@@ -62,9 +62,13 @@ SpkInspectorServiceServer >> refreshViews [
 	viewTools := tool views.
 	views := viewTools collect: [ :viewTool | 
 		         viewServices
-			         detect: [ :service | service tool == viewTool ]
+			         detect: [ :service | 
+				         service tool == viewTool
+					         ifTrue: [ 
+						         changed := changed | service refreshFromTool.
+						         true ]
+					         ifFalse: [ false ] ]
 			         ifNone: [ SpkServiceFactory serviceForTool: viewTool ] ].
-	views do: [ :service | changed := changed | service refreshFromTool ].
 	^ changed or: [ viewServices ~= views ]
 ]
 

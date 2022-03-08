@@ -32,7 +32,7 @@ SpkInspectorSubPane >> currentView: aView [
 
 	currentView ifNotNil: [ :v | v close ].
 	currentView := aView.
-	currentView refresh
+	currentView refreshFromService
 ]
 
 { #category : 'as yet unclassified' }
@@ -94,23 +94,15 @@ SpkInspectorSubPane >> headerClass [
 ]
 
 { #category : 'initialization' }
-SpkInspectorSubPane >> initializeListColumns [
-
-	list
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 2 ])
-]
-
-{ #category : 'initialization' }
 SpkInspectorSubPane >> initializePresenters [
 
 	super initializePresenters.
 
 	self
 		initializeHeader;
-		initializeViewPresenters
+		initializeSelfDescription;
+		addSeparator;
+		initializeViewTwizzle
 ]
 
 { #category : 'initialization' }
@@ -132,30 +124,12 @@ SpkInspectorSubPane >> initializeTwizzledList [
 ]
 
 { #category : 'initialization' }
-SpkInspectorSubPane >> initializeViewPresenters [
-
-	self
-		initializeSelfDescription;
-		addSeparator;
-		initializeViews;
-		initializeViewTwizzle.
-	viewTwizzle twizzleHelp: 'Show or hide the field list'
-]
-
-{ #category : 'initialization' }
 SpkInspectorSubPane >> initializeViewTwizzle [
 
 	viewTwizzle := self instantiate: SpkTwizzledPresenter.
 	viewTwizzle
 		subPresenter: currentView;
 		showSubPresenter: true
-]
-
-{ #category : 'initialization' }
-SpkInspectorSubPane >> initializeViews [
-	
-	views := model views collect: [ :each | self presenterForService: each ].
-	currentView := views first "Default is always first"
 ]
 
 { #category : 'accessing' }
@@ -205,7 +179,7 @@ SpkInspectorSubPane >> printOn: aStream [
 			do: [ :ex | ex return ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'refreshing' }
 SpkInspectorSubPane >> refreshFromService [
 
 	"Must be sent in the UI thread."
@@ -229,7 +203,7 @@ SpkInspectorSubPane >> refreshTwizzledList [
 SpkInspectorSubPane >> refreshViews [
 
 	| oldViews |
-	oldViews := views.
+	oldViews := views ifNil: [ #(  ) ].
 
 	views := model views collect: [ :viewService | 
 		         oldViews
@@ -241,25 +215,22 @@ SpkInspectorSubPane >> refreshViews [
 		self currentView: views first "Default" ]
 ]
 
+{ #category : 'refreshing' }
+SpkInspectorSubPane >> updateCoordinatesBasedOn: initialSuffix [
+
+	| coordinateSuffix |
+	coordinateSuffix := initialSuffix.
+	views do: [ :view | 
+		coordinateSuffix := view updateCoordinatesBasedOn: coordinateSuffix ].
+	^ coordinateSuffix
+]
+
 { #category : 'as yet unclassified' }
 SpkInspectorSubPane >> updateFieldList [
 
 	self
 		deselectChangedFields;
 		refreshTwizzledList.
-]
-
-{ #category : 'updating' }
-SpkInspectorSubPane >> updateLinkedPaneCoordinates [
-
-	self flag: 'Not yet correct for views'.
-	"Copy the body of the trait implementation here, since trait aliasing does not seem to work. "
-	self itemsWithLinkedPanes do: [ :item | 
-		item linkedPane coordinate:
-			(item coordinateRelativeTo: self pane coordinate) ].
-
-	"Then, update the evaluators in case the list size has changed."
-	self pane updateEvaluatorIndices
 ]
 
 { #category : 'initialization' }

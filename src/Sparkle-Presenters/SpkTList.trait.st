@@ -104,7 +104,7 @@ SpkTList >> openLinkedPane: aPaneService forItem: item [
 	nextRightColumn := item column nextRightColumn.
 	"Ask the column, since it must own the new pane."
 	newPane := nextRightColumn presenterForService: aPaneService.
-	newPane coordinate: (item coordinateRelativeTo: self coordinate).
+	newPane coordinate: item coordinate.
 	"Add before close so that the column doesn't become empty and remove itself"
 	nextRightColumn add: newPane.
 	item
@@ -138,19 +138,13 @@ SpkTList >> refreshListModel [
 	self
 		updateSelection;
 		refreshList;
-		updateLinkedPaneCoordinates
+		updateLinkedCoordinates
 ]
 
-{ #category : 'updating' }
-SpkTList >> updateLinkedPaneCoordinates [
+{ #category : 'refreshing' }
+SpkTList >> updateCoordinatesBasedOn: initialSuffix [
 
-	"Recalculate the coordinates for all linked panes affected by
-	an updates which affect the coordinates for the receiver or
-	subpanes."
-
-	self itemsWithLinkedPanes do: [ :item | 
-		item linkedPane coordinate:
-			(item coordinateRelativeTo: self coordinate) ]
+	^ listModel updateCoordinatesBasedOn: initialSuffix
 ]
 
 { #category : 'updating' }

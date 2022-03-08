@@ -81,7 +81,7 @@ SpkPane >> coordinate: aCoordinate [
 
 	coordinate = aCoordinate ifTrue: [ ^ self ].
 	coordinate := aCoordinate.
-	self updateLinkedPaneCoordinates
+	self updateLinkedCoordinates
 ]
 
 { #category : 'actions' }

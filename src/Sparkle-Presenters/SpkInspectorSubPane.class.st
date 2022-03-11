@@ -30,39 +30,8 @@ SpkInspectorSubPane >> copyOop [
 { #category : 'refreshing' }
 SpkInspectorSubPane >> currentView: aView [
 
-	currentView ifNotNil: [ :v | v close ].
 	currentView := aView.
-	currentView refreshFromService
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorSubPane >> deselectChangedFields [
-
-	self
-		deselectOffTheEndFields;
-		deselectIdentityChangedFields
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorSubPane >> deselectIdentityChangedFields [
-
-	| oldFields newFields |
-	oldFields := listModel items.
-	newFields := model fields.
-	1 to: (newFields size min: oldFields size) do: [ :i | 
-		| oldField newField |
-		oldField := oldFields at: i.
-		newField := newFields at: i.
-		oldField model == newField ifFalse: [ 
-			listModel deselectItem: oldField ] ]
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorSubPane >> deselectOffTheEndFields [
-
-	| newNumberOfFields |
-	newNumberOfFields := model fields size.
-	listModel deselectItemsBeyondIndex: newNumberOfFields
+	viewTwizzle subPresenter: currentView
 ]
 
 { #category : 'actions' }
@@ -114,22 +83,10 @@ SpkInspectorSubPane >> initializeSelfDescription [
 ]
 
 { #category : 'initialization' }
-SpkInspectorSubPane >> initializeTwizzledList [
-
-	self initializeList.
-	viewTwizzle := self instantiate: SpkTwizzledPresenter.
-	viewTwizzle
-		subPresenter: list;
-		showSubPresenter: true
-]
-
-{ #category : 'initialization' }
 SpkInspectorSubPane >> initializeViewTwizzle [
 
 	viewTwizzle := self instantiate: SpkTwizzledPresenter.
-	viewTwizzle
-		subPresenter: currentView;
-		showSubPresenter: true
+	viewTwizzle showSubPresenter: true
 ]
 
 { #category : 'accessing' }
@@ -142,12 +99,6 @@ SpkInspectorSubPane >> itemsWithLinkedPanes [
 	items := OrderedCollection new.
 	views do: [ :each | items addAll: each itemsWithLinkedPanes ].
 	^ items
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorSubPane >> listLabelString [
-
-	^ self listItemServices size printString , ' fields'
 ]
 
 { #category : 'accessing' }
@@ -192,11 +143,10 @@ SpkInspectorSubPane >> refreshFromService [
 		updateViewMenu
 ]
 
-{ #category : 'initialization' }
-SpkInspectorSubPane >> refreshTwizzledList [
+{ #category : 'refreshing' }
+SpkInspectorSubPane >> refreshTwizzledListLabel [
 
-	self refreshViews.
-	viewTwizzle labelString: self listLabelString
+	viewTwizzle labelString: currentView labelString
 ]
 
 { #category : 'refreshing' }
@@ -211,8 +161,12 @@ SpkInspectorSubPane >> refreshViews [
 			         existingView model == viewService ]
 			         ifNone: [ self presenterForService: viewService ] ].
 
+	self flag: 'first only works for the default'.
 	(views includes: currentView) ifFalse: [ 
-		self currentView: views first "Default" ]
+		self currentView: views first "Default" ].
+
+	views do: [ :view | view refreshFromService ].
+	self refreshTwizzledListLabel
 ]
 
 { #category : 'refreshing' }
@@ -223,14 +177,6 @@ SpkInspectorSubPane >> updateCoordinatesBasedOn: initialSuffix [
 	views do: [ :view | 
 		coordinateSuffix := view updateCoordinatesBasedOn: coordinateSuffix ].
 	^ coordinateSuffix
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorSubPane >> updateFieldList [
-
-	self
-		deselectChangedFields;
-		refreshTwizzledList.
 ]
 
 { #category : 'initialization' }

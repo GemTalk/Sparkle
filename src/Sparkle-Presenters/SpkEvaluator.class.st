@@ -140,3 +140,9 @@ SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnounceme
 		self hasUnsavedChanges:
 			anSpkUnsavedChangesAnnouncement hasUnsavedChanges ]
 ]
+
+{ #category : 'refreshing' }
+SpkEvaluator >> updateCoordinatesBasedOn: coordinateSuffix [
+
+	self coordinate: self pane coordinate , coordinateSuffix
+]

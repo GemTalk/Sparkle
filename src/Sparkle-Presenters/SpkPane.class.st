@@ -108,8 +108,17 @@ an item really should be enabled."
 SpkPane >> initialize [
 
 	super initialize.
-	coordinate := SpkPaneCoordinate new.
 	isOpen := true
+]
+
+{ #category : 'initialization' }
+SpkPane >> initializePresenters [
+
+	"Need a coordinate, even if bogus, for pieces to base their coordinates on.
+	Coordinate will be set properly later."
+
+	super initializePresenters.
+	coordinate := SpkPaneCoordinate new
 ]
 
 { #category : 'testing' }
@@ -256,8 +265,8 @@ SpkPane >> undo [
 	^ model undo
 ]
 
-{ #category : 'updating' }
-SpkPane >> updateLinkedPaneCoordinates [
+{ #category : 'refreshing' }
+SpkPane >> updateLinkedCoordinates [
 
 	"By default do nothing. Overridden by subclasses, 
 	especially those using SpkTList."

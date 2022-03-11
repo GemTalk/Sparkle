@@ -7,6 +7,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'refreshing' }
+SpkInspectorView >> labelString [
+
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 SpkInspectorView >> name [
 

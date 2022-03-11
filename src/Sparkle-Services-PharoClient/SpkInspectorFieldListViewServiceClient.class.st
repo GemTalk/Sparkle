@@ -3,3 +3,9 @@ Class {
 	#superclass : 'SpkInspectorFieldListViewService',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
+
+{ #category : 'api' }
+SpkInspectorFieldListViewServiceClient >> listItems [
+
+	^ fields
+]

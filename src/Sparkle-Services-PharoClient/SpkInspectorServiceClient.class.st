@@ -20,12 +20,6 @@ SpkInspectorServiceClient >> addEvaluator [
 	^ newEvaluator
 ]
 
-{ #category : 'api' }
-SpkInspectorServiceClient >> listItems [
-
-	^ fields
-]
-
 { #category : 'removing' }
 SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
 

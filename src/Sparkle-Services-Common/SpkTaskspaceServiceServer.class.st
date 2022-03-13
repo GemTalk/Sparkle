@@ -67,7 +67,7 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 SpkTaskspaceServiceServer >> newEvaluatorExplorer [
 	| xTool pTool xService pService |
 	xTool := tool newExplorerTool.
-	pTool := SpkInspectorTool newInExplorer: xTool.
+	pTool := xTool newInspectorToolOn: nil.
 	pTool addEvaluator.
 
 	xService := SpkServiceFactory serviceForTool: xTool.

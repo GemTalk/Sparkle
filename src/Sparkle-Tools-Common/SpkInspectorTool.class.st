@@ -81,12 +81,6 @@ SpkInspectorTool >> initialize [
 ]
 
 { #category : 'initialization' }
-SpkInspectorTool >> initializeInExplorer: xTool [
-	super initializeInExplorer: xTool.
-	self initializeViews
-]
-
-{ #category : 'initialization' }
 SpkInspectorTool >> initializeViews [
 
 	"only raw view, for now"
@@ -107,8 +101,8 @@ SpkInspectorTool >> inspectedObject [
 
 { #category : 'accessing' }
 SpkInspectorTool >> inspectedObject: anObject [
-
-	inspectedObject := anObject
+	inspectedObject := anObject.
+	self initializeViews
 ]
 
 { #category : 'accessing' }

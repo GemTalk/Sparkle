@@ -19,12 +19,7 @@ Class {
 
 { #category : 'instance creation' }
 SpkExplorerTool >> newInspectorToolOn: anObject [
-
-	^ SpkInspectorTool new
-		  explorerTool: self;
-		  taskspaceTool: taskspaceTool;
-		  inspectedObject: anObject;
-		  initializeViews;
-		  refreshFieldTools;
-		  yourself
+	^ (SpkInspectorTool newInExplorer: self)
+		inspectedObject: anObject;
+		yourself
 ]

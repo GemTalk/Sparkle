@@ -184,9 +184,9 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 	frameService := frame model frameServiceForRequest: frame.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
-	frameService
-		ifNil: [ self disableAll ]
-		ifNotNil: [ self openLinkedPane: frameService forItem: frame ]
+	frameService ifNil: [ self disableAll ] ifNotNil: [ 
+		frame openLinkedPane: frameService.
+		self refreshList ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -224,8 +224,11 @@ SpkDebuggerPane >> replace [
 	Replace myself with a new pane."
 
 	linkedFrom
-		ifNil: [self replaceWithIndependentPaneFor: model replacementService]
-		ifNotNil: [self openLinkedPane: model replacementService forItem: linkedFrom]
+		ifNil: [ 
+		self replaceWithIndependentPaneFor: model replacementService ]
+		ifNotNil: [ 
+			linkedFrom openLinkedPane: model replacementService.
+			self refreshList ]
 ]
 
 { #category : 'as yet unclassified' }

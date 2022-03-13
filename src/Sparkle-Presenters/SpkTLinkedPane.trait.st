@@ -61,3 +61,20 @@ SpkTLinkedPane >> linkedPane: aPane [
 	linkedPane := aPane.
 	aPane linkedFrom: self
 ]
+
+{ #category : 'actions' }
+SpkTLinkedPane >> openLinkedPane: aPaneService [
+
+	"Create and open a pane in the next column."
+
+	| nextRightColumn newPane |
+	nextRightColumn := self column nextRightColumn.
+	"Ask the column, since it must own the new pane."
+	newPane := nextRightColumn presenterForService: aPaneService.
+	newPane coordinate: coordinate.
+	"Add before close so that the column doesn't become empty and remove itself"
+	nextRightColumn add: newPane.
+	self
+		closeLinkedPane;
+		linkedPane: newPane
+]

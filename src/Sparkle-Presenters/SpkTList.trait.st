@@ -94,25 +94,6 @@ SpkTList >> listSize [
 	^ listModel size
 ]
 
-{ #category : 'actions' }
-SpkTList >> openLinkedPane: aPaneService forItem: item [
-
-	" Create and open a pane in the next column.
-	Item is a list item."
-
-	| nextRightColumn newPane |
-	nextRightColumn := item column nextRightColumn.
-	"Ask the column, since it must own the new pane."
-	newPane := nextRightColumn presenterForService: aPaneService.
-	newPane coordinate: item coordinate.
-	"Add before close so that the column doesn't become empty and remove itself"
-	nextRightColumn add: newPane.
-	item
-		closeLinkedPane;
-		linkedPane: newPane.
-	self refreshList "Change linking arrow."
-]
-
 { #category : 'accessing' }
 SpkTList >> panesLinkedToListItems [
 

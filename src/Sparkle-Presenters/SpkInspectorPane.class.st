@@ -22,8 +22,7 @@ Class {
 	#instVars : [
 		'addEvaluatorButton',
 		'inspectorSubPane',
-		'evaluators',
-		'nextEvaluatorIndex'
+		'evaluators'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -146,18 +145,6 @@ SpkInspectorPane >> newLayout [
 	^ SpkAccordianLayout newVertical
 		  color: Color veryVeryDarkGray;
 		  yourself
-]
-
-{ #category : 'accessing' }
-SpkInspectorPane >> nextEvaluatorIndex [
-
-	^ nextEvaluatorIndex ifNil: [ nextEvaluatorIndex := 1 ]
-]
-
-{ #category : 'actions' }
-SpkInspectorPane >> openLinkedPane: newService forItem: item [
-
-	inspectorSubPane openLinkedPane: newService forItem: item
 ]
 
 { #category : 'accessing' }

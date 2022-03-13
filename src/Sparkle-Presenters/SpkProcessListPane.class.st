@@ -82,9 +82,9 @@ SpkProcessListPane >> itemSelected: anAnnouncement [
 		                    forRequest: field.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
-	inspectorService
-		ifNil: [ self disableAll ]
-		ifNotNil: [ self openLinkedPane: inspectorService forItem: field ]
+	inspectorService ifNil: [ self disableAll ] ifNotNil: [ 
+		field openLinkedPane: inspectorService.
+		self refreshList ]
 ]
 
 { #category : 'updating' }

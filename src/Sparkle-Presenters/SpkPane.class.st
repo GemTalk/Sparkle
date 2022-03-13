@@ -194,7 +194,8 @@ SpkPane >> newPaneForService: newService linkedTo: item [
 	"If I have been closed before the new pane announcement reaches me, ignore it."
 
 	isOpen ifFalse: [ ^ self ].
-	self openLinkedPane: newService forItem: item
+	item openLinkedPane: newService.
+	self refreshList "If I have list, need to update linking arrows."
 ]
 
 { #category : 'accessing' }
@@ -243,6 +244,15 @@ SpkPane >> redo [
 SpkPane >> refreshFromService [
 	"Must be sent only in the UI thread."
 	"Subclasses should override if they can receive update announcements"
+]
+
+{ #category : 'refreshing' }
+SpkPane >> refreshList [
+
+	"If I have a list, refresh it.
+	Overridden by SpkTList to actually do something."
+
+	
 ]
 
 { #category : 'actions' }

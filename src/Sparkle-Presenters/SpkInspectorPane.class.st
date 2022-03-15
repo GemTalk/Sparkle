@@ -41,7 +41,7 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 	| evaluator |
 	evaluator := self instantiate: SpkEvaluator on: evaluatorService.
 
-	self evaluators add: evaluator.
+	evaluators add: evaluator.
 	self layout
 		add: evaluator before: addEvaluatorButton;
 		add: self newSplitter
@@ -65,22 +65,25 @@ SpkInspectorPane >> copyOop [
 	inspectorSubPane copyOop
 ]
 
-{ #category : 'initialization' }
-SpkInspectorPane >> evaluators [
-
-	^ evaluators ifNil: [ evaluators := OrderedCollection new ]
-]
-
 { #category : 'accessing' }
 SpkInspectorPane >> evaluatorsWithLinkedPanes [
 
-	^ self evaluators select: [ :each | each linkedPane notNil ]
+	^ evaluators select: [ :each | each linkedPane notNil ]
 ]
 
 { #category : 'private-traversing' }
 SpkInspectorPane >> extraPresenters [
 
-	^ super extraPresenters , self evaluators
+	^ super extraPresenters , evaluators
+]
+
+{ #category : 'initialization' }
+SpkInspectorPane >> initialize [
+
+	"I'm a presenter; super initialize needs to come after basic initialization."
+
+	evaluators := OrderedCollection new.
+	super initialize
 ]
 
 { #category : 'adding' }
@@ -125,7 +128,7 @@ SpkInspectorPane >> initializePresenters [
 { #category : 'accessing' }
 SpkInspectorPane >> linkedPanes [
 
-	^ super linkedPanes , inspectorSubPane panesLinkedToListItems
+	^ super linkedPanes , inspectorSubPane linkedPanes
 	  , self panesLinkedToEvaluators
 ]
 
@@ -150,7 +153,7 @@ SpkInspectorPane >> newLayout [
 { #category : 'accessing' }
 SpkInspectorPane >> panesLinkedToEvaluators [
 
-	^ self evaluators
+	^ evaluators
 		  collect: [ :each | each linkedPane ]
 		  thenSelect: [ :each | each notNil ]
 ]

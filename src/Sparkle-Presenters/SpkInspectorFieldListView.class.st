@@ -49,7 +49,8 @@ SpkInspectorFieldListView >> initializeListColumns [
 { #category : 'initialization' }
 SpkInspectorFieldListView >> initializePresenters [
 
-	self initializeList
+	self initializeList.
+	self layout add: self list
 ]
 
 { #category : 'refreshing' }
@@ -61,5 +62,7 @@ SpkInspectorFieldListView >> labelString [
 { #category : 'refreshing' }
 SpkInspectorFieldListView >> refreshFromService [
 
-	self deselectChangedFields
+	self
+		deselectChangedFields;
+		refreshListModel
 ]

@@ -118,8 +118,7 @@ SpkTList >> refreshListModel [
 	listModel refreshFromServices: self model listItems.
 	self
 		updateSelection;
-		refreshList;
-		updateLinkedCoordinates
+		refreshList
 ]
 
 { #category : 'refreshing' }

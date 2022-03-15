@@ -36,6 +36,13 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'private' }
+SpkTwizzledPresenter >> hideSubPresenter [
+
+	subPresenter ifNil: [ ^ self ].
+	ownerLayout remove: subPresenter ifAbsent: [  ]
+]
+
 { #category : 'initialization' }
 SpkTwizzledPresenter >> initializeLabel [
 
@@ -93,6 +100,17 @@ SpkTwizzledPresenter >> newLayout [
 	^ SpkBoxLayout newVertical
 ]
 
+{ #category : 'private' }
+SpkTwizzledPresenter >> showSubPresenter [
+
+	subPresenter ifNil: [ ^ self ].
+	(ownerLayout includesPresenter: subPresenter) ifFalse: [ 
+		ownerLayout
+			add: subPresenter
+			after: topLayout
+			withConstraints: [ :c | c fill: true ] ]
+]
+
 { #category : 'as yet unclassified' }
 SpkTwizzledPresenter >> showSubPresenter: aBoolean [
 
@@ -105,10 +123,14 @@ SpkTwizzledPresenter >> showSubPresenter: aBoolean [
 { #category : 'accessing' }
 SpkTwizzledPresenter >> subPresenter: anObject [
 
-	subPresenter := anObject
+	"Remove any old subPresenter from ownerLayout"
+
+	self hideSubPresenter.
+	subPresenter := anObject.
+	self updateSubPresenterVisibility
 ]
 
-{ #category : 'operations' }
+{ #category : 'actions' }
 SpkTwizzledPresenter >> toggle [
 
 	subPresenterIsShown  := subPresenterIsShown not.
@@ -137,19 +159,15 @@ SpkTwizzledPresenter >> updateLabel [
 	label label: labelString
 ]
 
-{ #category : 'operations' }
+{ #category : 'actions' }
 SpkTwizzledPresenter >> updateSubPresenterVisibility [
 
-	"We don't always know whether it is already shown."
+	"We don't always know whether it is already shown.
+	Also we may initially have a nil subPresenter."
 
 	subPresenterIsShown
-		ifTrue: [ 
-			(ownerLayout includesPresenter: subPresenter) ifFalse: [ 
-				ownerLayout
-					add: subPresenter
-					after: topLayout
-					withConstraints: [ :c | c fill: true ] ] ]
-		ifFalse: [ ownerLayout remove: subPresenter ifAbsent: [  ] ]
+		ifTrue: [ self showSubPresenter ]
+		ifFalse: [ self hideSubPresenter ]
 ]
 
 { #category : 'actions' }

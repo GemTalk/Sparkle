@@ -102,14 +102,14 @@ SpkInspectorSubPane >> itemsWithLinkedPanes [
 ]
 
 { #category : 'accessing' }
-SpkInspectorSubPane >> nonChildSlotNames [ 
-	^ super nonChildSlotNames , #( #pane )
+SpkInspectorSubPane >> linkedPanes [
+
+	^ self itemsWithLinkedPanes collect: [ :item | item linkedPane ]
 ]
 
 { #category : 'accessing' }
-SpkInspectorSubPane >> panesLinkedToEvaluators [
-
-	^ owner panesLinkedToEvaluators
+SpkInspectorSubPane >> nonChildSlotNames [ 
+	^ super nonChildSlotNames , #( #pane )
 ]
 
 { #category : 'printing' }
@@ -187,7 +187,7 @@ SpkInspectorSubPane >> updateSelfDescription [
 		bodyString: model selfDescription
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refreshing' }
 SpkInspectorSubPane >> updateViewMenu [
 
 	self flag: 'Need to generate menu dynamically from views'.

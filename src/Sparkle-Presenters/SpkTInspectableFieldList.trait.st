@@ -21,7 +21,7 @@ SpkTInspectableFieldList >> itemSelected: anAnnouncement [
 		                    forRequest: field.
 	"If nil, a server round trip is required and the inspector pane 
 	will be created by announcement from the service."
-	inspectorService ifNil: [ self disableAll ] ifNotNil: [ 
+	inspectorService ifNil: [ self pane disableAll ] ifNotNil: [ 
 		field openLinkedPane: inspectorService.
 		self refreshList ]
 ]

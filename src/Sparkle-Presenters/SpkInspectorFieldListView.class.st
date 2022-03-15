@@ -6,6 +6,19 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'initialization' }
+SpkInspectorFieldListView >> connectPresenters [
+
+	super connectPresenters.
+	model
+		when: SpkPaneServiceAnnouncement
+		send: #receivePaneServiceAnnouncement:
+		to: self pane;
+		when: SpkActionCompleteAnnouncement
+		send: #receiveActionCompleteAnnouncement
+		to: self pane
+]
+
 { #category : 'refreshing' }
 SpkInspectorFieldListView >> deselectChangedFields [
 

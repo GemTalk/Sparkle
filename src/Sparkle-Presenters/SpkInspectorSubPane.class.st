@@ -34,12 +34,6 @@ SpkInspectorSubPane >> currentView: aView [
 	viewTwizzle subPresenter: currentView
 ]
 
-{ #category : 'actions' }
-SpkInspectorSubPane >> disableAll [
-
-	self pane disableAll
-]
-
 { #category : 'accessing' }
 SpkInspectorSubPane >> enabled: aBoolean [
 

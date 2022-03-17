@@ -7,7 +7,8 @@ Class {
 		'oop',
 		'priority',
 		'stack',
-		'status'
+		'status',
+		'isVital'
 	],
 	#category : 'Sparkle-Services-Common'
 }

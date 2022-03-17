@@ -61,5 +61,10 @@ SpkProcessServiceServer >> refreshFromTool [
 	changed := changed | (status ~= newValue).
 	status := newValue.
 
+	newValue := self connection vitalProcesses includes: tool process.
+	changed := changed | (isVital ~= newValue).
+	isVital := newValue.
+
+
 	^changed
 ]

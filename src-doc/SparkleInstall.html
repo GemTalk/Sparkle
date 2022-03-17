@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SparkleInstall.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-weight: bold;
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #602020;
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<!-- This file was auto-generated, do not edit. Look for the source file in src-doc directory -->
+<!-- Linted at https://dlaa.me/markdownlint/ -->
+<h1 id="sparkle-installation">Sparkle Installation</h1>
+<h2 id="overview">Overview</h2>
+<p>Sparkle 1.0 Alpha is a development version of the Pharo IDE for GemStone project, which provides GemStone development tools in the Pharo client Smalltalk environment.
+This initial version of Sparkle provides a limited set of debugging tools:</p>
+<ul>
+<li>The Sparkle Launcher, allowing you to create login configuration parameters and login; you may also edit, persist, and restore the login configurations.</li>
+<li>The Sparkle Object Explorer, allowing you to evaluate GemStone Smalltalk expressions and examine the contents of GemStone server objects.</li>
+<li>A Debugger, allowing you to view the process stack, examine objects, and step through GemStone server code.</li>
+<li>A Process List, allowing you to inspect and debug arbitrary processes in the gem.</li>
+</ul>
+<p>Sparkle is under active development and information in this document is likely to become out of date without notice.
+See the project on github: <a href="https://github.com/GemTalk/Sparkle">https://github.com/GemTalk/Sparkle</a></p>
+<h2 id="requirements">Requirements</h2>
+<p>With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of March 1, 2022 (the date of this document), but alpha builds are available.
+You should have GemStone v3.7 installed on a supported Linux or MacOS server, with a Stone running and available for use.
+Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows, MacOS, or Linux environment in which you will install Pharo.</p>
+<h2 id="gemstone-server-installation-standard-image">GemStone Server Installation (Standard image)</h2>
+<p>The following instructions are for the GemStone server, which can be run on Linux or MacOS.</p>
+<h3 id="install-gemstone-with-standard-image">Install GemStone with standard image</h3>
+<ol>
+<li>Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly. Installing a 3.7 alpha release is similar to installing previous releases; see <a href="https://gemtalksystems.com/products/gs64/versions36x/">https://gemtalksystems.com/products/gs64/versions36x/</a>.</li>
+<li>Start a v3.7 Stone.</li>
+</ol>
+<h3 id="clone-sparkle-from-github">Clone Sparkle from GitHub</h3>
+<ol>
+<li>Create or choose a directory for git clones; this will be referred to as <em>gitRepositoryDir</em>.</li>
+<li>Clone <a href="https://github.com/GemTalk/Sparkle.git">https://github.com/GemTalk/Sparkle.git</a> to <em>gitRepositoryDir</em>/Sparkle.
+This clones the <strong>main</strong>  branch of the Sparkle repository.</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h3 id="install-sparkle-into-gemstone-from-bootstrap-filein">Install Sparkle into GemStone from bootstrap filein</h3>
+<ol>
+<li>
+<p>Go to a command shell that:</p>
+<ul>
+<li>has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and</li>
+<li>has $GEMSTONE/bin on the $PATH</li>
+</ul>
+</li>
+<li>
+<p>Change to the Sparkle GemStone directory:</p>
+<p><code>cd &lt;gitRepositoryDir&gt;/Sparkle/src-gs</code></p>
+</li>
+<li>
+<p>Edit <code>loginSystemUser.topaz</code> to have the correct Stone name and password for SystemUser.</p>
+</li>
+<li>
+<p>execute the installation script:</p>
+<p><code>./bootstrapSparkle.sh</code></p>
+</li>
+</ol>
+<p>The result of the &quot;errorcount&quot; at the end of the output should be 0.
+Sparkle is now installed in the GemStone server.</p>
+<h2 id="gemstone-server-installation-rowan-image">GemStone Server Installation (Rowan image)</h2>
+<p>The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.2 loaded, which can be used with Jadeite v3.1.1pr4.  This rowan extent must be downloaded separately.</p>
+<h3 id="install-gemstone-with-rowan-image">Install GemStone with Rowan image</h3>
+<ol>
+<li>Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository). Installing a 3.7 alpha release is similar to installing previous releases; see <a href="https://gemtalksystems.com/products/gs64/versions36x/">https://gemtalksystems.com/products/gs64/versions36x/</a>.</li>
+<li>Copy the rowan extent, <code>extent0.rowan.dbf</code>, into the extent location (usually $GEMSTONE/data/).</li>
+<li>Start a v3.7 Stone.</li>
+</ol>
+<h3 id="clone-sparkle-from-github">Clone Sparkle from GitHub</h3>
+<ol>
+<li>Create or choose a directory for git clones; this will be referred to as <em>gitRepositoryDir</em>.</li>
+<li>Clone <a href="https://github.com/GemTalk/Sparkle.git">https://github.com/GemTalk/Sparkle.git</a> to <em>gitRepositoryDir</em>/Sparkle.
+This clones the <strong>main</strong>  branch of the Sparkle repository.</li>
+<li>Define $ROWAN_PROJECTS_HOME to <em>gitRepositoryDir</em>.</li>
+</ol>
+<p>Note that the rowan extent does not require $ROWAN_PROJECTS_HOME to contain the rowan repository itself; $ROWAN_PROJECTS_HOME will contain Sparkle and application rowan repositories.</p>
+<h3 id="install-sparkle-into-gemstone-from-rowan-packages">Install Sparkle into GemStone from Rowan packages</h3>
+<ol>
+<li>
+<p>Go to a command shell that:</p>
+<ul>
+<li>has defined $GEMSTONE to the GemStone/S 64 Bit v3.7 installation directory, and</li>
+<li>has $GEMSTONE/bin on the $PATH, and</li>
+<li>has defined $ROWAN_PROJECTS_HOME to <em>gitRepositoryDir</em>.</li>
+</ul>
+</li>
+<li>
+<p>Change to the Sparkle GemStone directory:</p>
+<p><code>cd $ROWAN_PROJECTS_HOME/Sparkle/src-gs</code></p>
+</li>
+<li>
+<p>Edit <code>loginSystemUser.topaz</code> to have the correct Stone name and password for SystemUser.</p>
+</li>
+<li>
+<p>execute the installation script:</p>
+<p><code>./installSparkle.sh</code></p>
+</li>
+</ol>
+<p>The result of the &quot;errorcount&quot; at the end of the output should be 0.
+Sparkle is now installed in the GemStone server.</p>
+<p>The installation also clones two additional required repositories, Announcements and RemoteServiceReplication, into $ROWAN_PROJECTS_HOME.</p>
+<h2 id="client-installation">Client Installation</h2>
+<p>The following instructions are for the Sparkle client, which can be run on Windows, MacOS, or Linux.</p>
+<h3 id="install-pharo">Install Pharo</h3>
+<ol>
+<li>Download the launcher or launcher installer for the given platform from <a href="https://pharo.org/download">https://pharo.org/download</a>, and install.</li>
+<li>Run PharoLauncher to open the Launcher.</li>
+<li>Click on ✲ <strong>New</strong>.</li>
+<li>In the Template Category list, select <strong>Official Distributions</strong>.</li>
+<li>Select <strong>Pharo 9.0 - 64bit (stable)</strong>. Be sure you select the 64-bit image.</li>
+<li>Select ✲ <strong>Create image</strong>. This will create a new Pharo image based on the selected template.</li>
+<li>Use the right-click menu item ‣ <strong>Launch</strong> to launch the image.</li>
+</ol>
+<h3 id="install-sparkle-into-pharo">Install Sparkle into Pharo</h3>
+<p>There are two ways to build a Sparkle-enabled Pharo image:</p>
+<ul>
+<li>A script-based one-step install. This clones the main branches of the required git repositories into Pharo's default location, as well as performing the load.</li>
+<li>Manual installation by cloning repositories and loading via iceberg. This is useful if you wish to control the git repositories manually; that is, load branches other than the main branch; or perform other disk-based git operations.</li>
+</ul>
+<div style="page-break-after: always;"></div>
+<h4 id="script-based-installation">Script-based installation</h4>
+<p>Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.
+The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see <a href="#iceberg-default-repository-location">Iceberg default repository location</a>).</p>
+<ol>
+<li>
+<p>Launch the Pharo 9.0 image.</p>
+</li>
+<li>
+<p>Open the Settings Browser using <strong>Pharo &gt; Settings</strong> , select <strong>Appearance</strong> , and expand the list. Change the <strong>User interface theme</strong>  to &quot;Pharo Dark.&quot; Sparkle is not yet themed and the color combinations are difficult to read in the light theme.</p>
+</li>
+<li>
+<p>Open a Pharo Playground and execute with <strong>Do it</strong>:</p>
+<pre class="hljs"><code><div> <span class="hljs-type">Metacello</span> new
+      baseline: <span class="hljs-string">'Sparkle'</span>;
+      repository: <span class="hljs-string">'github://GemTalk/Sparkle:main'</span>;
+      load
+</div></code></pre>
+</li>
+<li>
+<p>Save the image. You are now ready to log in; see the directions under <a href="#login">Login</a>.</p>
+</li>
+</ol>
+<h5 id="iceberg-default-repository-location">Iceberg default repository location</h5>
+<p>The Sparkle load clones repositories into a default location, under <code>&lt;pharoImageDir&gt;/pharo-local/iceberg/GemTalk/</code>. This location can be configured, if you wish to keep your clones across Pharo images.
+See <strong>Settings &gt; Tools &gt; Software Configuration Management &gt; Iceberg</strong> , and check <strong>Share repositories between images</strong>. Once this is checked, you can enter a location for shared repositories.</p>
+<div style="page-break-after: always;"></div>
+<h4 id="manual-installation">Manual installation</h4>
+<p>Rather than using the above script, you may manually clone the repositories, and load these into your Pharo image. This allows you complete control over specific branches from the various git repositories.</p>
+<ol>
+<li>On the client, create or choose a directory for git clones; this will be referred to as <em>gitRepositoryDir</em>.</li>
+<li>Define the environment variable ROWAN_PROJECTS_HOME to point to <em>gitRepositoryDir</em>, prior to starting the Pharo launcher.</li>
+<li>Clone the three required repositories into <em>gitRepositoryDir</em>. Provided you have set ROWAN_PROJECTS_HOME, when you load Sparkle, it will use the existing clones of these repositories, rather than cloning them:
+<ul>
+<li><a href="https://github.com/GemTalk/Sparkle.git">https://github.com/GemTalk/Sparkle.git</a></li>
+<li><a href="https://github.com/GemTalk/SparkleFFI.git">https://github.com/GemTalk/SparkleFFI.git</a></li>
+<li><a href="https://github.com/GemTalk/RemoteServiceReplication.git">https://github.com/GemTalk/RemoteServiceReplication.git</a></li>
+</ul>
+</li>
+<li>Launch the Pharo 9.0 image.</li>
+<li>Open the Settings Browser using <strong>Pharo &gt; Settings</strong> , select <strong>Appearance</strong> , and expand the list. Change the <strong>UserInterfaceTheme</strong>  to &quot;Pharo Dark.&quot; Sparkle is not yet themed and the color combinations are difficult to read in the light theme.</li>
+<li>Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using <strong>Browse &gt; Iceberg</strong>.</li>
+<li>In the Iceberg repository list window, click + <strong>Add</strong>  in the upper right.</li>
+<li>Select <strong>Import from existing clone</strong>.</li>
+<li>Click the folder icon to open a file selection dialog, and navigate to <em>gitRepositoryDir</em><code>\Sparkle</code>. Click OK to select the Sparkle directory.</li>
+<li>Click on the OK button. Sparkle should appear in the Iceberg repository list.</li>
+<li>Right click on Sparkle, and select <strong>Metacello &gt; Install Baseline of Sparkle (default)</strong>.</li>
+<li>Save the image. You are now ready to login; see <a href="#login">Login</a>.</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h2 id="login">Login</h2>
+<p>There are two ways to login to the GemStone server from Sparkle.</p>
+<ul>
+<li>a Direct login creates a direct connection between a listening Gem on the server and the sparkle client. This does not require client libraries on the client.</li>
+<li>a GCI login performs a login using the GCI client libraries, as with logins using topaz or GBS.</li>
+</ul>
+<h3 id="logging-in-using-direct">Logging in using Direct</h3>
+<p>Direct login is a two-step process; you will launch a listening Gem on the GemStone server on Linux, and connect to this Gem from the Pharo client image on Windows.</p>
+<h4 id="on-the-linux-server-launch-a-listening-gem">On the Linux server, launch a listening gem</h4>
+<p><em>Warning: This step will launch a gem that will listen for a connection on port 29299. At present, there is no security on that port.</em></p>
+<ol>
+<li>
+<p>Edit <em>gitRepositoryDir</em><code>/Sparkle/src-gs/login.topaz</code> to have the correct stone name, user name, and password. You can use an unprivileged user for this. SystemUser is only required for installation.</p>
+</li>
+<li>
+<p>Execute the listening gem launch script:</p>
+<p><em>gitRepositoryDir</em><code>/Sparkle/src-gs/server.sh</code></p>
+</li>
+</ol>
+<p>You should see a &quot;Starting to listen&quot; message.</p>
+<h4 id="on-the-pharo-client-connect-to-the-listening-gem">On the Pharo client, connect to the listening Gem</h4>
+<ol>
+<li>Open the Sparkle Launcher window using the <strong>Library &gt; Sparkle Launcher</strong>  menu item.</li>
+<li>Select the <strong>Direct</strong>  tab on the right pane. Enter the following fields:
+<ul>
+<li><strong>Connection Name</strong>  -- a unique identifier for this connection.</li>
+<li><strong>Host</strong>  -- the name or IP of the host that the Stone is on.</li>
+<li><strong>Port</strong>  -- the port that the listening Gem on the server is listening on. If you are using the server script described above, this will be 29299.</li>
+</ul>
+</li>
+<li>Click the + <strong>Add</strong>  button to add the new profile to your list of profiles.</li>
+<li>Click the <strong>Connect</strong>  button. A Sparkle Object Explorer window will open, containing an inspector on nil.</li>
+</ol>
+<p>See <a href="#Operations-in-your-Session">Operations in your Session</a> below for an overview of what you can do before logging out. There are also links to demonstration videos in  <em>gitRepositoryDir</em><code>/Sparkle/README.md</code>.</p>
+<h4 id="logging-out-of-a-direct-connection">Logging out of a direct connection</h4>
+<p>Click the <strong>Disconnect</strong>  button in the <strong>Sparkle Launcher</strong> to terminate your connection to the GemStone server. This closes the Sparkle Object Explorer and any other open server windows.
+While the client is disconnected, the listening Gem remains logged in, and will continue to listen for connections from the client. To fully logout, you must stop the listening Gem on the server (e.g., using Control-C).</p>
+<h3 id="logging-in-using-gci">Logging in using GCI</h3>
+<p>Login using the GCI interface does not require a listening Gem on the server. However, you must have downloaded the client library zip file, so the GCI libraries are available in the <code>clientlibs</code> directory in the expected structure.</p>
+<h4 id="install-clientlibs-on-the-client-host">Install clientlibs on the client host</h4>
+<p>In addition to the GemStone product distribution itself, GemTalk distributes clientlibs as a separate zip file for v3.7. This directory tree packages the essential shared libraries, which are a subset of the libraries files that are included in the GemStone distribution for Linux or the GemStone Client distribution for Windows. This new packaging easily handles multiple versions of GemStone, without complicated management in the client host environment.
+With Sparkle, you must use this <code>clientlibs</code> structure, rather than the libraries in a regular product or client distribution.</p>
+<ol>
+<li>Download and unzip the clientlibs directory tree from the distribution area, to a location on the client host file system.</li>
+</ol>
+<h4 id="on-the-pharo-client-enter-connection-parameters-and-connect">On the Pharo client, enter connection parameters and connect</h4>
+<ol>
+<li>Open the Sparkle Launcher window using the <strong>Library &gt; Sparkle Launcher</strong>  menu item.</li>
+<li>Select the <strong>GCI</strong>  tab on the right pane. Enter the following fields:
+<ul>
+<li><strong>Connection Name</strong>  -- a unique identifier for this connection.</li>
+<li><strong>Host</strong>  -- the name or IP of the host that the Stone is on, and on which the Gem will be run.</li>
+<li><strong>Version</strong>  -- 3.7.0 (do not omit the trailing .0).</li>
+<li><strong>Stone</strong>  -- the name of the running Stone.</li>
+<li><strong>Netldi</strong> -- the name or port number of the NetLDI on the Stone's host.</li>
+<li><strong>User</strong>  -- the GemStone user name, such as DataCurator.</li>
+<li><strong>Password</strong>  -- the password for the GemStone user.</li>
+<li><strong>Client Libraries Path</strong>  -- the path to <code>clientlibs</code> root directory. The connection will look within this directory structure for the correct version and the 64-bit (or 32-bit) libraries. You may type this in, or use the <strong>Set Path</strong>  button to navigate to the directory.</li>
+<li><strong>Set Path</strong>  -- a button that opens a dialog, allowing you to navigate to the <code>clientlibs</code> directory and select the value for the <strong>Client Libraries Path</strong>.</li>
+</ul>
+</li>
+<li>Click the + <strong>Add</strong>  button, to add the new profile to your list of profiles.</li>
+<li>Click the <strong>Connect</strong>  button. A Sparkle Object Explorer window will open, containing an inspector on nil.</li>
+</ol>
+<p>See <a href="#Operations-in-your-Session">Operations in your Session</a> below for an overview of what you can do before logging out. There are also links to demonstration videos in  <em>gitRepositoryDir</em><code>/Sparkle/README.md</code>.</p>
+<h3 id="logging-out-of-a-gci-connection">Logging out of a GCI connection</h3>
+<p>To logout, click the <strong>Disconnect</strong>  button in the <strong>Sparkle Launcher</strong>.
+Unlike with a Direct login, this logs out the Gem, as well as disconnecting the client. The Sparkle Object Explorer and any other open server windows are closed.</p>
+<h2 id="operations-in-your-session">Operations in your Session</h2>
+<h3 id="inspecting-objects">Inspecting objects</h3>
+<p>To execute code and inspect the results, enter a GemStone Smalltalk expression in the lower Evaluator pane of an existing Inspector, and choose <strong>Accept</strong> from the menu in the Evaluator's upper right corner. The window will split, with the inspector pane appearing on the right, with a green header.
+Selecting fields within this objects will add panes to the right, containing inspectors on each objects that is selected. Deselecting a field will remove the inspector pane.</p>
+<p>You may open a second evaluator pane on this Inspector using the + button at the bottom of the window.  You can open an entirely new Sparkle Object Explorer (Inspector) using the Sparkle Launcher toolbar item <strong>Evaluator</strong>.</p>
+<h3 id="commit-and-abort">Commit and Abort</h3>
+<p>The Inspector and Debugger upper right &quot;hamburger&quot; menu includes Commit Transaction, Abort Transaction, Begin Transaction, Set Automatic Transaction Mode and Set Manual Transaction Mode.</p>
+<h3 id="debugging">Debugging</h3>
+<p>If an error occurs in the executed code, the debugger stack pane, with a red header, will appear on the right of the Inspector. Selecting frames within this stack adds panes with frame details, including method source and variables, to the right; this is similar to how object inspection is handled.</p>
+<p>You can open a debugger to step through code by using Control-D (Debug menu item ) in the Evaluator pane of the Inspector.</p>
+<h4 id="inspecting-stack-variables">Inspecting stack variables</h4>
+<p>Variable values are hidden by default. To see the details of frame variables, expand the drop town immediately under the header. Selecting individual variables will add inspector panes to the right.</p>
+<h4 id="continue-terminate-and-stepping">Continue, Terminate, and stepping</h4>
+<p>The Stack Pane/Debugger has two buttons under the header; a green arrow (continue execution) and a red X (terminate execution).
+Individual frame method panes include four icons on the left side: Step into, Step through blocks, Step over, and Restart frame. These allow control over stepping through code.</p>
+<h3 id="process-list">Process List</h3>
+<p>You can open a Process List Explorer (purple header), from the Sparkle Launcher Processes button.  The Process List Browser allows you to view running Smalltalk  GsProcess instances within your Gem. The green arrows allow you to see information about the GsProcess.  You may also open a debugger on any of these processes by selecting the pause button (two vertical bars within a circle).</p>
+
+</body>
+</html>

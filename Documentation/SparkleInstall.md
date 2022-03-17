@@ -36,6 +36,8 @@ The following instructions are for the GemStone server, which can be run on Linu
 2. Clone <https://github.com/GemTalk/Sparkle.git> to _gitRepositoryDir_/Sparkle.
 This clones the **main**  branch of the Sparkle repository.
 
+<div style="page-break-after: always;"></div>
+
 ### Install Sparkle into GemStone from bootstrap filein
 
 1. Go to a command shell that:
@@ -113,6 +115,8 @@ There are two ways to build a Sparkle-enabled Pharo image:
 * A script-based one-step install. This clones the main branches of the required git repositories into Pharo's default location, as well as performing the load.
 * Manual installation by cloning repositories and loading via iceberg. This is useful if you wish to control the git repositories manually; that is, load branches other than the main branch; or perform other disk-based git operations.
 
+<div style="page-break-after: always;"></div>
+
 #### Script-based installation
 
 Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.
@@ -136,6 +140,8 @@ The script clones Sparkle, and the other required repositories (SparkleFFI and R
 The Sparkle load clones repositories into a default location, under `<pharoImageDir>/pharo-local/iceberg/GemTalk/`. This location can be configured, if you wish to keep your clones across Pharo images.
 See **Settings > Tools > Software Configuration Management > Iceberg** , and check **Share repositories between images**. Once this is checked, you can enter a location for shared repositories.
 
+<div style="page-break-after: always;"></div>
+
 #### Manual installation
 
 Rather than using the above script, you may manually clone the repositories, and load these into your Pharo image. This allows you complete control over specific branches from the various git repositories.
@@ -155,6 +161,8 @@ Rather than using the above script, you may manually clone the repositories, and
 10. Click on the OK button. Sparkle should appear in the Iceberg repository list.
 11. Right click on Sparkle, and select **Metacello > Install Baseline of Sparkle (default)**.
 12. Save the image. You are now ready to login; see [Login](#login).
+
+<div style="page-break-after: always;"></div>
 
 ## Login
 

@@ -87,14 +87,22 @@ SpkProcessListPane >> itemSelected: anAnnouncement [
 		self refreshList ]
 ]
 
-{ #category : 'updating' }
+{ #category : 'refreshing' }
 SpkProcessListPane >> refreshFromService [
 
-	self refreshListModel
+	self
+		refreshListModel;
+		updateLinkedCoordinates
 ]
 
 { #category : 'accessing' }
 SpkProcessListPane >> toolbarClass [
 
 	^ SpkProcessListToolbar
+]
+
+{ #category : 'refreshing' }
+SpkProcessListPane >> updateLinkedCoordinates [
+
+	^ self updateCoordinatesBasedOn: 0
 ]

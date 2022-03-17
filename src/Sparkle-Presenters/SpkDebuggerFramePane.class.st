@@ -183,7 +183,7 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 		self refreshList ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkDebuggerFramePane >> listLabelString [
 
 	^ self listItemServices size printString , ' local variables'
@@ -200,10 +200,11 @@ SpkDebuggerFramePane >> refreshFromService [
 
 	self
 		refreshTwizzledList;
-		refreshSourcePane
+		refreshSourcePane;
+		updateLinkedCoordinates
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refreshing' }
 SpkDebuggerFramePane >> refreshSourcePane [
 
 	sourcePresenter text: self sourceText.
@@ -242,4 +243,10 @@ SpkDebuggerFramePane >> stepThrough [
 
 	self disableAll.
 	model stepThrough
+]
+
+{ #category : 'refreshing' }
+SpkDebuggerFramePane >> updateLinkedCoordinates [
+
+	^ self updateCoordinatesBasedOn: 0
 ]

@@ -189,7 +189,7 @@ SpkDebuggerPane >> itemSelected: anAnnouncement [
 		self refreshList ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkDebuggerPane >> linkedFramePanes [
 	^ self listModel linkedPanes
 ]
@@ -213,7 +213,8 @@ SpkDebuggerPane >> refreshFromService [
 		ifTrue: [ 
 			self
 				updateDescription;
-				updateFrameList ]
+				updateFrameList;
+				updateLinkedCoordinates ]
 		ifFalse: [ self replace ]
 ]
 
@@ -231,7 +232,7 @@ SpkDebuggerPane >> replace [
 			self refreshList ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkDebuggerPane >> selectTopFrame [
 
 	"If the top frame is not selected, select it."
@@ -257,7 +258,13 @@ SpkDebuggerPane >> updateFrameList [
 		selectTopFrame
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refreshing' }
+SpkDebuggerPane >> updateLinkedCoordinates [
+
+	^ self updateCoordinatesBasedOn: 0
+]
+
+{ #category : 'refreshing' }
 SpkDebuggerPane >> updateLinkedFramePanes [
 
 	self linkedFramePanes do: [ :pane | pane refreshFromService ]

@@ -35,7 +35,7 @@ SpkProcessServiceServer >> initializeFromTool: aTool [
 	self refreshFromTool
 ]
 
-{ #category : 'initialization' }
+{ #category : 'refreshing' }
 SpkProcessServiceServer >> refreshFromTool [
 
 	| changed newValue |
@@ -61,10 +61,29 @@ SpkProcessServiceServer >> refreshFromTool [
 	changed := changed | (status ~= newValue).
 	status := newValue.
 
-	newValue := self connection vitalProcesses includes: tool process.
-	changed := changed | (isVital ~= newValue).
-	isVital := newValue.
-
+	changed := changed | self refreshIsVital.
 
 	^changed
+]
+
+{ #category : 'refreshing' }
+SpkProcessServiceServer >> refreshIsVital [
+	| newValue changed |
+	self connection
+		ifNil: [ 
+			isVital := false.
+			^ true	"If new, always need refreshing." ].
+	newValue := self connection vitalProcesses includes: tool process.
+	changed := isVital ~= newValue.
+	isVital := newValue.
+	^ changed
+]
+
+{ #category : 'refreshing' }
+SpkProcessServiceServer >> registeredWithConnection [
+	"I will typically have been added to the services needing update collection
+	before this message is sent."
+
+	super registeredWithConnection.
+	self refreshIsVital
 ]

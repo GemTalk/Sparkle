@@ -51,27 +51,26 @@ SpkTaskspaceTool >> newProcessManager [
 SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 
-	| processBody processManager processLauncher wasSuccessful processResult |
+	| processManager processLauncher processResult processCompleted |
 	processManager := self newProcessManager.
 	processManager announceNextDebug: true.
-	wasSuccessful := false.
-	processBody := [ 
-	| resultObject |
-	resultObject := aBlock value.
-	"	ifCurtailed: [ 
-			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
-		wasSuccessful := true."
-		nil "In the case of success, there is no defined return value."].
+	processCompleted := false.
 	processLauncher := self
-		newProcessLauncherWithBody: processBody
+		newProcessLauncherWithBody: [ 
+			aBlock value.
+			processCompleted := true ]
 		manager: processManager.
+	processResult := processLauncher launch.	
 
-	processResult := processLauncher launch.
-	^wasSuccessful
-		ifTrue: [SpkSuccessTool new]
-		ifFalse:
-			[self announceNewExplorerForPaneTool: processResult]
+	"If there was an error in the process, a debugger
+	has already been announced to the process.
+	However, the process might have been terminated,
+	and processResult is then a terminatedTool."
+	processCompleted
+		ifFalse: [ self announceNewExplorerForPaneTool: processResult ].
+	"Even if we have announced a debugger or terminated tool, still have
+	to return a SuccessTool."
+	^ SpkSuccessTool new
 ]
 
 { #category : '*Sparkle-Tools-GemStone' }

@@ -30,7 +30,9 @@ Class {
 { #category : 'adding' }
 SpkInspectorPane >> addEvaluator [
 
-	self addEvaluatorWithModel: model addEvaluator
+	self
+		addEvaluatorWithModel: model addEvaluator;
+		updateLinkedCoordinates
 ]
 
 { #category : 'adding' }

@@ -142,7 +142,10 @@ SpkEvaluator >> receiveUnsavedChangesAnnouncement: anSpkUnsavedChangesAnnounceme
 ]
 
 { #category : 'refreshing' }
-SpkEvaluator >> updateCoordinatesBasedOn: coordinateSuffix [
+SpkEvaluator >> updateCoordinatesBasedOn: previousSuffix [
 
-	self coordinate: self pane coordinate , coordinateSuffix
+	| newSuffix |
+	newSuffix := previousSuffix + 1.
+	self coordinate: self pane coordinate , newSuffix.
+	^ newSuffix
 ]

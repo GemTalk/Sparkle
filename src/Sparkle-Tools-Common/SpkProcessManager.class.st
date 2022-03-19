@@ -23,6 +23,11 @@ SpkProcessManager >> announceDebug [
 ]
 
 { #category : 'accessing' }
+SpkProcessManager >> announceNextDebug [
+	^ announceNextDebug
+]
+
+{ #category : 'accessing' }
 SpkProcessManager >> announceNextDebug: aBoolean [
 	announceNextDebug := aBoolean
 ]
@@ -34,27 +39,6 @@ SpkProcessManager >> debugAction [
 		debug: Processor activeProcess
 		explanation: (self explain: ex).
 	nil ]
-]
-
-{ #category : 'private' }
-SpkProcessManager >> debugWithExplanation: anExplanation [
-
-	"process may be the active process on entry to this method.
-	Set up a new higher-priority Process to debug it."
-
-	| debuggerProcess |
-	processPriority := process priority.
-	self setDebugAction. "Debug action may not be correct the first exception for this process."
-	debuggerProcess := self debuggerProcessFor: anExplanation.
-
-	self
-		setPrioritiesOfDebugger: debuggerProcess
-		relativeToDebugged: process.
-	debuggerProcess
-		debugActionBlock: debuggerDebugAction;
-		"This resume preempts the debugged process, and the debuggerProcess takes over."
-		resume.
-	"If I get here, the debugger has decided to resume my process for step or proceed."
 ]
 
 { #category : 'accessing' }
@@ -92,6 +76,27 @@ SpkProcessManager >> debuggerProcessFor: anExplanation [
 			ifFalse: [self returnValue: debuggerTool]] newProcess.
 	debuggerProcess name: 'Debugger for ' , process asOop printString.
 	^ debuggerProcess
+]
+
+{ #category : 'private' }
+SpkProcessManager >> debugWithExplanation: anExplanation [
+
+	"process may be the active process on entry to this method.
+	Set up a new higher-priority Process to debug it."
+
+	| debuggerProcess |
+	processPriority := process priority.
+	self setDebugAction. "Debug action may not be correct the first exception for this process."
+	debuggerProcess := self debuggerProcessFor: anExplanation.
+
+	self
+		setPrioritiesOfDebugger: debuggerProcess
+		relativeToDebugged: process.
+	debuggerProcess
+		debugActionBlock: debuggerDebugAction;
+		"This resume preempts the debugged process, and the debuggerProcess takes over."
+		resume.
+	"If I get here, the debugger has decided to resume my process for step or proceed."
 ]
 
 { #category : 'accessing' }

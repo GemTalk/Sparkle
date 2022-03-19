@@ -51,7 +51,7 @@ SpkTaskspaceTool >> newProcessManager [
 SpkTaskspaceTool >> performTransactionAction: aBlock [
 	"Perform some transaction related action."
 
-	| processManager processLauncher processResult processCompleted |
+	| processManager processLauncher processResult processCompleted debuggerAnnounced |
 	processManager := self newProcessManager.
 	processManager announceNextDebug: true.
 	processCompleted := false.
@@ -64,10 +64,12 @@ SpkTaskspaceTool >> performTransactionAction: aBlock [
 
 	"If there was an error in the process, a debugger
 	has already been announced to the process.
-	However, the process might have been terminated,
-	and processResult is then a terminatedTool."
-	processCompleted
+	However, the process might have been terminated without
+	a debugger, and processResult is then a terminatedTool."
+	debuggerAnnounced := processManager announceNextDebug not.
+	processCompleted | debuggerAnnounced
 		ifFalse: [ self announceNewExplorerForPaneTool: processResult ].
+
 	"Even if we have announced a debugger or terminated tool, still have
 	to return a SuccessTool."
 	^ SpkSuccessTool new

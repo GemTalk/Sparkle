@@ -36,6 +36,15 @@ SpkProcessServiceServer >> initializeFromTool: aTool [
 ]
 
 { #category : 'refreshing' }
+SpkProcessServiceServer >> postRegistration [
+	"I will typically have been added to the services needing update collection
+	before this message is sent."
+
+	super postRegistration.
+	self refreshIsVital
+]
+
+{ #category : 'refreshing' }
 SpkProcessServiceServer >> refreshFromTool [
 
 	| changed newValue |
@@ -77,13 +86,4 @@ SpkProcessServiceServer >> refreshIsVital [
 	changed := isVital ~= newValue.
 	isVital := newValue.
 	^ changed
-]
-
-{ #category : 'refreshing' }
-SpkProcessServiceServer >> registeredWithConnection [
-	"I will typically have been added to the services needing update collection
-	before this message is sent."
-
-	super registeredWithConnection.
-	self refreshIsVital
 ]

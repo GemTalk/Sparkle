@@ -79,6 +79,11 @@ SpkInspectorPane >> extraPresenters [
 	^ super extraPresenters , evaluators
 ]
 
+{ #category : 'accessing' }
+SpkInspectorPane >> header [
+	^ inspectorSubPane header
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> initialize [
 

@@ -38,12 +38,14 @@ SpkExplorerBasicTest >> firstPaneOf: aColumn [
 SpkExplorerBasicTest >> newEvaluator [
 
 	| taskspace |
-	taskspace := SpkTaskspace new.
-	taskspace when: SpkExplorerOpenedAnnouncement send: #windowOpened: to: self.
+	taskspace := SpkTaskspace forConnection: self connection.
 	taskspace
-		connection: self connection;
-		openNewDefaultTaskspace.
-	(uiWaitingSemaphore wait: 5 seconds) ifTrue: [ self fail: 'Explorer open timed out.' ]
+		when: SpkExplorerOpenedAnnouncement
+		send: #windowOpened:
+		to: self.
+	taskspace newEvaluator.
+	(uiWaitingSemaphore wait: 5 seconds) ifTrue: [ 
+		self fail: 'Explorer open timed out.' ]
 ]
 
 { #category : 'running' }

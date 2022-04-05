@@ -38,7 +38,7 @@ SpkExplorerBasicInMemoryTest >> testInstvarClasses [
 	self
 		assert: explorerPresenter model class
 		equals: SpkExplorerServiceClient;
-		assert: explorerPresenter window class equals: SpWindowPresenter;
+		assert: explorerPresenter window class equals: SpkWindowPresenter;
 		assert: explorerPresenter columns class equals: OrderedCollection
 ]
 

@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkInspectorToolTest >> fieldTools [
+
+	"Answer the collection of field tools in the default view of the inspector tool."
+
+	^ tool views first fieldTools
+]
+
+{ #category : 'accessing' }
 SpkInspectorToolTest >> objectWithErroneousPrintOn [
 
 	^SpkTestClassWithDynamicPrintOn printOnAction: [:stream | Error signal]
@@ -50,31 +58,31 @@ SpkInspectorToolTest >> testFieldToolsSize [
 	"Here, just testing that we get the right number of FieldTools back."
 
 	self newInspectorToolOn: nil.
-	self assert: tool fieldTools size equals: 0.
+	self assert: self fieldTools size equals: 0.
 
 	self newInspectorToolOn: nil class.
-	self assert: tool fieldTools size equals: 19.
+	self assert: self fieldTools size equals: 19.
 
 	self newInspectorToolOn: 42.
-	self assert: tool fieldTools size equals: 0.
+	self assert: self fieldTools size equals: 0.
 
 	self newInspectorToolOn: 'Hi!'.
-	self assert: tool fieldTools size equals: 3.
+	self assert: self fieldTools size equals: 3.
 
 	self newInspectorToolOn: Object new.
-	self assert: tool fieldTools size equals: 0.
+	self assert: self fieldTools size equals: 0.
 
 	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
-	self assert: tool fieldTools size equals: 2.
+	self assert: self fieldTools size equals: 2.
 
 	"ZeroDivide has both inherited and declared named instvars"
 	self newInspectorToolOn: ZeroDivide new.
-	self assert: tool fieldTools size equals: 11.
+	self assert: self fieldTools size equals: 11.
 
 	"Class with both named and indexed instvars."
 	self newInspectorToolOn:
 		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
-	self assert: tool fieldTools size equals: 8
+	self assert: self fieldTools size equals: 8
 ]
 
 { #category : 'tests' }

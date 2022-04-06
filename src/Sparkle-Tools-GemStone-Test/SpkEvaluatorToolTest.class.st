@@ -9,7 +9,7 @@ SpkEvaluatorToolTest >> testEvaluationReferencingInstvar [
 	| result |
 	inspectorTool inspectedObject: #'foo' -> 'bar'.
 	evaluatorTool newSourceCode: 'value , ''n'''.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkInspectorTool.
 	self assert: result inspectedObject equals: 'barn'
 ]
@@ -19,7 +19,7 @@ SpkEvaluatorToolTest >> testEvaluationUsingSelf [
 	| result |
 	inspectorTool inspectedObject: 7.
 	evaluatorTool newSourceCode: 'self - 4'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkInspectorTool.
 	self assert: result inspectedObject equals: 3
 ]
@@ -28,7 +28,7 @@ SpkEvaluatorToolTest >> testEvaluationUsingSelf [
 SpkEvaluatorToolTest >> testRuntimeError [
 	| result |
 	evaluatorTool newSourceCode: '3 zork'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkDebuggerTool
 ]
 
@@ -36,7 +36,7 @@ SpkEvaluatorToolTest >> testRuntimeError [
 SpkEvaluatorToolTest >> testSimpleEvaluation [
 	| result |
 	evaluatorTool newSourceCode: '3 + 4'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkInspectorTool.
 	self assert: result inspectedObject equals: 7
 ]
@@ -45,7 +45,7 @@ SpkEvaluatorToolTest >> testSimpleEvaluation [
 SpkEvaluatorToolTest >> testSyntaxError [
 	| result |
 	evaluatorTool newSourceCode: '(self class'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkCompilationErrorTool.
 	self assert: result errorLocation equals: 12.
 	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0

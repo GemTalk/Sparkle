@@ -24,6 +24,12 @@ withDescriptionContaining: aString [
 	^debugger frames detect: [ :each | each description includesString: aString ].
 ]
 
+{ #category : 'support' }
+SpkDebuggerToolTest >> proceedDebugger: aDebuggerTool [
+	aDebuggerTool proceedAnnouncing: SpkExecutionAnnouncement new.
+	^ aDebuggerTool replacementTool
+]
+
 { #category : 'code to test' }
 SpkDebuggerToolTest >> restartFrameTestMethod [
 	8 printString.
@@ -56,7 +62,7 @@ SpkDebuggerToolTest >> testBreakpoint01 [
 	[ 
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frames := debugger frames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"
@@ -71,7 +77,7 @@ SpkDebuggerToolTest >> testBreakpoint01 [
 	self assert: (variable columnAt: 2) equals: '7'.
 	variable := localVariables at: 3.
 	self assert: (variable columnAt: 2) equals: '5'.
-	inspector := debugger proceed.
+	inspector := self proceedDebugger: debugger.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
 		ensure: [ method clearAllBreaks ]
@@ -87,19 +93,19 @@ SpkDebuggerToolTest >> testClearAllBreaks [
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
 	self assert: method _allBreakpoints size equals: 4.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	frames := debugger frames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].
 	self assert: frame stepPoint equals: 3.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12.
 	self assert: method _allBreakpoints size equals: 4.
 	method clearAllBreaks.
 	self assert: method _allBreakpoints size equals: 0.
-	inspector := evaluatorTool evaluateCode.
+	inspector := self evaluateCode.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
 		ensure: [ method clearAllBreaks ].
@@ -112,7 +118,7 @@ SpkDebuggerToolTest >> testCurrentSourceIntervalForPrimitive [
 
 	| debugger frameTool interval|
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frameTool := debugger frames at: 1.
 	interval := frameTool currentSourceInterval.
 	self 
@@ -138,7 +144,7 @@ SpkDebuggerToolTest >> testDebug [
 	self
 		assert: frame stepPoint
 		equals: 1.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 100
@@ -150,10 +156,10 @@ SpkDebuggerToolTest >> testFrameDescription [
 
 	| debugger frame |
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 
 	frame := self executedCodeFrameInDebugger: debugger.
-	self assert: frame index equals: 11
+	self assert: frame index equals: 7
 ]
 
 { #category : 'tests' }
@@ -162,7 +168,7 @@ SpkDebuggerToolTest >> testFrameIndex [
 
 	| debugger frameTool |
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frameTool := debugger frames at: 1.
 	self
 		assert: frameTool class equals: SpkDebuggerFrameTool;
@@ -176,10 +182,10 @@ SpkDebuggerToolTest >> testHaltGlueTrimming [
 
 	| debugger frames  execCodeFrame topFrame |
 	evaluatorTool newSourceCode: '3 halt + 4'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frames := debugger nonGlueFrames.
 	topFrame := frames last.
-	self assert: topFrame index equals: 11.
+	self assert: topFrame index equals: 7.
 	execCodeFrame := self executedCodeFrameInDebugger: debugger.
 	self assert: execCodeFrame identicalTo: topFrame
 ]
@@ -190,7 +196,7 @@ SpkDebuggerToolTest >> testNumberOfFrames [
 
 	| debugger |
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	self assert: debugger frames size > 6
 ]
@@ -201,13 +207,13 @@ SpkDebuggerToolTest >> testProceedChangedDepth [
 
 	| debugger1 debugger2 frame depth1 depth2 index1 index2 |
 	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
-	debugger1 := evaluatorTool evaluateCode.
+	debugger1 := self evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	depth1 := debugger1 frames size.
 	frame := self executedCodeFrameInDebugger: debugger1.
 	index1 := frame index.
 	self assert: frame currentSourceInterval equals: (3 to: 7).
-	debugger2 := debugger1 proceed.
+	debugger2 := self proceedDebugger: debugger1.
 	self assert: debugger1 == debugger2.
 	depth2 := debugger2 frames size.
 	self assert: depth1 < depth2.
@@ -223,9 +229,9 @@ SpkDebuggerToolTest >> testProceedOnce [
 
 	| debugger inspector |
 	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 7
@@ -237,15 +243,15 @@ SpkDebuggerToolTest >> testProceedTwice [
 
 	| debugger1 debugger2 inspector frame |
 	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
-	debugger1 := evaluatorTool evaluateCode.
+	debugger1 := self evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	frame := self executedCodeFrameInDebugger: debugger1.
 	self assert: frame currentSourceInterval equals: (4 to: 8).
-	debugger2 := debugger1 proceed.
+	debugger2 :=  self proceedDebugger: debugger1.
 	self assert: debugger1 == debugger2.
 	self assert: (frame == (self executedCodeFrameInDebugger: debugger1)).
 	self assert: frame currentSourceInterval equals: (15 to: 19).
-	inspector := debugger2 proceed.
+	inspector :=  self proceedDebugger: debugger2.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 12
@@ -257,7 +263,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 
 	| debugger frame restartFrame printStringFrame inspector |
 	evaluatorTool newSourceCode: 'self halt. SpkDebuggerToolTest new restartFrameTestMethod'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	frame := self executedCodeFrameInDebugger: debugger.
 	debugger := self
@@ -309,7 +315,7 @@ SpkDebuggerToolTest >> testRestartFrame [
 		equals: debugger frames size.
 
 	"Ensure we can resume and get the correct result."
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: '12'
@@ -323,7 +329,7 @@ SpkDebuggerToolTest >> testStepOver01 [
 	[ 
 	method setBreakAtStepPoint: 1 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frames := debugger nonGlueFrames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
@@ -348,7 +354,7 @@ SpkDebuggerToolTest >> testStepOver01 [
 	self assert: frame currentSourceInterval equals: (9 to: 9).
 	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: debugger nonGlueFrames size equals: frames size - 1.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
 		ensure: [ method clearAllBreaks ]
@@ -364,7 +370,7 @@ SpkDebuggerToolTest >> testTerminate [
 
 	| debugger process |
 	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	process := debugger process.
 
@@ -379,12 +385,8 @@ SpkDebuggerToolTest >> testTerminate01 [
 	same executedCode frame, proceed, get inspector"
 
 	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
-	evaluatorTool newSourceCode: '[GsFile gciLogServer: ''1''.
-												3 pause + 4.
-												GsFile gciLogServer: ''2''.] ifCurtailed: [GsFile gciLogServer: ''3''.
-																					12 pause.
-																					GsFile gciLogServer: ''4'']'.
-	debugger1 := evaluatorTool evaluateCode.
+	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	debugger1 := self evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	bottomFrame := debugger1 frames at: 1.
 	topFrame := debugger1 frames at: debugger1 frames size.
@@ -397,6 +399,6 @@ SpkDebuggerToolTest >> testTerminate01 [
 		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
 		deny: topFrame == (debugger2 frames at: debugger2 frames size);
 		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
-	inspector := debugger2 proceed.
+	inspector := self proceedDebugger: debugger2.
 	self assert: inspector class equals: SpkProcessTerminatedTool
 ]

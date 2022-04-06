@@ -11,27 +11,28 @@ Class {
 SpkDebuggerServiceTest >> divideByZeroAfterProceed [
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
-	debuggerTool := evaluatorTool evaluateCode.
+	debuggerTool := self evaluateCode.
 	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 ]
 
 { #category : 'tests' }
 SpkDebuggerServiceTest >> testExceptionDescription [
-	"Can we make a tree of services out of a DebuggerTool?"
-
 	self zork3.
-	self assert: debuggerService whyDebugged equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+	self
+		assert: debuggerService exceptionDescription
+		equals:
+			'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
 ]
 
 { #category : 'tests' }
 SpkDebuggerServiceTest >> testProcessFrameNumbering [
-	"The bottom ten frames are glue, first 
-	visible frame should have index 11."
+	"The bottom six frames are glue, first 
+	visible frame should have index 7."
 
 	| frames |
 	self zork3.
 	frames := debuggerService frames.
-	self assert: frames first index equals: 11
+	self assert: frames first index equals: 7
 ]
 
 { #category : 'tests' }
@@ -98,6 +99,6 @@ SpkDebuggerServiceTest >> testUpdateAfterExecution [
 SpkDebuggerServiceTest >> zork3 [
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 zork'.
-	debuggerTool := evaluatorTool evaluateCode.
+	debuggerTool := self evaluateCode.
 	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 ]

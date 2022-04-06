@@ -15,14 +15,20 @@ SpkEvaluationTest class >> isAbstract [
 	^ self sunitName = #'SpkEvaluationTest'
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
+SpkEvaluationTest >> evaluateCode [ 
+
+	^ evaluatorTool evaluateCodeAnnouncing: SpkExecutionAnnouncement new
+]
+
+{ #category : 'initialization' }
 SpkEvaluationTest >> newInspectorToolOn: anObject [
 	taskspaceTool := SpkTaskspaceTool new.
 	explorerTool := taskspaceTool newExplorerTool.
 	^ tool := explorerTool newInspectorToolOn: anObject
 ]
 
-{ #category : 'other' }
+{ #category : 'initialization' }
 SpkEvaluationTest >> setUp [
 	super setUp.
 	inspectorTool := self newInspectorToolOn: nil.

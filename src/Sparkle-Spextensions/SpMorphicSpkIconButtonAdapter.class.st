@@ -40,6 +40,12 @@ SpMorphicSpkIconButtonAdapter >> enabled: aBoolean [
 ]
 
 { #category : 'accessing' }
+SpMorphicSpkIconButtonAdapter >> enablementFrom: requestedBoolean [
+
+	^ model enablementFrom: requestedBoolean
+]
+
+{ #category : 'accessing' }
 SpMorphicSpkIconButtonAdapter >> icon: aForm [
 
 	self widgetDo: [ :w | w labelGraphic: aForm ]

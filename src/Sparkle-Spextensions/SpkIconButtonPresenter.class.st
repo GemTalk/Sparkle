@@ -71,6 +71,12 @@ SpkIconButtonPresenter >> enablementCondition: aBlock [
 	enablementCondition := aBlock
 ]
 
+{ #category : 'accessing' }
+SpkIconButtonPresenter >> enablementFrom: requestedBoolean [
+
+	^ self enablementCondition value: requestedBoolean
+]
+
 { #category : 'api' }
 SpkIconButtonPresenter >> icon [
 

@@ -17,6 +17,15 @@ SpkIconicButtonMorph >> doButtonAction [
 ]
 
 { #category : 'accessing' }
+SpkIconicButtonMorph >> enabled: requestedBoolean [
+
+	| shouldEnable |
+	shouldEnable := target enablementFrom: requestedBoolean.
+	self submorphsDo: [ :morph | morph enabled: shouldEnable ].
+	enabled := shouldEnable
+]
+
+{ #category : 'accessing' }
 SpkIconicButtonMorph >> extraBorder [
 
 	^ 0

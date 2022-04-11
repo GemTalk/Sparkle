@@ -20,6 +20,12 @@ SpkProcessService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
+SpkProcessService >> isVital [
+
+	^ isVital
+]
+
+{ #category : 'accessing' }
 SpkProcessService >> name [
 
 	^name

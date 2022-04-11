@@ -3,7 +3,8 @@ Class {
 	#superclass : 'SpTableColumn',
 	#instVars : [
 		'action',
-		'icon'
+		'icon',
+		'enablementCondition'
 	],
 	#category : 'Sparkle-Spextensions-Table'
 }
@@ -24,4 +25,16 @@ SpkButtonTableColumn >> action [
 SpkButtonTableColumn >> action: anObject [
 
 	action := anObject
+]
+
+{ #category : 'accessing' }
+SpkButtonTableColumn >> enablementCondition [
+
+	^ enablementCondition ifNil: [ [:x | true ] ]
+]
+
+{ #category : 'accessing' }
+SpkButtonTableColumn >> enablementCondition: anObject [
+
+	enablementCondition := anObject
 ]

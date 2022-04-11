@@ -17,6 +17,9 @@ SpMorphicSpkTableCellBuilder >> visitButtonColumn: aTableColumn [
 	presenter := self newIconButton.
 	presenter icon: (aTableColumn readObject: self item).
 
+	presenter enablementCondition: [ :aBoolean | 
+		aBoolean & (aTableColumn enablementCondition value: self item) ].
+
 	aTableColumn action ifNotNil: [ 
 		presenter action: [ aTableColumn action value: self item ] ].
 

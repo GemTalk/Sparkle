@@ -33,11 +33,11 @@ SpkIconButtonPresenter >> disabledIcon: anObject [
 ]
 
 { #category : 'api' }
-SpkIconButtonPresenter >> enabled: aBoolean [
+SpkIconButtonPresenter >> enabled: requestedBoolean [
 
 	"enabled is an ObservableSlot"
 
-	enabled := self enablementCondition value: aBoolean.
+	enabled := self enablementFrom: requestedBoolean.
 	self updateIcon
 ]
 

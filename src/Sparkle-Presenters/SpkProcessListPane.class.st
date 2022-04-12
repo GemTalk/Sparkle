@@ -38,7 +38,7 @@ SpkProcessListPane >> initializeListColumns [
 			(SpStringTableColumn evaluated: [ :item | item model status ]);
 		addColumn: ((SpkButtonTableColumn evaluated: [ :item | 
 					  item model isVital
-						  ifTrue: [ self iconNamed: #refresh ]
+						  ifTrue: [ self iconNamed: #debugDisabled16 ]
 						  ifFalse: [ self iconNamed: #debug16 ] ])
 				 width: 12;
 				 action: [ :item | item model debugInNewExplorer ];

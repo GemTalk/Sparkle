@@ -24,6 +24,9 @@ SpMorphicSpkTableCellBuilder >> visitButtonColumn: aTableColumn [
 		presenter action: [ aTableColumn action value: self item ] ].
 
 	morph := presenter buildWithSpec.
+	
+	morph enabled: presenter isEnabled.
+	
 	presenter adapter applyStyle: morph.
 
 	self addCellMorph: morph column: aTableColumn

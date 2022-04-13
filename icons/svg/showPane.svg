@@ -9,7 +9,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="64"
    inkscape:export-xdpi="64"
-   inkscape:export-filename="/home/martin/Repositories/Sparkle/icons/png/showPane16.png"
+   inkscape:export-filename="../png/showPane16.png"
    sodipodi:docname="showPane.svg"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    id="svg8"
@@ -61,7 +61,7 @@
     <path
        inkscape:export-ydpi="64"
        inkscape:export-xdpi="64"
-       inkscape:export-filename="/home/martin/Repositories/Sparkle/icons/png/showPane16.png"
+       inkscape:export-filename="../png/showPane16.png"
        id="path903"
        style="opacity:0.9;fill:none;stroke:#6ece7c;stroke-width:0.40401875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
        d="M 2.0255154,4.0403748 V 2.3096252 l 2.2989918,0.8653749 z"

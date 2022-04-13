@@ -17,20 +17,22 @@ SpkProcessListToolbar >> initializePresenters [
 { #category : 'initialization' }
 SpkProcessListToolbar >> initializeRefreshButton [
 
-	refreshButton := self newButton
-		label: 'Refresh';
-		icon: (self iconNamed: #refresh);
-		color: Color veryDarkGray;
-		action: [ self refresh ].
-	self layout
-		add: refreshButton
-		withConstraints: [ :c | c height: 24; width: 100]
+	refreshButton := self newIconButton
+		                 help: 'Refresh';
+		                 icon: (self iconNamed: #refresh28);
+		                 action: [ self refresh ].
+	self layout add: refreshButton withConstraints: [ :c | 
+		c
+			height: 30;
+			width: 30 ]
 ]
 
 { #category : 'accessing' }
 SpkProcessListToolbar >> newLayout [
 
 	^ SpkBoxLayout newHorizontal
+		  placeWidgetsAtCenter;
+		  yourself
 ]
 
 { #category : 'actions' }
@@ -43,5 +45,5 @@ SpkProcessListToolbar >> refresh [
 { #category : 'accessing' }
 SpkProcessListToolbar >> toolbarHeight [
 
-	^ 30
+	^ 34
 ]

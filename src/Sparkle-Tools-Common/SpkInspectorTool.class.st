@@ -82,15 +82,12 @@ SpkInspectorTool >> initialize [
 
 { #category : 'initialization' }
 SpkInspectorTool >> initializeViews [
-
-	"only raw view, for now"
-
-	| rawView |
-	rawView := SpkInspectorRawViewTool on: inspectedObject.
-	rawView
-		taskspaceTool: taskspaceTool;
-		refreshFieldTools.
-	views add: rawView
+	views := SpkInspectorViewTool viewsOn: inspectedObject.
+	views
+		do: [ :each | 
+			each
+				taskspaceTool: taskspaceTool;
+				refresh ]
 ]
 
 { #category : 'accessing' }

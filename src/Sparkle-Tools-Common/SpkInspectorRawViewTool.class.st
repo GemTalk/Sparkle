@@ -4,6 +4,13 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'testing' }
+SpkInspectorRawViewTool class >> canView: anObject [
+	"Raw view is appropriate for all objects."
+
+	^ true
+]
+
 { #category : 'accessing' }
 SpkInspectorRawViewTool >> indexedSize [
 
@@ -44,6 +51,15 @@ SpkInspectorRawViewTool >> numberOfFields [
 ]
 
 { #category : 'accessing' }
+SpkInspectorRawViewTool >> priority [
+	"Answer my relative usefulness, as a Float, for viewing my inspectedObject."
+
+	"Raw view is the universal view, but generally of lower priority than any other applicable views."
+
+	^ 0.0
+]
+
+{ #category : 'refreshing' }
 SpkInspectorRawViewTool >> refreshFieldToolContents [
 
 	self
@@ -51,7 +67,7 @@ SpkInspectorRawViewTool >> refreshFieldToolContents [
 		refreshIndexedFieldTools
 ]
 
-{ #category : 'accessing' }
+{ #category : 'refreshing' }
 SpkInspectorRawViewTool >> refreshIndexedFieldTools [
 
 	1 to: self indexedSize do: [ :index | 
@@ -71,7 +87,7 @@ SpkInspectorRawViewTool >> refreshIndexedFieldTools [
 			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'refreshing' }
 SpkInspectorRawViewTool >> refreshNamedFieldTools [
 
 	| names |

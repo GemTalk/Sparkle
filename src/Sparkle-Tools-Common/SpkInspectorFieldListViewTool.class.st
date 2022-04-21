@@ -1,21 +1,12 @@
 Class {
 	#name : 'SpkInspectorFieldListViewTool',
-	#superclass : 'SpkInspectionTool',
+	#superclass : 'SpkInspectorViewTool',
 	#instVars : [
 		'numberOfColumns',
-		'fieldTools',
-		'inspectedObject'
+		'fieldTools'
 	],
 	#category : 'Sparkle-Tools-Common'
 }
-
-{ #category : 'instance creation' }
-SpkInspectorFieldListViewTool class >> on: anObject [
-
-	^ self new
-		  inspectedObject: anObject;
-		  yourself
-]
 
 { #category : 'private' }
 SpkInspectorFieldListViewTool >> classOfInspectedObject [
@@ -32,17 +23,11 @@ SpkInspectorFieldListViewTool >> fieldTools [
 ]
 
 { #category : 'accessing' }
-SpkInspectorFieldListViewTool >> inspectedObject: anObject [
-
-	inspectedObject := anObject
-]
-
-{ #category : 'other' }
 SpkInspectorFieldListViewTool >> name [
 	self subclassResponsibility
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkInspectorFieldListViewTool >> newFieldTool [
 
 	^ SpkInspectorFieldTool new
@@ -51,13 +36,21 @@ SpkInspectorFieldListViewTool >> newFieldTool [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkInspectorFieldListViewTool >> numberOfFields [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refreshing' }
+SpkInspectorFieldListViewTool >> refresh [
+
+	self
+		refreshFieldToolQuantity;
+		refreshFieldToolContents
+]
+
+{ #category : 'refreshing' }
 SpkInspectorFieldListViewTool >> refreshFieldToolContents [
 
 	self subclassResponsibility
@@ -76,12 +69,4 @@ SpkInspectorFieldListViewTool >> refreshFieldToolQuantity [
 		ifTrue: [ 
 			numberOfFieldsInView - numberOfFieldsInObject
 				timesRepeat: [ fieldTools removeLast ] ]
-]
-
-{ #category : 'as yet unclassified' }
-SpkInspectorFieldListViewTool >> refreshFieldTools [
-
-	self
-		refreshFieldToolQuantity;
-		refreshFieldToolContents
 ]

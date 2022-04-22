@@ -19,7 +19,8 @@ SpkInspectorViewTool class >> concreteSubclasses [
 	"GemStone does not yet have a performant way for a class to know
 	its subclasses, so we must list them here."
 
-	^ {SpkInspectorRawViewTool}
+	^ {SpkInspectorRawViewTool.
+	SpkInspectorSetViewTool}
 ]
 
 { #category : 'instance creation' }

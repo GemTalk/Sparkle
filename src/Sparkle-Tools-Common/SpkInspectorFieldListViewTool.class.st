@@ -41,32 +41,3 @@ SpkInspectorFieldListViewTool >> numberOfFields [
 
 	self subclassResponsibility
 ]
-
-{ #category : 'refreshing' }
-SpkInspectorFieldListViewTool >> refresh [
-
-	self
-		refreshFieldToolQuantity;
-		refreshFieldToolContents
-]
-
-{ #category : 'refreshing' }
-SpkInspectorFieldListViewTool >> refreshFieldToolContents [
-
-	self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-SpkInspectorFieldListViewTool >> refreshFieldToolQuantity [
-	| numberOfFieldsInObject numberOfFieldsInView |
-	numberOfFieldsInObject := self numberOfFields.
-	numberOfFieldsInView := fieldTools size.
-	numberOfFieldsInObject > numberOfFieldsInView
-		ifTrue: [ 
-			numberOfFieldsInObject - numberOfFieldsInView
-				timesRepeat: [ fieldTools add: self newFieldTool ] ].
-	numberOfFieldsInObject < numberOfFieldsInView
-		ifTrue: [ 
-			numberOfFieldsInView - numberOfFieldsInObject
-				timesRepeat: [ fieldTools removeLast ] ]
-]

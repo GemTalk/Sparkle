@@ -60,11 +60,34 @@ SpkInspectorRawViewTool >> priority [
 ]
 
 { #category : 'refreshing' }
+SpkInspectorRawViewTool >> refresh [
+
+	self
+		refreshFieldToolQuantity;
+		refreshFieldToolContents
+]
+
+{ #category : 'refreshing' }
 SpkInspectorRawViewTool >> refreshFieldToolContents [
 
 	self
 		refreshNamedFieldTools;
 		refreshIndexedFieldTools
+]
+
+{ #category : 'refreshing' }
+SpkInspectorRawViewTool >> refreshFieldToolQuantity [
+	| numberOfFieldsInObject numberOfFieldsInView |
+	numberOfFieldsInObject := self numberOfFields.
+	numberOfFieldsInView := fieldTools size.
+	numberOfFieldsInObject > numberOfFieldsInView
+		ifTrue: [ 
+			numberOfFieldsInObject - numberOfFieldsInView
+				timesRepeat: [ fieldTools add: self newFieldTool ] ].
+	numberOfFieldsInObject < numberOfFieldsInView
+		ifTrue: [ 
+			numberOfFieldsInView - numberOfFieldsInObject
+				timesRepeat: [ fieldTools removeLast ] ]
 ]
 
 { #category : 'refreshing' }

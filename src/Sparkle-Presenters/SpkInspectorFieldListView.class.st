@@ -52,11 +52,9 @@ SpkInspectorFieldListView >> deselectOffTheEndFields [
 { #category : 'initialization' }
 SpkInspectorFieldListView >> initializeListColumns [
 
-	list
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 1 ]);
-		addColumn:
-			(SpStringTableColumn evaluated: [ :item | item columnAt: 2 ])
+	1 to: model numberOfColumns do: [ :i | 
+		list addColumn:
+			(SpStringTableColumn evaluated: [ :item | item columnAt: i ]) ]
 ]
 
 { #category : 'initialization' }

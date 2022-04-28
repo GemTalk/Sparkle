@@ -124,6 +124,8 @@ SpkTaskspace >> initializePresenterClassesForServiceTypes [
 		  at: SpkDebuggerServiceClient put: SpkDebuggerPane;
 		  at: SpkInspectorRawViewServiceClient
 		  put: SpkInspectorFieldListView;
+		  at: SpkInspectorSetViewServiceClient
+		  put: SpkInspectorFieldListView;
 		  at: SpkInspectorServiceClient put: SpkInspectorPane;
 		  at: SpkProcessListServiceClient put: SpkProcessListPane;
 		  at: SpkProcessTerminatedServiceClient

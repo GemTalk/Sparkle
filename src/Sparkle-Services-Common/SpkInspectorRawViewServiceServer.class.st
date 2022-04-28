@@ -14,7 +14,7 @@ SpkInspectorRawViewServiceServer >> initializeFromTool: aTool [
 	self refreshFromTool
 ]
 
-{ #category : 'initialization' }
+{ #category : 'refreshing' }
 SpkInspectorRawViewServiceServer >> refreshFieldsFromTool [
 
 	| changed fieldTools |
@@ -46,11 +46,12 @@ SpkInspectorRawViewServiceServer >> refreshFieldsFromTool [
 	^ changed
 ]
 
-{ #category : 'initialization' }
+{ #category : 'refreshing' }
 SpkInspectorRawViewServiceServer >> refreshFromTool [
 
 	| changed |
 	changed := false.
+	"Name will likely be nil at the first refresh."
 	name = tool name ifFalse: [ 
 		name := tool name.
 		changed := true ].

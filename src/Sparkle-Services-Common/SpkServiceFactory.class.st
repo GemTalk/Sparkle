@@ -23,7 +23,8 @@ SpkServiceFactory class >> initializeServiceClassesForToolTypes [
 		at: SpkDebuggerTool put: SpkDebuggerServiceServer;
 		at: SpkDebuggerFrameTool put: SpkDebuggerFrameServiceServer;
 		at: SpkExplorerTool put: SpkExplorerServiceServer;
-		at: SpkInspectorRawViewTool put: SpkInspectorFieldListViewServiceServer;
+		at: SpkInspectorRawViewTool put: SpkInspectorRawViewServiceServer;
+		at: SpkInspectorSetViewTool put: SpkInspectorSetViewServiceServer;
 		at: SpkInspectorTool put: SpkInspectorServiceServer;
 		at: SpkProcessListTool put: SpkProcessListServiceServer;
 		at: SpkProcessTerminatedTool put: SpkProcessTerminatedServiceServer;

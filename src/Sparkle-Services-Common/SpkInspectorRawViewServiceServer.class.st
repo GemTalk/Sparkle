@@ -1,6 +1,6 @@
 Class {
-	#name : 'SpkInspectorFieldListViewServiceServer',
-	#superclass : 'SpkInspectorFieldListViewService',
+	#name : 'SpkInspectorRawViewServiceServer',
+	#superclass : 'SpkInspectorRawViewService',
 	#instVars : [
 		'tool'
 	],
@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkInspectorFieldListViewServiceServer >> initializeFromTool: aTool [
+SpkInspectorRawViewServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
 	self refreshFromTool
 ]
 
 { #category : 'initialization' }
-SpkInspectorFieldListViewServiceServer >> refreshFieldsFromTool [
+SpkInspectorRawViewServiceServer >> refreshFieldsFromTool [
 
 	| changed fieldTools |
 	changed := false.
@@ -47,7 +47,7 @@ SpkInspectorFieldListViewServiceServer >> refreshFieldsFromTool [
 ]
 
 { #category : 'initialization' }
-SpkInspectorFieldListViewServiceServer >> refreshFromTool [
+SpkInspectorRawViewServiceServer >> refreshFromTool [
 
 	| changed |
 	changed := false.
@@ -59,13 +59,13 @@ SpkInspectorFieldListViewServiceServer >> refreshFromTool [
 ]
 
 { #category : 'accessing' }
-SpkInspectorFieldListViewServiceServer >> tool [
+SpkInspectorRawViewServiceServer >> tool [
 
 	^tool
 ]
 
 { #category : 'accessing' }
-SpkInspectorFieldListViewServiceServer >> tool: anInspectorViewTool [
+SpkInspectorRawViewServiceServer >> tool: anInspectorViewTool [
 
 	tool := anInspectorViewTool
 ]

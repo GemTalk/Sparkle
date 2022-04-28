@@ -10,7 +10,7 @@ Class {
 { #category : 'accessing' }
 SpkInspectorFieldListViewService class >> templateClassName [
 
-	^ #SpkInspectorFieldListViewService
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }

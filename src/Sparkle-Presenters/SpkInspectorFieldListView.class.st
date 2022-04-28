@@ -73,6 +73,7 @@ SpkInspectorFieldListView >> labelString [
 { #category : 'refreshing' }
 SpkInspectorFieldListView >> refreshFromService [
 
+	name := model name.
 	self
 		deselectChangedFields;
 		refreshListModel

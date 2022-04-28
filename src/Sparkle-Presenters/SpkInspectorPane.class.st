@@ -139,14 +139,6 @@ SpkInspectorPane >> linkedPanes [
 	  , self panesLinkedToEvaluators
 ]
 
-{ #category : 'accessing' }
-SpkInspectorPane >> menuCommandClasses [
-
-	^ { 
-		  SpkViewRawCommand.
-		  SpkCopyOopCommand }
-]
-
 { #category : 'instance creation' }
 SpkInspectorPane >> newLayout [
 

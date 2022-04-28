@@ -155,12 +155,22 @@ SpkInspectorSubPane >> refreshViews [
 			         existingView model == viewService ]
 			         ifNone: [ self presenterForService: viewService ] ].
 
-	self flag: 'first only works for the default'.
 	(views includes: currentView) ifFalse: [ 
 		self currentView: views first "Default" ].
 
 	views do: [ :view | view refreshFromService ].
 	self refreshTwizzledListLabel
+]
+
+{ #category : 'actions' }
+SpkInspectorSubPane >> showViewNamed: viewName [
+
+	| viewToShow |
+	viewToShow := views
+		              detect: [ :each | each name = viewName ]
+		              ifNone: [ self error: 'Cannot find view' ].
+
+	self currentView: viewToShow
 ]
 
 { #category : 'refreshing' }
@@ -184,6 +194,16 @@ SpkInspectorSubPane >> updateSelfDescription [
 { #category : 'refreshing' }
 SpkInspectorSubPane >> updateViewMenu [
 
-	self flag: 'Need to generate menu dynamically from views'.
-	self header menu: self pane menuCommandGroup asMenuPresenter
+	| group |
+	group := CmCommandGroup forSpec
+		         beRoot;
+		         yourself.
+	views do: [ :view | 
+		| command |
+		command := (SpkViewCommand forSpecContext: self)
+			           name: view name;
+			           yourself.
+		group register: command ].
+
+	self header menu: group asMenuPresenter
 ]

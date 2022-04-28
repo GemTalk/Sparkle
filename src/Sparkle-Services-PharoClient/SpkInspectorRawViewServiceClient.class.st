@@ -1,13 +1,13 @@
 Class {
-	#name : 'SpkInspectorFieldListViewServiceClient',
-	#superclass : 'SpkInspectorFieldListViewService',
+	#name : 'SpkInspectorRawViewServiceClient',
+	#superclass : 'SpkInspectorRawViewService',
 	#traits : 'SpkTModel',
 	#classTraits : 'SpkTModel classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
 { #category : 'api' }
-SpkInspectorFieldListViewServiceClient >> listItems [
+SpkInspectorRawViewServiceClient >> listItems [
 
 	^ fields
 ]

@@ -31,3 +31,9 @@ SpkInspectorFieldListViewService >> initialize [
 	super initialize.
 	fields := OrderedCollection new
 ]
+
+{ #category : 'accessing' }
+SpkInspectorFieldListViewService >> numberOfColumns [
+
+	self subclassResponsibility
+]

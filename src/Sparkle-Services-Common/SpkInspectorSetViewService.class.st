@@ -9,3 +9,9 @@ SpkInspectorSetViewService class >> templateClassName [
 
 	^ #SpkInspectorSetViewService
 ]
+
+{ #category : 'accessing' }
+SpkInspectorSetViewService >> numberOfColumns [
+
+	^ 1
+]

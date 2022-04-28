@@ -9,3 +9,9 @@ SpkInspectorRawViewService class >> templateClassName [
 
 	^ #SpkInspectorRawViewService
 ]
+
+{ #category : 'accessing' }
+SpkInspectorRawViewService >> numberOfColumns [
+
+	^ 2
+]

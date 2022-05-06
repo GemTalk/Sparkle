@@ -47,7 +47,11 @@ SpkInspectorSetViewServiceServer >> refreshFieldsFromTool [
 SpkInspectorSetViewServiceServer >> refreshFromTool [
 
 	| changed |
+
+	"This tool caches its field tools, must refresh it before we can request."
+	tool refresh.
 	changed := false.
+
 	"Name will likely be nil at the first refresh."
 	name = tool name ifFalse: [ 
 		name := tool name.

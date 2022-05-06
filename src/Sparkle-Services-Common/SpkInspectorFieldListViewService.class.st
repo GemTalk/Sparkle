@@ -32,6 +32,14 @@ SpkInspectorFieldListViewService >> initialize [
 	fields := OrderedCollection new
 ]
 
+{ #category : 'private' }
+SpkInspectorFieldListViewService >> newFieldServiceFor: aFieldTool [
+	^ SpkInspectorFieldServiceServer new
+		parentService: self;
+		tool: aFieldTool;
+		yourself
+]
+
 { #category : 'accessing' }
 SpkInspectorFieldListViewService >> numberOfColumns [
 

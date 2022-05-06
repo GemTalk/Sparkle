@@ -21,8 +21,13 @@ SpkInspectorSetViewTool class >> canView: anObject [
 SpkInspectorSetViewTool >> initialize [
 
 	super initialize.
-	fieldTools := IdentitySet new.
+	self initializeFieldTools.
 	numberOfColumns := 1 "self description"
+]
+
+{ #category : 'initialization' }
+SpkInspectorSetViewTool >> initializeFieldTools [
+	fieldTools := IdentityDictionary new
 ]
 
 { #category : 'accessing' }
@@ -46,26 +51,13 @@ SpkInspectorSetViewTool >> priority [
 
 { #category : 'refreshing' }
 SpkInspectorSetViewTool >> refresh [
-	| oldFieldTools addedObjects |
+	| oldFieldTools |
 	oldFieldTools := fieldTools.
-	addedObjects := inspectedObject copy.	"Remove any field tools for objects no longer in the set, and detect any added objects"
-	fieldTools := oldFieldTools
-		select: [ :fieldTool | 
-			| referencedObject |
-			referencedObject := fieldTool referencedObject.
-			(inspectedObject includesIdentical: referencedObject)
-				ifTrue: [ 
-					addedObjects remove: referencedObject.
-					true ]
-				ifFalse: [ false ] ].	"Update content of remaining tools"
-	fieldTools
-		do: [ :each | each columnAt: 1 put: (self selfDescriptionOf: each referencedObject) ].	"Create a field tool for each object added to the set."
-	addedObjects
+	self initializeFieldTools.
+	inspectedObject
 		do: [ :each | 
 			| fieldTool |
-			fieldTool := self newFieldTool.
-			fieldTool
-				referencedObject: each;
-				columnAt: 1 put: (self selfDescriptionOf: each).
-			fieldTools add: fieldTool ]
+			fieldTool := oldFieldTools at: each ifAbsent: [ self newFieldToolFor: each ].
+			fieldTool columnAt: 1 put: (self selfDescriptionOf: each).
+			fieldTools at: each put: fieldTool ]
 ]

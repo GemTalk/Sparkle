@@ -16,33 +16,30 @@ SpkInspectorSetViewServiceServer >> initializeFromTool: aTool [
 
 { #category : 'refreshing' }
 SpkInspectorSetViewServiceServer >> refreshFieldsFromTool [
+	| changed fieldServicesByTool newFieldSet sortedFields |
+	changed := false.	
 
-	| changed fieldTools |
-	changed := false.
-	fields size < tool fieldTools size ifTrue: [ 
-		changed := true.
-		fields size + 1 to: tool fieldTools size do: [ :i | 
-			fields add: (SpkInspectorFieldServiceServer new
-					 parentService: self;
-					 tool: (tool fieldTools at: i);
-					 yourself) ] ].
-	fields size > tool fieldTools size ifTrue: [ 
-		changed := true.
-		fields size - tool fieldTools size timesRepeat: [ fields removeLast ] ].
-	fieldTools := tool fieldTools.
-	1 to: fieldTools size do: [ :i | 
-		| fieldTool field newField |
-		fieldTool := fieldTools at: i.
-		field := fields at: i.
-		fieldTool == field tool ifFalse: [ 
-			changed := true.
-			newField := SpkInspectorFieldServiceServer new
-				            parentService: self;
-				            tool: fieldTool;
-				            yourself.
-			fields at: i put: newField.
-			field := newField ].
-		changed := changed | field refreshFromTool ].
+	" Index existing field services by their tool."
+	fieldServicesByTool := IdentityDictionary new: fields size.
+	fields
+		do: [ :fieldService | fieldServicesByTool at: fieldService tool put: fieldService ].
+
+	newFieldSet := IdentitySet new: tool fieldTools size.
+	tool fieldTools
+		do: [ :fieldTool | 
+			| fieldService |
+			fieldService := fieldServicesByTool
+				at: fieldTool
+				ifAbsent: [ 
+					changed := true.
+					self newFieldServiceFor: fieldTool ].
+			changed := changed | fieldService refreshFromTool.
+			newFieldSet add: fieldService ].
+	fields size ~= newFieldSet size
+		ifTrue: [ changed := true ].
+	sortedFields := newFieldSet
+		asSortedCollection: [ :a :b | (a columnAt: 1) < (b columnAt: 1) ].
+	fields := sortedFields asOrderedCollection.
 	^ changed
 ]
 

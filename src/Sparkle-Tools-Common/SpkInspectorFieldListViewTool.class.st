@@ -36,6 +36,13 @@ SpkInspectorFieldListViewTool >> newFieldTool [
 		  yourself
 ]
 
+{ #category : 'private' }
+SpkInspectorFieldListViewTool >> newFieldToolFor: referencedObject [
+	^ self newFieldTool
+		referencedObject: referencedObject;
+		yourself
+]
+
 { #category : 'accessing' }
 SpkInspectorFieldListViewTool >> numberOfFields [
 

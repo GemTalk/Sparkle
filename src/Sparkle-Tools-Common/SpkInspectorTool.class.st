@@ -9,13 +9,6 @@ Class {
 	#category : 'Sparkle-Tools-Common'
 }
 
-{ #category : 'not comparing' }
-SpkInspectorTool >> = anObject [
-	"Diagnostic -- do we compare these objects?"
-
-	self halt
-]
-
 { #category : 'actions' }
 SpkInspectorTool >> addEvaluator [
 	"Sent from client"

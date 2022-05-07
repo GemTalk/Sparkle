@@ -43,7 +43,8 @@ SpkTool >> announcer [
 
 { #category : 'comparing' }
 SpkTool >> hash [
-	^ taskspaceTool identityHash
+
+	^ taskspaceTool identityHash bitXor: self species hash
 ]
 
 { #category : 'initialization' }

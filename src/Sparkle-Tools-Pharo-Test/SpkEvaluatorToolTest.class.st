@@ -23,7 +23,6 @@ SpkEvaluatorToolTest >> announcement [
 SpkEvaluatorToolTest >> inspect: anObject [
 
 	inspectorTool := explorerTool newInspectorToolOn: anObject.
-	explorerTool addPane: inspectorTool.
 	evaluatorTool := inspectorTool addEvaluator
 ]
 

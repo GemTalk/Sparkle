@@ -36,13 +36,13 @@ SpkInspectorViewTool class >> viewsOn: anObject [
 	"Answer the view tools appropriate for the given object,
 	ordered by each's idea of its priority relative to that object."
 
-	| viewClasses views |
+	| viewClasses views sortedViews |
 	viewClasses := self concreteSubclasses
 		select: [ :each | each canView: anObject ].
 	views := viewClasses collect: [ :viewClass | viewClass on: anObject ].
-	^ SortedCollection
-		withAll: views
-		sortBlock: [ :a :b | a priority > b priority ]
+	sortedViews := SortedCollection sortBlock: [ :a :b | a priority > b priority ].
+	sortedViews addAll: views.
+	^ sortedViews
 ]
 
 { #category : 'accessing' }

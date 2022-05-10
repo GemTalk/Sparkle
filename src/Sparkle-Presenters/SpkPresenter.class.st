@@ -45,9 +45,9 @@ SpkPresenter >> column [
 ]
 
 { #category : 'layout' }
-SpkPresenter >> defaultLayout [ 
+SpkPresenter >> defaultLayout [
 
-	^ self newLayout
+	self subclassResponsibility
 ]
 
 { #category : 'private-traversing' }

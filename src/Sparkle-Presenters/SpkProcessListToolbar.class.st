@@ -7,6 +7,14 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'layout' }
+SpkProcessListToolbar >> defaultLayout [
+
+	^ SpkBoxLayout newHorizontal
+		  placeWidgetsAtCenter;
+		  yourself
+]
+
 { #category : 'initialization' }
 SpkProcessListToolbar >> initializePresenters [
 

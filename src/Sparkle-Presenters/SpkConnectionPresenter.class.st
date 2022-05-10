@@ -121,6 +121,12 @@ SpkConnectionPresenter >> defaultHorizontalSpaceWidth [
 	^10
 ]
 
+{ #category : 'layout' }
+SpkConnectionPresenter >> defaultLayout [
+
+	^ SpkBoxLayout newVertical
+]
+
 { #category : 'actions' }
 SpkConnectionPresenter >> disableButtons [
 

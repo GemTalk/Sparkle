@@ -67,6 +67,16 @@ SpkInspectorPane >> copyOop [
 	inspectorSubPane copyOop
 ]
 
+{ #category : 'layout' }
+SpkInspectorPane >> defaultLayout [
+
+	"Splitters are wanted between the inspector pane and each evaluator."
+
+	^ SpkAccordianLayout newVertical
+		  color: Color veryVeryDarkGray;
+		  yourself
+]
+
 { #category : 'accessing' }
 SpkInspectorPane >> evaluatorsWithLinkedPanes [
 

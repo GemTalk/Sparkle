@@ -55,6 +55,12 @@ SpkColumn >> addToLayout: aPane atPaneIndex: paneIndex [
 						withConstraints: self splitterConstraints ] ]
 ]
 
+{ #category : 'layout' }
+SpkColumn >> defaultLayout [
+
+	^ SpkAccordianLayout newVertical
+]
+
 { #category : 'initialization' }
 SpkColumn >> initialize [
 

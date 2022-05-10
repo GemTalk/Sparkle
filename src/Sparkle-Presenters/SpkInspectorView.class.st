@@ -7,6 +7,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'layout' }
+SpkInspectorView >> defaultLayout [
+	
+	^ SpkBoxLayout newVertical
+]
+
 { #category : 'refreshing' }
 SpkInspectorView >> labelString [
 

@@ -32,6 +32,12 @@ SpkHeader >> closeButtonWidth [
 	^ 24
 ]
 
+{ #category : 'layout' }
+SpkHeader >> defaultLayout [
+
+	^ SpkBoxLayout newHorizontal
+]
+
 { #category : 'accessing colors' }
 SpkHeader >> headerColor [
 

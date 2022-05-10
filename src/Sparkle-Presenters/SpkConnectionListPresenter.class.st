@@ -55,6 +55,12 @@ SpkConnectionListPresenter >> connectPresenters [
 					self setConnectionProfile: connectionProfile ] ] ]
 ]
 
+{ #category : 'layout' }
+SpkConnectionListPresenter >> defaultLayout [
+
+	^ SpkBoxLayout newVertical
+]
+
 { #category : 'actions' }
 SpkConnectionListPresenter >> filterConnections [
 

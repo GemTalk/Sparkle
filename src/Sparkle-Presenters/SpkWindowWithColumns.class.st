@@ -60,6 +60,12 @@ SpkWindowWithColumns >> columnToRightOf: aColumn [
 	^ columns at: newIndex ifAbsent: [ self addColumn ]
 ]
 
+{ #category : 'layout' }
+SpkWindowWithColumns >> defaultLayout [
+
+	^ SpkAccordianLayout newHorizontal
+]
+
 { #category : 'constants' }
 SpkWindowWithColumns >> initialExtent [
 

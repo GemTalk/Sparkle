@@ -36,6 +36,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'layout' }
+SpkTwizzledPresenter >> defaultLayout [
+
+	^ SpkBoxLayout newVertical
+]
+
 { #category : 'private' }
 SpkTwizzledPresenter >> hideSubPresenter [
 

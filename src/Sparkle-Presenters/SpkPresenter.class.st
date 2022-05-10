@@ -9,9 +9,6 @@ Provides various overrides of default Spec2 behavior to add or modify functional
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',
-	#instVars : [
-		'spkLayout'
-	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
@@ -20,8 +17,7 @@ SpkPresenter class >> defaultLayout [
 
 	"This method only here to quiet browser linting. Should never be sent to this class
 	or its subclasses.
-	All Sparkle layouts are created and managed dynamically.
-	See instance-side #layout."
+	All Sparkle layouts are created and managed on the instance side."
 
 	self error: '#defaultLayout sent when not expected'
 ]
@@ -109,12 +105,6 @@ SpkPresenter >> newIconButton [
 SpkPresenter >> newLabel [
 
 	^ self instantiate: SpkLabelPresenter
-]
-
-{ #category : 'accessing' }
-SpkPresenter >> newLayout [
-
-	self subclassResponsibility
 ]
 
 { #category : 'widgets' }

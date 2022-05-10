@@ -95,12 +95,6 @@ SpkWindowWithColumns >> newColumn [
 	^ column
 ]
 
-{ #category : 'accessing' }
-SpkWindowWithColumns >> newLayout [
-
-	^ SpkAccordianLayout newHorizontal
-]
-
 { #category : 'removing' }
 SpkWindowWithColumns >> removeColumn: aColumn [
 

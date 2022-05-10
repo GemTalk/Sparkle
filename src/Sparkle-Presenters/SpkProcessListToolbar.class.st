@@ -27,14 +27,6 @@ SpkProcessListToolbar >> initializeRefreshButton [
 			width: 30 ]
 ]
 
-{ #category : 'accessing' }
-SpkProcessListToolbar >> newLayout [
-
-	^ SpkBoxLayout newHorizontal
-		  placeWidgetsAtCenter;
-		  yourself
-]
-
 { #category : 'actions' }
 SpkProcessListToolbar >> refresh [
 

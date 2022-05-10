@@ -139,16 +139,6 @@ SpkInspectorPane >> linkedPanes [
 	  , self panesLinkedToEvaluators
 ]
 
-{ #category : 'instance creation' }
-SpkInspectorPane >> newLayout [
-
-	"Splitters are wanted between the inspector pane and each evaluator."
-
-	^ SpkAccordianLayout newVertical
-		  color: Color veryVeryDarkGray;
-		  yourself
-]
-
 { #category : 'accessing' }
 SpkInspectorPane >> panesLinkedToEvaluators [
 

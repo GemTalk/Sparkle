@@ -173,18 +173,6 @@ SpkPane >> menuCommands [
 				yourself]
 ]
 
-{ #category : 'accessing' }
-SpkPane >> newLayout [
-
-	"Panes in general do not have splitters between their subparts. 
-	Panes that do have splittable subparts (such as those with evaluator subpanes) 
-	should override this method."
-
-	^ SpkBoxLayout newVertical
-		  color: Color veryVeryDarkGray;
-		  yourself
-]
-
 { #category : 'instance creation' }
 SpkPane >> newPaneForService: newService linkedTo: item [
 

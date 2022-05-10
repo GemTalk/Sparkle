@@ -110,9 +110,3 @@ SpkHeader >> menuHelp [
 
 	^ nil
 ]
-
-{ #category : 'accessing' }
-SpkHeader >> newLayout [
-
-	^ SpkBoxLayout newHorizontal
-]

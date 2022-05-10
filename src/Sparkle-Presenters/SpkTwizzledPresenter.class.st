@@ -94,12 +94,6 @@ SpkTwizzledPresenter >> labelString: aString [
 	self updateLabel
 ]
 
-{ #category : 'accessing' }
-SpkTwizzledPresenter >> newLayout [
-
-	^ SpkBoxLayout newVertical
-]
-
 { #category : 'private' }
 SpkTwizzledPresenter >> showSubPresenter [
 

@@ -24,9 +24,3 @@ SpkInspectorView >> name: anObject [
 
 	name := anObject
 ]
-
-{ #category : 'instance creation' }
-SpkInspectorView >> newLayout [
-	
-	^ SpkBoxLayout newVertical
-]

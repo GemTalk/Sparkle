@@ -69,12 +69,6 @@ SpkColumn >> isEmpty [
 ]
 
 { #category : 'accessing' }
-SpkColumn >> newLayout [
-
-	^ SpkAccordianLayout newVertical
-]
-
-{ #category : 'accessing' }
 SpkColumn >> nextRightColumn [
 
 	"Answer the column to the right of me in my explorer window.

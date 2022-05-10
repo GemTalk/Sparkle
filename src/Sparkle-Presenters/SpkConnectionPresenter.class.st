@@ -255,12 +255,6 @@ SpkConnectionPresenter >> newEvaluatorIn: aTaskspace [
 	aTaskspace newEvaluator
 ]
 
-{ #category : 'accessing' }
-SpkConnectionPresenter >> newLayout [
-
-	^ SpkBoxLayout newVertical
-]
-
 { #category : 'actions' }
 SpkConnectionPresenter >> remove [
 

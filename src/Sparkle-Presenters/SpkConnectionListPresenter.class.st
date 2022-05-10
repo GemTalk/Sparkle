@@ -294,12 +294,6 @@ SpkConnectionListPresenter >> newEvaluator [
 	selection newEvaluator
 ]
 
-{ #category : 'accessing' }
-SpkConnectionListPresenter >> newLayout [
-
-	^ SpkBoxLayout newVertical
-]
-
 { #category : 'actions' }
 SpkConnectionListPresenter >> newProcessList [
 

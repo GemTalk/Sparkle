@@ -174,7 +174,7 @@ SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 
 	| explorer column pane |
 	explorer := SpkExplorerWindow newApplication: self model: xService.
-	explorer openWithSpec.
+	explorer open.
 	column := explorer addColumn.
 	pane := column presenterForService: pService.
 	pane coordinate: (SpkPaneCoordinate forVector: #( 0.5 )).

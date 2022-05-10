@@ -9,7 +9,7 @@ SpMorphicSpkWindowAdapter >> buildWidget [
 
 	^ SpkWindow new
 		model: model;
-		isResizeable: self isResizeable;
+		isResizeable: self isResizable;
 		in: [ :this | self subscribeToAnnouncements: this ];
 		yourself
 ]

@@ -15,14 +15,15 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'specs' }
-SpkPresenter class >> defaultSpec [
+{ #category : 'layout' }
+SpkPresenter class >> defaultLayout [
 
-	"This method only here to quiet browser linting. Should never be sent to this class.
-	Sparkle layouts are created and managed dynamically.
+	"This method only here to quiet browser linting. Should never be sent to this class
+	or its subclasses.
+	All Sparkle layouts are created and managed dynamically.
 	See instance-side #layout."
 
-	self error: '#defaultSpec sent when not expected'
+	self error: '#defaultLayout sent when not expected'
 ]
 
 { #category : 'work in progress' }
@@ -45,6 +46,12 @@ SpkPresenter >> addSeparator [
 SpkPresenter >> column [
 
 	^ self pane column
+]
+
+{ #category : 'layout' }
+SpkPresenter >> defaultLayout [ 
+
+	^ self newLayout
 ]
 
 { #category : 'private-traversing' }
@@ -81,7 +88,9 @@ SpkPresenter >> layout [
 
 	"Cannot use the instvar 'layout' since it is defined in a superclass as an observable slot."
 
-	^ spkLayout ifNil: [ spkLayout := self newLayout ]
+	"^ spkLayout ifNil: [ spkLayout := self newLayout ]"
+	
+	^ super layout
 ]
 
 { #category : 'widgets' }

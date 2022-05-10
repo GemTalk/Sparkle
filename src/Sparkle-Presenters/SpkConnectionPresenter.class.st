@@ -67,10 +67,9 @@ SpkConnectionPresenter >> closeConnectionWindows [
 
 	| connection connectedPresenters |
 	connection := connectionProfile connection.
-	connectedPresenters := SpkTaskspace allInstances select: [ 
-		                       :presenter | 
+	connectedPresenters := SpkTaskspace allInstances select: [ :presenter | 
 		                       presenter connection == connection ].
-	connectedPresenters do: [ :presenter | presenter close ]
+	connectedPresenters do: [ :presenter | presenter closeAllWindows ]
 ]
 
 { #category : 'actions' }

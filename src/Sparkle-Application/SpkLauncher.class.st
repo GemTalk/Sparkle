@@ -26,5 +26,6 @@ SpkLauncher class >> menuCommandOn: aBuilder [
 
 { #category : 'running' }
 SpkLauncher >> start [
-	(self new: SpkConnectionListPresenter) openWithSpec
+
+	(self new: SpkConnectionListPresenter) open
 ]

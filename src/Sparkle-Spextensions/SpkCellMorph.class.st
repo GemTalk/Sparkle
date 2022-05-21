@@ -21,6 +21,12 @@ SpkCellMorph >> assureLayoutProperties [
 	^ props
 ]
 
+{ #category : 'accessing' }
+SpkCellMorph >> clipSubmorphs [
+
+	^ true
+]
+
 { #category : 'initialization' }
 SpkCellMorph >> initialize [
 

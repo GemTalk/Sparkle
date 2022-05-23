@@ -238,6 +238,24 @@ removeallclassmethods RsrResumableError
 
 doit
 (RsrError
+	subclass: 'RsrServiceRejected'
+	instVarNames: #( reason )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Base';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrServiceRejected
+removeallclassmethods RsrServiceRejected
+
+doit
+(RsrError
 	subclass: 'RsrSocketError'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -346,6 +364,24 @@ removeallclassmethods RsrUnknownSID
 
 doit
 (RsrError
+	subclass: 'RsrUnknownTemplate'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Base';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrUnknownTemplate
+removeallclassmethods RsrUnknownTemplate
+
+doit
+(RsrError
 	subclass: 'RsrUnsupportedObject'
 	instVarNames: #( object )
 	classVars: #(  )
@@ -418,24 +454,6 @@ true.
 
 removeallmethods RsrUnhandledException
 removeallclassmethods RsrUnhandledException
-
-doit
-(nil
-	subclass: 'RsrProtoObject'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'RemoteServiceReplication-GemStone';
-		immediateInvariant.
-true.
-%
-
-removeallmethods RsrProtoObject
-removeallclassmethods RsrProtoObject
 
 doit
 (Notification
@@ -699,6 +717,48 @@ removeallclassmethods RsrObject
 
 doit
 (RsrObject
+	subclass: 'RsrAbstractPolicy'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		comment: 'The Connection Policy
+
+This class defines the abstract interface for Policy. Policy provides a means of preventing Service replication. When a Service is created in a remote Connection and replicated locally, we first verify that the Policy allows the instantiation of the Service Template first. If the Policy does now allow a Service to be created, the incoming message send will be cancelled. RSR will report the message failure with a RsrPolicyRejectedService reason.
+
+Note:
+Subclasses of RsrReasonService are alway permitted as they are required by the framework.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrAbstractPolicy
+removeallclassmethods RsrAbstractPolicy
+
+doit
+(RsrAbstractPolicy
+	subclass: 'RsrDefaultPolicy'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrDefaultPolicy
+removeallclassmethods RsrDefaultPolicy
+
+doit
+(RsrObject
 	subclass: 'RsrAbstractReason'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -809,6 +869,61 @@ true.
 
 removeallmethods RsrReasonService
 removeallclassmethods RsrReasonService
+
+doit
+(RsrReasonService
+	subclass: 'RsrPolicyRejectedService'
+	instVarNames: #( sid templateName )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		comment: 'PolicyRejectedService signals to a caller that their peer''s Connection Policy does not permit the described object''s creation.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrPolicyRejectedService
+removeallclassmethods RsrPolicyRejectedService
+
+doit
+(RsrPolicyRejectedService
+	subclass: 'RsrPolicyRejectedServiceClient'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrPolicyRejectedServiceClient
+removeallclassmethods RsrPolicyRejectedServiceClient
+
+doit
+(RsrPolicyRejectedService
+	subclass: 'RsrPolicyRejectedServiceServer'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrPolicyRejectedServiceServer
+removeallclassmethods RsrPolicyRejectedServiceServer
 
 doit
 (RsrReasonService
@@ -1077,7 +1192,7 @@ removeallclassmethods SpkExplorerServiceServer
 doit
 (RsrService
 	subclass: 'SpkInspectorService'
-	instVarNames: #( oop classMembershipDescription selfDescription fields evaluators )
+	instVarNames: #( oop classMembershipDescription selfDescription views evaluators )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1119,6 +1234,114 @@ true.
 
 removeallmethods SpkInspectorServiceServer
 removeallclassmethods SpkInspectorServiceServer
+
+doit
+(RsrService
+	subclass: 'SpkInspectorViewService'
+	instVarNames: #( name )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorViewService
+removeallclassmethods SpkInspectorViewService
+
+doit
+(SpkInspectorViewService
+	subclass: 'SpkInspectorFieldListViewService'
+	instVarNames: #( fields )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorFieldListViewService
+removeallclassmethods SpkInspectorFieldListViewService
+
+doit
+(SpkInspectorFieldListViewService
+	subclass: 'SpkInspectorRawViewService'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorRawViewService
+removeallclassmethods SpkInspectorRawViewService
+
+doit
+(SpkInspectorRawViewService
+	subclass: 'SpkInspectorRawViewServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorRawViewServiceServer
+removeallclassmethods SpkInspectorRawViewServiceServer
+
+doit
+(SpkInspectorFieldListViewService
+	subclass: 'SpkInspectorSetViewService'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorSetViewService
+removeallclassmethods SpkInspectorSetViewService
+
+doit
+(SpkInspectorSetViewService
+	subclass: 'SpkInspectorSetViewServiceServer'
+	instVarNames: #( tool )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Services-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorSetViewServiceServer
+removeallclassmethods SpkInspectorSetViewServiceServer
 
 doit
 (RsrService
@@ -1313,7 +1536,7 @@ removeallclassmethods SpkInspectorFieldServiceServer
 doit
 (SpkLinkableSubService
 	subclass: 'SpkProcessService'
-	instVarNames: #( updatedServices name oop priority stack status )
+	instVarNames: #( updatedServices name oop priority stack status isVital )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1573,6 +1796,42 @@ true.
 
 removeallmethods SpkTaskspaceServiceServer
 removeallclassmethods SpkTaskspaceServiceServer
+
+doit
+(RsrObject
+	subclass: 'RsrAbstractTemplateResolver'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrAbstractTemplateResolver
+removeallclassmethods RsrAbstractTemplateResolver
+
+doit
+(RsrAbstractTemplateResolver
+	subclass: 'RsrTemplateResolver'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrTemplateResolver
+removeallclassmethods RsrTemplateResolver
 
 doit
 (RsrObject
@@ -1951,7 +2210,7 @@ removeallclassmethods RsrReleaseServices
 doit
 (RsrObject
 	subclass: 'RsrConnection'
-	instVarNames: #( channel transactionSpigot oidSpigot log registry pendingMessages specification announcer )
+	instVarNames: #( channel transactionSpigot oidSpigot log registry pendingMessages specification announcer templateResolver policy )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -3342,7 +3601,7 @@ removeallclassmethods RsrServiceEphemeron
 doit
 (RsrObject
 	subclass: 'RsrServiceSnapshot'
-	instVarNames: #( sid targetClassName slots )
+	instVarNames: #( sid templateName shouldCreateServer slots )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4060,7 +4319,7 @@ removeallclassmethods SpkInspectorFieldTool
 doit
 (SpkInspectionTool
 	subclass: 'SpkInspectorViewTool'
-	instVarNames: #( numberOfColumns fieldTools inspectedObject )
+	instVarNames: #( inspectedObject )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4077,6 +4336,24 @@ removeallclassmethods SpkInspectorViewTool
 
 doit
 (SpkInspectorViewTool
+	subclass: 'SpkInspectorFieldListViewTool'
+	instVarNames: #( numberOfColumns fieldTools )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorFieldListViewTool
+removeallclassmethods SpkInspectorFieldListViewTool
+
+doit
+(SpkInspectorFieldListViewTool
 	subclass: 'SpkInspectorRawViewTool'
 	instVarNames: #(  )
 	classVars: #(  )
@@ -4092,6 +4369,26 @@ true.
 
 removeallmethods SpkInspectorRawViewTool
 removeallclassmethods SpkInspectorRawViewTool
+
+doit
+(SpkInspectorFieldListViewTool
+	subclass: 'SpkInspectorSetViewTool'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'Sparkle-Tools-Common';
+		comment: 'Show only the print strings of the contents of a set or set-like things.
+If a Set subclass has "extra" instvars, these are not shown; use the raw view for that.';
+		immediateInvariant.
+true.
+%
+
+removeallmethods SpkInspectorSetViewTool
+removeallclassmethods SpkInspectorSetViewTool
 
 doit
 (SpkTool
@@ -4115,7 +4412,7 @@ removeallclassmethods SpkPaneTool
 doit
 (SpkPaneTool
 	subclass: 'SpkInspectorTool'
-	instVarNames: #( evaluatorTools views currentView inspectedObject )
+	instVarNames: #( evaluatorTools views inspectedObject )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -4800,6 +5097,37 @@ isResumable
 	^true
 %
 
+! Class implementation for 'RsrServiceRejected'
+
+!		Class methods for 'RsrServiceRejected'
+
+category: 'signaling'
+classmethod: RsrServiceRejected
+signalReason: aReason
+
+	^self new
+		reason: aReason;
+		signal
+%
+
+!		Instance methods for 'RsrServiceRejected'
+
+category: 'accessing'
+method: RsrServiceRejected
+reason
+	"The PolicyRejectedService reason"
+
+	^reason
+%
+
+category: 'accessing'
+method: RsrServiceRejected
+reason: aPolicyRejectedService
+	"The PolicyRejectedService reason"
+
+	reason := aPolicyRejectedService
+%
+
 ! Class implementation for 'RsrUnsupportedObject'
 
 !		Class methods for 'RsrUnsupportedObject'
@@ -5178,12 +5506,6 @@ method: SpkExecutionAnnouncement
 initialize
 	super initialize.
 	updatedServices := Set new.
-%
-
-category: 'accessing'
-method: SpkExecutionAnnouncement
-updatedServices
-	^updatedServices
 %
 
 category: 'accessing'
@@ -5811,6 +6133,32 @@ trace
 		cr
 %
 
+! Class implementation for 'RsrAbstractPolicy'
+
+!		Instance methods for 'RsrAbstractPolicy'
+
+category: 'testing'
+method: RsrAbstractPolicy
+permits: aTemplate
+	"Returning true to allow the framework to instantiate 
+	a Service received over the Connection."
+
+	self subclassResponsibility
+%
+
+! Class implementation for 'RsrDefaultPolicy'
+
+!		Instance methods for 'RsrDefaultPolicy'
+
+category: 'testing'
+method: RsrDefaultPolicy
+permits: aTemplate
+	"Returning true to allow the framework to instantiate 
+	a Service received over the Connection."
+
+	^true
+%
+
 ! Class implementation for 'RsrDecodingRaisedException'
 
 !		Class methods for 'RsrDecodingRaisedException'
@@ -5984,6 +6332,19 @@ isServer
 
 category: 'public-events'
 method: RsrService
+postRegistration
+	"This message is sent immediately after the Service
+	is registered with a Connection for the first time.
+
+	The framework views both Client and Server peers as
+	the same object. When a peer is created by the
+	framework, it will not receive #postRegistration."
+
+	^self
+%
+
+category: 'public-events'
+method: RsrService
 postUpdate
 	"#postUpdate is called just after the Service's shared variables are updated by the framework.
 	This method can be overridden to ensure internal consistency."
@@ -6024,6 +6385,15 @@ synchronize
 		ifFalse: [remoteSelf _synchronize wait]
 %
 
+category: 'public-accessing'
+method: RsrService
+template
+	"Returns the template associated with this Service.
+	This method should NOT be redefined."
+
+	^self _template
+%
+
 category: 'private-accessing'
 method: RsrService
 _connection
@@ -6057,6 +6427,74 @@ _synchronize
 	"Return self to synchronize with the remote peer"
 
 	^self
+%
+
+category: 'private-accessing'
+method: RsrService
+_template
+	"Returns the template associated with this Service. General users should use #template."
+
+	^_connection templateResolver templateFor: self
+%
+
+! Class implementation for 'RsrPolicyRejectedService'
+
+!		Class methods for 'RsrPolicyRejectedService'
+
+category: 'instance creation'
+classmethod: RsrPolicyRejectedService
+sid: aSID
+templateName: aTemplateName
+	"Create an instance of the PolicyRejectedService reason.
+	The client is used here because once we send it, we are done with it.
+	The client will GC and the server will later GC. We don't care to have
+	a server hanging around if we don't need it."
+
+	^self clientClass new
+		sid: aSID;
+		templateName: aTemplateName;
+		yourself
+%
+
+category: 'accessing'
+classmethod: RsrPolicyRejectedService
+templateClassName
+
+	^#RsrPolicyRejectedService
+%
+
+!		Instance methods for 'RsrPolicyRejectedService'
+
+category: 'accessing'
+method: RsrPolicyRejectedService
+sid
+	"Service ID"
+
+	^sid
+%
+
+category: 'accessing'
+method: RsrPolicyRejectedService
+sid: aSID
+	"Service ID"
+
+	sid := aSID
+%
+
+category: 'accessing'
+method: RsrPolicyRejectedService
+templateName
+	"The Template's name"
+
+	^templateName
+%
+
+category: 'accessing'
+method: RsrPolicyRejectedService
+templateName: aTemplateName
+	"The Template's name"
+
+	templateName := aTemplateName
 %
 
 ! Class implementation for 'RsrRemoteException'
@@ -6368,12 +6806,11 @@ initializeFromTool: aTool
 	self refreshFromTool
 %
 
-category: 'other'
+category: 'announcements'
 method: SpkDebuggerFrameServiceServer
 receiveExecutionAnnouncement: announcement
 
-	self refreshFromTool ifTrue: [ 
-		announcement updatedServices add: self ]
+	self refreshFromTool ifTrue: [ announcement addUpdatedService: self ]
 %
 
 category: 'initialization'
@@ -6451,7 +6888,7 @@ refreshLocalVariablesFromTool
 	^ changed
 %
 
-category: 'other'
+category: 'actions'
 method: SpkDebuggerFrameServiceServer
 restart
 	"Sent from client"
@@ -6461,7 +6898,7 @@ restart
 	^ self
 %
 
-category: 'other'
+category: 'actions'
 method: SpkDebuggerFrameServiceServer
 stepInto
 	"Sent from client"
@@ -6472,7 +6909,7 @@ stepInto
 	^ self
 %
 
-category: 'other'
+category: 'actions'
 method: SpkDebuggerFrameServiceServer
 stepOver
 	"Sent from client"
@@ -6483,7 +6920,7 @@ stepOver
 	^ self
 %
 
-category: 'other'
+category: 'actions'
 method: SpkDebuggerFrameServiceServer
 stepThrough
 	"Sent from client"
@@ -6494,7 +6931,7 @@ stepThrough
 	^ self
 %
 
-category: 'other'
+category: 'accessing'
 method: SpkDebuggerFrameServiceServer
 tool
 	^ tool
@@ -6587,7 +7024,7 @@ updatedServices: anObject
 
 !		Instance methods for 'SpkDebuggerServiceServer'
 
-category: 'other'
+category: 'initialization'
 method: SpkDebuggerServiceServer
 initializeFromTool: aTool
 
@@ -6599,7 +7036,7 @@ initializeFromTool: aTool
 	self refreshFromTool
 %
 
-category: 'other'
+category: 'actions'
 method: SpkDebuggerServiceServer
 proceed
 	"Sent from client"
@@ -6612,15 +7049,14 @@ proceed
 		ifFalse: [ SpkServiceFactory serviceForTool: resultTool ]
 %
 
-category: 'other'
+category: 'announcements'
 method: SpkDebuggerServiceServer
 receiveExecutionAnnouncement: announcement
 
-	self refreshFromTool ifTrue: [ 
-		announcement updatedServices add: self ]
+	self refreshFromTool ifTrue: [ announcement addUpdatedService: self ]
 %
 
-category: 'other'
+category: 'refreshing'
 method: SpkDebuggerServiceServer
 refreshExistingFrames
 	| numberOfValidFrames frameTools |
@@ -6633,7 +7069,7 @@ refreshExistingFrames
 	^ numberOfValidFrames
 %
 
-category: 'other'
+category: 'refreshing'
 method: SpkDebuggerServiceServer
 refreshFramesFromTool
 	| changed numberOfValidFrames newStackDepth frameTools newFrames |
@@ -6665,7 +7101,7 @@ refreshFramesFromTool
 	^ changed
 %
 
-category: 'other'
+category: 'refreshing'
 method: SpkDebuggerServiceServer
 refreshFromTool
 	tool replacementTool == tool
@@ -6676,7 +7112,7 @@ refreshFromTool
 	^ true
 %
 
-category: 'other'
+category: 'refreshing'
 method: SpkDebuggerServiceServer
 refreshTopLevelInfoFromTool
 	| changed oldValue |
@@ -6701,7 +7137,7 @@ refreshTopLevelInfoFromTool
 	^ changed
 %
 
-category: 'other'
+category: 'actions'
 method: SpkDebuggerServiceServer
 terminate
 	"Sent from client"
@@ -6833,24 +7269,12 @@ evaluators
 	^ evaluators
 %
 
-category: 'accessing'
-method: SpkInspectorService
-fields
-	^ fields
-%
-
-category: 'accessing'
-method: SpkInspectorService
-fields: anObject
-	fields := anObject
-%
-
 category: 'initialization'
 method: SpkInspectorService
 initialize
 
 	super initialize.
-	fields := OrderedCollection new.
+	views := OrderedCollection new.
 	evaluators := OrderedCollection new
 %
 
@@ -6876,6 +7300,13 @@ category: 'accessing'
 method: SpkInspectorService
 selfDescription: anObject
 	selfDescription := anObject
+%
+
+category: 'accessing'
+method: SpkInspectorService
+views
+
+	^ views
 %
 
 ! Class implementation for 'SpkInspectorServiceServer'
@@ -6908,48 +7339,14 @@ initializeFromTool: aTool
 		initializeEvaluatorsFromTool
 %
 
-category: 'accessing'
+category: 'announcements'
 method: SpkInspectorServiceServer
 receiveExecutionAnnouncement: announcement
 
-	self refreshFromTool ifTrue: [ 
-		announcement updatedServices add: self ]
+	self refreshFromTool ifTrue: [ announcement addUpdatedService: self ]
 %
 
-category: 'initialization'
-method: SpkInspectorServiceServer
-refreshFieldsFromTool
-
-	| changed fieldTools |
-	changed := false.
-	fields size < tool fieldTools size ifTrue: [ 
-		changed := true.
-		fields size + 1 to: tool fieldTools size do: [ :i | 
-			fields add: (SpkInspectorFieldServiceServer new
-					 parentService: self;
-					 tool: (tool fieldTools at: i);
-					 yourself) ] ].
-	fields size > tool fieldTools size ifTrue: [ 
-		changed := true.
-		fields size - tool fieldTools size timesRepeat: [ fields removeLast ] ].
-	fieldTools := tool fieldTools.
-	1 to: fieldTools size do: [ :i | 
-		| fieldTool field newField |
-		fieldTool := fieldTools at: i.
-		field := fields at: i.
-		fieldTool == field tool ifFalse: [ 
-			changed := true.
-			newField := SpkInspectorFieldServiceServer new
-				            parentService: self;
-				            tool: fieldTool;
-				            yourself.
-			fields at: i put: newField.
-			field := newField ].
-		changed := changed | field refreshFromTool ].
-	^ changed
-%
-
-category: 'initialization'
+category: 'refreshing'
 method: SpkInspectorServiceServer
 refreshFromTool
 
@@ -6962,8 +7359,28 @@ refreshFromTool
 	oop := tool oop.
 	classMembershipDescription := tool classMembershipDescription.
 	selfDescription := tool selfDescription.
-	changed := changed | self refreshFieldsFromTool.
+	changed := changed | self refreshViews.
 	^ changed
+%
+
+category: 'refreshing'
+method: SpkInspectorServiceServer
+refreshViews
+
+	| changed viewServices viewTools |
+	changed := false.
+	viewServices := views.
+	viewTools := tool views.
+	views := viewTools collect: [ :viewTool | 
+		         viewServices
+			         detect: [ :service | 
+				         service tool == viewTool
+					         ifTrue: [ 
+						         changed := changed | service refreshFromTool.
+						         true ]
+					         ifFalse: [ false ] ]
+			         ifNone: [ SpkServiceFactory serviceForTool: viewTool ] ].
+	^ changed or: [ viewServices ~= views ]
 %
 
 category: 'accessing'
@@ -6971,6 +7388,263 @@ method: SpkInspectorServiceServer
 tool
 
 	^ tool
+%
+
+! Class implementation for 'SpkInspectorViewService'
+
+!		Instance methods for 'SpkInspectorViewService'
+
+category: 'accessing'
+method: SpkInspectorViewService
+name
+
+	^ name
+%
+
+category: 'accessing'
+method: SpkInspectorViewService
+name: anObject
+
+	name := anObject
+%
+
+! Class implementation for 'SpkInspectorFieldListViewService'
+
+!		Class methods for 'SpkInspectorFieldListViewService'
+
+category: 'accessing'
+classmethod: SpkInspectorFieldListViewService
+templateClassName
+
+	self subclassResponsibility
+%
+
+!		Instance methods for 'SpkInspectorFieldListViewService'
+
+category: 'accessing'
+method: SpkInspectorFieldListViewService
+fields
+
+	^ fields
+%
+
+category: 'accessing'
+method: SpkInspectorFieldListViewService
+fields: anObject
+
+	fields := anObject
+%
+
+category: 'initialization'
+method: SpkInspectorFieldListViewService
+initialize
+
+	super initialize.
+	fields := OrderedCollection new
+%
+
+category: 'private'
+method: SpkInspectorFieldListViewService
+newFieldServiceFor: aFieldTool
+	^ SpkInspectorFieldServiceServer new
+		parentService: self;
+		tool: aFieldTool;
+		yourself
+%
+
+category: 'accessing'
+method: SpkInspectorFieldListViewService
+numberOfColumns
+
+	self subclassResponsibility
+%
+
+! Class implementation for 'SpkInspectorRawViewService'
+
+!		Class methods for 'SpkInspectorRawViewService'
+
+category: 'accessing'
+classmethod: SpkInspectorRawViewService
+templateClassName
+
+	^ #SpkInspectorRawViewService
+%
+
+!		Instance methods for 'SpkInspectorRawViewService'
+
+category: 'accessing'
+method: SpkInspectorRawViewService
+numberOfColumns
+
+	^ 2
+%
+
+! Class implementation for 'SpkInspectorRawViewServiceServer'
+
+!		Instance methods for 'SpkInspectorRawViewServiceServer'
+
+category: 'initialization'
+method: SpkInspectorRawViewServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'refreshing'
+method: SpkInspectorRawViewServiceServer
+refreshFieldsFromTool
+	| changed fieldTools |
+	changed := false.
+	fields size < tool fieldTools size
+		ifTrue: [ 
+			changed := true.
+			fields size + 1 to: tool fieldTools size do: [ :i | 
+				fields
+					add:
+						(SpkInspectorFieldServiceServer new
+							parentService: self;
+							tool: (tool fieldTools at: i);
+							yourself) ] ].
+	fields size > tool fieldTools size
+		ifTrue: [ 
+			changed := true.
+			fields size - tool fieldTools size timesRepeat: [ fields removeLast ] ].
+	fieldTools := tool fieldTools.
+	1 to: fieldTools size do: [ :i | 
+		| fieldTool field newField |
+		fieldTool := fieldTools at: i.
+		field := fields at: i.
+		fieldTool == field tool
+			ifFalse: [ 
+				changed := true.
+				newField := self newFieldServiceFor: fieldTool.
+				fields at: i put: newField.
+				field := newField ].
+		changed := changed | field refreshFromTool ].
+	^ changed
+%
+
+category: 'refreshing'
+method: SpkInspectorRawViewServiceServer
+refreshFromTool
+
+	| changed |
+	changed := false.
+	"Name will likely be nil at the first refresh."
+	name = tool name ifFalse: [ 
+		name := tool name.
+		changed := true ].
+	changed := changed | self refreshFieldsFromTool.
+	^ changed
+%
+
+category: 'accessing'
+method: SpkInspectorRawViewServiceServer
+tool
+
+	^tool
+%
+
+category: 'accessing'
+method: SpkInspectorRawViewServiceServer
+tool: anInspectorViewTool
+
+	tool := anInspectorViewTool
+%
+
+! Class implementation for 'SpkInspectorSetViewService'
+
+!		Class methods for 'SpkInspectorSetViewService'
+
+category: 'accessing'
+classmethod: SpkInspectorSetViewService
+templateClassName
+
+	^ #SpkInspectorSetViewService
+%
+
+!		Instance methods for 'SpkInspectorSetViewService'
+
+category: 'accessing'
+method: SpkInspectorSetViewService
+numberOfColumns
+
+	^ 1
+%
+
+! Class implementation for 'SpkInspectorSetViewServiceServer'
+
+!		Instance methods for 'SpkInspectorSetViewServiceServer'
+
+category: 'initialization'
+method: SpkInspectorSetViewServiceServer
+initializeFromTool: aTool
+
+	tool := aTool.
+	self refreshFromTool
+%
+
+category: 'refreshing'
+method: SpkInspectorSetViewServiceServer
+refreshFieldsFromTool
+	| changed fieldServicesByTool newFieldSet sortedFields |
+	changed := false.	
+
+	" Index existing field services by their tool."
+	fieldServicesByTool := IdentityDictionary new: fields size.
+	fields
+		do: [ :fieldService | fieldServicesByTool at: fieldService tool put: fieldService ].
+
+	newFieldSet := IdentitySet new: tool fieldTools size.
+	tool fieldTools
+		do: [ :fieldTool | 
+			| fieldService |
+			fieldService := fieldServicesByTool
+				at: fieldTool
+				ifAbsent: [ 
+					changed := true.
+					self newFieldServiceFor: fieldTool ].
+			changed := changed | fieldService refreshFromTool.
+			newFieldSet add: fieldService ].
+	fields size ~= newFieldSet size
+		ifTrue: [ changed := true ].
+	sortedFields := newFieldSet
+		asSortedCollection: [ :a :b | (a columnAt: 1) < (b columnAt: 1) ].
+	fields := sortedFields asOrderedCollection.
+	^ changed
+%
+
+category: 'refreshing'
+method: SpkInspectorSetViewServiceServer
+refreshFromTool
+
+	| changed |
+
+	"This tool caches its field tools, must refresh it before we can request."
+	tool refresh.
+	changed := false.
+
+	"Name will likely be nil at the first refresh."
+	name = tool name ifFalse: [ 
+		name := tool name.
+		changed := true ].
+	changed := changed | self refreshFieldsFromTool.
+	^ changed
+%
+
+category: 'accessing'
+method: SpkInspectorSetViewServiceServer
+tool
+
+	^tool
+%
+
+category: 'accessing'
+method: SpkInspectorSetViewServiceServer
+tool: anInspectorViewTool
+
+	tool := anInspectorViewTool
 %
 
 ! Class implementation for 'SpkLinkableSubService'
@@ -7353,6 +8027,13 @@ templateClassName
 
 category: 'accessing'
 method: SpkProcessService
+isVital
+
+	^ isVital
+%
+
+category: 'accessing'
+method: SpkProcessService
 name
 
 	^name
@@ -7424,7 +8105,17 @@ initializeFromTool: aTool
 	self refreshFromTool
 %
 
-category: 'initialization'
+category: 'refreshing'
+method: SpkProcessServiceServer
+postRegistration
+	"I will typically have been added to the services needing update collection
+	before this message is sent."
+
+	super postRegistration.
+	self refreshIsVital
+%
+
+category: 'refreshing'
 method: SpkProcessServiceServer
 refreshFromTool
 
@@ -7451,7 +8142,23 @@ refreshFromTool
 	changed := changed | (status ~= newValue).
 	status := newValue.
 
+	changed := changed | self refreshIsVital.
+
 	^changed
+%
+
+category: 'refreshing'
+method: SpkProcessServiceServer
+refreshIsVital
+	| newValue changed |
+	self connection
+		ifNil: [ 
+			isVital := false.
+			^ true	"If new, always need refreshing." ].
+	newValue := self connection vitalProcesses includes: tool process.
+	changed := isVital ~= newValue.
+	isVital := newValue.
+	^ changed
 %
 
 ! Class implementation for 'SpkProcessListService'
@@ -7530,11 +8237,12 @@ initializeFromTool: aProcessListTool
 	self refreshFromTool.
 %
 
-category: 'processing announcements'
+category: 'announcements'
 method: SpkProcessListServiceServer
 receiveExecutionAnnouncement: anAnnouncement
 
-	self refreshFromTool ifTrue: [anAnnouncement updatedServices add: self]
+	self refreshFromTool ifTrue: [ 
+		anAnnouncement addUpdatedService: self ]
 %
 
 category: 'initialization'
@@ -7562,7 +8270,7 @@ refreshFromTool
 	^changed
 %
 
-category: 'updating'
+category: 'actions'
 method: SpkProcessListServiceServer
 synchronizeTaskspace
 	"Sent from client"
@@ -7805,7 +8513,7 @@ method: SpkTaskspaceServiceServer
 newEvaluatorExplorer
 	| xTool pTool xService pService |
 	xTool := tool newExplorerTool.
-	pTool := SpkInspectorTool newInExplorer: xTool.
+	pTool := xTool newInspectorToolOn: nil.
 	pTool addEvaluator.
 
 	xService := SpkServiceFactory serviceForTool: xTool.
@@ -7889,6 +8597,64 @@ method: SpkTaskspaceServiceServer
 tool: aTaskspaceTool
 
 	tool := aTaskspaceTool
+%
+
+! Class implementation for 'RsrAbstractTemplateResolver'
+
+!		Instance methods for 'RsrAbstractTemplateResolver'
+
+category: 'resolving'
+method: RsrAbstractTemplateResolver
+templateFor: aService
+	"Resolve the template associated with the provided Service."
+
+	self subclassResponsibility
+%
+
+category: 'resolving'
+method: RsrAbstractTemplateResolver
+templateNamed: aTemplateName
+	"Resolve a template with the provided name."
+
+	^self
+		templateNamed: aTemplateName
+		ifAbsent: [RsrUnknownTemplate signal: aTemplateName]
+%
+
+category: 'resolving'
+method: RsrAbstractTemplateResolver
+templateNamed: aTemplateName
+ifAbsent: aBlock
+	"Resolve a template with the provided name."
+
+	self flag: 'This should not send #templateClass. This can go away once ServiceSnapshot wire encoding is updated.'.
+	^(RsrClassResolver classNamed: aTemplateName ifAbsent: aBlock) templateClass
+%
+
+! Class implementation for 'RsrTemplateResolver'
+
+!		Instance methods for 'RsrTemplateResolver'
+
+category: 'resolving'
+method: RsrTemplateResolver
+templateFor: aService
+	"Resolve the template associated with the provided Service."
+
+	| template |
+	template := aService class.
+	[template isTemplateClass]
+		whileFalse: [template := template superclass].
+	^template
+%
+
+category: 'resolving'
+method: RsrTemplateResolver
+templateNamed: aTemplateName
+ifAbsent: aBlock
+	"Resolve a template with the provided name."
+
+	self flag: 'This should not send #templateClass. This can go away once ServiceSnapshot wire encoding is updated.'.
+	^(RsrClassResolver classNamed: aTemplateName ifAbsent: [^aBlock value]) templateClass
 %
 
 ! Class implementation for 'RsrAsyncMournHandler'
@@ -8105,6 +8871,14 @@ stream: aStream
 
 !		Instance methods for 'RsrChannel'
 
+category: 'accessing'
+method: RsrChannel
+addCommunicationProcessesTo: aSet
+	"Add all processes used for Communication to the provided set."
+	
+	self subclassResponsibility
+%
+
 category: 'lifecycle'
 method: RsrChannel
 close
@@ -8189,6 +8963,15 @@ outStream: outStream
 %
 
 !		Instance methods for 'RsrBinaryStreamChannel'
+
+category: 'accessing'
+method: RsrBinaryStreamChannel
+addCommunicationProcessesTo: aSet
+	"Add all processes used for Communication to the provided set."
+
+	sink addCommunicationProcessesTo: aSet.
+	source addCommunicationProcessesTo: aSet
+%
 
 category: 'lifecycle'
 method: RsrBinaryStreamChannel
@@ -8306,6 +9089,14 @@ outQueue: outQueue
 %
 
 !		Instance methods for 'RsrInMemoryChannel'
+
+category: 'accessing'
+method: RsrInMemoryChannel
+addCommunicationProcessesTo: aSet
+	"Add all processes used for Communication to the provided set."
+	
+	aSet add: drainProcess 
+%
 
 category: 'lifecycle'
 method: RsrInMemoryChannel
@@ -9221,7 +10012,9 @@ executeFor: aConnection
 	resolver := RsrRemotePromiseResolver for: self over: aConnection.
 	"Must keep a strong reference to each service until the roots are referenced."
 	[[RsrProcessModel configureUnhandleExceptionProtection.
-	servicesStrongly := self reifyAllIn: aConnection.
+	[servicesStrongly := self reifyAllIn: aConnection]
+		on: RsrServiceRejected
+		do: [:ex | resolver break: ex reason. ^self].
 	receiver := self receiverReference resolve: aConnection.
 	selector := self selectorReference resolve: aConnection.
 	arguments := self argumentReferences collect: [:each | each resolve: aConnection].
@@ -9480,6 +10273,22 @@ open
 
 category: 'public-accessing'
 method: RsrConnection
+policy
+	"Policy which determines if we can reify a received Service."
+
+	^policy
+%
+
+category: 'public-accessing'
+method: RsrConnection
+policy: aPolicy
+	"Policy which determines if we can reify a received Service."
+
+	policy := aPolicy
+%
+
+category: 'public-accessing'
+method: RsrConnection
 specification
 	"Returns the Specification used to create this Connection.
 	If the Connection was not create using a Specification, returns nil."
@@ -9493,6 +10302,37 @@ specification: aConnectionSpecification
 	"Store the Specification used to the create this Connection."
 
 	specification := aConnectionSpecification
+%
+
+category: 'public-accessing'
+method: RsrConnection
+templateResolver
+	"Returns the TemplateResolver used to lookup a template by name or Service."
+
+	^templateResolver
+%
+
+category: 'public-accessing'
+method: RsrConnection
+templateResolver: aTemplateResolver
+	"Sets the TemplateResolver, used to lookup a template by name or Service,
+	to a custom version."
+
+	templateResolver := aTemplateResolver
+%
+
+category: 'public-accessing'
+method: RsrConnection
+vitalProcesses
+	"Return the set of processes required in order for this RSR connection to function.
+	This may be a subset of the processes used by RSR.
+	For instance, in GemStone, this need not return the ephemeron mourning
+	process as this isn't critical to the basic functioning of RSR."
+
+	| processes |
+	processes := IdentitySet new.
+	channel addCommunicationProcessesTo: processes.
+	^processes
 %
 
 category: 'public-waiting'
@@ -12213,9 +13053,10 @@ category: 'variable utilites'
 classmethod: RsrServiceSnapshot
 reflectedVariablesFor: aService
 
-	| currentClass variables |
+	| currentClass variables template |
 	variables := OrderedCollection new.
-	currentClass := aService class templateClass.
+	template := aService _template.
+	currentClass := template.
 	[currentClass == RsrService]
 		whileFalse:
 			[currentClass instVarNames reverseDo: [:each | variables addFirst: each].
@@ -12239,28 +13080,39 @@ category: 'accessing'
 method: RsrServiceSnapshot
 createInstanceRegisteredIn: aConnection
 
-	| instance |
+	| instance template |
+	templateName isNil
+		ifTrue:
+			[self flag: 'This should go away once we cleanup the on-the-wire encoding.'.
+			RsrUnknownClass signal].
+	template := aConnection templateResolver templateNamed: self templateName.
+	((aConnection policy permits: template) or: [template inheritsFrom: RsrReasonService])
+		ifFalse: [RsrServiceRejected signalReason: (RsrPolicyRejectedService sid: sid templateName: templateName)].
 	instance := self shouldCreateServer
-		ifTrue: [self templateClass serverClass basicNew]
-		ifFalse: [self templateClass clientClass basicNew].
+		ifTrue: [template serverClass basicNew]
+		ifFalse: [template clientClass basicNew].
 	aConnection
 		_register: instance
 		as: self sid.
 	^instance
 %
 
-category: 'encoding/decoding'
+category: 'other'
 method: RsrServiceSnapshot
 decode: aStream
 using: aDecoder
 
-	| species instVarCount |
+	| species instVarCount targetClassName resolver template |
 	species := aDecoder decodeControlWord: aStream.
 	sid := aDecoder decodeControlWord: aStream.
 	instVarCount := aDecoder decodeControlWord: aStream.
 	targetClassName := (aDecoder decodeReference: aStream) resolve: nil.
 	slots := OrderedCollection new: instVarCount.
-	instVarCount timesRepeat: [slots add: (aDecoder decodeReference: aStream)]
+	instVarCount timesRepeat: [slots add: (aDecoder decodeReference: aStream)].
+	resolver := RsrTemplateResolver new.
+	template := resolver templateNamed: targetClassName ifAbsent: [^nil].
+	templateName := template name.
+	shouldCreateServer := template serverClassName = targetClassName.
 %
 
 category: 'encoding/decoding'
@@ -12301,7 +13153,6 @@ method: RsrServiceSnapshot
 reifyIn: aConnection
 
 	| instance referenceStream |
-	"Instance should already be registered"
 	instance := self instanceIn: aConnection.
 	(self class reflectedVariablesFor: instance) size = slots size 
 		ifFalse: [ self error: 'Incorrectly encoded instance detected' ].
@@ -12317,7 +13168,7 @@ category: 'testing'
 method: RsrServiceSnapshot
 shouldCreateServer
 
-	^self targetServiceType == #server
+	^shouldCreateServer
 %
 
 category: 'accessing'
@@ -12348,14 +13199,16 @@ slots: anArrayOfReferences
 	slots := anArrayOfReferences
 %
 
-category: 'snapshotting'
+category: 'other'
 method: RsrServiceSnapshot
 snapshot: aService
 
+	| template |
+	template := aService _template.
 	sid := aService _id.
-	targetClassName := aService class isClientClass
-		ifTrue: [aService class serverClassName]
-		ifFalse: [aService class clientClassName].
+	templateName := template name.
+	"If I am snapshotting a Client, the Snapshot represents a Server."
+	shouldCreateServer := aService class isClientClass.
 	slots := OrderedCollection new.
 	RsrServiceSnapshot
 		reflectedVariablesFor: aService
@@ -12371,16 +13224,13 @@ snapshotIdentifier
 
 category: 'other'
 method: RsrServiceSnapshot
-targetClass
-
-	^RsrClassResolver classNamed: self targetClassName
-%
-
-category: 'other'
-method: RsrServiceSnapshot
 targetClassName
 
-	^targetClassName
+	| template |
+	template := RsrTemplateResolver new templateNamed: self templateName.
+	^self shouldCreateServer
+		ifTrue: [template serverClassName]
+		ifFalse: [template clientClassName]
 %
 
 category: 'other'
@@ -12390,20 +13240,11 @@ targetClassNameReference
 	^RsrSymbolReference from: self targetClassName
 %
 
-category: 'accessing'
+category: 'other'
 method: RsrServiceSnapshot
-targetServiceType
+templateName
 
-	^self targetClass isClientClass
-		ifTrue: [#client]
-		ifFalse: [#server]
-%
-
-category: 'accessing'
-method: RsrServiceSnapshot
-templateClass
-
-	^self targetClass templateClass
+	^templateName
 %
 
 ! Class implementation for 'RsrSnapshotAnalysis'
@@ -12997,6 +13838,14 @@ stoppedState
 
 category: 'accessing'
 method: RsrCommandSink
+addCommunicationProcessesTo: aSet
+	"Add all processes used for Communication to the provided set."
+	
+	aSet add: process
+%
+
+category: 'accessing'
+method: RsrCommandSink
 encoder
 
 	^RsrCommandEncoder new
@@ -13091,6 +13940,14 @@ writeCommand: aCommand
 ! Class implementation for 'RsrCommandSource'
 
 !		Instance methods for 'RsrCommandSource'
+
+category: 'accessing'
+method: RsrCommandSource
+addCommunicationProcessesTo: aSet
+	"Add all processes used for Communication to the provided set."
+	
+	aSet add: process
+%
 
 category: 'accessing'
 method: RsrCommandSource
@@ -14091,6 +14948,12 @@ announceDebug
 
 category: 'accessing'
 method: SpkProcessManager
+announceNextDebug
+	^ announceNextDebug
+%
+
+category: 'accessing'
+method: SpkProcessManager
 announceNextDebug: aBoolean
 	announceNextDebug := aBoolean
 %
@@ -14516,7 +15379,8 @@ announcer
 category: 'comparing'
 method: SpkTool
 hash
-	^ taskspaceTool identityHash
+
+	^ taskspaceTool identityHash bitXor: self species hash
 %
 
 category: 'initialization'
@@ -14824,14 +15688,6 @@ category: 'accessing'
 method: SpkDebuggerFrameTool
 process: aProcess
 	process := aProcess
-%
-
-category: 'other'
-method: SpkDebuggerFrameTool
-receiveExecutionAnnouncement: anAnnouncement
-	"I should have already been updated by the time I receive this announcement."
-
-	 self announce: anAnnouncement
 %
 
 category: 'accessing'
@@ -15253,7 +16109,7 @@ processPriority
 	^ process priority
 %
 
-category: 'announcement responding'
+category: 'announcements'
 method: SpkDebuggerTool
 receiveExecutionAnnouncement: anAnnouncement
 	"Execution has happened; if we are still debugging update my
@@ -15264,7 +16120,7 @@ receiveExecutionAnnouncement: anAnnouncement
 		ifTrue: [ 
 			self refreshFromProcess.
 			self nonGlueFrames
-				do: [ :frame | frame receiveExecutionAnnouncement: anAnnouncement ] ].
+				do: [ :frame | frame announce: anAnnouncement ] ].
 	self announce: anAnnouncement.
 	self proceedIfInGlueAnnouncing: anAnnouncement
 %
@@ -15635,6 +16491,24 @@ _columns
 
 !		Class methods for 'SpkInspectorViewTool'
 
+category: 'testing'
+classmethod: SpkInspectorViewTool
+canView: anObject
+	"Answer true if my instances can provide a meaningful view of the given object."
+
+	self subclassResponsibility
+%
+
+category: 'private'
+classmethod: SpkInspectorViewTool
+concreteSubclasses
+	"GemStone does not yet have a performant way for a class to know
+	its subclasses, so we must list them here."
+
+	^ {SpkInspectorRawViewTool.
+	SpkInspectorSetViewTool}
+%
+
 category: 'instance creation'
 classmethod: SpkInspectorViewTool
 on: anObject
@@ -15644,23 +16518,22 @@ on: anObject
 		  yourself
 %
 
+category: 'instance creation'
+classmethod: SpkInspectorViewTool
+viewsOn: anObject
+	"Answer the view tools appropriate for the given object,
+	ordered by each's idea of its priority relative to that object."
+
+	| viewClasses views sortedViews |
+	viewClasses := self concreteSubclasses
+		select: [ :each | each canView: anObject ].
+	views := viewClasses collect: [ :viewClass | viewClass on: anObject ].
+	sortedViews := SortedCollection sortBlock: [ :a :b | a priority > b priority ].
+	sortedViews addAll: views.
+	^ sortedViews
+%
+
 !		Instance methods for 'SpkInspectorViewTool'
-
-category: 'private'
-method: SpkInspectorViewTool
-classOfInspectedObject
-
-	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
-
-	^ SpkReflection classOf: inspectedObject
-%
-
-category: 'accessing'
-method: SpkInspectorViewTool
-fieldTools
-
-	^ fieldTools
-%
 
 category: 'accessing'
 method: SpkInspectorViewTool
@@ -15669,8 +16542,51 @@ inspectedObject: anObject
 	inspectedObject := anObject
 %
 
-category: 'as yet unclassified'
+category: 'accessing'
 method: SpkInspectorViewTool
+priority
+	"Answer my relative usefulness, as a Float, for viewing my inspectedObject."
+
+	self subclassResponsibility
+%
+
+category: 'refreshing'
+method: SpkInspectorViewTool
+refresh
+
+	"Update myself from my inspected object."
+
+	self subclassResponsibility
+%
+
+! Class implementation for 'SpkInspectorFieldListViewTool'
+
+!		Instance methods for 'SpkInspectorFieldListViewTool'
+
+category: 'private'
+method: SpkInspectorFieldListViewTool
+classOfInspectedObject
+
+	"The class is guaranteed to be a Behavior, so we can send it messages that Behavior understands"
+
+	^ SpkReflection classOf: inspectedObject
+%
+
+category: 'accessing'
+method: SpkInspectorFieldListViewTool
+fieldTools
+
+	^ fieldTools
+%
+
+category: 'accessing'
+method: SpkInspectorFieldListViewTool
+name
+	self subclassResponsibility
+%
+
+category: 'private'
+method: SpkInspectorFieldListViewTool
 newFieldTool
 
 	^ SpkInspectorFieldTool new
@@ -15679,50 +16595,36 @@ newFieldTool
 		  yourself
 %
 
-category: 'as yet unclassified'
-method: SpkInspectorViewTool
+category: 'private'
+method: SpkInspectorFieldListViewTool
+newFieldToolFor: referencedObject
+	^ self newFieldTool
+		referencedObject: referencedObject;
+		yourself
+%
+
+category: 'accessing'
+method: SpkInspectorFieldListViewTool
 numberOfFields
 
 	self subclassResponsibility
 %
 
-category: 'as yet unclassified'
-method: SpkInspectorViewTool
-refreshFieldToolContents
-
-	self subclassResponsibility
-%
-
-category: 'accessing'
-method: SpkInspectorViewTool
-refreshFieldToolQuantity
-	| numberOfFieldsInObject numberOfFieldsInView |
-	numberOfFieldsInObject := self numberOfFields.
-	numberOfFieldsInView := fieldTools size.
-	numberOfFieldsInObject > numberOfFieldsInView
-		ifTrue: [ 
-			numberOfFieldsInObject - numberOfFieldsInView
-				timesRepeat: [ fieldTools add: self newFieldTool ] ].
-	numberOfFieldsInObject < numberOfFieldsInView
-		ifTrue: [ 
-			numberOfFieldsInView - numberOfFieldsInObject
-				timesRepeat: [ fieldTools removeLast ] ]
-%
-
-category: 'as yet unclassified'
-method: SpkInspectorViewTool
-refreshFieldTools
-
-	self
-		refreshFieldToolQuantity;
-		refreshFieldToolContents
-%
-
 ! Class implementation for 'SpkInspectorRawViewTool'
+
+!		Class methods for 'SpkInspectorRawViewTool'
+
+category: 'testing'
+classmethod: SpkInspectorRawViewTool
+canView: anObject
+	"Raw view is appropriate for all objects."
+
+	^ true
+%
 
 !		Instance methods for 'SpkInspectorRawViewTool'
 
-category: 'as yet unclassified'
+category: 'accessing'
 method: SpkInspectorRawViewTool
 indexedSize
 
@@ -15738,7 +16640,7 @@ initialize
 	numberOfColumns := 2 "name and self description"
 %
 
-category: 'as yet unclassified'
+category: 'accessing'
 method: SpkInspectorRawViewTool
 instVarNames
 
@@ -15747,21 +16649,46 @@ instVarNames
 	^ class allInstVarNames
 %
 
-category: 'as yet unclassified'
+category: 'accessing'
+method: SpkInspectorRawViewTool
+name
+	^ 'Raw'
+%
+
+category: 'accessing'
 method: SpkInspectorRawViewTool
 namedSize
 
 	^ self instVarNames size
 %
 
-category: 'as yet unclassified'
+category: 'accessing'
 method: SpkInspectorRawViewTool
 numberOfFields
 
 	^ self namedSize + self indexedSize
 %
 
-category: 'as yet unclassified'
+category: 'accessing'
+method: SpkInspectorRawViewTool
+priority
+	"Answer my relative usefulness, as a Float, for viewing my inspectedObject."
+
+	"Raw view is the universal view, but generally of lower priority than any other applicable views."
+
+	^ 0.0
+%
+
+category: 'refreshing'
+method: SpkInspectorRawViewTool
+refresh
+
+	self
+		refreshFieldToolQuantity;
+		refreshFieldToolContents
+%
+
+category: 'refreshing'
 method: SpkInspectorRawViewTool
 refreshFieldToolContents
 
@@ -15770,7 +16697,23 @@ refreshFieldToolContents
 		refreshIndexedFieldTools
 %
 
-category: 'as yet unclassified'
+category: 'refreshing'
+method: SpkInspectorRawViewTool
+refreshFieldToolQuantity
+	| numberOfFieldsInObject numberOfFieldsInView |
+	numberOfFieldsInObject := self numberOfFields.
+	numberOfFieldsInView := fieldTools size.
+	numberOfFieldsInObject > numberOfFieldsInView
+		ifTrue: [ 
+			numberOfFieldsInObject - numberOfFieldsInView
+				timesRepeat: [ fieldTools add: self newFieldTool ] ].
+	numberOfFieldsInObject < numberOfFieldsInView
+		ifTrue: [ 
+			numberOfFieldsInView - numberOfFieldsInObject
+				timesRepeat: [ fieldTools removeLast ] ]
+%
+
+category: 'refreshing'
 method: SpkInspectorRawViewTool
 refreshIndexedFieldTools
 
@@ -15791,7 +16734,7 @@ refreshIndexedFieldTools
 			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
 %
 
-category: 'as yet unclassified'
+category: 'refreshing'
 method: SpkInspectorRawViewTool
 refreshNamedFieldTools
 
@@ -15812,6 +16755,73 @@ refreshNamedFieldTools
 			referencedObject: referencedObject;
 			columnAt: 1 put: (names at: index);
 			columnAt: 2 put: (self selfDescriptionOf: referencedObject) ]
+%
+
+! Class implementation for 'SpkInspectorSetViewTool'
+
+!		Class methods for 'SpkInspectorSetViewTool'
+
+category: 'testing'
+classmethod: SpkInspectorSetViewTool
+canView: anObject
+	| classOfObject |
+	classOfObject := SpkReflection classOf: anObject.
+	^ classOfObject == Set | (classOfObject == IdentitySet)
+		| (classOfObject inheritsFrom: Set)
+		| (classOfObject inheritsFrom: IdentitySet)
+%
+
+!		Instance methods for 'SpkInspectorSetViewTool'
+
+category: 'initialization'
+method: SpkInspectorSetViewTool
+initialize
+
+	super initialize.
+	self initializeFieldTools.
+	numberOfColumns := 1 "self description"
+%
+
+category: 'initialization'
+method: SpkInspectorSetViewTool
+initializeFieldTools
+	fieldTools := IdentityDictionary new
+%
+
+category: 'accessing'
+method: SpkInspectorSetViewTool
+name
+	^ 'Set'
+%
+
+category: 'accessing'
+method: SpkInspectorSetViewTool
+numberOfFields
+	^ inspectedObject size
+%
+
+category: 'accessing'
+method: SpkInspectorSetViewTool
+priority
+	"Answer my relative usefulness, as a Float, for viewing my inspectedObject."
+
+	"Set view should be the default for Set-like collections"
+
+	^ 1.0
+%
+
+category: 'refreshing'
+method: SpkInspectorSetViewTool
+refresh
+	| oldFieldTools |
+	oldFieldTools := fieldTools.
+	self initializeFieldTools.
+	inspectedObject
+		do: [ :each | 
+			| fieldTool |
+			fieldTool := oldFieldTools at: each ifAbsent: [ self newFieldToolFor: each ].
+			fieldTool columnAt: 1 put: (self selfDescriptionOf: each).
+			fieldTools at: each put: fieldTool ]
 %
 
 ! Class implementation for 'SpkPaneTool'
@@ -15850,26 +16860,21 @@ initializeInExplorer: xTool
 
 !		Instance methods for 'SpkInspectorTool'
 
-category: 'not comparing'
-method: SpkInspectorTool
-= anObject
-	"Diagnostic -- do we compare these objects?"
-
-	self halt
-%
-
-category: 'adding'
+category: 'actions'
 method: SpkInspectorTool
 addEvaluator
+	"Sent from client"
 
-	^ evaluatorTools add: (SpkEvaluatorTool new
-			   inspectorTool: self;
-			   explorerTool: explorerTool;
-			   taskspaceTool: taskspaceTool;
-			   yourself)
+	^ evaluatorTools
+		add:
+			(SpkEvaluatorTool new
+				inspectorTool: self;
+				explorerTool: explorerTool;
+				taskspaceTool: taskspaceTool;
+				yourself)
 %
 
-category: 'adding'
+category: 'accessing'
 method: SpkInspectorTool
 classMembershipDescription
 	"Answer a string description of the object as an instance of its class"
@@ -15887,7 +16892,7 @@ classMembershipDescription
 				ifFalse: [ 'a ' ]) , title ]
 %
 
-category: 'adding'
+category: 'accessing'
 method: SpkInspectorTool
 classOfInspectedObject
 
@@ -15896,14 +16901,7 @@ classOfInspectedObject
 	^ SpkReflection classOf: inspectedObject
 %
 
-category: 'as yet unclassified'
-method: SpkInspectorTool
-defaultView
-
-	^ views at: 'default'
-%
-
-category: 'adding'
+category: 'accessing'
 method: SpkInspectorTool
 evaluatorTools
 
@@ -15924,51 +16922,24 @@ explorerTool: anObject
 	explorerTool := anObject
 %
 
-category: 'accessing'
-method: SpkInspectorTool
-fieldTools
-
-	^ currentView fieldTools
-%
-
-category: 'accessing'
+category: 'initialization'
 method: SpkInspectorTool
 initialize
 
 	super initialize.
 	evaluatorTools := OrderedCollection new.
-	views := Dictionary new
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-initializeForDefault
-
-	self addEvaluator
-%
-
-category: 'initialization'
-method: SpkInspectorTool
-initializeInExplorer: xTool
-	super initializeInExplorer: xTool.
-	self initializeViews
+	views := OrderedCollection new
 %
 
 category: 'initialization'
 method: SpkInspectorTool
 initializeViews
-
-	"only raw view, for now"
-
-	| rawView |
-	rawView := SpkInspectorRawViewTool on: inspectedObject.
-	rawView
-		taskspaceTool: taskspaceTool;
-		refreshFieldTools.
+	views := SpkInspectorViewTool viewsOn: inspectedObject.
 	views
-		at: 'raw' put: rawView;
-		at: 'default' put: rawView.
-	currentView := rawView
+		do: [ :each | 
+			each
+				taskspaceTool: taskspaceTool;
+				refresh ]
 %
 
 category: 'accessing'
@@ -15981,8 +16952,8 @@ inspectedObject
 category: 'accessing'
 method: SpkInspectorTool
 inspectedObject: anObject
-
-	inspectedObject := anObject
+	inspectedObject := anObject.
+	self initializeViews
 %
 
 category: 'accessing'
@@ -15994,19 +16965,10 @@ oop
 	^ SpkReflection identifierOf: inspectedObject
 %
 
-category: 'accessing'
+category: 'announcements'
 method: SpkInspectorTool
 receiveExecutionAnnouncement: anAnnouncement
-
-	self refreshFieldTools.
 	self announce: anAnnouncement
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-refreshFieldTools
-
-	currentView refreshFieldTools
 %
 
 category: 'accessing'
@@ -16021,7 +16983,7 @@ selfDescription
 	^ self selfDescriptionOf: inspectedObject
 %
 
-category: 'accessing'
+category: 'initialization'
 method: SpkInspectorTool
 taskspaceTool: aTool
 
@@ -16032,11 +16994,18 @@ taskspaceTool: aTool
 		to: self
 %
 
+category: 'accessing'
+method: SpkInspectorTool
+views
+
+	^views
+%
+
 ! Class implementation for 'SpkProcessListTool'
 
 !		Instance methods for 'SpkProcessListTool'
 
-category: 'initializing'
+category: 'initialization'
 method: SpkProcessListTool
 initialize
 
@@ -16052,7 +17021,7 @@ processToolsDo: aBlock
 	processTools valuesDo: aBlock
 %
 
-category: 'processing announcements'
+category: 'announcements'
 method: SpkProcessListTool
 receiveExecutionAnnouncement: anAnnouncement
 
@@ -16260,14 +17229,9 @@ performAction: anAction
 category: 'instance creation'
 method: SpkExplorerTool
 newInspectorToolOn: anObject
-
-	^ SpkInspectorTool new
-		  explorerTool: self;
-		  taskspaceTool: taskspaceTool;
-		  inspectedObject: anObject;
-		  initializeViews;
-		  refreshFieldTools;
-		  yourself
+	^ (SpkInspectorTool newInExplorer: self)
+		inspectedObject: anObject;
+		yourself
 %
 
 ! Class implementation for 'SpkTaskspaceTool'
@@ -17040,6 +18004,8 @@ initializeServiceClassesForToolTypes
 		at: SpkDebuggerTool put: SpkDebuggerServiceServer;
 		at: SpkDebuggerFrameTool put: SpkDebuggerFrameServiceServer;
 		at: SpkExplorerTool put: SpkExplorerServiceServer;
+		at: SpkInspectorRawViewTool put: SpkInspectorRawViewServiceServer;
+		at: SpkInspectorSetViewTool put: SpkInspectorSetViewServiceServer;
 		at: SpkInspectorTool put: SpkInspectorServiceServer;
 		at: SpkProcessListTool put: SpkProcessListServiceServer;
 		at: SpkProcessTerminatedTool put: SpkProcessTerminatedServiceServer;
@@ -17663,7 +18629,9 @@ initialize
 	pendingMessages := RsrThreadSafeDictionary new.
 	registry := RsrThreadSafeDictionary new.
 	log := RsrLog new.
-	announcer := Announcer new
+	announcer := Announcer new.
+	templateResolver := RsrTemplateResolver new.
+	policy := RsrDefaultPolicy new
 %
 
 category: '*remoteservicereplication'
@@ -17769,11 +18737,13 @@ unknownError: anException
 category: '*remoteservicereplication'
 method: RsrConnection
 _ensureRegistered: aService
-
 	aService _connection == nil
-		ifTrue: [^self _register: aService as: oidSpigot next].
+		ifTrue: [ 
+			self _register: aService as: oidSpigot next.
+			aService postRegistration.
+			^ self ].
 	aService _connection == self
-		ifFalse: [^RsrAlreadyRegistered signalService: aService intendedConnection: self]
+		ifFalse: [ ^ RsrAlreadyRegistered signalService: aService intendedConnection: self ]
 %
 
 category: '*remoteservicereplication'
@@ -18332,27 +19302,28 @@ method: SpkTaskspaceTool
 performTransactionAction: aBlock
 	"Perform some transaction related action."
 
-	| processBody processManager processLauncher wasSuccessful processResult |
+	| processManager processLauncher processResult processCompleted debuggerAnnounced |
 	processManager := self newProcessManager.
 	processManager announceNextDebug: true.
-	wasSuccessful := false.
-	processBody := [ 
-	| resultObject |
-	resultObject := aBlock value.
-	"	ifCurtailed: [ 
-			processManager
-				returnValue: (SpkProcessTerminatedTool forProcess: GsProcess current) ].
-		wasSuccessful := true."
-		nil "In the case of success, there is no defined return value."].
+	processCompleted := false.
 	processLauncher := self
-		newProcessLauncherWithBody: processBody
+		newProcessLauncherWithBody: [ 
+			aBlock value.
+			processCompleted := true ]
 		manager: processManager.
+	processResult := processLauncher launch.	
 
-	processResult := processLauncher launch.
-	^wasSuccessful
-		ifTrue: [SpkSuccessTool new]
-		ifFalse:
-			[self announceNewExplorerForPaneTool: processResult]
+	"If there was an error in the process, a debugger
+	has already been announced to the process.
+	However, the process might have been terminated without
+	a debugger, and processResult is then a terminatedTool."
+	debuggerAnnounced := processManager announceNextDebug not.
+	processCompleted | debuggerAnnounced
+		ifFalse: [ self announceNewExplorerForPaneTool: processResult ].
+
+	"Even if we have announced a debugger or terminated tool, still have
+	to return a SuccessTool."
+	^ SpkSuccessTool new
 %
 
 category: '*Sparkle-Tools-GemStone'

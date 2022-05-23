@@ -275,25 +275,6 @@ removeallclassmethods SpkLimitedWriteStreamTest
 
 doit
 (SpkTestCase
-	subclass: 'SpkServiceServerTest'
-	instVarNames: #(  )
-	classVars: #(  )
-	classInstVars: #(  )
-	poolDictionaries: #()
-	inDictionary: Globals
-	options: #()
-)
-		category: 'Sparkle-Tools-GemStone-Test';
-		comment: 'Tests to test server-side services (and sometimes their underlying tools) on the server, without needing an RSR connection';
-		immediateInvariant.
-true.
-%
-
-removeallmethods SpkServiceServerTest
-removeallclassmethods SpkServiceServerTest
-
-doit
-(SpkTestCase
 	subclass: 'SpkSmallStackTest'
 	instVarNames: #( stack )
 	classVars: #(  )
@@ -538,6 +519,24 @@ removeallmethods SpkTestClassForDebugging
 removeallclassmethods SpkTestClassForDebugging
 
 doit
+(RsrAbstractPolicy
+	subclass: 'RsrTestPolicy'
+	instVarNames: #( deniedTemplates )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrTestPolicy
+removeallclassmethods RsrTestPolicy
+
+doit
 (RsrChannel
 	subclass: 'RsrNullChannel'
 	instVarNames: #( lastCommand )
@@ -691,7 +690,7 @@ removeallclassmethods RsrInstrumentedService
 doit
 (RsrInstrumentedService
 	subclass: 'RsrInstrumentedClient'
-	instVarNames: #( preUpdateCount postUpdateCount )
+	instVarNames: #( preUpdateCount postUpdateCount postRegistrationCount )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -717,7 +716,7 @@ removeallclassmethods RsrInstrumentedClient
 doit
 (RsrInstrumentedService
 	subclass: 'RsrInstrumentedServer'
-	instVarNames: #( preUpdateCount postUpdateCount action )
+	instVarNames: #( preUpdateCount postUpdateCount postRegistrationCount action )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -905,7 +904,7 @@ removeallclassmethods RsrRemoteActionClient
 doit
 (RsrRemoteAction
 	subclass: 'RsrRemoteActionServer'
-	instVarNames: #( action debugHandler preUpdateHandler postUpdateHandler )
+	instVarNames: #( action debugHandler preUpdateHandler postUpdateHandler postRegistrationHandler )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1207,6 +1206,60 @@ true.
 
 removeallmethods RsrValueHolderServer
 removeallclassmethods RsrValueHolderServer
+
+doit
+(RsrService
+	subclass: 'RsrVersionService'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrVersionService
+removeallclassmethods RsrVersionService
+
+doit
+(RsrVersionService
+	subclass: 'RsrVersionServiceClient'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrVersionServiceClient
+removeallclassmethods RsrVersionServiceClient
+
+doit
+(RsrVersionService
+	subclass: 'RsrVersionServiceServer'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrVersionServiceServer
+removeallclassmethods RsrVersionServiceServer
 
 doit
 (SpkObject
@@ -2017,6 +2070,42 @@ true.
 
 removeallmethods RsrSocketStressTest
 removeallclassmethods RsrSocketStressTest
+
+doit
+(RsrTestCase
+	subclass: 'RsrTemplateResolverTestCase'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrTemplateResolverTestCase
+removeallclassmethods RsrTemplateResolverTestCase
+
+doit
+(RsrTestCase
+	subclass: 'RsrTemplateResolverWithClassVersions'
+	instVarNames: #(  )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-GemStone-Test';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrTemplateResolverWithClassVersions
+removeallclassmethods RsrTemplateResolverWithClassVersions
 
 doit
 (RsrTestCase
@@ -3929,21 +4018,6 @@ testWithFromTo
 				assert: overLimit ]
 %
 
-! Class implementation for 'SpkServiceServerTest'
-
-!		Instance methods for 'SpkServiceServerTest'
-
-category: 'tests'
-method: SpkServiceServerTest
-testDefaultTaskspaceLayout
-	"Basically, can we create a default taskspace and all its server-side bitses"
-
-	| server layout |
-	server := SpkTaskspaceRegistryServiceServer new.
-	layout := server newDefaultTaskspaceLayout.
-	self assert: layout class equals: 'SpkTaskspaceLayoutServiceServer'
-%
-
 ! Class implementation for 'SpkSmallStackTest'
 
 !		Instance methods for 'SpkSmallStackTest'
@@ -4059,7 +4133,14 @@ isAbstract
 
 !		Instance methods for 'SpkEvaluationTest'
 
-category: 'other'
+category: 'private'
+method: SpkEvaluationTest
+evaluateCode 
+
+	^ evaluatorTool evaluateCodeAnnouncing: SpkExecutionAnnouncement new
+%
+
+category: 'initialization'
 method: SpkEvaluationTest
 newInspectorToolOn: anObject
 	taskspaceTool := SpkTaskspaceTool new.
@@ -4067,7 +4148,7 @@ newInspectorToolOn: anObject
 	^ tool := explorerTool newInspectorToolOn: anObject
 %
 
-category: 'other'
+category: 'initialization'
 method: SpkEvaluationTest
 setUp
 	super setUp.
@@ -4084,29 +4165,30 @@ method: SpkDebuggerServiceTest
 divideByZeroAfterProceed
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
-	debuggerTool := evaluatorTool evaluateCode.
+	debuggerTool := self evaluateCode.
 	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 %
 
 category: 'tests'
 method: SpkDebuggerServiceTest
 testExceptionDescription
-	"Can we make a tree of services out of a DebuggerTool?"
-
 	self zork3.
-	self assert: debuggerService whyDebugged equals: 'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
+	self
+		assert: debuggerService exceptionDescription
+		equals:
+			'MessageNotUnderstood -  a SmallInteger does not understand  #''zork'''
 %
 
 category: 'tests'
 method: SpkDebuggerServiceTest
 testProcessFrameNumbering
-	"The bottom ten frames are glue, first 
-	visible frame should have index 11."
+	"The bottom six frames are glue, first 
+	visible frame should have index 7."
 
 	| frames |
 	self zork3.
 	frames := debuggerService frames.
-	self assert: frames first index equals: 11
+	self assert: frames first index equals: 7
 %
 
 category: 'tests'
@@ -4179,7 +4261,7 @@ method: SpkDebuggerServiceTest
 zork3
 	| debuggerTool |
 	evaluatorTool newSourceCode: '3 zork'.
-	debuggerTool := evaluatorTool evaluateCode.
+	debuggerTool := self evaluateCode.
 	debuggerService := SpkServiceFactory serviceForTool: debuggerTool
 %
 
@@ -4207,6 +4289,13 @@ frameIn: debugger
 withDescriptionContaining: aString
 
 	^debugger frames detect: [ :each | each description includesString: aString ].
+%
+
+category: 'support'
+method: SpkDebuggerToolTest
+proceedDebugger: aDebuggerTool
+	aDebuggerTool proceedAnnouncing: SpkExecutionAnnouncement new.
+	^ aDebuggerTool replacementTool
 %
 
 category: 'code to test'
@@ -4246,7 +4335,7 @@ testBreakpoint01
 	[ 
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frames := debugger frames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	"
@@ -4261,7 +4350,7 @@ testBreakpoint01
 	self assert: (variable columnAt: 2) equals: '7'.
 	variable := localVariables at: 3.
 	self assert: (variable columnAt: 2) equals: '5'.
-	inspector := debugger proceed.
+	inspector := self proceedDebugger: debugger.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
 		ensure: [ method clearAllBreaks ]
@@ -4278,19 +4367,19 @@ testClearAllBreaks
 	method setBreakAtStepPoint: 3 breakpointLevel: 1.
 	self assert: method _allBreakpoints size equals: 4.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	frames := debugger frames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].
 	self assert: frame stepPoint equals: 3.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12.
 	self assert: method _allBreakpoints size equals: 4.
 	method clearAllBreaks.
 	self assert: method _allBreakpoints size equals: 0.
-	inspector := evaluatorTool evaluateCode.
+	inspector := self evaluateCode.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
 		ensure: [ method clearAllBreaks ].
@@ -4304,7 +4393,7 @@ testCurrentSourceIntervalForPrimitive
 
 	| debugger frameTool interval|
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frameTool := debugger frames at: 1.
 	interval := frameTool currentSourceInterval.
 	self 
@@ -4331,7 +4420,7 @@ testDebug
 	self
 		assert: frame stepPoint
 		equals: 1.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 100
@@ -4344,10 +4433,10 @@ testFrameDescription
 
 	| debugger frame |
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 
 	frame := self executedCodeFrameInDebugger: debugger.
-	self assert: frame index equals: 11
+	self assert: frame index equals: 7
 %
 
 category: 'tests'
@@ -4357,7 +4446,7 @@ testFrameIndex
 
 	| debugger frameTool |
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frameTool := debugger frames at: 1.
 	self
 		assert: frameTool class equals: SpkDebuggerFrameTool;
@@ -4372,10 +4461,10 @@ testHaltGlueTrimming
 
 	| debugger frames  execCodeFrame topFrame |
 	evaluatorTool newSourceCode: '3 halt + 4'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frames := debugger nonGlueFrames.
 	topFrame := frames last.
-	self assert: topFrame index equals: 11.
+	self assert: topFrame index equals: 7.
 	execCodeFrame := self executedCodeFrameInDebugger: debugger.
 	self assert: execCodeFrame identicalTo: topFrame
 %
@@ -4387,7 +4476,7 @@ testNumberOfFrames
 
 	| debugger |
 	evaluatorTool newSourceCode: '3 zork'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	self assert: debugger frames size > 6
 %
@@ -4399,13 +4488,13 @@ testProceedChangedDepth
 
 	| debugger1 debugger2 frame depth1 depth2 index1 index2 |
 	evaluatorTool newSourceCode: '3 pause + 4 / 0'.
-	debugger1 := evaluatorTool evaluateCode.
+	debugger1 := self evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	depth1 := debugger1 frames size.
 	frame := self executedCodeFrameInDebugger: debugger1.
 	index1 := frame index.
 	self assert: frame currentSourceInterval equals: (3 to: 7).
-	debugger2 := debugger1 proceed.
+	debugger2 := self proceedDebugger: debugger1.
 	self assert: debugger1 == debugger2.
 	depth2 := debugger2 frames size.
 	self assert: depth1 < depth2.
@@ -4422,9 +4511,9 @@ testProceedOnce
 
 	| debugger inspector |
 	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 7
@@ -4437,15 +4526,15 @@ testProceedTwice
 
 	| debugger1 debugger2 inspector frame |
 	evaluatorTool newSourceCode: '(3 pause + 4) pause + 5'.
-	debugger1 := evaluatorTool evaluateCode.
+	debugger1 := self evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	frame := self executedCodeFrameInDebugger: debugger1.
 	self assert: frame currentSourceInterval equals: (4 to: 8).
-	debugger2 := debugger1 proceed.
+	debugger2 :=  self proceedDebugger: debugger1.
 	self assert: debugger1 == debugger2.
 	self assert: (frame == (self executedCodeFrameInDebugger: debugger1)).
 	self assert: frame currentSourceInterval equals: (15 to: 19).
-	inspector := debugger2 proceed.
+	inspector :=  self proceedDebugger: debugger2.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: 12
@@ -4458,7 +4547,7 @@ testRestartFrame
 
 	| debugger frame restartFrame printStringFrame inspector |
 	evaluatorTool newSourceCode: 'self halt. SpkDebuggerToolTest new restartFrameTestMethod'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	frame := self executedCodeFrameInDebugger: debugger.
 	debugger := self
@@ -4510,7 +4599,7 @@ testRestartFrame
 		equals: debugger frames size.
 
 	"Ensure we can resume and get the correct result."
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self
 		assert: inspector class equals: SpkInspectorTool;
 		assert: inspector inspectedObject equals: '12'
@@ -4525,7 +4614,7 @@ testStepOver01
 	[ 
 	method setBreakAtStepPoint: 1 breakpointLevel: 1.
 	evaluatorTool newSourceCode: 'SpkTestClassForDebugging new twelve'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	frames := debugger nonGlueFrames.
 	frame := frames
 		detect: [ :each | each description includesString: 'SpkTestClassForDebugging' ].	
@@ -4550,7 +4639,7 @@ testStepOver01
 	self assert: frame currentSourceInterval equals: (9 to: 9).
 	frame stepOverAnnouncing: SpkExecutionAnnouncement new.
 	self assert: debugger nonGlueFrames size equals: frames size - 1.
-	inspector := debugger proceed.
+	inspector :=  self proceedDebugger: debugger.
 	self assert: inspector class equals: SpkInspectorTool.
 	self assert: inspector inspectedObject equals: 12 ]
 		ensure: [ method clearAllBreaks ]
@@ -4567,7 +4656,7 @@ testTerminate
 
 	| debugger process |
 	evaluatorTool newSourceCode: '3 pause + 4'.
-	debugger := evaluatorTool evaluateCode.
+	debugger := self evaluateCode.
 	self assert: debugger class equals: SpkDebuggerTool.
 	process := debugger process.
 
@@ -4583,12 +4672,8 @@ testTerminate01
 	same executedCode frame, proceed, get inspector"
 
 	| debugger1 debugger2 inspector execCodeFrame bottomFrame topFrame |
-	evaluatorTool newSourceCode: '[GsFile gciLogServer: ''1''.
-												3 pause + 4.
-												GsFile gciLogServer: ''2''.] ifCurtailed: [GsFile gciLogServer: ''3''.
-																					12 pause.
-																					GsFile gciLogServer: ''4'']'.
-	debugger1 := evaluatorTool evaluateCode.
+	evaluatorTool newSourceCode: '[3 pause + 4] ifCurtailed: [12 pause]'.
+	debugger1 := self evaluateCode.
 	self assert: debugger1 class equals: SpkDebuggerTool.
 	bottomFrame := debugger1 frames at: 1.
 	topFrame := debugger1 frames at: debugger1 frames size.
@@ -4601,7 +4686,7 @@ testTerminate01
 		assert: execCodeFrame == (self executedCodeFrameInDebugger: debugger1);
 		deny: topFrame == (debugger2 frames at: debugger2 frames size);
 		assert: execCodeFrame currentSourceInterval equals: (15 to: 26).	"Should still be on ifCurtailed:"
-	inspector := debugger2 proceed.
+	inspector := self proceedDebugger: debugger2.
 	self assert: inspector class equals: SpkProcessTerminatedTool
 %
 
@@ -4615,7 +4700,7 @@ testEvaluationReferencingInstvar
 	| result |
 	inspectorTool inspectedObject: #'foo' -> 'bar'.
 	evaluatorTool newSourceCode: 'value , ''n'''.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkInspectorTool.
 	self assert: result inspectedObject equals: 'barn'
 %
@@ -4626,7 +4711,7 @@ testEvaluationUsingSelf
 	| result |
 	inspectorTool inspectedObject: 7.
 	evaluatorTool newSourceCode: 'self - 4'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkInspectorTool.
 	self assert: result inspectedObject equals: 3
 %
@@ -4636,7 +4721,7 @@ method: SpkEvaluatorToolTest
 testRuntimeError
 	| result |
 	evaluatorTool newSourceCode: '3 zork'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkDebuggerTool
 %
 
@@ -4645,7 +4730,7 @@ method: SpkEvaluatorToolTest
 testSimpleEvaluation
 	| result |
 	evaluatorTool newSourceCode: '3 + 4'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkInspectorTool.
 	self assert: result inspectedObject equals: 7
 %
@@ -4655,7 +4740,7 @@ method: SpkEvaluatorToolTest
 testSyntaxError
 	| result |
 	evaluatorTool newSourceCode: '(self class'.
-	result := evaluatorTool evaluateCode.
+	result := self evaluateCode.
 	self assert: result class equals: SpkCompilationErrorTool.
 	self assert: result errorLocation equals: 12.
 	self assert: (result errorMessage findPattern: #('expected') startingAt: 1) > 0
@@ -4664,6 +4749,15 @@ testSyntaxError
 ! Class implementation for 'SpkInspectorToolTest'
 
 !		Instance methods for 'SpkInspectorToolTest'
+
+category: 'accessing'
+method: SpkInspectorToolTest
+fieldTools
+
+	"Answer the collection of field tools in the default view of the inspector tool."
+
+	^ tool views first fieldTools
+%
 
 category: 'accessing'
 method: SpkInspectorToolTest
@@ -4715,31 +4809,31 @@ testFieldToolsSize
 	"Here, just testing that we get the right number of FieldTools back."
 
 	self newInspectorToolOn: nil.
-	self assert: tool fieldTools size equals: 0.
+	self assert: self fieldTools size equals: 0.
 
 	self newInspectorToolOn: nil class.
-	self assert: tool fieldTools size equals: 19.
+	self assert: self fieldTools size equals: 19.
 
 	self newInspectorToolOn: 42.
-	self assert: tool fieldTools size equals: 0.
+	self assert: self fieldTools size equals: 0.
 
 	self newInspectorToolOn: 'Hi!'.
-	self assert: tool fieldTools size equals: 3.
+	self assert: self fieldTools size equals: 3.
 
 	self newInspectorToolOn: Object new.
-	self assert: tool fieldTools size equals: 0.
+	self assert: self fieldTools size equals: 0.
 
 	self newInspectorToolOn: SpkTestSubclassOfNil basicNew.
-	self assert: tool fieldTools size equals: 2.
+	self assert: self fieldTools size equals: 2.
 
 	"ZeroDivide has both inherited and declared named instvars"
 	self newInspectorToolOn: ZeroDivide new.
-	self assert: tool fieldTools size equals: 11.
+	self assert: self fieldTools size equals: 11.
 
 	"Class with both named and indexed instvars."
 	self newInspectorToolOn:
 		        (SpkTestClassWithNamedAndIndexedInstvars new: 5).
-	self assert: tool fieldTools size equals: 8
+	self assert: self fieldTools size equals: 8
 %
 
 category: 'tests'
@@ -5041,6 +5135,33 @@ twelve
 	 and in evaluated strings.
 	 Note that tests check for source intervals while stepping
 	 so this comment follows the code."
+%
+
+! Class implementation for 'RsrTestPolicy'
+
+!		Instance methods for 'RsrTestPolicy'
+
+category: 'accessing'
+method: RsrTestPolicy
+deny: aTemplate
+
+	deniedTemplates add: aTemplate
+%
+
+category: 'initialization'
+method: RsrTestPolicy
+initialize
+
+	super initialize.
+	deniedTemplates := Set new
+%
+
+category: 'testing'
+method: RsrTestPolicy
+permits: aTemplate
+	"Permit any Template that hasn't been denied"
+
+	^(deniedTemplates includes: aTemplate) not
 %
 
 ! Class implementation for 'RsrNullChannel'
@@ -5389,6 +5510,13 @@ templateClassName
 
 category: 'events'
 method: RsrInstrumentedService
+postRegistration
+
+	self postRegistrationCount: self postRegistrationCount + 1
+%
+
+category: 'events'
+method: RsrInstrumentedService
 postUpdate
 
 	self postUpdateCount: self postUpdateCount + 1
@@ -5404,6 +5532,20 @@ preUpdate
 ! Class implementation for 'RsrInstrumentedClient'
 
 !		Instance methods for 'RsrInstrumentedClient'
+
+category: 'accessing'
+method: RsrInstrumentedClient
+postRegistrationCount
+
+	^postRegistrationCount ifNil: [0]
+%
+
+category: 'accessing'
+method: RsrInstrumentedClient
+postRegistrationCount: anInteger
+
+	postRegistrationCount := anInteger
+%
 
 category: 'accessing'
 method: RsrInstrumentedClient
@@ -5444,7 +5586,14 @@ category: 'evaluating'
 method: RsrInstrumentedClient
 value
 
-	^remoteSelf value wait
+	^remoteSelf evaluateAction wait
+%
+
+category: 'evaluating'
+method: RsrInstrumentedClient
+value: anObject
+
+	^(remoteSelf evaluateAction: anObject) wait
 %
 
 ! Class implementation for 'RsrInstrumentedServer'
@@ -5463,6 +5612,34 @@ method: RsrInstrumentedServer
 action: aBlock
 
 	action := aBlock
+%
+
+category: 'evaluating'
+method: RsrInstrumentedServer
+evaluateAction
+
+	^self action value
+%
+
+category: 'evaluating'
+method: RsrInstrumentedServer
+evaluateAction: anObject
+
+	^self action cull: anObject
+%
+
+category: 'accessing'
+method: RsrInstrumentedServer
+postRegistrationCount
+
+	^postRegistrationCount ifNil: [0]
+%
+
+category: 'accessing'
+method: RsrInstrumentedServer
+postRegistrationCount: anInteger
+
+	postRegistrationCount := anInteger
 %
 
 category: 'accessing'
@@ -5498,13 +5675,6 @@ method: RsrInstrumentedServer
 return: anObject
 
 	^anObject
-%
-
-category: 'evaluating'
-method: RsrInstrumentedServer
-value
-
-	^self action value
 %
 
 ! Class implementation for 'RsrMockService'
@@ -5751,6 +5921,27 @@ evaluateAction: anObject
 
 category: 'processing'
 method: RsrRemoteActionServer
+postRegistration
+
+	self postRegistrationHandler value
+%
+
+category: 'accessing'
+method: RsrRemoteActionServer
+postRegistrationHandler
+
+	^postRegistrationHandler ifNil: [[]]
+%
+
+category: 'accessing'
+method: RsrRemoteActionServer
+postRegistrationHandler: aBlock
+
+	postRegistrationHandler := aBlock
+%
+
+category: 'processing'
+method: RsrRemoteActionServer
 postUpdate
 
 	self postUpdateHandler value
@@ -5867,6 +6058,13 @@ templateClassName
 %
 
 !		Instance methods for 'RsrServiceNoInstVars'
+
+category: 'testing-methods'
+method: RsrServiceNoInstVars
+asyncSendReturnArgument: anObject
+
+	^remoteSelf returnArgument: anObject
+%
 
 category: 'accessing'
 method: RsrServiceNoInstVars
@@ -6075,6 +6273,17 @@ value: anObject
 
 	value := anObject.
 	self synchronize
+%
+
+! Class implementation for 'RsrVersionService'
+
+!		Class methods for 'RsrVersionService'
+
+category: 'accessing'
+classmethod: RsrVersionService
+templateClassName
+
+	^#RsrVersionService
 %
 
 ! Class implementation for 'SpkTestClassWithDynamicPrintOn'
@@ -8609,7 +8818,7 @@ category: 'running'
 method: RsrSnapshotAnalysisTest
 testServiceNoInstVars
 
-	| client analysis expected snapshot |
+	| client analysis expected snapshot snapshotTemplate |
 	client := RsrClientNoInstVars new.
 	analysis := self analyze: client.
 	expected := OrderedCollection with: client.
@@ -8622,9 +8831,10 @@ testServiceNoInstVars
 		assert: snapshot slots size
 		equals: 0.
 	self assert: snapshot shouldCreateServer.
+	snapshotTemplate := connection templateResolver templateNamed: snapshot templateName.
 	self
-		assert: snapshot templateClass
-		equals: client class templateClass
+		assert: snapshotTemplate
+		equals: client _template
 %
 
 category: 'running'
@@ -9167,6 +9377,18 @@ initializeSocketConnections
 		assert: connectionB isOpen
 %
 
+category: 'accessing'
+method: RsrSystemTestCase
+peerOf: aService
+
+	| connectionInPeer |
+	connectionInPeer := aService _connection.
+	connectionInPeer ifNil: [self assert: false description: 'Unable to obtain the peer of an unregistered Service.'].
+	^connectionInPeer == connectionA
+		ifTrue: [connectionB serviceAt: aService _id]
+		ifFalse: [connectionA serviceAt: aService _id]
+%
+
 category: 'initialization'
 method: RsrSystemTestCase
 setUp
@@ -9199,6 +9421,100 @@ isAbstract
 %
 
 !		Instance methods for 'RsrConnectionTestCase'
+
+category: 'running'
+method: RsrConnectionTestCase
+testAllowExistingInstancesOfDeniedTemplate
+
+	| policy template allow value promise result |
+	policy := RsrTestPolicy new.
+	template := RsrServiceNoInstVars.
+	connectionB policy: policy.
+	value := Time millisecondClockValue.
+
+	"Send a new instance before Policy denies it."
+	allow := template clientClass new.
+	allow registerWith: connectionA.
+	promise := allow asyncSendReturnArgument: value.
+	result := self expectWhen: promise.
+	self
+		assert: result
+		equals: value.
+
+	"Reject the template and try again with the existing instance."
+	policy deny: template.
+	promise := allow asyncSendReturnArgument: value.
+	result := self expectWhen: promise.
+	self
+		assert: result
+		equals: value.
+%
+
+category: 'running'
+method: RsrConnectionTestCase
+testPolicyRejection
+
+	| policy template allow reject value promise result reason |
+	policy := RsrTestPolicy new.
+	template := RsrServiceNoInstVars.
+	connectionB policy: policy.
+	value := Time millisecondClockValue.
+
+	"Send a new instance before Policy denies it."
+	allow := template clientClass new.
+	allow registerWith: connectionA.
+	promise := allow asyncSendReturnArgument: value.
+	result := self expectWhen: promise.
+	self
+		assert: result
+		equals: value.
+
+	"Reject the template and try again with a new instance."
+	policy deny: template.
+	reject := template clientClass new.
+	reject registerWith: connectionA.
+	promise := reject asyncSendReturnArgument: value.
+	reason := self expectCatch: promise.
+	self
+		assert: reason class
+		equals: RsrPolicyRejectedServiceServer.
+	self
+		assert: reason templateName
+		equals: template templateClassName.
+	self
+		assert: reason sid
+		equals: reject _id
+%
+
+category: 'running'
+method: RsrConnectionTestCase
+testPolicyRejectsFrameworkTemplate
+
+	| policy template service frameworkService promise result |
+	policy := RsrTestPolicy new.
+	template := RsrPolicyRejectedService.
+	connectionA policy: policy.
+	connectionB policy: policy.
+	service := RsrServiceNoInstVars clientClass new.
+	service registerWith: connectionA.
+
+	"Send a new instance before Policy denies it."
+	frameworkService := template clientClass new.
+	promise := service asyncSendReturnArgument: frameworkService.
+	result := self expectWhen: promise.
+	self
+		assert: result
+		identicalTo: frameworkService.
+
+	"Ensure it is allowed even if the Policy rejects it."
+	policy deny: template.
+	frameworkService := template clientClass new.
+	promise := service asyncSendReturnArgument: frameworkService.
+	result := self expectWhen: promise.
+	self
+		assert: result
+		identicalTo: frameworkService.
+%
 
 category: 'running'
 method: RsrConnectionTestCase
@@ -10253,6 +10569,93 @@ testMessagesDispactchedConcurrentlyForMultipleServices
 
 category: 'running'
 method: RsrServiceTest
+testPostRegistration
+
+	| client  server testClient testServer regCount |
+	"#registerWith: validation"
+	client := RsrInstrumentedClient new.
+	self
+		assert: client postRegistrationCount
+		equals: 0.
+	client registerWith: connectionA.
+	self
+		assert: client postRegistrationCount
+		equals: 1.
+	client registerWith: connectionA.
+	self
+		assert: client postRegistrationCount
+		equals: 1.
+	client synchronize.
+	server := self peerOf: client.
+	self
+		assert: client postRegistrationCount
+		equals: 1.
+	self
+		assert: server postRegistrationCount
+		equals: 0.
+
+	"Validate implicit registration of argument Service"
+	testClient := RsrInstrumentedClient new.
+	server action: [:testServerArg | testServerArg postRegistrationCount].
+	regCount := client value: testClient.
+	self
+		assert: regCount
+		equals: 0.
+	self
+		assert: testClient postRegistrationCount
+		equals: 1.
+	testServer := self peerOf: testClient.
+	self
+		assert: testServer postRegistrationCount
+		equals: 0.
+
+	"Validate implicit registration of returned Services"
+	testClient := testServer := nil.
+	server action: [testServer := RsrInstrumentedServer new].
+	testClient := client value.
+	self
+		assert: testClient postRegistrationCount
+		equals: 0.
+	self
+		assert: testServer postRegistrationCount
+		equals: 1
+%
+
+category: 'running'
+method: RsrServiceTest
+testPostRegistrationRaisesException
+
+	| client server reason tag badService signaledException caughtException |
+	"Return values"
+	client := RsrRemoteActionClient new
+		registerWith: connectionA;
+		synchronize.
+	server := self peerOf: client.
+	tag := DateAndTime now asString.
+	server action: [RsrRemoteActionServer new postRegistrationHandler: [Error new tag: tag; signal]; yourself].
+	reason := self expectCatch: client asyncValue.
+	self
+		assert: reason exceptionClassName
+		equals: #Error.
+	self
+		assert: reason tag
+		equals: tag. "This string came through RSR. It is equivalent but not identical."
+
+	"Message sends"
+	signaledException := Error new.
+	badService := RsrRemoteActionServer new
+		postRegistrationHandler: [signaledException signal];
+		yourself.
+	caughtException := [client value: badService]
+		on: Error
+		do: [:ex | ex return: ex].
+	self
+		assert: signaledException
+		identicalTo: caughtException "RSR did not alter this exception. It should be identical."
+%
+
+category: 'running'
+method: RsrServiceTest
 testPrePostUpdate
 
 	| client server | 
@@ -10881,6 +11284,127 @@ method: RsrSocketStressTest
 initializeConnections
 
 	self initializeSocketConnections
+%
+
+! Class implementation for 'RsrTemplateResolverTestCase'
+
+!		Instance methods for 'RsrTemplateResolverTestCase'
+
+category: 'accessing'
+method: RsrTemplateResolverTestCase
+resolver
+
+	^RsrTemplateResolver new
+%
+
+category: 'running'
+method: RsrTemplateResolverTestCase
+testTemplateFor
+
+	| service template |
+	service := RsrRemoteActionClient new.
+	template := self resolver templateFor: service.
+	self
+		assert: template
+		identicalTo: RsrRemoteAction.
+	service := RsrRemoteActionServer new.
+	template := self resolver templateFor: service.
+	self
+		assert: template
+		identicalTo: RsrRemoteAction
+%
+
+category: 'running'
+method: RsrTemplateResolverTestCase
+testTemplateNamed
+
+	| template |
+	template := self resolver templateNamed: #RsrRemoteAction.
+	self
+		assert: template
+		identicalTo: RsrRemoteAction.
+	self
+		should: [self resolver templateNamed: #DoNotCreateThisClass]
+		raise: RsrUnknownTemplate
+%
+
+category: 'running'
+method: RsrTemplateResolverTestCase
+testTemplateNamedIfAbsent
+
+	| marker template |
+	marker := Object new.
+	template := self resolver
+		templateNamed: #RsrRemoteAction
+		ifAbsent: [marker].
+	self
+		assert: template
+		identicalTo: RsrRemoteAction.
+	template := self resolver
+		templateNamed: #DoNotCreateThisClass
+		ifAbsent: [marker].
+	self
+		assert: template
+		identicalTo: marker
+%
+
+! Class implementation for 'RsrTemplateResolverWithClassVersions'
+
+!		Instance methods for 'RsrTemplateResolverWithClassVersions'
+
+category: 'accessing'
+method: RsrTemplateResolverWithClassVersions
+resolver
+
+	^RsrTemplateResolver new
+%
+
+category: 'cleanup'
+method: RsrTemplateResolverWithClassVersions
+tearDown
+
+	RsrService
+		rwSubclass: 'RsrVersionService'
+		instVarNames: #()
+		classVars: #()
+		classInstVars: #()
+		poolDictionaries: #()
+		category: 'RemoteServiceReplication-GemStone-Test'
+		options: #().
+	super tearDown
+%
+
+category: 'running'
+method: RsrTemplateResolverWithClassVersions
+testVersionClassAfterCreatingService
+
+	| template service result |
+	template := RsrVersionService.
+	service := template clientClass new.
+	result := self resolver templateFor: service.
+	self
+		assert: result
+		identicalTo: template.
+	"Revision the Service class and Template"
+	RsrService
+		rwSubclass: 'RsrVersionService'
+		instVarNames: {'a' + Time millisecondClockValue printString}
+		classVars: #()
+		classInstVars: #()
+		poolDictionaries: #()
+		category: 'RemoteServiceReplication-GemStone-Test'
+		options: #().
+	result := self resolver templateFor: service.
+	self
+		assert: result
+		identicalTo: template.
+	self
+		deny: result
+		identicalTo: RsrVersionService.
+	result := self resolver templateFor: RsrVersionService clientClass new.
+	self
+		assert: result
+		identicalTo: RsrVersionService
 %
 
 ! Class implementation for 'RsrTestingProcessModelTestCase'

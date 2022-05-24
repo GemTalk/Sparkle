@@ -164,6 +164,12 @@ SpkInspectorPane >> refreshFromService [
 	self updateLinkedCoordinates
 ]
 
+{ #category : 'refreshing' }
+SpkInspectorPane >> refreshList [ 
+
+	inspectorSubPane refreshList
+]
+
 { #category : 'removing' }
 SpkInspectorPane >> removeEvaluator: anEvaluator [
 

@@ -138,6 +138,12 @@ SpkInspectorSubPane >> refreshFromService [
 ]
 
 { #category : 'refreshing' }
+SpkInspectorSubPane >> refreshList [
+
+	currentView refreshList
+]
+
+{ #category : 'refreshing' }
 SpkInspectorSubPane >> refreshTwizzledListLabel [
 
 	viewTwizzle labelString: currentView labelString

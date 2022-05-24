@@ -77,6 +77,17 @@ SpkIconButtonPresenter >> enablementFrom: requestedBoolean [
 	^ self enablementCondition value: requestedBoolean
 ]
 
+{ #category : 'accessing' }
+SpkIconButtonPresenter >> help: helpString [
+
+	"Allow tooltip to be dynamically changed."
+
+	super help: helpString.
+	"Adapter is usually nil when first creating presenter, 
+	but the instvar will be used when building."
+	adapter ifNotNil: [ :a | a setBalloonText: helpString ]
+]
+
 { #category : 'api' }
 SpkIconButtonPresenter >> icon [
 

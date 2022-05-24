@@ -25,7 +25,8 @@ SpkTLinkedPane >> clearLinkedPane [
 
 	linkedPane ifNotNil: [ 
 		linkedPane linkedFrom: nil.
-		linkedPane := nil ]
+		linkedPane := nil.
+		self linkedPaneChanged ]
 ]
 
 { #category : 'actions' }
@@ -59,7 +60,15 @@ SpkTLinkedPane >> linkedPane [
 SpkTLinkedPane >> linkedPane: aPane [
 
 	linkedPane := aPane.
-	aPane linkedFrom: self
+	aPane linkedFrom: self.
+	self linkedPaneChanged
+]
+
+{ #category : 'as yet unclassified' }
+SpkTLinkedPane >> linkedPaneChanged [
+
+	"I've gained, lost, or changed my linked pane.
+	Do any necessary work, which by default is no work"
 ]
 
 { #category : 'actions' }

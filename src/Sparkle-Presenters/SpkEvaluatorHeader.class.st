@@ -13,6 +13,22 @@ SpkEvaluatorHeader >> closeButtonHelp [
 	^ 'Close the evaluator'
 ]
 
+{ #category : 'display' }
+SpkEvaluatorHeader >> displayLinkingArrow: aBoolean [
+
+	| iconName helpString |
+	aBoolean
+		ifTrue: [ 
+			iconName := #hidePane16.
+			helpString := 'Close the evaluation''s result' ]
+		ifFalse: [ 
+			iconName := #glamorousClose.
+			helpString := self closeButtonHelp ].
+	closeButton
+		icon: (self iconNamed: iconName);
+		help: helpString
+]
+
 { #category : 'accessing colors' }
 SpkEvaluatorHeader >> headerColor [
 

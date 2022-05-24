@@ -35,10 +35,10 @@ SpkEvaluator >> cancel [
 { #category : 'events' }
 SpkEvaluator >> closeRequestedLocally [
 
-	linkedPane ifNotNil: [ :p | p close ].
-	model unsubscribe: self.
-	"My owner is an InspectorPane"
-	owner removeEvaluator: self
+	linkedPane ifNotNil: [ :p | p close ] ifNil: [ 
+		model unsubscribe: self.
+		"My owner is an InspectorPane"
+		owner removeEvaluator: self ]
 ]
 
 { #category : 'events' }
@@ -104,6 +104,12 @@ SpkEvaluator >> initializePresenters [
 	codePresenter
 		placeholder: 'Accept to evaluate code typed here.';
 		bindKeyCombination: $d meta toAction: [ self debug ]
+]
+
+{ #category : 'as yet unclassified' }
+SpkEvaluator >> linkedPaneChanged [
+
+	header displayLinkingArrow: self hasLinkedPane
 ]
 
 { #category : 'instance creation' }

@@ -6,8 +6,8 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
-   sodipodi:docname="hidePane.svg"
-   inkscape:export-filename="../png/hidePane16.png"
+   sodipodi:docname="unlinkPane.svg"
+   inkscape:export-filename="../png/unlinkPane16.png"
    inkscape:export-xdpi="64"
    inkscape:export-ydpi="64"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -39,8 +39,8 @@
      inkscape:showpageshadow="true"
      inkscape:window-width="1439"
      inkscape:window-height="864"
-     inkscape:window-x="1096"
-     inkscape:window-y="859"
+     inkscape:window-x="1025"
+     inkscape:window-y="525"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata5">
@@ -59,11 +59,8 @@
      id="layer1">
     <path
        sodipodi:nodetypes="cccc"
-       d="M 0.69476699,5.0422117 V 1.3077884 L 5.6552817,3.1750001 Z"
-       style="opacity:0.9;fill:#6ece7c;fill-opacity:1;stroke:#6ece7c;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-       id="path903"
-       inkscape:export-filename="/home/martin/Repositories/Sparkle/icons/png/hidePane16.png"
-       inkscape:export-xdpi="64"
-       inkscape:export-ydpi="64" />
+       d="M 5.6552331,5.0422117 V 1.3077884 L 0.69471837,3.1750001 Z"
+       style="opacity:0.9;fill:#6ece7c;stroke:#6ece7c;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;fill-opacity:1"
+       id="path903" />
   </g>
 </svg>

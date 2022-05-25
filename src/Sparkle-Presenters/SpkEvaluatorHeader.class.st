@@ -13,6 +13,12 @@ SpkEvaluatorHeader >> closeButtonHelp [
 	^ 'Close the evaluator'
 ]
 
+{ #category : 'layout' }
+SpkEvaluatorHeader >> constraintsBlock [
+
+	^ [ :c | c height: 30 ]
+]
+
 { #category : 'display' }
 SpkEvaluatorHeader >> displayLinkingArrow: aBoolean [
 

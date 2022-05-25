@@ -149,14 +149,12 @@ SpkDebuggerPane >> initializeProcessControls [
 		withConstraints: [ :c | c height: 35 ].
 
 	proceedButton := self newIconButton
-		                 color: Color transparent;
 		                 icon: (self iconNamed: #proceed28);
 		                 help: 'Proceed';
 		                 action: [ self proceed ];
 		                 yourself.
 
 	terminateButton := self newIconButton
-		                   color: Color transparent;
 		                   icon: (self iconNamed: #terminate28);
 		                   help: 'Terminate';
 		                   action: [ self closeRequestedLocally ];

@@ -48,16 +48,19 @@ SpMorphicSpkBoxAdapter >> addConstraints: constraints toChild: childMorph [
 
 	"adds constraints by child"
 
-	| theMorph defaultSizing |
+	| theMorph vResizing hResizing |
 	theMorph := self addPadding: constraints padding toMorph: childMorph.
 
 
-	defaultSizing := constraints isFill
-		                 ifTrue: [ #spaceFill ]
-		                 ifFalse: [ #shrinkWrap ].
+	vResizing := constraints shouldFillHeight
+		             ifTrue: [ #spaceFill ]
+		             ifFalse: [ #shrinkWrap ].
+	hResizing := constraints shouldFillWidth
+		             ifTrue: [ #spaceFill ]
+		             ifFalse: [ #shrinkWrap ].
 	theMorph
-		hResizing: defaultSizing;
-		vResizing: defaultSizing.
+		hResizing: hResizing;
+		vResizing: vResizing.
 	constraints width ifNotNil: [ :w | 
 		theMorph
 			hResizing: #rigid;

@@ -35,7 +35,5 @@ SpkTHeader >> header [
 SpkTHeader >> initializeHeader [
 
 	header := self instantiate: self headerClass on: self model.
-	self layout
-		add: header
-		withConstraints: [ :c | c height: header headerHeight ]
+	self layout add: header withConstraints: header constraintsBlock
 ]

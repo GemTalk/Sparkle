@@ -26,7 +26,7 @@ SpkBoxLayout >> adapterName [
 { #category : 'adding' }
 SpkBoxLayout >> add: aPresenter [
 
-	self add: aPresenter withConstraints: [ :constraints |  ]
+	self add: aPresenter withConstraints: [ :c |  ]
 ]
 
 { #category : 'adding' }
@@ -92,6 +92,12 @@ SpkBoxLayout >> add: aPresenter height: anInteger [
 ]
 
 { #category : 'adding' }
+SpkBoxLayout >> add: aPresenter ifPresent: aBlock [
+
+	self add: aPresenter withConstraints: [ :c |  ] ifPresent: aBlock
+]
+
+{ #category : 'adding' }
 SpkBoxLayout >> add: aPresenter primaryDimension: anInteger [
 
 	self isHorizontal
@@ -114,6 +120,18 @@ SpkBoxLayout >> add: aPresenter withConstraints: constraintsBlock [
 		add: aPresenter
 		beforeIndex: children size + 1
 		withConstraints: constraintsBlock
+]
+
+{ #category : 'adding' }
+SpkBoxLayout >> add: aPresenter withConstraints: constraintsBlock ifPresent: aBlock [
+
+	(self includesPresenter: aPresenter)
+		ifTrue: aBlock
+		ifFalse: [ 
+			self
+				add: aPresenter
+				beforeIndex: children size + 1
+				withConstraints: constraintsBlock ]
 ]
 
 { #category : 'adding' }

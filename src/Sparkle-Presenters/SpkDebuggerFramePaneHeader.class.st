@@ -7,7 +7,7 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkDebuggerFramePaneHeader >> frameDescription [
 
 	^ model description
@@ -28,12 +28,5 @@ SpkDebuggerFramePaneHeader >> initializePresenters [
 		addStyle: 'label.paneHeader';
 		label: self frameDescription.
 
-	labelLayout add: label withConstraints: [ :c | c fill: false ].
-
-	self layout
-		color: self headerColor;
-		add: dragHandle width: self dragHandleWidth;
-		add: labelLayout;
-		add: menuButton width: self menuButtonWidth;
-		add: closeButton width: self closeButtonWidth
+	labelLayout add: label withConstraints: [ :c | c fill: false ]
 ]

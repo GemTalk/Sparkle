@@ -22,12 +22,5 @@ SpkProcessListPaneHeader >> initializePresenters [
 		label: 'All Processes';
 		addStyle: 'label.paneHeader'.
 
-	labelLayout add: label withConstraints: [ :c | c fill: false ].
-
-	self layout
-		color: self headerColor;
-		add: dragHandle width: self dragHandleWidth;
-		add: labelLayout;
-		add: menuButton width: self menuButtonWidth;
-		add: closeButton width: self closeButtonWidth
+	labelLayout add: label withConstraints: [ :c | c fill: false ]
 ]

@@ -33,6 +33,12 @@ SpkHeader >> closeButtonWidth [
 ]
 
 { #category : 'layout' }
+SpkHeader >> constraintsBlock [
+
+	^ [ :c | ]
+]
+
+{ #category : 'layout' }
 SpkHeader >> defaultLayout [
 
 	^ SpkBoxLayout newHorizontal
@@ -57,12 +63,10 @@ SpkHeader >> initializePresenters [
 
 	super initializePresenters.
 	menuButton := self newMenuButton
-		              color: Color transparent;
 		              icon: (self iconNamed: #hamburgerWhite16);
 		              help: self menuHelp;
 		              yourself.
 	closeButton := self newIconButton
-		               color: Color transparent;
 		               icon: (self iconNamed: #glamorousClose);
 		               help: self closeButtonHelp;
 		               action: [ owner closeRequestedLocally ];

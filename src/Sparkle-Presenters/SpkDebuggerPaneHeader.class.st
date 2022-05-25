@@ -27,14 +27,7 @@ SpkDebuggerPaneHeader >> initializePresenters [
 
 	labelLayout
 		add: processNameLabel withConstraints: [ :c | c fill: false ];
-		add: oopLabel withConstraints: [ :c | c fill: false ].
-
-	self layout
-		color: self headerColor;
-		add: dragHandle width: self dragHandleWidth;
-		add: labelLayout;
-		add: menuButton width: self menuButtonWidth;
-		add: closeButton width: self closeButtonWidth
+		add: oopLabel withConstraints: [ :c | c fill: false ]
 ]
 
 { #category : 'accessing' }

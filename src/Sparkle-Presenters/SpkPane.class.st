@@ -134,6 +134,12 @@ SpkPane >> initializePresenters [
 ]
 
 { #category : 'testing' }
+SpkPane >> isLinked [
+
+	^ linkedFrom isNil not
+]
+
+{ #category : 'testing' }
 SpkPane >> isPane [
 
 	^ true
@@ -148,7 +154,14 @@ SpkPane >> linkedFrom [
 { #category : 'accessing' }
 SpkPane >> linkedFrom: anObject [
 
-	linkedFrom := anObject
+	linkedFrom := anObject.
+	self linkedFromChanged
+]
+
+{ #category : 'events' }
+SpkPane >> linkedFromChanged [
+
+	self header showLinkedFrom: self isLinked
 ]
 
 { #category : 'accessing' }
@@ -204,7 +217,7 @@ SpkPane >> nonChildSlotNames [
 	^ super nonChildSlotNames , #( #linkedFrom )
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkPane >> panesLinkedToListItems [
 
 	^ #(  )

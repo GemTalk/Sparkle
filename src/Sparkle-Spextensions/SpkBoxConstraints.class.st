@@ -8,7 +8,8 @@ Class {
 	#superclass : 'SpLayoutConstraints',
 	#instVars : [
 		'padding',
-		'fill',
+		'shouldFillWidth',
+		'shouldFillHeight',
 		'width',
 		'height'
 	],
@@ -30,7 +31,7 @@ SpkBoxConstraints class >> defaultPadding [
 { #category : 'accessing' }
 SpkBoxConstraints >> fill: aBoolean [
 
-	fill := aBoolean
+	shouldFillWidth := shouldFillHeight := aBoolean
 ]
 
 { #category : 'accessing' }
@@ -44,12 +45,6 @@ SpkBoxConstraints >> height: anObject [
 ]
 
 { #category : 'accessing' }
-SpkBoxConstraints >> isFill [
-
-	^ fill ifNil: [ fill := self class defaultFill ]
-]
-
-{ #category : 'accessing' }
 SpkBoxConstraints >> padding [
 	^ padding ifNil: [ padding := self class defaultPadding ]
 ]
@@ -57,6 +52,31 @@ SpkBoxConstraints >> padding [
 { #category : 'accessing' }
 SpkBoxConstraints >> padding: aNumber [
 	padding := aNumber
+]
+
+{ #category : 'accessing' }
+SpkBoxConstraints >> shouldFillHeight [
+
+	^ shouldFillHeight ifNil: [ 
+		  shouldFillHeight := self class defaultFill ]
+]
+
+{ #category : 'accessing' }
+SpkBoxConstraints >> shouldFillHeight: aBoolean [
+
+	shouldFillHeight := aBoolean
+]
+
+{ #category : 'accessing' }
+SpkBoxConstraints >> shouldFillWidth [
+
+	^ shouldFillWidth ifNil: [ shouldFillWidth := self class defaultFill ]
+]
+
+{ #category : 'accessing' }
+SpkBoxConstraints >> shouldFillWidth: aBoolean [
+
+	shouldFillWidth := aBoolean
 ]
 
 { #category : 'accessing' }

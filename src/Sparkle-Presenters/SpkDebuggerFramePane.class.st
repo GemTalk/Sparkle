@@ -52,7 +52,6 @@ icon: iconBaseName
 action: anEvaluable [
 
 	^self newIconButton
-		color: Color transparent;
 		enabledIcon: (self iconNamed: (iconBaseName, '28') asSymbol);
 		disabledIcon: (self iconNamed: (iconBaseName, 'Disabled28') asSymbol);
 		help: buttonName;

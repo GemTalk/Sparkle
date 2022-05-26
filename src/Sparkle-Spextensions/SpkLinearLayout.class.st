@@ -12,6 +12,7 @@ Class {
 		'totalRigidSize',
 		'bounds',
 		'minimumPrimarySize',
+		'minimumSecondarySize',
 		'xform'
 	],
 	#category : 'Sparkle-Spextensions-MorphicLayout'
@@ -167,6 +168,16 @@ SpkLinearLayout >> layoutWithSpaceFills [
 ]
 
 { #category : 'accessing' }
+SpkLinearLayout >> minExtent [
+
+	"Answer the minimum extent of my morph, which is expected to be polymorphic with SpkLayoutMorph."
+	
+	self scanSubmorphs.
+	^ ( xform rectanglePStart: 0 pEnd: minimumPrimarySize  sStart: 0 sEnd: minimumSecondarySize ) extent
+	 
+]
+
+{ #category : 'accessing' }
 SpkLinearLayout >> morph: anObject [
 	morph := anObject
 ]
@@ -204,6 +215,14 @@ SpkLinearLayout >> policy: anObject [
 	policy := anObject
 ]
 
+{ #category : 'private' }
+SpkLinearLayout >> sMinimumSizeOf: aMorph [
+
+	"What is the minimum size along the secondary axis to display aMorph?"
+
+	^ xform sMinimumSizeOf: aMorph
+]
+
 { #category : 'layout' }
 SpkLinearLayout >> scanSubmorphs [
 
@@ -211,13 +230,15 @@ SpkLinearLayout >> scanSubmorphs [
 	and compute total of minimum space along the primary axis.
 	Cache some of this information in LayoutCells"
 
-	numberOfSpaceFills := minimumPrimarySize := totalRigidSize := 0.
+	numberOfSpaceFills := minimumPrimarySize := minimumSecondarySize := totalRigidSize := 0.
 	cells := OrderedCollection new.
 	morph submorphsDo: [ :submorph | 
 		| cell resizing |
 		cell := cells add: (SpkLinearLayoutCell forMorph: submorph).
 		resizing := self pResizingOf: submorph.
 		cell minimumSize: (self pMinimumSizeOf: submorph).
+		minimumSecondarySize := minimumSecondarySize max:
+			                        (self sMinimumSizeOf: submorph).
 		resizing == #spaceFill ifTrue: [ 
 			cell isSpaceFill: true.
 			numberOfSpaceFills := numberOfSpaceFills + 1 ].

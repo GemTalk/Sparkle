@@ -76,6 +76,14 @@ SpkVerticalTransform >> sEndOf: aRectangle [
 ]
 
 { #category : 'accessing' }
+SpkVerticalTransform >> sMinimumSizeOf: aMorph [
+
+	"What is the minimum size along the secondary axis to display aMorph?"
+
+	^ aMorph minExtent x
+]
+
+{ #category : 'accessing' }
 SpkVerticalTransform >> sStartOf: aRectangle [
 
 	"Answer the starting coordinate on the secondary axis of a layout rectangle."

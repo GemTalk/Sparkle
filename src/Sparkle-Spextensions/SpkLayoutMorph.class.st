@@ -63,6 +63,12 @@ SpkLayoutMorph >> changeLinearLayout [
 ]
 
 { #category : 'accessing' }
+SpkLayoutMorph >> coordinateTransform [
+
+	^ self assureLayoutProperties coordinateTransform
+]
+
+{ #category : 'accessing' }
 SpkLayoutMorph >> coordinateTransform: xform [
 
 	self assureLayoutProperties coordinateTransform: xform
@@ -134,6 +140,15 @@ SpkLayoutMorph >> minCellSize: aPoint [
 	"Layout specific. This property specifies the minimal size of a table cell."
 
 	self shouldNotImplement
+]
+
+{ #category : 'accessing' }
+SpkLayoutMorph >> minExtent [
+
+	^ SpkLinearLayout new
+		  morph: self;
+		  coordinateTransform: self coordinateTransform;
+		  minExtent
 ]
 
 { #category : 'bogus properties' }

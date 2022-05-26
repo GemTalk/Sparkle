@@ -97,6 +97,14 @@ SpkCoordinateTransform >> sEndOf: aRectangle [
 ]
 
 { #category : 'accessing' }
+SpkCoordinateTransform >> sMinimumSizeOf: aMorph [
+
+	"What is the minimum size along the secondary axis to display aMorph?"
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
 SpkCoordinateTransform >> sStartOf: aRectangle [
 
 	"Answer the starting coordinate on the secondary axis of a layout rectangle."

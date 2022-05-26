@@ -8,7 +8,7 @@ Processor activeProcess name: 'Sparkle Server'.
 
 	spec := RsrAcceptConnection port: 29299.
 	connection := spec waitForConnection.
-	"connection log addSink: (RsrCustomSink action: [:string | GsFile gciLogServer: string])."
+	"connection log addSink: (RsrTranscriptSink new)."
 
 	GsFile gciLogClient: 'Accepted connection'.
 

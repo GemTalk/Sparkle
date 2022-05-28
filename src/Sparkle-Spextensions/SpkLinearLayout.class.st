@@ -171,10 +171,16 @@ SpkLinearLayout >> layoutWithSpaceFills [
 SpkLinearLayout >> minExtent [
 
 	"Answer the minimum extent of my morph, which is expected to be polymorphic with SpkLayoutMorph."
-	
+
+	| p s |
 	self scanSubmorphs.
-	^ ( xform rectanglePStart: 0 pEnd: minimumPrimarySize  sStart: 0 sEnd: minimumSecondarySize ) extent
-	 
+	p := (self pResizingOf: morph) == #rigid
+		     ifTrue: [ self pSizeOf: morph ]
+		     ifFalse: [ minimumPrimarySize ].
+	s := (self sResizingOf: morph) == #rigid
+		     ifTrue: [ self sSizeOf: morph ]
+		     ifFalse: [ minimumSecondarySize ].
+	^ xform pointP: p s: s
 ]
 
 { #category : 'accessing' }
@@ -205,6 +211,12 @@ SpkLinearLayout >> pResizingOf: aMorph [
 ]
 
 { #category : 'as yet unclassified' }
+SpkLinearLayout >> pSizeOf: aMorph [
+
+	^ xform pOf: aMorph extent
+]
+
+{ #category : 'as yet unclassified' }
 SpkLinearLayout >> placeRigidsOnly [
 
 	self subclassResponsibility
@@ -221,6 +233,20 @@ SpkLinearLayout >> sMinimumSizeOf: aMorph [
 	"What is the minimum size along the secondary axis to display aMorph?"
 
 	^ xform sMinimumSizeOf: aMorph
+]
+
+{ #category : 'private' }
+SpkLinearLayout >> sResizingOf: aMorph [
+
+	"What is the resizing attribute of the morph along my secondary axis?"
+
+	^ xform sResizingOf: aMorph
+]
+
+{ #category : 'as yet unclassified' }
+SpkLinearLayout >> sSizeOf: aMorph [
+
+	^ xform sOf: aMorph extent
 ]
 
 { #category : 'layout' }

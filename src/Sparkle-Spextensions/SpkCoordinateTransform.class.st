@@ -105,6 +105,22 @@ SpkCoordinateTransform >> sMinimumSizeOf: aMorph [
 ]
 
 { #category : 'accessing' }
+SpkCoordinateTransform >> sOf: aPoint [
+
+	"Answer the coordinate of aPoint on the secondary axis."
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+SpkCoordinateTransform >> sResizingOf: aMorph [
+
+	"Answer the resizing attribute of aMorph along my secondary axis"
+
+	self subclassResponsibility
+]
+
+{ #category : 'accessing' }
 SpkCoordinateTransform >> sStartOf: aRectangle [
 
 	"Answer the starting coordinate on the secondary axis of a layout rectangle."

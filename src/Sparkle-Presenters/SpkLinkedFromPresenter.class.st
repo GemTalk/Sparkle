@@ -9,6 +9,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'accessing' }
+SpkLinkedFromPresenter >> color: aColor [
+
+	self layout color: aColor
+]
+
 { #category : 'layout' }
 SpkLinkedFromPresenter >> constraintsBlock [
 
@@ -36,4 +42,10 @@ SpkLinkedFromPresenter >> initializePresenters [
 	self layout
 		add: unlinkButton withConstraints: [ :c | c width: 16 ];
 		add: label
+]
+
+{ #category : 'accessing' }
+SpkLinkedFromPresenter >> label: aString [
+
+	label label: aString
 ]

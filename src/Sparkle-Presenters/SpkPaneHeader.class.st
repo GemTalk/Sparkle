@@ -51,7 +51,9 @@ SpkPaneHeader >> initializePresenters [
 		              image: (self iconNamed: #glamorousGrayCircleEmpty);
 		              yourself.
 
-	linkedFrom := self instantiate: SpkLinkedFromPresenter.
+	linkedFrom := (self instantiate: SpkLinkedFromPresenter)
+		              color: self headerColor duller;
+		              yourself.
 
 	mainLayout := SpkBoxLayout newHorizontal
 		              color: self headerColor;

@@ -30,3 +30,11 @@ SpkDebuggerFramePaneHeader >> initializePresenters [
 
 	labelLayout add: label withConstraints: [ :c | c fill: false ]
 ]
+
+{ #category : 'display' }
+SpkDebuggerFramePaneHeader >> showLinkedFrom: aBoolean [
+
+	"Show or hide my linkedFrom subpart depending on aBoolean"
+	
+	"Debugger frame panes cannot be made independent of their debugger pane, so don't ever show the linkedFrom"
+]

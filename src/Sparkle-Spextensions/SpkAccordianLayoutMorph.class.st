@@ -46,6 +46,12 @@ SpkAccordianLayoutMorph >> isVariableSize: aMorph [
 	^ (self coordinateTransform pResizingOf: aMorph) ~~ #rigid
 ]
 
+{ #category : 'accessing' }
+SpkAccordianLayoutMorph >> minExtent [
+
+	^ 0 @ 0
+]
+
 { #category : 'private' }
 SpkAccordianLayoutMorph >> optimalAllocatedSizeOf: aMorph [
 

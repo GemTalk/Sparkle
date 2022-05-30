@@ -224,16 +224,18 @@ SpkAccordianLinearLayout >> scanSubmorphs [
 	morph submorphsDo: [ :submorph | 
 		| cell |
 		cell := cells add: (SpkAccordianLayoutCell forMorph: submorph).
-		cell minimumSize: (self pMinimumSizeOf: submorph).
-		totalMinimumSize := totalMinimumSize + cell minimumSize.
 		(self isRigid: submorph)
-			ifTrue: [ cell beRigid ]
+			ifTrue: [ 
+				cell beRigid.
+				cell minimumSize: (self pMinimumSizeOf: submorph) ]
 			ifFalse: [ 
 				cell
 					beVariable;
+					minimumSize: 10;
 					allocationFactor:
 						(self optimalAllocatedSizeOf: submorph)
 						* (morph priorityOf: submorph).
 				sumOfGrantsTimesRequests := sumOfGrantsTimesRequests
-				                            + cell allocationFactor ] ]
+				                            + cell allocationFactor ].
+		totalMinimumSize := totalMinimumSize + cell minimumSize ]
 ]

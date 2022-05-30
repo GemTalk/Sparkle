@@ -93,7 +93,9 @@ SpkSplitterMove >> spaceAllocatedTo: aMorph [
 
 	| minimum overall xform |
 	xform := layoutMorph coordinateTransform.
-	minimum := xform pMinimumSizeOf: aMorph.
+	minimum := (xform pResizingOf: aMorph) == #rigid
+		           ifTrue: [ xform pMinimumSizeOf: aMorph ]
+		           ifFalse: [ 10 ].
 	overall := xform pExtentOf: aMorph.
 	^ overall - minimum
 ]

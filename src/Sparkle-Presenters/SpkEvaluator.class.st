@@ -106,7 +106,13 @@ SpkEvaluator >> initializePresenters [
 		bindKeyCombination: $d meta toAction: [ self debug ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
+SpkEvaluator >> linkageString [ 
+
+	^ 'Evaluation: ' , model oldSourceCode
+]
+
+{ #category : 'updates' }
 SpkEvaluator >> linkedPaneChanged [
 
 	header displayLinkingArrow: self hasLinkedPane

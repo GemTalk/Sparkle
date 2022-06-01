@@ -41,3 +41,9 @@ SpkCodeEditorService >> newSourceCode: aString [
 
 	newSourceCode := aString
 ]
+
+{ #category : 'accessing' }
+SpkCodeEditorService >> oldSourceCode [
+
+	^ oldSourceCode
+]

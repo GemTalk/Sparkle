@@ -3,8 +3,8 @@ Class {
 	#superclass : 'SpkHeader',
 	#instVars : [
 		'mainLayout',
-		'linkedFrom',
-		'dragHandle'
+		'dragHandle',
+		'linkagePresenter'
 	],
 	#category : 'Sparkle-Presenters-Presenters'
 }
@@ -51,9 +51,9 @@ SpkPaneHeader >> initializePresenters [
 		              image: (self iconNamed: #glamorousGrayCircleEmpty);
 		              yourself.
 
-	linkedFrom := (self instantiate: SpkLinkedFromPresenter)
-		              color: self headerColor duller;
-		              yourself.
+	linkagePresenter := (self instantiate: SpkLinkagePresenter)
+		                    color: self headerColor duller;
+		                    yourself.
 
 	mainLayout := SpkBoxLayout newHorizontal
 		              color: self headerColor;
@@ -63,19 +63,20 @@ SpkPaneHeader >> initializePresenters [
 		              add: closeButton width: self closeButtonWidth;
 		              yourself.
 
-	self layout add: mainLayout withConstraints: [ :c | c height: 30 ]
+	self layout add: mainLayout height: 30
 ]
 
 { #category : 'display' }
-SpkPaneHeader >> showLinkedFrom: aBoolean [
+SpkPaneHeader >> showLinkage: stringOrNil [
 
 	"Show or hide my linkedFrom subpart depending on aBoolean"
 
-	aBoolean
-		ifTrue: [ 
+	stringOrNil
+		ifNil: [ self layout remove: linkagePresenter ifAbsent: [  ] ]
+		ifNotNil: [ 
 			self layout
-				add: linkedFrom
-				withConstraints: linkedFrom constraintsBlock
-				ifPresent: [  ] ]
-		ifFalse: [ self layout remove: linkedFrom ifAbsent: [  ] ]
+				add: linkagePresenter
+				withConstraints: linkagePresenter constraintsBlock
+				ifPresent: [  ].
+			linkagePresenter label: stringOrNil ]
 ]

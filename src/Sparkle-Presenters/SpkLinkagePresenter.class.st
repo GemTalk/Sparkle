@@ -1,8 +1,11 @@
+"
+Appended to a pane header, shows what a linked pane is linked from.
+"
 Class {
-	#name : 'SpkLinkedFromPresenter',
+	#name : 'SpkLinkagePresenter',
 	#superclass : 'SpkPresenter',
 	#instVars : [
-		'pane',
+		'linkageIcon',
 		'unlinkButton',
 		'label'
 	],
@@ -10,25 +13,31 @@ Class {
 }
 
 { #category : 'accessing' }
-SpkLinkedFromPresenter >> color: aColor [
+SpkLinkagePresenter >> color: aColor [
 
 	self layout color: aColor
 ]
 
 { #category : 'layout' }
-SpkLinkedFromPresenter >> constraintsBlock [
+SpkLinkagePresenter >> constraintsBlock [
 
 	^ [ :c | c height: 24 ]
 ]
 
 { #category : 'layout' }
-SpkLinkedFromPresenter >> defaultLayout [
+SpkLinkagePresenter >> defaultLayout [
 
 	^ SpkBoxLayout newHorizontal
+		  hAlignWidgetsAtLeft;
+		  yourself
 ]
 
 { #category : 'initialization' }
-SpkLinkedFromPresenter >> initializePresenters [
+SpkLinkagePresenter >> initializePresenters [
+
+	linkageIcon := self newImage
+						image: (self iconNamed: #linkedFrom16);
+						yourself.
 
 	unlinkButton := self newIconButton
 		                icon: (self iconNamed: #unlinkPane16);
@@ -40,12 +49,13 @@ SpkLinkedFromPresenter >> initializePresenters [
 
 
 	self layout
-		add: unlinkButton withConstraints: [ :c | c width: 16 ];
+		add: linkageIcon width: 18;
+		add: unlinkButton width: 20;
 		add: label
 ]
 
 { #category : 'accessing' }
-SpkLinkedFromPresenter >> label: aString [
+SpkLinkagePresenter >> label: aString [
 
 	label label: aString
 ]

@@ -32,7 +32,7 @@ SpkDebuggerFramePaneHeader >> initializePresenters [
 ]
 
 { #category : 'display' }
-SpkDebuggerFramePaneHeader >> showLinkedFrom: aBoolean [
+SpkDebuggerFramePaneHeader >> showLinkage: aBoolean [
 
 	"Show or hide my linkedFrom subpart depending on aBoolean"
 	

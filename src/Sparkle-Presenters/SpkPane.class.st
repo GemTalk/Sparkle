@@ -116,6 +116,12 @@ an item really should be enabled."
 	self enabled: true
 ]
 
+{ #category : 'accessing' }
+SpkPane >> header [
+
+	self subclassResponsibility
+]
+
 { #category : 'initialization' }
 SpkPane >> initialize [
 
@@ -161,7 +167,8 @@ SpkPane >> linkedFrom: anObject [
 { #category : 'events' }
 SpkPane >> linkedFromChanged [
 
-	self header showLinkedFrom: self isLinked
+	self header showLinkage:
+		(linkedFrom ifNotNil: [ :l | l linkageString ])
 ]
 
 { #category : 'accessing' }

@@ -12,6 +12,14 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'testing' }
+SpkDebuggerPane >> canUnlink [
+
+	"Answer true if I'm a pane that can become an independent pane"
+
+	^ true
+]
+
 { #category : 'events' }
 SpkDebuggerPane >> closeRequestedLocally [
 

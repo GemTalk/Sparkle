@@ -170,15 +170,22 @@ SpkTaskspace >> newProcessListExplorer [
 ]
 
 { #category : 'running' }
+SpkTaskspace >> openEmptyExplorer [
+
+	"Answer a new empty explorer window with a new service as its model."
+
+	| xServ |
+	xServ := SpkExplorerServiceClient new registerWith: connection.
+	^ self openWindowForService: xServ
+]
+
+{ #category : 'running' }
 SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 
-	| explorer column pane |
-	explorer := SpkExplorerWindow newApplication: self model: xService.
-	explorer open.
-	column := explorer addColumn.
-	pane := column presenterForService: pService.
-	pane coordinate: (SpkPaneCoordinate forVector: #( 0.5 )).
-	column add: pane.
+	| explorer pane |
+	explorer := self openWindowForService: xService.
+	pane := explorer presenterForService: pService.
+	explorer addInitialPane: pane.
 
 	"For UI tests"
 	self announce: (SpkExplorerOpenedAnnouncement new explorer: explorer)
@@ -187,14 +194,14 @@ SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 { #category : 'running' }
 SpkTaskspace >> openWindowForService: anExplorerService [
 
+	"Answer a new empty explorer window for the given service."
+
 	| explorer |
 	explorer := SpkExplorerWindow
 		            newApplication: self
 		            model: anExplorerService.
-	explorer openWithSpec.
-
-	"For UI tests"
-	self announce: (SpkExplorerOpenedAnnouncement new explorer: explorer)
+	explorer open.
+	^ explorer
 ]
 
 { #category : 'initialization' }

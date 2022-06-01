@@ -8,12 +8,6 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
-{ #category : 'testing' }
-SpkDebuggerPaneHeader >> canUnlink [
-
-	^ true
-]
-
 { #category : 'accessing colors' }
 SpkDebuggerPaneHeader >> headerColor [
 

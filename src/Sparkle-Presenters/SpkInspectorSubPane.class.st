@@ -106,6 +106,12 @@ SpkInspectorSubPane >> nonChildSlotNames [
 	^ super nonChildSlotNames , #( #pane )
 ]
 
+{ #category : 'accessing' }
+SpkInspectorSubPane >> pane [
+
+	^ owner pane
+]
+
 { #category : 'printing' }
 SpkInspectorSubPane >> printOn: aStream [
 

@@ -15,6 +15,19 @@ SpkExplorerWindow >> abortTransaction [
 	^self application abortTransaction
 ]
 
+{ #category : 'initialize-release' }
+SpkExplorerWindow >> addInitialPane: aPane [
+
+	"Assumes an empty window. Add first column and pane within the column."
+
+	| column |
+	column := self addColumn.
+	aPane
+		owner: column;
+		coordinate: (SpkPaneCoordinate forVector: #( 0.5 )).
+	column add: aPane
+]
+
 { #category : 'transaction management' }
 SpkExplorerWindow >> beginTransaction [
 

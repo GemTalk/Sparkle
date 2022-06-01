@@ -15,7 +15,7 @@ SpkHeader >> canUnlink [
 
 	"Am I a header for a pane that can be unlinked to become an independent pane?"
 
-	^ false
+	^ self pane canUnlink
 ]
 
 { #category : 'accessing' }
@@ -127,4 +127,10 @@ SpkHeader >> menuHelp [
 	"Override to answer a string"
 
 	^ nil
+]
+
+{ #category : 'accessing' }
+SpkHeader >> pane [
+
+	^ owner pane
 ]

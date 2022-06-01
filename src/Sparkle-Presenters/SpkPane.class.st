@@ -27,6 +27,23 @@ SpkPane >> actionComplete [
 	self enableAll
 ]
 
+{ #category : 'actions' }
+SpkPane >> beIndependent [
+	| explorer |
+	self canUnlink ifFalse: [ self error: 'This pane can not be made independent' ].
+	
+	explorer := self application openEmptyExplorer.
+	explorer addInitialPane: self.
+]
+
+{ #category : 'testing' }
+SpkPane >> canUnlink [
+
+	"Answer true if I'm a pane that can become an independent pane"
+
+	^ false
+]
+
 { #category : 'initialize-release' }
 SpkPane >> close [
 
@@ -222,6 +239,12 @@ SpkPane >> newPaneForService: newService linkedTo: item [
 SpkPane >> nonChildSlotNames [
 
 	^ super nonChildSlotNames , #( #linkedFrom )
+]
+
+{ #category : 'accessing' }
+SpkPane >> pane [
+
+	^ self
 ]
 
 { #category : 'accessing' }

@@ -36,12 +36,12 @@ SpkLinkagePresenter >> defaultLayout [
 SpkLinkagePresenter >> initializePresenters [
 
 	linkageIcon := self newImage
-						image: (self iconNamed: #linkedFrom16);
-						yourself.
+		               image: (self iconNamed: #linkedFrom16);
+		               yourself.
 
 	unlinkButton := self newIconButton
 		                icon: (self iconNamed: #unlinkPane16);
-		                action: [ owner halt ];
+		                action: [ owner pane beIndependent ];
 		                help: 'Make pane independent';
 		                yourself.
 

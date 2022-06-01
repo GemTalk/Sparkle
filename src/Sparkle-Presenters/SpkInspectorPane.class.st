@@ -51,6 +51,14 @@ SpkInspectorPane >> addEvaluatorWithModel: evaluatorService [
 		withConstraints: self splitterConstraints
 ]
 
+{ #category : 'testing' }
+SpkInspectorPane >> canUnlink [
+
+	"Answer true if I'm a pane that can become an independent pane"
+
+	^ true
+]
+
 { #category : 'initialization' }
 SpkInspectorPane >> connectPresenters [
 

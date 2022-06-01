@@ -78,5 +78,6 @@ SpkPaneHeader >> showLinkage: stringOrNil [
 				add: linkagePresenter
 				withConstraints: linkagePresenter constraintsBlock
 				ifPresent: [  ].
-			linkagePresenter label: stringOrNil ]
+			linkagePresenter label: stringOrNil;
+				showUnlinkButton: self canUnlink ]
 ]

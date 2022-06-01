@@ -47,6 +47,18 @@ SpkBoxLayout >> add: newPresenter after: anExistingPresenter withConstraints: aB
 		withConstraints: aBlock
 ]
 
+{ #category : 'adding/removing presenters' }
+SpkBoxLayout >> add: newPresenter after: anExistingPresenter withConstraints: aBlock ifPresent: presentBlock [
+
+	(self includesPresenter: newPresenter)
+		ifTrue: presentBlock
+		ifFalse: [ 
+			self
+				add: newPresenter
+				after: anExistingPresenter
+				withConstraints: aBlock ]
+]
+
 { #category : 'adding' }
 SpkBoxLayout >> add: newPresenter before: anExistingPresenter [
 
@@ -65,6 +77,18 @@ SpkBoxLayout >> add: newPresenter before: anExistingPresenter withConstraints: a
 ]
 
 { #category : 'adding/removing presenters' }
+SpkBoxLayout >> add: newPresenter before: anExistingPresenter withConstraints: aBlock ifPresent: presentBlock [
+
+	(self includesPresenter: newPresenter)
+		ifTrue: presentBlock
+		ifFalse: [ 
+			self
+				add: newPresenter
+				before: anExistingPresenter
+				withConstraints: aBlock ]
+]
+
+{ #category : 'adding/removing presenters' }
 SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 
 	self
@@ -74,13 +98,25 @@ SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger [
 ]
 
 { #category : 'adding/removing presenters' }
-SpkBoxLayout >> add: aNameOrPresenter beforeIndex: anInteger withConstraints: aBlock [
+SpkBoxLayout >> add: aPresenter beforeIndex: anInteger withConstraints: constraintsBlock [
 
 	| constraints |
 	constraints := self constraintsClass new.
-	aBlock value: constraints.
-	children add: aNameOrPresenter -> constraints beforeIndex: anInteger.
-	self announceChildAdded: aNameOrPresenter beforeIndex: anInteger
+	constraintsBlock value: constraints.
+	children add: aPresenter -> constraints beforeIndex: anInteger.
+	self announceChildAdded: aPresenter beforeIndex: anInteger
+]
+
+{ #category : 'adding/removing presenters' }
+SpkBoxLayout >> add: aPresenter beforeIndex: anInteger withConstraints: constraintsBlock ifPresent: presentBlock [
+
+	(self includesPresenter: aPresenter)
+		ifTrue: presentBlock
+		ifFalse: [ 
+			self
+				add: aPresenter
+				beforeIndex: anInteger
+				withConstraints: constraintsBlock ]
 ]
 
 { #category : 'adding' }

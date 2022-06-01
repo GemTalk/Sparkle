@@ -50,7 +50,6 @@ SpkLinkagePresenter >> initializePresenters [
 
 	self layout
 		add: linkageIcon width: 18;
-		add: unlinkButton width: 20;
 		add: label
 ]
 
@@ -58,4 +57,17 @@ SpkLinkagePresenter >> initializePresenters [
 SpkLinkagePresenter >> label: aString [
 
 	label label: aString
+]
+
+{ #category : 'as yet unclassified' }
+SpkLinkagePresenter >> showUnlinkButton: aBoolean [
+
+	aBoolean
+		ifTrue: [ 
+			self layout
+				add: unlinkButton
+				before: label
+				withConstraints: [ :c | c width: 22 ]
+				ifPresent: [  ] ]
+		ifFalse: [ self layout remove: unlinkButton ifAbsent: [  ] ]
 ]

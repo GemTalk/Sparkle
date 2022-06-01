@@ -10,6 +10,14 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'testing' }
+SpkHeader >> canUnlink [
+
+	"Am I a header for a pane that can be unlinked to become an independent pane?"
+
+	^ false
+]
+
 { #category : 'accessing' }
 SpkHeader >> closeButton [
 	^ closeButton

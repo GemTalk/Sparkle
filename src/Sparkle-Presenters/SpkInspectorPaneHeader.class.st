@@ -8,6 +8,12 @@ Class {
 	#category : 'Sparkle-Presenters-Presenters'
 }
 
+{ #category : 'testing' }
+SpkInspectorPaneHeader >> canUnlink [
+
+	^ true
+]
+
 { #category : 'accessing' }
 SpkInspectorPaneHeader >> classLabel [
 	^ classLabel

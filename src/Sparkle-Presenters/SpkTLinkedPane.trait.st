@@ -64,7 +64,7 @@ SpkTLinkedPane >> linkedPane: aPane [
 	self linkedPaneChanged
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 SpkTLinkedPane >> linkedPaneChanged [
 
 	"I've gained, lost, or changed my linked pane.

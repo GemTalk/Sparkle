@@ -29,11 +29,19 @@ SpkPane >> actionComplete [
 
 { #category : 'actions' }
 SpkPane >> beIndependent [
+
 	| explorer |
-	self canUnlink ifFalse: [ self error: 'This pane can not be made independent' ].
-	
+	self canUnlink ifFalse: [ 
+		self error: 'This pane can not be made independent' ].
+
+	linkedFrom clearLinkedPane.
+	owner remove: self.
+
 	explorer := self application openEmptyExplorer.
+	
+	"#addInitialPane changes owner and updates coordinates of all panes being moved."
 	explorer addInitialPane: self.
+	self linkedPanes do: [ :lPane | lPane moveToColumnRightOf: owner ]
 ]
 
 { #category : 'testing' }
@@ -220,6 +228,21 @@ SpkPane >> menuCommands [
 			(each forSpecContext: self)
 				iconProvider: SpkIconLibrary current;
 				yourself]
+]
+
+{ #category : 'initialize-release' }
+SpkPane >> moveToColumnRightOf: aColumn [
+
+	"Move myself, and the transitive closure of my linked panes, to the column
+	immediately to the right of the given column. This column may be in a different explorer
+	from the one I'm currently in."
+
+	| newOwner |
+	owner remove: self.
+	newOwner := aColumn nextRightColumn. "Creates if none extant"
+	newOwner add: self.
+	self owner: newOwner.
+	self linkedPanes do: [ :lpane | lpane moveToColumnRightOf: owner ]
 ]
 
 { #category : 'instance creation' }

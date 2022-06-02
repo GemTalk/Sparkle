@@ -51,7 +51,7 @@ SpkMultiSelectListItem >> columnAt: anInteger [
 	^ model columnAt: anInteger
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkMultiSelectListItem >> linkageString [
 
 	"If you can't say anything nice, don't say anything at all."

@@ -151,6 +151,37 @@ SpkLayoutMorph >> minExtent [
 		  minExtent
 ]
 
+{ #category : 'focus' }
+SpkLayoutMorph >> rememberKeyboardFocus: aMorphOrNil [
+
+	^ self window ifNotNil: [ :w | w rememberKeyboardFocus: aMorphOrNil ]
+]
+
+{ #category : 'focus' }
+SpkLayoutMorph >> rememberedKeyboardFocus [
+
+	^ self window ifNotNil: [ :w | w rememberedKeyboardFocus ]
+]
+
+{ #category : 'submorphs - add/remove' }
+SpkLayoutMorph >> removeMorph: aMorph [
+
+	"Don't let keyboard focus stay within a removed morph.
+	Hand's current focus may not be the same as the window's remembered focus,
+	handle separately."
+
+	aMorph owner == self ifFalse: [ ^ self ].
+
+	self activeHand ifNotNil: [ :hand | 
+		hand keyboardFocus ifNotNil: [ :handFocus | 
+			(handFocus hasOwner: aMorph) ifTrue: [ hand newKeyboardFocus: nil ] ] ].
+
+	self rememberedKeyboardFocus ifNotNil: [ :rFocus | 
+		(rFocus hasOwner: aMorph) ifTrue: [ self rememberKeyboardFocus: nil ] ].
+
+	super removeMorph: aMorph
+]
+
 { #category : 'bogus properties' }
 SpkLayoutMorph >> reverseTableCells: aBool [
 

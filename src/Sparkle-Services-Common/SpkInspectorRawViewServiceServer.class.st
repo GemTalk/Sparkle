@@ -49,13 +49,14 @@ SpkInspectorRawViewServiceServer >> refreshFieldsFromTool [
 
 { #category : 'refreshing' }
 SpkInspectorRawViewServiceServer >> refreshFromTool [
-
 	| changed |
-	changed := false.
-	"Name will likely be nil at the first refresh."
-	name = tool name ifFalse: [ 
-		name := tool name.
-		changed := true ].
+	"This tool caches the information about the inspected object."
+	tool refresh.
+	changed := false.	"Name will likely be nil at the first refresh."
+	name = tool name
+		ifFalse: [ 
+			name := tool name.
+			changed := true ].
 	changed := changed | self refreshFieldsFromTool.
 	^ changed
 ]

@@ -69,6 +69,13 @@ SpkAccordianLayoutMorph >> priorityOf: aSubmorph [
 	^ priorities at: aSubmorph ifAbsentPut: [ 1.0 ]
 ]
 
+{ #category : 'submorphs - add/remove' }
+SpkAccordianLayoutMorph >> removedMorph: aSubmorph [
+
+	priorities removeKey: aSubmorph ifAbsent: [  ].
+	super removedMorph: aSubmorph
+]
+
 { #category : 'accessing' }
 SpkAccordianLayoutMorph >> setPriorityOf: aSubmorph to: aNumber [
 

@@ -1,8 +1,8 @@
 Class {
 	#name : 'SpkInspectorServiceClient',
 	#superclass : 'SpkInspectorService',
-	#traits : 'SpkTModel + SpkTPromise',
-	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait',
+	#traits : 'SpkTModel + SpkTPromise + SpkTPaneService',
+	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait + SpkTPaneService classTrait',
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 

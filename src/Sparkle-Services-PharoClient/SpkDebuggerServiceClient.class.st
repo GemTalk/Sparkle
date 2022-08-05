@@ -6,7 +6,7 @@ Class {
 	#category : 'Sparkle-Services-PharoClient-Services'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 SpkDebuggerServiceClient >> isValid [
 
 	"Does the debugger I represent still have a process to debug?
@@ -21,7 +21,7 @@ SpkDebuggerServiceClient >> listItems [
 	^ frames reverse
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkDebuggerServiceClient >> proceed [
 
 	| promise |
@@ -34,7 +34,15 @@ SpkDebuggerServiceClient >> proceed [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
+SpkDebuggerServiceClient >> remoteSelf [
+
+	"Hack to be able to send a remote message from a trait"
+
+	^ remoteSelf
+]
+
+{ #category : 'actions' }
 SpkDebuggerServiceClient >> terminate [
 
 	| promise |

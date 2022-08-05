@@ -20,6 +20,14 @@ SpkInspectorServiceClient >> addEvaluator [
 	^ newEvaluator
 ]
 
+{ #category : 'private' }
+SpkInspectorServiceClient >> remoteSelf [
+
+	"Hack to be able to send a remote message from a trait"
+
+	^ remoteSelf
+]
+
 { #category : 'removing' }
 SpkInspectorServiceClient >> removeEvaluator: anEvaluator [
 

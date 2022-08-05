@@ -30,18 +30,10 @@ SpkPane >> actionComplete [
 { #category : 'actions' }
 SpkPane >> beIndependent [
 
-	| explorer |
 	self canUnlink ifFalse: [ 
 		self error: 'This pane can not be made independent' ].
-
-	linkedFrom clearLinkedPane.
-	owner remove: self.
-
-	explorer := self application openEmptyExplorer.
-	
-	"#addInitialPane changes owner and updates coordinates of all panes being moved."
-	explorer addInitialPane: self.
-	self linkedPanes do: [ :lPane | lPane moveToColumnRightOf: owner ]
+	self disableAll.
+	model moveToNewExplorer
 ]
 
 { #category : 'testing' }
@@ -230,6 +222,17 @@ SpkPane >> menuCommands [
 				yourself]
 ]
 
+{ #category : 'actions' }
+SpkPane >> movePresentersTo: explorer [
+
+	linkedFrom clearLinkedPane.
+	owner remove: self.
+
+	"#addInitialPane changes owner and updates coordinates of all panes being moved."
+	explorer addInitialPane: self.
+	self linkedPanes do: [ :lPane | lPane moveToColumnRightOf: owner ]
+]
+
 { #category : 'initialize-release' }
 SpkPane >> moveToColumnRightOf: aColumn [
 
@@ -280,6 +283,17 @@ SpkPane >> panesLinkedToListItems [
 SpkPane >> receiveActionCompleteAnnouncement [ 
 	
 	self defer: [ self actionComplete ]
+]
+
+{ #category : 'announcements' }
+SpkPane >> receiveIndependentExplorerAnnouncement: anAnnouncement [
+
+	self defer: [ 
+		| explorer |
+		explorer := self application openWindowForService:
+			            anAnnouncement xServ.
+		anAnnouncement requestId movePresentersTo: explorer.
+		self actionComplete ]
 ]
 
 { #category : 'announcements' }

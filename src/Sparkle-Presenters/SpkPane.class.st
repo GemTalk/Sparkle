@@ -31,9 +31,9 @@ SpkPane >> actionComplete [
 SpkPane >> beIndependent [
 
 	self canUnlink ifFalse: [ 
-		self error: 'This pane can not be made independent' ].
+		self error: 'This pane cannot be made independent' ].
 	self disableAll.
-	model moveToNewExplorer
+	model moveToNewExplorerFor: self
 ]
 
 { #category : 'testing' }
@@ -80,12 +80,17 @@ SpkPane >> connectPresenters [
 		when: SpkActionCompleteAnnouncement
 		send: #receiveActionCompleteAnnouncement
 		to: self.
+	self canUnlink ifTrue: [ 
+		model
+			when: SpkIndependentExplorerAnnouncement
+			send: #receiveIndependentExplorerAnnouncement:
+			to: self ].
 	"enableAll, paradoxically, has the action of disabling 
 	buttons that should be disabled when the pane first opens.
 	Otherwise, all widgets start enabled.
 	Enabling doesn't do all it needs to do if the subscriptions
 	are not in place yet, so defer."
-	self defer: [self enableAll].
+	self defer: [ self enableAll ]
 ]
 
 { #category : 'accessing' }

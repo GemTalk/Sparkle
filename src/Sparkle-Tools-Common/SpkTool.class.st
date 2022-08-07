@@ -54,6 +54,13 @@ SpkTool >> initialize [
 	announcer := Announcer new
 ]
 
+{ #category : 'other' }
+SpkTool >> newExplorerTool [
+	"Answer a new explorer tool in my taskspace."
+
+	^ taskspaceTool newExplorerTool
+]
+
 { #category : 'utility' }
 SpkTool >> selfDescriptionOf: anObject [
 	"This message is only used by a few tools, and really should be in a trait,

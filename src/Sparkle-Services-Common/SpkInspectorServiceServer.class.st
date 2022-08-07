@@ -31,6 +31,27 @@ SpkInspectorServiceServer >> initializeFromTool: aTool [
 		initializeEvaluatorsFromTool
 ]
 
+{ #category : 'private' }
+SpkInspectorServiceServer >> moveToExplorer: xServ [
+	tool explorerTool: xServ tool.
+
+	evaluators do: [ :each | each moveToExplorer: xServ ].
+	views do: [ :each | each moveToExplorer: xServ ]
+]
+
+{ #category : 'remote actions' }
+SpkInspectorServiceServer >> moveToNewExplorer [
+	"Create a new explorer in my taskspace, move myself
+	and my linked panes (visible and invisible) to it, 
+	and answer the new explorer service."
+
+	| xTool xServ |
+	xTool := tool newExplorerTool.
+	xServ := SpkServiceFactory serviceForTool.
+	self moveToExplorer: xServ.
+	^ xServ
+]
+
 { #category : 'announcements' }
 SpkInspectorServiceServer >> receiveExecutionAnnouncement: announcement [
 

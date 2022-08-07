@@ -22,6 +22,11 @@ SpkInspectorFieldServiceServer >> initializeFromTool: aFieldTool [
 	self refreshFromTool
 ]
 
+{ #category : 'actions' }
+SpkInspectorFieldServiceServer >> moveToExplorer: xServ [
+	tool explorerTool: xServ tool
+]
+
 { #category : 'initialization' }
 SpkInspectorFieldServiceServer >> refreshFromTool [
 

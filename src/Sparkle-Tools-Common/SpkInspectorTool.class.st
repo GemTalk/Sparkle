@@ -53,18 +53,6 @@ SpkInspectorTool >> evaluatorTools [
 	^ evaluatorTools
 ]
 
-{ #category : 'accessing' }
-SpkInspectorTool >> explorerTool [
-
-	^ explorerTool
-]
-
-{ #category : 'accessing' }
-SpkInspectorTool >> explorerTool: anObject [
-
-	explorerTool := anObject
-]
-
 { #category : 'initialization' }
 SpkInspectorTool >> initialize [
 

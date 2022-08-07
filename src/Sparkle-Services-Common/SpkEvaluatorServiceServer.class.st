@@ -65,6 +65,11 @@ SpkEvaluatorServiceServer >> initializeTool [
 		  yourself
 ]
 
+{ #category : 'actions' }
+SpkEvaluatorServiceServer >> moveToExplorer: xServ [
+	tool explorerTool: xServ tool
+]
+
 { #category : 'initialization' }
 SpkEvaluatorServiceServer >> refreshFromTool [
 	oldSourceCode := tool oldSourceCode.

@@ -32,6 +32,13 @@ SpkInspectorFieldListViewService >> initialize [
 	fields := OrderedCollection new
 ]
 
+{ #category : 'actions' }
+SpkInspectorFieldListViewService >> moveToExplorer: xServ [
+	self tool explorerTool: xServ tool.
+
+	fields do: [ :each | each moveToExplorer: xServ ]
+]
+
 { #category : 'private' }
 SpkInspectorFieldListViewService >> newFieldServiceFor: aFieldTool [
 	^ SpkInspectorFieldServiceServer new

@@ -30,6 +30,16 @@ SpkDebuggerTool >> currentExplanation: anExplanation [
 ]
 
 { #category : 'accessing' }
+SpkDebuggerTool >> explorerTool [
+	^explorerTool
+]
+
+{ #category : 'accessing' }
+SpkDebuggerTool >> explorerTool: object [
+	explorerTool := object
+]
+
+{ #category : 'accessing' }
 SpkDebuggerTool >> frameAt: anInteger [
 	^ self frames at: anInteger
 ]

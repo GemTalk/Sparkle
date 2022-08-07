@@ -15,26 +15,31 @@ SpkDebuggerFrameDescriptionServiceServer class >> forTool: aTool [
 		  yourself
 ]
 
-{ #category : 'other' }
+{ #category : 'obsolete' }
 SpkDebuggerFrameDescriptionServiceServer >> createFrameService [
+	self flag: 'Only sent by tests which should be rewritten.'.
 	^ SpkDebuggerFrameServiceServer forTool: tool
 ]
 
-{ #category : 'other' }
+{ #category : 'initializing' }
 SpkDebuggerFrameDescriptionServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
 	self refreshFromTool
 ]
 
-{ #category : 'other' }
+{ #category : 'private' }
+SpkDebuggerFrameDescriptionServiceServer >> moveToExplorer: xServ [
+]
+
+{ #category : 'refreshing' }
 SpkDebuggerFrameDescriptionServiceServer >> refreshFromTool [
 
 	description := tool description.
 	index := tool index
 ]
 
-{ #category : 'other' }
+{ #category : 'accessing' }
 SpkDebuggerFrameDescriptionServiceServer >> tool [
 	^tool
 ]

@@ -18,6 +18,25 @@ SpkDebuggerServiceServer >> initializeFromTool: aTool [
 	self refreshFromTool
 ]
 
+{ #category : 'private' }
+SpkDebuggerServiceServer >> moveToExplorer: xServ [
+	tool explorerTool: xServ tool.
+	frames do: [ :each | each moveToExplorer: xServ ]
+]
+
+{ #category : 'actions' }
+SpkDebuggerServiceServer >> moveToNewExplorer [
+	"Create a new explorer in my taskspace, move myself
+	and my linked panes (visible and invisible) to it, 
+	and answer the new explorer service."
+
+	| xTool xServ |
+	xTool := tool newExplorerTool.
+	xServ := SpkServiceFactory serviceForTool: xTool.
+	self moveToExplorer: xServ.
+	^ xServ
+]
+
 { #category : 'actions' }
 SpkDebuggerServiceServer >> proceed [
 	"Sent from client"

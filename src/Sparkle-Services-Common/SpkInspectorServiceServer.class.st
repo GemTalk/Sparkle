@@ -39,7 +39,7 @@ SpkInspectorServiceServer >> moveToExplorer: xServ [
 	views do: [ :each | each moveToExplorer: xServ ]
 ]
 
-{ #category : 'remote actions' }
+{ #category : 'actions' }
 SpkInspectorServiceServer >> moveToNewExplorer [
 	"Create a new explorer in my taskspace, move myself
 	and my linked panes (visible and invisible) to it, 
@@ -47,7 +47,7 @@ SpkInspectorServiceServer >> moveToNewExplorer [
 
 	| xTool xServ |
 	xTool := tool newExplorerTool.
-	xServ := SpkServiceFactory serviceForTool.
+	xServ := SpkServiceFactory serviceForTool: xTool.
 	self moveToExplorer: xServ.
 	^ xServ
 ]

@@ -25,6 +25,11 @@ SpkDebuggerFrameServiceServer >> initializeFromTool: aTool [
 	self refreshFromTool
 ]
 
+{ #category : 'private' }
+SpkDebuggerFrameServiceServer >> moveToExplorer: xServ [
+	localVariables do: [ :each | each moveToExplorer: xServ ]
+]
+
 { #category : 'announcements' }
 SpkDebuggerFrameServiceServer >> receiveExecutionAnnouncement: announcement [
 

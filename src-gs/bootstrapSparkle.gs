@@ -3689,6 +3689,24 @@ removeallclassmethods RsrStream
 
 doit
 (RsrStream
+	subclass: 'RsrGsSocketStream'
+	instVarNames: #( socket )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Factory-GemStone';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrGsSocketStream
+removeallclassmethods RsrGsSocketStream
+
+doit
+(RsrStream
 	subclass: 'RsrSocketStream'
 	instVarNames: #( socket )
 	classVars: #(  )
@@ -3788,6 +3806,24 @@ true.
 
 removeallmethods RsrThreadSafeDictionary
 removeallclassmethods RsrThreadSafeDictionary
+
+doit
+(RsrObject
+	subclass: 'RsrTlsConnectionAcceptor'
+	instVarNames: #( host address port listener isListening isWaitingForConnection handshake certPath keyPath )
+	classVars: #(  )
+	classInstVars: #(  )
+	poolDictionaries: #()
+	inDictionary: Globals
+	options: #()
+)
+		category: 'RemoteServiceReplication-Factory-GemStone';
+		immediateInvariant.
+true.
+%
+
+removeallmethods RsrTlsConnectionAcceptor
+removeallclassmethods RsrTlsConnectionAcceptor
 
 doit
 (RsrObject
@@ -6815,6 +6851,12 @@ initializeFromTool: aTool
 	self refreshFromTool
 %
 
+category: 'private'
+method: SpkDebuggerFrameServiceServer
+moveToExplorer: xServ
+	localVariables do: [ :each | each moveToExplorer: xServ ]
+%
+
 category: 'announcements'
 method: SpkDebuggerFrameServiceServer
 receiveExecutionAnnouncement: announcement
@@ -7043,6 +7085,27 @@ initializeFromTool: aTool
 		send: #'receiveExecutionAnnouncement:'
 		to: self.
 	self refreshFromTool
+%
+
+category: 'private'
+method: SpkDebuggerServiceServer
+moveToExplorer: xServ
+	tool explorerTool: xServ tool.
+	frames do: [ :each | each moveToExplorer: xServ ]
+%
+
+category: 'actions'
+method: SpkDebuggerServiceServer
+moveToNewExplorer
+	"Create a new explorer in my taskspace, move myself
+	and my linked panes (visible and invisible) to it, 
+	and answer the new explorer service."
+
+	| xTool xServ |
+	xTool := tool newExplorerTool.
+	xServ := SpkServiceFactory serviceForTool: xTool.
+	self moveToExplorer: xServ.
+	^ xServ
 %
 
 category: 'actions'
@@ -7348,6 +7411,29 @@ initializeFromTool: aTool
 		initializeEvaluatorsFromTool
 %
 
+category: 'private'
+method: SpkInspectorServiceServer
+moveToExplorer: xServ
+	tool explorerTool: xServ tool.
+
+	evaluators do: [ :each | each moveToExplorer: xServ ].
+	views do: [ :each | each moveToExplorer: xServ ]
+%
+
+category: 'actions'
+method: SpkInspectorServiceServer
+moveToNewExplorer
+	"Create a new explorer in my taskspace, move myself
+	and my linked panes (visible and invisible) to it, 
+	and answer the new explorer service."
+
+	| xTool xServ |
+	xTool := tool newExplorerTool.
+	xServ := SpkServiceFactory serviceForTool: xTool.
+	self moveToExplorer: xServ.
+	^ xServ
+%
+
 category: 'announcements'
 method: SpkInspectorServiceServer
 receiveExecutionAnnouncement: announcement
@@ -7452,6 +7538,14 @@ initialize
 	fields := OrderedCollection new
 %
 
+category: 'actions'
+method: SpkInspectorFieldListViewService
+moveToExplorer: xServ
+	self tool explorerTool: xServ tool.
+
+	fields do: [ :each | each moveToExplorer: xServ ]
+%
+
 category: 'private'
 method: SpkInspectorFieldListViewService
 newFieldServiceFor: aFieldTool
@@ -7537,13 +7631,14 @@ refreshFieldsFromTool
 category: 'refreshing'
 method: SpkInspectorRawViewServiceServer
 refreshFromTool
-
 	| changed |
-	changed := false.
-	"Name will likely be nil at the first refresh."
-	name = tool name ifFalse: [ 
-		name := tool name.
-		changed := true ].
+	"This tool caches the information about the inspected object."
+	tool refresh.
+	changed := false.	"Name will likely be nil at the first refresh."
+	name = tool name
+		ifFalse: [ 
+			name := tool name.
+			changed := true ].
 	changed := changed | self refreshFieldsFromTool.
 	^ changed
 %
@@ -7693,6 +7788,13 @@ newSourceCode: aString
 	newSourceCode := aString
 %
 
+category: 'accessing'
+method: SpkCodeEditorService
+oldSourceCode
+
+	^ oldSourceCode
+%
+
 ! Class implementation for 'SpkEvaluatorService'
 
 !		Class methods for 'SpkEvaluatorService'
@@ -7807,6 +7909,12 @@ initializeTool
 		  yourself
 %
 
+category: 'actions'
+method: SpkEvaluatorServiceServer
+moveToExplorer: xServ
+	tool explorerTool: xServ tool
+%
+
 category: 'initialization'
 method: SpkEvaluatorServiceServer
 refreshFromTool
@@ -7884,13 +7992,14 @@ forTool: aTool
 
 !		Instance methods for 'SpkDebuggerFrameDescriptionServiceServer'
 
-category: 'other'
+category: 'obsolete'
 method: SpkDebuggerFrameDescriptionServiceServer
 createFrameService
+	self flag: 'Only sent by tests which should be rewritten.'.
 	^ SpkDebuggerFrameServiceServer forTool: tool
 %
 
-category: 'other'
+category: 'initializing'
 method: SpkDebuggerFrameDescriptionServiceServer
 initializeFromTool: aTool
 
@@ -7898,7 +8007,12 @@ initializeFromTool: aTool
 	self refreshFromTool
 %
 
-category: 'other'
+category: 'private'
+method: SpkDebuggerFrameDescriptionServiceServer
+moveToExplorer: xServ
+%
+
+category: 'refreshing'
 method: SpkDebuggerFrameDescriptionServiceServer
 refreshFromTool
 
@@ -7906,7 +8020,7 @@ refreshFromTool
 	index := tool index
 %
 
-category: 'other'
+category: 'accessing'
 method: SpkDebuggerFrameDescriptionServiceServer
 tool
 	^tool
@@ -7982,6 +8096,12 @@ initializeFromTool: aFieldTool
 
 	tool := aFieldTool.
 	self refreshFromTool
+%
+
+category: 'actions'
+method: SpkInspectorFieldServiceServer
+moveToExplorer: xServ
+	tool explorerTool: xServ tool
 %
 
 category: 'initialization'
@@ -10874,6 +10994,15 @@ maximumReclamation
 category: 'instance creation'
 classmethod: RsrHandshake
 steps: anArrayOfSteps
+
+	^self new
+		steps: anArrayOfSteps;
+		yourself
+%
+
+category: 'instance creation'
+classmethod: RsrHandshake
+steps: anArrayOfSteps
 stream: aStream
 
 	^self new
@@ -10889,7 +11018,15 @@ method: RsrHandshake
 perform
 	"Perform the sequence of configured steps."
 
-	self steps do: [:each | each performOver: self stream]
+	^self performOver: self stream
+%
+
+category: 'performing'
+method: RsrHandshake
+performOver: aStream
+	"Perform the sequence of configured steps."
+
+	self steps do: [:each | each performOver: aStream]
 %
 
 category: 'accessing'
@@ -13476,7 +13613,7 @@ method: RsrSocket
 initialize
 
 	super initialize.
-	nativeSocket := GsSignalingSocket new.
+	nativeSocket := GsSignalingSocket newIpv6.
 %
 
 category: 'testing'
@@ -13602,6 +13739,106 @@ nextPutAll: aByteArray
 	"Write <aByteArray>'s elements to the backing store."
 
 	^self subclassResponsibility
+%
+
+! Class implementation for 'RsrGsSocketStream'
+
+!		Class methods for 'RsrGsSocketStream'
+
+category: 'instance creation'
+classmethod: RsrGsSocketStream
+on: anRsrSocket
+
+	^self new
+		socket: anRsrSocket;
+		yourself
+%
+
+!		Instance methods for 'RsrGsSocketStream'
+
+category: 'testing'
+method: RsrGsSocketStream
+atEnd
+	"Return whether additional bytes could become available on the socket."
+
+	^socket isConnected not
+%
+
+category: 'accessing'
+method: RsrGsSocketStream
+chunkSize
+	"The largest size that should be read from or written to a Socket in each attempt."
+
+	^4096
+%
+
+category: 'closing'
+method: RsrGsSocketStream
+close
+
+	socket close
+%
+
+category: 'accessing'
+method: RsrGsSocketStream
+next
+	"Return the next byte"
+
+	^self next: 1
+%
+
+category: 'accessing'
+method: RsrGsSocketStream
+next: count
+	"Return exactly <count> number of bytes.
+	Signal RsrSocketClosed if the socket closes."
+
+	^[| chunkSize bytes position numRead |
+	chunkSize := self chunkSize.
+	bytes := ByteArray new: count.
+	position := 1.
+	[position <= count]
+		whileTrue:
+			[numRead := socket
+				read: (chunkSize min: count - position + 1)
+				into: bytes
+				startingAt: position.
+			numRead > 0
+				ifFalse:
+					[socket close.
+					RsrSocketClosed signal].
+			GsFile gciLogClient: 'numRead: ', numRead printString.
+			position := position + numRead].
+	bytes]
+		on: SocketError
+		do: [:ex | ex resignalAs: (RsrSocketClosed new messageText: ex messageText)].
+%
+
+category: 'adding'
+method: RsrGsSocketStream
+nextPutAll: bytes
+	"Write <bytes> to the socket."
+
+	| chunkSize position numBytes numWritten |
+	chunkSize := self chunkSize.
+	position := 1.
+	numBytes := bytes size.
+	[position <= numBytes]
+		whileTrue:
+			[numWritten := [socket
+				write: (chunkSize min: numBytes - position + 1)
+				from: bytes
+				startingAt: position]
+					on: SocketError
+					do: [:ex | ex resignalAs: (RsrSocketClosed new messageText: ex messageText)].
+			position := position + numWritten]
+%
+
+category: 'accessing'
+method: RsrGsSocketStream
+socket: anRsrSocket
+
+	socket := anRsrSocket
 %
 
 ! Class implementation for 'RsrSocketStream'
@@ -13882,7 +14119,7 @@ executeCycle
 		do:
 			[:ex |
 			self reportException: ex.
-			self channel channelDisconnected]
+			self channel disconnected]
 %
 
 category: 'commands'
@@ -13940,10 +14177,15 @@ category: 'writing'
 method: RsrCommandSink
 writeCommand: aCommand
 
+	| bytes |
 	self report: aCommand.
-	aCommand
-		encode: self outStream
-		using: self encoder
+	bytes := ByteArray
+		streamContents:
+			[:stream |
+			aCommand
+				encode: stream
+				using: self encoder].
+	self write: bytes
 %
 
 ! Class implementation for 'RsrCommandSource'
@@ -13977,7 +14219,7 @@ executeCycle
 		do:
 			[:ex |
 			self reportException: ex.
-			self channel channelDisconnected]
+			self channel disconnected]
 %
 
 category: 'accessing'
@@ -14071,6 +14313,173 @@ ifAbsent: aBlock
 	^wasRemoved
 		ifTrue: [element]
 		ifFalse: [aBlock value]
+%
+
+! Class implementation for 'RsrTlsConnectionAcceptor'
+
+!		Class methods for 'RsrTlsConnectionAcceptor'
+
+category: 'instance creation'
+classmethod: RsrTlsConnectionAcceptor
+address: address
+port: port
+handshake: requiredHandshake
+certPath: certPath
+keyPath: keyPath
+
+	^self new
+		address: address;
+		port: port;
+		handshake: requiredHandshake;
+		certPath: certPath;
+		keyPath: keyPath;
+		yourself
+%
+
+!		Instance methods for 'RsrTlsConnectionAcceptor'
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+address
+	"Host address to listen on"
+
+	^address
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+address: addressString
+	"Host address to listen on"
+
+	address := addressString
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+certPath
+	"TLS Certificate Path"
+
+	^certPath
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+certPath: certPathString
+	"TLS Certificate Path"
+
+	certPath := certPathString
+%
+
+category: 'actions'
+method: RsrTlsConnectionAcceptor
+ensureListening
+
+	isListening ifTrue: [^self].
+	[listener
+		bindTo: self port
+		toAddress: self address]
+		on: SocketError, OutOfRange
+		do: [:ex | ex resignalAs: (RsrInvalidBind new messageText: ex messageText)].
+	listener makeListener: 1.
+	isListening := true
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+handshake
+	"Handshake required to successfully accept a Connection."
+
+	^handshake
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+handshake: requiredHandshake
+	"Handshake required to successfully accept a Connection."
+
+	handshake := requiredHandshake
+%
+
+category: 'initializing'
+method: RsrTlsConnectionAcceptor
+initialize
+
+	super initialize.
+	listener := self socketClass newServerIpv6.
+	isWaitingForConnection := false.
+	isListening := false
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+keyPath
+	"TLS Private Key Path"
+
+	^keyPath
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+keyPath: keyPathString
+	"TLS Private Key Path"
+
+	keyPath := keyPathString
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+port
+	"Listening port"
+
+	^port
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+port: portNumber
+	"Listening port"
+
+	port := portNumber
+%
+
+category: 'accessing'
+method: RsrTlsConnectionAcceptor
+socketClass
+	"Return the class that should be used for creating Socket instances."
+
+	^GsSecureSocket
+%
+
+category: 'actions'
+method: RsrTlsConnectionAcceptor
+waitForConnection
+
+	| socket stream channel connection |
+	self ensureListening.
+	[isWaitingForConnection := true.
+	socket := [listener accept]
+		on: SocketError
+		do: [:ex | ex resignalAs: RsrWaitForConnectionCancelled new]]
+			ensure:
+				[listener close.
+				listener := nil.
+				isWaitingForConnection := false].
+	socket
+		useCertificateFile: self certPath
+		withPrivateKeyFile: self keyPath
+		privateKeyPassphrase: nil.
+	socket secureAccept.
+	stream := RsrGsSocketStream on: socket.
+	handshake performOver: stream.
+	channel := RsrBinaryStreamChannel
+		inStream: stream
+		outStream: stream.
+	connection := RsrConnection
+		specification: self
+		channel: channel
+		transactionSpigot: RsrThreadSafeNumericSpigot naturals
+		oidSpigot: RsrThreadSafeNumericSpigot naturals.
+	^connection open
 %
 
 ! Class implementation for 'RsrTokenExchangeMessage'
@@ -15400,6 +15809,14 @@ initialize
 	announcer := Announcer new
 %
 
+category: 'other'
+method: SpkTool
+newExplorerTool
+	"Answer a new explorer tool in my taskspace."
+
+	^ taskspaceTool newExplorerTool
+%
+
 category: 'utility'
 method: SpkTool
 selfDescriptionOf: anObject
@@ -15813,6 +16230,18 @@ currentExplanation: anExplanation
 	currentExplanation := anExplanation.
 	"Proceed and terminate set to nil, so we will re-initialize."
 	whyDebugged ifNil: [ whyDebugged := anExplanation description ]
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+explorerTool
+	^explorerTool
+%
+
+category: 'accessing'
+method: SpkDebuggerTool
+explorerTool: object
+	explorerTool := object
 %
 
 category: 'accessing'
@@ -16915,20 +17344,6 @@ method: SpkInspectorTool
 evaluatorTools
 
 	^ evaluatorTools
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-explorerTool
-
-	^ explorerTool
-%
-
-category: 'accessing'
-method: SpkInspectorTool
-explorerTool: anObject
-
-	explorerTool := anObject
 %
 
 category: 'initialization'

@@ -45,14 +45,14 @@ BaselineOfSparkle >> baseline: spec [
 			baseline: 'RemoteServiceReplication'
 			with: [ spec repository: self rsrUrl ].
 		spec
-			baseline: 'Pharo-GemStoneFFI'
+			baseline: 'PharoGemStoneFFI'
 			with: [ spec repository: self ffiUrl ] ]
 ]
 
 { #category : 'baselines' }
 BaselineOfSparkle >> ffiUrl [
 
-	^ self urlForProject: 'Pharo-GemStoneFFI'
+	^ self urlForProject: 'PharoGemStoneFFI'
 ]
 
 { #category : 'baselines' }

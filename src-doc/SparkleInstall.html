@@ -370,8 +370,8 @@ code {
 <!-- Linted at https://dlaa.me/markdownlint/ -->
 <h1 id="sparkle-installation">Sparkle Installation</h1>
 <h2 id="overview">Overview</h2>
-<p>Sparkle 1.0 Alpha is a development version of the Pharo IDE for GemStone project, which provides GemStone development tools in the Pharo client Smalltalk environment.
-This initial version of Sparkle provides a limited set of debugging tools:</p>
+<p>Sparkle Alpha is an early version of the Sparkle Development Environment. Sparkle provides a user interface running in the Pharo 10 Smalltalk environment for developing GemStone Smalltalk.
+This early version of Sparkle provides a set of debugging tools:</p>
 <ul>
 <li>The Sparkle Launcher, allowing you to create login configuration parameters and login; you may also edit, persist, and restore the login configurations.</li>
 <li>The Sparkle Object Explorer, allowing you to evaluate GemStone Smalltalk expressions and examine the contents of GemStone server objects.</li>
@@ -381,9 +381,9 @@ This initial version of Sparkle provides a limited set of debugging tools:</p>
 <p>Sparkle is under active development and information in this document is likely to become out of date without notice.
 See the project on github: <a href="https://github.com/GemTalk/Sparkle">https://github.com/GemTalk/Sparkle</a></p>
 <h2 id="requirements">Requirements</h2>
-<p>With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of March 1, 2022 (the date of this document), but alpha builds are available.
+<p>With Sparkle, you must use GemStone/S 64™ Bit v3.7, which has some additional features that are required for Sparkle support. v3.7 is not released as of Apr 24, 2023 (the date of this document), but alpha builds are available.
 You should have GemStone v3.7 installed on a supported Linux or MacOS server, with a Stone running and available for use.
-Sparkle is supported with Pharo 9. For the Pharo client, you should have a Windows, MacOS, or Linux environment in which you will install Pharo.</p>
+Sparkle requires Pharo 10. For the Pharo client, you should have a Windows, MacOS, or Linux environment in which you will install Pharo.</p>
 <h2 id="gemstone-server-installation-standard-image">GemStone Server Installation (Standard image)</h2>
 <p>The following instructions are for the GemStone server, which can be run on Linux or MacOS.</p>
 <h3 id="install-gemstone-with-standard-image">Install GemStone with standard image</h3>
@@ -422,11 +422,11 @@ This clones the <strong>main</strong>  branch of the Sparkle repository.</li>
 <p>The result of the &quot;errorcount&quot; at the end of the output should be 0.
 Sparkle is now installed in the GemStone server.</p>
 <h2 id="gemstone-server-installation-rowan-image">GemStone Server Installation (Rowan image)</h2>
-<p>The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.2 loaded, which can be used with Jadeite v3.1.1pr4.  This rowan extent must be downloaded separately.</p>
+<p>The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.x loaded, which can be used with Jadeite v3.1.1pr4.</p>
 <h3 id="install-gemstone-with-rowan-image">Install GemStone with Rowan image</h3>
 <ol>
-<li>Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository). Installing a 3.7 alpha release is similar to installing previous releases; see <a href="https://gemtalksystems.com/products/gs64/versions36x/">https://gemtalksystems.com/products/gs64/versions36x/</a>.</li>
-<li>Copy the rowan extent, <code>extent0.rowan.dbf</code>, into the extent location (usually $GEMSTONE/data/).</li>
+<li>Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install. Installing a 3.7 alpha release is similar to installing previous releases; see <a href="https://gemtalksystems.com/products/gs64/versions36x/">https://gemtalksystems.com/products/gs64/versions36x/</a>.</li>
+<li>Copy the rowan extent, <code>extent0.rowan.dbf</code>, into the extent location (by default $GEMSTONE/data/extent0.dbf).</li>
 <li>Start a v3.7 Stone.</li>
 </ol>
 <h3 id="clone-sparkle-from-github">Clone Sparkle from GitHub</h3>
@@ -470,7 +470,7 @@ Sparkle is now installed in the GemStone server.</p>
 <li>Run PharoLauncher to open the Launcher.</li>
 <li>Click on ✲ <strong>New</strong>.</li>
 <li>In the Template Category list, select <strong>Official Distributions</strong>.</li>
-<li>Select <strong>Pharo 9.0 - 64bit (stable)</strong>. Be sure you select the 64-bit image.</li>
+<li>Select <strong>Pharo 10.0 - 64bit (old stable)</strong>. Be sure you select the 64-bit image.</li>
 <li>Select ✲ <strong>Create image</strong>. This will create a new Pharo image based on the selected template.</li>
 <li>Use the right-click menu item ‣ <strong>Launch</strong> to launch the image.</li>
 </ol>
@@ -483,10 +483,10 @@ Sparkle is now installed in the GemStone server.</p>
 <div style="page-break-after: always;"></div>
 <h4 id="script-based-installation">Script-based installation</h4>
 <p>Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.
-The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see <a href="#iceberg-default-repository-location">Iceberg default repository location</a>).</p>
+The script clones Sparkle, and the other required repositories (PharoGemStoneFFI and RemoteServiceReplication) into the default location (see <a href="#iceberg-default-repository-location">Iceberg default repository location</a>).</p>
 <ol>
 <li>
-<p>Launch the Pharo 9.0 image.</p>
+<p>Launch the Pharo 10.0 image.</p>
 </li>
 <li>
 <p>Open the Settings Browser using <strong>Pharo &gt; Settings</strong> , select <strong>Appearance</strong> , and expand the list. Change the <strong>User interface theme</strong>  to &quot;Pharo Dark.&quot; Sparkle is not yet themed and the color combinations are difficult to read in the light theme.</p>
@@ -515,11 +515,11 @@ See <strong>Settings &gt; Tools &gt; Software Configuration Management &gt; Iceb
 <li>Clone the three required repositories into <em>gitRepositoryDir</em>. Provided you have set ROWAN_PROJECTS_HOME, when you load Sparkle, it will use the existing clones of these repositories, rather than cloning them:
 <ul>
 <li><a href="https://github.com/GemTalk/Sparkle.git">https://github.com/GemTalk/Sparkle.git</a></li>
-<li><a href="https://github.com/GemTalk/SparkleFFI.git">https://github.com/GemTalk/SparkleFFI.git</a></li>
+<li><a href="https://github.com/GemTalk/PharoGemStoneFFI.git">https://github.com/GemTalk/PharoGemStoneFFI.git</a></li>
 <li><a href="https://github.com/GemTalk/RemoteServiceReplication.git">https://github.com/GemTalk/RemoteServiceReplication.git</a></li>
 </ul>
 </li>
-<li>Launch the Pharo 9.0 image.</li>
+<li>Launch the Pharo 10.0 image.</li>
 <li>Open the Settings Browser using <strong>Pharo &gt; Settings</strong> , select <strong>Appearance</strong> , and expand the list. Change the <strong>UserInterfaceTheme</strong>  to &quot;Pharo Dark.&quot; Sparkle is not yet themed and the color combinations are difficult to read in the light theme.</li>
 <li>Iceberg is the tool in Pharo that provides an interface to load from and write to git repositories. Open Iceberg using <strong>Browse &gt; Iceberg</strong>.</li>
 <li>In the Iceberg repository list window, click + <strong>Add</strong>  in the upper right.</li>

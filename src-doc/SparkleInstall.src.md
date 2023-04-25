@@ -56,12 +56,12 @@ Sparkle is now installed in the GemStone server.
 
 ## GemStone Server Installation (Rowan image)
 
-The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.x loaded, which can be used with Jadeite v3.1.1pr4.  This rowan extent must be downloaded separately.
+The following instructions are for installing sparkle into a Rowan-enabled GemStone server. Rowan is a code management system for Smalltalk code within GemStone, and supports the Jadeite client smalltalk environment. Rowan is under active development and in the process of integration with the GemStone server. The GemStone distribution includes a rowan-based extent with Rowan v2.x loaded, which can be used with Jadeite v3.1.1pr4.
 
 ### Install GemStone with Rowan image
 
-1. Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install, in particular including the upgrade directory (which contains the Rowan repository). Installing a 3.7 alpha release is similar to installing previous releases; see <https://gemtalksystems.com/products/gs64/versions36x/>.
-2. Copy the rowan extent, `extent0.rowan.dbf`, into the extent location (usually $GEMSTONE/data/).
+1. Install the latest alpha release of GemStone/S 64 Bit v3.7. Note that v3.7 is under active development; versions other than the most recent may not work correctly.  This is expected to be a full install. Installing a 3.7 alpha release is similar to installing previous releases; see <https://gemtalksystems.com/products/gs64/versions36x/>.
+2. Copy the rowan extent, `extent0.rowan.dbf`, into the extent location (by default $GEMSTONE/data/extent0.dbf).
 3. Start a v3.7 Stone.
 
 ### Clone Sparkle from GitHub
@@ -103,7 +103,7 @@ The following instructions are for the Sparkle client, which can be run on Windo
 2. Run PharoLauncher to open the Launcher.
 3. Click on ✲ **New**.
 4. In the Template Category list, select **Official Distributions**.
-5. Select **Pharo 10.0 - 64bit (stable)**. Be sure you select the 64-bit image.
+5. Select **Pharo 10.0 - 64bit (old stable)**. Be sure you select the 64-bit image.
 6. Select ✲ **Create image**. This will create a new Pharo image based on the selected template.
 7. Use the right-click menu item &#x2023; **Launch** to launch the image.
 
@@ -119,7 +119,7 @@ There are two ways to build a Sparkle-enabled Pharo image:
 #### Script-based installation
 
 Using the script-based install, you do not need to manually clone the git repositories, nor consider the underlying git repositories; the script clones and loads for you.
-The script clones Sparkle, and the other required repositories (SparkleFFI and RemoteServiceReplication) into the default location (see [Iceberg default repository location](#iceberg-default-repository-location)).
+The script clones Sparkle, and the other required repositories (PharoGemStoneFFI and RemoteServiceReplication) into the default location (see [Iceberg default repository location](#iceberg-default-repository-location)).
 
 1. Launch the Pharo 10.0 image.
 2. Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **User interface theme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.
@@ -149,7 +149,7 @@ Rather than using the above script, you may manually clone the repositories, and
 2. Define the environment variable ROWAN_PROJECTS_HOME to point to _gitRepositoryDir_, prior to starting the Pharo launcher.
 3. Clone the three required repositories into _gitRepositoryDir_. Provided you have set ROWAN_PROJECTS_HOME, when you load Sparkle, it will use the existing clones of these repositories, rather than cloning them:
    * [https://github.com/GemTalk/Sparkle.git](https://github.com/GemTalk/Sparkle.git)
-   * [https://github.com/GemTalk/SparkleFFI.git](https://github.com/GemTalk/SparkleFFI.git)
+   * [https://github.com/GemTalk/PharoGemStoneFFI.git](https://github.com/GemTalk/PharoGemStoneFFI.git)
    * [https://github.com/GemTalk/RemoteServiceReplication.git](https://github.com/GemTalk/RemoteServiceReplication.git)
 4. Launch the Pharo 10.0 image.
 5. Open the Settings Browser using **Pharo > Settings** , select **Appearance** , and expand the list. Change the **UserInterfaceTheme**  to "Pharo Dark." Sparkle is not yet themed and the color combinations are difficult to read in the light theme.

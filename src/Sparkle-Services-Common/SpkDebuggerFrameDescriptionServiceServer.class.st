@@ -17,7 +17,7 @@ SpkDebuggerFrameDescriptionServiceServer class >> forTool: aTool [
 
 { #category : 'obsolete' }
 SpkDebuggerFrameDescriptionServiceServer >> createFrameService [
-	self flag: 'Only sent by tests which should be rewritten.'.
+	"Only sent by tests which should be rewritten."
 	^ SpkDebuggerFrameServiceServer forTool: tool
 ]
 

@@ -43,7 +43,7 @@ SpkTestRunner >> executeSuite: aTestSuite as: aBlock [
 	aTestSuite
 		when: TestAnnouncement
 		do: [ :announcement | 
-		WorldState defer: [ self updateStatus: false ] ].
+		self currentWorld defer: [ self updateStatus: false ] ].
 
 	[ aBlock cull: aTestSuite cull: result ] ensure: [ 
 		aTestSuite unsubscribe: TestAnnouncement ]

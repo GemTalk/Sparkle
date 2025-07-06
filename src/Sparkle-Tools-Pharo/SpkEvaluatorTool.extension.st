@@ -8,17 +8,15 @@ SpkEvaluatorTool >> compilationExceptionClass [
 
 { #category : '*Sparkle-Tools-Pharo' }
 SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
-
 	"Answer a method compiled from my new source code in the context of the given object"
 
 	| compiler class |
 	class := SpkReflection classOf: anObject.
 	compiler := class compiler.
 
-	compiler
-		source: newSourceCode;
-		noPattern: true.
-	^ compiler compileDoit
+	compiler source: newSourceCode.
+	compiler compilationContext noPattern: true.
+	^ compiler compile
 ]
 
 { #category : '*Sparkle-Tools-Pharo' }

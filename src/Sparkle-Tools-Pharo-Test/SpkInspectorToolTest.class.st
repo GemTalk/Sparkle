@@ -66,7 +66,7 @@ SpkInspectorToolTest >> testFieldToolsSize [
 	self assert: self fieldToolsSize equals: 0.
 
 	self newInspectorToolOn: nil class.
-	self assert: self fieldToolsSize equals: 11.
+	self assert: self fieldToolsSize equals: 12.
 
 	self newInspectorToolOn: 42.
 	self assert: self fieldToolsSize equals: 0.

@@ -96,12 +96,20 @@ SpkWindow >> iconNamed: aSymbol [
 { #category : 'accessing' }
 SpkWindow >> model: aPresenter [
 
+	| menuBoxIsOnLeft |
 	super model: aPresenter.
 	labelArea ifNil: [ ^ self ]. "No menu if no label area"
 	hamburgerMenu ifNotNil: [ hamburgerMenu delete ].
-	labelArea
-		addMorph: (hamburgerMenu := self createHamburgerMenu)
-		inFrontOf: menuBox
+	hamburgerMenu := self createHamburgerMenu.
+
+	"Hackily detect whether my label area is laid out in macOs or Linux/Windows order."
+	menuBoxIsOnLeft := (labelArea submorphs indexOf: menuBox) = 2.
+	menuBoxIsOnLeft
+		ifTrue: [ labelArea addMorph: hamburgerMenu after: menuBox ]
+		ifFalse: [
+			labelArea
+				addMorph: (hamburgerMenu := self createHamburgerMenu)
+				inFrontOf: menuBox ]
 ]
 
 { #category : 'menus' }

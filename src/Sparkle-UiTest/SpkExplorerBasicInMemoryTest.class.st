@@ -12,7 +12,7 @@ SpkExplorerBasicInMemoryTest >> initializeConnection [
 	^ connection
 ]
 
-{ #category : 'running' }
+{ #category : 'tests' }
 SpkExplorerBasicInMemoryTest >> testColumnAndPaneQuantity [
 
 	"Default should have one column with one pane"
@@ -22,7 +22,7 @@ SpkExplorerBasicInMemoryTest >> testColumnAndPaneQuantity [
 		assert: explorerPresenter columns first panes size equals: 1
 ]
 
-{ #category : 'running' }
+{ #category : 'tests' }
 SpkExplorerBasicInMemoryTest >> testInspectorPaneOop [
 
 	| inspector |
@@ -32,7 +32,7 @@ SpkExplorerBasicInMemoryTest >> testInspectorPaneOop [
 		equals: nil identityHash hex
 ]
 
-{ #category : 'running' }
+{ #category : 'tests' }
 SpkExplorerBasicInMemoryTest >> testInstvarClasses [
 
 	self
@@ -42,7 +42,7 @@ SpkExplorerBasicInMemoryTest >> testInstvarClasses [
 		assert: explorerPresenter columns class equals: OrderedCollection
 ]
 
-{ #category : 'running' }
+{ #category : 'tests' }
 SpkExplorerBasicInMemoryTest >> testOpenExplorer [
 
 	self assert: explorerPresenter class equals: SpkExplorerWindow

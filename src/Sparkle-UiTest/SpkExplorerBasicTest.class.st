@@ -19,7 +19,11 @@ SpkExplorerBasicTest class >> isAbstract [
 { #category : 'support' }
 SpkExplorerBasicTest >> closeExplorer [
 
-	explorerPresenter close
+	| exp |
+	"Capture the presenter in this thread; 
+	by the time the UI thread reads it, it will likely be nil."
+	exp := explorerPresenter.
+	self defer: [ exp close ]
 ]
 
 { #category : 'support' }
@@ -44,7 +48,7 @@ SpkExplorerBasicTest >> newEvaluator [
 		send: #windowOpened:
 		to: self.
 	taskspace newEvaluator.
-	(uiWaitingSemaphore wait: 5 seconds) ifTrue: [ 
+	(uiWaitingSemaphore wait: 5 seconds) ifTrue: [
 		self fail: 'Explorer open timed out.' ]
 ]
 

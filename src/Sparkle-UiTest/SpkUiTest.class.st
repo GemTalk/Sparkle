@@ -43,11 +43,18 @@ SpkUiTest >> initializeConnection [
 
 { #category : 'running' }
 SpkUiTest >> run: aResult [
-	"This doesn't really work, but at least doesn't hang,
-	which using the test button on the class in the browser
-	does without this method."
+	"Don't actually run the tests, let the user know that
+	they can't be run, but can be individually debugged."
 
-	[ super run: aResult ] fork
+	| message |
+	message := 'These UI tests are multi-threaded and 
+	rely on the UI thread processing events during the test,
+	so they cannot be run from a test runner that does not 
+	have a thread-aware way of reporting results.
+	Debug each test method individually using the buttons 
+	in the browser. 
+	If no debugger opens the test passed.'.
+	Warning signal: message
 ]
 
 { #category : 'running' }

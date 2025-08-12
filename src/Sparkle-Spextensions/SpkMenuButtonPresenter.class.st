@@ -7,7 +7,9 @@ Class {
 	#instVars : [
 		'menu'
 	],
-	#category : 'Sparkle-Spextensions-Presenters'
+	#category : 'Sparkle-Spextensions-Presenters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Presenters'
 }
 
 { #category : 'api' }

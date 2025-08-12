@@ -3,7 +3,9 @@ Trait {
 	#instVars : [
 		'enabled'
 	],
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'accessing' }

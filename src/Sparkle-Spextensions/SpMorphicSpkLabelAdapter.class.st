@@ -6,7 +6,9 @@ I adapt an SpkLabelPresenter to Morphic. In addition to what my superclass does,
 Class {
 	#name : 'SpMorphicSpkLabelAdapter',
 	#superclass : 'SpMorphicLabelAdapter',
-	#category : 'Sparkle-Spextensions-Adapters'
+	#category : 'Sparkle-Spextensions-Adapters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Adapters'
 }
 
 { #category : 'factory' }

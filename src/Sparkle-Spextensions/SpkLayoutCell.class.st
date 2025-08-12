@@ -18,7 +18,9 @@ Class {
 		'isRigid',
 		'minimumSize'
 	],
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'instance creation' }

@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpkMultipleSelectionTablePresenter',
 	#superclass : 'SpTablePresenter',
-	#category : 'Sparkle-Spextensions-Presenters'
+	#category : 'Sparkle-Spextensions-Presenters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Presenters'
 }
 
 { #category : 'specs' }

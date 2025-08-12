@@ -4,7 +4,9 @@ Split extra space between submorphs, resulting in fully-justified submorphs.
 Class {
 	#name : 'SpkLinearLayoutPlaceJustified',
 	#superclass : 'SpkLinearLayout',
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'layout' }

@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpMorphicSpkWindowAdapter',
 	#superclass : 'SpMorphicWindowAdapter',
-	#category : 'Sparkle-Spextensions-Adapters'
+	#category : 'Sparkle-Spextensions-Adapters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Adapters'
 }
 
 { #category : 'factory' }

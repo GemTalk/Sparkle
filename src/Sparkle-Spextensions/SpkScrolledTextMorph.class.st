@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpkScrolledTextMorph',
 	#superclass : 'RubScrolledTextMorph',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'model protocol' }

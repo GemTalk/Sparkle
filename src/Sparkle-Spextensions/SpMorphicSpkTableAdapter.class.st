@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpMorphicSpkTableAdapter',
 	#superclass : 'SpMorphicTableAdapter',
-	#category : 'Sparkle-Spextensions-Adapters'
+	#category : 'Sparkle-Spextensions-Adapters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Adapters'
 }
 
 { #category : 'factory' }

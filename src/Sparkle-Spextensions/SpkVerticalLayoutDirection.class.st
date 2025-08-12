@@ -1,5 +1,7 @@
 Class {
 	#name : 'SpkVerticalLayoutDirection',
 	#superclass : 'SpVerticalLayoutDirection',
-	#category : 'Sparkle-Spextensions-Layouts'
+	#category : 'Sparkle-Spextensions-Layouts',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Layouts'
 }

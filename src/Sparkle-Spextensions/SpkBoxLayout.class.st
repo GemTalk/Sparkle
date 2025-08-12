@@ -15,7 +15,9 @@ Class {
 		'color',
 		'borderWidth'
 	],
-	#category : 'Sparkle-Spextensions-Layouts'
+	#category : 'Sparkle-Spextensions-Layouts',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Layouts'
 }
 
 { #category : 'private' }
@@ -401,14 +403,14 @@ SpkBoxLayout >> vAlignWidgetsAtTop [
 SpkBoxLayout >> whenChildrenAddedDo: aBlock [
 	"It's really *one* child that has been added, sigh."
 
-	self announcer when: SpkChildAdded do: aBlock
+	self announcer when: SpkChildAdded do: aBlock for: aBlock receiver
 ]
 
 { #category : 'adding/removing presenters' }
 SpkBoxLayout >> whenChildrenRemovedDo: aBlock [
 	"It's really *one* child that has been removed, sigh."
 
-	self announcer when: SpkChildRemoved do: aBlock
+	self announcer when: SpkChildRemoved do: aBlock for: aBlock receiver
 ]
 
 { #category : 'accessing' }

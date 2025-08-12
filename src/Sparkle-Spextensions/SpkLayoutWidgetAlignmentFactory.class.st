@@ -18,7 +18,9 @@ Public API and Key Messages
 Class {
 	#name : 'SpkLayoutWidgetAlignmentFactory',
 	#superclass : 'Object',
-	#category : 'Sparkle-Spextensions-Layouts'
+	#category : 'Sparkle-Spextensions-Layouts',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Layouts'
 }
 
 { #category : 'accessing' }

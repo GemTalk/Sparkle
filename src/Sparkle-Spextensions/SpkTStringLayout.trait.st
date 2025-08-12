@@ -5,7 +5,9 @@ Try to lay out so it doesn't draw neighboring strings in the same layout (as in 
 "
 Trait {
 	#name : 'SpkTStringLayout',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'layout' }

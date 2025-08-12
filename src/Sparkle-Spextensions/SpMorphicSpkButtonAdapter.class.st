@@ -4,7 +4,9 @@ Adapter for action buttons that refuse to accept keyboard focus.
 Class {
 	#name : 'SpMorphicSpkButtonAdapter',
 	#superclass : 'SpMorphicButtonAdapter',
-	#category : 'Sparkle-Spextensions-Adapters'
+	#category : 'Sparkle-Spextensions-Adapters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Adapters'
 }
 
 { #category : 'factory' }

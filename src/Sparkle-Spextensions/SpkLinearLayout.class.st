@@ -15,7 +15,9 @@ Class {
 		'minimumSecondarySize',
 		'xform'
 	],
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'layout' }

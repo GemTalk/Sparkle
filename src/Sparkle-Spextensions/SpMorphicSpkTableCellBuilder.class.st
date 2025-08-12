@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpMorphicSpkTableCellBuilder',
 	#superclass : 'SpMorphicTableCellBuilder',
-	#category : 'Sparkle-Spextensions-Table'
+	#category : 'Sparkle-Spextensions-Table',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Table'
 }
 
 { #category : 'visiting' }

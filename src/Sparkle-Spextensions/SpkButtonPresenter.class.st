@@ -4,7 +4,9 @@ A ButtonPresenter that refuses to take keyboard focus.
 Class {
 	#name : 'SpkButtonPresenter',
 	#superclass : 'SpButtonPresenter',
-	#category : 'Sparkle-Spextensions-Presenters'
+	#category : 'Sparkle-Spextensions-Presenters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Presenters'
 }
 
 { #category : 'specs' }

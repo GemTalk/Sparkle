@@ -4,7 +4,9 @@ Probably not going to use this class. PluggableButtonMorphs use Morphic's TableL
 Class {
 	#name : 'SpkPluggableButtonMorph',
 	#superclass : 'PluggableButtonMorph',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'style' }

@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpMorphicSpkAccordianAdapter',
 	#superclass : 'SpMorphicLayoutAdapter',
-	#category : 'Sparkle-Spextensions-Adapters'
+	#category : 'Sparkle-Spextensions-Adapters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Adapters'
 }
 
 { #category : 'adding' }

@@ -6,7 +6,9 @@ Class {
 		'icon',
 		'enablementCondition'
 	],
-	#category : 'Sparkle-Spextensions-Table'
+	#category : 'Sparkle-Spextensions-Table',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Table'
 }
 
 { #category : 'visiting' }

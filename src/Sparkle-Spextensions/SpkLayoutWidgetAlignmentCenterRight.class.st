@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpkLayoutWidgetAlignmentCenterRight',
 	#superclass : 'SpkLayoutWidgetAlignment',
-	#category : 'Sparkle-Spextensions-Layouts'
+	#category : 'Sparkle-Spextensions-Layouts',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Layouts'
 }
 
 { #category : 'converting' }

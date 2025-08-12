@@ -5,7 +5,9 @@ Class {
 		'priorities',
 		'currentSplitterMove'
 	],
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'layout' }

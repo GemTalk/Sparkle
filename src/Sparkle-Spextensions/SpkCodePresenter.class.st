@@ -1,7 +1,12 @@
 Class {
 	#name : 'SpkCodePresenter',
 	#superclass : 'SpCodePresenter',
-	#category : 'Sparkle-Spextensions-Presenters'
+	#instVars : [
+		'#hasUnacceptedEdits => ObservableSlot'
+	],
+	#category : 'Sparkle-Spextensions-Presenters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Presenters'
 }
 
 { #category : 'specs' }
@@ -53,4 +58,35 @@ SpkCodePresenter class >> textEditionCommandsGroupWith: aPresenter [
 		group register: (commandClass forSpecContext: aPresenter) ].
 
 	^ group
+]
+
+{ #category : 'acccessing' }
+SpkCodePresenter >> hasUnacceptedEdits [
+	"Return if the text zone has unaccepted edits (orange corner)"
+
+	^ hasUnacceptedEdits
+]
+
+{ #category : 'acccessing' }
+SpkCodePresenter >> hasUnacceptedEdits: aBoolean [
+	"Return if the text zone has unaccepted edits (orange corner)"
+
+	hasUnacceptedEdits := aBoolean
+]
+
+{ #category : 'initialization' }
+SpkCodePresenter >> initialize [
+
+	super initialize.
+	hasUnacceptedEdits := false
+]
+
+{ #category : 'initialization' }
+SpkCodePresenter >> registerEvents [
+
+	super registerEvents.
+	self
+		property: #hasUnacceptedEdits
+		whenChangedDo: [ :bool |
+		self changed: #setHasUnacceptedEdits: with: { bool } ]
 ]

@@ -4,7 +4,9 @@ Divide extra space equally between beginning and end, resulting in center-justif
 Class {
 	#name : 'SpkLinearLayoutPlaceInCenter',
 	#superclass : 'SpkLinearLayout',
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'layout' }

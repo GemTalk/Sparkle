@@ -4,7 +4,9 @@ A button marked only by an icon (no text label), and whose icon can dynamically 
 Class {
 	#name : 'SpMorphicSpkIconButtonAdapter',
 	#superclass : 'SpMorphicSpkButtonAdapter',
-	#category : 'Sparkle-Spextensions-Adapters'
+	#category : 'Sparkle-Spextensions-Adapters',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Adapters'
 }
 
 { #category : 'factory' }

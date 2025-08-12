@@ -3,5 +3,7 @@ Class {
 	#superclass : 'LabelMorph',
 	#traits : 'SpkTStringLayout',
 	#classTraits : 'SpkTStringLayout classTrait',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }

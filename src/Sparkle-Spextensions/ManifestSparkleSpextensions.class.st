@@ -4,7 +4,9 @@ Various Sparkle-specific extensions to Spec2 (mostly through subclassing rather 
 Class {
 	#name : 'ManifestSparkleSpextensions',
 	#superclass : 'PackageManifest',
-	#category : 'Sparkle-Spextensions-Manifest'
+	#category : 'Sparkle-Spextensions-Manifest',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Manifest'
 }
 
 { #category : 'code-critics' }

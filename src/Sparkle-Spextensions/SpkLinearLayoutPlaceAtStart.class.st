@@ -4,7 +4,9 @@ Place extra space at the end, resulting in left/top justified submorphs.
 Class {
 	#name : 'SpkLinearLayoutPlaceAtStart',
 	#superclass : 'SpkLinearLayout',
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'layout' }

@@ -4,7 +4,9 @@ Style class that knows how to search for its styles by name.
 Class {
 	#name : 'SpkClassStyle',
 	#superclass : 'SpClassStyle',
-	#category : 'Sparkle-Spextensions-StyleSheet'
+	#category : 'Sparkle-Spextensions-StyleSheet',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'StyleSheet'
 }
 
 { #category : 'searching' }

@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'allocationFactor'
 	],
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'accessing' }

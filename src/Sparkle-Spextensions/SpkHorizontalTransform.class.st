@@ -4,7 +4,9 @@ My primary axis is horizontal (x), secondary is vertical (y).
 Class {
 	#name : 'SpkHorizontalTransform',
 	#superclass : 'SpkCoordinateTransform',
-	#category : 'Sparkle-Spextensions-MorphicLayout'
+	#category : 'Sparkle-Spextensions-MorphicLayout',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'MorphicLayout'
 }
 
 { #category : 'accessing' }

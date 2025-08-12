@@ -13,7 +13,9 @@ Class {
 		'initialPriorities',
 		'initialAllocatedSpaces'
 	],
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'instance creation' }

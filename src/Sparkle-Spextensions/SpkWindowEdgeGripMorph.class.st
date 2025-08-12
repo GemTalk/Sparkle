@@ -3,5 +3,7 @@ Class {
 	#superclass : 'WindowEdgeGripMorph',
 	#traits : 'SpkTWindowGrip',
 	#classTraits : 'SpkTWindowGrip classTrait',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }

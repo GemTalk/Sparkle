@@ -6,7 +6,9 @@ Class {
 	#superclass : 'IconicButtonMorph',
 	#traits : 'SpkTMorphEnablement',
 	#classTraits : 'SpkTMorphEnablement classTrait',
-	#category : 'Sparkle-Spextensions-Morphic'
+	#category : 'Sparkle-Spextensions-Morphic',
+	#package : 'Sparkle-Spextensions',
+	#tag : 'Morphic'
 }
 
 { #category : 'button' }

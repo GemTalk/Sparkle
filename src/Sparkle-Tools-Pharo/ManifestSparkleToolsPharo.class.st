@@ -5,5 +5,7 @@ This package contains tools that mock or prototype tools running in GemStone, fo
 Class {
 	#name : 'ManifestSparkleToolsPharo',
 	#superclass : 'PackageManifest',
-	#category : 'Sparkle-Tools-Pharo-Manifest'
+	#category : 'Sparkle-Tools-Pharo-Manifest',
+	#package : 'Sparkle-Tools-Pharo',
+	#tag : 'Manifest'
 }

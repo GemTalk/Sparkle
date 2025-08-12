@@ -12,7 +12,9 @@ Class {
 	#instVars : [
 		'announcer'
 	],
-	#category : 'Sparkle-Tools-Pharo-Support'
+	#category : 'Sparkle-Tools-Pharo-Support',
+	#package : 'Sparkle-Tools-Pharo',
+	#tag : 'Support'
 }
 
 { #category : 'messaging' }

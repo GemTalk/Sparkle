@@ -1,9 +1,9 @@
 Extension { #name : 'SpkCompilationErrorTool' }
 
 { #category : '*Sparkle-Tools-Pharo' }
-SpkCompilationErrorTool >> initializeFrom: aSyntaxErrorNotification [
+SpkCompilationErrorTool >> initializeFrom: aCodeError [
 
-	sourceCode := aSyntaxErrorNotification errorCode.
-	errorMessage := aSyntaxErrorNotification errorMessage.
-	errorLocation := aSyntaxErrorNotification location
+	sourceCode := aCodeError sourceCode.
+	errorMessage := aCodeError messageText.
+	errorLocation := aCodeError location
 ]

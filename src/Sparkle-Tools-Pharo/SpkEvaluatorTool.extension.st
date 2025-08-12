@@ -3,7 +3,7 @@ Extension { #name : 'SpkEvaluatorTool' }
 { #category : '*Sparkle-Tools-Pharo' }
 SpkEvaluatorTool >> compilationExceptionClass [
 
-	^ SyntaxErrorNotification
+	^ CodeError
 ]
 
 { #category : '*Sparkle-Tools-Pharo' }
@@ -15,7 +15,7 @@ SpkEvaluatorTool >> compileNewSourceCodeInContext: anObject [
 	compiler := class compiler.
 
 	compiler source: newSourceCode.
-	compiler compilationContext noPattern: true.
+	compiler compilationContext isScripting: true.
 	^ compiler compile
 ]
 

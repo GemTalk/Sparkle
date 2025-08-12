@@ -5,5 +5,7 @@ SpkLimitedWriteStream exists in both, so can be used by common code.
 Class {
 	#name : 'SpkLimitedWriteStream',
 	#superclass : 'LimitedWriteStream',
-	#category : 'Sparkle-Tools-Pharo-Support'
+	#category : 'Sparkle-Tools-Pharo-Support',
+	#package : 'Sparkle-Tools-Pharo',
+	#tag : 'Support'
 }

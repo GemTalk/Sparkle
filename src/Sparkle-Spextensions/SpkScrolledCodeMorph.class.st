@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkScrolledTextMorph',
+	#name : 'SpkScrolledCodeMorph',
 	#superclass : 'RubScrolledTextMorph',
 	#category : 'Sparkle-Spextensions-Morphic',
 	#package : 'Sparkle-Spextensions',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'model protocol' }
-SpkScrolledTextMorph >> acceptContents [
+SpkScrolledCodeMorph >> acceptContents [
 
 	"In a Sparkle context, accepting does not mean that we don't still have unaccepted changes."
 
@@ -24,7 +24,7 @@ editing it here.  Accept anyway?' translated) ifFalse: [ ^ self flash ] ].
 ]
 
 { #category : 'model protocol' }
-SpkScrolledTextMorph >> basicHasUnacceptedEdits: aBoolean [
+SpkScrolledCodeMorph >> basicHasUnacceptedEdits: aBoolean [
 
 	"Ignore autoAccept, which is true for use from Spec2."
 
@@ -34,8 +34,17 @@ SpkScrolledTextMorph >> basicHasUnacceptedEdits: aBoolean [
 	aBoolean ifFalse: [ hasEditingConflicts := false ]
 ]
 
+{ #category : 'initialization' }
+SpkScrolledCodeMorph >> initialize [
+
+	super initialize.
+
+	"Once things get settled, use a monospaced font."
+	self defer: [ self textArea font: StandardFonts codeFont ]
+]
+
 { #category : 'private' }
-SpkScrolledTextMorph >> resetState [
+SpkScrolledCodeMorph >> resetState [
 
 	"In a Sparkle pane, 'accepting' does not mean that the adornment should not be displayed.
 	That is under the sole control of the RSR service client."
@@ -44,7 +53,7 @@ SpkScrolledTextMorph >> resetState [
 ]
 
 { #category : 'initialization' }
-SpkScrolledTextMorph >> textAreaClass [
+SpkScrolledCodeMorph >> textAreaClass [
 
 	^ SpkEditingArea
 ]

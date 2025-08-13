@@ -81,5 +81,5 @@ SpMorphicSpkCodeAdapter >> setHasUnacceptedEdits: aBoolean [
 { #category : 'factory' }
 SpMorphicSpkCodeAdapter >> widgetClass [
 
-	^ SpkScrolledTextMorph
+	^ SpkScrolledCodeMorph
 ]

@@ -12,7 +12,9 @@ Class {
 	#superclass : 'SpkCodeSubPane',
 	#traits : 'SpkTLinkedPane + SpkTHeader',
 	#classTraits : 'SpkTLinkedPane classTrait + SpkTHeader classTrait',
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'actions' }

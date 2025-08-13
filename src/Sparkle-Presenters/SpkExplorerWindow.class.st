@@ -6,7 +6,9 @@ This allows the user to start by evaluating or debugging an expression. They can
 Class {
 	#name : 'SpkExplorerWindow',
 	#superclass : 'SpkWindowWithColumns',
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'transaction management' }

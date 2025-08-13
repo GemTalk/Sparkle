@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'textPresenter'
 	],
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'accessing' }

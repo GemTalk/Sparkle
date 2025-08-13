@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpkSetAutomaticTransactionModeCommand',
 	#superclass : 'SpToolCommand',
-	#category : 'Sparkle-Presenters-Commands'
+	#category : 'Sparkle-Presenters-Commands',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Commands'
 }
 
 { #category : 'defaults' }

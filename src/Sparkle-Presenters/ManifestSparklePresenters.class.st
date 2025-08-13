@@ -4,5 +4,7 @@ The presentation/GUI layer of Sparkle. Pharo-specific.
 Class {
 	#name : 'ManifestSparklePresenters',
 	#superclass : 'PackageManifest',
-	#category : 'Sparkle-Presenters-Manifest'
+	#category : 'Sparkle-Presenters-Manifest',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Manifest'
 }

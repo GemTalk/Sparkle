@@ -1,7 +1,9 @@
 Class {
 	#name : 'SpkDebugCommand',
 	#superclass : 'SpAcceptChangesCommand',
-	#category : 'Sparkle-Presenters-Commands'
+	#category : 'Sparkle-Presenters-Commands',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Commands'
 }
 
 { #category : 'default' }

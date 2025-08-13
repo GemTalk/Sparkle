@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkInspectorView',
 	#traits : 'SpkTInspectableFieldList',
 	#classTraits : 'SpkTInspectableFieldList classTrait',
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'initialization' }

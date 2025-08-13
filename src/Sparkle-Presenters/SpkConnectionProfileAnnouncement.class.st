@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'profiles'
 	],
-	#category : 'Sparkle-Presenters-Announcements'
+	#category : 'Sparkle-Presenters-Announcements',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Announcements'
 }
 
 { #category : 'accessing' }

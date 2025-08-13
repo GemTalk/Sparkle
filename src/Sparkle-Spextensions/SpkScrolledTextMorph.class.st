@@ -42,3 +42,9 @@ SpkScrolledTextMorph >> resetState [
 
 	self changed
 ]
+
+{ #category : 'initialization' }
+SpkScrolledTextMorph >> textAreaClass [
+
+	^ SpkEditingArea
+]

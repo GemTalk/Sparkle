@@ -9,7 +9,9 @@ Provides various overrides of default Spec2 behavior to add or modify functional
 Class {
 	#name : 'SpkPresenter',
 	#superclass : 'SpPresenter',
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'layout' }
@@ -93,6 +95,12 @@ SpkPresenter >> layout [
 SpkPresenter >> newButton [
 
 	^ self instantiate: SpkButtonPresenter
+]
+
+{ #category : 'instance creation' }
+SpkPresenter >> newCode [
+
+	^ self instantiate: SpkCodePresenter
 ]
 
 { #category : 'widgets' }

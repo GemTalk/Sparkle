@@ -14,7 +14,9 @@ Trait {
 		'list',
 		'listModel'
 	],
-	#category : 'Sparkle-Presenters-Support'
+	#category : 'Sparkle-Presenters-Support',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Support'
 }
 
 { #category : 'initialization' }

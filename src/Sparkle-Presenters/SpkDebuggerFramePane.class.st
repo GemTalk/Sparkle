@@ -19,17 +19,17 @@ Class {
 		'restartButton',
 		'sourcePresenter'
 	],
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
-{ #category : 'adding' }
+{ #category : 'highlighting' }
 SpkDebuggerFramePane >> addSourcePositionDecoration [
 
 	sourcePresenter
 		removeAllTextSegmentDecorations;
-		addTextSegmentDecoration: (SpTextPresenterDecorator new
-				 highlightColor: (Color orange alpha: 0.5);
-				 underlineColor: Color transparent;
+		addTextSegmentDecoration: (SpTextPresenterDecorator forHighlight
 				 interval:
 					 (model currentStartPosition to: model currentEndPosition + 1);
 				 yourself)
@@ -60,7 +60,7 @@ action: anEvaluable [
 		yourself
 ]
 
-{ #category : 'tests - header' }
+{ #category : 'accessing' }
 SpkDebuggerFramePane >> headerClass [
 
 	^ SpkDebuggerFramePaneHeader

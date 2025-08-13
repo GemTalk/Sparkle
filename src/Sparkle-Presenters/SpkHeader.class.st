@@ -7,7 +7,9 @@ Class {
 		'menuButton',
 		'labelLayout'
 	],
-	#category : 'Sparkle-Presenters-Presenters'
+	#category : 'Sparkle-Presenters-Presenters',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'testing' }

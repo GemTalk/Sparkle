@@ -10,7 +10,9 @@ Class {
 		'twizzledPresenter',
 		'textPresenter'
 	],
-	#category : 'Sparkle-Presenters-Support'
+	#category : 'Sparkle-Presenters-Support',
+	#package : 'Sparkle-Presenters',
+	#tag : 'Support'
 }
 
 { #category : 'accessing' }

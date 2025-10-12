@@ -176,8 +176,10 @@ BaselineOfSparkle >> tonelBrowserPresentersBaseline: spec [
 BaselineOfSparkle >> tonelBrowserServicesBaseline: spec [
 
 	spec
-		package: 'Sparkle-TonelBrowser-Services-PharoClient'
+		package: 'Sparkle-TonelBrowser-Services-Common'
 		with: [ spec requires: 'RemoteServiceReplication' ];
+		package: 'Sparkle-TonelBrowser-Services-PharoClient'
+		with: [ spec requires: 'Sparkle-TonelBrowser-Services-Common' ];
 		package: 'Sparkle-TonelBrowser-Services-PharoServer' with: [
 			spec requires: #( 'Sparkle-TonelBrowser-Services-Common'
 					   'Sparkle-TonelBrowser-Tools' ) ]

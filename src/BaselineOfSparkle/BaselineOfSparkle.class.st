@@ -137,8 +137,9 @@ BaselineOfSparkle >> rsrUrl [
 BaselineOfSparkle >> servicesBaseline: spec [
 
 	spec
-		package: 'Sparkle-Services-Common'
-		with: [ spec requires: 'RemoteServiceReplication' ];
+		package: 'Sparkle-Services-Common' with: [
+			spec requires:
+					#( 'Sparkle-Tools-Pharo' 'RemoteServiceReplication' ) ];
 		package: 'Sparkle-Services-PharoClient'
 		with: [ spec requires: 'Sparkle-Services-Common' ];
 		package: 'Sparkle-Services-PharoServer'

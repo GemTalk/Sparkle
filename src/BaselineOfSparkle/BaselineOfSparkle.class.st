@@ -25,7 +25,6 @@ BaselineOfSparkle >> baseline: spec [
 { #category : 'baselines' }
 BaselineOfSparkle >> baselineOLD: spec [
 
-	<baseline>
 	spec for: #pharo do: [
 		spec
 			postLoadDoIt: #postload:package:;

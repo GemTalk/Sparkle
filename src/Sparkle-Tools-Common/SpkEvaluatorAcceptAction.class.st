@@ -6,7 +6,8 @@ To undo, we can't actually undo the evaluation, but we can (and do) restore the 
 Class {
 	#name : 'SpkEvaluatorAcceptAction',
 	#superclass : 'SpkEvaluatorAction',
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'public' }

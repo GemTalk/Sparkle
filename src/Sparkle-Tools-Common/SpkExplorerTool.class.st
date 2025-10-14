@@ -14,7 +14,8 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : 'SpkExplorerTool',
 	#superclass : 'SpkToolWithUndoManager',
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'instance creation' }

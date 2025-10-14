@@ -7,5 +7,6 @@ Class {
 		'second',
 		'third'
 	],
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }

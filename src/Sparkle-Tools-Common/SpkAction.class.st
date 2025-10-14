@@ -21,7 +21,8 @@ Class {
 	#instVars : [
 		'target'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'instance creation' }
@@ -30,6 +31,16 @@ SpkAction class >> forTarget: targetObject [
 	^ self new
 		  target: targetObject;
 		  yourself
+]
+
+{ #category : 'as yet unclassified' }
+SpkAction >> discardAction [
+	"This is sent when an action overflows the undo or redo stack, 
+	and therefore can no longer be undone/redone.
+	Subclasses should override this method with whatever action is required.
+	By default do nothing."
+
+	
 ]
 
 { #category : 'public' }

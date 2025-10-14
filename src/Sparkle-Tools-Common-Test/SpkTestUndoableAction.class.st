@@ -4,18 +4,41 @@ Used by the UndoManagerTest.
 "
 Class {
 	#name : 'SpkTestUndoableAction',
-	#superclass : 'SpkObject',
+	#superclass : 'SpkAction',
 	#instVars : [
-		'isDone'
+		'value',
+		'isDone',
+		'isDiscarded'
 	],
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }
+
+{ #category : 'instance creation' }
+SpkTestUndoableAction class >> withValue: anObject [
+
+	^ self new
+		  value: anObject;
+		  yourself
+]
+
+{ #category : 'public' }
+SpkTestUndoableAction >> discardAction [
+
+	isDiscarded := true
+]
 
 { #category : 'initialization' }
 SpkTestUndoableAction >> initialize [
 
 	super initialize.
-	isDone := false
+	isDone := isDiscarded := false
+]
+
+{ #category : 'accessing' }
+SpkTestUndoableAction >> isDiscarded [
+
+	^ isDiscarded
 ]
 
 { #category : 'accessing' }
@@ -33,10 +56,22 @@ SpkTestUndoableAction >> performAction [
 	^ 42
 ]
 
-{ #category : 'accessing' }
+{ #category : 'public' }
 SpkTestUndoableAction >> undoAction [
 
 	isDone
 		ifTrue: [ isDone := false ]
 		ifFalse: [ self error: 'Attempt to undo action not done' ]
+]
+
+{ #category : 'accessing' }
+SpkTestUndoableAction >> value [
+
+	^ value
+]
+
+{ #category : 'accessing' }
+SpkTestUndoableAction >> value: anObject [
+
+	value := anObject
 ]

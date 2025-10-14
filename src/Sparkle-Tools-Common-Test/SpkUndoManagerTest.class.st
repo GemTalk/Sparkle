@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'manager'
 	],
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'support' }
@@ -131,12 +132,16 @@ SpkUndoManagerTest >> testSingleUndo [
 SpkUndoManagerTest >> testUndoOverflow [
 
 	| actions action1 action2 action3 |
-	actions := { 
+	actions := {
 		           (action1 := self newAction).
 		           (action2 := self newAction).
 		           (action3 := self newAction) }.
 	actions do: [ :action | manager performAction: action ].
 	actions do: [ :action | self assert: action isDone ].
+	self
+		assert: action1 isDiscarded;
+		deny: action2 isDiscarded;
+		deny: action3 isDiscarded.
 
 	manager
 		undo;

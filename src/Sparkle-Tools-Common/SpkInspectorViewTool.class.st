@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'inspectedObject'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'testing' }

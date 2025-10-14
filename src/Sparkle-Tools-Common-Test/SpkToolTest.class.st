@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'running' }

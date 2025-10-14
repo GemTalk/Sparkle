@@ -4,7 +4,8 @@ A common abstract superclass for all Sparkle tests, which makes it easier to bui
 Class {
 	#name : 'SpkTestCase',
 	#superclass : 'GsTestCase',
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'testing' }

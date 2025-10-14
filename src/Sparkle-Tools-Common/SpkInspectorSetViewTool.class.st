@@ -5,7 +5,8 @@ If a Set subclass has ""extra"" instvars, these are not shown; use the raw view 
 Class {
 	#name : 'SpkInspectorSetViewTool',
 	#superclass : 'SpkInspectorFieldListViewTool',
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'testing' }

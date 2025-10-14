@@ -6,7 +6,8 @@ Undo restores the newSourceCode that was discarded.
 Class {
 	#name : 'SpkEvaluatorCancelAction',
 	#superclass : 'SpkEvaluatorAction',
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'public' }

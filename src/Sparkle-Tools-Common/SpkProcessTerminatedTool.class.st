@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'process'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'other' }

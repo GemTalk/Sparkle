@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'printOnAction'
 	],
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'instance creation' }

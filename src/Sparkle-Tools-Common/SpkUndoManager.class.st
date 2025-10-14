@@ -29,7 +29,8 @@ Class {
 		'undo',
 		'redo'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'instance creation' }
@@ -43,21 +44,21 @@ SpkUndoManager class >> withLimit: anInteger [
 { #category : 'testing' }
 SpkUndoManager >> hasRedoableAction [
 
-	^ redo isEmpty not
+	^ redo isNotEmpty
 ]
 
 { #category : 'testing' }
 SpkUndoManager >> hasUndoableAction [
 
-	^ undo isEmpty not
+	^ undo isNotEmpty
 ]
 
 { #category : 'initialization' }
 SpkUndoManager >> initialize [
 
 	super initialize.
-	undo := SpkSmallStack new.
-	redo := SpkSmallStack new
+	undo := SpkActionStack new.
+	redo := SpkActionStack new
 ]
 
 { #category : 'accessing' }

@@ -1,20 +1,21 @@
 Class {
-	#name : 'SpkSmallStackTest',
+	#name : 'SpkActionStackTest',
 	#superclass : 'SpkTestCase',
 	#instVars : [
 		'stack'
 	],
-	#category : 'Sparkle-Tools-Common-Test'
+	#category : 'Sparkle-Tools-Common-Test',
+	#package : 'Sparkle-Tools-Common-Test'
 }
 
 { #category : 'running' }
-SpkSmallStackTest >> setUp [
+SpkActionStackTest >> setUp [
 	super setUp.
-	stack := SpkSmallStack new
+	stack := SpkActionStack new
 ]
 
 { #category : 'tests' }
-SpkSmallStackTest >> testCollect [
+SpkActionStackTest >> testCollect [
 	self assert: stack isEmpty.
 	stack push: 'first'.
 	stack push: 'second'.
@@ -25,12 +26,12 @@ SpkSmallStackTest >> testCollect [
 ]
 
 { #category : 'tests' }
-SpkSmallStackTest >> testEmptyStack [
+SpkActionStackTest >> testEmptyStack [
 	self assert: stack isEmpty
 ]
 
 { #category : 'tests' }
-SpkSmallStackTest >> testPopWhenEmpty [
+SpkActionStackTest >> testPopWhenEmpty [
 	self should: [ stack pop ] raise: Error.
 	stack push: 'aThing'.
 	stack pop.
@@ -38,7 +39,7 @@ SpkSmallStackTest >> testPopWhenEmpty [
 ]
 
 { #category : 'tests' }
-SpkSmallStackTest >> testPushPop [
+SpkActionStackTest >> testPushPop [
 	self assert: stack isEmpty.
 	stack push: 'one'.
 	self deny: stack isEmpty.
@@ -55,27 +56,29 @@ SpkSmallStackTest >> testPushPop [
 ]
 
 { #category : 'tests' }
-SpkSmallStackTest >> testReducingLimit [
-	self assert: stack limit equals: stack class defaultLimit.
+SpkActionStackTest >> testReducingLimit [
+
+	self assert: stack limit >= 3.
 	self assert: stack isEmpty.
-	stack push: 'first'.
-	stack push: 'second'.
-	stack push: 'third'.
+	stack push: (SpkTestUndoableAction withValue: 'first').
+	stack push: (SpkTestUndoableAction withValue: 'second').
+	stack push: (SpkTestUndoableAction withValue: 'third').
 	stack limit: 2.
-	self assert: stack pop equals: 'third'.
-	self assert: stack pop equals: 'second'.
+	self assert: stack pop value equals: 'third'.
+	self assert: stack pop value equals: 'second'.
 	self assert: stack isEmpty
 ]
 
 { #category : 'tests' }
-SpkSmallStackTest >> testStackLimit [
-	self assert: stack limit equals: stack class defaultLimit.
+SpkActionStackTest >> testStackLimit [
+
+	self assert: stack limit >= 3.
 	stack limit: 2.
 	self assert: stack isEmpty.
-	stack push: 'first'.
-	stack push: 'second'.
-	stack push: 'third'.
-	self assert: stack pop equals: 'third'.
-	self assert: stack pop equals: 'second'.
+	stack push: (SpkTestUndoableAction withValue: 'first').
+	stack push: (SpkTestUndoableAction withValue: 'second').
+	stack push: (SpkTestUndoableAction withValue: 'third').
+	self assert: stack pop value equals: 'third'.
+	self assert: stack pop value equals: 'second'.
 	self assert: stack isEmpty
 ]

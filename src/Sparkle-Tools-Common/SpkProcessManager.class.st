@@ -11,7 +11,8 @@ Class {
 		'resultReady',
 		'announceNextDebug'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'private - debugger process' }

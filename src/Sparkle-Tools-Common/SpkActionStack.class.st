@@ -10,75 +10,86 @@ Internal Representation and Key Implementation Points.
 *	elements:		<OrderedCollection> The elements on the stack. The last element is the top element.
 *	limit:		<Integer> How many elements are allowed to accumulate on the stack before the deepest item is discarded.
 
+When an element is to be discarded because of a #clear or reaching the size limit, it is sent #discardAction.
 "
 Class {
-	#name : 'SpkSmallStack',
+	#name : 'SpkActionStack',
 	#superclass : 'SpkObject',
 	#instVars : [
 		'elements',
 		'limit'
 	],
-	#category : 'Sparkle-Tools-Common'
+	#category : 'Sparkle-Tools-Common',
+	#package : 'Sparkle-Tools-Common'
 }
 
 { #category : 'instance creation' }
-SpkSmallStack class >> defaultLimit [
+SpkActionStack class >> defaultLimit [
 	^ 20
 ]
 
 { #category : 'instance creation' }
-SpkSmallStack class >> new [
+SpkActionStack class >> new [
 	^ self basicNew
 		initializeForLimit: self defaultLimit;
 		yourself
 ]
 
 { #category : 'accessing' }
-SpkSmallStack >> clear [
+SpkActionStack >> clear [
 	"GemStone does not implement #removeAll"
 
-	elements removeAllSuchThat: [ :element | true ]
+	elements removeAllSuchThat: [ :element |
+		element discardAction.
+		true ]
 ]
 
 { #category : 'accessing' }
-SpkSmallStack >> collect: aBlock [
+SpkActionStack >> collect: aBlock [
 	^ elements reverse collect: aBlock
 ]
 
 { #category : 'private' }
-SpkSmallStack >> enforceLimit [
-	[ elements size > limit ] whileTrue: [ elements removeFirst ]
+SpkActionStack >> enforceLimit [
+
+	[ elements size > limit ] whileTrue: [
+		elements removeFirst discardAction ]
 ]
 
 { #category : 'initialization' }
-SpkSmallStack >> initializeForLimit: maxElements [
+SpkActionStack >> initializeForLimit: maxElements [
 	limit := maxElements.
 	elements := OrderedCollection new: maxElements
 ]
 
 { #category : 'testing' }
-SpkSmallStack >> isEmpty [
+SpkActionStack >> isEmpty [
 	^ elements isEmpty
 ]
 
+{ #category : 'testing' }
+SpkActionStack >> isNotEmpty [
+	^ elements isNotEmpty
+]
+
 { #category : 'accessing' }
-SpkSmallStack >> limit [
+SpkActionStack >> limit [
 	^ limit
 ]
 
 { #category : 'accessing' }
-SpkSmallStack >> limit: anObject [
+SpkActionStack >> limit: anObject [
 	limit := anObject.
 	self enforceLimit
 ]
 
 { #category : 'removing' }
-SpkSmallStack >> pop [
+SpkActionStack >> pop [
 	^ elements removeLast
 ]
 
 { #category : 'adding' }
-SpkSmallStack >> push: anObject [
+SpkActionStack >> push: anObject [
 	elements addLast: anObject.
 	self enforceLimit.
 	^ anObject

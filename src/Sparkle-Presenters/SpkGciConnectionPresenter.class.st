@@ -83,11 +83,11 @@ SpkGciConnectionPresenter >> initializePresenters [
 
 { #category : 'initialization' }
 SpkGciConnectionPresenter >> initializeStonePresenter [
-	| labelBox inputBox |
+
 	self layout
 		add: (self newLabel label: 'Stone:')
 		withConstraints: [ :constraints | constraints height: 20 ].
-	stoneText  := self newTextInput.
+	stoneText := self newTextInput.
 	self layout
 		add: stoneText
 		withConstraints: [ :constraints | constraints height: 30 ]

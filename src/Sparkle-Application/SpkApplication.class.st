@@ -4,7 +4,8 @@ Abstract application for Sparkle applications
 Class {
 	#name : 'SpkApplication',
 	#superclass : 'SpApplication',
-	#category : 'Sparkle-Application'
+	#category : 'Sparkle-Application',
+	#package : 'Sparkle-Application'
 }
 
 { #category : 'showing' }

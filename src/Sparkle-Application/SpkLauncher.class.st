@@ -1,7 +1,8 @@
 Class {
 	#name : 'SpkLauncher',
 	#superclass : 'SpkApplication',
-	#category : 'Sparkle-Application'
+	#category : 'Sparkle-Application',
+	#package : 'Sparkle-Application'
 }
 
 { #category : 'examples' }
@@ -19,7 +20,6 @@ SpkLauncher class >> menuCommandOn: aBuilder [
 		order: 0.9; 
 		icon: nil;  
 		parent: #'Tools'; "This appears as the Library menu option for whatever reason"
-		keyText: 'L'; "hot key doesn't work yet" 
 		help: 'Make connections to GemStone servers';
 		action: [ self new start ]
 ]

@@ -25,7 +25,8 @@ Class {
 		'presenterClassesForServiceTypes',
 		'needEvaluator'
 	],
-	#category : 'Sparkle-Application'
+	#category : 'Sparkle-Application',
+	#package : 'Sparkle-Application'
 }
 
 { #category : 'activation' }

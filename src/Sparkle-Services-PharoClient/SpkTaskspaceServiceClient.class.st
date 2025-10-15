@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkTaskspaceService',
 	#traits : 'SpkTModel + SpkTPromise',
 	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait',
-	#category : 'Sparkle-Services-PharoClient-Services'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
 { #category : 'transaction management' }
@@ -51,6 +53,19 @@ SpkTaskspaceServiceClient >> commitTransaction [
 		when: [ :newService |
 			self updateServices.
 			self announce: (SpkTaskspaceResponseAnnouncement service: newService)]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'actions' }
+SpkTaskspaceServiceClient >> newBrowser: pathString [
+
+	| promise |
+	promise := remoteSelf newBrowser: pathString.
+	promise
+		when: [ :xpService |
+			self
+				announceNewExplorerAndPane: xpService;
+				updateServices ]
 		catch: self defaultCatchBlock
 ]
 

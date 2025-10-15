@@ -4,7 +4,9 @@ Concrete service classes for Pharo. Mostly service clients, though if there's a 
 Class {
 	#name : 'ManifestSparkleServicesPharoClient',
 	#superclass : 'PackageManifest',
-	#category : 'Sparkle-Services-PharoClient-Manifest'
+	#category : 'Sparkle-Services-PharoClient-Manifest',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Manifest'
 }
 
 { #category : 'code-critics' }

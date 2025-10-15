@@ -3,13 +3,17 @@ Some helpers for users of RsrPromise, especially RSR service clients.
 "
 Trait {
 	#name : 'SpkTPromise',
-	#category : 'Sparkle-Services-PharoClient-Support'
+	#category : 'Sparkle-Services-PharoClient-Support',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Support'
 }
 
 { #category : 'accessing' }
 SpkTPromise >> defaultCatchBlock [
 
-	^ [ :reason | self signalPromiseBrokenBecause: reason ]
+	^ [ :reason |
+	  reason class == RsrConnectionClosedBeforeReceivingResponse
+		  ifFalse: [ self signalPromiseBrokenBecause: reason ] ]
 ]
 
 { #category : 'signalling' }

@@ -3,7 +3,9 @@ Trait {
 	#instVars : [
 		'linkedService'
 	],
-	#category : 'Sparkle-Services-PharoClient-Support'
+	#category : 'Sparkle-Services-PharoClient-Support',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Support'
 }
 
 { #category : 'accessing' }

@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'xServ'
 	],
-	#category : 'Sparkle-Services-PharoClient-Announcements'
+	#category : 'Sparkle-Services-PharoClient-Announcements',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Announcements'
 }
 
 { #category : 'accessing' }

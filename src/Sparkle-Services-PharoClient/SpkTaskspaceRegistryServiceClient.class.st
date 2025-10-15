@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkTaskspaceRegistryService',
 	#traits : 'SpkTPromise + SpkTModel',
 	#classTraits : 'SpkTPromise classTrait + SpkTModel classTrait',
-	#category : 'Sparkle-Services-PharoClient-Services'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
 { #category : 'remote actions' }

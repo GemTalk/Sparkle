@@ -3,7 +3,9 @@ Things common to all pane-level services
 "
 Trait {
 	#name : 'SpkTPaneService',
-	#category : 'Sparkle-Services-PharoClient-Support'
+	#category : 'Sparkle-Services-PharoClient-Support',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Support'
 }
 
 { #category : 'announcing' }

@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkDebuggerFrameDescriptionService',
 	#traits : 'SpkTPromise + SpkTModel + SpkTLinkedService',
 	#classTraits : 'SpkTPromise classTrait + SpkTModel classTrait + SpkTLinkedService classTrait',
-	#category : 'Sparkle-Services-PharoClient-Services'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
 { #category : 'as yet unclassified' }

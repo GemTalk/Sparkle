@@ -4,10 +4,13 @@ Class {
 	#instVars : [
 		'toolbar',
 		'browserButton',
-		'pathField'
+		'pathField',
+		'connection',
+		'taskspace'
 	],
-	#category : 'Sparkle-TonelBrowser-Presenters',
-	#package : 'Sparkle-TonelBrowser-Presenters'
+	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#package : 'Sparkle-TonelBrowser-Presenters',
+	#tag : 'Presenters'
 }
 
 { #category : 'building menus' }
@@ -21,13 +24,35 @@ SpkTonelLauncherPresenter >> buildHamburgerMenu [
 	^commandGroup
 ]
 
+{ #category : 'initialization' }
+SpkTonelLauncherPresenter >> closeBrowsersAndConnection [
+
+	self taskspace closeAllWindows.
+	self connection close.
+	taskspace := connection := nil
+]
+
+{ #category : 'accessing' }
+SpkTonelLauncherPresenter >> connection [
+
+	^ connection ifNil: [ self initializeConnection ]
+]
+
 { #category : 'layout' }
 SpkTonelLauncherPresenter >> defaultLayout [
 
 	^ SpkBoxLayout newVertical
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
+SpkTonelLauncherPresenter >> initializeConnection [
+
+	| spec |
+	spec := RsrInMemoryConnectionSpecification new.
+	^ connection := spec connect
+]
+
+{ #category : 'initialization' }
 SpkTonelLauncherPresenter >> initializeEntryField [
 
 self layout
@@ -46,6 +71,12 @@ SpkTonelLauncherPresenter >> initializePresenters [
 	self
 		initializeToolbar;
 		initializeEntryField
+]
+
+{ #category : 'initialization' }
+SpkTonelLauncherPresenter >> initializeTaskspace [
+
+	^ taskspace := SpkTaskspace forConnection: self connection
 ]
 
 { #category : 'initialization' }
@@ -70,10 +101,17 @@ SpkTonelLauncherPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Sparkle Tonel Browser Launcher';
 		initialExtent: 400 @ 150;
-		whenClosedDo: [ "
-			SpkConnectionProfile profileAnnouncer unsubscribe: self.
-			SpkConnectionProfile profileAnnouncer unsubscribe:
-					gciConnectionPresenter.
-			SpkConnectionProfile profileAnnouncer unsubscribe:
-					insecureConnectionPresenter "]
+		whenClosedDo: [ self closeBrowsersAndConnection ]
+]
+
+{ #category : 'actions' }
+SpkTonelLauncherPresenter >> newBrowser [
+
+	self taskspace newBrowser: pathField text
+]
+
+{ #category : 'accessing' }
+SpkTonelLauncherPresenter >> taskspace [
+
+	^ taskspace ifNil: [ self initializeTaskspace ]
 ]

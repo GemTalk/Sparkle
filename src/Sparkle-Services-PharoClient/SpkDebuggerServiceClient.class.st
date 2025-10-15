@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkDebuggerService',
 	#traits : 'SpkTModel + SpkTPromise + SpkTPaneService',
 	#classTraits : 'SpkTModel classTrait + SpkTPromise classTrait + SpkTPaneService classTrait',
-	#category : 'Sparkle-Services-PharoClient-Services'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
 { #category : 'testing' }

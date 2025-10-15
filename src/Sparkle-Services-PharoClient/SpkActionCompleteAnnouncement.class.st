@@ -8,5 +8,7 @@ Used by panes to enable themselves after getting a response from the server.
 Class {
 	#name : 'SpkActionCompleteAnnouncement',
 	#superclass : 'Announcement',
-	#category : 'Sparkle-Services-PharoClient-Announcements'
+	#category : 'Sparkle-Services-PharoClient-Announcements',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Announcements'
 }

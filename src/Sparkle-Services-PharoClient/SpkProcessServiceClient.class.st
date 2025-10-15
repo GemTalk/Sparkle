@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkProcessService',
 	#traits : 'SpkTModel + SpkTLinkedService + SpkTPromise',
 	#classTraits : 'SpkTModel classTrait + SpkTLinkedService classTrait + SpkTPromise classTrait',
-	#category : 'Sparkle-Services-PharoClient-Services'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
 { #category : 'inspecting' }

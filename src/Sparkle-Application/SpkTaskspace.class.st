@@ -23,7 +23,8 @@ Class {
 		'registryService',
 		'taskspaceService',
 		'presenterClassesForServiceTypes',
-		'needEvaluator'
+		'state',
+		'initializationQueue'
 	],
 	#category : 'Sparkle-Application',
 	#package : 'Sparkle-Application'
@@ -70,6 +71,15 @@ SpkTaskspace >> connection: anObject [
 	connection := anObject
 ]
 
+{ #category : 'private' }
+SpkTaskspace >> drainInitializationQueue [
+	"Should be done after ensuring that no more messages will be added to the queue."
+
+	| messages |
+	messages := initializationQueue removeAll.
+	messages do: [ :msg | msg sendTo: taskspaceService ]
+]
+
 { #category : 'processing announcements' }
 SpkTaskspace >> handleRespondedService: aService [
 
@@ -78,14 +88,17 @@ SpkTaskspace >> handleRespondedService: aService [
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> initialize [ 
+SpkTaskspace >> initialize [
+
 	super initialize.
-	needEvaluator := false
+	state := #new.
+	initializationQueue := SpkSharedQueue new
 ]
 
 { #category : 'initialization' }
 SpkTaskspace >> initializeForConnection: anRsrConnection [ 
 	connection := anRsrConnection.
+	state := #initializing.
 	self initializeRegistryService.
 	
 	"Reply arrives via announcement and sets my taskspaceService"
@@ -94,22 +107,24 @@ SpkTaskspace >> initializeForConnection: anRsrConnection [
 
 { #category : 'initialization' }
 SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
-
 	"Open and initialize windows from the given service.
-	This method runs in the UI thread."
+	This method runs in a non-UI thread."
 
-	taskspaceService := aTaskspaceService.
-	taskspaceService
+	aTaskspaceService
 		when: SpkNewExplorerAndPaneAnnouncement
 		send: #receiveNewExplorerAndPaneAnnouncement:
 		to: self.
-	taskspaceService
+	aTaskspaceService
 		when: SpkTaskspaceResponseAnnouncement
 		send: #receiveTaskspaceResponse:
 		to: self.
-	needEvaluator ifTrue: [ 
-		needEvaluator := false.
-		self newEvaluator ]
+	taskspaceService := aTaskspaceService.
+
+	"Set state to connected and drain queue atomically to 
+	prevent race condition."
+	initializationQueue critical: [
+		state := #connected.
+		self drainInitializationQueue ]
 ]
 
 { #category : 'initialization' }
@@ -149,6 +164,14 @@ SpkTaskspace >> initializeRegistryService [
 		to: self.
 
 	^ registryService
+]
+
+{ #category : 'actions' }
+SpkTaskspace >> newBrowser: pathString [
+
+	| msg |
+	msg := Message selector: #newBrowser: argument: pathString.
+	self sendToService: msg
 ]
 
 { #category : 'actions' }
@@ -223,15 +246,31 @@ SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
 
 { #category : 'processing announcements' }
 SpkTaskspace >> receiveNewTaskspaceAnnouncement: anAnnouncement [
+	"This initialization will not be in the UI thread"
 
-	self defer: [ 
-		self initializeFromTaskspaceService: anAnnouncement taskspaceService ]
+	self initializeFromTaskspaceService: anAnnouncement taskspaceService
 ]
 
 { #category : 'processing announcements' }
 SpkTaskspace >> receiveTaskspaceResponse: anAnnouncement [
 
 	self defer: [ self handleRespondedService: anAnnouncement service ]
+]
+
+{ #category : 'actions' }
+SpkTaskspace >> sendToService: aMessage [
+	"Send the message to my TaskspaceService, if we think it's alive.
+	If we're initializing we have to queue the message to be sent once the service is ready."
+
+	"Check state and drain queue atomically to prevent race with #initializeFromTaskspaceService."
+
+	initializationQueue critical: [
+		state == #initializing ifTrue: [
+			initializationQueue nextPut: aMessage.
+			^ self ] ].
+	state == #connected ifTrue: [ ^ aMessage sendTo: taskspaceService ].
+	self error: 'The taskspace is in state ' , state
+		, ' and does not have a live service.'
 ]
 
 { #category : 'transaction management' }

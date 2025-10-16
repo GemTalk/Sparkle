@@ -13,13 +13,8 @@ SpkTPromise >> defaultCatchBlock [
 
 	^ [ :reason |
 	  reason class == RsrConnectionClosedBeforeReceivingResponse
-		  ifFalse: [ self signalPromiseBrokenBecause: reason ] ]
-]
-
-{ #category : 'signalling' }
-SpkTPromise >> signalPromiseBrokenBecause: aReason [
-
-	SpkBrokenPromiseError new
-		reason: aReason;
-		signal
+		  ifFalse: [
+			  SpkBadNewsDialogWindow
+				  openOnNews: reason printString
+				  titled: 'Broken Promise' ] ]
 ]

@@ -24,6 +24,7 @@ Class {
 		'taskspaceService',
 		'presenterClassesForServiceTypes',
 		'state',
+		'stateMonitor',
 		'initializationQueue'
 	],
 	#category : 'Sparkle-Application',
@@ -71,13 +72,24 @@ SpkTaskspace >> connection: anObject [
 	connection := anObject
 ]
 
+{ #category : 'actions' }
+SpkTaskspace >> disconnect [
+
+	stateMonitor critical: [
+		state == #connected ifTrue: [
+			self closeAllWindows.
+			connection isOpen ifTrue: [ connection close ] ].
+		state := #dead ]
+]
+
 { #category : 'private' }
 SpkTaskspace >> drainInitializationQueue [
-	"Should be done after ensuring that no more messages will be added to the queue."
+	"Should be done after ensuring that no more messages will be added to the queue.
+	Sender must hold the stateMonitor."
 
-	| messages |
-	messages := initializationQueue removeAll.
-	messages do: [ :msg | msg sendTo: taskspaceService ]
+	initializationQueue
+		do: [ :msg | msg sendTo: taskspaceService ];
+		removeAll
 ]
 
 { #category : 'processing announcements' }
@@ -92,7 +104,11 @@ SpkTaskspace >> initialize [
 
 	super initialize.
 	state := #new.
-	initializationQueue := SpkSharedQueue new
+
+	"This monitor must be held during any accesses to 
+	the init queue, or related state changes."
+	stateMonitor := Monitor new.
+	initializationQueue := OrderedCollection new
 ]
 
 { #category : 'initialization' }
@@ -122,7 +138,9 @@ SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
 
 	"Set state to connected and drain queue atomically to 
 	prevent race condition."
-	initializationQueue critical: [
+	stateMonitor critical: [
+		state == #initializing ifFalse: [
+			self error: 'New taskspace received when state was ' , state ].
 		state := #connected.
 		self drainInitializationQueue ]
 ]
@@ -264,13 +282,14 @@ SpkTaskspace >> sendToService: aMessage [
 
 	"Check state and drain queue atomically to prevent race with #initializeFromTaskspaceService."
 
-	initializationQueue critical: [
+	stateMonitor critical: [
 		state == #initializing ifTrue: [
-			initializationQueue nextPut: aMessage.
-			^ self ] ].
-	state == #connected ifTrue: [ ^ aMessage sendTo: taskspaceService ].
-	self error: 'The taskspace is in state ' , state
-		, ' and does not have a live service.'
+			initializationQueue add: aMessage.
+			^ self ].
+		state == #connected ifTrue: [ ^ aMessage sendTo: taskspaceService ] ].
+	self error:
+		'Attempt to send message to taskspace service while taskspace in state '
+		, state
 ]
 
 { #category : 'transaction management' }

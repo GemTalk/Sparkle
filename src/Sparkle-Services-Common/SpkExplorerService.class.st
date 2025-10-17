@@ -15,7 +15,8 @@ Instance Variables
 Class {
 	#name : 'SpkExplorerService',
 	#superclass : 'RsrService',
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'accessing' }

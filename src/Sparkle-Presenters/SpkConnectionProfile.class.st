@@ -109,8 +109,8 @@ SpkConnectionProfile >> connection [
 { #category : 'actions' }
 SpkConnectionProfile >> disconnect [
 
-	self connection ifNotNil: [ :conn | 
-		conn close.
+	taskspace ifNotNil: [
+		taskspace disconnect.
 		taskspace := nil.
 		ProfileAnnouncer announce:
 			(SpkConnectionProfileDisconnectedAnnouncement new profiles:
@@ -179,7 +179,7 @@ SpkConnectionProfile >> initializeTaskspaceForConnection: anRSRConnection [
 { #category : 'testing' }
 SpkConnectionProfile >> isConnected [
 
-	^ self connection isNotNil
+	^ taskspace notNil and: [ taskspace isConnected ]
 ]
 
 { #category : 'testing' }

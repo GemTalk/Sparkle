@@ -10,7 +10,8 @@ Class {
 		'status',
 		'isVital'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'accessing' }

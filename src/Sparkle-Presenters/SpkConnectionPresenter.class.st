@@ -65,16 +65,6 @@ SpkConnectionPresenter >> cancel [
 ]
 
 { #category : 'actions' }
-SpkConnectionPresenter >> closeConnectionWindows [
-
-	| connection connectedPresenters |
-	connection := connectionProfile connection.
-	connectedPresenters := SpkTaskspace allInstances select: [ :presenter | 
-		                       presenter connection == connection ].
-	connectedPresenters do: [ :presenter | presenter closeAllWindows ]
-]
-
-{ #category : 'actions' }
 SpkConnectionPresenter >> connect [
 
 	| shouldDebug |
@@ -139,16 +129,15 @@ SpkConnectionPresenter >> disableButtons [
 { #category : 'actions' }
 SpkConnectionPresenter >> disconnect [
 
-	self closeConnectionWindows.
 	connectionProfile disconnect
 ]
 
 { #category : 'actions' }
 SpkConnectionPresenter >> enableButtons [
 
-	self connectionProfile ifNil: [ ^self ].
-	connectButton enabled: self connectionProfile connection isNil.
-	disconnectButton enabled: self connectionProfile connection isNil not
+	self connectionProfile ifNil: [ ^ self ].
+	connectButton enabled: self connectionProfile isConnected not.
+	disconnectButton enabled: self connectionProfile isConnected
 ]
 
 { #category : 'initialization' }

@@ -67,19 +67,16 @@ SpkTaskspace >> connection [
 	^ connection
 ]
 
-{ #category : 'accessing' }
-SpkTaskspace >> connection: anObject [
-	connection := anObject
-]
-
 { #category : 'actions' }
 SpkTaskspace >> disconnect [
 
 	stateMonitor critical: [
 		state == #connected ifTrue: [
 			self closeAllWindows.
-			connection isOpen ifTrue: [ connection close ] ].
-		state := #dead ]
+			connection ifNotNil: [
+				connection isOpen ifTrue: [ connection close ].
+				connection := nil ].
+			state := #dead ] ]
 ]
 
 { #category : 'private' }
@@ -182,6 +179,13 @@ SpkTaskspace >> initializeRegistryService [
 		to: self.
 
 	^ registryService
+]
+
+{ #category : 'testing' }
+SpkTaskspace >> isConnected [
+
+	^ stateMonitor critical: [
+		  state == #connected and: [ connection isOpen ] ]
 ]
 
 { #category : 'actions' }

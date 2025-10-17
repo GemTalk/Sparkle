@@ -5,7 +5,6 @@ Class {
 		'toolbar',
 		'browserButton',
 		'pathField',
-		'connection',
 		'taskspace'
 	],
 	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
@@ -27,29 +26,14 @@ SpkTonelLauncherPresenter >> buildHamburgerMenu [
 { #category : 'initialization' }
 SpkTonelLauncherPresenter >> closeBrowsersAndConnection [
 
-	self taskspace closeAllWindows.
-	self connection close.
-	taskspace := connection := nil
-]
-
-{ #category : 'accessing' }
-SpkTonelLauncherPresenter >> connection [
-
-	^ connection ifNil: [ self initializeConnection ]
+	self taskspace disconnect.
+	taskspace := nil
 ]
 
 { #category : 'layout' }
 SpkTonelLauncherPresenter >> defaultLayout [
 
 	^ SpkBoxLayout newVertical
-]
-
-{ #category : 'initialization' }
-SpkTonelLauncherPresenter >> initializeConnection [
-
-	| spec |
-	spec := RsrInMemoryConnectionSpecification new.
-	^ connection := spec connect
 ]
 
 { #category : 'initialization' }
@@ -76,7 +60,7 @@ SpkTonelLauncherPresenter >> initializePresenters [
 { #category : 'initialization' }
 SpkTonelLauncherPresenter >> initializeTaskspace [
 
-	^ taskspace := SpkTaskspace forConnection: self connection
+	^ taskspace := SpkTaskspace forConnection: self newConnection
 ]
 
 { #category : 'initialization' }
@@ -108,6 +92,14 @@ SpkTonelLauncherPresenter >> initializeWindow: aWindowPresenter [
 SpkTonelLauncherPresenter >> newBrowser [
 
 	self taskspace newBrowser: pathField text
+]
+
+{ #category : 'initialization' }
+SpkTonelLauncherPresenter >> newConnection [
+
+	| spec |
+	spec := RsrInMemoryConnectionSpecification new.
+	^ spec connect
 ]
 
 { #category : 'accessing' }

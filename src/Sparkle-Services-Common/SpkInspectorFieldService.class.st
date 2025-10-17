@@ -22,7 +22,8 @@ Class {
 	#instVars : [
 		'columns'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }

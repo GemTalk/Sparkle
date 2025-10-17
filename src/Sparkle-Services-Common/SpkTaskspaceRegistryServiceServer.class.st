@@ -1,7 +1,8 @@
 Class {
 	#name : 'SpkTaskspaceRegistryServiceServer',
 	#superclass : 'SpkTaskspaceRegistryService',
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'defaults' }

@@ -5,7 +5,9 @@ Class {
 		'inst1',
 		'inst2'
 	],
-	#category : 'Sparkle-Presenters-Test-Tests'
+	#category : 'Sparkle-Presenters-Test-Tests',
+	#package : 'Sparkle-Presenters-Test',
+	#tag : 'Tests'
 }
 
 { #category : 'support' }

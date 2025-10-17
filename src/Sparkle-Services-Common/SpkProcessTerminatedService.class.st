@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'oop'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'other' }

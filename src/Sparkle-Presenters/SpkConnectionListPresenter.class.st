@@ -352,12 +352,6 @@ SpkConnectionListPresenter >> saveToFile [
 			  nextPut: SpkConnectionProfile profiles ]
 ]
 
-{ #category : 'accessing' }
-SpkConnectionListPresenter >> selectedConnection [
-
-	^ connectionList selection selectedItem connection
-]
-
 { #category : 'initialization' }
 SpkConnectionListPresenter >> setConnectionProfile: connectionProfile [
 
@@ -373,9 +367,9 @@ SpkConnectionListPresenter >> setConnectionProfile: connectionProfile [
 { #category : 'actions' }
 SpkConnectionListPresenter >> showConnectionIndicatorFor: profile [
 
-	^ profile connection
-		  ifNil: [  ]
-		  ifNotNil: [ self iconNamed: #smallOk ]
+	^ profile isConnected
+		  ifTrue: [ self iconNamed: #smallOk ]
+		  ifFalse: [ nil ]
 ]
 
 { #category : 'actions' }

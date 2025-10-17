@@ -5,7 +5,8 @@ Class {
 		'tool',
 		'referencedObject'
 	],
-	#category : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'inspecting' }

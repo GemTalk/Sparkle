@@ -137,7 +137,8 @@ SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
 	prevent race condition."
 	stateMonitor critical: [
 		state == #initializing ifFalse: [
-			self error: 'New taskspace received when state was ' , state ].
+			self error:
+				'New taskspace service received when state was ' , state ].
 		state := #connected.
 		self drainInitializationQueue ]
 ]
@@ -198,21 +199,20 @@ SpkTaskspace >> newBrowser: pathString [
 
 { #category : 'actions' }
 SpkTaskspace >> newEvaluator [
+	"Reply comes via announcement"
 
-	"When first connecting, taskspaceService will be 
-	nil since it's coming from the server."
-
-	taskspaceService
-		ifNotNil: [ :tService | 
-			tService newEvaluatorExplorer
-			"Reply comes via announcement" ]
-		ifNil: [ "Defer until service comes in" needEvaluator := true ]
+	| msg |
+	msg := Message selector: #newEvaluatorExplorer.
+	self sendToService: msg
 ]
 
 { #category : 'actions' }
 SpkTaskspace >> newProcessListExplorer [
+	"Reply comes via announcement"
 
-	taskspaceService newProcessListExplorer
+	| msg |
+	msg := Message selector: #newProcessListExplorer.
+	self sendToService: msg
 ]
 
 { #category : 'running' }

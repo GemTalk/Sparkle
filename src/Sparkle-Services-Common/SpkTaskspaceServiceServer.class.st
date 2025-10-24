@@ -70,12 +70,16 @@ SpkTaskspaceServiceServer >> newBrowser: pathString [
 
 	| xTool pTool xService pService |
 	xTool := tool newExplorerTool.
-	pTool := SpkTonelDirectoryListTool newOnPath: pathString inExplorer: xTool.
+	pTool := SpkTonelDirectoryListTool
+		         newOnPath: pathString
+		         inExplorer: xTool.
 
 	xService := SpkServiceFactory serviceForTool: xTool.
 	pService := SpkServiceFactory serviceForTool: pTool.
 	self gatherUpdatedServices.
-	^ SpkExplorerAndPaneServiceServer newForPane: pService inExplorer: xService
+	^ SpkExplorerAndPaneServiceServer
+		  newForPane: pService
+		  inExplorer: xService
 ]
 
 { #category : 'opening explorers' }

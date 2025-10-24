@@ -19,7 +19,8 @@ BaselineOfSparkle >> baseline: spec [
 			testsBaseline: spec;
 			tonelBrowserPresentersBaseline: spec;
 			tonelBrowserServicesBaseline: spec;
-			tonelBrowserToolsBaseline: spec ]
+			tonelBrowserToolsBaseline: spec;
+			stopwatchBaseline: spec ]
 ]
 
 { #category : 'baselines' }
@@ -89,6 +90,12 @@ BaselineOfSparkle >> servicesBaseline: spec [
 		with: [
 			spec requires: #( 'Sparkle-Services-Common'
 				   'Sparkle-Tools-Pharo' ) ]
+]
+
+{ #category : 'baselines' }
+BaselineOfSparkle >> stopwatchBaseline: spec [
+
+	spec package: 'Sparkle-Stopwatch'
 ]
 
 { #category : 'baselines' }

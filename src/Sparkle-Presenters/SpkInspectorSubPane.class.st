@@ -52,7 +52,7 @@ SpkInspectorSubPane >> evaluatorsWithLinkedPanes [
 	^ owner evaluatorsWithLinkedPanes
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 SpkInspectorSubPane >> headerClass [
 
 	^ SpkInspectorPaneHeader

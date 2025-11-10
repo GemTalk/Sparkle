@@ -48,7 +48,7 @@ SpkIconLibrary >> iconNamed: aSymbol [
 	^ icons at: aSymbol ifAbsent: [ 
 		  Smalltalk ui icons
 			  iconNamed: aSymbol
-			  ifNone: [ UITheme current forms at: aSymbol ] ]
+			  ifNone: [ UITheme current icons at: aSymbol ] ]
 ]
 
 { #category : 'initialization' }

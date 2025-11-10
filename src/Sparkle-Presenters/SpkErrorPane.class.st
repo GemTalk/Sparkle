@@ -17,7 +17,7 @@ SpkErrorPane >> errorText [
 	self subclassResponsibility
 ]
 
-{ #category : 'tests - header' }
+{ #category : 'accessing' }
 SpkErrorPane >> headerClass [
 
 	^ SpkErrorPaneHeader

@@ -14,7 +14,7 @@ SpkDebuggerFrameServiceClient >> listItems [
 	^ localVariables
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceClient >> restart [
 
 	| promise |
@@ -27,7 +27,7 @@ SpkDebuggerFrameServiceClient >> restart [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceClient >> stepInto [
 
 	| promise |
@@ -40,7 +40,7 @@ SpkDebuggerFrameServiceClient >> stepInto [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceClient >> stepOver [
 
 	| promise |
@@ -53,7 +53,7 @@ SpkDebuggerFrameServiceClient >> stepOver [
 		catch: self defaultCatchBlock
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkDebuggerFrameServiceClient >> stepThrough [
 
 	| promise |

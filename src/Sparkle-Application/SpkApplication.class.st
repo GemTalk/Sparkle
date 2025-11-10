@@ -31,14 +31,21 @@ SpkApplication >> initializeSylesheet [
 	superclass := sheet styleClassNamed: 'label'.
 	superclass
 		addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ];
-		addClass: 'paneHeader' with: [ :c | 
+		addClass: 'paneHeader' with: [ :c |
 			c
-				addPropertyFontWith: [ :f | 
+				addPropertyFontWith: [ :f |
 					f
 						size: 12;
 						bold: true ];
-				addPropertyGeometryWith: [ :g | 
-				g height: SpStyleResetVariable new ] ].
+				addPropertyGeometryWith: [ :g |
+				g height: SpStyleResetVariable new ] ];
+		addClass: 'elapsedTime' with: [ :c |
+		c
+			addPropertyFontWith: [ :f |
+				f
+					size: 96;
+					bold: true ];
+			addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ] ].
 	self styleSheet: sheet
 ]
 

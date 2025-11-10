@@ -26,12 +26,13 @@ SpkPresenter class >> defaultLayout [
 
 { #category : 'work in progress' }
 SpkPresenter class >> notYetImplemented: aString [
-
 	"Use this message for actions not yet implemented. 
 	Browse senders of this message to find some of the things that still need to be worked on.
 	'shucks' courtesy of Mark Roder, 1994."
 
-	self inform: aString , ' not yet implemented (shucks)'
+	SpkBadNewsDialogWindow
+		openOnNews: aString , ' not yet implemented'
+		titled: 'Feature Not Yet Implemented'
 ]
 
 { #category : 'adding' }

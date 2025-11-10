@@ -91,7 +91,7 @@ SpkEvaluator >> hasUnsavedChanges: aBoolean [
 	codePresenter hasUnacceptedEdits: aBoolean
 ]
 
-{ #category : 'tests - header' }
+{ #category : 'accessing' }
 SpkEvaluator >> headerClass [
 
 	^ SpkEvaluatorHeader

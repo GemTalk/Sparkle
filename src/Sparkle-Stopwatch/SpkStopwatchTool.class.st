@@ -7,7 +7,8 @@ Class {
 		'elapsedTime',
 		'startUsec',
 		'task',
-		'previousStop'
+		'previousStop',
+		'isRunning'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -46,14 +47,21 @@ SpkStopwatchTool >> initialize [
 	elapsedTime := previousStop := Duration zero
 ]
 
+{ #category : 'testing' }
+SpkStopwatchTool >> isRunning [
+
+	^ isRunning
+]
+
 { #category : 'private' }
 SpkStopwatchTool >> notifyService [
 
-	service elapsedTimeChanged
+	service serverValuesChanged
 ]
 
 { #category : 'actions' }
 SpkStopwatchTool >> reset [
+	"Reset the stopwatch to zero and leave it stopped."
 
 	self stop.
 	elapsedTime := Duration zero.
@@ -62,17 +70,37 @@ SpkStopwatchTool >> reset [
 
 { #category : 'actions' }
 SpkStopwatchTool >> start [
+	"Start the stopwatch running"
 
 	startUsec := self currentUsec.
+	self startUpdating.
+	isRunning := true.
+	self notifyService
+]
+
+{ #category : 'actions' }
+SpkStopwatchTool >> startUpdating [
+
 	task := [ self updateLoop ] forkAt: Processor userSchedulingPriority
 ]
 
 { #category : 'actions' }
 SpkStopwatchTool >> stop [
+	"Stop the stopwatch at its current time."
 
-	task ifNotNil: [ :t | t terminate ].
+	self stopUpdating.
+	previousStop := elapsedTime.
+	isRunning := false.
+	self notifyService
+]
+
+{ #category : 'actions' }
+SpkStopwatchTool >> stopUpdating [
+
+	| t |
+	t := task.
 	task := nil.
-	previousStop := elapsedTime
+	t ifNotNil: [ t terminate ]
 ]
 
 { #category : 'private' }

@@ -145,7 +145,6 @@ SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
 
 { #category : 'initialization' }
 SpkTaskspace >> initializePresenterClassesForServiceTypes [
-
 	"This is only for pane presenters and services.
 	Elements smaller than panes are handled by the panes themselves."
 
@@ -163,6 +162,7 @@ SpkTaskspace >> initializePresenterClassesForServiceTypes [
 		  at: SpkProcessTerminatedServiceClient
 		  put: SpkProcessTerminatedPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;
+		  at: SpkStopwatchServiceClient put: SpkStopwachPane;
 		  yourself
 ]
 

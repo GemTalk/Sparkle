@@ -253,25 +253,25 @@ SpkLinearLayout >> sSizeOf: aMorph [
 
 { #category : 'layout' }
 SpkLinearLayout >> scanSubmorphs [
-
 	"See how many submorphs there are, how many are #spaceFill, 
 	and compute total of minimum space along the primary axis.
 	Cache some of this information in LayoutCells"
 
 	numberOfSpaceFills := minimumPrimarySize := minimumSecondarySize := totalRigidSize := 0.
 	cells := OrderedCollection new.
-	morph submorphsDo: [ :submorph | 
+	morph submorphsDo: [ :submorph |
 		| cell resizing |
 		cell := cells add: (SpkLinearLayoutCell forMorph: submorph).
 		resizing := self pResizingOf: submorph.
 		cell minimumSize: (self pMinimumSizeOf: submorph).
 		minimumSecondarySize := minimumSecondarySize max:
 			                        (self sMinimumSizeOf: submorph).
-		resizing == #spaceFill ifTrue: [ 
-			cell isSpaceFill: true.
-			numberOfSpaceFills := numberOfSpaceFills + 1 ].
-		minimumPrimarySize := minimumPrimarySize + cell minimumSize.
-		resizing == #rigid ifTrue: [ 
-			cell beRigid.
-			totalRigidSize := totalRigidSize + cell minimumSize ] ]
+		resizing == #spaceFill
+			ifTrue: [
+				cell isSpaceFill: true.
+				numberOfSpaceFills := numberOfSpaceFills + 1 ]
+			ifFalse: [
+				cell beRigid.
+				totalRigidSize := totalRigidSize + cell minimumSize ].
+		minimumPrimarySize := minimumPrimarySize + cell minimumSize ]
 ]

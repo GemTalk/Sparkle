@@ -11,6 +11,29 @@ Class {
 	#tag : 'Morphic'
 }
 
+{ #category : 'TEMP' }
+SpkIconicButtonMorph >> adjustLayoutBounds [
+	"Adjust the receivers bounds depending on the resizing strategy imposed"
+
+	| hFit vFit box myExtent extent |
+	hFit := self hResizing.
+	vFit := self vResizing.
+	(hFit == #shrinkWrap or: [ vFit == #shrinkWrap ])
+		ifFalse: [ ^ self ].	"not needed"
+	box := self layoutBounds.
+	myExtent := box extent.
+	extent := self submorphBounds extent.
+	hFit == #shrinkWrap
+		ifTrue: [ myExtent := extent x @ myExtent y ].
+	vFit == #shrinkWrap
+		ifTrue: [ myExtent := myExtent x @ extent y ].	"Make sure we don't get smaller than minWidth/minHeight"
+	myExtent x < self minWidth
+		ifTrue: [ myExtent := (myExtent x max: self minWidth - self bounds width + self layoutBounds width) @ myExtent y ].
+	myExtent y < self minHeight
+		ifTrue: [ myExtent := myExtent x @ (myExtent y max: self minHeight - self bounds height + self layoutBounds height) ].
+	self layoutBounds: (box origin extent: myExtent)
+]
+
 { #category : 'button' }
 SpkIconicButtonMorph >> doButtonAction [
 
@@ -27,6 +50,18 @@ SpkIconicButtonMorph >> enabled: requestedBoolean [
 	enabled := shouldEnable
 ]
 
+{ #category : 'TEMP' }
+SpkIconicButtonMorph >> extent: aPoint [
+
+	| oldBounds newBounds |
+	oldBounds := bounds copy.
+	super extent: aPoint.
+	newBounds := bounds copy.
+	Transcript crShow:
+		oldBounds printString , ' extent: -> ' , newBounds printString
+		, ' X ' , newBounds extent printString
+]
+
 { #category : 'accessing' }
 SpkIconicButtonMorph >> extraBorder [
 
@@ -36,10 +71,35 @@ SpkIconicButtonMorph >> extraBorder [
 { #category : 'accessing' }
 SpkIconicButtonMorph >> labelGraphic: aForm [
 	"Changed to look for any image morph rather than just a sketch."
-	
-	graphicalMorph ifNotNil: [graphicalMorph delete].
+
+	graphicalMorph ifNotNil: [ graphicalMorph delete ].
 	graphicalMorph := ImageMorph new form: aForm.
-	graphicalMorph position: self center - (graphicalMorph extent // 2).
+	self extent: graphicalMorph extent. "Unconditionally shrinkwrap."
+	graphicalMorph position: bounds origin.
 	self addMorph: graphicalMorph.
 	graphicalMorph lock
+]
+
+{ #category : 'TEMP' }
+SpkIconicButtonMorph >> layoutBounds: aRectangle [
+
+	| oldBounds newBounds |
+	oldBounds := bounds copy.
+	super layoutBounds: aRectangle.
+	newBounds := bounds copy.
+	Transcript crShow:
+		oldBounds printString , ' layoutBounds: -> ' , newBounds printString
+		, ' X ' , newBounds extent printString
+]
+
+{ #category : 'TEMP' }
+SpkIconicButtonMorph >> privateMoveBy: delta [
+
+	| oldBounds newBounds |
+	oldBounds := bounds copy.
+	super privateMoveBy: delta.
+	newBounds := bounds copy.
+	Transcript crShow:
+		oldBounds printString , ' privateMoveBy: -> '
+		, newBounds printString , ' X ' , newBounds extent printString
 ]

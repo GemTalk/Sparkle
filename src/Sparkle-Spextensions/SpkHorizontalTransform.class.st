@@ -19,10 +19,9 @@ SpkHorizontalTransform >> pEndOf: aRectangle [
 
 { #category : 'accessing' }
 SpkHorizontalTransform >> pMinimumSizeOf: aMorph [
-
 	"What is the minimum size along the primary axis to display aMorph?"
 
-	^ aMorph minExtent x
+	^ (self minimumExtentOf: aMorph) x
 ]
 
 { #category : 'accessing' }
@@ -79,10 +78,9 @@ SpkHorizontalTransform >> sEndOf: aRectangle [
 
 { #category : 'accessing' }
 SpkHorizontalTransform >> sMinimumSizeOf: aMorph [
-
 	"What is the minimum size along the secondary axis to display aMorph?"
 
-	^ aMorph minExtent y
+	^ (self minimumExtentOf: aMorph) y
 ]
 
 { #category : 'accessing' }

@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkStopwatchLauncher',
+	#name : 'SpkStopwatchApplication',
 	#superclass : 'SpkApplication',
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'world menu' }
-SpkStopwatchLauncher class >> menuCommandOn: aBuilder [
+SpkStopwatchApplication class >> menuCommandOn: aBuilder [
 	"Add a custom menu item to the world menu"
 
 	<worldMenu>
@@ -21,7 +21,7 @@ SpkStopwatchLauncher class >> menuCommandOn: aBuilder [
 ]
 
 { #category : 'running' }
-SpkStopwatchLauncher >> start [
+SpkStopwatchApplication >> start [
 
-	(self new: SpkStopwatchLauncherPresenter) open
+	(self new: SpkStopwatchPresenter) open
 ]

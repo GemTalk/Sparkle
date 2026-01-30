@@ -2,7 +2,7 @@
 SpkBoxLayout is somewhat similar to SpBoxLayout, but has additional capabilities. Also a limitation: it currently only works with a Morphic backend, uses some Sparkle-specific Morphic extensions, and currently mostly ignores what backend has been specified.
 
 The additional capabilities:
-- Color defaults to transparent but if set to another color rovides background color for all contained presenters (if they are transparent). Partial transparency probably works.
+- Color defaults to transparent but if set to another color provides background color for all contained presenters (if they are transparent). Partial transparency probably works.
 - Justified alignment is available in the primary direction
 - Secondary-direction alignment actually works for presenters that do not by their nature fill the space.
 "

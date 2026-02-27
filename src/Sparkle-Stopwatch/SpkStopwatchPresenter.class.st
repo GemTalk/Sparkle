@@ -43,9 +43,7 @@ SpkStopwatchPresenter >> initializePresenters [
 		                   help: 'Start Stopwatch';
 		                   action: [ self startStopwatch ];
 		                   yourself.
-	self layout
-		add: startStopButton
-		withConstraints: [ :c | "c fill: false" ]
+	self layout add: startStopButton
 ]
 
 { #category : 'initialization' }

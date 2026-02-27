@@ -27,9 +27,7 @@ SpkCoordinateTransform class >> uniqueInstance [
 ]
 
 { #category : 'accessing' }
-SpkCoordinateTransform >> minimumExtentOf: aMorph [
-	"Morph >> minExtent does not behave the way I want for morphs with shrinkWrap -- it 
-	answers a tiny minExtent for non-rigid."
+SpkCoordinateTransform >> SETASIDEminimumExtentOf: aMorph [
 
 	| minExtent hFit vFit |
 	minExtent := aMorph minExtent.
@@ -46,6 +44,14 @@ SpkCoordinateTransform >> minimumExtentOf: aMorph [
 		minExtent := minExtent max: shrunkExtent ].
 	^ minExtent
 
+]
+
+{ #category : 'accessing' }
+SpkCoordinateTransform >> minimumExtentOf: aMorph [
+	"Morph >> minExtent does not behave the way I want for morphs with shrinkWrap -- it 
+	answers a tiny minExtent for non-rigid."
+
+	^ aMorph minExtent
 ]
 
 { #category : 'accessing' }

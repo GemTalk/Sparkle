@@ -1,6 +1,6 @@
 Class {
 	#name : 'SpkSpTestPresenter',
-	#superclass : 'SpPresenter',
+	#superclass : 'SpkPresenter',
 	#instVars : [
 		'startStopButton'
 	],
@@ -33,11 +33,12 @@ SpkSpTestPresenter >> initializePresenters [
 	| hLayout |
 	super initializePresenters.
 	hLayout := SpBoxLayout newHorizontal.
-	startStopButton := self newButton
+	self layout add: hLayout.
+	startStopButton := self newIconButton
 		                   icon: (self iconNamed: #proceed96);
 		                   help: 'Start Stopwatch';
 		                   action: [ self startStopwatch ];
 		                   yourself.
-	hLayout add: startStopButton withConstraints: [ :c | c width: 96].
-	self layout add: hLayout withConstraints: [ :c | c height: 96 ]
+	hLayout add: startStopButton "withConstraints: [ :c | c width: 96]".
+	self layout add: hLayout "withConstraints: [ :c | c height: 96 ]"
 ]

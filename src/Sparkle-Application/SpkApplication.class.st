@@ -44,6 +44,7 @@ SpkApplication >> initializeSylesheet [
 			addPropertyFontWith: [ :f |
 				f
 					size: 96;
+					color: Color white;
 					bold: true ];
 			addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ] ].
 	self styleSheet: sheet

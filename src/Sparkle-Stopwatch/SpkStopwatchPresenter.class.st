@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpkPresenter',
 	#instVars : [
 		'taskspace',
-		'startStopButton'
+		'startStopButton',
+		'resetButton',
+		'timeDisplay'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -37,13 +39,31 @@ SpkStopwatchPresenter >> defaultLayout [
 { #category : 'initialization' }
 SpkStopwatchPresenter >> initializePresenters [
 
+	| buttonLayout |
 	super initializePresenters.
+	timeDisplay := self newLabel
+		               label: '00:00.0';
+		               "beNotEditable;"
+		               addStyle: 'label.elapsedTime';
+		               yourself.
 	startStopButton := self newIconButton
 		                   icon: (self iconNamed: #proceed96);
 		                   help: 'Start Stopwatch';
 		                   action: [ self startStopwatch ];
 		                   yourself.
-	self layout add: startStopButton
+	resetButton := self newIconButton
+		               icon: (self iconNamed: #refresh96);
+		               help: 'Reset time to zero';
+		               action: [ self resetStopwatch ];
+		               yourself.
+	buttonLayout := SpkBoxLayout newHorizontal.
+	buttonLayout
+		add: startStopButton;
+		add: resetButton.
+
+	self layout
+		add: timeDisplay;
+		add: buttonLayout
 ]
 
 { #category : 'initialization' }
@@ -58,6 +78,8 @@ SpkStopwatchPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'Sparkle Stopwatch';
 		initialExtent: 400 @ 400;
+		beNotResizable;
+		"addStyle: 'someStyleName';"
 		whenClosedDo: [ self closeWindowsAndConnection ]
 ]
 

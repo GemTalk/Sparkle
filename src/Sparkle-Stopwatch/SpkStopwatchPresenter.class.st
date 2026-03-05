@@ -77,9 +77,9 @@ SpkStopwatchPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Sparkle Stopwatch';
-		initialExtent: 400 @ 400;
+		initialExtent: 500 @ 400;
 		beNotResizable;
-		"addStyle: 'someStyleName';"
+		addStyle: 'window.stopwatch';
 		whenClosedDo: [ self closeWindowsAndConnection ]
 ]
 

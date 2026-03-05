@@ -8,6 +8,13 @@ Class {
 	#package : 'Sparkle-Application'
 }
 
+{ #category : 'as yet unclassified' }
+SpkApplication >> defaultStyleSheetSource [
+^'
+.application [
+]'
+]
+
 { #category : 'showing' }
 SpkApplication >> defaultWindowPresenterClass [
 
@@ -24,30 +31,40 @@ SpkApplication >> initialize [
 { #category : 'initialization' }
 SpkApplication >> initializeSylesheet [
 
-	| sheet superclass |
+	| sheet labelClass |
 	"Start with a what is effectively a copy of the default style sheet, 
 	then add our specific classes."
-	sheet := SpkStyleSTONReader fromString: SpStyle defaultStyleSheetData.
-	superclass := sheet styleClassNamed: 'label'.
-	superclass
-		addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ];
-		addClass: 'paneHeader' with: [ :c |
-			c
-				addPropertyFontWith: [ :f |
+	self styleSheet: (SpkStyleSTONReader fromString: self defaultStyleSheetSource).
+	"labelClass := sheet styleClassNamed: 'label'.
+	""sheet addClass: 'label' with: [ :c |
+		c""
+	labelClass
+		addClass: 'paneHeader' with: [ :ph |
+			ph addPropertyFontWith: [ :f | "";
+					addPropertyGeometryWith: [ :g |
+					g height: SpStyleResetVariable new ]""
 					f
 						size: 12;
-						bold: true ];
-				addPropertyGeometryWith: [ :g |
-				g height: SpStyleResetVariable new ] ];
-		addClass: 'elapsedTime' with: [ :c |
-		c
+						bold: true ] ];
+		addClass: 'elapsedTime' with: [ :et |
+		et
 			addPropertyFontWith: [ :f |
 				f
 					size: 96;
-					color: Color white;
 					bold: true ];
-			addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ] ].
-	self styleSheet: sheet
+			addPropertyDrawWith: [ :d | "";
+				addPropertyGeometryWith: [ :g |
+				g height: SpStyleResetVariable new ]""
+				d color: #white ] ].
+	""addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ];""
+	sheet
+		addClass: 'window'
+		with: [ :w | w addPropertyDrawWith: [ :d | d color: SpStyleResetVariable new ].
+			w addPropertyDrawWith: [ :d | d color: #black ].
+			w
+				addClass: 'stopwatch'
+				with: [ :sw | sw addPropertyDrawWith: [ :d | d color: #black ] ] ].
+	self styleSheet: sheet"
 ]
 
 { #category : 'private factory' }

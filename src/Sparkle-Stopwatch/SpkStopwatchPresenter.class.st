@@ -34,6 +34,8 @@ SpkStopwatchPresenter >> closeWindowsAndConnection [
 SpkStopwatchPresenter >> defaultLayout [
 
 	^ SpkBoxLayout newVertical
+		  color: Color black;
+		  yourself
 ]
 
 { #category : 'initialization' }
@@ -79,7 +81,6 @@ SpkStopwatchPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Sparkle Stopwatch';
 		initialExtent: 500 @ 400;
 		beNotResizable;
-		addStyle: 'window.stopwatch';
 		whenClosedDo: [ self closeWindowsAndConnection ]
 ]
 

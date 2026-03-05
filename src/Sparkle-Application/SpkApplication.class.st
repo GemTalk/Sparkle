@@ -8,10 +8,17 @@ Class {
 	#package : 'Sparkle-Application'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'styling' }
 SpkApplication >> defaultStyleSheetSource [
 ^'
 .application [
+	.label [
+		.paneHeader [ Font { #name : EnvironmentFont(#default), #size : 12, #bold : true } ],
+		.elapsedTime [ 
+			Font { #name : EnvironmentFont(#default), #size : 96, #bold : true },
+			Draw { #color : #white } 
+		]
+	]
 ]'
 ]
 
@@ -31,40 +38,8 @@ SpkApplication >> initialize [
 { #category : 'initialization' }
 SpkApplication >> initializeSylesheet [
 
-	| sheet labelClass |
-	"Start with a what is effectively a copy of the default style sheet, 
-	then add our specific classes."
-	self styleSheet: (SpkStyleSTONReader fromString: self defaultStyleSheetSource).
-	"labelClass := sheet styleClassNamed: 'label'.
-	""sheet addClass: 'label' with: [ :c |
-		c""
-	labelClass
-		addClass: 'paneHeader' with: [ :ph |
-			ph addPropertyFontWith: [ :f | "";
-					addPropertyGeometryWith: [ :g |
-					g height: SpStyleResetVariable new ]""
-					f
-						size: 12;
-						bold: true ] ];
-		addClass: 'elapsedTime' with: [ :et |
-		et
-			addPropertyFontWith: [ :f |
-				f
-					size: 96;
-					bold: true ];
-			addPropertyDrawWith: [ :d | "";
-				addPropertyGeometryWith: [ :g |
-				g height: SpStyleResetVariable new ]""
-				d color: #white ] ].
-	""addPropertyGeometryWith: [ :g | g height: SpStyleResetVariable new ];""
-	sheet
-		addClass: 'window'
-		with: [ :w | w addPropertyDrawWith: [ :d | d color: SpStyleResetVariable new ].
-			w addPropertyDrawWith: [ :d | d color: #black ].
-			w
-				addClass: 'stopwatch'
-				with: [ :sw | sw addPropertyDrawWith: [ :d | d color: #black ] ] ].
-	self styleSheet: sheet"
+	self styleSheet:
+		(SpkStyleSTONReader fromString: self defaultStyleSheetSource)
 ]
 
 { #category : 'private factory' }

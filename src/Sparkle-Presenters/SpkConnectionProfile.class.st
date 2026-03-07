@@ -218,6 +218,12 @@ SpkConnectionProfile >> newProcessListExplorer [
 	taskspace newProcessListExplorer
 ]
 
+{ #category : 'actions' }
+SpkConnectionProfile >> newStopwatch [
+
+	taskspace newStopwatch
+]
+
 { #category : 'copying' }
 SpkConnectionProfile >> postCopy [
 

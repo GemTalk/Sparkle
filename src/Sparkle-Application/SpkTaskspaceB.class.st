@@ -14,7 +14,7 @@ Responsibilities of this class
 * Manage the RSR connection, especially initiating it and closing it
 "
 Class {
-	#name : 'SpkTaskspace',
+	#name : 'SpkTaskspaceB',
 	#superclass : 'SpkApplication',
 	#traits : 'SpkTModel',
 	#classTraits : 'SpkTModel classTrait',
@@ -32,12 +32,12 @@ Class {
 }
 
 { #category : 'activation' }
-SpkTaskspace class >> applicationName [ 
+SpkTaskspaceB class >> applicationName [ 
 	^ 'Sparkle Taskspace'
 ]
 
 { #category : 'instance creation' }
-SpkTaskspace class >> forConnection: anRsrConnection [
+SpkTaskspaceB class >> forConnection: anRsrConnection [
 
 	^ self new
 		  initializeForConnection: anRsrConnection;
@@ -45,30 +45,30 @@ SpkTaskspace class >> forConnection: anRsrConnection [
 ]
 
 { #category : 'transaction management' }
-SpkTaskspace >> abortTransaction [
+SpkTaskspaceB >> abortTransaction [
 
 	^taskspaceService abortTransaction
 ]
 
 { #category : 'transaction management' }
-SpkTaskspace >> beginTransaction [
+SpkTaskspaceB >> beginTransaction [
 
 	^taskspaceService beginTransaction
 ]
 
 { #category : 'transaction management' }
-SpkTaskspace >> commitTransaction [
+SpkTaskspaceB >> commitTransaction [
 
 	^taskspaceService commitTransaction
 ]
 
 { #category : 'accessing' }
-SpkTaskspace >> connection [
+SpkTaskspaceB >> connection [
 	^ connection
 ]
 
 { #category : 'actions' }
-SpkTaskspace >> disconnect [
+SpkTaskspaceB >> disconnect [
 
 	stateMonitor critical: [
 		state == #connected ifTrue: [
@@ -80,7 +80,7 @@ SpkTaskspace >> disconnect [
 ]
 
 { #category : 'private' }
-SpkTaskspace >> drainInitializationQueue [
+SpkTaskspaceB >> drainInitializationQueue [
 	"Should be done after ensuring that no more messages will be added to the queue.
 	Sender must hold the stateMonitor."
 
@@ -90,14 +90,14 @@ SpkTaskspace >> drainInitializationQueue [
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspace >> handleRespondedService: aService [
+SpkTaskspaceB >> handleRespondedService: aService [
 
 	aService class == SpkSuccessServiceClient
 		ifFalse: [ self openWindowForService: aService ]
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> initialize [
+SpkTaskspaceB >> initialize [
 
 	super initialize.
 	state := #new.
@@ -109,7 +109,7 @@ SpkTaskspace >> initialize [
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> initializeForConnection: anRsrConnection [ 
+SpkTaskspaceB >> initializeForConnection: anRsrConnection [ 
 	connection := anRsrConnection.
 	state := #initializing.
 	self initializeRegistryService.
@@ -119,7 +119,7 @@ SpkTaskspace >> initializeForConnection: anRsrConnection [
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
+SpkTaskspaceB >> initializeFromTaskspaceService: aTaskspaceService [
 	"Open and initialize windows from the given service.
 	This method runs in a non-UI thread."
 
@@ -144,7 +144,7 @@ SpkTaskspace >> initializeFromTaskspaceService: aTaskspaceService [
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> initializePresenterClassesForServiceTypes [
+SpkTaskspaceB >> initializePresenterClassesForServiceTypes [
 	"This is only for pane presenters and services.
 	Elements smaller than panes are handled by the panes themselves."
 
@@ -167,7 +167,7 @@ SpkTaskspace >> initializePresenterClassesForServiceTypes [
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> initializeRegistryService [
+SpkTaskspaceB >> initializeRegistryService [
 
 	"Note that the use of SpkTaskspaceAnnouncement means that there must be exactly one
 	connection per SparkleTaskspace."
@@ -183,14 +183,14 @@ SpkTaskspace >> initializeRegistryService [
 ]
 
 { #category : 'testing' }
-SpkTaskspace >> isConnected [
+SpkTaskspaceB >> isConnected [
 
 	^ stateMonitor critical: [
 		  state == #connected and: [ connection isOpen ] ]
 ]
 
 { #category : 'actions' }
-SpkTaskspace >> newBrowser: pathString [
+SpkTaskspaceB >> newBrowser: pathString [
 
 	| msg |
 	msg := Message selector: #newBrowser: argument: pathString.
@@ -198,7 +198,7 @@ SpkTaskspace >> newBrowser: pathString [
 ]
 
 { #category : 'actions' }
-SpkTaskspace >> newEvaluator [
+SpkTaskspaceB >> newEvaluator [
 	"Reply comes via announcement"
 
 	| msg |
@@ -207,7 +207,7 @@ SpkTaskspace >> newEvaluator [
 ]
 
 { #category : 'actions' }
-SpkTaskspace >> newProcessListExplorer [
+SpkTaskspaceB >> newProcessListExplorer [
 	"Reply comes via announcement"
 
 	| msg |
@@ -215,8 +215,23 @@ SpkTaskspace >> newProcessListExplorer [
 	self sendToService: msg
 ]
 
+{ #category : 'instance creation' }
+SpkTaskspaceB >> newStopwatch [
+	"Open a new window with a new stopwatch in it."
+
+	| explorerWindow stopwatchPane |
+	explorerWindow := SpkExplorerWindowB newApplication: self.
+	stopwatchPane := SpkStopwatchPane owner: explorerWindow.
+	explorerWindow
+		addInitialPane: stopwatchPane;
+		initializeServiceTree;
+		initializeTreeOnServer;
+		halt;
+		open
+]
+
 { #category : 'running' }
-SpkTaskspace >> openEmptyExplorer [
+SpkTaskspaceB >> openEmptyExplorer [
 
 	"Answer a new empty explorer window with a new service as its model."
 
@@ -226,7 +241,7 @@ SpkTaskspace >> openEmptyExplorer [
 ]
 
 { #category : 'running' }
-SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
+SpkTaskspaceB >> openExplorerForService: xService withPaneForService: pService [
 
 	| explorer pane |
 	explorer := self openWindowForService: xService.
@@ -238,7 +253,7 @@ SpkTaskspace >> openExplorerForService: xService withPaneForService: pService [
 ]
 
 { #category : 'running' }
-SpkTaskspace >> openWindowForService: anExplorerService [
+SpkTaskspaceB >> openWindowForService: anExplorerService [
 
 	"Answer a new empty explorer window for the given service."
 
@@ -251,14 +266,14 @@ SpkTaskspace >> openWindowForService: anExplorerService [
 ]
 
 { #category : 'initialization' }
-SpkTaskspace >> presenterClassesForServiceTypes [
+SpkTaskspaceB >> presenterClassesForServiceTypes [
 
 	^ presenterClassesForServiceTypes ifNil: [ 
 		  self initializePresenterClassesForServiceTypes ]
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
+SpkTaskspaceB >> receiveNewExplorerAndPaneAnnouncement: announcement [
 
 	self defer: [ 
 		self
@@ -267,20 +282,20 @@ SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspace >> receiveNewTaskspaceAnnouncement: anAnnouncement [
+SpkTaskspaceB >> receiveNewTaskspaceAnnouncement: anAnnouncement [
 	"This initialization will not be in the UI thread"
 
 	self initializeFromTaskspaceService: anAnnouncement taskspaceService
 ]
 
 { #category : 'processing announcements' }
-SpkTaskspace >> receiveTaskspaceResponse: anAnnouncement [
+SpkTaskspaceB >> receiveTaskspaceResponse: anAnnouncement [
 
 	self defer: [ self handleRespondedService: anAnnouncement service ]
 ]
 
 { #category : 'actions' }
-SpkTaskspace >> sendToService: aMessage [
+SpkTaskspaceB >> sendToService: aMessage [
 	"Send the message to my TaskspaceService, if we think it's alive.
 	If we're initializing we have to queue the message to be sent once the service is ready."
 
@@ -297,19 +312,19 @@ SpkTaskspace >> sendToService: aMessage [
 ]
 
 { #category : 'transaction management' }
-SpkTaskspace >> setAutomaticTransactionMode [
+SpkTaskspaceB >> setAutomaticTransactionMode [
 
 	^taskspaceService setAutomaticTransactionMode
 ]
 
 { #category : 'transaction management' }
-SpkTaskspace >> setManualTransactionMode [
+SpkTaskspaceB >> setManualTransactionMode [
 
 	^taskspaceService setManualTransactionMode
 ]
 
 { #category : 'running' }
-SpkTaskspace >> start [
+SpkTaskspaceB >> start [
 
 	self shouldNotImplement
 ]

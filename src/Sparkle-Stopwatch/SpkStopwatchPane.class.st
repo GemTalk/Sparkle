@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkStopwachPane',
+	#name : 'SpkStopwatchPane',
 	#superclass : 'SpkPane',
 	#traits : 'SpkTHeader',
 	#classTraits : 'SpkTHeader classTrait',
@@ -14,24 +14,24 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkStopwachPane >> connectPresenters [ 
+SpkStopwatchPane >> connectPresenters [ 
 	"Nothing for now, prevent superclass implementation from doing stuff no longer appropriate."
 ]
 
 { #category : 'accessing' }
-SpkStopwachPane >> elapsedTimeString: aString [
+SpkStopwatchPane >> elapsedTimeString: aString [
 
 	timePresenter label: aString
 ]
 
 { #category : 'accessing' }
-SpkStopwachPane >> headerClass [
+SpkStopwatchPane >> headerClass [
 
 	^ SpkErrorPaneHeader
 ]
 
 { #category : 'initialization' }
-SpkStopwachPane >> initializePresenters [
+SpkStopwatchPane >> initializePresenters [
 
 	super initializePresenters.
 	self initializeHeader.
@@ -42,7 +42,7 @@ SpkStopwachPane >> initializePresenters [
 ]
 
 { #category : 'initialization' }
-SpkStopwachPane >> initializeStartStopButton [
+SpkStopwatchPane >> initializeStartStopButton [
 
 	startStopButton := self newIconButton
 		                   icon: (self iconNamed: #proceed96);
@@ -53,7 +53,7 @@ SpkStopwachPane >> initializeStartStopButton [
 ]
 
 { #category : 'initialization' }
-SpkStopwachPane >> initializeTimePresenter [
+SpkStopwatchPane >> initializeTimePresenter [
 
 	timePresenter := self newLabel.
 	timePresenter
@@ -64,7 +64,13 @@ SpkStopwachPane >> initializeTimePresenter [
 ]
 
 { #category : 'accessing' }
-SpkStopwachPane >> labelString [
+SpkStopwatchPane >> labelString [
 
 	^ 'Stopwatch'
+]
+
+{ #category : 'accessing' }
+SpkStopwatchPane >> modelClass [
+
+	^ SpkStopwatchServiceClient
 ]

@@ -9,12 +9,10 @@ My responsibility is dividing the space between these elements:
     Instance Variables
 *	addEvaluatorButton:		<SpkIconButtonPresenter>
 *	evaluators:		<OrderedCollection of SpkEvaluator>
-*	nextEvaluatorIndex:		<SmallInteger>
-*  pane:							<SpkInspectorPane
+*  inspectorSubPane:			<SpkInspectorSubPane
 
     Implementation Points
 
-I don't have a coordinate; my pane has that.
 "
 Class {
 	#name : 'SpkInspectorPane',

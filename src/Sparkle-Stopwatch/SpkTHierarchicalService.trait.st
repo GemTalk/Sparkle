@@ -15,16 +15,19 @@ Trait {
 	#tag : 'Code'
 }
 
-{ #category : 'accessing' }
-SpkTHierarchicalService >> children [
+{ #category : 'adding' }
+SpkTHierarchicalService >> addChild: childService [
 
-	^ children
+	children ifNil: [ children := OrderedCollection new ].
+	children add: childService.
+	childService parent: self
 ]
 
 { #category : 'accessing' }
-SpkTHierarchicalService >> children: anObject [
+SpkTHierarchicalService >> children [
 
-	children := anObject
+	children ifNil: [ children := OrderedCollection new ].
+	^ children
 ]
 
 { #category : 'accessing' }

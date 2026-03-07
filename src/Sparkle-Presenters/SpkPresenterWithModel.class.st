@@ -1,6 +1,8 @@
 Class {
 	#name : 'SpkPresenterWithModel',
 	#superclass : 'SpkPresenter',
+	#traits : 'SpkTPresenterWithModel',
+	#classTraits : 'SpkTPresenterWithModel classTrait',
 	#instVars : [
 		'model'
 	],
@@ -8,6 +10,14 @@ Class {
 	#package : 'Sparkle-Presenters',
 	#tag : 'Presenters'
 }
+
+{ #category : 'enumerating' }
+SpkPresenterWithModel >> childrenDo: aBlock [
+	"By default, do nothing.
+	Subclasses presenters that have a notion of child presenters should override this method."
+
+	
+]
 
 { #category : 'accessing' }
 SpkPresenterWithModel >> explorer [
@@ -30,6 +40,18 @@ SpkPresenterWithModel >> explorerService [
 { #category : 'accessing' }
 SpkPresenterWithModel >> model [
 	^ model
+]
+
+{ #category : 'accessing' }
+SpkPresenterWithModel >> model: aService [
+
+	model := aService
+]
+
+{ #category : 'accessing' }
+SpkPresenterWithModel >> modelClass [
+
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }

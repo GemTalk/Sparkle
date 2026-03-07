@@ -16,7 +16,7 @@ SpkApplication >> defaultStyleSheetSource [
 		.paneHeader [ Font { #name : EnvironmentFont(#default), #size : 12, #bold : true } ],
 		.elapsedTime [ 
 			Font { #name : EnvironmentFont(#default), #size : 96, #bold : true },
-			Draw { #color : #white } 
+			Draw { #color : #white }
 		]
 	]
 ]'

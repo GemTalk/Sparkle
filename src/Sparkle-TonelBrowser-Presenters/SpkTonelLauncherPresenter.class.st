@@ -75,6 +75,12 @@ SpkTonelLauncherPresenter >> initializeToolbar [
 					                             'Open a Sparkle Tonel Browser on the path below';
 				                             action: [ self newBrowser ];
 				                             yourself);
+		           addItem: (browserButton := SpToolbarButtonPresenter new
+				                             label: 'Stopwatch';
+				                             icon: (self iconNamed: #proceed28);
+				                             help: 'Open a stopwatch';
+				                             action: [ self newStopwatch ];
+				                             yourself);
 		           yourself.
 	self layout add: #toolbar
 ]

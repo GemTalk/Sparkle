@@ -11,6 +11,15 @@ Class {
 	#tag : 'Code'
 }
 
+{ #category : 'as yet unclassified' }
+SpkStopwatchServiceServer >> createToolTree [
+
+	tool := SpkStopwatchTool newInTaskspace:
+		        self parent tool taskspaceTool.
+	tool explorerTool: self parent tool.
+	self halt
+]
+
 { #category : 'remote actions' }
 SpkStopwatchServiceServer >> reset [
 

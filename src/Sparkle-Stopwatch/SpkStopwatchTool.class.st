@@ -1,14 +1,13 @@
 Class {
 	#name : 'SpkStopwatchTool',
-	#superclass : 'SpkObject',
+	#superclass : 'SpkTool',
 	#instVars : [
-		'service',
 		'explorerTool',
-		'elapsedTime',
-		'startUsec',
 		'task',
 		'previousStop',
-		'isRunning'
+		'isRunning',
+		'elapsedDuration',
+		'startTime'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -26,7 +25,7 @@ SpkStopwatchTool >> elapsedTimeString [
 
 	| stream t h m s tenths |
 	stream := WriteStream on: (String new: 10).
-	t := elapsedTime. "snapshot elapsedTime, which could change during this method."
+	t := elapsedDuration. "snapshot elapsedTime, which could change during this method."
 	h := t hours.
 	m := t minutes.
 	s := t seconds.
@@ -40,11 +39,19 @@ SpkStopwatchTool >> elapsedTimeString [
 	^ stream contents
 ]
 
+{ #category : 'accessing' }
+SpkStopwatchTool >> explorerTool: anObject [
+
+	explorerTool := anObject
+]
+
 { #category : 'initialization' }
 SpkStopwatchTool >> initialize [
 
 	super initialize.
-	elapsedTime := previousStop := Duration zero
+	isRunning := false.
+	startTime := DateAndTime now.
+	elapsedDuration := Duration zero
 ]
 
 { #category : 'testing' }
@@ -56,7 +63,7 @@ SpkStopwatchTool >> isRunning [
 { #category : 'private' }
 SpkStopwatchTool >> notifyService [
 
-	service serverValuesChanged
+	self halt
 ]
 
 { #category : 'actions' }
@@ -64,7 +71,7 @@ SpkStopwatchTool >> reset [
 	"Reset the stopwatch to zero and leave it stopped."
 
 	self stop.
-	elapsedTime := Duration zero.
+	elapsedDuration := Duration zero.
 	self notifyService
 ]
 
@@ -72,7 +79,7 @@ SpkStopwatchTool >> reset [
 SpkStopwatchTool >> start [
 	"Start the stopwatch running"
 
-	startUsec := self currentUsec.
+	startTime := self currentUsec.
 	self startUpdating.
 	isRunning := true.
 	self notifyService
@@ -89,7 +96,7 @@ SpkStopwatchTool >> stop [
 	"Stop the stopwatch at its current time."
 
 	self stopUpdating.
-	previousStop := elapsedTime.
+	previousStop := elapsedDuration.
 	isRunning := false.
 	self notifyService
 ]
@@ -108,7 +115,7 @@ SpkStopwatchTool >> updateElapsedTime [
 
 	| usec |
 	usec := self currentUsec.
-	elapsedTime := previousStop + (Duration microSeconds: usec - startUsec)
+	elapsedDuration := previousStop + (Duration microSeconds: usec - startTime)
 ]
 
 { #category : 'updateTask' }

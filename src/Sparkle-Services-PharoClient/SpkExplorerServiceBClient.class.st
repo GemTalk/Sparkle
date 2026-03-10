@@ -12,10 +12,12 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkExplorerServiceBClient >> initializeTreeOnServer [
+SpkExplorerServiceBClient >> initializeTreeOnServerInTaskspace: taskspaceService [
 
-	| xport promise |
-	xport := SpkTransportServiceClient forRoot: self.
-	promise := remoteSelf createToolTreeForTransport: xport.
+	| transport promise |
+	transport := SpkTransportServiceClient forRoot: self.
+	promise := remoteSelf
+		           createToolTreeForTransport: transport
+		           inTaskspace: taskspaceService.
 	promise when: [  ] catch: self defaultCatchBlock
 ]

@@ -83,9 +83,9 @@ SpkExplorerWindowB >> initialExtent [
 ]
 
 { #category : 'initialization' }
-SpkExplorerWindowB >> initializeTreeOnServer [ 
+SpkExplorerWindowB >> initializeTreeOnServer [
 
-	model initializeTreeOnServer.
+	model initializeTreeOnServerInTaskspace: application taskspaceService
 ]
 
 { #category : 'testing' }

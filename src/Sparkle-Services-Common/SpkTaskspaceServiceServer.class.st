@@ -161,6 +161,12 @@ SpkTaskspaceServiceServer >> setManualTransactionMode [
 	^ SpkServiceFactory serviceForTool: resultTool
 ]
 
+{ #category : 'accessing' }
+SpkTaskspaceServiceServer >> tool [
+
+	^ tool
+]
+
 { #category : 'initialization' }
 SpkTaskspaceServiceServer >> tool: aTaskspaceTool [
 

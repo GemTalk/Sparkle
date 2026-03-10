@@ -11,10 +11,14 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SpkExplorerServiceBServer >> createToolTreeForTransport: xport [
-	self halt.
-	xport linkTransportedTree.
-	self halt.
+SpkExplorerServiceBServer >> createToolTreeForTransport: transportService inTaskspace: taskspaceService [
+
+	transportService linkTransportedTree.
+	"ExplorerTool does not keep track of child tools."
+	tool := taskspaceService tool newExplorerTool.
+	self children do: [ :childService | childService createToolTree ].
+
+	self halt
 ]
 
 { #category : 'initialization' }

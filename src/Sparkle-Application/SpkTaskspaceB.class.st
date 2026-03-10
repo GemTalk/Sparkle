@@ -328,3 +328,9 @@ SpkTaskspaceB >> start [
 
 	self shouldNotImplement
 ]
+
+{ #category : 'accessing' }
+SpkTaskspaceB >> taskspaceService [
+
+	^ taskspaceService
+]

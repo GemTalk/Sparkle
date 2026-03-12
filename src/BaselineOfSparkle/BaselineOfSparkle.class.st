@@ -95,7 +95,10 @@ BaselineOfSparkle >> servicesBaseline: spec [
 { #category : 'baselines' }
 BaselineOfSparkle >> stopwatchBaseline: spec [
 
-	spec package: 'Sparkle-Stopwatch'
+	spec
+		package: 'Sparkle-Stopwatch'
+		with: [
+		spec requires: #( 'Sparkle-Application' 'Sparkle-Presenters' ) ]
 ]
 
 { #category : 'baselines' }

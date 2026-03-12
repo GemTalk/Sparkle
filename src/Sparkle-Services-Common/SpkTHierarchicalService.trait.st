@@ -10,9 +10,9 @@ Trait {
 		'parent',
 		'children'
 	],
-	#category : 'Sparkle-Stopwatch-Code',
-	#package : 'Sparkle-Stopwatch',
-	#tag : 'Code'
+	#category : 'Sparkle-Services-Common-Support',
+	#package : 'Sparkle-Services-Common',
+	#tag : 'Support'
 }
 
 { #category : 'adding' }

@@ -45,7 +45,6 @@ SpkStopwatchPresenter >> initializePresenters [
 	super initializePresenters.
 	timeDisplay := self newLabel
 		               label: '00:00.0';
-		               "beNotEditable;"
 		               addStyle: 'label.elapsedTime';
 		               yourself.
 	startStopButton := self newIconButton

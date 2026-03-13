@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'service',
 		'timePresenter',
-		'startStopButton'
+		'stopButton',
+		'resetButton',
+		'startButton'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -31,6 +33,32 @@ SpkStopwatchPane >> headerClass [
 ]
 
 { #category : 'initialization' }
+SpkStopwatchPane >> initializeButtons [
+
+	| buttonLayout |
+	startButton := self newIconButton
+		                   icon: (self iconNamed: #proceed96);
+		                   help: 'Start Stopwatch';
+		                   action: [ self startStopwatch ];
+		                   yourself.
+	stopButton := self newIconButton
+		              icon: (self iconNamed: #debug96);
+		              help: 'Pause Stopwatch';
+		              action: [ self pauseStopwatch ];
+		              yourself.
+	resetButton := self newIconButton
+		               icon: (self iconNamed: #refresh96);
+		               help: 'Reset time to zero';
+		               action: [ self resetStopwatch ];
+		               yourself.
+	buttonLayout := SpkBoxLayout newHorizontal.
+	buttonLayout
+		add: startButton;
+		add: resetButton.
+	self layout add: buttonLayout
+]
+
+{ #category : 'initialization' }
 SpkStopwatchPane >> initializePresenters [
 
 	super initializePresenters.
@@ -38,18 +66,7 @@ SpkStopwatchPane >> initializePresenters [
 	self header labelString: self labelString.
 	self
 		initializeTimePresenter;
-		initializeStartStopButton
-]
-
-{ #category : 'initialization' }
-SpkStopwatchPane >> initializeStartStopButton [
-
-	startStopButton := self newIconButton
-		                   icon: (self iconNamed: #proceed96);
-		                   help: 'Start Stopwatch';
-		                   action: [ self startStopwatch ];
-		                   yourself.
-	self layout add: startStopButton
+		initializeButtons
 ]
 
 { #category : 'initialization' }

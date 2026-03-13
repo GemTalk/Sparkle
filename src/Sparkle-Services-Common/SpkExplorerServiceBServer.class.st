@@ -17,9 +17,7 @@ SpkExplorerServiceBServer >> createToolTreeForTransport: transportService inTask
 	transportService linkTransportedTree.
 	"ExplorerTool does not keep track of child tools."
 	tool := taskspaceService tool newExplorerTool.
-	self children do: [ :childService | childService createToolTree ].
-
-	self halt
+	self children do: [ :childService | childService createToolTree ]
 ]
 
 { #category : 'initialization' }

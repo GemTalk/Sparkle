@@ -226,7 +226,6 @@ SpkTaskspaceB >> newStopwatch [
 		addInitialPane: stopwatchPane;
 		initializeServiceTree;
 		initializeTreeOnServer;
-		halt;
 		open
 ]
 

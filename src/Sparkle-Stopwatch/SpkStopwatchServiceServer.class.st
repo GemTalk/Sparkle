@@ -16,8 +16,7 @@ SpkStopwatchServiceServer >> createToolTree [
 
 	tool := SpkStopwatchTool newInTaskspace:
 		        self parent tool taskspaceTool.
-	tool explorerTool: self parent tool.
-	self halt
+	tool explorerTool: self parent tool
 ]
 
 { #category : 'remote actions' }

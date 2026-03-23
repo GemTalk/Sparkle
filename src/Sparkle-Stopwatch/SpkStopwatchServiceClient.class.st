@@ -40,3 +40,9 @@ SpkStopwatchServiceClient >> run [
 		when: [ :ignored | self announceActionComplete ]
 		catch: self defaultCatchBlock
 ]
+
+{ #category : 'as yet unclassified' }
+SpkStopwatchServiceClient >> updateFromServer [
+
+	self announceUpdate
+]

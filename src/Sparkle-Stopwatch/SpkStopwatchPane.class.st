@@ -9,7 +9,6 @@ Class {
 	#classTraits : 'SpkTHeader classTrait',
 	#instVars : [
 		'service',
-		'isRunning',
 		'timePresenter',
 		'resetButton',
 		'buttonLayout',
@@ -136,6 +135,16 @@ SpkStopwatchPane >> pauseStopwatch [
 
 	self disableAll.
 	model pause
+]
+
+{ #category : 'initialization' }
+SpkStopwatchPane >> refreshFromService [
+
+	model ifNil: [ ^ self ]. "When first building the pane, spec sends this before model is initialized"
+	model isRunning
+		ifTrue: [ self displayPauseButton ]
+		ifFalse: [ self displayRunButton ].
+	timePresenter label: model elapsedTimeString
 ]
 
 { #category : 'actions' }

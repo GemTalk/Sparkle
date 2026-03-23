@@ -14,15 +14,43 @@ Class {
 { #category : 'as yet unclassified' }
 SpkStopwatchServiceServer >> createToolTree [
 
-	tool := SpkStopwatchTool newInTaskspace:
-		        self parent tool taskspaceTool.
-	tool explorerTool: self parent tool
+	| myTool |
+	myTool := SpkStopwatchTool newInTaskspace:
+		          self parent tool taskspaceTool.
+	myTool explorerTool: self parent tool.
+	self initializeFromTool: myTool
+]
+
+{ #category : 'initialization' }
+SpkStopwatchServiceServer >> initializeFromTool: aTool [
+	tool := aTool.
+	tool
+		when: SpkUpdateAnnouncement
+		send: #'receiveUpdateAnnouncement:'
+		to: self.
+	self refreshFromTool
 ]
 
 { #category : 'remote actions' }
 SpkStopwatchServiceServer >> pause [
 
 	tool pause
+]
+
+{ #category : 'as yet unclassified' }
+SpkStopwatchServiceServer >> receiveUpdateAnnouncement: anUpdateAnnouncement [
+
+	| promise |
+	self refreshFromTool.
+	promise := remoteSelf updateFromServer.
+	promise when: [  ] catch: self defaultCatchBlock
+]
+
+{ #category : 'refreshing' }
+SpkStopwatchServiceServer >> refreshFromTool [
+
+	elapsedTimeString := tool elapsedTimeString.
+	isRunning := tool isRunning
 ]
 
 { #category : 'remote actions' }
@@ -35,14 +63,4 @@ SpkStopwatchServiceServer >> reset [
 SpkStopwatchServiceServer >> run [
 
 	tool run
-]
-
-{ #category : 'local actions' }
-SpkStopwatchServiceServer >> serverValuesChanged [
-
-	| promise |
-	elapsedTimeString := tool elapsedTimeString.
-	isRunning := tool isRunning.
-	promise := remoteSelf serverValuesChanged.
-	promise when: [  ] catch: self defaultCatchBlock
 ]

@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'explorerTool',
 		'task',
-		'previousStop',
 		'isRunning',
 		'elapsedDuration',
 		'startTime',
@@ -15,7 +14,7 @@ Class {
 	#tag : 'Code'
 }
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 SpkStopwatchTool >> buildElapsedTimeString [
 
 	| stream t m s tenths |
@@ -32,22 +31,10 @@ SpkStopwatchTool >> buildElapsedTimeString [
 	^ stream contents
 ]
 
-{ #category : 'private' }
-SpkStopwatchTool >> currentUsec [
-
-	^ Time primUTCMicrosecondsClock
-]
-
 { #category : 'accessing' }
 SpkStopwatchTool >> elapsedTimeString [
 
 	^ elapsedTimeString
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> elapsedTimeString: anObject [
-
-	elapsedTimeString := anObject
 ]
 
 { #category : 'accessing' }
@@ -61,7 +48,7 @@ SpkStopwatchTool >> initialize [
 
 	super initialize.
 	isRunning := false.
-	startTime := DateAndTime now.
+	self setStartTimeToNow.
 	elapsedDuration := Duration zero.
 	elapsedTimeString := self buildElapsedTimeString
 ]
@@ -82,18 +69,20 @@ SpkStopwatchTool >> notifyService [
 SpkStopwatchTool >> pause [
 	"Stop the stopwatch at its current time."
 
-	self stopUpdating.
-	previousStop := elapsedDuration.
-	isRunning := false
+	isRunning := false.
+	self announceUpdate
 ]
 
 { #category : 'actions' }
 SpkStopwatchTool >> reset [
-	"Reset the stopwatch to zero and leave it stopped."
+	"Reset the stopwatch to zero elapsed time,
+	but do not change whether it is running."
 
-	self pause.
+	self setStartTimeToNow.
 	elapsedDuration := Duration zero.
-
+	self
+		updateElapsedTime;
+		announceUpdate
 ]
 
 { #category : 'actions' }
@@ -101,24 +90,22 @@ SpkStopwatchTool >> run [
 	"Start the stopwatch running, from the point it was last stopped."
 
 	startTime := DateAndTime now - elapsedDuration.
+	isRunning := true.
 	self startUpdating.
-	isRunning := true
+	self announceUpdate
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
+SpkStopwatchTool >> setStartTimeToNow [
+
+	startTime := DateAndTime now
+]
+
+{ #category : 'private' }
 SpkStopwatchTool >> startUpdating [
 
 	task := [ self updateLoop ] forkAt: Processor userSchedulingPriority.
 	task name: 'Stopwatch updateLoop'
-]
-
-{ #category : 'actions' }
-SpkStopwatchTool >> stopUpdating [
-
-	| t |
-	t := task.
-	task := nil.
-	t ifNotNil: [ t terminate ]
 ]
 
 { #category : 'private' }
@@ -140,5 +127,6 @@ SpkStopwatchTool >> updateLoop [
 	self updateElapsedTime.
 	newString := self elapsedTimeString.
 	newString = oldString ifFalse: [ self announceUpdate ].
-	isRunning ] whileTrue
+	isRunning ] whileTrue.
+	task := nil
 ]

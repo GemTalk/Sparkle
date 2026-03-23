@@ -1,8 +1,8 @@
 Class {
 	#name : 'SpkStopwatchServiceClient',
 	#superclass : 'SpkStopwatchService',
-	#traits : 'SpkTHierarchicalService',
-	#classTraits : 'SpkTHierarchicalService classTrait',
+	#traits : 'SpkTModel + SpkTHierarchicalService',
+	#classTraits : 'SpkTModel classTrait + SpkTHierarchicalService classTrait',
 	#instVars : [
 		'presenter'
 	],
@@ -12,25 +12,31 @@ Class {
 }
 
 { #category : 'local actions' }
+SpkStopwatchServiceClient >> pause [
+
+	| promise |
+	promise := remoteSelf pause.
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'local actions' }
 SpkStopwatchServiceClient >> reset [
 
 	| promise |
 	promise := remoteSelf reset.
-	promise when: [  ] catch: self defaultCatchBlock
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
 ]
 
 { #category : 'local actions' }
-SpkStopwatchServiceClient >> start [
+SpkStopwatchServiceClient >> run [
 
 	| promise |
-	promise := remoteSelf start.
-	promise when: [  ] catch: self defaultCatchBlock
-]
-
-{ #category : 'local actions' }
-SpkStopwatchServiceClient >> stop [
-
-	| promise |
-	promise := remoteSelf stop.
-	promise when: [  ] catch: self defaultCatchBlock
+	promise := remoteSelf run.
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
 ]

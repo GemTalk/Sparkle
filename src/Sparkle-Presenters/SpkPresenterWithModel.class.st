@@ -45,7 +45,8 @@ SpkPresenterWithModel >> model [
 { #category : 'accessing' }
 SpkPresenterWithModel >> model: aService [
 
-	model := aService
+	model := aService.
+	self subscribeToModel
 ]
 
 { #category : 'accessing' }
@@ -58,4 +59,12 @@ SpkPresenterWithModel >> modelClass [
 SpkPresenterWithModel >> setModelBeforeInitialization: anObject [
 
 	model := anObject
+]
+
+{ #category : 'as yet unclassified' }
+SpkPresenterWithModel >> subscribeToModel [
+	"If subclasses want to receive announcements from their model, 
+	they should override this method."
+
+	
 ]

@@ -36,6 +36,14 @@ SpkTool >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 
+{ #category : 'announcing' }
+SpkTool >> announceUpdate [
+
+	"Announce a generic update announcement"
+
+	self announce: SpkUpdateAnnouncement new
+]
+
 { #category : 'accessing' }
 SpkTool >> announcer [
 
@@ -105,6 +113,9 @@ SpkTool >> unsubscribe: anObject [
 
 { #category : 'accessing' }
 SpkTool >> when: anAnnouncementClass send: aSelector to: anObject [
-	(self announcer when: anAnnouncementClass send: aSelector to: anObject)
-		makeWeak
+
+	(self announcer
+		 when: anAnnouncementClass
+		 send: aSelector
+		 to: anObject) makeWeak
 ]

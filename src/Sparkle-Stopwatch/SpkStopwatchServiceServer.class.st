@@ -20,9 +20,21 @@ SpkStopwatchServiceServer >> createToolTree [
 ]
 
 { #category : 'remote actions' }
+SpkStopwatchServiceServer >> pause [
+
+	tool pause
+]
+
+{ #category : 'remote actions' }
 SpkStopwatchServiceServer >> reset [
 
 	tool reset
+]
+
+{ #category : 'remote actions' }
+SpkStopwatchServiceServer >> run [
+
+	tool run
 ]
 
 { #category : 'local actions' }
@@ -33,16 +45,4 @@ SpkStopwatchServiceServer >> serverValuesChanged [
 	isRunning := tool isRunning.
 	promise := remoteSelf serverValuesChanged.
 	promise when: [  ] catch: self defaultCatchBlock
-]
-
-{ #category : 'remote actions' }
-SpkStopwatchServiceServer >> start [
-
-	tool start
-]
-
-{ #category : 'remote actions' }
-SpkStopwatchServiceServer >> stop [
-
-	tool stop
 ]

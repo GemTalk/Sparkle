@@ -1,3 +1,7 @@
+"
+Presents a pane with an elapsed time display, a start/stop button, and a reset button.
+Its menu allows for undo/redo of the operations of the buttons.
+"
 Class {
 	#name : 'SpkStopwatchPane',
 	#superclass : 'SpkPane',
@@ -5,10 +9,12 @@ Class {
 	#classTraits : 'SpkTHeader classTrait',
 	#instVars : [
 		'service',
+		'isRunning',
 		'timePresenter',
-		'stopButton',
 		'resetButton',
-		'startButton'
+		'buttonLayout',
+		'runButton',
+		'pauseButton'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -16,8 +22,42 @@ Class {
 }
 
 { #category : 'initialization' }
-SpkStopwatchPane >> connectPresenters [ 
-	"Nothing for now, prevent superclass implementation from doing stuff no longer appropriate."
+SpkStopwatchPane >> connectPresenters [
+	"No model yet, cannot subscribe to announcements here."
+
+	
+]
+
+{ #category : 'buttons' }
+SpkStopwatchPane >> currentRunPauseButtonPresenter [
+	"Answer the button that is currently displayed, wither runButton or pauseButton."
+
+	^ buttonLayout children first
+]
+
+{ #category : 'buttons' }
+SpkStopwatchPane >> displayPauseButton [
+
+	self displayRunPauseButton: pauseButton
+]
+
+{ #category : 'buttons' }
+SpkStopwatchPane >> displayRunButton [
+
+	self displayRunPauseButton: runButton
+]
+
+{ #category : 'buttons' }
+SpkStopwatchPane >> displayRunPauseButton: desiredButton [
+
+	| currentButton isEnabled |
+	currentButton := self currentRunPauseButtonPresenter.
+	currentButton == desiredButton ifTrue: [ ^ self ]. "already displaying."
+	isEnabled := currentButton isEnabled.
+	buttonLayout
+		removePresenterAtIndex: 1;
+		add: desiredButton before: resetButton.
+	desiredButton enabled: isEnabled
 ]
 
 { #category : 'accessing' }
@@ -32,20 +72,19 @@ SpkStopwatchPane >> headerClass [
 	^ SpkErrorPaneHeader
 ]
 
-{ #category : 'initialization' }
+{ #category : 'buttons' }
 SpkStopwatchPane >> initializeButtons [
 
-	| buttonLayout |
-	startButton := self newIconButton
-		                   icon: (self iconNamed: #proceed96);
-		                   help: 'Start Stopwatch';
-		                   action: [ self startStopwatch ];
-		                   yourself.
-	stopButton := self newIconButton
-		              icon: (self iconNamed: #debug96);
-		              help: 'Pause Stopwatch';
-		              action: [ self pauseStopwatch ];
-		              yourself.
+	runButton := self newIconButton
+		             icon: (self iconNamed: #proceed96);
+		             help: 'Run Stopwatch';
+		             action: [ self runStopwatch ];
+		             yourself.
+	pauseButton := self newIconButton
+		               icon: (self iconNamed: #debug96);
+		               help: 'Pause Stopwatch';
+		               action: [ self pauseStopwatch ];
+		               yourself.
 	resetButton := self newIconButton
 		               icon: (self iconNamed: #refresh96);
 		               help: 'Reset time to zero';
@@ -53,7 +92,7 @@ SpkStopwatchPane >> initializeButtons [
 		               yourself.
 	buttonLayout := SpkBoxLayout newHorizontal.
 	buttonLayout
-		add: startButton;
+		add: runButton;
 		add: resetButton.
 	self layout add: buttonLayout
 ]
@@ -75,7 +114,7 @@ SpkStopwatchPane >> initializeTimePresenter [
 	timePresenter := self newLabel.
 	timePresenter
 		addStyle: 'label.elapsedTime';
-		label: '00:00:00.0';
+		label: '00:00.0';
 		yourself.
 	self layout add: timePresenter
 ]
@@ -90,4 +129,37 @@ SpkStopwatchPane >> labelString [
 SpkStopwatchPane >> modelClass [
 
 	^ SpkStopwatchServiceClient
+]
+
+{ #category : 'actions' }
+SpkStopwatchPane >> pauseStopwatch [
+
+	self disableAll.
+	model pause
+]
+
+{ #category : 'actions' }
+SpkStopwatchPane >> resetStopwatch [
+
+	self disableAll.
+	model reset
+]
+
+{ #category : 'actions' }
+SpkStopwatchPane >> runStopwatch [
+
+	self disableAll.
+	model run
+]
+
+{ #category : 'initialization' }
+SpkStopwatchPane >> subscribeToModel [
+
+	model
+		when: SpkUpdateAnnouncement
+		send: #receiveUpdateAnnouncement
+		to: self;
+		when: SpkActionCompleteAnnouncement
+		send: #receiveActionCompleteAnnouncement
+		to: self
 ]

@@ -46,11 +46,19 @@ SpkStopwatchServiceServer >> receiveUpdateAnnouncement: anUpdateAnnouncement [
 	promise when: [  ] catch: self defaultCatchBlock
 ]
 
+{ #category : 'remote actions' }
+SpkStopwatchServiceServer >> redo [
+
+	tool redo
+]
+
 { #category : 'refreshing' }
 SpkStopwatchServiceServer >> refreshFromTool [
 
 	elapsedTimeString := tool elapsedTimeString.
-	isRunning := tool isRunning
+	isRunning := tool isRunning.
+	undoActionName := tool undoActionName.
+	redoActionName := tool redoActionName
 ]
 
 { #category : 'remote actions' }
@@ -63,4 +71,10 @@ SpkStopwatchServiceServer >> reset [
 SpkStopwatchServiceServer >> run [
 
 	tool run
+]
+
+{ #category : 'remote actions' }
+SpkStopwatchServiceServer >> undo [
+
+	tool undo
 ]

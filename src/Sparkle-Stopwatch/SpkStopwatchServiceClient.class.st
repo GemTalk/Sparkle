@@ -22,6 +22,16 @@ SpkStopwatchServiceClient >> pause [
 ]
 
 { #category : 'local actions' }
+SpkStopwatchServiceClient >> redo [
+
+	| promise |
+	promise := remoteSelf redo.
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'local actions' }
 SpkStopwatchServiceClient >> reset [
 
 	| promise |
@@ -36,6 +46,16 @@ SpkStopwatchServiceClient >> run [
 
 	| promise |
 	promise := remoteSelf run.
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'local actions' }
+SpkStopwatchServiceClient >> undo [
+
+	| promise |
+	promise := remoteSelf undo.
 	promise
 		when: [ :ignored | self announceActionComplete ]
 		catch: self defaultCatchBlock

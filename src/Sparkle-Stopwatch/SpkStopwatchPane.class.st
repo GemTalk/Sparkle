@@ -13,7 +13,9 @@ Class {
 		'resetButton',
 		'buttonLayout',
 		'runButton',
-		'pauseButton'
+		'pauseButton',
+		'undoActionName',
+		'redoActionName'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -60,12 +62,6 @@ SpkStopwatchPane >> displayRunPauseButton: desiredButton [
 ]
 
 { #category : 'accessing' }
-SpkStopwatchPane >> elapsedTimeString: aString [
-
-	timePresenter label: aString
-]
-
-{ #category : 'accessing' }
 SpkStopwatchPane >> headerClass [
 
 	^ SpkErrorPaneHeader
@@ -97,6 +93,13 @@ SpkStopwatchPane >> initializeButtons [
 ]
 
 { #category : 'initialization' }
+SpkStopwatchPane >> initializeHamburgerMenu [
+	"This message must be sent after my model is set."
+
+	self header menu: self menuCommandGroup asMenuPresenter
+]
+
+{ #category : 'initialization' }
 SpkStopwatchPane >> initializePresenters [
 
 	super initializePresenters.
@@ -124,6 +127,21 @@ SpkStopwatchPane >> labelString [
 	^ 'Stopwatch'
 ]
 
+{ #category : 'initialization' }
+SpkStopwatchPane >> menuCommandClasses [
+
+	^ {
+		  SpkUndoCommand.
+		  SpkRedoCommand }
+]
+
+{ #category : 'initialization' }
+SpkStopwatchPane >> model: aService [
+
+	super model: aService.
+	self initializeHamburgerMenu
+]
+
 { #category : 'accessing' }
 SpkStopwatchPane >> modelClass [
 
@@ -137,6 +155,14 @@ SpkStopwatchPane >> pauseStopwatch [
 	model pause
 ]
 
+{ #category : 'accessing' }
+SpkStopwatchPane >> redoMenuItemName [
+
+	^ redoActionName
+		  ifNil: [ 'Can''t redo' ]
+		  ifNotNil: [ 'Redo ' , redoActionName ]
+]
+
 { #category : 'initialization' }
 SpkStopwatchPane >> refreshFromService [
 
@@ -144,7 +170,10 @@ SpkStopwatchPane >> refreshFromService [
 	model isRunning
 		ifTrue: [ self displayPauseButton ]
 		ifFalse: [ self displayRunButton ].
-	timePresenter label: model elapsedTimeString
+	timePresenter label: model elapsedTimeString.
+	undoActionName := model undoActionName.
+	redoActionName := model redoActionName.
+	self header menu: self menuCommandGroup asMenuPresenter.
 ]
 
 { #category : 'actions' }
@@ -171,4 +200,12 @@ SpkStopwatchPane >> subscribeToModel [
 		when: SpkActionCompleteAnnouncement
 		send: #receiveActionCompleteAnnouncement
 		to: self
+]
+
+{ #category : 'accessing' }
+SpkStopwatchPane >> undoMenuItemName [
+
+	^ undoActionName
+		  ifNil: [ 'Can''t undo' ]
+		  ifNotNil: [ 'Undo ' , undoActionName ]
 ]

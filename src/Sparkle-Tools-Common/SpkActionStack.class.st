@@ -94,3 +94,10 @@ SpkActionStack >> push: anObject [
 	self enforceLimit.
 	^ anObject
 ]
+
+{ #category : 'accessing' }
+SpkActionStack >> topName [
+
+	elements ifEmpty: [ ^ nil ].
+	^ elements last name
+]

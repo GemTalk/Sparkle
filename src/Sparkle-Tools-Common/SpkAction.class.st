@@ -43,6 +43,13 @@ SpkAction >> discardAction [
 	
 ]
 
+{ #category : 'accessing' }
+SpkAction >> name [
+	"Answer the name that should be displayed to the user in undo/redo menus for this action."
+
+	^ ''
+]
+
 { #category : 'public' }
 SpkAction >> performAction [
 

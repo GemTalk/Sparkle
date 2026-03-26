@@ -26,8 +26,19 @@ SpkUndoCommand class >> defaultShortcutKey [
 		| $z control unix
 ]
 
+{ #category : 'accessing' }
+SpkUndoCommand >> description [
+
+	^ 'Catnip'
+]
+
 { #category : 'executing' }
 SpkUndoCommand >> execute [
 
 	self context undo
+]
+
+{ #category : 'accessing' }
+SpkUndoCommand >> name [
+	^ context undoMenuItemName
 ]

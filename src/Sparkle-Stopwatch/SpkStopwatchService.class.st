@@ -5,7 +5,9 @@ Class {
 	#classTraits : 'SpkTPromise classTrait',
 	#instVars : [
 		'elapsedTimeString',
-		'isRunning'
+		'isRunning',
+		'undoActionName',
+		'redoActionName'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
@@ -40,4 +42,28 @@ SpkStopwatchService >> isRunning [
 SpkStopwatchService >> isRunning: anObject [
 
 	isRunning := anObject
+]
+
+{ #category : 'accessing' }
+SpkStopwatchService >> redoActionName [
+
+	^ redoActionName
+]
+
+{ #category : 'accessing' }
+SpkStopwatchService >> redoActionName: anObject [
+
+	redoActionName := anObject
+]
+
+{ #category : 'accessing' }
+SpkStopwatchService >> undoActionName [
+
+	^ undoActionName
+]
+
+{ #category : 'accessing' }
+SpkStopwatchService >> undoActionName: anObject [
+
+	undoActionName := anObject
 ]

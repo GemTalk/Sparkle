@@ -89,6 +89,13 @@ SpkUndoManager >> redo [
 ]
 
 { #category : 'accessing' }
+SpkUndoManager >> redoActionName [
+	"Answer the name of the next action that can be redone; nil if no such action"
+
+	^ redo topName
+]
+
+{ #category : 'accessing' }
 SpkUndoManager >> undo [
 
 	| action |
@@ -96,4 +103,11 @@ SpkUndoManager >> undo [
 	action undoAction.
 	redo push: action.
 	^ nil "Nil to cause an error if someone mistakenly tries to use the result."
+]
+
+{ #category : 'accessing' }
+SpkUndoManager >> undoActionName [
+	"Answer the name of the next action that can be redone; nil if no such action"
+
+	^ undo topName
 ]

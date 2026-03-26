@@ -8,6 +8,18 @@ Class {
 	#package : 'Sparkle-Tools-Common'
 }
 
+{ #category : 'testing' }
+SpkToolWithUndoManager >> canRedo [
+
+	^ undoManager hasRedoableAction
+]
+
+{ #category : 'testing' }
+SpkToolWithUndoManager >> canUndo [
+
+	^ undoManager hasUndoableAction
+]
+
 { #category : 'initialization' }
 SpkToolWithUndoManager >> initialize [
 
@@ -19,4 +31,30 @@ SpkToolWithUndoManager >> initialize [
 SpkToolWithUndoManager >> performAction: anAction [
 
 	^ undoManager performAction: anAction
+]
+
+{ #category : 'accessing' }
+SpkToolWithUndoManager >> redo [
+
+	^ undoManager redo
+]
+
+{ #category : 'accessing' }
+SpkToolWithUndoManager >> redoActionName [
+	"Answer the name of the next action that can be redone; nil if no such action"
+
+	^ undoManager redoActionName
+]
+
+{ #category : 'accessing' }
+SpkToolWithUndoManager >> undo [
+
+	^ undoManager undo
+]
+
+{ #category : 'accessing' }
+SpkToolWithUndoManager >> undoActionName [
+	"Answer the name of the next action that can be redone; nil if no such action"
+
+	^ undoManager undoActionName
 ]

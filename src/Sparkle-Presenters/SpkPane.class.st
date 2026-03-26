@@ -324,6 +324,7 @@ SpkPane >> receiveUpdateAnnouncement [
 { #category : 'menu messages' }
 SpkPane >> redo [
 
+	self disableAll.
 	^ model redo
 ]
 
@@ -359,6 +360,7 @@ SpkPane >> replaceWithIndependentPaneFor: aPaneService [
 { #category : 'menu messages' }
 SpkPane >> undo [
 
+	self disableAll.
 	^ model undo
 ]
 

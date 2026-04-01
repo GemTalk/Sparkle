@@ -18,6 +18,7 @@ Class {
 SpkStopwatchTool >> _pause [
 	"Private. Stop the stopwatch at its current time."
 
+	self stopUpdating.
 	isRunning := false.
 	self announceUpdate
 ]

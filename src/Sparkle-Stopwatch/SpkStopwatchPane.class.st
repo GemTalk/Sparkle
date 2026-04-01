@@ -171,9 +171,11 @@ SpkStopwatchPane >> refreshFromService [
 		ifTrue: [ self displayPauseButton ]
 		ifFalse: [ self displayRunButton ].
 	timePresenter label: model elapsedTimeString.
+
+	"Refresh undo/redo menu"
 	undoActionName := model undoActionName.
 	redoActionName := model redoActionName.
-	self header menu: self menuCommandGroup asMenuPresenter.
+	self header menu: self menuCommandGroup asMenuPresenter
 ]
 
 { #category : 'actions' }

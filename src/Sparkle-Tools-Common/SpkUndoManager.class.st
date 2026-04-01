@@ -70,11 +70,19 @@ SpkUndoManager >> limit: anInteger [
 
 { #category : 'accessing' }
 SpkUndoManager >> performAction: anAction [
+	"Perform the action and update the stacks relatively atomically wrt other processes,
+	to avoid RSR race conditions in, e.g., undo/redo menu updating."
 
-	| result |
-	result := anAction performAction.
-	redo clear.
+	| saveRedo result |
+	saveRedo := redo.
+	result := nil.
+	[
 	undo push: anAction.
+	redo := SpkActionStack new.
+	result := anAction performAction ] ifCurtailed: [
+		undo pop.
+		redo := saveRedo ].
+
 	^ result
 ]
 

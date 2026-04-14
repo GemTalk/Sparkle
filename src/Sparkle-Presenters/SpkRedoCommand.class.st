@@ -31,3 +31,9 @@ SpkRedoCommand >> execute [
 
 	self context redo
 ]
+
+{ #category : 'accessing' }
+SpkRedoCommand >> name [
+
+	^ context redoMenuItemName
+]

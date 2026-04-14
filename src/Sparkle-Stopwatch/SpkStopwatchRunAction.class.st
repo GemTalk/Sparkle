@@ -14,8 +14,10 @@ SpkStopwatchRunAction >> name [
 { #category : 'public' }
 SpkStopwatchRunAction >> performAction [
 
-	self rememberTargetState.
-	target _run
+	self saveInitialState.
+	target
+		_run;
+		_updated
 ]
 
 { #category : 'public' }
@@ -23,8 +25,10 @@ SpkStopwatchRunAction >> redoAction [
 	"We're about to update the elapsedTime. 
 	Stop the update loop which might otherwise update once more."
 
-	self restoreTargetState.
-	target startUpdating
+	self restoreInitialState.
+	target
+		_startRunning;
+		_updated
 ]
 
 { #category : 'public' }
@@ -33,5 +37,6 @@ SpkStopwatchRunAction >> undoAction [
 	Stop the update loop which might otherwise update once more."
 
 	target stopUpdating.
-	self restoreTargetState
+	self restoreInitialState.
+	target _updated
 ]

@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'explorerTool',
 		'task',
-		'isRunning',
-		'elapsedDuration',
-		'startTime',
+		'state',
 		'elapsedTimeString'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
@@ -19,30 +17,44 @@ SpkStopwatchTool >> _pause [
 	"Private. Stop the stopwatch at its current time."
 
 	self stopUpdating.
-	isRunning := false.
-	self announceUpdate
+	state isRunning: false
+]
+
+{ #category : 'actions' }
+SpkStopwatchTool >> _reset [
+	"Reset the stopwatch to zero elapsed time,
+	but do not change whether it is running."
+
+	state
+		startTime: DateAndTime now;
+		elapsedDuration: Duration zero
 ]
 
 { #category : 'private actions' }
 SpkStopwatchTool >> _run [
 	"Private. Start the stopwatch running, from the point it was last stopped."
 
-	startTime := DateAndTime now - elapsedDuration.
-	isRunning := true.
+	state startTime: DateAndTime now - state elapsedDuration.
+	self _startRunning
+]
+
+{ #category : 'private actions' }
+SpkStopwatchTool >> _startRunning [
+	"Private. Start the stopwatch running, from its existing state."
+
+	state isRunning: true.
 	self startUpdating.
 	self announceUpdate
 ]
 
-{ #category : 'accessing' }
-SpkStopwatchTool >> elapsedDuration [
+{ #category : 'actions' }
+SpkStopwatchTool >> _updated [
+	"My state been updated. Re-cache time string 
+	and let any subscribers know they should refresh."
 
-	^ elapsedDuration
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> elapsedDuration: anObject [
-
-	elapsedDuration := anObject
+	self
+		updateElapsedTimeString;
+		announceUpdate
 ]
 
 { #category : 'accessing' }
@@ -61,22 +73,14 @@ SpkStopwatchTool >> explorerTool: anObject [
 SpkStopwatchTool >> initialize [
 
 	super initialize.
-	isRunning := false.
-	self setStartTimeToNow.
-	elapsedDuration := Duration zero.
+	state := SpkStopwatchState new.
 	self updateElapsedTimeString
 ]
 
 { #category : 'testing' }
 SpkStopwatchTool >> isRunning [
 
-	^ isRunning
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> isRunning: anObject [
-
-	isRunning := anObject
+	^ state isRunning
 ]
 
 { #category : 'actions' }
@@ -84,7 +88,7 @@ SpkStopwatchTool >> pause [
 	"Stop the stopwatch at its current time."
 
 	| action |
-	isRunning ifFalse: [ ^ self ]. "Ignore if already paused"
+	self isRunning ifFalse: [ ^ self ]. "Ignore if already paused"
 	action := SpkStopwatchPauseAction forTarget: self.
 	explorerTool performAction: action
 ]
@@ -108,11 +112,9 @@ SpkStopwatchTool >> reset [
 	"Reset the stopwatch to zero elapsed time,
 	but do not change whether it is running."
 
-	self setStartTimeToNow.
-	elapsedDuration := Duration zero.
-	self
-		updateElapsedTime;
-		announceUpdate
+	| action |
+	action := SpkStopwatchResetAction forTarget: self.
+	explorerTool performAction: action
 ]
 
 { #category : 'actions' }
@@ -120,27 +122,9 @@ SpkStopwatchTool >> run [
 	"Start the stopwatch running, from the point it was last stopped."
 
 	| action |
-	isRunning ifTrue: [ ^ self ]. "Ignore if already running"
+	self isRunning ifTrue: [ ^ self ]. "Ignore if already running"
 	action := SpkStopwatchRunAction forTarget: self.
 	explorerTool performAction: action
-]
-
-{ #category : 'initialization' }
-SpkStopwatchTool >> setStartTimeToNow [
-
-	startTime := DateAndTime now
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> startTime [
-
-	^ startTime
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> startTime: anObject [
-
-	startTime := anObject
 ]
 
 { #category : 'private' }
@@ -148,6 +132,21 @@ SpkStopwatchTool >> startUpdating [
 
 	task := [ self updateLoop ] forkAt: Processor userSchedulingPriority.
 	task name: 'Stopwatch updateLoop'
+]
+
+{ #category : 'accessing' }
+SpkStopwatchTool >> state [
+
+	^ state
+]
+
+{ #category : 'accessing' }
+SpkStopwatchTool >> state: aStopwatchState [
+
+	state := aStopwatchState.
+	self
+		updateElapsedTimeString;
+		announceUpdate
 ]
 
 { #category : 'private' }
@@ -176,7 +175,7 @@ SpkStopwatchTool >> undoActionName [
 { #category : 'private' }
 SpkStopwatchTool >> updateElapsedTime [
 
-	elapsedDuration := DateAndTime now - startTime.
+	state elapsedDuration: DateAndTime now - state startTime.
 	self updateElapsedTimeString
 ]
 
@@ -185,7 +184,7 @@ SpkStopwatchTool >> updateElapsedTimeString [
 
 	| stream t m s tenths |
 	stream := WriteStream on: (String new: 7).
-	t := elapsedDuration. "snapshot elapsedTime, which could change during this method."
+	t := state elapsedDuration. "snapshot elapsedTime, which could change during this method."
 	m := t minutes.
 	s := t seconds.
 	tenths := t nanoSeconds // 100000000.
@@ -209,6 +208,6 @@ SpkStopwatchTool >> updateLoop [
 	self updateElapsedTime.
 	newString := self elapsedTimeString.
 	newString = oldString ifFalse: [ self announceUpdate ].
-	isRunning ] whileTrue.
+	self isRunning ] whileTrue.
 	task := nil
 ]

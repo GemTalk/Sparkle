@@ -75,7 +75,7 @@ SpkUndoManager >> performAction: anAction [
 
 	| saveRedo result |
 	saveRedo := redo.
-	result := nil.
+	result := #performFailed.
 	[
 	undo push: anAction.
 	redo := SpkActionStack new.
@@ -91,7 +91,7 @@ SpkUndoManager >> redo [
 
 	| action result |
 	action := redo pop.
-	result := action performAction.
+	result := action redoAction.
 	undo push: action.
 	^ result
 ]

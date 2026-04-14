@@ -56,6 +56,14 @@ SpkAction >> performAction [
 	self subclassResponsibility
 ]
 
+{ #category : 'public' }
+SpkAction >> redoAction [
+	"For some Actions, redoing an action is the same as the original perform.
+	Other actions need to provide an implementation for this message."
+
+	self performAction
+]
+
 { #category : 'accessing' }
 SpkAction >> target: anObject [
 

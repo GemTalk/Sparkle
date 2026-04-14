@@ -2,66 +2,21 @@ Class {
 	#name : 'SpkStopwatchAction',
 	#superclass : 'SpkAction',
 	#instVars : [
-		'isRunning',
-		'startTime',
-		'elapsedDuration'
+		'initialState'
 	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
 	#tag : 'Code'
 }
 
-{ #category : 'accessing' }
-SpkStopwatchAction >> elapsedDuration [
+{ #category : 'private' }
+SpkStopwatchAction >> restoreInitialState [
 
-	^ elapsedDuration
-]
-
-{ #category : 'accessing' }
-SpkStopwatchAction >> elapsedDuration: anObject [
-
-	elapsedDuration := anObject
-]
-
-{ #category : 'accessing' }
-SpkStopwatchAction >> isRunning [
-
-	^ isRunning
-]
-
-{ #category : 'accessing' }
-SpkStopwatchAction >> isRunning: anObject [
-
-	isRunning := anObject
+	target state: initialState copy
 ]
 
 { #category : 'private' }
-SpkStopwatchAction >> rememberTargetState [
+SpkStopwatchAction >> saveInitialState [
 
-	isRunning := target isRunning.
-	startTime := target startTime.
-	elapsedDuration := target elapsedDuration
-]
-
-{ #category : 'private' }
-SpkStopwatchAction >> restoreTargetState [
-
-	target
-		isRunning: isRunning;
-		startTime: startTime;
-		elapsedDuration: elapsedDuration;
-		updateElapsedTimeString;
-		announceUpdate
-]
-
-{ #category : 'accessing' }
-SpkStopwatchAction >> startTime [
-
-	^ startTime
-]
-
-{ #category : 'accessing' }
-SpkStopwatchAction >> startTime: anObject [
-
-	startTime := anObject
+	initialState := target state copy
 ]

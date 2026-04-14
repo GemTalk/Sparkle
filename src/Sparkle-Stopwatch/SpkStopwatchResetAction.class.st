@@ -1,6 +1,9 @@
 Class {
 	#name : 'SpkStopwatchResetAction',
 	#superclass : 'SpkStopwatchAction',
+	#instVars : [
+		'undoneState'
+	],
 	#category : 'Sparkle-Stopwatch-Code',
 	#package : 'Sparkle-Stopwatch',
 	#tag : 'Code'
@@ -14,21 +17,37 @@ SpkStopwatchResetAction >> name [
 { #category : 'public' }
 SpkStopwatchResetAction >> performAction [
 
-	self rememberTargetState.
-	target _reset
+	self saveInitialState.
+	target
+		_reset;
+		_updated
 ]
 
 { #category : 'public' }
 SpkStopwatchResetAction >> redoAction [
 	"We're about to update the elapsedTime"
 
-	self restoreTargetState
+	self restoreUndoneState.
+	target _updated
+]
+
+{ #category : 'private' }
+SpkStopwatchResetAction >> restoreUndoneState [
+
+	target state: undoneState copy
+]
+
+{ #category : 'private' }
+SpkStopwatchResetAction >> saveUndoneState [
+
+	undoneState := target state copy
 ]
 
 { #category : 'public' }
 SpkStopwatchResetAction >> undoAction [
-	"We're about to update the elapsedTime. 
-	Stop the update loop which might otherwise update once more."
 
-	self restoreTargetState
+	self
+		saveUndoneState;
+		restoreInitialState.
+	target _updated
 ]

@@ -17,7 +17,7 @@ SpkLauncher class >> menuCommandOn: aBuilder [
 	<worldMenu> 
 	
 	(aBuilder item: #'Sparkle Launcher')
-		order: 0.9; 
+		order: 0.2; 
 		icon: nil;  
 		parent: #'Tools'; "This appears as the Library menu option for whatever reason"
 		help: 'Make connections to GemStone servers';

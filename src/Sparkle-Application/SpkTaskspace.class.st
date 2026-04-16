@@ -215,6 +215,20 @@ SpkTaskspace >> newProcessListExplorer [
 	self sendToService: msg
 ]
 
+{ #category : 'instance creation' }
+SpkTaskspace >> newStopwatch [
+	"Open a new window with a new stopwatch in it."
+
+	| explorerWindow stopwatchPane |
+	explorerWindow := SpkExplorerWindow newApplication: self.
+	stopwatchPane := SpkStopwatchPane owner: explorerWindow.
+	explorerWindow
+		addInitialPane: stopwatchPane;
+		initializeServiceTree;
+		initializeTreeOnServer;
+		open
+]
+
 { #category : 'running' }
 SpkTaskspace >> openEmptyExplorer [
 
@@ -312,4 +326,10 @@ SpkTaskspace >> setManualTransactionMode [
 SpkTaskspace >> start [
 
 	self shouldNotImplement
+]
+
+{ #category : 'accessing' }
+SpkTaskspace >> taskspaceService [
+
+	^ taskspaceService
 ]

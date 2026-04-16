@@ -52,6 +52,12 @@ SpkExplorerWindow >> buildHamburgerMenu [
 	^commandGroup
 ]
 
+{ #category : 'enumerating' }
+SpkExplorerWindow >> childrenDo: aBlock [
+
+	columns do: [ :column | column panes do: aBlock ]
+]
+
 { #category : 'initialize-release' }
 SpkExplorerWindow >> close [
 
@@ -76,10 +82,22 @@ SpkExplorerWindow >> initialExtent [
 	^ 900 @ 900
 ]
 
+{ #category : 'initialization' }
+SpkExplorerWindow >> initializeTreeOnServer [
+
+	model initializeTreeOnServerInTaskspace: application taskspaceService
+]
+
 { #category : 'testing' }
 SpkExplorerWindow >> isExplorer [
 
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+SpkExplorerWindow >> modelClass [
+
+	^ SpkExplorerServiceClient
 ]
 
 { #category : 'transaction management' }

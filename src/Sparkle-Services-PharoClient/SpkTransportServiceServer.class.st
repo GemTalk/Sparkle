@@ -1,12 +1,12 @@
 Class {
 	#name : 'SpkTransportServiceServer',
 	#superclass : 'SpkTransportService',
-	#category : 'Sparkle-Stopwatch-Code',
-	#package : 'Sparkle-Stopwatch',
-	#tag : 'Code'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'public' }
 SpkTransportServiceServer >> linkTransportedTree [
 	"Make my cargos of the subtree of which I am the root match my tree structure."
 

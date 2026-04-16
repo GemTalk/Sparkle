@@ -66,6 +66,15 @@ SpkDirectConnectionProfile >> initialize [
 	inMemory := false
 ]
 
+{ #category : 'accessing' }
+SpkDirectConnectionProfile >> initializeTaskspaceForConnection: anRSRConnection [
+
+	taskspace := SpkTaskspace forConnection: anRSRConnection.
+	ProfileAnnouncer announce:
+		(SpkConnectionProfileConnectedAnnouncement new profiles:
+			 (Array with: self))
+]
+
 { #category : 'testing' }
 SpkDirectConnectionProfile >> isInsecureProfile [
 

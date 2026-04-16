@@ -1,3 +1,6 @@
+"
+The main presenter for the Sparkle Launcher window.
+"
 Class {
 	#name : 'SpkConnectionListPresenter',
 	#superclass : 'SpkPresenter',
@@ -11,7 +14,8 @@ Class {
 		'connectionsNotebook',
 		'gciConnectionPresenter',
 		'processListButton',
-		'evaluatorButton'
+		'evaluatorButton',
+		'browserButton'
 	],
 	#category : 'Sparkle-Presenters-Presenters',
 	#package : 'Sparkle-Presenters',
@@ -233,7 +237,12 @@ SpkConnectionListPresenter >> initializeToolbar [
 				                              help: 'Open a Process List Explorer';
 				                              action: [ self newProcessList ];
 				                              yourself);
-		           yourself.
+		           addItem: (browserButton := SpToolbarButtonPresenter new
+				                             label: 'Stopwatch';
+				                             icon: (self iconNamed: #proceed28);
+				                             help: 'Open a stopwatch';
+				                             action: [ self newStopwatch ];
+				                             yourself);		           yourself.
 	connectionsBox
 		add: #toolbar
 		expand: false
@@ -310,6 +319,16 @@ SpkConnectionListPresenter >> newProcessList [
 	selection := connectionList selectedItem. 
 	selection isConnected ifFalse:[^self notify: 'Must select connected profile'].
 	selection newProcessListExplorer
+]
+
+{ #category : 'actions' }
+SpkConnectionListPresenter >> newStopwatch [
+
+	| selection |
+	connectionList selectedItem ifNil:[^self notify: 'Must select a connected profile']. 
+	selection := connectionList selectedItem. 
+	selection isConnected ifFalse:[^self notify: 'Must select a connected profile'].
+	selection newStopwatch
 ]
 
 { #category : 'events' }

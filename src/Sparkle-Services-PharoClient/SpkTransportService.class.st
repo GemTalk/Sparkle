@@ -14,9 +14,9 @@ Class {
 	#instVars : [
 		'cargo'
 	],
-	#category : 'Sparkle-Stopwatch-Code',
-	#package : 'Sparkle-Stopwatch',
-	#tag : 'Code'
+	#category : 'Sparkle-Services-PharoClient-Services',
+	#package : 'Sparkle-Services-PharoClient',
+	#tag : 'Services'
 }
 
 { #category : 'accessing' }

@@ -221,28 +221,40 @@ SpkConnectionListPresenter >> initializeToolbar [
 				            help: 'Restore profiles from a file';
 				            action: [ self loadFromFile ];
 				            yourself);
-		           addItem: (evaluatorButton := SpToolbarButtonPresenter new
-				                              label: 'Evaluator';
-				                              icon:
-					                              (self iconNamed:
-							                               #smallSystemBrowser);
-				                              help: 'Open a Sparkle Inspector with Evaluator';
-				                              action: [ self newEvaluator ];
-				                              yourself);
-		           addItem: (processListButton := SpToolbarButtonPresenter new
-				                              label: 'Processes';
-				                              icon:
-					                              (self iconNamed:
-							                               #smallSystemBrowser);
-				                              help: 'Open a Process List Explorer';
-				                              action: [ self newProcessList ];
-				                              yourself);
+		           addItem:
+			           (evaluatorButton := SpToolbarButtonPresenter new
+				                               label: 'Evaluator';
+				                               icon:
+					                               (self iconNamed:
+							                                #smallSystemBrowser);
+				                               help:
+					                               'Open a Sparkle Inspector with Evaluator';
+				                               action: [ self newEvaluator ];
+				                               yourself);
+		           addItem:
+			           (processListButton := SpToolbarButtonPresenter new
+				                                 label: 'Processes';
+				                                 icon:
+					                                 (self iconNamed:
+							                                  #smallSystemBrowser);
+				                                 help:
+					                                 'Open a Process List Explorer';
+				                                 action: [ self newProcessList ];
+				                                 yourself);
 		           addItem: (browserButton := SpToolbarButtonPresenter new
 				                             label: 'Stopwatch';
 				                             icon: (self iconNamed: #proceed28);
 				                             help: 'Open a stopwatch';
 				                             action: [ self newStopwatch ];
-				                             yourself);		           yourself.
+				                             yourself);
+		           addItem: (browserButton := SpToolbarButtonPresenter new
+				                             label: 'Tonel';
+				                             icon: (self iconNamed: #tonel28);
+				                             help:
+					                             'Open a Tonel browser on a directory';
+				                             action: [ self newTonelBrowser ];
+				                             yourself);
+		           yourself.
 	connectionsBox
 		add: #toolbar
 		expand: false

@@ -70,7 +70,7 @@ SpkConnectionPresenter >> connect [
 	| shouldDebug |
 	[ connectionProfile connect ]
 		on: Error
-		do: [ :ex | 
+		do: [ :ex |
 			| ws |
 			ws := WriteStream on: String new.
 			ws
@@ -82,8 +82,7 @@ SpkConnectionPresenter >> connect [
 				               title: 'Sparkle Connection Error'.
 			shouldDebug
 				ifTrue: [ ex pass ]
-				ifFalse: [ ^ self ] ].
-	self newEvaluatorIn: connectionProfile taskspace
+				ifFalse: [ ^ self ] ]
 ]
 
 { #category : 'initialization' }

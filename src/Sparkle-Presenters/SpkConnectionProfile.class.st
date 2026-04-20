@@ -224,6 +224,12 @@ SpkConnectionProfile >> newStopwatch [
 	taskspace newStopwatch
 ]
 
+{ #category : 'actions' }
+SpkConnectionProfile >> newTonelBrowser [
+
+	taskspace newTonelBrowser
+]
+
 { #category : 'copying' }
 SpkConnectionProfile >> postCopy [
 

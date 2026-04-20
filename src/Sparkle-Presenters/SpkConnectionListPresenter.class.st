@@ -343,6 +343,16 @@ SpkConnectionListPresenter >> newStopwatch [
 	selection newStopwatch
 ]
 
+{ #category : 'actions' }
+SpkConnectionListPresenter >> newTonelBrowser [
+
+	| selection |
+	connectionList selectedItem ifNil:[^self notify: 'Must select a connected profile']. 
+	selection := connectionList selectedItem. 
+	selection isConnected ifFalse:[^self notify: 'Must select a connected profile'].
+	selection newTonelBrowser
+]
+
 { #category : 'events' }
 SpkConnectionListPresenter >> profileAdded: announcement [
 

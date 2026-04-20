@@ -229,6 +229,25 @@ SpkTaskspace >> newStopwatch [
 		open
 ]
 
+{ #category : 'instance creation' }
+SpkTaskspace >> newTonelBrowser [
+	"Have the user select a package directory, then
+	Open a new window with browser on the Tonel files in that directory."
+
+	| repository initialDir chosenDir msg |
+	repository := IceRepository registeredRepositoryIncludingPackage:
+		              self class package.
+	initialDir := repository location parent.
+	chosenDir := UIManager default
+		             chooseDirectory: 'Choose a directory with Tonel files'
+		             from: initialDir.
+
+	msg := Message
+		       selector: #newTonelBrowserOn:
+		       argument: chosenDir pathString.
+	self sendToService: msg
+]
+
 { #category : 'running' }
 SpkTaskspace >> openEmptyExplorer [
 

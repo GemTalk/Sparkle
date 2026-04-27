@@ -65,24 +65,6 @@ SpkTaskspaceServiceServer >> initializeFromTool: aTool [
 ]
 
 { #category : 'opening explorers' }
-SpkTaskspaceServiceServer >> newBrowser: pathString [
-	"Sent from client."
-
-	| xTool pTool xService pService |
-	xTool := tool newExplorerTool.
-	pTool := SpkTonelDirectoryListTool
-		         newOnPath: pathString
-		         inExplorer: xTool.
-
-	xService := SpkServiceFactory serviceForTool: xTool.
-	pService := SpkServiceFactory serviceForTool: pTool.
-	self gatherUpdatedServices.
-	^ SpkExplorerAndPaneServiceServer
-		  newForPane: pService
-		  inExplorer: xService
-]
-
-{ #category : 'opening explorers' }
 SpkTaskspaceServiceServer >> newEvaluatorExplorer [
 	| xTool pTool xService pService |
 	xTool := tool newExplorerTool.

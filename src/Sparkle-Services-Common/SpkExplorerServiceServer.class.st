@@ -6,9 +6,8 @@ Class {
 	#instVars : [
 		'tool'
 	],
-	#category : 'Sparkle-Services-Common-Services',
-	#package : 'Sparkle-Services-Common',
-	#tag : 'Services'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'as yet unclassified' }

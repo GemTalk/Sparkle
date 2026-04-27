@@ -10,9 +10,8 @@ Trait {
 		'parent',
 		'children'
 	],
-	#category : 'Sparkle-Services-Common-Support',
-	#package : 'Sparkle-Services-Common',
-	#tag : 'Support'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'adding' }

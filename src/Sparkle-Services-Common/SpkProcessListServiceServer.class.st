@@ -5,8 +5,7 @@ Class {
 		'tool',
 		'toolServiceMapping'
 	],
-	#category : 'Sparkle-Services-Common',
-	#package : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Common'
 }
 
 { #category : 'instance creation' }
@@ -64,6 +63,11 @@ SpkProcessListServiceServer >> refreshFromTool [
 		changed := changed | service refreshFromTool].
 	changed := changed | (toolServiceMapping size ~= oldToolServiceMapping size).
 	^changed
+]
+
+{ #category : 'actions' }
+SpkProcessListServiceServer >> serviceSchedulingPriority [
+	^ Processor highIOPriority
 ]
 
 { #category : 'actions' }

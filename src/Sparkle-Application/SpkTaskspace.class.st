@@ -243,7 +243,7 @@ SpkTaskspace >> newTonelBrowser [
 		             from: initialDir.
 
 	msg := Message
-		       selector: #newTonelBrowserOn:
+		       selector: #newBrowser:
 		       argument: chosenDir pathString.
 	self sendToService: msg
 ]

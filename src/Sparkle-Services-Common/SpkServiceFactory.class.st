@@ -18,22 +18,26 @@ SpkServiceFactory class >> initialize [
 
 { #category : 'class initialization' }
 SpkServiceFactory class >> initializeServiceClassesForToolTypes [
+
 	serviceClassesForToolTypes := IdentityDictionary new.
 	^ serviceClassesForToolTypes
-		at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
-		at: SpkDebuggerTool put: SpkDebuggerServiceServer;
-		at: SpkDebuggerFrameTool put: SpkDebuggerFrameServiceServer;
-		at: SpkExplorerTool put: SpkExplorerServiceServer;
-		at: SpkInspectorRawViewTool put: SpkInspectorRawViewServiceServer;
-		at: SpkInspectorSetViewTool put: SpkInspectorSetViewServiceServer;
-		at: SpkInspectorTool put: SpkInspectorServiceServer;
-		at: SpkProcessListTool put: SpkProcessListServiceServer;
-		at: SpkProcessTerminatedTool put: SpkProcessTerminatedServiceServer;
-		at: SpkProcessTool put: SpkProcessServiceServer;
-		at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
-		at: SpkSuccessTool put: SpkSuccessServiceServer;
-		at: SpkTaskspaceTool put: SpkTaskspaceServiceServer;
-		yourself
+		  at: SpkCompilationErrorTool put: SpkCompilationErrorServiceServer;
+		  at: SpkDebuggerTool put: SpkDebuggerServiceServer;
+		  at: SpkDebuggerFrameTool put: SpkDebuggerFrameServiceServer;
+		  at: SpkExplorerTool put: SpkExplorerServiceServer;
+		  at: SpkInspectorRawViewTool put: SpkInspectorRawViewServiceServer;
+		  at: SpkInspectorSetViewTool put: SpkInspectorSetViewServiceServer;
+		  at: SpkInspectorTool put: SpkInspectorServiceServer;
+		  at: SpkProcessListTool put: SpkProcessListServiceServer;
+		  at: SpkProcessTerminatedTool
+		  put: SpkProcessTerminatedServiceServer;
+		  at: SpkProcessTool put: SpkProcessServiceServer;
+		  at: SpkRuntimeErrorTool put: SpkRuntimeErrorServiceServer;
+		  at: SpkSuccessTool put: SpkSuccessServiceServer;
+		  at: SpkTaskspaceTool put: SpkTaskspaceServiceServer;
+		  at: SpkTonelDirectoryListTool
+		  put: SpkTonelDirectoryListServiceServer;
+		  yourself
 ]
 
 { #category : 'accessing' }

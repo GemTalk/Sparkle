@@ -163,6 +163,8 @@ SpkTaskspace >> initializePresenterClassesForServiceTypes [
 		  put: SpkProcessTerminatedPane;
 		  at: SpkRuntimeErrorServiceClient put: SpkRuntimeErrorPane;
 		  at: SpkStopwatchServiceClient put: SpkStopwatchPane;
+		  at: SpkTonelDirectoryListServiceClient
+		  put: SpkTonelDirectoryListPane;
 		  yourself
 ]
 

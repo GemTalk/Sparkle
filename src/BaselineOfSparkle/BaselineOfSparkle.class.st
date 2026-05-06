@@ -50,10 +50,12 @@ BaselineOfSparkle >> miscBaseline: spec [
 
 	spec
 		postLoadDoIt: #postload:package:;
-		package: 'Sparkle-TestBase-Pharo';
-		package: 'Sparkle-Application'
-		with: [ spec requires: 'Sparkle-Presenters' ];
-		package: 'Sparkle-Spextensions'
+		package: 'Sparkle-Application' with: [
+			spec requires:
+					#( 'Sparkle-Presenters' 'Sparkle-Stopwatch' 'Sparkle-TonelBrowser-Presenters' ) ];
+		package: 'Sparkle-Services-Utility-Server';
+		package: 'Sparkle-Spextensions';
+		package: 'Sparkle-TestBase-Pharo'
 ]
 
 { #category : 'actions' }
@@ -83,13 +85,14 @@ BaselineOfSparkle >> servicesBaseline: spec [
 	spec
 		package: 'Sparkle-Services-Common' with: [
 			spec requires:
-					#( 'Sparkle-Tools-Pharo' 'RemoteServiceReplication' ) ];
+					#( 'RemoteServiceReplication' 'Sparkle-Tools-Common'
+					   'Sparkle-Tools-Pharo' ) ];
 		package: 'Sparkle-Services-PharoClient'
 		with: [ spec requires: 'Sparkle-Services-Common' ];
-		package: 'Sparkle-Services-PharoServer'
-		with: [
-			spec requires: #( 'Sparkle-Services-Common'
-				   'Sparkle-Tools-Pharo' ) ]
+		package: 'Sparkle-Services-PharoServer' with: [
+			spec requires:
+					#( 'Sparkle-Services-Utility-Server'
+					   'Sparkle-Services-Common' 'Sparkle-Tools-Pharo' ) ]
 ]
 
 { #category : 'baselines' }
@@ -97,8 +100,7 @@ BaselineOfSparkle >> stopwatchBaseline: spec [
 
 	spec
 		package: 'Sparkle-Stopwatch'
-		with: [
-		spec requires: #( 'Sparkle-Application' 'Sparkle-Presenters' ) ]
+		with: [ spec requires: #( 'Sparkle-Presenters' ) ]
 ]
 
 { #category : 'baselines' }
@@ -132,17 +134,22 @@ BaselineOfSparkle >> tonelBrowserServicesBaseline: spec [
 	spec
 		package: 'Sparkle-TonelBrowser-Services-Common'
 		with: [ spec requires: 'RemoteServiceReplication' ];
-		package: 'Sparkle-TonelBrowser-Services-PharoClient'
-		with: [ spec requires: 'Sparkle-TonelBrowser-Services-Common' ];
+		package: 'Sparkle-TonelBrowser-Services-PharoClient' with: [
+			spec requires:
+					#( 'Sparkle-Services-PharoClient' 'Sparkle-TonelBrowser-Services-Common' ) ];
 		package: 'Sparkle-TonelBrowser-Services-PharoServer' with: [
-			spec requires: #( 'Sparkle-TonelBrowser-Services-Common'
+			spec requires:
+					#( 'Sparkle-Services-Utility-Server'
+					   'Sparkle-Services-Common' 'Sparkle-TonelBrowser-Services-Common'
 					   'Sparkle-TonelBrowser-Tools' ) ]
 ]
 
 { #category : 'baselines' }
 BaselineOfSparkle >> tonelBrowserToolsBaseline: spec [
 
-	spec package: 'Sparkle-TonelBrowser-Tools'
+	spec
+		package: 'Sparkle-TonelBrowser-Tools'
+		with: [ spec requires: 'Sparkle-Tools-Common' ]
 ]
 
 { #category : 'private' }

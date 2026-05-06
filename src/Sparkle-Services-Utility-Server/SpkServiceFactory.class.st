@@ -7,17 +7,13 @@ Class {
 	#classInstVars : [
 		'serviceClassesForToolTypes'
 	],
-	#category : 'Sparkle-Services-Common',
-	#package : 'Sparkle-Services-Common'
+	#category : 'Sparkle-Services-Utility-Server',
+	#package : 'Sparkle-Services-Utility-Server'
 }
 
 { #category : 'class initialization' }
-SpkServiceFactory class >> initialize [
-	self initializeServiceClassesForToolTypes
-]
-
-{ #category : 'class initialization' }
 SpkServiceFactory class >> initializeServiceClassesForToolTypes [
+	"self initializeServiceClassesForToolTypes"
 
 	serviceClassesForToolTypes := IdentityDictionary new.
 	^ serviceClassesForToolTypes
@@ -43,9 +39,17 @@ SpkServiceFactory class >> initializeServiceClassesForToolTypes [
 { #category : 'accessing' }
 SpkServiceFactory class >> serviceClassForToolClass: aToolClass [
 
-	^ serviceClassesForToolTypes
+	^ self serviceClassesForToolTypes
 		  at: aToolClass
-		  ifAbsent: [ self error: 'Unrecognized tool class ' , aToolClass name ]
+		  ifAbsent: [
+		  self error: 'Unrecognized tool class ' , aToolClass name ]
+]
+
+{ #category : 'accessing' }
+SpkServiceFactory class >> serviceClassesForToolTypes [
+
+	^ serviceClassesForToolTypes ifNil: [
+		  self initializeServiceClassesForToolTypes ]
 ]
 
 { #category : 'accessing' }

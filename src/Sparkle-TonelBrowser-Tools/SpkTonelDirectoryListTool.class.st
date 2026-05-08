@@ -39,6 +39,12 @@ SpkTonelDirectoryListTool >> dewFilenames [
 ]
 
 { #category : 'accessing' }
+SpkTonelDirectoryListTool >> dirName [
+
+	^ directory basename
+]
+
+{ #category : 'accessing' }
 SpkTonelDirectoryListTool >> directory [
 
 	^ directory

@@ -185,7 +185,7 @@ SpkDebuggerFramePane >> itemSelected: anAnnouncement [
 { #category : 'accessing' }
 SpkDebuggerFramePane >> listLabelString [
 
-	^ self listItemServices size printString , ' local variables'
+	^ self listItems size printString , ' local variables'
 ]
 
 { #category : 'accessing' }

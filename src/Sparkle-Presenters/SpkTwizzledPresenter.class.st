@@ -1,5 +1,5 @@
 "
-A presenter, part of a pane, with a twizzle and a lable in the header, and a sub-layout below it, whose visibility is controlled by the twizzle.
+A presenter, part of a pane, with a twizzle and a label in the header, and a sub-layout below it, whose visibility is controlled by the twizzle.
 
 To use,
 * Instantiate in a pane.

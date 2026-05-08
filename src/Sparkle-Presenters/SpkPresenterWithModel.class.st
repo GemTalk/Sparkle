@@ -50,12 +50,6 @@ SpkPresenterWithModel >> model: aService [
 ]
 
 { #category : 'accessing' }
-SpkPresenterWithModel >> modelClass [
-
-	self subclassResponsibility
-]
-
-{ #category : 'accessing' }
 SpkPresenterWithModel >> setModelBeforeInitialization: anObject [
 
 	model := anObject

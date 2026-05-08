@@ -18,6 +18,7 @@ SpkTonelDirectoryListServiceServer >> initializeFromTool: aTool [
 { #category : 'refreshing' }
 SpkTonelDirectoryListServiceServer >> refreshFromTool [
 
+	dirName := tool dirName.
 	stFilenames := tool stFilenames.
 	dewFilenames := tool dewFilenames
 ]

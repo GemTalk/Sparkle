@@ -243,10 +243,9 @@ SpkTaskspace >> newTonelBrowser [
 	chosenDir := UIManager default
 		             chooseDirectory: 'Choose a directory with Tonel files'
 		             from: initialDir.
+	chosenDir ifNil: [ ^ self ]. "User pressed cancel"
 
-	msg := Message
-		       selector: #newBrowser:
-		       argument: chosenDir pathString.
+	msg := Message selector: #newBrowser: argument: chosenDir pathString.
 	self sendToService: msg
 ]
 

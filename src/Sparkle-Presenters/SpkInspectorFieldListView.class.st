@@ -69,7 +69,7 @@ SpkInspectorFieldListView >> initializePresenters [
 { #category : 'refreshing' }
 SpkInspectorFieldListView >> labelString [
 
-	^ self listItemServices size printString , ' fields'
+	^ self listItems size printString , ' fields'
 ]
 
 { #category : 'refreshing' }

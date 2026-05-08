@@ -79,7 +79,7 @@ SpkTList >> list [
 ]
 
 { #category : 'api' }
-SpkTList >> listItemServices [
+SpkTList >> listItems [
 
 	^ self model listItems
 ]

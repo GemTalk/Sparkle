@@ -7,9 +7,7 @@ Class {
 	#name : 'SpkTonelDirectoryListService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'dirName',
-		'stFilenames',
-		'dewFilenames'
+		'dirName'
 	],
 	#category : 'Sparkle-TonelBrowser-Services-Common',
 	#package : 'Sparkle-TonelBrowser-Services-Common'
@@ -22,18 +20,6 @@ SpkTonelDirectoryListService class >> templateClassName [
 ]
 
 { #category : 'accessing' }
-SpkTonelDirectoryListService >> dewFilenames [
-
-	^ dewFilenames
-]
-
-{ #category : 'accessing' }
-SpkTonelDirectoryListService >> dewFilenames: anObject [
-
-	dewFilenames := anObject
-]
-
-{ #category : 'accessing' }
 SpkTonelDirectoryListService >> dirName [
 
 	^ dirName
@@ -43,16 +29,4 @@ SpkTonelDirectoryListService >> dirName [
 SpkTonelDirectoryListService >> dirName: anObject [
 
 	dirName := anObject
-]
-
-{ #category : 'accessing' }
-SpkTonelDirectoryListService >> stFilenames [
-
-	^ stFilenames
-]
-
-{ #category : 'accessing' }
-SpkTonelDirectoryListService >> stFilenames: anObject [
-
-	stFilenames := anObject
 ]

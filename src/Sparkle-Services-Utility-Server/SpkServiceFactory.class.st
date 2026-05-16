@@ -33,6 +33,7 @@ SpkServiceFactory class >> initializeServiceClassesForToolTypes [
 		  at: SpkTaskspaceTool put: SpkTaskspaceServiceServer;
 		  at: SpkTonelDirectoryListTool
 		  put: SpkTonelDirectoryListServiceServer;
+		  at: SpkTonelFileTool put: SpkTonelFileServiceServer;
 		  yourself
 ]
 

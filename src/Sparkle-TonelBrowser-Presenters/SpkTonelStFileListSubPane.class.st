@@ -6,8 +6,20 @@ Class {
 	#tag : 'Presenters'
 }
 
-{ #category : 'accessing' }
-SpkTonelStFileListSubPane >> filenames [
+{ #category : 'as yet unclassified' }
+SpkTonelStFileListSubPane >> fileTypeLabel [
 
-	^ model dewFilenames
+	^ 'Class'
+]
+
+{ #category : 'api' }
+SpkTonelStFileListSubPane >> listItems [
+
+	^ model stServices
+]
+
+{ #category : 'asserting' }
+SpkTonelStFileListSubPane >> shouldBeInitiallyShown [
+
+	^ true
 ]

@@ -22,7 +22,7 @@ SpkTonelDirectoryListPane >> headerClass [
 SpkTonelDirectoryListPane >> initializeDewSubPane [
 
 	dewSubPane := self instantiate: SpkTonelDewFileListSubPane on: model.
-	self layout add: dewSubPane
+	dewSubPane initializeTwizzledList
 ]
 
 { #category : 'initialization' }
@@ -40,7 +40,7 @@ SpkTonelDirectoryListPane >> initializePresenters [
 SpkTonelDirectoryListPane >> initializeStSubPane [
 
 	stSubPane := self instantiate: SpkTonelStFileListSubPane on: model.
-	self layout add: stSubPane
+	stSubPane initializeTwizzledList
 ]
 
 { #category : 'initialization' }
@@ -48,6 +48,10 @@ SpkTonelDirectoryListPane >> refreshFromService [
 	"Must be sent in the UI thread."
 
 	self header labelString: model dirName.
-	stSubPane refreshTwizzledList.
-	dewSubPane refreshTwizzledList
+	stSubPane
+		ensureList;
+		refreshTwizzledList.
+	dewSubPane
+		ensureList;
+		refreshTwizzledList
 ]

@@ -22,11 +22,23 @@ SpkTHierarchicalService >> addChild: childService [
 	childService parent: self
 ]
 
+{ #category : 'adding' }
+SpkTHierarchicalService >> addChildren: childServices [
+
+	self children addAll: childServices
+]
+
 { #category : 'accessing' }
 SpkTHierarchicalService >> children [
 
 	children ifNil: [ children := OrderedCollection new ].
 	^ children
+]
+
+{ #category : 'enumerating' }
+SpkTHierarchicalService >> childrenDo: aBlock [
+
+	^ self children do: aBlock
 ]
 
 { #category : 'accessing' }
@@ -39,4 +51,10 @@ SpkTHierarchicalService >> parent [
 SpkTHierarchicalService >> parent: anObject [
 
 	parent := anObject
+]
+
+{ #category : 'removing' }
+SpkTHierarchicalService >> removeAllChildren [
+
+	children := nil
 ]

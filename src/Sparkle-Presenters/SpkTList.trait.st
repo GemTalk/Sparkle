@@ -117,7 +117,7 @@ SpkTList >> refreshListModel [
 	"Fully refresh from current state of local services.
 	Does not cause a server round trip."
 
-	listModel refreshFromServices: self model listItems.
+	listModel refreshFromServices: self listItems.
 	self
 		updateSelection;
 		refreshList

@@ -11,8 +11,7 @@ Class {
 	#superclass : 'SpkPaneTool',
 	#instVars : [
 		'directory',
-		'stFiles',
-		'dewFiles'
+		'fileTools'
 	],
 	#category : 'Sparkle-TonelBrowser-Tools',
 	#package : 'Sparkle-TonelBrowser-Tools'
@@ -33,12 +32,6 @@ SpkTonelDirectoryListTool class >> newOnPath: pathString inExplorer: xTool [
 ]
 
 { #category : 'accessing' }
-SpkTonelDirectoryListTool >> dewFilenames [
-
-	^ dewFiles keys
-]
-
-{ #category : 'accessing' }
 SpkTonelDirectoryListTool >> dirName [
 
 	^ directory basename
@@ -56,6 +49,20 @@ SpkTonelDirectoryListTool >> directory: anObject [
 	directory := anObject
 ]
 
+{ #category : 'as yet unclassified' }
+SpkTonelDirectoryListTool >> fileToolForFile: aFileReference [
+
+	^ (SpkTonelFileTool newInTaskspace: taskspaceTool)
+		  initializeForFileReference: aFileReference;
+		  yourself
+]
+
+{ #category : 'enumerating' }
+SpkTonelDirectoryListTool >> fileToolsDo: aBlock [
+
+	^ fileTools do: aBlock
+]
+
 { #category : 'private' }
 SpkTonelDirectoryListTool >> findDewFiles [
 
@@ -64,18 +71,13 @@ SpkTonelDirectoryListTool >> findDewFiles [
 
 { #category : 'private' }
 SpkTonelDirectoryListTool >> findFilesWithExtension: extensionString [
-	"Answer a dictionary of simpleName -> FileReference of all files in my
+	"Answer a Set of FileReference of all files in my
 	 directory that have the given extension (without the $.)"
 
-	| entries result |
+	| entries |
 	entries := directory entries select: [ :each |
 		           each extension = extensionString ].
-	result := Dictionary new: entries size.
-	entries do: [ :entry |
-		| ref |
-		ref := entry asFileReference.
-		result at: ref basename put: ref ].
-	^ result
+	^ entries collect: [ :each | each asFileReference ]
 ]
 
 { #category : 'private' }
@@ -87,13 +89,10 @@ SpkTonelDirectoryListTool >> findStFiles [
 { #category : 'initialization' }
 SpkTonelDirectoryListTool >> initializeInExplorer: xTool [
 
+	| tonelFiles |
 	super initializeInExplorer: xTool.
-	stFiles := self findStFiles.
-	dewFiles := self findDewFiles
-]
 
-{ #category : 'accessing' }
-SpkTonelDirectoryListTool >> stFilenames [
-
-	^ stFiles keys
+	tonelFiles := self findStFiles , self findDewFiles.
+	fileTools := tonelFiles collect: [ :each |
+		             self fileToolForFile: each ]
 ]

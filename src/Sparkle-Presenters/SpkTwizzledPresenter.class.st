@@ -29,14 +29,23 @@ Class {
 		'label',
 		'labelString',
 		'ownerLayout',
-		'topLayout',
 		'subPresenter',
-		'subPresenterIsShown'
+		'subPresenterIsShown',
+		'twizzleLayout',
+		'headerLayout'
 	],
 	#category : 'Sparkle-Presenters-Presenters',
 	#package : 'Sparkle-Presenters',
 	#tag : 'Presenters'
 }
+
+{ #category : 'adding' }
+SpkTwizzledPresenter >> addHeaderPresenter: aPresenter width: width [
+	"Add the given presenter to the right end of the header, 
+	allocating width space to it."
+
+	headerLayout add: aPresenter width: width
+]
 
 { #category : 'layout' }
 SpkTwizzledPresenter >> defaultLayout [
@@ -52,12 +61,22 @@ SpkTwizzledPresenter >> hideSubPresenter [
 ]
 
 { #category : 'initialization' }
+SpkTwizzledPresenter >> initializeHeaderLayout [
+	"The twizzleLayout contains the twizzle itself and the label"
+
+	headerLayout := SpkBoxLayout newHorizontal
+		                placeWidgetsJustified;
+		                yourself.
+	ownerLayout add: headerLayout withConstraints: [ :c | c height: 25 ]
+]
+
+{ #category : 'initialization' }
 SpkTwizzledPresenter >> initializeLabel [
 
 	label := self newLabel
 		         label: '';
 		         yourself.
-	topLayout add: label withConstraints: [ :c | c fill: false ]
+	twizzleLayout add: label withConstraints: [ :c | c fill: false ]
 ]
 
 { #category : 'initialization' }
@@ -65,19 +84,9 @@ SpkTwizzledPresenter >> initializePresenters [
 
 	super initializePresenters.
 	ownerLayout := owner layout.
-	self initializeTop
-]
-
-{ #category : 'initialization' }
-SpkTwizzledPresenter >> initializeTop [
-
-	topLayout := SpkBoxLayout newHorizontal
-		hAlignWidgetsAtLeft;
-		yourself.
-	ownerLayout add: topLayout withConstraints: [ :c | c height: 25 ].
 	self
-		initializeTwizzle;
-		initializeLabel
+		initializeHeaderLayout;
+		initializeTwizzleLayout
 ]
 
 { #category : 'accessing' }
@@ -88,11 +97,26 @@ SpkTwizzledPresenter >> initializeTwizzle [
 		           icon: self twizzleIcon;
 		           action: [ self toggle ];
 		           yourself.
-	topLayout add: twizzle withConstraints: [ :c | 
+	twizzleLayout add: twizzle withConstraints: [ :c | 
 		c
 			fill: false;
 			width: 25;
 			height: 25 ]
+]
+
+{ #category : 'initialization' }
+SpkTwizzledPresenter >> initializeTwizzleLayout [
+	"The twizzleLayout contains the twizzle itself and the label"
+
+	twizzleLayout := SpkBoxLayout newHorizontal
+		                 hAlignWidgetsAtLeft;
+		                 yourself.
+	headerLayout
+		add: twizzleLayout
+		withConstraints: [ :c | c height: 25 ].
+	self
+		initializeTwizzle;
+		initializeLabel
 ]
 
 { #category : 'accessing' }
@@ -106,10 +130,10 @@ SpkTwizzledPresenter >> labelString: aString [
 SpkTwizzledPresenter >> showSubPresenter [
 
 	subPresenter ifNil: [ ^ self ].
-	(ownerLayout includesPresenter: subPresenter) ifFalse: [ 
+	(ownerLayout includesPresenter: subPresenter) ifFalse: [
 		ownerLayout
 			add: subPresenter
-			after: topLayout
+			after: headerLayout
 			withConstraints: [ :c | c fill: true ] ]
 ]
 

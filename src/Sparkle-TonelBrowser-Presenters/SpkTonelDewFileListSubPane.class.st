@@ -18,6 +18,18 @@ SpkTonelDewFileListSubPane >> listItems [
 	^ model dewServices
 ]
 
+{ #category : 'instance creation' }
+SpkTonelDewFileListSubPane >> newFileAction [
+
+	^ [ self createLibraryFile ]
+]
+
+{ #category : 'instance creation' }
+SpkTonelDewFileListSubPane >> newFileHelp [
+
+	^ 'Create a new library file'
+]
+
 { #category : 'asserting' }
 SpkTonelDewFileListSubPane >> shouldBeInitiallyShown [
 

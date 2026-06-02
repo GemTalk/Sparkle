@@ -48,10 +48,17 @@ SpkTonelFileListSubPane >> initializeListColumns [
 { #category : 'initialization' }
 SpkTonelFileListSubPane >> initializeTwizzledList [
 
+	| newFileButton |
 	self initializeList.
 	"I can't own the twizzledList or it would always take spece even when closed."
 	twizzledList := owner instantiate: SpkTwizzledPresenter.
+	newFileButton := self newIconButton
+		                 icon: (self iconNamed: #addEvaluator20);
+		                 help: self newFileHelp;
+		                 action: self newFileAction;
+		                 yourself.
 	twizzledList
+		addHeaderPresenter: newFileButton width: 24;
 		twizzleHelp:
 			'Show or hide the list of ' , self fileTypeLabel , ' files';
 		subPresenter: list;
@@ -73,6 +80,18 @@ SpkTonelFileListSubPane >> listLabelString [
 			          << ' File'.
 		          count = 1 ifFalse: [ s << 's' ] ].
 	^ result
+]
+
+{ #category : 'instance creation' }
+SpkTonelFileListSubPane >> newFileAction [
+
+	self subclassResponsibility
+]
+
+{ #category : 'instance creation' }
+SpkTonelFileListSubPane >> newFileHelp [
+
+	self subclassResponsibility
 ]
 
 { #category : 'asserting' }

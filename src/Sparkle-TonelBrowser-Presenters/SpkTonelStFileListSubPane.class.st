@@ -18,6 +18,18 @@ SpkTonelStFileListSubPane >> listItems [
 	^ model stServices
 ]
 
+{ #category : 'instance creation' }
+SpkTonelStFileListSubPane >> newFileAction [
+
+	^ [ self createClassFile ]
+]
+
+{ #category : 'instance creation' }
+SpkTonelStFileListSubPane >> newFileHelp [
+
+	^ 'Create a new class file'
+]
+
 { #category : 'asserting' }
 SpkTonelStFileListSubPane >> shouldBeInitiallyShown [
 

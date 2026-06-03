@@ -6,6 +6,10 @@ This allows the user to start by evaluating or debugging an expression. They can
 Class {
 	#name : 'SpkExplorerWindow',
 	#superclass : 'SpkWindowWithColumns',
+	#instVars : [
+		'undoActionName',
+		'redoActionName'
+	],
 	#category : 'Sparkle-Presenters-Presenters',
 	#package : 'Sparkle-Presenters',
 	#tag : 'Presenters'
@@ -40,6 +44,15 @@ SpkExplorerWindow >> beginTransaction [
 SpkExplorerWindow >> buildHamburgerMenu [
 
 	| commandGroup |
+	commandGroup := (CmCommandGroup named: 'Undo and Redo') asSpecGroup
+		                description: 'Undo and Redo';
+		                beDisplayedAsGroup;
+		                yourself.
+	commandGroup register: (SpkUndoCommand forSpecContext: self).
+	commandGroup register: (SpkRedoCommand forSpecContext: self).
+	^ commandGroup
+
+	"| commandGroup |
 	commandGroup := (CmCommandGroup named: 'Transaction Management') asSpecGroup
 		description: 'Manage aspects of GemStone transactions.';
 		beDisplayedAsGroup;
@@ -49,7 +62,7 @@ SpkExplorerWindow >> buildHamburgerMenu [
 	commandGroup register: (SpkBeginTransactionCommand forSpecContext: self).
 	commandGroup register: (SpkSetAutomaticTransactionModeCommand forSpecContext: self).
 	commandGroup register: (SpkSetManualTransactionModeCommand forSpecContext: self).
-	^commandGroup
+	^commandGroup"
 ]
 
 { #category : 'enumerating' }
@@ -100,6 +113,45 @@ SpkExplorerWindow >> modelClass [
 	^ SpkExplorerServiceClient
 ]
 
+{ #category : 'initialization' }
+SpkExplorerWindow >> receiveUpdateAnnouncement [ 
+	
+	self defer: [ self refreshFromService ]
+]
+
+{ #category : 'actions' }
+SpkExplorerWindow >> redo [
+
+	^ model redo
+]
+
+{ #category : 'accessing' }
+SpkExplorerWindow >> redoActionName: anObject [
+
+	redoActionName := anObject
+]
+
+{ #category : 'accessing' }
+SpkExplorerWindow >> redoMenuItemName [
+
+	^ redoActionName
+		  ifNil: [ 'Can''t redo' ]
+		  ifNotNil: [ 'Redo ' , redoActionName ]
+]
+
+{ #category : 'initialization' }
+SpkExplorerWindow >> refreshFromService [
+	"model ifNil: [ ^ self ]."
+
+	"When first building the pane, spec sends this before model is initialized"
+
+	"Refresh undo/redo menu"
+
+	undoActionName := model undoActionName.
+	redoActionName := model redoActionName.
+	"self header menu: self menuCommandGroup asMenuPresenter"
+]
+
 { #category : 'transaction management' }
 SpkExplorerWindow >> setAutomaticTransactionMode [
 
@@ -110,4 +162,33 @@ SpkExplorerWindow >> setAutomaticTransactionMode [
 SpkExplorerWindow >> setManualTransactionMode [
 
 	^self application setManualTransactionMode
+]
+
+{ #category : 'as yet unclassified' }
+SpkExplorerWindow >> subscribeToModel [
+
+	model
+		when: SpkUpdateAnnouncement
+		send: #receiveUpdateAnnouncement
+		to: self
+]
+
+{ #category : 'actions' }
+SpkExplorerWindow >> undo [
+
+	^ model undo
+]
+
+{ #category : 'accessing' }
+SpkExplorerWindow >> undoActionName: anObject [
+
+	undoActionName := anObject
+]
+
+{ #category : 'accessing' }
+SpkExplorerWindow >> undoMenuItemName [
+
+	^ undoActionName
+		  ifNil: [ 'Can''t undo' ]
+		  ifNotNil: [ 'Undo ' , undoActionName ]
 ]

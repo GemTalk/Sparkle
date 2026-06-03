@@ -30,13 +30,15 @@ SpkToolWithUndoManager >> initialize [
 { #category : 'accessing' }
 SpkToolWithUndoManager >> performAction: anAction [
 
-	^ undoManager performAction: anAction
+	undoManager performAction: anAction.
+	self announceUpdate
 ]
 
 { #category : 'accessing' }
 SpkToolWithUndoManager >> redo [
 
-	^ undoManager redo
+	self canRedo ifTrue: [ undoManager redo ].
+	self announceUpdate
 ]
 
 { #category : 'accessing' }
@@ -49,7 +51,8 @@ SpkToolWithUndoManager >> redoActionName [
 { #category : 'accessing' }
 SpkToolWithUndoManager >> undo [
 
-	^ undoManager undo
+	self canUndo ifTrue: [ undoManager undo ].
+	self announceUpdate
 ]
 
 { #category : 'accessing' }

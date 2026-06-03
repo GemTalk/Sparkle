@@ -21,7 +21,7 @@ SpkTonelDewFileListSubPane >> listItems [
 { #category : 'instance creation' }
 SpkTonelDewFileListSubPane >> newFileAction [
 
-	^ [ self createLibraryFile ]
+	^ [ self notYetImplemented: 'Sorry, library files' ]
 ]
 
 { #category : 'instance creation' }

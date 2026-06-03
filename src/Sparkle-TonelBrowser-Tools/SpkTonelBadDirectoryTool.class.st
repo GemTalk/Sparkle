@@ -7,8 +7,9 @@ Class {
 	#instVars : [
 		'directory'
 	],
-	#category : 'Sparkle-TonelBrowser-Tools',
-	#package : 'Sparkle-TonelBrowser-Tools'
+	#category : 'Sparkle-TonelBrowser-Tools-Tools',
+	#package : 'Sparkle-TonelBrowser-Tools',
+	#tag : 'Tools'
 }
 
 { #category : 'accessing' }

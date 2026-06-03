@@ -15,6 +15,10 @@ Instance Variables
 Class {
 	#name : 'SpkExplorerService',
 	#superclass : 'RsrService',
+	#instVars : [
+		'undoActionName',
+		'redoActionName'
+	],
 	#category : 'Sparkle-Services-Common',
 	#package : 'Sparkle-Services-Common'
 }
@@ -23,4 +27,28 @@ Class {
 SpkExplorerService class >> templateClassName [
 
 	^ #SpkExplorerService
+]
+
+{ #category : 'accessing' }
+SpkExplorerService >> redoActionName [
+
+	^ redoActionName
+]
+
+{ #category : 'accessing' }
+SpkExplorerService >> redoActionName: anObject [
+
+	redoActionName := anObject
+]
+
+{ #category : 'accessing' }
+SpkExplorerService >> undoActionName [
+
+	^ undoActionName
+]
+
+{ #category : 'accessing' }
+SpkExplorerService >> undoActionName: anObject [
+
+	undoActionName := anObject
 ]

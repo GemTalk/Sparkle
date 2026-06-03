@@ -93,13 +93,6 @@ SpkStopwatchPane >> initializeButtons [
 ]
 
 { #category : 'initialization' }
-SpkStopwatchPane >> initializeHamburgerMenu [
-	"This message must be sent after my model is set."
-
-	self header menu: self menuCommandGroup asMenuPresenter
-]
-
-{ #category : 'initialization' }
 SpkStopwatchPane >> initializePresenters [
 
 	super initializePresenters.
@@ -125,21 +118,6 @@ SpkStopwatchPane >> initializeTimePresenter [
 SpkStopwatchPane >> labelString [
 
 	^ 'Stopwatch'
-]
-
-{ #category : 'initialization' }
-SpkStopwatchPane >> menuCommandClasses [
-
-	^ {
-		  SpkUndoCommand.
-		  SpkRedoCommand }
-]
-
-{ #category : 'initialization' }
-SpkStopwatchPane >> model: aService [
-
-	super model: aService.
-	self initializeHamburgerMenu
 ]
 
 { #category : 'accessing' }
@@ -170,12 +148,7 @@ SpkStopwatchPane >> refreshFromService [
 	model isRunning
 		ifTrue: [ self displayPauseButton ]
 		ifFalse: [ self displayRunButton ].
-	timePresenter label: model elapsedTimeString.
-
-	"Refresh undo/redo menu"
-	undoActionName := model undoActionName.
-	redoActionName := model redoActionName.
-	self header menu: self menuCommandGroup asMenuPresenter
+	timePresenter label: model elapsedTimeString
 ]
 
 { #category : 'actions' }

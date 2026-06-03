@@ -56,9 +56,7 @@ SpkStopwatchServiceServer >> redo [
 SpkStopwatchServiceServer >> refreshFromTool [
 
 	elapsedTimeString := tool elapsedTimeString.
-	isRunning := tool isRunning.
-	undoActionName := tool undoActionName.
-	redoActionName := tool redoActionName
+	isRunning := tool isRunning
 ]
 
 { #category : 'remote actions' }

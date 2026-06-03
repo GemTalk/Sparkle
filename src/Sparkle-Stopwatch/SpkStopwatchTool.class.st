@@ -94,20 +94,6 @@ SpkStopwatchTool >> pause [
 ]
 
 { #category : 'actions' }
-SpkStopwatchTool >> redo [
-	"Make the previous undo, if any, like it never happened."
-
-	explorerTool canRedo ifTrue: [ explorerTool redo ].
-	self announceUpdate
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> redoActionName [
-
-	^ explorerTool redoActionName
-]
-
-{ #category : 'actions' }
 SpkStopwatchTool >> reset [
 	"Reset the stopwatch to zero elapsed time,
 	but do not change whether it is running."
@@ -156,20 +142,6 @@ SpkStopwatchTool >> stopUpdating [
 	myTask := task. "Save in a temp in case task terminates and nils itself while we're doing this"
 	task := nil.
 	myTask ifNotNil: [ myTask terminate ]
-]
-
-{ #category : 'actions' }
-SpkStopwatchTool >> undo [
-	"Make the previous action, if any, like it never happened."
-
-	explorerTool canUndo ifTrue: [ explorerTool undo ].
-	self announceUpdate
-]
-
-{ #category : 'accessing' }
-SpkStopwatchTool >> undoActionName [
-
-	^ explorerTool undoActionName
 ]
 
 { #category : 'private' }

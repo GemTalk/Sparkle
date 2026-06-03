@@ -21,3 +21,29 @@ SpkExplorerServiceClient >> initializeTreeOnServerInTaskspace: taskspaceService 
 		           inTaskspace: taskspaceService.
 	promise when: [  ] catch: self defaultCatchBlock
 ]
+
+{ #category : 'actions' }
+SpkExplorerServiceClient >> redo [
+
+	| promise |
+	promise := remoteSelf redo.
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'actions' }
+SpkExplorerServiceClient >> undo [
+
+	| promise |
+	promise := remoteSelf undo.
+	promise
+		when: [ :ignored | self announceActionComplete ]
+		catch: self defaultCatchBlock
+]
+
+{ #category : 'as yet unclassified' }
+SpkExplorerServiceClient >> updateFromServer [
+
+	self announceUpdate
+]

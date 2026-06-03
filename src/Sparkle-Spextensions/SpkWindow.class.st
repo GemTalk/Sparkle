@@ -84,7 +84,7 @@ SpkWindow >> createHamburgerMenu [
 		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
 		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
 		addUpAction: [self offerHamburgerMenu];
-		setBalloonText: 'transaction control' translated;
+		setBalloonText: 'undo/redo' translated;
 		extent: self boxExtent.
 	^msb
 ]

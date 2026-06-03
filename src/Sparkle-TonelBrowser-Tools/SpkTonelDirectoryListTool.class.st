@@ -13,8 +13,9 @@ Class {
 		'directory',
 		'fileTools'
 	],
-	#category : 'Sparkle-TonelBrowser-Tools',
-	#package : 'Sparkle-TonelBrowser-Tools'
+	#category : 'Sparkle-TonelBrowser-Tools-Tools',
+	#package : 'Sparkle-TonelBrowser-Tools',
+	#tag : 'Tools'
 }
 
 { #category : 'instance creation' }
@@ -29,6 +30,24 @@ SpkTonelDirectoryListTool class >> newOnPath: pathString inExplorer: xTool [
 		  directory: fileRef;
 		  initializeInExplorer: xTool;
 		  yourself
+]
+
+{ #category : 'private to actions' }
+SpkTonelDirectoryListTool >> _createFileNamed: filename [
+	"Ensureing that the file does not exist is the sender's responsibility."
+
+	(directory / filename) createFile
+]
+
+{ #category : 'actions' }
+SpkTonelDirectoryListTool >> createClassFile [
+	"Find an unused name and create, undoably, an empty class file."
+
+	| newFilename action |
+	newFilename := self nameForNewClassFile.
+	action := SpkCreateTonelFileAction forTarget: self.
+	action filename: newFilename.
+	explorerTool performAction: action
 ]
 
 { #category : 'accessing' }
@@ -49,7 +68,7 @@ SpkTonelDirectoryListTool >> directory: anObject [
 	directory := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 SpkTonelDirectoryListTool >> fileToolForFile: aFileReference [
 
 	^ (SpkTonelFileTool newInTaskspace: taskspaceTool)
@@ -95,4 +114,29 @@ SpkTonelDirectoryListTool >> initializeInExplorer: xTool [
 	tonelFiles := self findStFiles , self findDewFiles.
 	fileTools := tonelFiles collect: [ :each |
 		             self fileToolForFile: each ]
+]
+
+{ #category : 'private' }
+SpkTonelDirectoryListTool >> nameForNewClassFile [
+	"Find and answer an unused name in my directory, the name of the form:
+	NewClass1.st, NewClass2.st, and so on, whatever is the first unused name."
+
+	| suffix suffixSize fileEntries classNames newFileNumber newFileRef |
+	suffix := '.class.st'.
+	suffixSize := suffix size.
+	fileEntries := directory entries select: [ :entry |
+		               entry isFile and: [ entry basename endsWith: suffix ] ].
+	classNames := Set new: fileEntries size.
+	fileEntries do: [ :entry |
+		| basename classNameSize |
+		basename := entry basename.
+		classNameSize := basename size - suffixSize.
+		classNameSize > 0 ifTrue: [
+			classNames add: (basename copyFrom: 1 to: classNameSize) ] ].
+	newFileNumber := 1.
+	[
+	newFileRef := directory
+	              / ('NewClass' , newFileNumber printString , suffix).
+	newFileRef exists ] whileTrue: [ newFileNumber := newFileNumber + 1 ].
+	^ newFileRef basename
 ]

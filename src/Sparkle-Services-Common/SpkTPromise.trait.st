@@ -3,9 +3,8 @@ Some helpers for users of RsrPromise, especially RSR service clients.
 "
 Trait {
 	#name : 'SpkTPromise',
-	#category : 'Sparkle-Services-PharoClient-Support',
-	#package : 'Sparkle-Services-PharoClient',
-	#tag : 'Support'
+	#category : 'Sparkle-Services-Common',
+	#package : 'Sparkle-Services-Common'
 }
 
 { #category : 'accessing' }

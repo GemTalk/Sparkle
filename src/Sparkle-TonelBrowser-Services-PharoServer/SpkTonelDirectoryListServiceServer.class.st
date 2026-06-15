@@ -10,29 +10,43 @@ Class {
 	#package : 'Sparkle-TonelBrowser-Services-PharoServer'
 }
 
-{ #category : 'initialization' }
-SpkTonelDirectoryListServiceServer >> initializeFileServices [
-	"Create file services for each file tool, and transmit them to the other side.
-	Note that this is not announced on the other side."
+{ #category : 'actions' }
+SpkTonelDirectoryListServiceServer >> createClassFile [
 
-	| promise |
-	self removeAllChildren.
-
-	tool fileToolsDo: [ :each |
-		self addChild: (SpkServiceFactory serviceForTool: each) ].
-	promise := remoteSelf addChildren: self children.
-	promise when: [  ] catch: self defaultCatchBlock
+	tool createClassFile
 ]
 
 { #category : 'initialization' }
 SpkTonelDirectoryListServiceServer >> initializeFromTool: aTool [
 
 	tool := aTool.
-	self refreshFromTool
+	tool when: SpkUpdateAnnouncement send: #refreshFromTool to: self
+]
+
+{ #category : 'initialization' }
+SpkTonelDirectoryListServiceServer >> refreshFileServices [
+	"Create file services for each file tool, and transmit them to the other side.
+	Note that this is not announced on the other side."
+
+	| oldFileServices promise |
+	oldFileServices := IdentityDictionary new: self children size.
+	self children do: [ :fileService |
+		oldFileServices at: fileService tool put: fileService ].
+	self removeAllChildren.
+
+	tool fileToolsDo: [ :fileTool |
+		oldFileServices
+			at: fileTool
+			ifPresent: [ :fileService | self addChild: fileService ]
+			ifAbsent: [
+			self addChild: (SpkServiceFactory serviceForTool: fileTool) ] ].
+	promise := remoteSelf updateChildren: self children.
+	promise when: [  ] catch: self defaultCatchBlock
 ]
 
 { #category : 'refreshing' }
 SpkTonelDirectoryListServiceServer >> refreshFromTool [
 
-	dirName := tool dirName
+	dirName := tool dirName.
+	self refreshFileServices
 ]

@@ -7,14 +7,39 @@ Class {
 	#package : 'Sparkle-TonelBrowser-Services-PharoClient'
 }
 
+{ #category : 'actions' }
+SpkTonelDirectoryListServiceClient >> createClassFile [
+
+	| promise |
+	promise := remoteSelf createClassFile.
+	promise when: [  ] catch: self defaultCatchBlock
+]
+
 { #category : 'as yet unclassified' }
 SpkTonelDirectoryListServiceClient >> dewServices [
 
-	^ self children select: [ :each | each hasExtension: 'dew' ]
+	^ self sortedServicesWithExtension: 'dew'
+]
+
+{ #category : 'as yet unclassified' }
+SpkTonelDirectoryListServiceClient >> sortedServicesWithExtension: extension [
+
+	| services |
+	services := self children select: [ :each |
+		            each hasExtension: extension ].
+	^ services sorted: [ :a :b | a filename <= b filename ]
 ]
 
 { #category : 'as yet unclassified' }
 SpkTonelDirectoryListServiceClient >> stServices [
 
-	^ self children select: [ :each | each hasExtension: 'st' ]
+	^ self sortedServicesWithExtension: 'st'
+]
+
+{ #category : 'as yet unclassified' }
+SpkTonelDirectoryListServiceClient >> updateChildren: replacementChildren [
+
+	self
+		children: replacementChildren;
+		announceUpdate
 ]

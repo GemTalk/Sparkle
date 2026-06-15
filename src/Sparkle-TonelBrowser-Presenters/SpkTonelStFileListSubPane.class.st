@@ -6,6 +6,12 @@ Class {
 	#tag : 'Presenters'
 }
 
+{ #category : 'actions' }
+SpkTonelStFileListSubPane >> createClassFile [
+
+	model createClassFile
+]
+
 { #category : 'as yet unclassified' }
 SpkTonelStFileListSubPane >> fileTypeLabel [
 

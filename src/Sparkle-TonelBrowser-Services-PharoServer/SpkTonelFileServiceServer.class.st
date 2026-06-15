@@ -16,3 +16,9 @@ SpkTonelFileServiceServer >> initializeFromTool: aTool [
 	tool := aTool.
 	filename := tool filename
 ]
+
+{ #category : 'accessing' }
+SpkTonelFileServiceServer >> tool [
+
+	^ tool
+]

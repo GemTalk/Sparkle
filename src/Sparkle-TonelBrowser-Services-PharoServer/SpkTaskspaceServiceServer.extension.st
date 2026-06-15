@@ -14,7 +14,7 @@ SpkTaskspaceServiceServer >> newBrowser: pathString [
 	pService := SpkServiceFactory serviceForTool: pTool.
 	pService
 		registerWith: self connection;
-		initializeFileServices.
+		refreshFromTool.
 	^ SpkExplorerAndPaneServiceServer
 		  newForPane: pService
 		  inExplorer: xService

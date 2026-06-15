@@ -23,3 +23,12 @@ SpkTonelFileTool >> initializeForFileReference: aFileReference [
 
 	file := aFileReference
 ]
+
+{ #category : 'printing' }
+SpkTonelFileTool >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		<< ': ';
+		<< file basename
+]

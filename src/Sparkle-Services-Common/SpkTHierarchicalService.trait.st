@@ -35,6 +35,14 @@ SpkTHierarchicalService >> children [
 	^ children
 ]
 
+{ #category : 'accessing' }
+SpkTHierarchicalService >> children: collectionOfServices [
+
+	self
+		removeAllChildren;
+		addChildren: collectionOfServices
+]
+
 { #category : 'enumerating' }
 SpkTHierarchicalService >> childrenDo: aBlock [
 

@@ -50,9 +50,9 @@ SpkPresenterWithModel >> model: aService [
 ]
 
 { #category : 'accessing' }
-SpkPresenterWithModel >> setModelBeforeInitialization: anObject [
+SpkPresenterWithModel >> setModelBeforeInitialization: aService [
 
-	model := anObject
+	self model: aService
 ]
 
 { #category : 'as yet unclassified' }

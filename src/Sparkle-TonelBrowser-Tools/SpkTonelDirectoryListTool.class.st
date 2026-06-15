@@ -47,7 +47,10 @@ SpkTonelDirectoryListTool >> createClassFile [
 	newFilename := self nameForNewClassFile.
 	action := SpkCreateTonelFileAction forTarget: self.
 	action filename: newFilename.
-	explorerTool performAction: action
+	explorerTool performAction: action.
+	self
+		refreshFromFileSystem;
+		announceUpdate
 ]
 
 { #category : 'accessing' }
@@ -106,14 +109,17 @@ SpkTonelDirectoryListTool >> findStFiles [
 ]
 
 { #category : 'initialization' }
+SpkTonelDirectoryListTool >> initialize [
+
+	super initialize.
+	fileTools := Dictionary new
+]
+
+{ #category : 'initialization' }
 SpkTonelDirectoryListTool >> initializeInExplorer: xTool [
 
-	| tonelFiles |
 	super initializeInExplorer: xTool.
-
-	tonelFiles := self findStFiles , self findDewFiles.
-	fileTools := tonelFiles collect: [ :each |
-		             self fileToolForFile: each ]
+	self refreshFromFileSystem
 ]
 
 { #category : 'private' }
@@ -139,4 +145,31 @@ SpkTonelDirectoryListTool >> nameForNewClassFile [
 	              / ('NewClass' , newFileNumber printString , suffix).
 	newFileRef exists ] whileTrue: [ newFileNumber := newFileNumber + 1 ].
 	^ newFileRef basename
+]
+
+{ #category : 'printing' }
+SpkTonelDirectoryListTool >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		<< ': ';
+		<< directory basename
+]
+
+{ #category : 'initialization' }
+SpkTonelDirectoryListTool >> refreshFromFileSystem [
+
+	| tonelFiles filesByName oldFileTools |
+	tonelFiles := self findStFiles , self findDewFiles.
+	filesByName := Dictionary new: tonelFiles size.
+	tonelFiles do: [ :each | filesByName at: each basename put: each ].
+	oldFileTools := fileTools.
+	fileTools := Dictionary new: tonelFiles size.
+	tonelFiles do: [ :file |
+		| name |
+		name := file basename.
+		oldFileTools
+			at: name
+			ifPresent: [ :tool | fileTools at: name put: tool ]
+			ifAbsent: [ fileTools at: name put: (self fileToolForFile: file) ] ]
 ]

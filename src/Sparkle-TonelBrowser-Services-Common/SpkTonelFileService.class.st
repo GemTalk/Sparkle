@@ -29,3 +29,12 @@ SpkTonelFileService >> filename: anObject [
 
 	filename := anObject
 ]
+
+{ #category : 'printing' }
+SpkTonelFileService >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		<< ': ';
+		<< filename
+]

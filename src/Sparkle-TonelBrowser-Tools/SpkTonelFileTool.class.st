@@ -2,7 +2,8 @@ Class {
 	#name : 'SpkTonelFileTool',
 	#superclass : 'SpkTool',
 	#instVars : [
-		'file'
+		'fileModel',
+		'fileReference'
 	],
 	#category : 'Sparkle-TonelBrowser-Tools-Tools',
 	#package : 'Sparkle-TonelBrowser-Tools',
@@ -13,7 +14,7 @@ Class {
 SpkTonelFileTool >> filename [
 	"Answer the simple name (e.g. 'Object.st') of the file I am responsible for."
 
-	^ file basename
+	^ fileReference basename
 ]
 
 { #category : 'initialization' }
@@ -21,7 +22,7 @@ SpkTonelFileTool >> initializeForFileReference: aFileReference [
 	"Initially, just remember what file I am for. 
 	Reading and parsing the file is done lazily."
 
-	file := aFileReference
+	fileReference := aFileReference
 ]
 
 { #category : 'printing' }
@@ -30,5 +31,5 @@ SpkTonelFileTool >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		<< ': ';
-		<< file basename
+		<< fileReference basename
 ]

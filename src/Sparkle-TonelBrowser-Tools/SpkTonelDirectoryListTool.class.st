@@ -36,7 +36,24 @@ SpkTonelDirectoryListTool class >> newOnPath: pathString inExplorer: xTool [
 SpkTonelDirectoryListTool >> _createFileNamed: filename [
 	"Ensureing that the file does not exist is the sender's responsibility."
 
-	(directory / filename) createFile
+	| fileReference model stream |
+	fileReference := directory / filename.
+	fileReference createFile.
+	model := TnClassDefinitionFile forClassNamed:
+		         (self classNameFromFilename: filename).
+	stream := fileReference writeStream.
+	model writeOn: stream.
+	stream close
+]
+
+{ #category : 'as yet unclassified' }
+SpkTonelDirectoryListTool >> classNameFromFilename: basename [
+
+	| suffix |
+	suffix := '.class.st'.
+	(basename endsWith: suffix) ifFalse: [
+		^ self error: 'Class file name must end with ' , suffix ].
+	^ basename copyFrom: 1 to: basename size - suffix size
 ]
 
 { #category : 'actions' }

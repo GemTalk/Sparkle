@@ -19,14 +19,14 @@ SpkTonelFileListSubPane >> defaultLayout [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 SpkTonelFileListSubPane >> ensureList [
 	"Make sure the list has been initialized."
 
 	self list ifNil: [ self initializeFileList ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTonelFileListSubPane >> fileTypeLabel [
 
 	self subclassResponsibility
@@ -63,6 +63,17 @@ SpkTonelFileListSubPane >> initializeTwizzledList [
 			'Show or hide the list of ' , self fileTypeLabel , ' files';
 		subPresenter: list;
 		showSubPresenter: self shouldBeInitiallyShown
+]
+
+{ #category : 'actions' }
+SpkTonelFileListSubPane >> itemSelected: anAnnouncement [
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
+
+	| field fileService |
+	field := anAnnouncement item.
+	fileService := field model.
+	field openLinkedPane: fileService.
+	self refreshList
 ]
 
 { #category : 'accessing' }

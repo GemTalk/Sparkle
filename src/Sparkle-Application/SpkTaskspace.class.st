@@ -165,6 +165,7 @@ SpkTaskspace >> initializePresenterClassesForServiceTypes [
 		  at: SpkStopwatchServiceClient put: SpkStopwatchPane;
 		  at: SpkTonelDirectoryListServiceClient
 		  put: SpkTonelDirectoryListPane;
+		  at: SpkTonelFileServiceClient put: SpkTonelClassFilePane;
 		  yourself
 ]
 

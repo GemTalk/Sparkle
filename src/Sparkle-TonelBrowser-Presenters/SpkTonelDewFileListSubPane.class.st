@@ -6,7 +6,7 @@ Class {
 	#tag : 'Presenters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTonelDewFileListSubPane >> fileTypeLabel [
 
 	^ 'Library'

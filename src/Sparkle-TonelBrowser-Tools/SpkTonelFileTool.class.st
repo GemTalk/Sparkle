@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkTonelFileTool >> classMethods [
+
+	^ fileModel classMethods
+]
+
+{ #category : 'accessing' }
 SpkTonelFileTool >> filename [
 	"Answer the simple name (e.g. 'Object.st') of the file I am responsible for."
 
@@ -22,7 +28,14 @@ SpkTonelFileTool >> initializeForFileReference: aFileReference [
 	"Initially, just remember what file I am for. 
 	Reading and parsing the file is done lazily."
 
-	fileReference := aFileReference
+	fileReference := aFileReference.
+	fileModel := TnFile parsedFromFile: fileReference
+]
+
+{ #category : 'accessing' }
+SpkTonelFileTool >> instanceMethods [
+
+	^ fileModel instanceMethods
 ]
 
 { #category : 'printing' }

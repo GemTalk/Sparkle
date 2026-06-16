@@ -7,6 +7,14 @@ Class {
 	#package : 'Sparkle-TonelBrowser-Services-PharoClient'
 }
 
+{ #category : 'accessing' }
+SpkTonelFileServiceClient >> displayName [
+
+	self flag:
+		'Probably really want to display just the class name, not the whole filename'.
+	^ filename
+]
+
 { #category : 'testing' }
 SpkTonelFileServiceClient >> hasExtension: extensionString [
 

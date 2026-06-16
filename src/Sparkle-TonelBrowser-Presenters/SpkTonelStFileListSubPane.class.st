@@ -12,7 +12,7 @@ SpkTonelStFileListSubPane >> createClassFile [
 	model createClassFile
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTonelStFileListSubPane >> fileTypeLabel [
 
 	^ 'Class'

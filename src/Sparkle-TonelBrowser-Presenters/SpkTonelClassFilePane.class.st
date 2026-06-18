@@ -23,8 +23,9 @@ SpkTonelClassFilePane >> headerClass [
 SpkTonelClassFilePane >> initializeClassMethodSubPane [
 
 	classMethodSubPane := self
-		                     instantiate: SpkTonelClassMethodListSubPane 
-		                     on: model
+		                      instantiate: SpkTonelClassMethodListSubPane
+		                      on: model.
+	self layout add: classMethodSubPane
 ]
 
 { #category : 'initialization' }
@@ -55,6 +56,12 @@ SpkTonelClassFilePane >> initializePresenters [
 		initializeClassMethodSubPane;
 		addSeparator;
 		initializeInstanceMethodSubPane
+]
+
+{ #category : 'refreshing' }
+SpkTonelClassFilePane >> refreshFromServer [
+
+	model refreshFromServer
 ]
 
 { #category : 'initialization' }

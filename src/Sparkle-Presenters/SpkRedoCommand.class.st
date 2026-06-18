@@ -26,6 +26,11 @@ SpkRedoCommand class >> defaultShortcutKey [
 		| $z control shift unix
 ]
 
+{ #category : 'accessing' }
+SpkRedoCommand >> description [
+	^ 'Redo the action most recently undone'
+]
+
 { #category : 'executing' }
 SpkRedoCommand >> execute [
 

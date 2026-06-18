@@ -6,14 +6,14 @@ Class {
 	#tag : 'Presenters'
 }
 
-{ #category : 'as yet unclassified' }
-SpkTonelClassMethodListSubPane >> contentTypeString [
-
-	^ 'Class methods'
-]
-
 { #category : 'api' }
 SpkTonelClassMethodListSubPane >> listItems [
 
 	^ model classMethodServices
+]
+
+{ #category : 'as yet unclassified' }
+SpkTonelClassMethodListSubPane >> listLabelString [
+
+	^ 'Class methods'
 ]

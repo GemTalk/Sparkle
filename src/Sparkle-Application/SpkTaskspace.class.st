@@ -295,10 +295,11 @@ SpkTaskspace >> presenterClassesForServiceTypes [
 { #category : 'processing announcements' }
 SpkTaskspace >> receiveNewExplorerAndPaneAnnouncement: announcement [
 
-	self defer: [ 
+	self defer: [
 		self
 			openExplorerForService: announcement explorer
-			withPaneForService: announcement pane ]
+			withPaneForService: announcement pane.
+		announcement pane refreshFromServer ]
 ]
 
 { #category : 'processing announcements' }

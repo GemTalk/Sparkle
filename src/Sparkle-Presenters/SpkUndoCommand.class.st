@@ -29,7 +29,7 @@ SpkUndoCommand class >> defaultShortcutKey [
 { #category : 'accessing' }
 SpkUndoCommand >> description [
 
-	^ 'Catnip'
+	^ 'Undo the most recent action'
 ]
 
 { #category : 'executing' }

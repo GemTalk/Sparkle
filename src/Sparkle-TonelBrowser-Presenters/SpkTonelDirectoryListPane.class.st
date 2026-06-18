@@ -53,5 +53,15 @@ SpkTonelDirectoryListPane >> refreshFromService [
 		refreshTwizzledList.
 	dewSubPane
 		ensureList;
-		refreshTwizzledList
+		refreshTwizzledList.
+	self updateLinkedCoordinates
+]
+
+{ #category : 'refreshing' }
+SpkTonelDirectoryListPane >> updateLinkedCoordinates [
+	"Have two lists, one in each subpane. What a pane."
+
+	| coordinateSuffix |
+	coordinateSuffix := dewSubPane updateCoordinatesBasedOn: 0.
+	stSubPane updateCoordinatesBasedOn: coordinateSuffix
 ]

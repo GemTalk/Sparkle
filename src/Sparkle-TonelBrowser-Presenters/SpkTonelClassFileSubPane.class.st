@@ -11,12 +11,6 @@ Class {
 	#tag : 'Presenters'
 }
 
-{ #category : 'as yet unclassified' }
-SpkTonelClassFileSubPane >> contentTypeString [
-
-	self subclassResponsibility
-]
-
 { #category : 'layout' }
 SpkTonelClassFileSubPane >> defaultLayout [
 
@@ -46,8 +40,8 @@ SpkTonelClassFileSubPane >> initializeTwizzledList [
 	"I can't own the twizzledList or it would always take spece even when closed."
 	twizzledList := owner instantiate: SpkTwizzledPresenter.
 	twizzledList
-		twizzleHelp: 'Show or hide the list of ' , self contentTypeString;
-		subPresenter: list;
+		twizzleHelp: 'Show or hide the list of ' , self listLabelString;
+		subPresenter: self list;
 		showSubPresenter: self shouldBeInitiallyShown
 ]
 
@@ -57,7 +51,7 @@ SpkTonelClassFileSubPane >> listItems [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
+{ #category : 'as yet unclassified' }
 SpkTonelClassFileSubPane >> listLabelString [
 
 	self subclassResponsibility

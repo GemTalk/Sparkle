@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : 'accessing' }
+SpkTonelFileTool >> classDefinition [
+
+	^ fileModel classDefinition
+]
+
+{ #category : 'accessing' }
 SpkTonelFileTool >> classMethods [
 
 	^ fileModel classMethods

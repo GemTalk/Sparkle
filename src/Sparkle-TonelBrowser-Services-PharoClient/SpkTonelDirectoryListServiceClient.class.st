@@ -22,6 +22,14 @@ SpkTonelDirectoryListServiceClient >> dewServices [
 ]
 
 { #category : 'as yet unclassified' }
+SpkTonelDirectoryListServiceClient >> refreshFromServer [
+
+	| promise |
+	promise := remoteSelf refreshFromTool.
+	promise when: [  ] catch: self defaultCatchBlock
+]
+
+{ #category : 'as yet unclassified' }
 SpkTonelDirectoryListServiceClient >> sortedServicesWithExtension: extension [
 
 	| services |
@@ -39,7 +47,7 @@ SpkTonelDirectoryListServiceClient >> stServices [
 { #category : 'as yet unclassified' }
 SpkTonelDirectoryListServiceClient >> updateChildren: replacementChildren [
 
-	self
-		children: replacementChildren;
-		announceUpdate
+	self removeAllChildren.
+	replacementChildren do: [ :child | self addChild: child ].
+	self announceUpdate
 ]

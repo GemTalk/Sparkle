@@ -73,6 +73,7 @@ SpkTonelFileListSubPane >> itemSelected: anAnnouncement [
 	field := anAnnouncement item.
 	fileService := field model.
 	field openLinkedPane: fileService.
+	fileService refreshFromServer.
 	self refreshList
 ]
 

@@ -328,6 +328,13 @@ SpkPane >> redo [
 	^ model redo
 ]
 
+{ #category : 'as yet unclassified' }
+SpkPane >> refreshFromServer [
+	"Do nothing here, subclasses can choose to do something."
+
+	
+]
+
 { #category : 'initialization' }
 SpkPane >> refreshFromService [
 	"Must be sent only in the UI thread."

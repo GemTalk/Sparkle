@@ -3,11 +3,6 @@ Class {
 	#superclass : 'SpkTonelFileService',
 	#traits : 'SpkTPromise + SpkTModel + SpkTLinkedService + SpkTHierarchicalService',
 	#classTraits : 'SpkTPromise classTrait + SpkTModel classTrait + SpkTLinkedService classTrait + SpkTHierarchicalService classTrait',
-	#instVars : [
-		'classDefinitionService',
-		'classMethodServices',
-		'instanceMethodServices'
-	],
 	#category : 'Sparkle-TonelBrowser-Services-PharoClient',
 	#package : 'Sparkle-TonelBrowser-Services-PharoClient'
 }
@@ -21,8 +16,7 @@ SpkTonelFileServiceClient >> classMethodServices [
 { #category : 'as yet unclassified' }
 SpkTonelFileServiceClient >> classPropertyServices [
 
-	self flag: 'incomplete'.
-	^ #(  )
+	^ classDefinitionService classPropertyServices
 ]
 
 { #category : 'accessing' }
@@ -51,10 +45,6 @@ SpkTonelFileServiceClient >> refreshFromServer [
 	| promise |
 	promise := remoteSelf refreshFromTool.
 	promise
-		when: [ :result |
-			classDefinitionService := result at: #classDefinition.
-			classMethodServices := result at: #classMethods.
-			instanceMethodServices := result at: #instanceMethods.
-			self announceUpdate ]
+		when: [ :result | self announceUpdate ]
 		catch: self defaultCatchBlock
 ]

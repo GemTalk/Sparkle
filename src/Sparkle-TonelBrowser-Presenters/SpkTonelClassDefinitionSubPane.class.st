@@ -6,6 +6,16 @@ Class {
 	#tag : 'Presenters'
 }
 
+{ #category : 'initialization' }
+SpkTonelClassDefinitionSubPane >> initializeListColumns [
+
+	self list
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item model key ]);
+		addColumn:
+			(SpStringTableColumn evaluated: [ :item | item model value ])
+]
+
 { #category : 'api' }
 SpkTonelClassDefinitionSubPane >> listItems [
 
@@ -15,5 +25,5 @@ SpkTonelClassDefinitionSubPane >> listItems [
 { #category : 'as yet unclassified' }
 SpkTonelClassDefinitionSubPane >> listLabelString [
 
-	^ 'Class Definition'
+	^ 'Class Properties'
 ]

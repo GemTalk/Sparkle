@@ -43,7 +43,23 @@ SpkTonelDirectoryListTool >> _createFileNamed: filename [
 		         (self classNameFromFilename: filename).
 	stream := fileReference writeStream.
 	model writeOn: stream.
-	stream close
+	stream close.
+	^ fileReference
+]
+
+{ #category : 'private to actions' }
+SpkTonelDirectoryListTool >> _trulyDeleteFile: fileReference [
+	"Ensureing that the file does not exist is the sender's responsibility."
+
+	fileReference delete
+]
+
+{ #category : 'private to actions' }
+SpkTonelDirectoryListTool >> _updated [
+
+	self
+		refreshFromFileSystem;
+		announceUpdate
 ]
 
 { #category : 'as yet unclassified' }

@@ -4,10 +4,7 @@ Class {
 	#traits : 'SpkTHierarchicalService + SpkTPromise',
 	#classTraits : 'SpkTHierarchicalService classTrait + SpkTPromise classTrait',
 	#instVars : [
-		'tool',
-		'classDefinitionService',
-		'classMethodServices',
-		'instanceMethodServices'
+		'tool'
 	],
 	#category : 'Sparkle-TonelBrowser-Services-PharoServer',
 	#package : 'Sparkle-TonelBrowser-Services-PharoServer'
@@ -41,6 +38,12 @@ SpkTonelFileServiceServer >> newMethodServiceFor: definition [
 ]
 
 { #category : 'refreshing' }
+SpkTonelFileServiceServer >> refreshClassDefinition [
+
+	classDefinitionService refreshFromTool
+]
+
+{ #category : 'refreshing' }
 SpkTonelFileServiceServer >> refreshClassMethodServices [
 
 	classMethodServices := self
@@ -52,18 +55,11 @@ SpkTonelFileServiceServer >> refreshClassMethodServices [
 SpkTonelFileServiceServer >> refreshFromTool [
 	"Update and answer a Dictionary with three keys: #classDefinition, #classMethods, #instanceMethods"
 
-	| result |
 	filename := tool filename.
-
-	self refreshClassMethodServices.
-
-	self refreshInstanceMethodServices.
-	result := Dictionary new: 3.
-	result
-		at: #classDefinition put: classDefinitionService;
-		at: #classMethods put: classMethodServices;
-		at: #instanceMethods put: instanceMethodServices.
-	^ result
+	self
+		refreshClassDefinition;
+		refreshClassMethodServices;
+		refreshInstanceMethodServices
 ]
 
 { #category : 'refreshing' }
@@ -102,34 +98,6 @@ SpkTonelFileServiceServer >> registerWith: aConnection [
 
 	super registerWith: aConnection.
 	classDefinitionService registerWith: aConnection
-]
-
-{ #category : 'private' }
-SpkTonelFileServiceServer >> sendClassMethodServices [
-
-	| promise |
-	self isMirrored ifFalse: [ ^ self ]. "Initializing, skip update."
-	promise := remoteSelf updateClassMethodServices: classMethodServices.
-	promise when: [  ] catch: self defaultCatchBlock
-]
-
-{ #category : 'private' }
-SpkTonelFileServiceServer >> sendFilename [
-
-	| promise |
-	self isMirrored ifFalse: [ ^ self ]. "Initializing, skip update."
-	promise := remoteSelf updateFilename: filename.
-	promise when: [  ] catch: self defaultCatchBlock
-]
-
-{ #category : 'private' }
-SpkTonelFileServiceServer >> sendInstanceMethodServices [
-
-	| promise |
-	self isMirrored ifFalse: [ ^ self ]. "Initializing, skip update."
-	promise := remoteSelf updateInstanceMethodServices:
-		           instanceMethodServices.
-	promise when: [  ] catch: self defaultCatchBlock
 ]
 
 { #category : 'accessing' }

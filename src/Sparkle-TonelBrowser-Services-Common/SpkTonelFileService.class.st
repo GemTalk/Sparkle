@@ -6,7 +6,10 @@ Class {
 	#name : 'SpkTonelFileService',
 	#superclass : 'RsrService',
 	#instVars : [
-		'filename'
+		'filename',
+		'instanceMethodServices',
+		'classDefinitionService',
+		'classMethodServices'
 	],
 	#category : 'Sparkle-TonelBrowser-Services-Common',
 	#package : 'Sparkle-TonelBrowser-Services-Common'

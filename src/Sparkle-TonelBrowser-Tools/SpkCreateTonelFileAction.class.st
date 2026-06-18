@@ -24,12 +24,14 @@ SpkCreateTonelFileAction >> name [
 { #category : 'public' }
 SpkCreateTonelFileAction >> performAction [
 
-	fileReference := target _createFileNamed: filename
+	fileReference := target _createFileNamed: filename.
+	target _updated
 ]
 
 { #category : 'public' }
 SpkCreateTonelFileAction >> undoAction [
 
 	target _trulyDeleteFile: fileReference.
-	fileReference := nil
+	fileReference := nil.
+	target _updated
 ]

@@ -7,7 +7,7 @@ Class {
 	#package : 'Sparkle-TonelBrowser-Services-PharoServer'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refreshing' }
 SpkTonelMethodServiceServer >> refreshFromDefinition: definition [
 
 	selector := definition selector.

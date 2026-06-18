@@ -60,5 +60,5 @@ SpkTonelClassFileSubPane >> listLabelString [
 { #category : 'asserting' }
 SpkTonelClassFileSubPane >> shouldBeInitiallyShown [
 
-	^ false
+	^ true
 ]

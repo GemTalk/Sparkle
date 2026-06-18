@@ -25,7 +25,7 @@ SpkTonelClassFilePane >> initializeClassMethodSubPane [
 	classMethodSubPane := self
 		                      instantiate: SpkTonelClassMethodListSubPane
 		                      on: model.
-	self layout add: classMethodSubPane
+	classMethodSubPane ensureList.
 ]
 
 { #category : 'initialization' }
@@ -33,7 +33,8 @@ SpkTonelClassFilePane >> initializeDefinitionSubPane [
 
 	definitionSubPane := self
 		                     instantiate: SpkTonelClassDefinitionSubPane
-		                     on: model
+		                     on: model.
+	definitionSubPane ensureList
 ]
 
 { #category : 'initialization' }
@@ -42,7 +43,8 @@ SpkTonelClassFilePane >> initializeInstanceMethodSubPane [
 	instanceMethodSubPane := self
 		                         instantiate:
 		                         SpkTonelInstanceMethodListSubPane
-		                         on: model
+		                         on: model.
+	instanceMethodSubPane ensureList
 ]
 
 { #category : 'initialization' }
@@ -51,6 +53,7 @@ SpkTonelClassFilePane >> initializePresenters [
 	super initializePresenters.
 	self
 		initializeHeader;
+		addSeparator;
 		initializeDefinitionSubPane;
 		addSeparator;
 		initializeClassMethodSubPane;

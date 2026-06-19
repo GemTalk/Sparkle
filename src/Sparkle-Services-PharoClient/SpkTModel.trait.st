@@ -48,7 +48,7 @@ SpkTModel >> announceUpdate [
 	self announce: SpkUpdateAnnouncement new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTModel >> announcer [
 
 	^ announcer ifNil: [ announcer := Announcer new ]

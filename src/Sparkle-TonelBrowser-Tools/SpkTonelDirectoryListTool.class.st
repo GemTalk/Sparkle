@@ -62,7 +62,7 @@ SpkTonelDirectoryListTool >> _updated [
 		announceUpdate
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SpkTonelDirectoryListTool >> classNameFromFilename: basename [
 
 	| suffix |
@@ -81,9 +81,7 @@ SpkTonelDirectoryListTool >> createClassFile [
 	action := SpkCreateTonelFileAction forTarget: self.
 	action filename: newFilename.
 	explorerTool performAction: action.
-	self
-		refreshFromFileSystem;
-		announceUpdate
+	self _updated
 ]
 
 { #category : 'accessing' }
@@ -109,6 +107,8 @@ SpkTonelDirectoryListTool >> fileToolForFile: aFileReference [
 
 	^ (SpkTonelFileTool newInTaskspace: taskspaceTool)
 		  initializeForFileReference: aFileReference;
+		  parentTool: self;
+		  explorerTool: explorerTool;
 		  yourself
 ]
 

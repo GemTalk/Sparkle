@@ -3,12 +3,34 @@ Class {
 	#superclass : 'SpkTool',
 	#instVars : [
 		'fileModel',
-		'fileReference'
+		'fileReference',
+		'explorerTool',
+		'parentTool'
 	],
 	#category : 'Sparkle-TonelBrowser-Tools-Tools',
 	#package : 'Sparkle-TonelBrowser-Tools',
 	#tag : 'Tools'
 }
+
+{ #category : 'private to actions' }
+SpkTonelFileTool >> _deleteFile [
+	"Truly delete the file"
+
+	fileReference delete.
+	parentTool _updated
+]
+
+{ #category : 'private to actions' }
+SpkTonelFileTool >> _recreateFile [
+	"Create the file and restore its contents."
+
+	| stream |
+	fileReference createFile.
+	stream := fileReference writeStream.
+	fileModel writeOn: stream.
+	stream close.
+	parentTool _updated
+]
 
 { #category : 'accessing' }
 SpkTonelFileTool >> classDefinition [
@@ -20,6 +42,32 @@ SpkTonelFileTool >> classDefinition [
 SpkTonelFileTool >> classMethods [
 
 	^ fileModel classMethods
+]
+
+{ #category : 'actions' }
+SpkTonelFileTool >> deleteFile [
+
+	| action |
+	action := SpkDeleteFileAction forTarget: self.
+	explorerTool performAction: action
+]
+
+{ #category : 'accessing' }
+SpkTonelFileTool >> explorerTool: anObject [
+
+	explorerTool := anObject
+]
+
+{ #category : 'accessing' }
+SpkTonelFileTool >> fileModel [
+
+	^ fileModel
+]
+
+{ #category : 'accessing' }
+SpkTonelFileTool >> fileReference [
+
+	^ fileReference
 ]
 
 { #category : 'accessing' }
@@ -42,6 +90,12 @@ SpkTonelFileTool >> initializeForFileReference: aFileReference [
 SpkTonelFileTool >> instanceMethods [
 
 	^ fileModel instanceMethods
+]
+
+{ #category : 'accessing' }
+SpkTonelFileTool >> parentTool: anObject [
+
+	parentTool := anObject
 ]
 
 { #category : 'printing' }

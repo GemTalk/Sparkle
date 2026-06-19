@@ -5,7 +5,7 @@ Class {
 	#package : 'Sparkle-TonelBrowser-Services-PharoClient'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTonelClassDefinitionServiceClient >> classPropertyServices [
 
 	| result |

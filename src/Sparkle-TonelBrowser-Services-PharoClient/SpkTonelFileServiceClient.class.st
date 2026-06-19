@@ -13,10 +13,18 @@ SpkTonelFileServiceClient >> classMethodServices [
 	^ classMethodServices ifNil: [ #(  ) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SpkTonelFileServiceClient >> classPropertyServices [
 
 	^ classDefinitionService classPropertyServices
+]
+
+{ #category : 'actions' }
+SpkTonelFileServiceClient >> deleteFile [
+
+	| promise |
+	promise := remoteSelf deleteFile.
+	promise when: [  ] catch: self defaultCatchBlock
 ]
 
 { #category : 'accessing' }
@@ -39,7 +47,7 @@ SpkTonelFileServiceClient >> instanceMethodServices [
 	^ instanceMethodServices ifNil: [ #(  ) ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refreshing' }
 SpkTonelFileServiceClient >> refreshFromServer [
 
 	| promise |

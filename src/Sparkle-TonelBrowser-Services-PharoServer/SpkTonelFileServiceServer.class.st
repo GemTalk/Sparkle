@@ -10,6 +10,12 @@ Class {
 	#package : 'Sparkle-TonelBrowser-Services-PharoServer'
 }
 
+{ #category : 'actions' }
+SpkTonelFileServiceServer >> deleteFile [
+
+	tool deleteFile
+]
+
 { #category : 'initialization' }
 SpkTonelFileServiceServer >> initialize [
 

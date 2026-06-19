@@ -13,6 +13,12 @@ Class {
 	#tag : 'Presenters'
 }
 
+{ #category : 'actions' }
+SpkTonelClassFilePane >> deleteFile [
+
+	model deleteFile
+]
+
 { #category : 'accessing' }
 SpkTonelClassFilePane >> headerClass [
 

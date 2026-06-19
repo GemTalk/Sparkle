@@ -1,9 +1,9 @@
 Class {
 	#name : 'SpkTonelDewFileListSubPane',
 	#superclass : 'SpkTonelFileListSubPane',
-	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#category : 'Sparkle-TonelBrowser-Presenters-Subpanes',
 	#package : 'Sparkle-TonelBrowser-Presenters',
-	#tag : 'Presenters'
+	#tag : 'Subpanes'
 }
 
 { #category : 'accessing' }

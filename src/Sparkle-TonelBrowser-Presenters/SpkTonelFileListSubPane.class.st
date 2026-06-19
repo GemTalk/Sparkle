@@ -6,9 +6,9 @@ Class {
 	#instVars : [
 		'listTwizzle'
 	],
-	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#category : 'Sparkle-TonelBrowser-Presenters-Subpanes',
 	#package : 'Sparkle-TonelBrowser-Presenters',
-	#tag : 'Presenters'
+	#tag : 'Subpanes'
 }
 
 { #category : 'layout' }

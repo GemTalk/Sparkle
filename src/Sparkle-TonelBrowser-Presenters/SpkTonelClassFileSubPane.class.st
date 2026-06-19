@@ -6,9 +6,9 @@ Class {
 	#instVars : [
 		'listTwizzle'
 	],
-	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#category : 'Sparkle-TonelBrowser-Presenters-Subpanes',
 	#package : 'Sparkle-TonelBrowser-Presenters',
-	#tag : 'Presenters'
+	#tag : 'Subpanes'
 }
 
 { #category : 'layout' }
@@ -43,6 +43,16 @@ SpkTonelClassFileSubPane >> initializeTwizzledList [
 		twizzleHelp: 'Show or hide the list of ' , self listLabelString;
 		subPresenter: self list;
 		showSubPresenter: self shouldBeInitiallyShown
+]
+
+{ #category : 'actions' }
+SpkTonelClassFileSubPane >> itemSelected: anAnnouncement [
+	"This announcement comes from the UI, not a service, so does not need to be deferred."
+
+	| field itemService |
+	field := anAnnouncement item.
+	itemService := field model.
+	field openLinkedPane: itemService
 ]
 
 { #category : 'api' }

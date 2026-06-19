@@ -8,9 +8,9 @@ Class {
 		'instanceMethodSubPane',
 		'classMethodSubPane'
 	],
-	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#category : 'Sparkle-TonelBrowser-Presenters-Panes',
 	#package : 'Sparkle-TonelBrowser-Presenters',
-	#tag : 'Presenters'
+	#tag : 'Panes'
 }
 
 { #category : 'actions' }

@@ -5,10 +5,16 @@ Class {
 		'label',
 		'deleteButton'
 	],
-	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#category : 'Sparkle-TonelBrowser-Presenters-Headers',
 	#package : 'Sparkle-TonelBrowser-Presenters',
-	#tag : 'Presenters'
+	#tag : 'Headers'
 }
+
+{ #category : 'accessing colors' }
+SpkTonelClassFilePaneHeader >> headerColor [
+
+	^ Color fromHexString: '2f5531'
+]
 
 { #category : 'initialization' }
 SpkTonelClassFilePaneHeader >> initializePresenters [
@@ -18,14 +24,15 @@ SpkTonelClassFilePaneHeader >> initializePresenters [
 	label addStyle: 'label.paneHeader'.
 	labelLayout add: label withConstraints: [ :c | c fill: false ].
 	deleteButton := self newIconButton
-		                icon: (self iconNamed: #terminate28);
+		                icon: (self iconNamed: #deleteFile20);
 		                help: 'Delete this class';
 		                action: [ owner deleteFile ];
 		                yourself.
 	mainLayout
 		add: deleteButton
 		before: menuButton
-		withConstraints: [ :c | c width: 28 ]
+		withConstraints: [ :c | c width: 20 ];
+		remove: menuButton
 ]
 
 { #category : 'accessing' }

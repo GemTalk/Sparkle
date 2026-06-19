@@ -25,7 +25,7 @@ SpkTonelClassDefinitionServiceServer >> initializeFromTool: aTool [
 SpkTonelClassDefinitionServiceServer >> name [
 
 	^ name ifNil: [
-		  name := SpkTonelClassPropertyServiceServer forKey: 'Name' ]
+		  name := SpkTonelClassPropertyServiceServer forKey: 'ClassName' ]
 ]
 
 { #category : 'accessing' }

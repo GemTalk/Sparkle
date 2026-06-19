@@ -7,9 +7,9 @@ Class {
 		'pathField',
 		'taskspace'
 	],
-	#category : 'Sparkle-TonelBrowser-Presenters-Presenters',
+	#category : 'Sparkle-TonelBrowser-Presenters-Obsolete',
 	#package : 'Sparkle-TonelBrowser-Presenters',
-	#tag : 'Presenters'
+	#tag : 'Obsolete'
 }
 
 { #category : 'building menus' }

@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpkTonelDirectoryListPaneHeader',
+	#name : 'SpkTonelTextPaneHeader',
 	#superclass : 'SpkPaneHeader',
 	#instVars : [
 		'label'
@@ -10,37 +10,25 @@ Class {
 }
 
 { #category : 'accessing colors' }
-SpkTonelDirectoryListPaneHeader >> headerColor [
-	"Kinda blue"
-	^ Color fromHexString: '3030A0'
+SpkTonelTextPaneHeader >> headerColor [
+	"Goldish "
+	^ Color fromHexString: '8a6505'
 ]
 
 { #category : 'initialization' }
-SpkTonelDirectoryListPaneHeader >> initializePresenters [
+SpkTonelTextPaneHeader >> initializePresenters [
 
 	super initializePresenters.
 	label := self newLabel.
 	label
 		addStyle: 'label.paneHeader';
-		label: model dirName.
+		label: model key.
 
 	labelLayout add: label withConstraints: [ :c | c fill: false ]
 ]
 
 { #category : 'accessing' }
-SpkTonelDirectoryListPaneHeader >> label [
-
-	^ label
-]
-
-{ #category : 'accessing' }
-SpkTonelDirectoryListPaneHeader >> label: anObject [
-
-	label := anObject
-]
-
-{ #category : 'accessing' }
-SpkTonelDirectoryListPaneHeader >> labelString: aString [
+SpkTonelTextPaneHeader >> labelString: aString [
 
 	label label: aString
 ]

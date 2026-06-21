@@ -88,3 +88,14 @@ SpkTonelClassFilePane >> refreshFromService [
 		ensureList;
 		refreshTwizzledList
 ]
+
+{ #category : 'refreshing' }
+SpkTonelClassFilePane >> updateLinkedCoordinates [
+	"Have two lists, one in each subpane. What a pane."
+
+	| coordinateSuffix |
+	coordinateSuffix := definitionSubPane updateCoordinatesBasedOn: 0.
+	coordinateSuffix := classMethodSubPane updateCoordinatesBasedOn:
+		                    coordinateSuffix.
+	instanceMethodSubPane updateCoordinatesBasedOn: coordinateSuffix
+]

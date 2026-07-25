@@ -1,3 +1,6 @@
+"
+I am the model for the list items in the class properties subpane of the Tonel class file pane.
+"
 Class {
 	#name : 'SpkTonelClassPropertyServiceClient',
 	#superclass : 'SpkTonelClassPropertyService',
